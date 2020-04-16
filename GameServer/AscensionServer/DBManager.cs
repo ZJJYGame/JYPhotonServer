@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace GameServer
 {
-    public class Class1
+    /// <summary>
+    /// 映射模型管理者
+    /// 
+    /// </summary>
+    public class ModelManager
     {
     }
 }
