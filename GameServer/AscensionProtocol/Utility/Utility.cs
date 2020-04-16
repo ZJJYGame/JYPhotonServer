@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AscensionProtocol.Utility
+namespace AscensionProtocol
 {
   public  class Utility
     {
@@ -55,5 +55,11 @@ namespace AscensionProtocol.Utility
         //    parameters.Add((byte)ParameterCode.OperationCode, opCode);
         //    parameters.Add((byte)ParameterCode.RoleID, roleID);
         //}
+        public static T2 GetDictValue<T1, T2>(Dictionary<T1, T2> dict, T1 key)
+        {
+            T2 value;
+            dict.TryGetValue(key, out value);
+            return value == null ? default(T2) : value;
+        }
     }
 }

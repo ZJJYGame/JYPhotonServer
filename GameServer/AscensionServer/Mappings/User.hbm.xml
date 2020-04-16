@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="Nhibernate_MySql"
+                   namespace="Nhibernate_MySql.Model">
+
+  <class name="User" table="user">
+    <id name="Id" column="id" type="int">
+      <generator class="native" />
+    </id>
+    <property name="Username" column="username" type="String" />
+    <property name="Password" column="password" type="String" />
+    <property name="UUID" column="uuid" type="String" />
+    <property name="Age" column="userage" type="String" />
+  </class>
+
+</hibernate-mapping>
+
