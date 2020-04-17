@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameServer
+namespace GameServer.Handle
 {
-   public class UserManager
+    class DefaultHandler
     {
-
     }
 }
