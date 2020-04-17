@@ -7,8 +7,8 @@
     <ProjectGuid>{B9AEBF9D-1C07-44E8-9049-9CAA2462EF64}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GameServer</RootNamespace>
-    <AssemblyName>GameServer</AssemblyName>
+    <RootNamespace>AscensionServer</RootNamespace>
+    <AssemblyName>AscensionServer</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -80,12 +80,6 @@
   <ItemGroup>
     <Compile Include="AscensionServerApplication.cs" />
     <Compile Include="ClientPeer.cs" />
-    <Compile Include="Handle\Basehandler.cs" />
-    <Compile Include="Handle\ClientPeer.cs" />
-    <Compile Include="Handle\DefaultHandler.cs" />
-    <Compile Include="Handle\LoginHandler.cs" />
-    <Compile Include="Handle\MyGameServer.cs" />
-    <Compile Include="Handle\RegisterHandler.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserManager.cs" />
@@ -109,9 +103,5 @@
       <Name>AscensionProtocol</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
