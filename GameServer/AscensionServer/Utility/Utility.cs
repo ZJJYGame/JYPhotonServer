@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameServer.Handle
+namespace AscensionServer
 {
-    public class DictTool
+    public class Utility
     {
         //扩展方法
         public static Value GetValue<Key, Value>(Dictionary<Key, Value> dicr, Key key)

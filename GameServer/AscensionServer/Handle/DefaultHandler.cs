@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameServer.Handle
+namespace AscensionServer
 {
-    class DefaultHandler
+   public class DefaultHandler
     {
     }
 }

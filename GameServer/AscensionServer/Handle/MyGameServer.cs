@@ -10,7 +10,7 @@ using ExitGames.Logging;
 using AscensionProtocol;
 using System.IO;
 
-namespace GameServer.Handle
+namespace AscensionServer
 {
     // //所有的Server端 主类都要继承自applicationbase
     public class MyGameServer : ApplicationBase

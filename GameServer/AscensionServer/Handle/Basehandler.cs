@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol;
-namespace GameServer.Handle
+namespace AscensionServer
 {
     public abstract class BaseHandler
     {

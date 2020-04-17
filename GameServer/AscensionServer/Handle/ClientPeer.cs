@@ -7,7 +7,7 @@ using AscensionProtocol;
 using Photon.SocketServer;
 using PhotonHostRuntimeInterfaces;
 
-namespace GameServer.Handle
+namespace AscensionServer
 {
     //管理跟客户端的链接的
     public class ClientPeer : Photon.SocketServer.ClientPeer
@@ -33,7 +33,7 @@ namespace GameServer.Handle
 
 
             //通过客户端的OperationCode从HandlerDict里面获取到了需要的Hander
-            BaseHandler handler = DictTool.GetValue<OperationCode, BaseHandler>(MyGameServer.Instance.HandlerDict, (OperationCode)operationRequest.OperationCode);
+            BaseHandler handler = Utility.GetValue<OperationCode, BaseHandler>(MyGameServer.Instance.HandlerDict, (OperationCode)operationRequest.OperationCode);
 
             //如果找到了需要的hander就调用我们hander里面处理请求的方法
             if (handler != null)
@@ -43,7 +43,7 @@ namespace GameServer.Handle
             }
             else//否则我们就使用默认的hander
             {
-                BaseHandler defaultHandler = DictTool.GetValue<OperationCode, BaseHandler>(MyGameServer.Instance.HandlerDict, OperationCode.Default);
+                BaseHandler defaultHandler = Utility.GetValue<OperationCode, BaseHandler>(MyGameServer.Instance.HandlerDict, OperationCode.Default);
                 defaultHandler.OnOperationRequest(operationRequest, sendParameters, this);
             }
         }
