@@ -10,7 +10,6 @@
     <property name="Username" column="username" type="String" />
     <property name="Password" column="password" type="String" />
     <property name="UUID" column="uuid" type="String" />
-    <property name="Age" column="userage" type="String" />
   </class>
 
 </hibernate-mapping>
