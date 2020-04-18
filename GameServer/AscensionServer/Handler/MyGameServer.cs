@@ -26,12 +26,11 @@ namespace AscensionServer
 
         //当一个客户端请求连接的时候，服务器端就会调用这个方法
         //我们使用peerbase,表示和一个客户端的链接,然后photon就会把这些链接管理起来
-
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
 
-            log.Info("一个客户端连接进来了！"); 
-            return new ClientPeer(initRequest);
+            log.Info("一个客户端连接进来了！");
+            return new MyClientPeer(initRequest);
         }
 
         //初始化(当整个服务器启动起来的时候调用这个初始化)
@@ -78,6 +77,6 @@ namespace AscensionServer
         {
             log.Info("关闭了服务器");
         }
-
+       
     }
 }

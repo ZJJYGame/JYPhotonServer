@@ -10,10 +10,10 @@ using PhotonHostRuntimeInterfaces;
 namespace AscensionServer
 {
     //管理跟客户端的链接的
-    public class ClientPeer : Photon.SocketServer.ClientPeer
+    public class MyClientPeer : Photon.SocketServer.ClientPeer
     {
 
-        public ClientPeer(InitRequest initRequest) : base(initRequest)
+        public MyClientPeer(InitRequest initRequest) : base(initRequest)
         {
 
 
