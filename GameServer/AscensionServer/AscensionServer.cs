@@ -30,9 +30,10 @@ namespace AscensionServer
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
             log.Info("Client connected");
-            var peer = new MyClientPeer(initRequest);
+            /*var peer = new MyClientPeer(initRequest);
             peerList.Add(peer);
-            return peer;
+            return peer;*/
+            return new MyClientPeer(initRequest);
         }
         protected override void Setup()
         {

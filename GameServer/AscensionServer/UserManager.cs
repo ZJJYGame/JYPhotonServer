@@ -1,16 +1,18 @@
-﻿using NHibernate;
+﻿using AscensionProtocol.Model;
+using NHibernate;
 using NHibernate.Criterion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AscensionServer.Model;
 
 namespace AscensionServer
 {
-   public  class UserManager : IUserManager
+    public class UserManager : IUserManager
     {
-        public void Add(User user)   //这个地方有点问题
+        public void Add(Model.User user)
         {
             /*第一种
             ISession session = NHibernateHelper.OpenSession();
@@ -101,6 +103,7 @@ namespace AscensionServer
 
         public bool VerifyUser(string username, string password)
         {
+
             using (ISession session = NHibernateHelper.OpenSession())
             {
                 User user = session
@@ -111,6 +114,7 @@ namespace AscensionServer
                 if (user == null) return false;
                 return true;
             }
+            
         }
     }
 }

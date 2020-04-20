@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AscensionServer</name>
+    </assembly>
+    <members>
+        <member name="T:AscensionServer.ModelManager">
+            <summary>
+            映射模型管理者
+            </summary>
+        </member>
+        <member name="M:AscensionServer.UserManager.Remove(AscensionServer.Model.User)">
+            <summary>
+            NHibernate删除时根据主键更新，所以传来的对象user中得有主键
+            </summary>
+            <param name="user"></param>
+        </member>
+        <member name="M:AscensionServer.UserManager.Update(AscensionServer.Model.User)">
+            <summary>
+            NHibernate更新时根据主键更新，所以传来的对象user中得有主键
+            </summary>
+            <param name="user"></param>
+        </member>
+    </members>
+</doc>

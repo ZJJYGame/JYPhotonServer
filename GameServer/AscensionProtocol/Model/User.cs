@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AscensionProtocol.Model
+namespace AscensionProtocol.Model.UserClient
 {
     public class User
     {

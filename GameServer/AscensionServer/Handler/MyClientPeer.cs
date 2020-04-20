@@ -33,7 +33,7 @@ namespace AscensionServer
 
 
             //通过客户端的OperationCode从HandlerDict里面获取到了需要的Hander
-            BaseHandler handler = Utility.GetValue<OperationCode, BaseHandler>(MyGameServer.Instance.HandlerDict, (OperationCode)operationRequest.OperationCode);
+            BaseHandler handler = Utility.GetValue<OperationCode, BaseHandler>(AscensionServer.ServerInstance.HandlerDict, (OperationCode)operationRequest.OperationCode);
 
             //如果找到了需要的hander就调用我们hander里面处理请求的方法
             if (handler != null)
@@ -43,7 +43,7 @@ namespace AscensionServer
             }
             else//否则我们就使用默认的hander
             {
-                BaseHandler defaultHandler = Utility.GetValue<OperationCode, BaseHandler>(MyGameServer.Instance.HandlerDict, OperationCode.Default);
+                BaseHandler defaultHandler = Utility.GetValue<OperationCode, BaseHandler>(AscensionServer.ServerInstance.HandlerDict, OperationCode.Default);
                 defaultHandler.OnOperationRequest(operationRequest, sendParameters, this);
             }
         }
