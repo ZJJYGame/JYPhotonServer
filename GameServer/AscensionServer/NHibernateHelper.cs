@@ -15,7 +15,7 @@ namespace AscensionServer
                 {
                     var configuration = new Configuration();
                     configuration.Configure("hibernate.cfg.xml");//解析hibernate.cfg.xml
-                    configuration.AddAssembly("ClassLibrary");//解析映射文件User.hbm.xml   //ClassLibrary
+                    configuration.AddAssembly("AscensionServer");//解析映射文件User.hbm.xml   //ClassLibrary  //AscensionServer
 
                     _sessionFactory = configuration.BuildSessionFactory();
                 }

@@ -11,7 +11,8 @@ namespace AscensionServer
         public virtual int ID { get; set; }
         public virtual string Username { get; set; }
         public virtual string Password { get; set; }
-        public virtual int Uuid { get; set; }
+        public virtual string UUid { get; set; }
+        public virtual string Age { get; set; }
         //public virtual DateTime Registerdate { get; set; }
 
     }

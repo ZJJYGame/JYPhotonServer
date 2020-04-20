@@ -5,7 +5,7 @@
     <ProjectGuid>{59C2ADFF-55D0-4139-9A85-0AC66ADFFCF8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
-    <AssemblyName>ClassLibrary</AssemblyName>
+    <AssemblyName>AscensionServer</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -84,6 +84,7 @@
   <ItemGroup>
     <Content Include="hiernate.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <EmbeddedResource Include="Mappings\User.hbm.xml">
       <SubType>Designer</SubType>
@@ -91,7 +92,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="log4net.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Connected Services\" />

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AscensionServer.Manager
+namespace AscensionServer
 {
    public  class UserManager : IUserManager
     {

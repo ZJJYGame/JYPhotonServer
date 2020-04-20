@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AscensionServer.Handler
+namespace AscensionServer
 {
   public  class TestHandler
     {
