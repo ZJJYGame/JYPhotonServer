@@ -13,7 +13,5 @@ namespace AscensionServer.Model
         public virtual string Password { get; set; }
         public virtual string UUID { get; set; }
         public virtual string Age { get; set; }
-        //public virtual DateTime Registerdate { get; set; }
-
     }
 }
