@@ -242,5 +242,5 @@ paket-files/
 .fake/
 
 .DS_Store
-*.sln
-*.csproj
+
+AscensionPhoton.sln
