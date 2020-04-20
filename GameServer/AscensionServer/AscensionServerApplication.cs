@@ -6,7 +6,5 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-   public  class AscensionServerApplication
-    {
-    }
+   
 }

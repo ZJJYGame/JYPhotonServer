@@ -16,6 +16,7 @@ namespace AscensionProtocol.Model
         public virtual int ID { get; set; }
         public virtual string Username { get; set; }
         public virtual string Password { get; set; }
-        public virtual string UUID { get; set; }
+        public virtual int Uuid { get; set; }
+        //public virtual DateTime Registerdate { get; set; }
     }
 }
