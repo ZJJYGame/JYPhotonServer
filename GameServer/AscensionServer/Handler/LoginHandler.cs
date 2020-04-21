@@ -25,20 +25,20 @@ namespace AscensionServer
 
             //TODO  异常
             //连接数据库进行校验
-            //UserManager manager = new UserManager();
-            //bool isSuccess = manager.VerifyUser(username, password);
-           // OperationResponse response = new Photon.SocketServer.OperationResponse(operationRequest.OperationCode);
+            UserManager manager = new UserManager();
+            bool isSuccess = manager.VerifyUser(username, password);
+            OperationResponse response = new Photon.SocketServer.OperationResponse(operationRequest.OperationCode);
             //如果验证成功，把成功的结果利用response.ReturnCode返回成功给客户端
-            //if (isSuccess)
-            //{
-            //    response.ReturnCode = (short)ReturnCode.Success;
-            //}
-            //else//否则返回失败给客户端
-            //{
-            //    response.ReturnCode = (short)ReturnCode.Fail;
-            //}
-            ////把上面的回应给客户端
-            //peer.SendOperationResponse(response, sendParameters);
+            if (isSuccess)
+            {
+                response.ReturnCode = (short)ReturnCode.Success;
+            }
+            else//否则返回失败给客户端
+            {
+                response.ReturnCode = (short)ReturnCode.Fail;
+            }
+            //把上面的回应给客户端
+            peer.SendOperationResponse(response, sendParameters);
 
         }
     }

@@ -19,17 +19,17 @@ namespace ProgameTest
 
             //***匹配账户*********************
             IUserManager userManager = new UserManager();
-            Console.WriteLine(userManager.VerifyUser("index2", "qqq1"));//true
+            Console.WriteLine(userManager.VerifyUser("123456", "123456"));//true
             //Console.WriteLine(userManager.GetByUsername("index2"));
             //Console.WriteLine(userManager.GetById(1).Username);
 
-            User user = userManager.GetByUsername("index2");
+            //User user = userManager.GetByUsername("index2");
             //userManager.Remove(new User() { Username = "index3", Password = "qq3", Age = "13" });
-            Console.WriteLine( "表里的名字"+ user.Password);
+            //Console.WriteLine( "表里的名字"+ user.Password);
 
             //Console.WriteLine(userManager.VerifyUser("5l", "eee"));//false
            // userManager.Add(new User() { Username = "donTest", Password = "donPwd" });
-            userManager.Add(new User() { Password = "donPwd", Username = "dontext" ,UUID = "2"});
+            //userManager.Add(new User() { Password = "donPwd", Username = "dontext" ,UUID = "2"});
             //*************************/
             //log.Info(userManager.VerifyUser("Sure", "157"));
             //log.Info(userManager.VerifyUser("da", "25"));
