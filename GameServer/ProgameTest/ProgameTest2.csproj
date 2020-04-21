@@ -47,6 +47,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Photon.SocketServer, Version=4.0.28.11245, Culture=neutral, PublicKeyToken=48c2fa3b6988090e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\Photon.SocketServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Photon.SocketServer.NUnit">
+      <HintPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\Photon.SocketServer.NUnit.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

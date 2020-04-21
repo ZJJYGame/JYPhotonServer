@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json;
 namespace AscensionServer
 {
     public class Utility
@@ -22,6 +22,16 @@ namespace AscensionServer
             {
                 return default(Value);
             }
+        }
+
+        public static string Serialize(object obj)
+        {
+            return JsonConvert.SerializeObject(obj);
+        }
+
+        public static T DeSerialize<T>(string jsonStr)
+        {
+            return JsonConvert.DeserializeObject<T>(jsonStr);
         }
     }
 }
