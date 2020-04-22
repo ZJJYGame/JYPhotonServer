@@ -19,7 +19,7 @@ namespace ProgameTest
 
             //***匹配账户*********************
             IUserManager userManager = new UserManager();
-            Console.WriteLine(userManager.VerifyUser("123456", "123456"));//true
+            //Console.WriteLine(userManager.VerifyUser("123456", "123456"));//true
             //Console.WriteLine(userManager.GetByUsername("index2"));
             //Console.WriteLine(userManager.GetById(1).Username);
 
@@ -28,8 +28,8 @@ namespace ProgameTest
             //Console.WriteLine( "表里的名字"+ user.Password);
 
             //Console.WriteLine(userManager.VerifyUser("5l", "eee"));//false
-           // userManager.Add(new User() { Username = "donTest", Password = "donPwd" });
-            //userManager.Add(new User() { Password = "donPwd", Username = "dontext" ,UUID = "2"});
+            // userManager.Add(new User() { Username = "donTest", Password = "donPwd" });
+            userManager.Add(new User() { Password = "donPwd3", Username = "dontext3"});
             //*************************/
             //log.Info(userManager.VerifyUser("Sure", "157"));
             //log.Info(userManager.VerifyUser("da", "25"));

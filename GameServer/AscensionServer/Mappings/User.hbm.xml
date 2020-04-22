@@ -4,13 +4,12 @@
                    namespace="AscensionServer.Model">
 
   <class name="User" table="user">
-    <id name="Id" column="id" type="int">
-      <generator class="native" />
+    <id name="UUID" column="uuid" type="String">
+      <generator class="uuid.hex" />
     </id>
     <property name="Username" column="username" type="String" />
     <property name="Password" column="password" type="String" />
-    <property name="UUID" column="uuid" type="String" />
-  </class>
+    <property name="Id" column="id" type="int" />  </class>
 
 </hibernate-mapping>
 
