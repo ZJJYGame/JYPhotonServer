@@ -9,7 +9,7 @@ namespace AscensionProtocol
     public enum ParameterCode:byte//区分传送数据的时候，参数的类型
     {
         Username,
-        Password
-        
+        Password,
+        SubCode//子操作码，用于传输游戏内逻辑的操作
     }
 }
