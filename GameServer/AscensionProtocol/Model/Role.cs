@@ -2,17 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace AscensionServer.Model
+namespace AscensionProtocol.Model.Client
 {
-    public class User
+    public class Role
     {
-        public virtual int Id { get; set; }
-        public virtual string Username { get; set; }
-        public virtual string Password { get; set; }
-        public virtual string UUID { get; set; }
-
         public virtual string RoleName { get; set; }
         public virtual string Gender { get; set; }
         public virtual string GoldSpiritRoot { get; set; }
@@ -21,5 +15,4 @@ namespace AscensionServer.Model
         public virtual string FireSpiritRoot { get; set; }
         public virtual string SoilSpiritRoot { get; set; }
     }
-
 }

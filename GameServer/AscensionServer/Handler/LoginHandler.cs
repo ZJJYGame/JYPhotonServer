@@ -22,9 +22,6 @@ namespace AscensionServer
             string username = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.Username) as string;
             string password = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.Password) as string;
 
-
-            //TODO  异常
-            //连接数据库进行校验
             UserManager manager = new UserManager();
             bool isSuccess = manager.VerifyUser(username, password);
             OperationResponse response = new Photon.SocketServer.OperationResponse(operationRequest.OperationCode);

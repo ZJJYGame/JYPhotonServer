@@ -17,4 +17,6 @@ namespace AscensionServer
 
         bool VerifyUser(string username, string password);//验证用户名和密码
     }
+
+    
 }

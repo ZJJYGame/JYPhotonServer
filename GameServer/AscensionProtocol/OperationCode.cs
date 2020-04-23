@@ -10,7 +10,8 @@ namespace AscensionProtocol
     {
         Login,
         Register,
-        Role,
+        SelectRole,
+        CreateRole,
         Inventory,
         Default
     }

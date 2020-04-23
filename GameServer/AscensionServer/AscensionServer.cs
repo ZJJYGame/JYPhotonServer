@@ -25,15 +25,18 @@ namespace AscensionServer
         public Dictionary<OperationCode, BaseHandler> HandlerDict { get { return handlerDict; } }
 
 
-        public List<ClientPeer> peerList = new List<ClientPeer>();
+        public List<MyClientPeer> peerList = new List<MyClientPeer>();
 
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
             log.Info("Client connected");
-            /*var peer = new MyClientPeer(initRequest);
+           
+            var peer = new MyClientPeer(initRequest);
             peerList.Add(peer);
-            return peer;*/
-            return new MyClientPeer(initRequest);
+          //  peer.User = initRequest.UserData;
+
+            return peer;
+            //return new MyClientPeer(initRequest);
         }
         protected override void Setup()
         {

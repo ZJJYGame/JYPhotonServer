@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AscensionProtocol;
+using Photon.SocketServer;
+
+namespace AscensionServer.Handler
+{
+    class CreateHandle:BaseHandler
+    {
+        public CreateHandle()
+        {
+            opCode = AscensionProtocol.OperationCode.CreateRole;
+        }
+
+        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, ClientPeer peer)
+        {
+            string rolename = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.Rolename) as string;
+            string gender = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.Gender) as string;
+            UserManager manager = new UserManager();
+            RoleManager roleManager = new RoleManager();
+            //User user = manager.GetByUsername(username);//根据username查询数据
+
+            OperationResponse responser = new OperationResponse(operationRequest.OperationCode);
+         
+            // 把上面的结果给客户端
+            peer.SendOperationResponse(responser, sendParameters);
+
+        }
+
+      
+    }
+}

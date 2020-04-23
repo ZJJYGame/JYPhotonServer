@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AscensionProtocol.Model.UserClient
+namespace AscensionProtocol.Model.Client
 {
     public class User
     {
@@ -18,5 +18,8 @@ namespace AscensionProtocol.Model.UserClient
         public virtual string Password { get; set; }
         public virtual int Uuid { get; set; }
         //public virtual DateTime Registerdate { get; set; }
+        
     }
+
 }
+    

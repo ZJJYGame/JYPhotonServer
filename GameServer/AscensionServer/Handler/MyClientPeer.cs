@@ -6,13 +6,16 @@ using System.Threading.Tasks;
 using AscensionProtocol;
 using Photon.SocketServer;
 using PhotonHostRuntimeInterfaces;
+using AscensionProtocol.Model.Client;
 
 namespace AscensionServer
 {
     //管理跟客户端的链接的
     public class MyClientPeer : Photon.SocketServer.ClientPeer
     {
-
+        
+        public User User { get; set; }
+        public Role Role { get; set; }
         public MyClientPeer(InitRequest initRequest) : base(initRequest)
         {
 

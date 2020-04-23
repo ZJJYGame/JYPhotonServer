@@ -81,6 +81,7 @@
     <Compile Include="Handler\DefaultHandler.cs" />
     <Compile Include="Handler\LoginHandler.cs" />
     <Compile Include="Handler\RegisterHandler.cs" />
+    <Compile Include="Handler\RoleHandler.cs" />
     <Compile Include="Handler\TestHandler.cs" />
     <Compile Include="Manager\IUserManager.cs" />
     <Compile Include="ModelManager.cs" />
