@@ -27,9 +27,9 @@ namespace ProgameTest
             //userManager.Remove(new User() { Username = "index3", Password = "qq3", Age = "13" });
             //Console.WriteLine( "表里的名字"+ user.Password);
 
-            //Console.WriteLine(userManager.VerifyUser("5l", "eee"));//false
+            Console.WriteLine(userManager.VerifyUser("1", "1"));//false
             // userManager.Add(new User() { Username = "donTest", Password = "donPwd" });
-            userManager.Add(new User() { Password = "donPwd3", Username = "dontext3"});
+            //userManager.Add(new User() { Password = "donPwd3", Username = "dontext3"});
             //*************************/
             //log.Info(userManager.VerifyUser("Sure", "157"));
             //log.Info(userManager.VerifyUser("da", "25"));

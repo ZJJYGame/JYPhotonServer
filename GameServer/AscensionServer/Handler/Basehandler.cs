@@ -12,7 +12,7 @@ namespace AscensionServer
 
         public OperationCode opCode;
         //处理请求的方法
-        public abstract void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters,Photon.SocketServer.ClientPeer peer);
+        public abstract void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters,MyClientPeer peer);
 
     }
 }

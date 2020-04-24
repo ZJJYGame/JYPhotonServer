@@ -17,6 +17,9 @@ namespace AscensionProtocol
         WaterSpiritRoot, 
         FireSpiritRoot,
         SoilSpiritRoot,
-        Password
+        RolePosition,
+        x,y,z,
+        UsernameList,
+        PlayerDataList,
     }
 }

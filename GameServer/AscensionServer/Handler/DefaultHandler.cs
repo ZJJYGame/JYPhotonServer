@@ -14,7 +14,7 @@ namespace AscensionServer
             opCode = AscensionProtocol.OperationCode.Default;
         }
 
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, ClientPeer peer)
+        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, MyClientPeer peer)
         {
         }
     }

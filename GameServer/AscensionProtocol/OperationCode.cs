@@ -12,7 +12,9 @@ namespace AscensionProtocol
         Register,
         SelectRole,
         CreateRole,
+        SyncPositon,
+        SyncPlayer,
         Inventory,
-        Default
+        Default,
     }
 }

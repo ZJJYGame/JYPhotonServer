@@ -4,6 +4,9 @@
         <name>AscensionServer</name>
     </assembly>
     <members>
+        <member name="M:AscensionServer.AscensionServer.CreatePeer(Photon.SocketServer.InitRequest)">
+            当一个客户端请求连接的时候，服务器就会调用这个方法,我们使用peerbase，表示和一个客户端的连接，然后photon就会把链接管理起来
+        </member>
         <member name="T:AscensionServer.ModelManager">
             <summary>
             映射模型管理者

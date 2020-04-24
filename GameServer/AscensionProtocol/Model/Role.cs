@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AscensionProtocol.Model.Client
+namespace AscensionProtocol.Model.UserClient
 {
     public class Role
     {

@@ -16,7 +16,7 @@ namespace AscensionServer.Handler
             opCode = AscensionProtocol.OperationCode.SelectRole;
         }
 
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, ClientPeer peer)
+        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, MyClientPeer peer)
         {
             string username = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.Username) as string;
             UserManager manager = new UserManager();

@@ -16,7 +16,7 @@ namespace AscensionServer
             opCode = OperationCode.Login;//赋值OperationCode为Login,表示处理的是那个请求
         }
         //登陆请求的处理的代码
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, Photon.SocketServer. ClientPeer peer)
+        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, MyClientPeer peer)
         {
             //根据发送过来的请求获得用户名和密码
             string username = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.Username) as string;
@@ -29,6 +29,7 @@ namespace AscensionServer
             if (isSuccess)
             {
                 response.ReturnCode = (short)ReturnCode.Success;
+                peer.username = username;  //保持当前用户的用户名让ClientPeer管理起来
             }
             else//否则返回失败给客户端
             {

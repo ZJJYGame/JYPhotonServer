@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AscensionProtocol;
 using Photon.SocketServer;
 using PhotonHostRuntimeInterfaces;
-using AscensionProtocol.Model.Client;
+using AscensionProtocol.Model.UserClient;
 
 namespace AscensionServer
 {
@@ -16,6 +16,9 @@ namespace AscensionServer
         
         public User User { get; set; }
         public Role Role { get; set; }
+        public float x, y, z;
+        public string username;
+
         public MyClientPeer(InitRequest initRequest) : base(initRequest)
         {
 
@@ -24,7 +27,7 @@ namespace AscensionServer
         //处理客户端断开连接的后续工作
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
-
+            AscensionServer.ServerInstance.peerList.Remove(this);
         }
 
 
@@ -34,6 +37,8 @@ namespace AscensionServer
             //OperationRequest封装了请求的信息
             //SendParameters 参数，传递的数据
 
+            AscensionServer.log.Info("收到一个客户端的请求");
+            
 
             //通过客户端的OperationCode从HandlerDict里面获取到了需要的Hander
             BaseHandler handler = Utility.GetValue<OperationCode, BaseHandler>(AscensionServer.ServerInstance.HandlerDict, (OperationCode)operationRequest.OperationCode);
@@ -41,6 +46,15 @@ namespace AscensionServer
             //如果找到了需要的hander就调用我们hander里面处理请求的方法
             if (handler != null)
             {
+                //Dictionary<byte, object> data = operationRequest.Parameters;
+                //object inVaule;
+                //data.TryGetValue(0, out inVaule);
+                //object inVaule2;
+                //data.TryGetValue(1, out inVaule2);
+                //object inVaule3;
+                //data.TryGetValue(2, out inVaule3);
+
+                //AscensionServer.log.Info("从客户端得到数据 ： " + inVaule.ToString() + "     数据拼接    " + inVaule2.ToString());
                 handler.OnOperationRequest(operationRequest, sendParameters, this);
 
             }

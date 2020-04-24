@@ -25,16 +25,16 @@ namespace AscensionServer
         public Dictionary<OperationCode, BaseHandler> HandlerDict { get { return handlerDict; } }
 
 
-        public List<MyClientPeer> peerList = new List<MyClientPeer>();
+        public List<MyClientPeer> peerList = new List<MyClientPeer>();  //通过这个集合可以访问到所有的客户
 
+        ///当一个客户端请求连接的时候，服务器就会调用这个方法,我们使用peerbase，表示和一个客户端的连接，然后photon就会把链接管理起来
+        
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
-            log.Info("Client connected");
-           
+            log.Info("一个客户端链接进来了！");
+
             var peer = new MyClientPeer(initRequest);
             peerList.Add(peer);
-          //  peer.User = initRequest.UserData;
-
             return peer;
             //return new MyClientPeer(initRequest);
         }
@@ -47,7 +47,7 @@ namespace AscensionServer
             {
                 LogManager.SetLoggerFactory(Log4NetLoggerFactory.Instance);
                 XmlConfigurator.ConfigureAndWatch(configFileInfo);//让log4net读取配置文件
-                log.Info("log4net.config file exist");
+                log.Info("进行初始化");
             }
             InitHandler();
             //SyncPositionThread.Run();
@@ -65,6 +65,10 @@ namespace AscensionServer
             handlerDict.Add(defaultHandler.opCode, defaultHandler);
             RegisterHandler registerHandler = new RegisterHandler();
             handlerDict.Add(registerHandler.opCode, registerHandler);
+            SyncPositionHandler syncPositionHandler = new SyncPositionHandler();
+            handlerDict.Add(syncPositionHandler.opCode, syncPositionHandler);
+            SyncPlayerHandler syncPlayHandler = new SyncPlayerHandler();
+            handlerDict.Add(syncPlayHandler.opCode, syncPlayHandler);
 
         }
     }
