@@ -67,8 +67,8 @@ namespace AscensionServer
             handlerDict.Add(registerHandler.opCode, registerHandler);
             SyncPositionHandler syncPositionHandler = new SyncPositionHandler();
             handlerDict.Add(syncPositionHandler.opCode, syncPositionHandler);
-            SyncPlayerHandler syncPlayHandler = new SyncPlayerHandler();
-            handlerDict.Add(syncPlayHandler.opCode, syncPlayHandler);
+            SyncPlayerHandler syncPlayerHandler = new SyncPlayerHandler();
+            handlerDict.Add(syncPlayerHandler.opCode, syncPlayerHandler);
 
         }
     }
