@@ -12,31 +12,48 @@ namespace AscensionServer
 {
     public class RoleManager : IRoleManager
     {
-        public void AddRole(User role)
+        //public void AddRole(User role)
+        //{
+        //    using (ISession session = NHibernateHelper.OpenSession())
+        //    {
+        //        using (ITransaction transaction = session.BeginTransaction())
+        //        {
+        //            session.Save(role);
+        //            transaction.Commit();
+        //        }
+        //    }
+        //}
+
+
+        //public bool VerifyRole(string rolename, string gender)
+        //{
+        //    using (ISession session = NHibernateHelper.OpenSession())
+        //    {
+        //        User user = session
+        //            .CreateCriteria(typeof(User))
+        //            .Add(Restrictions.Eq("Rolename", rolename))
+        //            .Add(Restrictions.Eq("Gender", gender))
+        //            .UniqueResult<User>();
+        //        if (user == null) return false;
+        //        return true;
+        //    }
+        //}
+
+        public IList<RoleGongFa> GetGongFaList()
         {
-            using (ISession session = NHibernateHelper.OpenSession())
-            {
-                using (ITransaction transaction = session.BeginTransaction())
-                {
-                    session.Save(role);
-                    transaction.Commit();
-                }
-            }
+            ISession session = NHibernateHelper.OpenSession();
+            return session.QueryOver<RoleGongFa>().List();
         }
 
-
-        public bool VerifyRole(string rolename, string gender)
+        public IList<Role> GetRoleList()
         {
-            using (ISession session = NHibernateHelper.OpenSession())
-            {
-                User user = session
-                    .CreateCriteria(typeof(User))
-                    .Add(Restrictions.Eq("Rolename", rolename))
-                    .Add(Restrictions.Eq("Gender", gender))
-                    .UniqueResult<User>();
-                if (user == null) return false;
-                return true;
-            }
+            ISession session = NHibernateHelper.OpenSession();
+            return session.QueryOver<Role>().List();
+        }
+        public IList<RoleLevel> GetRoleLevelList()
+        {
+            ISession session = NHibernateHelper.OpenSession();
+            return session.QueryOver<RoleLevel>().List();
         }
     }
 }

@@ -27,7 +27,7 @@ namespace AscensionServer
             if (user == null)
             {
                 //添加输入的用户和密码进数据库
-                user = new User() { Username = username, Password = password };
+                user = new User() { Account = username, Password = password };
                 manager.Add(user);
                 responser.ReturnCode = (short)ReturnCode.Success;//返回成功
 

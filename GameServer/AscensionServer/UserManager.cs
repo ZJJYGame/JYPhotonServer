@@ -63,7 +63,7 @@ namespace AscensionServer
                 criteria.Add(Restrictions.Eq("Username", username));//添加一个查询条件,第一个参数表示对哪个属性(字段）做限制，第二个表示值为多少
                 User user = criteria.UniqueResult<User>();
                 */
-                User user = session.CreateCriteria(typeof(User)).Add(Restrictions.Eq("Username", username)).UniqueResult<User>();
+                User user = session.CreateCriteria(typeof(User)).Add(Restrictions.Eq("Account", username)).UniqueResult<User>();
                 return user;
 
             }
@@ -108,7 +108,7 @@ namespace AscensionServer
             {
                 User user = session
                     .CreateCriteria(typeof(User))
-                    .Add(Restrictions.Eq("Username", username))
+                    .Add(Restrictions.Eq("Account", username))
                     .Add(Restrictions.Eq("Password", password))
                     .UniqueResult<User>();
                 if (user == null) return false;

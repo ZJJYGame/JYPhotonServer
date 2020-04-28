@@ -107,9 +107,16 @@
     <Compile Include="Handler\SyncPlayerHandler.cs" />
     <Compile Include="Handler\SyncPositionHandler.cs" />
     <Compile Include="Handler\TestHandler.cs" />
+    <Compile Include="Manager\IArticleManager.cs" />
     <Compile Include="Manager\IRoleManager.cs" />
     <Compile Include="Manager\IUserManager.cs" />
     <Compile Include="ModelManager.cs" />
+    <Compile Include="ArticleManager.cs" />
+    <Compile Include="Model\ArticleModel.cs" />
+    <Compile Include="Model\ContentModel.cs" />
+    <Compile Include="Model\Role.cs" />
+    <Compile Include="Model\RoleGongFa.cs" />
+    <Compile Include="Model\RoleLevel.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="NHibernateHelper.cs" />
     <Compile Include="Program.cs" />
@@ -123,6 +130,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <EmbeddedResource Include="Mappings\Role.hbm.xml" />
+    <EmbeddedResource Include="Mappings\RoleLevel.hbm.xml" />
+    <EmbeddedResource Include="Mappings\RoleGongFa.hbm.xml" />
+    <EmbeddedResource Include="Mappings\Article.hbm.xml" />
+    <EmbeddedResource Include="Mappings\Content.hbm.xml" />
     <EmbeddedResource Include="Mappings\User.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

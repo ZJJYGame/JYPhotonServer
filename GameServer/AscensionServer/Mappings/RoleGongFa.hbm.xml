@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="AscensionServer"
+                   namespace="AscensionServer.Model">
+
+  <class name="RoleGongFa" table="role_gongfa">
+    <id name="Id" column="id" type="Int32">
+      <generator  class="native"/>
+    </id>
+    <property name="GongFaId" column="gongfa_id" type="String"/>
+    <property name="GongFaInfluenceType" column="gongfa_influence_type" type="Byte"/>
+    <property name="GongFaInfluenceVaule" column="gongfa_influence_value" type="Byte"/>
+    <many-to-one name="Role_Id" column="role_id" not-null="true" class="Role" foreign-key="fk_role_id" />
+  </class>
+</hibernate-mapping>

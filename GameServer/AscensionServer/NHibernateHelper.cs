@@ -3,7 +3,7 @@ using NHibernate.Cfg;
 
 namespace AscensionServer
 {
-    class NHibernateHelper
+    public class NHibernateHelper
     {
         private static ISessionFactory _sessionFactory;
 
