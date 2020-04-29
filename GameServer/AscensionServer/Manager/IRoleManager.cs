@@ -9,10 +9,9 @@ namespace AscensionServer.Manager
 {
     public interface IRoleManager
     {
+       // void AddRole(User user);
 
-        IList<RoleGongFa> GetGongFaList();
-        IList<Role> GetRoleList();
-        IList<RoleLevel> GetRoleLevelList();
-
+        //bool VerifyRole(string rolename, string gender);
+      
     }
 }
