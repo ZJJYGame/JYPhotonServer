@@ -44,6 +44,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AscensionProperties\AbilityCostType.cs" />
+    <Compile Include="AscensionProperties\Factions.cs" />
     <Compile Include="AscensionProperties\LingGen.cs" />
     <Compile Include="AscensionProperties\PropType.cs" />
     <Compile Include="AscensionProperties\Rate.cs" />
