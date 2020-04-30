@@ -33,18 +33,20 @@ namespace AscensionServer
                     AscensionServer.log.Info("username = >>>>>>> " + tempPeer.username);
                 }
             }
+            #region xml解析
 
-            //通过xml序列化进行数据传输,传输给客户端
-            StringWriter sw = new StringWriter();
-            XmlSerializer serlizer = new XmlSerializer(typeof(List<string>));
-            serlizer.Serialize(sw, usernameList);
-            sw.Close();
-            string usernameListString = sw.ToString();
-            //string usernameListString = Utility.Serialize(usernameList);
-            AscensionServer.log.Info("usernameListString = >>>>>>> " + usernameListString);
+
+            ////通过xml序列化进行数据传输,传输给客户端
+            //StringWriter sw = new StringWriter();
+            //XmlSerializer serlizer = new XmlSerializer(typeof(List<string>));
+            //serlizer.Serialize(sw, usernameList);
+            //sw.Close();
+            //string usernameListString = sw.ToString();
+            #endregion
+            string usernameListString = Utility.Serialize(usernameList);
             //给客户端响应
             Dictionary<byte, object> data = new Dictionary<byte, object>();
-            data.Add((byte)ParameterCode.UsernameList, usernameListString);
+            data.Add((byte)ParameterCode.UserCode.Usernamelist, usernameListString);
             OperationResponse response = new OperationResponse(operationRequest.OperationCode);
             response.Parameters = data;
             peer.SendOperationResponse(response, sendParameters);
@@ -56,24 +58,9 @@ namespace AscensionServer
                 {
                     EventData ed = new EventData((byte)EventCode.NewPlayer);
                     Dictionary<byte, object> data2 = new Dictionary<byte, object>();
-                    data2.Add((byte)ParameterCode.Username, peer.username);   //把新进来的用户名传递给其他客户端
+                    data2.Add((byte)ParameterCode.UserCode.Username, peer.username);   //把新进来的用户名传递给其他客户端
                     ed.Parameters = data2;
                     temPeer.SendEvent(ed,sendParameters); //发送事件
-                   
-                }
-            }
-
-            //用户断开连接的时候告诉其他客户端
-            foreach (MyClientPeer temPeer in AscensionServer.ServerInstance.peerList)
-            {
-                if (string.IsNullOrEmpty(temPeer.username) == false && temPeer != peer)
-                {
-                    EventData ed = new EventData((byte)EventCode.DeletePlayer);
-                    Dictionary<byte, object> data2 = new Dictionary<byte, object>();
-                    data2.Add((byte)ParameterCode.Username, peer.username); 
-                    ed.Parameters = data2;
-                    temPeer.SendEvent(ed, sendParameters); //发送事件
-
                 }
             }
         }

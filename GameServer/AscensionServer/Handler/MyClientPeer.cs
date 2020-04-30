@@ -51,8 +51,7 @@ namespace AscensionServer
                 //data.TryGetValue(0, out inVaule);
                 //object inVaule2;
                 //data.TryGetValue(1, out inVaule2);
-                //object inVaule3;
-                //data.TryGetValue(2, out inVaule3);
+                
 
                 //AscensionServer.log.Info("从客户端得到数据 ： " + inVaule.ToString() + "     数据拼接    " + inVaule2.ToString());
                 handler.OnOperationRequest(operationRequest, sendParameters, this);

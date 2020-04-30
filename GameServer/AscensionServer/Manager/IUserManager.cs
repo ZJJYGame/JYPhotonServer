@@ -16,6 +16,8 @@ namespace AscensionServer
         ICollection<User> GetAllUsers();
 
         bool VerifyUser(string username, string password);//验证用户名和密码
+
+         IList<User> GetUserList();
     }
 
     

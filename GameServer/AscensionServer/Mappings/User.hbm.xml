@@ -9,6 +9,10 @@
     </id>
     <property name="Account" column="account" type="String" />
     <property name="Password" column="password" type="String" />
+    <set name="RoleList" table="role_stats" generic="true" inverse="true">
+      <key column="role_user_account" foreign-key="fk_role_user_account"/>
+      <one-to-many class="Role"/>
+    </set>
   </class>
 </hibernate-mapping>
 

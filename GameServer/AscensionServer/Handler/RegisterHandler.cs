@@ -18,8 +18,8 @@ namespace AscensionServer
 
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, MyClientPeer peer)
         {
-            string username = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.Username) as string;
-            string password = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.Password) as string;
+            string username = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.Username) as string;
+            string password = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.Password) as string;
             UserManager manager = new UserManager();
             User user = manager.GetByUsername(username);//根据username查询数据
             OperationResponse responser = new OperationResponse(operationRequest.OperationCode);

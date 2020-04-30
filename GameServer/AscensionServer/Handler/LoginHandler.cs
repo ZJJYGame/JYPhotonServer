@@ -19,8 +19,9 @@ namespace AscensionServer
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, MyClientPeer peer)
         {
             //根据发送过来的请求获得用户名和密码
-            string username = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.Username) as string;
-            string password = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.Password) as string;
+            string username = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.Account) as string;
+
+            string password = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.Password) as string;
 
             UserManager manager = new UserManager();
             bool isSuccess = manager.VerifyUser(username, password);

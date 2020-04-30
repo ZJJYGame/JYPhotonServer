@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol;
+using AscensionServer.Model;
 using Photon.SocketServer;
 
 namespace AscensionServer.Handler
@@ -17,30 +18,26 @@ namespace AscensionServer.Handler
 
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, MyClientPeer peer)
         {
-            //取得所有已经登录的（在线玩家）的用户名
-            List<string> usernaemList = new List<string>();
-            foreach (MyClientPeer temPeer in AscensionServer.ServerInstance.peerList)
+            string rolename = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.Rolename) as string;
+            string linggenlist = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.LingGen.LingGenList) as string;
+            string account = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.Username) as string;
+            RoleManager roleManager = new RoleManager();
+            Role role = roleManager.GetByRolename(rolename);//根据username查询数据
+            OperationResponse response = new Photon.SocketServer.OperationResponse(operationRequest.OperationCode);
+            //如果没有查询到代表角色没被注册过可用
+            if (role == null)
             {
-                if (string.IsNullOrEmpty(temPeer.User.Username) == false && temPeer != peer)
-                {
-                    usernaemList.Add(temPeer.User.Username);
-                }
-
+                //添加输入的用户进数据库
+                role = new Role() { RoleName = rolename ,RoleRoot = linggenlist,RoleUserAccount = account};
+                roleManager.AddRole(role);
+                response.ReturnCode = (short)ReturnCode.Success;
             }
-
-            //string rolename = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.Rolename) as string;
-            //string gender = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.Gender) as string;
-           // UserManager manager = new UserManager();
-           // RoleManager roleManager = new RoleManager();
-            //User user = manager.GetByUsername(username);//根据username查询数据
-
-            OperationResponse responser = new OperationResponse(operationRequest.OperationCode);
-         
-            // 把上面的结果给客户端
-            peer.SendOperationResponse(responser, sendParameters);
-
+            else
+            {
+                response.ReturnCode = (short)ReturnCode.Fail;
+            }
+            //把上面的回应给客户端
+            peer.SendOperationResponse(response, sendParameters);
         }
-
-      
     }
 }

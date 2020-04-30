@@ -9,6 +9,8 @@ using ExitGames.Logging;
 using ExitGames.Logging.Log4Net;
 using System.IO;
 using log4net.Config;
+using AscensionServer.Handler;
+
 namespace AscensionServer
 {
    public  class AscensionServer:ApplicationBase
@@ -69,6 +71,10 @@ namespace AscensionServer
             handlerDict.Add(syncPositionHandler.opCode, syncPositionHandler);
             SyncPlayerHandler syncPlayerHandler = new SyncPlayerHandler();
             handlerDict.Add(syncPlayerHandler.opCode, syncPlayerHandler);
+            CreateHandle  createHandle = new CreateHandle();
+            handlerDict.Add(createHandle.opCode, createHandle);
+            SelectRoleHandler selectRoleHandler = new SelectRoleHandler();
+            handlerDict.Add(selectRoleHandler.opCode, selectRoleHandler);
 
         }
     }

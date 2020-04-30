@@ -13,6 +13,7 @@ namespace AscensionServer.Model
     {
         public virtual int RoleId { get; set; }
         public virtual string RoleName { get; set; }
+        public virtual string RoleRoot { get; set; }
         public virtual byte RoleGender { get; set; }
         public virtual int RoleHP { get; set; }
         public virtual int RoleMP { get; set; }
@@ -22,7 +23,6 @@ namespace AscensionServer.Model
         public virtual int RoleAttackPower { get; set; }
         public virtual int RoleResistancePower { get; set; }
         public virtual int RoleSpeedAttack { get; set; }
-        public virtual int RoleSpeedMove { get; set; }
         public virtual int RoleShenHunDamage { get; set; }
         public virtual int RoleShenHunResistance { get; set; }
         public virtual byte RoleCrit { get; set; }
@@ -30,5 +30,6 @@ namespace AscensionServer.Model
         public virtual string RoleUserAccount { get; set; }
         public virtual ISet<RoleGongFa> RoleGongFaList { get; set; }
         public virtual ISet<RoleLevel> RoleLevelList { get; set; }
+        public virtual User _User{ get; set; }
     }
 }

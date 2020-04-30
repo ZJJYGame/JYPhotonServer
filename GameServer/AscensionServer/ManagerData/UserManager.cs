@@ -116,5 +116,24 @@ namespace AscensionServer
             }
             
         }
+
+        public User GetArticleContent(User account)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    User articleModel = session.Get<User>(account.Account);
+                    transaction.Commit();
+                    return articleModel;
+                }
+            }
+        }
+
+        public IList<User> GetUserList()
+        {
+            ISession session = NHibernateHelper.OpenSession();
+            return session.QueryOver<User>().List();
+        }
     }
 }

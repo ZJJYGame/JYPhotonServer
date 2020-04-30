@@ -110,8 +110,8 @@
     <Compile Include="Manager\IArticleManager.cs" />
     <Compile Include="Manager\IRoleManager.cs" />
     <Compile Include="Manager\IUserManager.cs" />
-    <Compile Include="ModelManager.cs" />
-    <Compile Include="ArticleManager.cs" />
+    <Compile Include="ManagerData\ModelManager.cs" />
+    <Compile Include="ManagerData\ArticleManager.cs" />
     <Compile Include="Model\ArticleModel.cs" />
     <Compile Include="Model\ContentModel.cs" />
     <Compile Include="Model\Role.cs" />
@@ -121,8 +121,8 @@
     <Compile Include="NHibernateHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RoleManager.cs" />
-    <Compile Include="UserManager.cs" />
+    <Compile Include="ManagerData\RoleManager.cs" />
+    <Compile Include="ManagerData\UserManager.cs" />
     <Compile Include="Utility\Utility.cs" />
   </ItemGroup>
   <ItemGroup>
