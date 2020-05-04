@@ -3,12 +3,10 @@
                    assembly="AscensionServer"
                    namespace="AscensionServer.Model">
 
-  <class name="User" table="user">
+  <class name="User_Role" table="user_role">
     <id name="UUID" column="uuid" type="String">
       <generator class="uuid.hex" />
     </id>
-    <property name="Account" column="account" type="String" />
-    <property name="Password" column="password" type="String" />
+    <property name="Role_Id_Array" column="role_id_array" type="String" />
   </class>
 </hibernate-mapping>
-

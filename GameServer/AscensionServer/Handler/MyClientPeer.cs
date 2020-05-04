@@ -14,11 +14,11 @@ namespace AscensionServer
     public class MyClientPeer : Photon.SocketServer.ClientPeer
     {
         
-        public User User { get; set; }
+        //public User User { get; set; }
         public Role Role { get; set; }
         public float x, y, z;
         public string username;
-
+        public string uuid;
         public MyClientPeer(InitRequest initRequest) : base(initRequest)
         {
 

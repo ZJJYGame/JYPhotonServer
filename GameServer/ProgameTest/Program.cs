@@ -20,10 +20,11 @@ namespace ProgameTest
         //public static readonly ILogger log = LogManager.GetCurrentClassLogger();
         static void Main(string[] args)
         {
-            UserManager manager = new UserManager();
-            RoleManager manager1 = new RoleManager();
-            IList<Role> roles = manager1.GetRoleList();
-            Console.WriteLine("count " + roles.Count);
+
+            //UserManager manager = new UserManager();
+            //RoleManager manager1 = new RoleManager();
+            //IList<Role> roles = manager1.GetRoleList();
+            //Console.WriteLine("count " + roles.Count);
             //foreach (var item in roles)
             //{
             //    Console.WriteLine(item._User.Account);

@@ -117,6 +117,21 @@ namespace AscensionServer
             
         }
 
+        public string GetUUid(string account )
+        {
+
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                User user = session
+                    .CreateCriteria(typeof(User))
+                    .Add(Restrictions.Eq("Account", account))
+                    .UniqueResult<User>();
+                return user.UUID;
+            }
+
+        }
+
+
         public User GetArticleContent(User account)
         {
             using (ISession session = NHibernateHelper.OpenSession())

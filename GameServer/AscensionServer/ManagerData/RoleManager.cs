@@ -12,7 +12,7 @@ namespace AscensionServer
 {
     public class RoleManager : IRoleManager
     {
-        public void AddRole(Role role)
+        public Role AddRole(Model.Role role)
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
@@ -20,9 +20,25 @@ namespace AscensionServer
                 {
                     session.Save(role);
                     transaction.Commit();
+                    return session.Get<Role>(role.RoleId);
                 }
             }
         }
+        public string GetRoleId(int id)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                Role role = session
+                    .CreateCriteria(typeof(Role))
+                    .Add(Restrictions.Eq("RoleId", id))
+                    .UniqueResult<Role>();
+
+                if (role == null)
+                    return "";
+                return role.RoleName;
+            }
+        }
+
         public bool VerifyRole(string rolename)//角色名字
         {
             using (ISession session = NHibernateHelper.OpenSession())
@@ -55,21 +71,21 @@ namespace AscensionServer
             }
         }
 
-        public IList<RoleGongFa> GetGongFaList()
-        {
-            ISession session = NHibernateHelper.OpenSession();
-            return session.QueryOver<RoleGongFa>().List();
-        }
+        //public IList<RoleGongFa> GetGongFaList()
+        //{
+        //    ISession session = NHibernateHelper.OpenSession();
+        //    return session.QueryOver<RoleGongFa>().List();
+        //}
 
         public IList<Role> GetRoleList()
         {
             ISession session = NHibernateHelper.OpenSession();
             return session.QueryOver<Role>().List();
         }
-        public IList<RoleLevel> GetRoleLevelList()
-        {
-            ISession session = NHibernateHelper.OpenSession();
-            return session.QueryOver<RoleLevel>().List();
-        }
+        //public IList<RoleLevel> GetRoleLevelList()
+        //{
+        //    ISession session = NHibernateHelper.OpenSession();
+        //    return session.QueryOver<RoleLevel>().List();
+        //}
     }
 }

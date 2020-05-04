@@ -31,6 +31,7 @@ namespace AscensionServer
             {
                 response.ReturnCode = (short)ReturnCode.Success;
                 peer.username = username;  //保持当前用户的用户名让ClientPeer管理起来
+                peer.uuid = manager.GetUUid(username);
             }
             else//否则返回失败给客户端
             {

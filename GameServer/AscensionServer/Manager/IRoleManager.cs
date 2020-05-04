@@ -9,7 +9,7 @@ namespace AscensionServer.Manager
 {
     public interface IRoleManager
     {
-        void AddRole(Role role);
+        Role AddRole(Role role);
 
         bool VerifyRole(string rolename);//角色名字
 
