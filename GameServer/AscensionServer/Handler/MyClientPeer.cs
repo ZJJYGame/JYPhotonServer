@@ -28,6 +28,18 @@ namespace AscensionServer
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
             AscensionServer.ServerInstance.peerList.Remove(this);
+            //告诉其他客户端有客户端断开链接      有新的客户端加入
+            //foreach (MyClientPeer temPeer in AscensionServer.ServerInstance.peerList)
+            //{
+            //    if (string.IsNullOrEmpty(temPeer.username) == false && reasonCode == DisconnectReason.ClientDisconnect)
+            //    {
+            //        EventData ed = new EventData((byte)EventCode.DeletePlayer);
+            //        Dictionary<byte, object> data2 = new Dictionary<byte, object>();
+            //        data2.Add((byte)ParameterCode.UserCode.Username, temPeer.username);   //把新进来的用户名传递给其他客户端
+            //        ed.Parameters = data2;
+            //        temPeer.SendEvent(ed, sendParameters); //发送事件
+            //    }
+            //}
         }
 
 
