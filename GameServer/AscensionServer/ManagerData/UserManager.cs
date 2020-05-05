@@ -10,7 +10,7 @@ using AscensionServer.Model;
 
 namespace AscensionServer
 {
-    public class UserManager : IUserManager
+    public class UserManager :Singleton<UserManager> , IUserManager
     {
         public void Add(Model.User user)
         {
@@ -126,6 +126,10 @@ namespace AscensionServer
                     .CreateCriteria(typeof(User))
                     .Add(Restrictions.Eq("Account", account))
                     .UniqueResult<User>();
+                if (user == null)
+                {
+                    return "";
+                }
                 return user.UUID;
             }
 

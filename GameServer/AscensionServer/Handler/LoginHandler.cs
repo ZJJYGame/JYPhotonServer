@@ -23,15 +23,15 @@ namespace AscensionServer
 
             string password = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.Password) as string;
 
-            UserManager manager = new UserManager();
-            bool isSuccess = manager.VerifyUser(username, password);
+            //UserManager manager = new UserManager();
+            bool isSuccess = Singleton<UserManager>.Instance.VerifyUser(username, password);
             OperationResponse response = new Photon.SocketServer.OperationResponse(operationRequest.OperationCode);
             //如果验证成功，把成功的结果利用response.ReturnCode返回成功给客户端
             if (isSuccess)
             {
                 response.ReturnCode = (short)ReturnCode.Success;
                 peer.username = username;  //保持当前用户的用户名让ClientPeer管理起来
-                peer.uuid = manager.GetUUid(username);
+                peer.uuid = Singleton<UserManager>.Instance.GetUUid(username);
             }
             else//否则返回失败给客户端
             {

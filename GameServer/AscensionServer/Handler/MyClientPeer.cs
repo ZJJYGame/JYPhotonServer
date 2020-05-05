@@ -15,7 +15,7 @@ namespace AscensionServer
     {
         
         //public User User { get; set; }
-        public Role Role { get; set; }
+        //public Role Role { get; set; }
         public float x, y, z;
         public string username;
         public string uuid;

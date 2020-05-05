@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-    public class RoleManager : IRoleManager
+    public class RoleManager : Singleton<RoleManager>, IRoleManager
     {
         public Role AddRole(Model.Role role)
         {

@@ -20,15 +20,15 @@ namespace AscensionServer
         {
             string username = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.Username) as string;
             string password = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.Password) as string;
-            UserManager manager = new UserManager();
-            User user = manager.GetByUsername(username);//根据username查询数据
+
+            User user = Singleton<UserManager>.Instance.GetByUsername(username);//根据username查询数据
             OperationResponse responser = new OperationResponse(operationRequest.OperationCode);
             //如果没有查询到代表这个用户没被注册过可用
             if (user == null)
             {
                 //添加输入的用户和密码进数据库
                 user = new User() { Account = username, Password = password };
-                manager.Add(user);
+                Singleton<UserManager>.Instance.Add(user);
                 responser.ReturnCode = (short)ReturnCode.Success;//返回成功
 
             }

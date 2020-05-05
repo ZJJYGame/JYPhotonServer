@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AscensionProtocol
 {
-  public  class Utility
+  public static partial class Utility
     {
         #region 2020.4.24 Don
         //public static T GetParameter<T>(Dictionary<byte, object> parameters, ParameterCode parameterCode, bool isObject = true)

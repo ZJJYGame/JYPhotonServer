@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AscensionServer.Utility
+namespace AscensionServer
 {
     /// <summary>
     /// 非mono单例的基类new()约束

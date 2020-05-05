@@ -24,5 +24,27 @@
             </summary>
             <param name="user"></param>
         </member>
+        <member name="T:AscensionServer.Singleton`1">
+            <summary>
+            非mono单例的基类new()约束
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:AscensionServer.Singleton`1.Dispose">
+            <summary>
+            空虚方法，IDispose接口
+            </summary>
+        </member>
+        <member name="T:AscensionServer.MultiThreadSingleton`1">
+            <summary>
+            多线程单例基类，内部包含线程锁
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:AscensionServer.MultiThreadSingleton`1.Dispose">
+            <summary>
+            空虚方法，IDispose接口
+            </summary>
+        </member>
     </members>
 </doc>
