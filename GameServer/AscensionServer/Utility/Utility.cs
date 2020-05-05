@@ -34,21 +34,4 @@ namespace AscensionServer
             return JsonConvert.DeserializeObject<T>(jsonStr);
         }
     }
-
-    public class Singletion
-    {
-        private static Singletion Instance;
-
-        public Singletion  Get_Instance
-        {
-            get
-            {
-                if (Instance == null)
-                {
-                    Instance = new Singletion();
-                }
-                return Instance;
-            }
-        }
-    }
 }
