@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-/* Time  2020.4.28
-   Content：用户名
-   Host: xianrenZhang
-     */
+﻿/*
+*Author : xianrenZhang
+*Since :	2020-04-28
+*Description :  用户名
+*/
+
 namespace AscensionServer.Model
 {
     public class User

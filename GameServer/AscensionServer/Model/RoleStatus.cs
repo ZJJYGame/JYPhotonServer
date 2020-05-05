@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*
+*Author : xianrenZhang
+*Since :	2020-04-28
+*Description :  角色属性 
+*/
 
 namespace AscensionServer.Model
 {
-    public class Role_Status
+    public class RoleStatus
     {
         public virtual int RoleId { get; set; }
         public virtual byte RoleGender { get; set; }

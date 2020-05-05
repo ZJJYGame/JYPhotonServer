@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AscensionProtocol
+﻿namespace AscensionProtocol
 {
     public class ParameterCode //区分传送数据的时候，参数的类型
     {

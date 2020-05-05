@@ -1,6 +1,11 @@
-﻿using System;
+﻿/*
+*Author : Don
+*Since 	:2020-05-05
+*Description  : 同用工具分部类，字段工具
+*/
+using System;
 using System.Text;
-namespace AscensionProtocol
+namespace AscensionServer
 { 
     public static partial class Utility
     {

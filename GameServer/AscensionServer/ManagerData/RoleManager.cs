@@ -1,4 +1,9 @@
-﻿using AscensionServer.Manager;
+﻿/*
+*Author : xianrenZhang
+*Since 	:2020-04-28
+*Description  : 角色管理类
+*/
+using AscensionServer.Manager;
 using AscensionServer.Model;
 using NHibernate;
 using NHibernate.Criterion;
@@ -82,6 +87,7 @@ namespace AscensionServer
             ISession session = NHibernateHelper.OpenSession();
             return session.QueryOver<Role>().List();
         }
+
         //public IList<RoleLevel> GetRoleLevelList()
         //{
         //    ISession session = NHibernateHelper.OpenSession();

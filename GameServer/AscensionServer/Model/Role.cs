@@ -1,12 +1,14 @@
-﻿using System;
+﻿/*
+*Author : xianrenZhang
+*Since :	2020-04-28
+*Description :  角色表
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-/* Time  2020.4.28
- * Content : 角色表
- * Host : xianrenZhang 
- */
+
 namespace AscensionServer.Model
 {
     public class Role

@@ -1,8 +1,9 @@
-﻿using System;
+﻿/*
+*Author : xianrenZhang
+*Since 	:2020-04-28
+*Description  : 用户管理类接口
+*/
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AscensionServer.Model;
 namespace AscensionServer
 {

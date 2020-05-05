@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*
+*Author : xianrenZhang
+*Since 	:2020-04-18
+*Description  : 同步位置
+*/
 using AscensionProtocol;
 using Photon.SocketServer;
 

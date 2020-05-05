@@ -1,11 +1,12 @@
-﻿using AscensionProtocol;
-using AscensionServer.Model;
+﻿/*
+*Author : xianrenZhang
+*Since 	:2020-04-18
+*Description  : 选择角色
+*/
+using AscensionProtocol;
 using Photon.SocketServer;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AscensionServer.Handler
 {
@@ -22,11 +23,11 @@ namespace AscensionServer.Handler
          
             string _uuid = Singleton<UserManager>.Instance.GetUUid(rolename);
           
-            AscensionServer.log.Info(">>>>>>>>>>>>>" +  Singleton<User_RoleManager>.Instance.GetArray(_uuid));
+            AscensionServer.log.Info(">>>>>>>>>>>>>" +  Singleton<UserRoleManager>.Instance.GetArray(_uuid));
             
             OperationResponse responser = new OperationResponse(operationRequest.OperationCode);
              
-            if (string.IsNullOrEmpty(Singleton<User_RoleManager>.Instance.GetArray(_uuid)))
+            if (string.IsNullOrEmpty(Singleton<UserRoleManager>.Instance.GetArray(_uuid)))
             {
                 Dictionary<byte, object> data = new Dictionary<byte, object>();
                 data.Add((byte)ParameterCode.UserCode.RoleList, "用户名下还没有角色");
@@ -35,7 +36,7 @@ namespace AscensionServer.Handler
             }
             else
             {
-                string[] str = Singleton<User_RoleManager>.Instance.GetArray(_uuid).Split(new char[] { ',' });
+                string[] str = Singleton<UserRoleManager>.Instance.GetArray(_uuid).Split(new char[] { ',' });
                 List<string> strList = new List<string>(str);
                 List<string> rList = new List<string>();
                 foreach (var pName in strList)

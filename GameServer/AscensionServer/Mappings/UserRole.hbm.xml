@@ -3,7 +3,7 @@
                    assembly="AscensionServer"
                    namespace="AscensionServer.Model">
 
-  <class name="User_Role" table="user_role">
+  <class name="UserRole" table="user_role">
     <id name="UUID" column="uuid" type="String">
       <generator class="uuid.hex" />
     </id>

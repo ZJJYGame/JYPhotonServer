@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*
+*Author : xianrenZhang
+*Since 	:2020-04-18
+*Description  : 创建角色处理者
+*/
 using AscensionProtocol;
 using AscensionServer.Model;
 using Photon.SocketServer;
@@ -24,7 +24,7 @@ namespace AscensionServer.Handler
             Role role = Singleton<RoleManager>.Instance.GetByRolename(rolename);//根据username查询数据
             OperationResponse response = new Photon.SocketServer.OperationResponse(operationRequest.OperationCode);
             string str_uuid = peer.uuid;
-            string strArray = Singleton<User_RoleManager>.Instance.GetArray(str_uuid);
+            string strArray = Singleton<UserRoleManager>.Instance.GetArray(str_uuid);
             string str = "";
             //如果没有查询到代表角色没被注册过可用
             if (role == null)
@@ -34,11 +34,11 @@ namespace AscensionServer.Handler
                 if (!string.IsNullOrEmpty(strArray))
                 {
                      str = strArray + "," + Singleton<RoleManager>.Instance.AddRole(role).RoleId.ToString();
-                    Singleton<User_RoleManager>.Instance.UpdateStr(new User_Role() { Role_Id_Array = str ,UUID = str_uuid});
+                    Singleton<UserRoleManager>.Instance.UpdateStr(new UserRole() { Role_Id_Array = str ,UUID = str_uuid});
                 }
                 else
                 {
-                    Singleton<User_RoleManager>.Instance.AddStr(new User_Role() { Role_Id_Array = str });
+                    Singleton<UserRoleManager>.Instance.AddStr(new UserRole() { Role_Id_Array = str });
                 }
                 response.ReturnCode = (short)ReturnCode.Success;
             }

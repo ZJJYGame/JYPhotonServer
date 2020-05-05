@@ -1,9 +1,13 @@
-﻿using System;
+﻿/*
+*Author:  Don
+*Since :	2020-05-05
+*Description : 单例基类，包含线程安全类型
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace AscensionServer
 {
     /// <summary>

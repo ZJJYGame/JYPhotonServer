@@ -1,10 +1,9 @@
-﻿using System;
+﻿/*
+*Author : xianrenZhang
+*Since 	:2020-04-18
+*Description  : 同步玩家
+*/
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 using AscensionProtocol;
 using Photon.SocketServer;
 

@@ -1,10 +1,10 @@
-﻿using AscensionProtocol;
+﻿/*
+*Author : xianrenZhang
+*Since 	:2020-04-18
+*Description  : 登录
+*/
+using AscensionProtocol;
 using Photon.SocketServer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AscensionServer
 {

@@ -1,4 +1,9 @@
-﻿using AscensionServer.Model;
+﻿/*
+*Author : xianrenZhang
+*Since 	:2020-04-28
+*Description  : 用户角色中间表管理者
+*/
+using AscensionServer.Model;
 using NHibernate;
 using NHibernate.Criterion;
 using System;
@@ -9,9 +14,9 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-    public class User_RoleManager : Singleton<User_RoleManager> ,IUser_RoleManager
+    public class UserRoleManager : Singleton<UserRoleManager> ,IUserRoleManager
     {
-        public  void AddStr(User_Role str)
+        public  void AddStr(UserRole str)
         {
 
             using (ISession session = NHibernateHelper.OpenSession())
@@ -25,7 +30,7 @@ namespace AscensionServer
 
         }
 
-        public  void UpdateStr(User_Role str)
+        public  void UpdateStr(UserRole str)
         {
 
             using (ISession session = NHibernateHelper.OpenSession())
@@ -44,10 +49,10 @@ namespace AscensionServer
 
             using (ISession session = NHibernateHelper.OpenSession())
             {
-                User_Role user = session
-                    .CreateCriteria(typeof(User_Role))
+                UserRole user = session
+                    .CreateCriteria(typeof(UserRole))
                     .Add(Restrictions.Eq("UUID", uuid))
-                    .UniqueResult<User_Role>();
+                    .UniqueResult<UserRole>();
                 if (user == null)
                 {
                     return "";

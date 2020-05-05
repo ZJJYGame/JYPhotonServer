@@ -1,4 +1,9 @@
-﻿using NHibernate;
+﻿/*
+*Author : Don
+*Since 	:2020-04-18
+*Description  : NHibernate帮助类
+*/
+using NHibernate;
 using NHibernate.Cfg;
 
 namespace AscensionServer

@@ -19,7 +19,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>AscensionServer.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -106,22 +107,19 @@
     <Compile Include="Handler\SelectRoleHandler.cs" />
     <Compile Include="Handler\SyncPlayerHandler.cs" />
     <Compile Include="Handler\SyncPositionHandler.cs" />
-    <Compile Include="Handler\TestHandler.cs" />
-    <Compile Include="ManagerData\User_RoleManager.cs" />
-    <Compile Include="Manager\IArticleManager.cs" />
+    <Compile Include="ManagerData\UserRoleManager.cs" />
+    <Compile Include="Manager\Main\IManager.cs" />
     <Compile Include="Manager\IRoleManager.cs" />
     <Compile Include="Manager\IUserManager.cs" />
     <Compile Include="ManagerData\ModelManager.cs" />
-    <Compile Include="ManagerData\ArticleManager.cs" />
-    <Compile Include="Manager\IUser_RoleManager.cs" />
-    <Compile Include="Model\ArticleModel.cs" />
-    <Compile Include="Model\ContentModel.cs" />
+    <Compile Include="Manager\IUserRoleManager.cs" />
+    <Compile Include="Manager\Main\NHManager.cs" />
     <Compile Include="Model\Role.cs" />
     <Compile Include="Model\RoleGongFa.cs" />
     <Compile Include="Model\RoleLevel.cs" />
-    <Compile Include="Model\Role_Status.cs" />
+    <Compile Include="Model\RoleStatus.cs" />
     <Compile Include="Model\User.cs" />
-    <Compile Include="Model\User_Role.cs" />
+    <Compile Include="Model\UserRole.cs" />
     <Compile Include="NHibernateHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -129,13 +127,14 @@
     <Compile Include="ManagerData\UserManager.cs" />
     <Compile Include="Utility\Singleton.cs" />
     <Compile Include="Utility\Utility.cs" />
+    <Compile Include="Utility\Utility.Text.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="hibernate.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <EmbeddedResource Include="Mappings\User_Role.hbm.xml">
+    <EmbeddedResource Include="Mappings\UserRole.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Mappings\Role.hbm.xml">
@@ -143,8 +142,6 @@
     </EmbeddedResource>
     <Content Include="Mappings\RoleLevel.hbm.xml" />
     <Content Include="Mappings\RoleGongFa.hbm.xml" />
-    <EmbeddedResource Include="Mappings\Article.hbm.xml" />
-    <EmbeddedResource Include="Mappings\Content.hbm.xml" />
     <EmbeddedResource Include="Mappings\User.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

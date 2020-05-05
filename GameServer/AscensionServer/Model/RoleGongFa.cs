@@ -1,14 +1,14 @@
-﻿using System;
+﻿/*
+*Author : xianrenZhang
+*Since :	2020-04-28
+*Description :  功法
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-/* 
- * 
- * Time: 2020.4.28
- * Host:xianrenzhang
- * Content:功法
- */
+
 namespace AscensionServer.Model
 {
     public class RoleGongFa

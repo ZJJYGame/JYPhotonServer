@@ -1,9 +1,10 @@
-﻿using AscensionServer.Model;
-using System;
+﻿/*
+*Author : xianrenZhang
+*Since 	:2020-04-28
+*Description  : 角色管理类接口
+*/
+using AscensionServer.Model;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AscensionServer.Manager
 {
