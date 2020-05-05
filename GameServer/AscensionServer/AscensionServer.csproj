@@ -125,6 +125,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ManagerData\RoleManager.cs" />
     <Compile Include="ManagerData\UserManager.cs" />
+    <Compile Include="Utility\Singletion.cs" />
     <Compile Include="Utility\Utility.cs" />
   </ItemGroup>
   <ItemGroup>
