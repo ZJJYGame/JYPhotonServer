@@ -56,6 +56,7 @@
     <Compile Include="ReturnCode.cs" />
     <Compile Include="SubCode.cs" />
     <Compile Include="Utility\Utility.cs" />
+    <Compile Include="Utility\Utility.Text.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="log4net.config" />

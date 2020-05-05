@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
-namespace Cosmos { 
+namespace AscensionProtocol
+{ 
     public static partial class Utility
     {
         public static class Text
