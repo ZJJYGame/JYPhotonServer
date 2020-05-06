@@ -5,7 +5,7 @@
 
   <class name="UserRole" table="user_role">
     <id name="UUID" column="uuid" type="String">
-      <generator class="uuid.hex" />
+      <generator class="native" />
     </id>
     <property name="Role_Id_Array" column="role_id_array" type="String" />
   </class>

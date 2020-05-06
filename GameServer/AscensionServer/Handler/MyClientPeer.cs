@@ -7,39 +7,34 @@ using AscensionProtocol;
 using Photon.SocketServer;
 using PhotonHostRuntimeInterfaces;
 using System.Collections.Generic;
+
 namespace AscensionServer
 {
     //管理跟客户端的链接的
     public class MyClientPeer : Photon.SocketServer.ClientPeer
     {
-        
-        //public User User { get; set; }
-        //public Role Role { get; set; }
         public float x, y, z;
         public string username;
         public string uuid;
         public MyClientPeer(InitRequest initRequest) : base(initRequest)
         {
-
-
         }
         //处理客户端断开连接的后续工作
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
-            AscensionServer.ServerInstance.peerList.Remove(this);
-            //告诉其他客户端有客户端断开链接 有新的客户端加入
+            ////告诉其他客户端有客户端断开链接    
             foreach (MyClientPeer temPeer in AscensionServer.ServerInstance.peerList)
             {
-                if (string.IsNullOrEmpty(temPeer.username) == false && reasonCode == DisconnectReason.ClientDisconnect)
+                if (!string.IsNullOrEmpty(temPeer.username)&&temPeer.username!=username)
                 {
                     EventData ed = new EventData((byte)EventCode.DeletePlayer);
                     Dictionary<byte, object> data2 = new Dictionary<byte, object>();
-                    data2.Add((byte)ParameterCode.UserCode.Username, temPeer.username);   //把新进来的用户名传递给其他客户端
+                    data2.Add((byte)ParameterCode.UserCode.Username,username);
                     ed.Parameters = data2;
-                    SendEvent(ed, new SendParameters());
-                    //temPeer.SendEvent(ed, sendParameters); //发送事件 
+                    temPeer.SendEvent(ed, new SendParameters()); //发送事件sendParameters                
                 }
             }
+              AscensionServer.ServerInstance.peerList.Remove(this);
         }
 
 
@@ -48,10 +43,8 @@ namespace AscensionServer
         {
             //OperationRequest封装了请求的信息
             //SendParameters 参数，传递的数据
-
             AscensionServer.log.Info("收到一个客户端的请求");
             
-
             //通过客户端的OperationCode从HandlerDict里面获取到了需要的Hander
             BaseHandler handler = Utility.GetValue<OperationCode, BaseHandler>(AscensionServer.ServerInstance.HandlerDict, (OperationCode)operationRequest.OperationCode);
 
@@ -63,8 +56,6 @@ namespace AscensionServer
                 //data.TryGetValue(0, out inVaule);
                 //object inVaule2;
                 //data.TryGetValue(1, out inVaule2);
-                
-
                 //AscensionServer.log.Info("从客户端得到数据 ： " + inVaule.ToString() + "     数据拼接    " + inVaule2.ToString());
                 handler.OnOperationRequest(operationRequest, sendParameters, this);
 
