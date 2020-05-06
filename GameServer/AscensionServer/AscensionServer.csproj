@@ -98,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AscensionServer.cs" />
+    <Compile Include="Behaviour\IBehaviour.cs" />
     <Compile Include="Handler\Basehandler.cs" />
     <Compile Include="Handler\CreateHandle.cs" />
     <Compile Include="Handler\MyClientPeer.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Utility\Singleton.cs" />
     <Compile Include="Utility\Utility.cs" />
     <Compile Include="Utility\Utility.Text.cs" />
+    <Compile Include="Utility\Utility.Encode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="hibernate.cfg.xml">

@@ -15,20 +15,20 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-    public class RoleManager : Singleton<RoleManager>, IRoleManager
+    public class RoleManager : NHManager
     {
-        public Role AddRole(Model.Role role)
-        {
-            using (ISession session = NHibernateHelper.OpenSession())
-            {
-                using (ITransaction transaction = session.BeginTransaction())
-                {
-                    session.Save(role);
-                    transaction.Commit();
-                    return session.Get<Role>(role.RoleId);
-                }
-            }
-        }
+        //public Role AddRole(Model.Role role)
+        //{
+        //    using (ISession session = NHibernateHelper.OpenSession())
+        //    {
+        //        using (ITransaction transaction = session.BeginTransaction())
+        //        {
+        //            session.Save(role);
+        //            transaction.Commit();
+        //            return session.Get<Role>(role.RoleId);
+        //        }
+        //    }
+        //}
         public string GetRoleId(int id)
         {
             using (ISession session = NHibernateHelper.OpenSession())

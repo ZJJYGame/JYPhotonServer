@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-    public class UserRoleManager : Singleton<UserRoleManager> ,IUserRoleManager
+    public class UserRoleManager : NHManager
     {
         public  void AddStr(UserRole str)
         {
@@ -27,7 +27,6 @@ namespace AscensionServer
                     transaction.Commit();
                 }
             }
-
         }
 
         public  void UpdateStr(UserRole str)
@@ -41,12 +40,10 @@ namespace AscensionServer
                     transaction.Commit();
                 }
             }
-
         }
 
         public  string GetArray(string uuid)
         {
-
             using (ISession session = NHibernateHelper.OpenSession())
             {
                 UserRole user = session
@@ -60,6 +57,9 @@ namespace AscensionServer
                 return user.Role_Id_Array;
             }
         }
+        //public T GetUniqueEqual<T,K>(K key )
+        //{
 
+        //}
     }
 }

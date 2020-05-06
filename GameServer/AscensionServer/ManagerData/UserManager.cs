@@ -10,7 +10,7 @@ using AscensionServer.Model;
 
 namespace AscensionServer
 {
-    public class UserManager :Singleton<UserManager> , IUserManager
+    public class UserManager :NHManager
     {
         public void Add(Model.User user)
         {

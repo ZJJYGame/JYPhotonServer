@@ -24,7 +24,8 @@ namespace AscensionServer.Handler
             Role role = Singleton<RoleManager>.Instance.GetByRolename(rolename);//根据username查询数据
             OperationResponse response = new Photon.SocketServer.OperationResponse(operationRequest.OperationCode);
             string str_uuid = peer.uuid;
-            string strArray = Singleton<UserRoleManager>.Instance.GetArray(str_uuid);
+            //string strArray = Singleton<UserRoleManager>.Instance.GetArray(str_uuid);
+            string strArray = Singleton< UserRoleManager>.Instance.GetArray(str_uuid);
             string str = "";
             //如果没有查询到代表角色没被注册过可用
             if (role == null)
@@ -33,12 +34,17 @@ namespace AscensionServer.Handler
                 role = new Role() { RoleName = rolename, RoleRoot = linggenlist, RoleLevel = 122, RoleExp = 122 };
                 if (!string.IsNullOrEmpty(strArray))
                 {
-                     str = strArray + "," + Singleton<RoleManager>.Instance.AddRole(role).RoleId.ToString();
-                    Singleton<UserRoleManager>.Instance.UpdateStr(new UserRole() { Role_Id_Array = str ,UUID = str_uuid});
+                    //str = strArray + "," + Singleton<RoleManager>.Instance.AddRole(role).RoleId.ToString();
+                    str= Utility.Text.Format(strArray, ",", Singleton<RoleManager>.Instance.Add(role).RoleId);
+                    //Singleton<UserRoleManager>.Instance.UpdateStr(new UserRole() { Role_Id_Array = str ,UUID = str_uuid});
+                    Singleton<UserRoleManager>.Instance.Update(new UserRole() { Role_Id_Array = str, UUID = str_uuid });
+
                 }
                 else
                 {
-                    Singleton<UserRoleManager>.Instance.AddStr(new UserRole() { Role_Id_Array = str });
+                    //Singleton<UserRoleManager>.Instance.AddStr(new UserRole() { Role_Id_Array = str });
+                    Singleton<UserRoleManager>.Instance.Add(new UserRole() { Role_Id_Array = str });
+
                 }
                 response.ReturnCode = (short)ReturnCode.Success;
             }

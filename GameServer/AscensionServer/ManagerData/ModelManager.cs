@@ -14,11 +14,7 @@ namespace AscensionServer
     /// <summary>
     /// 映射模型管理者
     /// </summary>
-    public class ModelManager:NHManager<ModelManager>
+    public class ModelManager:NHManager
     {
-        void info()
-        {
-            Add(new Role());
-        }
     }
 }

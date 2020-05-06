@@ -11,23 +11,31 @@ namespace AscensionServer
     /// 泛型抽象单例基类
     /// </summary>
     /// <typeparam name="E">泛型约束为当前类的子类</typeparam>
-    public abstract class NHManager <E>:Singleton<E>, IManager
-        where E:NHManager<E>,new()
+    public abstract class NHManager : IManager,IBehaviour
     {
+        /// <summary>
+        //空的虚方法，在当前单例对象为空初始化时执行一次
+        /// </summary>
+        public virtual void OnInitialization() { }
+        /// <summary>
+        //空的虚方法，在当前单例对象被销毁时执行一次
+        /// </summary>
+        public virtual void OnTermination() { }
         /// <summary>
         /// 可覆写非空虚函数;
         /// 添加数据
         /// </summary>
         /// <typeparam name="T">数据类型</typeparam>
         /// <param name="data">具体数据</param>
-        public virtual void Add<T>(T data) where T : new()
+        public virtual T Add<T>(T data) where T : class, new() 
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
                 using (ITransaction transaction = session.BeginTransaction())
                 {
-                    session.Save(data);
+                    T resultData = session.Save(data) as T;
                     transaction.Commit();
+                    return resultData;
                 }
             }
         }
@@ -53,7 +61,6 @@ namespace AscensionServer
                 }
             }
         }
-
         /// <summary>
         /// 可覆写非空虚函数;
         /// 移除数据
@@ -77,7 +84,7 @@ namespace AscensionServer
         /// </summary>
         /// <typeparam name="T">数据类型</typeparam>
         /// <param name="data">具体数据</param>
-        public virtual void Updata<T>(T data) where T : new()
+        public virtual void Update<T>(T data) where T : new()
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
