@@ -100,6 +100,7 @@
     <Compile Include="AscensionServer.cs" />
     <Compile Include="Handler\Basehandler.cs" />
     <Compile Include="Handler\CreateHandle.cs" />
+    <Compile Include="Handler\DestroyHandler.cs" />
     <Compile Include="Handler\MyClientPeer.cs" />
     <Compile Include="Handler\DefaultHandler.cs" />
     <Compile Include="Handler\LoginHandler.cs" />

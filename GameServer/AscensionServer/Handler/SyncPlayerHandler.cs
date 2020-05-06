@@ -29,7 +29,7 @@ namespace AscensionServer
                 {
                     //把这些客户端的Usernam添加到集合里面
                     usernameList.Add(tempPeer.username);
-                    AscensionServer.log.Info("username = >>>>>>> " + tempPeer.username);
+                    //AscensionServer.log.Info("username = >>>>>>> " + tempPeer.username);
                 }
             }
             #region xml解析
@@ -58,10 +58,25 @@ namespace AscensionServer
                     EventData ed = new EventData((byte)EventCode.NewPlayer);
                     Dictionary<byte, object> data2 = new Dictionary<byte, object>();
                     data2.Add((byte)ParameterCode.UserCode.Username, peer.username);   //把新进来的用户名传递给其他客户端
+                    //AscensionServer.log.Info(">>>>>>>>>>>>>>  " + peer.username);
                     ed.Parameters = data2;
                     temPeer.SendEvent(ed,sendParameters); //发送事件
                 }
             }
+            ////告诉其他客户端有客户端离线
+            //foreach (MyClientPeer temPeer in AscensionServer.ServerInstance.peerList)
+            //{
+            //    if (string.IsNullOrEmpty(temPeer.username) == false && temPeer != peer)
+            //    {
+            //        EventData ed = new EventData((byte)EventCode.DeletePlayer);
+            //        Dictionary<byte, object> data2 = new Dictionary<byte, object>();
+            //        data2.Add((byte)ParameterCode.UserCode.Username, peer.username);   //把新进来的用户名传递给其他客户端
+
+            //        ed.Parameters = data2;
+            //        temPeer.SendEvent(ed, sendParameters); //发送事件
+            //    }
+            //}
+
         }
     }
 }

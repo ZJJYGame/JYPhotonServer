@@ -16,5 +16,6 @@ namespace AscensionProtocol
         SyncPlayer,
         Inventory,
         Default,
+        Destroy,
     }
 }

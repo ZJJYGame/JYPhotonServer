@@ -11,6 +11,8 @@ namespace AscensionServer
     {
 
         public OperationCode opCode;
+
+        public EventCode evCode;
         //处理请求的方法
         public abstract void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters,MyClientPeer peer);
 
