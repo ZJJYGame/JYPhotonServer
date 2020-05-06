@@ -35,15 +35,18 @@ namespace AscensionServer.Handler
                 if (!string.IsNullOrEmpty(strArray))
                 {
                     //str = strArray + "," + Singleton<RoleManager>.Instance.AddRole(role).RoleId.ToString();
-                    str= Utility.Text.Format(strArray, ",", Singleton<RoleManager>.Instance.Add(role).RoleId);
-                    //Singleton<UserRoleManager>.Instance.UpdateStr(new UserRole() { Role_Id_Array = str ,UUID = str_uuid});
+                    Singleton<RoleManager>.Instance.Add(role);
+                    str = Utility.Text.Format(strArray, ",", Singleton<RoleManager>.Instance.Get<Role,int>(role.RoleId).RoleId);
+                    //Singleton<UserRoleManager>.Instance.UpdateStr(new UserRole() { Role_Id_Array = str, UUID = str_uuid });
                     Singleton<UserRoleManager>.Instance.Update(new UserRole() { Role_Id_Array = str, UUID = str_uuid });
-
                 }
                 else
                 {
-                    //Singleton<UserRoleManager>.Instance.AddStr(new UserRole() { Role_Id_Array = str });
-                    Singleton<UserRoleManager>.Instance.Add(new UserRole() { Role_Id_Array = str });
+                    //TODO 创建角色，用户角色表存储数据
+                    Singleton<RoleManager>.Instance.Add(role);
+                    str = Utility.Text.Format(strArray, ",", Singleton<RoleManager>.Instance.Get<Role, int>(role.RoleId).RoleId);
+                    Singleton<UserRoleManager>.Instance.AddStr(new UserRole() { Role_Id_Array = str });
+                    //Singleton<UserRoleManager>.Instance.Add(new UserRole() { Role_Id_Array = str });
 
                 }
                 response.ReturnCode = (short)ReturnCode.Success;

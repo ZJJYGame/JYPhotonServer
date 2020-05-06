@@ -30,9 +30,8 @@ namespace AscensionServer.Handler
             if (string.IsNullOrEmpty(Singleton<UserRoleManager>.Instance.GetArray(_uuid)))
             {
                 Dictionary<byte, object> data = new Dictionary<byte, object>();
-                data.Add((byte)ParameterCode.UserCode.RoleList, "用户名下还没有角色");
+                data.Add((byte)ParameterCode.UserCode.RoleList, Utility.Serialize(new List<string>()));
                 responser.Parameters = data;
-                return;
             }
             else
             {

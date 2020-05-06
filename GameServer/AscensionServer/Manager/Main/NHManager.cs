@@ -27,15 +27,17 @@ namespace AscensionServer
         /// </summary>
         /// <typeparam name="T">数据类型</typeparam>
         /// <param name="data">具体数据</param>
-        public virtual T Add<T>(T data) where T : class, new() 
+        public virtual void Add<T>(T data) where T : class, new() 
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
                 using (ITransaction transaction = session.BeginTransaction())
                 {
-                    T resultData = session.Save(data) as T;
+                    //T resultData = session.Save(data) as T;
+                    //transaction.Commit();
+                    //return resultData;
+                    session.Save(data);
                     transaction.Commit();
-                    return resultData;
                 }
             }
         }

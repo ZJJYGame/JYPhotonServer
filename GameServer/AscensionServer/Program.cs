@@ -54,13 +54,13 @@ namespace AscensionServer
             **************************/
 
             //***匹配账户*********************
-            IUserManager userManager = new UserManager();
-            Console.WriteLine(userManager.VerifyUser("index1", "qqq111"));//true
-            Console.WriteLine(userManager.VerifyUser("5l", "eee"));//false
-            Console.WriteLine(userManager.GetById(1));
+            //IUserManager userManager = new UserManager();
+            //Console.WriteLine(userManager.VerifyUser("index1", "qqq111"));//true
+            //Console.WriteLine(userManager.VerifyUser("5l", "eee"));//false
+            //Console.WriteLine(userManager.GetById(1));
 
-            //*************************/
-            Console.ReadKey();
+            ////*************************/
+            //Console.ReadKey();
         }
     }
 }
