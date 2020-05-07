@@ -5,13 +5,14 @@
 */
 using System;
 using NHibernate;
+using NHibernate.Criterion;
 namespace AscensionServer
 {
     /// <summary>
-    /// 泛型抽象单例基类
+    /// 泛型单例基类
     /// </summary>
     /// <typeparam name="E">泛型约束为当前类的子类</typeparam>
-    public abstract class NHManager : IManager,IBehaviour
+    public  class NHManager : IManager,IBehaviour
     {
         /// <summary>
         //空的虚方法，在当前单例对象为空初始化时执行一次
@@ -33,9 +34,6 @@ namespace AscensionServer
             {
                 using (ITransaction transaction = session.BeginTransaction())
                 {
-                    //T resultData = session.Save(data) as T;
-                    //transaction.Commit();
-                    //return resultData;
                     session.Save(data);
                     transaction.Commit();
                 }
@@ -61,6 +59,24 @@ namespace AscensionServer
                     transaction.Commit();
                     return data;
                 }
+            }
+        }
+        /// <summary>
+        /// 可覆写非空虚函数;
+        /// 条件获得数据
+        /// </summary>
+        /// <typeparam name="T">返回值类型</typeparam>
+        /// <typeparam name="columnName">表字段的名称</typeparam>
+        /// <typeparam name="K">查找类型</typeparam>
+        /// <param name="key">查找索引字段</param>
+        /// <param name="key"></param>
+        public virtual void CriteriaGet<T, K>(out T data,string columnName, K key) where K : IComparable<K>
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                data = session.CreateCriteria(typeof(T)).
+                    Add(Restrictions.Eq(columnName, key))
+                    .UniqueResult<T>();
             }
         }
         /// <summary>
@@ -98,5 +114,6 @@ namespace AscensionServer
             }
 
         }
+
     }
 }

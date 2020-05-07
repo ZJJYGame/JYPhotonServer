@@ -10,6 +10,5 @@
     <property name="RoleId" column="role_id" type="int"/>
     <property name="RoleCurrentLevel" column="role_current_level" type="Byte"/>
     <property name="RoleExp" column="role_exp" type="int"/>
-    <many-to-one name="Role_Id" column="role_id" not-null="true" class="Role" foreign-key="fk_role_id" />
   </class>
 </hibernate-mapping>

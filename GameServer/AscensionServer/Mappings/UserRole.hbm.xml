@@ -5,10 +5,8 @@
 
   <class name="UserRole" table="user_role">
     <id name="UUID" column="uuid" type="String">
-      <generator class="native" />
+      <generator class="assigned" />
     </id>
     <property name="Role_Id_Array" column="role_id_array" type="String" />
-    <many-to-one name ="User"  column ="uuid" not-null ="true"
-                 class ="User" />
   </class>
 </hibernate-mapping>

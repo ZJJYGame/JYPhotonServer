@@ -20,20 +20,33 @@ namespace AscensionServer.Handler
 
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, MyClientPeer peer)
         {
-            string rolename = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.Account) as string;
-         
-            string _uuid = Singleton<UserManager>.Instance.GetUUid(rolename);
-          
-            AscensionServer.log.Info(">>>>>>>>>>>>>" +  Singleton<UserRoleManager>.Instance.GetArray(_uuid));
-            
+            string username = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.UserCode.Account) as string;
+
+            //GenericMethod
+            User user;
+            Singleton<NHManager>.Instance.CriteriaGet(out user, "Account", username);
+            string _uuid=user==null?_uuid="":_uuid=user.UUID;
+            UserRole uRole;
+            Singleton<NHManager>.Instance.CriteriaGet(out uRole, "UUID", username);
+            string idArray = uRole == null ? idArray = "null" : idArray = uRole.Role_Id_Array;
+
+
+            AscensionServer.log.Info(">>>>>>>>>>>>>" + idArray);
+
+            //string _uuid = Singleton<UserManager>.Instance.GetUUid(username);
+            //AscensionServer.log.Info(">>>>>>>>>>>>>" + Singleton<UserRoleManager>.Instance.GetArray(_uuid));
+
             OperationResponse responser = new OperationResponse(operationRequest.OperationCode);
 
-            UserRole userRole = Singleton<UserRoleManager>.Instance.GetByUUID("123456");
+            //UserRole userRole = Singleton<UserRoleManager>.Instance.GetByUUID("123456");
+            UserRole userRole;
+            Singleton<NHManager>.Instance.CriteriaGet(out userRole, "UUID", _uuid);
+
             if (userRole == null)
             {
                 AscensionServer.log.Info("user2   >>>>>>>>>>" );
 
-                userRole = new UserRole() { UUID = "123456" };
+                userRole = new UserRole() { UUID = _uuid,Role_Id_Array="" };
                 Singleton<UserRoleManager>.Instance.AddStr(userRole);
             }
             if (string.IsNullOrEmpty(Singleton<UserRoleManager>.Instance.GetArray(_uuid)))
