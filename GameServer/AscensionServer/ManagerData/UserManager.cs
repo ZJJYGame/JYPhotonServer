@@ -12,7 +12,7 @@ namespace AscensionServer
 {
     public class UserManager :NHManager
     {
-        public void Add(Model.User user)
+        public User Add(Model.User user)
         {
             /*第一种
             ISession session = NHibernateHelper.OpenSession();
@@ -25,6 +25,7 @@ namespace AscensionServer
                 {
                     session.Save(user);
                     transaction.Commit();
+                    return user;
                 }
             }
         }

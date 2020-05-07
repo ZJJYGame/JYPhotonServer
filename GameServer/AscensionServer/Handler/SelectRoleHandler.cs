@@ -4,6 +4,7 @@
 *Description  : 选择角色
 */
 using AscensionProtocol;
+using AscensionServer.Model;
 using Photon.SocketServer;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,15 @@ namespace AscensionServer.Handler
             AscensionServer.log.Info(">>>>>>>>>>>>>" +  Singleton<UserRoleManager>.Instance.GetArray(_uuid));
             
             OperationResponse responser = new OperationResponse(operationRequest.OperationCode);
-             
+
+            UserRole userRole = Singleton<UserRoleManager>.Instance.GetByUUID("123456");
+            if (userRole == null)
+            {
+                AscensionServer.log.Info("user2   >>>>>>>>>>" );
+
+                userRole = new UserRole() { UUID = "123456" };
+                Singleton<UserRoleManager>.Instance.AddStr(userRole);
+            }
             if (string.IsNullOrEmpty(Singleton<UserRoleManager>.Instance.GetArray(_uuid)))
             {
                 Dictionary<byte, object> data = new Dictionary<byte, object>();

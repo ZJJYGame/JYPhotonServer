@@ -57,6 +57,23 @@ namespace AscensionServer
                 return user.Role_Id_Array;
             }
         }
+
+        public UserRole GetByUUID(string uuid)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                /*
+                ICriteria criteria= session.CreateCriteria(typeof(User));
+                criteria.Add(Restrictions.Eq("Username", username));//添加一个查询条件,第一个参数表示对哪个属性(字段）做限制，第二个表示值为多少
+                User user = criteria.UniqueResult<User>();
+                */
+                UserRole user = session.CreateCriteria(typeof(UserRole)).Add(Restrictions.Eq("UUID", uuid)).UniqueResult<UserRole>();
+                return user;
+
+            }
+        }
+
+
         //public T GetUniqueEqual<T,K>(K key )
         //{
 

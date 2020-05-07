@@ -4,12 +4,15 @@
  * Content:关联uuid外键
  */
 using System;
+using System.Collections.Generic;
+
 namespace AscensionServer.Model
 {
     public class UserRole
     {
         public virtual string UUID { get; set; }
         public virtual string Role_Id_Array { get; set; }
+        public virtual User User { get; set; }
         public override bool Equals(object obj)
         {
             if (!(obj is UserRole))
