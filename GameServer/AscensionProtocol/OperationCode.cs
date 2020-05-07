@@ -14,7 +14,7 @@ namespace AscensionProtocol
         CreateRole,
         SyncPositon,
         SyncPlayer,
-        SyncRoleStaus,
+        SyncRoleStatus,
         Inventory,
         Default,
         Destroy,

@@ -20,12 +20,16 @@ namespace AscensionServer.Handler
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, MyClientPeer peer)
         {
             string username = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.UserCode.Account) as string;
-            User user= Singleton<NHManager>.Instance.CriteriaGet<User>( "Account", username);
-            string _uuid=user==null?_uuid="":_uuid=user.UUID;
-            UserRole uRole=Singleton<NHManager>.Instance.CriteriaGet<UserRole>( "UUID", username);
-            string idArray = uRole == null ? "null" :  uRole.Role_Id_Array;
 
-            AscensionServer.log.Info(">>>>>>>>>>>>>" + idArray);
+            //GenericMethod
+            //   User user= Singleton<NHManager>.Instance.CriteriaGet<User>( "Account", username);
+            // string _uuid=user==null?_uuid="":_uuid=user.UUID;
+            // UserRole uRole=Singleton<NHManager>.Instance.CriteriaGet<UserRole>( "UUID", username);
+            // string idArray = uRole == null ? "null" :  uRole.Role_Id_Array;
+            // AscensionServer.log.Info(">>>>>>>>>>>>>" + idArray);
+            // string _uuid = Singleton<UserManager>.Instance.GetUUid(username);
+            //AscensionServer.log.Info(">>>>>>>>>>>>>" + Singleton<UserRoleManager>.Instance.GetArray(_uuid));
+
             OperationResponse responser = new OperationResponse(operationRequest.OperationCode);
             UserRole userRole=Singleton<NHManager>.Instance.CriteriaGet<UserRole>( "UUID", _uuid);
             //如果user_role表为空
@@ -35,6 +39,7 @@ namespace AscensionServer.Handler
             //    userRole = new UserRole() { UUID = _uuid,Role_Id_Array="" };
             //    Singleton<UserRoleManager>.Instance.AddStr(userRole);
             //}
+
 
             if (string.IsNullOrEmpty(Singleton<UserRoleManager>.Instance.GetArray(_uuid)))
             {

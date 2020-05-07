@@ -15,12 +15,14 @@ using ExitGames.Logging.Log4Net;
 using System.IO;
 using log4net.Config;
 using AscensionServer.Handler;
-
+using AscensionServer.Threads;
 namespace AscensionServer
 {
    public  class AscensionServer:ApplicationBase
     {
         public static readonly ILogger log = LogManager.GetCurrentClassLogger();
+
+        private SyncPositionThread syncPositionThread = new SyncPositionThread();
 
         public static AscensionServer ServerInstance
         {
@@ -57,12 +59,13 @@ namespace AscensionServer
                 log.Info("进行初始化");
             }
             InitHandler();
-            //SyncPositionThread.Run();
+            syncPositionThread.Run();
         }
 
         protected override void TearDown()
         {
-            //SyncPositionThread.Stop();
+            syncPositionThread.Stop();
+            log.Info("关闭了服务器");
         }
         void InitHandler()
         {
