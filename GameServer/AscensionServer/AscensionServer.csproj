@@ -100,7 +100,7 @@
     <Compile Include="AscensionServer.cs" />
     <Compile Include="Behaviour\IBehaviour.cs" />
     <Compile Include="Handler\Basehandler.cs" />
-    <Compile Include="Handler\CreateHandle.cs" />
+    <Compile Include="Handler\CreateHandler.cs" />
     <Compile Include="Handler\DestroyHandler.cs" />
     <Compile Include="Handler\MyClientPeer.cs" />
     <Compile Include="Handler\DefaultHandler.cs" />
@@ -110,11 +110,11 @@
     <Compile Include="Handler\SyncPlayerHandler.cs" />
     <Compile Include="Handler\SyncPositionHandler.cs" />
     <Compile Include="ManagerData\UserRoleManager.cs" />
-    <Compile Include="Manager\Main\IManager.cs" />
     <Compile Include="Manager\IRoleManager.cs" />
     <Compile Include="Manager\IUserManager.cs" />
     <Compile Include="ManagerData\ModelManager.cs" />
     <Compile Include="Manager\IUserRoleManager.cs" />
+    <Compile Include="Manager\Main\INHManager.cs" />
     <Compile Include="Manager\Main\NHManager.cs" />
     <Compile Include="Model\Role.cs" />
     <Compile Include="Model\RoleGongFa.cs" />

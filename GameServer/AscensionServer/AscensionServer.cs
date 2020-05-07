@@ -76,7 +76,7 @@ namespace AscensionServer
             handlerDict.Add(syncPositionHandler.opCode, syncPositionHandler);
             SyncPlayerHandler syncPlayerHandler = new SyncPlayerHandler();
             handlerDict.Add(syncPlayerHandler.opCode, syncPlayerHandler);
-            CreateHandle  createHandle = new CreateHandle();
+            CreateHandler  createHandle = new CreateHandler();
             handlerDict.Add(createHandle.opCode, createHandle);
             SelectRoleHandler selectRoleHandler = new SelectRoleHandler();
             handlerDict.Add(selectRoleHandler.opCode, selectRoleHandler);

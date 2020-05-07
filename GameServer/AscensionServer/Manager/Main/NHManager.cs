@@ -12,7 +12,7 @@ namespace AscensionServer
     /// 泛型单例基类
     /// </summary>
     /// <typeparam name="E">泛型约束为当前类的子类</typeparam>
-    public  class NHManager : IManager,IBehaviour
+    public  class NHManager : INHManager,IBehaviour
     {
         /// <summary>
         //空的虚方法，在当前单例对象为空初始化时执行一次
@@ -47,9 +47,8 @@ namespace AscensionServer
         /// <typeparam name="K">查找类型</typeparam>
         /// <param name="key">查找索引字段</param>
         /// <returns></returns>
-        public virtual T Get<T, K>(K key)
+        public virtual T Get<T>(object key)
             where T : new()
-            where K : IComparable<K>
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
@@ -70,13 +69,14 @@ namespace AscensionServer
         /// <typeparam name="K">查找类型</typeparam>
         /// <param name="key">查找索引字段</param>
         /// <param name="key"></param>
-        public virtual void CriteriaGet<T, K>(out T data,string columnName, K key) where K : IComparable<K>
+        public virtual T CriteriaGet<T>(string columnName, object key) 
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
-                data = session.CreateCriteria(typeof(T)).
+                T data = session.CreateCriteria(typeof(T)).
                     Add(Restrictions.Eq(columnName, key))
                     .UniqueResult<T>();
+                return data;
             }
         }
         /// <summary>

@@ -37,7 +37,6 @@ namespace AscensionServer
                     .CreateCriteria(typeof(Role))
                     .Add(Restrictions.Eq("RoleId", id))
                     .UniqueResult<Role>();
-
                 if (role == null)
                     return "";
                 return role.RoleName;
@@ -62,7 +61,9 @@ namespace AscensionServer
             using (ISession session = NHibernateHelper.OpenSession())
             {
 
-                Role role = session.CreateCriteria(typeof(Role)).Add(Restrictions.Eq("RoleName", rolename)).UniqueResult<Role>();
+                Role role = session.CreateCriteria(typeof(Role)).
+                    Add(Restrictions.Eq("RoleName", rolename)).
+                    UniqueResult<Role>();
                 return role;
             }
         }
