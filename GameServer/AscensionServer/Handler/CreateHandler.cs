@@ -22,9 +22,9 @@ namespace AscensionServer.Handler
             Role role = Singleton<RoleManager>.Instance.GetByRolename(rolename);//根据username查询数据
             OperationResponse response = new Photon.SocketServer.OperationResponse(operationRequest.OperationCode);
             string str_uuid = peer.uuid;
-            //string strArray = Singleton<UserRoleManager>.Instance.GetArray(str_uuid);
-            UserRole userRole= Singleton< UserRoleManager>.Instance.CriteriaGet<UserRole>("UUID",str_uuid);
-            string strArray = userRole==null?   "": userRole.Role_Id_Array;
+            string strArray = Singleton<UserRoleManager>.Instance.GetArray(str_uuid);
+            //UserRole userRole= Singleton< UserRoleManager>.Instance.CriteriaGet<UserRole>("UUID",str_uuid);
+            //string strArray = userRole==null?   "": userRole.Role_Id_Array;
             string str = "";
             //如果没有查询到代表角色没被注册过可用
             if (role == null)
@@ -33,20 +33,20 @@ namespace AscensionServer.Handler
                 role = new Role() { RoleName = rolename, RoleRoot = linggenlist, RoleLevel = 122, RoleExp = 122 };
                 if (!string.IsNullOrEmpty(strArray))
                 {
-                    //str = strArray + "," + Singleton<RoleManager>.Instance.AddRole(role).RoleId.ToString();
-                    Singleton<NHManager>.Instance.Add(role);
-                    str = Utility.Text.Format(strArray, ",", Singleton<RoleManager>.Instance.Get<Role>(role.RoleId).RoleId);
-                    //Singleton<UserRoleManager>.Instance.UpdateStr(new UserRole() { Role_Id_Array = str, UUID = str_uuid });
+                    str = strArray + "," + Singleton<RoleManager>.Instance.AddRole(role).RoleId.ToString();
+                    //Singleton<NHManager>.Instance.Add(role);
+                    //str = Utility.Text.Format(strArray, ",", Singleton<RoleManager>.Instance.Get<Role>(role.RoleId).RoleId);
+                    Singleton<UserRoleManager>.Instance.UpdateStr(new UserRole() { Role_Id_Array = str, UUID = str_uuid });
                     Singleton<NHManager>.Instance.Update(new UserRole() { Role_Id_Array = str, UUID = str_uuid });
                 }
                 else
                 {
                     //TODO 创建角色，用户角色表存储数据
-                    Singleton<NHManager>.Instance.Add(role);
-                    str = Utility.Text.Format(strArray, ",", Singleton<RoleManager>.Instance.Get<Role>(role.RoleId).RoleId);
-                    //Singleton<UserRoleManager>.Instance.Add(new UserRole() { Role_Id_Array = str });
+                    //Singleton<NHManager>.Instance.Add(role);
+                    //str = Utility.Text.Format(strArray, ",", Singleton<RoleManager>.Instance.Get<Role>(role.RoleId).RoleId);
+                    Singleton<UserRoleManager>.Instance.Add(new UserRole() { Role_Id_Array = str });
 
-                    Singleton<UserRoleManager>.Instance.Add(new UserRole() {UUID="", Role_Id_Array = str });
+                    //Singleton<UserRoleManager>.Instance.Add(new UserRole() {UUID="", Role_Id_Array = str });
                 }
                 response.ReturnCode = (short)ReturnCode.Success;
             }
