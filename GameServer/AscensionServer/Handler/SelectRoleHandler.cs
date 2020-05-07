@@ -17,7 +17,7 @@ namespace AscensionServer.Handler
         {
             opCode = AscensionProtocol.OperationCode.SelectRole;
         }
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, MyClientPeer peer)
+        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, JYClientPeer peer)
         {
             string username = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.UserCode.Account) as string;
 
@@ -32,7 +32,8 @@ namespace AscensionServer.Handler
             if (string.IsNullOrEmpty(Singleton<UserRoleManager>.Instance.GetArray(_uuid)))
             {
                 Dictionary<byte, object> data = new Dictionary<byte, object>();
-                data.Add((byte)ParameterCode.UserCode.RoleList, Utility.Serialize(new List<string>()));
+                //data.Add((byte)ParameterCode.UserCode.RoleList, Utility.Serialize(new List<string>()));
+                data.Add((byte)ParameterCode.UserCode.RoleList, Utility.ToJson(new List<string>()));
                 responser.Parameters = data;
             }
             else
@@ -44,7 +45,8 @@ namespace AscensionServer.Handler
                 {
                     rList.Add(Singleton<RoleManager>.Instance.GetRoleId(Convert.ToInt32(pName)));
                 }
-                string rolelistString = Utility.Serialize(rList);
+                //string rolelistString = Utility.Serialize(rList);
+                string rolelistString = Utility.ToJson(rList);
                 Dictionary<byte, object> data = new Dictionary<byte, object>();
                 data.Add((byte)ParameterCode.UserCode.RoleList, rolelistString);
                 responser.Parameters = data;

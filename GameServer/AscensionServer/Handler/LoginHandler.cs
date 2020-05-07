@@ -16,7 +16,7 @@ namespace AscensionServer
             opCode = OperationCode.Login;//赋值OperationCode为Login,表示处理的是那个请求
         }
         //登陆请求的处理的代码
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, MyClientPeer peer)
+        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, JYClientPeer peer)
         {
             //根据发送过来的请求获得用户名和密码
             string username = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.Account) as string;

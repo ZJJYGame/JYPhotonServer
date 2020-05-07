@@ -4,12 +4,10 @@
                    namespace="AscensionServer.Model">
 
   <class name="RoleGongFa" table="role_gongfa">
-    <id name="Id" column="id" type="Int32">
-      <generator  class="native"/>
+    <id name="RoleId" column="role_id" type="Int32">
+      <generator  class="assigned"/>
     </id>
-    <property name="GongFaId" column="gongfa_id" type="String"/>
-    <property name="GongFaInfluenceType" column="gongfa_influence_type" type="Byte"/>
-    <property name="GongFaInfluenceVaule" column="gongfa_influence_value" type="Byte"/>
-    <many-to-one name="Role_Id" column="role_id" not-null="true" class="Role" foreign-key="fk_role_id" />
+    <property name="GongfaIDArray" column="gongfa_id_array" type="String"/>
+
   </class>
 </hibernate-mapping>

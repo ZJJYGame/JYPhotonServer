@@ -11,19 +11,19 @@ using System.Collections.Generic;
 namespace AscensionServer
 {
     //管理跟客户端的链接的
-    public class MyClientPeer : Photon.SocketServer.ClientPeer
+    public class JYClientPeer : Photon.SocketServer.ClientPeer
     {
         public float x, y, z;
         public string username;
         public string uuid;
-        public MyClientPeer(InitRequest initRequest) : base(initRequest)
+        public JYClientPeer(InitRequest initRequest) : base(initRequest)
         {
         }
         //处理客户端断开连接的后续工作
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
             ////告诉其他客户端有客户端断开链接    
-            foreach (MyClientPeer temPeer in AscensionServer.ServerInstance.peerList)
+            foreach (JYClientPeer temPeer in AscensionServer.ServerInstance.peerList)
             {
                 if (!string.IsNullOrEmpty(temPeer.username)&&temPeer.username!=username)
                 {

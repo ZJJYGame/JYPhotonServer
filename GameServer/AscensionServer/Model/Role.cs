@@ -18,6 +18,6 @@ namespace AscensionServer.Model
         public virtual string RoleRoot { get; set; }
         public virtual int RoleLevel{ get; set; }
         public virtual int RoleExp { get; set; }
-        //public virtual IList<User> Users { get; set; }
+        public virtual byte RoleGender { get; set; }
     }
 }

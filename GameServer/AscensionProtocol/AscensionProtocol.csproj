@@ -47,6 +47,7 @@
     <Compile Include="EventCode.cs" />
     <Compile Include="Model\PlayerData.cs" />
     <Compile Include="Model\Role.cs" />
+    <Compile Include="Model\RoleStatus.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Model\Vector3Data.cs" />
     <Compile Include="OperationCode.cs" />

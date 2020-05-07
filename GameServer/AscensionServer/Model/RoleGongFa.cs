@@ -13,10 +13,7 @@ namespace AscensionServer.Model
 {
     public class RoleGongFa
     {
-        public virtual int Id { get; set; }
-        public virtual string GongFaId { get; set; }
-        public virtual byte GongFaInfluenceType { get; set; }
-        public virtual byte GongFaInfluenceVaule { get; set; }
-        public virtual Role Role_Id { get; set; }
+        public virtual int RoleId { get; set; }
+        public virtual string GongfaIDArray { get; set; }
     }
 }

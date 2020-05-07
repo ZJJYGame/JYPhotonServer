@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="AscensionServer"
+                   namespace="AscensionServer.Model">
+  
+  <class name="RoleStatus" table="role_status">
+    <id name="RoleId" column="role_id" type="Int32">
+      <generator  class="assigned"/>
+    </id>
+    <property name="RoleHP" column="role_hp" type="Int32"/>
+    <property name="RoleMP" column="role_mp" type="Int32"/>
+    <property name="RoleJingXue" column="role_jingxue" type="Int32"/>
+    <property name="RoleAttackDamage" column="role_attack_damage" type="Int32"/>
+    <property name="RoleResistanceDamage" column="role_resistance_damage" type="Int32"/>
+    <property name="RoleAttackPower" column="role_attack_power" type="Int32"/>
+    <property name="RoleSpeedAttack" column="role_speed_attack" type="Int32"/>
+    <property name="RoleShenHunDamage" column="role_shenhun_damage" type="Int32"/>
+    <property name="RoleShenHunResistance" column="role_shenhun_resistance" type="Int32"/>
+    <property name="RoleCrit" column="role_crit" type="Int32"/>
+    <property name="RoleCritResistance" column="role_crit_resistance" type="Int32"/>
+  </class>
+</hibernate-mapping>

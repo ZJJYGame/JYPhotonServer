@@ -34,7 +34,7 @@ namespace AscensionServer
         public Dictionary<OperationCode, BaseHandler> HandlerDict { get { return handlerDict; } }
 
 
-        public List<MyClientPeer> peerList = new List<MyClientPeer>();  //通过这个集合可以访问到所有的客户
+        public List<JYClientPeer> peerList = new List<JYClientPeer>();  //通过这个集合可以访问到所有的客户
 
         ///当一个客户端请求连接的时候，服务器就会调用这个方法,我们使用peerbase，表示和一个客户端的连接，然后photon就会把链接管理起来
         
@@ -42,7 +42,7 @@ namespace AscensionServer
         {
             log.Info("一个客户端链接进来了！");
 
-            var peer = new MyClientPeer(initRequest);
+            var peer = new JYClientPeer(initRequest);
             peerList.Add(peer);
             return peer;
             //return new MyClientPeer(initRequest);

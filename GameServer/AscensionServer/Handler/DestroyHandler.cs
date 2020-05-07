@@ -14,7 +14,7 @@ namespace AscensionServer
             opCode = OperationCode.Destroy;
         }
 
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, MyClientPeer peer)
+        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, JYClientPeer peer)
         {
             //根据发送过来的请求获得用户名
             string username = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.Account) as string;
@@ -41,7 +41,7 @@ namespace AscensionServer
             #endregion
 
             //告诉其他客户端有用户下线
-            foreach (MyClientPeer temPeer in AscensionServer.ServerInstance.peerList)
+            foreach (JYClientPeer temPeer in AscensionServer.ServerInstance.peerList)
             {
                 if (string.IsNullOrEmpty(temPeer.username) == false && temPeer != peer)
                 {

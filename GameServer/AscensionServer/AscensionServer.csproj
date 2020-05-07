@@ -102,13 +102,14 @@
     <Compile Include="Handler\Basehandler.cs" />
     <Compile Include="Handler\CreateHandler.cs" />
     <Compile Include="Handler\DestroyHandler.cs" />
-    <Compile Include="Handler\MyClientPeer.cs" />
     <Compile Include="Handler\DefaultHandler.cs" />
     <Compile Include="Handler\LoginHandler.cs" />
     <Compile Include="Handler\RegisterHandler.cs" />
     <Compile Include="Handler\SelectRoleHandler.cs" />
     <Compile Include="Handler\SyncPlayerHandler.cs" />
     <Compile Include="Handler\SyncPositionHandler.cs" />
+    <Compile Include="Handler\SyncRoleStatusHandler.cs" />
+    <Compile Include="JYClientPeer.cs" />
     <Compile Include="ManagerData\UserRoleManager.cs" />
     <Compile Include="Manager\IRoleManager.cs" />
     <Compile Include="Manager\IUserManager.cs" />
@@ -141,6 +142,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Mappings\Role.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mappings\RoleStatus.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="Mappings\RoleLevel.hbm.xml" />

@@ -14,7 +14,7 @@ namespace AscensionServer.Handler
         {
             opCode = AscensionProtocol.OperationCode.CreateRole;
         }
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, MyClientPeer peer)
+        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, JYClientPeer peer)
         {
             string rolename = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.UserCode.Rolename) as string;
             string linggenlist = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.LingGen.LingGenList) as string;
@@ -23,6 +23,10 @@ namespace AscensionServer.Handler
             OperationResponse response = new Photon.SocketServer.OperationResponse(operationRequest.OperationCode);
             string str_uuid = peer.uuid;
             string strArray = Singleton<UserRoleManager>.Instance.GetArray(str_uuid);
+
+            string roleStatusJson = Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.User) as string;
+
+            AscensionServer.log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>this is json" + roleStatusJson);
             //UserRole userRole= Singleton< UserRoleManager>.Instance.CriteriaGet<UserRole>("UUID",str_uuid);
             //string strArray = userRole==null?   "": userRole.Role_Id_Array;
             string str = "";
@@ -31,6 +35,7 @@ namespace AscensionServer.Handler
             {
                 //添加输入的用户进数据库
                 role = new Role() { RoleName = rolename, RoleRoot = linggenlist, RoleLevel = 122, RoleExp = 122 };
+                RoleStatus rolestatus = new RoleStatus() { };
                 if (!string.IsNullOrEmpty(strArray))
                 {
                     str = strArray + "," + Singleton<RoleManager>.Instance.AddRole(role).RoleId.ToString();

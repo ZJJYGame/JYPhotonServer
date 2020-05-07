@@ -11,6 +11,7 @@
     <property name="RoleRoot" column="role_root" type="String"/>
     <property name="RoleExp" column="role_exp" type="Int32"/>
     <property name="RoleLevel" column="role_level" type="Int32"/>
+    <property name="RoleGender" column="role_gender" type="Byte"/>
    
   </class>
 </hibernate-mapping>

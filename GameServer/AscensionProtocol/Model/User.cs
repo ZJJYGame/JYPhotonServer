@@ -15,8 +15,7 @@ namespace AscensionProtocol.Model.UserClient
     {
         public virtual string Account { get; set; }
         public virtual string Password { get; set; }
-        public virtual string UUid { get; set; }
-        //public virtual DateTime Registerdate { get; set; }
+        public virtual string UUID { get; set; }
         
     }
 

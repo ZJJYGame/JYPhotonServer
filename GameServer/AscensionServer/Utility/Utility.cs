@@ -13,11 +13,10 @@ namespace AscensionServer
 {
     public   static partial class Utility
     {
-        public static Value GetValue<Key, Value>(Dictionary<Key, Value> dicr, Key key)
+        public static Value GetValue<Key, Value>(Dictionary<Key, Value> dict, Key key)
         {
             Value value;
-
-            bool isSuccess = dicr.TryGetValue(key, out value);
+            bool isSuccess = dict.TryGetValue(key, out value);
             if (isSuccess)
             {
                 return value;
@@ -27,15 +26,23 @@ namespace AscensionServer
                 return default(Value);
             }
         }
-
+        [Obsolete("即将弃用，请移步ToJson()")]
         public static string Serialize(object obj)
         {
             return JsonConvert.SerializeObject(obj);
         }
-
+        public static string ToJson(object obj)
+        {
+            return JsonConvert.SerializeObject(obj);
+        }
+        [Obsolete("即将弃用，请移步ToObject<()")]
         public static T DeSerialize<T>(string jsonStr)
         {
             return JsonConvert.DeserializeObject<T>(jsonStr);
+        }
+        public static T ToObject<T>(string json)
+        {
+            return JsonConvert.DeserializeObject<T>(json);
         }
     }
 }

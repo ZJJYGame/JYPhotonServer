@@ -1,5 +1,9 @@
 ﻿namespace AscensionProtocol
 {
+    public enum ObjectParameterCode
+    {
+        User=99
+    }
     public class ParameterCode //区分传送数据的时候，参数的类型
     {
         public enum UserCode : byte

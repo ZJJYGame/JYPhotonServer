@@ -13,7 +13,7 @@ namespace AscensionServer.Model
         public virtual string UUID { get; set; }
         public virtual string Account { get; set; }
         public virtual string Password { get; set; }
-        public virtual ISet<UserRole> UserroleList { get; set; }
+        //public virtual ISet<UserRole> UserroleList { get; set; }
         //public virtual IList<Role> Roles { get; set; }
     }
 

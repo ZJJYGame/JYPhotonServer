@@ -1,10 +1,9 @@
-﻿/*
-*Author : xianrenZhang
-*Since :	2020-04-28
-*Description :  角色属性 
-*/
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-namespace AscensionServer.Model
+namespace AscensionProtocol.Model
 {
     public class RoleStatus
     {
@@ -26,11 +25,11 @@ namespace AscensionServer.Model
             RoleStatus other = obj as RoleStatus;
             if (other == null) return false;
             if (this.RoleId == other.RoleId && this.RoleHP == other.RoleHP && this.RoleMP == other.RoleMP
-                &&this.RoleJingXue==other.RoleJingXue&&this.RoleAttackDamage==other.RoleAttackDamage&&
-                this.RoleResistanceDamage==other.RoleResistanceDamage&&this.RoleAttackPower==other.RoleAttackPower&&
-                this.RoleResistancePower==other.RoleResistancePower&&this.RoleSpeedAttack==other.RoleSpeedAttack&&
-                this.RoleShenHunDamage==other.RoleShenHunDamage&&this.RoleShenHunResistance==other.RoleShenHunResistance&&
-                this.RoleCrit==other.RoleCrit&&this.RoleCritResistance==other.RoleCritResistance)
+                && this.RoleJingXue == other.RoleJingXue && this.RoleAttackDamage == other.RoleAttackDamage &&
+                this.RoleResistanceDamage == other.RoleResistanceDamage && this.RoleAttackPower == other.RoleAttackPower &&
+                this.RoleResistancePower == other.RoleResistancePower && this.RoleSpeedAttack == other.RoleSpeedAttack &&
+                this.RoleShenHunDamage == other.RoleShenHunDamage && this.RoleShenHunResistance == other.RoleShenHunResistance &&
+                this.RoleCrit == other.RoleCrit && this.RoleCritResistance == other.RoleCritResistance)
                 return true;
             else return false;
         }
