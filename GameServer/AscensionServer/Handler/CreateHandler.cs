@@ -34,20 +34,13 @@ namespace AscensionServer.Handler
                 if (!string.IsNullOrEmpty(strArray))
                 {
                     str = strArray + "," + Singleton<RoleManager>.Instance.AddRole(role).RoleId.ToString();
-                    //Singleton<NHManager>.Instance.Add(role);
-                    //str = Utility.Text.Format(strArray, ",", Singleton<RoleManager>.Instance.Get<Role>(role.RoleId).RoleId);
-                    Singleton<UserRoleManager>.Instance.UpdateStr(new UserRole() { Role_Id_Array = str, UUID = str_uuid });
-                    Singleton<NHManager>.Instance.Update(new UserRole() { Role_Id_Array = str, UUID = str_uuid });
+                    //Singleton<UserRoleManager>.Instance.UpdateStr(new UserRole() { Role_Id_Array = str,UUID = str_uuid });
                 }
                 else
                 {
-                    //TODO 创建角色，用户角色表存储数据
-                    //Singleton<NHManager>.Instance.Add(role);
-                    //str = Utility.Text.Format(strArray, ",", Singleton<RoleManager>.Instance.Get<Role>(role.RoleId).RoleId);
-                    Singleton<UserRoleManager>.Instance.Add(new UserRole() { Role_Id_Array = str });
-
-                    //Singleton<UserRoleManager>.Instance.Add(new UserRole() {UUID="", Role_Id_Array = str });
+                    str = strArray+ Singleton<RoleManager>.Instance.AddRole(role).RoleId.ToString();
                 }
+                Singleton<UserRoleManager>.Instance.UpdateStr(new UserRole() { Role_Id_Array = str, UUID = str_uuid });
                 response.ReturnCode = (short)ReturnCode.Success;
             }
             else
