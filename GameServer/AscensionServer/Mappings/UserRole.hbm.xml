@@ -8,5 +8,7 @@
       <generator class="native" />
     </id>
     <property name="Role_Id_Array" column="role_id_array" type="String" />
+    <many-to-one name ="User"  column ="uuid" not-null ="true"
+                 class ="User" />
   </class>
 </hibernate-mapping>
