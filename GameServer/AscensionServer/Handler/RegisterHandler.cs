@@ -29,7 +29,6 @@ namespace AscensionServer
                 //添加输入的用户和密码进数据库
                 user = new User() { Account = username, Password = password };
                 User user2 =  Singleton<UserManager>.Instance.Add(user);
-                AscensionServer.log.Info("user2   >>>>>>>>>>" + user2.UUID);
                 UserRole userRole =  Singleton<UserRoleManager>.Instance.GetByUUID(user2.UUID);
                 if (userRole == null)
                 {
