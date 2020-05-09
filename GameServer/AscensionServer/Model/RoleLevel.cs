@@ -3,9 +3,10 @@
 *Since :	2020-04-28
 *Description :  角色等级表
 */
-
+using System;
 namespace AscensionServer.Model
 {
+    [Serializable]
     public  class RoleLevel
     {
         public virtual int Id { get; set; }

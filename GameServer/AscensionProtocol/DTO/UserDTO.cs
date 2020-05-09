@@ -9,9 +9,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AscensionProtocol.Model.UserClient
+namespace AscensionProtocol.DTO
 {
-    public class User
+    [Serializable]
+    public class UserDTO
     {
         public virtual string Account { get; set; }
         public virtual string Password { get; set; }

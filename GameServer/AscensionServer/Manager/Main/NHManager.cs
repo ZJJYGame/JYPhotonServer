@@ -23,12 +23,14 @@ namespace AscensionServer
         /// </summary>
         public virtual void OnTermination() { }
         /// <summary>
+        ///         /// <summary>
         /// 可覆写非空虚函数;
         /// 添加数据
         /// </summary>
         /// <typeparam name="T">数据类型</typeparam>
         /// <param name="data">具体数据</param>
-        public virtual void Add<T>(T data) where T : class, new() 
+        /// <returns>返回一个完整带有主键ID的对象</returns>
+        public virtual T Add<T>(T data) where T : class, new() 
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
@@ -36,6 +38,7 @@ namespace AscensionServer
                 {
                     session.Save(data);
                     transaction.Commit();
+                    return data;
                 }
             }
         }

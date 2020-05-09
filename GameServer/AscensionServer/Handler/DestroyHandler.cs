@@ -43,11 +43,11 @@ namespace AscensionServer
             //告诉其他客户端有用户下线
             foreach (JYClientPeer temPeer in AscensionServer.ServerInstance.peerList)
             {
-                if (string.IsNullOrEmpty(temPeer.username) == false && temPeer != peer)
+                if (string.IsNullOrEmpty(temPeer.account) == false && temPeer != peer)
                 {
                     EventData ed = new EventData((byte)EventCode.DeletePlayer);
                     Dictionary<byte, object> data2 = new Dictionary<byte, object>();
-                    data2.Add((byte)ParameterCode.UserCode.Username, peer.username);   //把下线的用户名传递给其他客户端
+                    data2.Add((byte)ParameterCode.UserCode.Username, peer.account);   //把下线的用户名传递给其他客户端
                     ed.Parameters = data2;
                     temPeer.SendEvent(ed, sendParameters); //发送事件
                 }

@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-namespace AscensionProtocol.Model
+namespace AscensionProtocol.DTO
 {
+    [Serializable]
     public class RoleStatus
     {
         public virtual int RoleId { get; set; }
+        public virtual int RoleMaxHP { get; set; }
         public virtual int RoleHP { get; set; }
+        public virtual int RoleMaxMP { get; set; }
         public virtual int RoleMP { get; set; }
         public virtual byte RoleJingXue { get; set; }
         public virtual int RoleAttackDamage { get; set; }

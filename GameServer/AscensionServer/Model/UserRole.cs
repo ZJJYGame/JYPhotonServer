@@ -8,6 +8,7 @@ using System.Collections.Generic;
 
 namespace AscensionServer.Model
 {
+    [Serializable]
     public class UserRole
     {
         public virtual string UUID { get; set; }

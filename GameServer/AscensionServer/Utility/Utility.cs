@@ -35,7 +35,7 @@ namespace AscensionServer
         {
             return JsonConvert.SerializeObject(obj);
         }
-        [Obsolete("即将弃用，请移步ToObject<()")]
+        [Obsolete("即将弃用，请移步ToObject()")]
         public static T DeSerialize<T>(string jsonStr)
         {
             return JsonConvert.DeserializeObject<T>(jsonStr);

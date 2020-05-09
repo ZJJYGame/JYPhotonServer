@@ -7,12 +7,15 @@
     <id name="RoleId" column="role_id" type="Int32">
       <generator  class="assigned"/>
     </id>
+    <property name="RoleMaxHP" column="role_max_hp" type="Int32"/>
     <property name="RoleHP" column="role_hp" type="Int32"/>
+    <property name="RoleMaxMP" column="role_max_mp" type="Int32"/>
     <property name="RoleMP" column="role_mp" type="Int32"/>
     <property name="RoleJingXue" column="role_jingxue" type="Int32"/>
     <property name="RoleAttackDamage" column="role_attack_damage" type="Int32"/>
     <property name="RoleResistanceDamage" column="role_resistance_damage" type="Int32"/>
     <property name="RoleAttackPower" column="role_attack_power" type="Int32"/>
+    <property name="RoleResistancePower" column="role_resistance_power" type="Int32"/>
     <property name="RoleSpeedAttack" column="role_speed_attack" type="Int32"/>
     <property name="RoleShenHunDamage" column="role_shenhun_damage" type="Int32"/>
     <property name="RoleShenHunResistance" column="role_shenhun_resistance" type="Int32"/>

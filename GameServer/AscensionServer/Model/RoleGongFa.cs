@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace AscensionServer.Model
 {
+    [Serializable]
     public class RoleGongFa
     {
         public virtual int RoleId { get; set; }

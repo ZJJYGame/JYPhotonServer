@@ -110,6 +110,7 @@
     <Compile Include="Handler\SyncPositionHandler.cs" />
     <Compile Include="Handler\SyncRoleStatusHandler.cs" />
     <Compile Include="JYClientPeer.cs" />
+    <Compile Include="ManagerData\RoleStatusManager.cs" />
     <Compile Include="ManagerData\UserRoleManager.cs" />
     <Compile Include="Manager\IRoleManager.cs" />
     <Compile Include="Manager\IUserManager.cs" />

@@ -1,4 +1,4 @@
-﻿using AscensionProtocol.Model;
+﻿using AscensionProtocol.DTO;
 using NHibernate;
 using NHibernate.Criterion;
 using System;

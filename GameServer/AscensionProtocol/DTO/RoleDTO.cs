@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AscensionProtocol.Model.UserClient
+namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class Role
+    public class RoleDTO
     {
         public virtual int RoleId { get; set; }
         public virtual string RoleName { get; set; }

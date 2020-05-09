@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using AscensionProtocol;
-using AscensionProtocol.Model;
+using AscensionProtocol.DTO;
+using AscensionServer.Model;
 using Photon.SocketServer;
-
 namespace AscensionServer.Threads
 {
     public class SyncPositionThread
@@ -29,14 +29,14 @@ namespace AscensionServer.Threads
         }
 
         public void SendPosition() {
-            List<PlayerData> playerDatraList = new List<PlayerData>();
+            List<PlayerDataDTO> playerDatraList = new List<PlayerDataDTO>();
             foreach (var peer in AscensionServer.ServerInstance.peerList)
             {
-                if (string.IsNullOrEmpty(peer.username) == false)
+                if (string.IsNullOrEmpty(peer.account) == false)
                 {
-                    PlayerData playerData = new PlayerData();
-                    playerData.Username = peer.username;
-                    playerData.pos = new Vector3Data() { x = peer.x, y = peer.y, z = peer.z };
+                    PlayerDataDTO playerData = new PlayerDataDTO();
+                    playerData.Username = peer.account;
+                    playerData.pos = new Vector3DataDTO() { x = peer.x, y = peer.y, z = peer.z };
                     playerDatraList.Add(playerData);
                 }
             }
@@ -47,7 +47,7 @@ namespace AscensionServer.Threads
 
             foreach (var peer in AscensionServer.ServerInstance.peerList)
             {
-                if (string.IsNullOrEmpty(peer.username) == false)
+                if (string.IsNullOrEmpty(peer.account) == false)
                 {
                     EventData ed = new EventData((byte)EventCode.SyncPosition);
                     ed.Parameters = data;

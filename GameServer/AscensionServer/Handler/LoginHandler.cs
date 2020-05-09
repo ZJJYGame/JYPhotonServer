@@ -4,7 +4,9 @@
 *Description  : 登录
 */
 using AscensionProtocol;
+using AscensionProtocol.DTO;
 using Photon.SocketServer;
+using AscensionServer.Model;
 
 namespace AscensionServer
 {
@@ -20,17 +22,20 @@ namespace AscensionServer
         {
             //根据发送过来的请求获得用户名和密码
             string username = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.Account) as string;
-
             string password = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.Password) as string;
 
+            string userJson = Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.User) as string;
+            var userObj = Utility.ToObject<User>(userJson);
+            bool isSuccess = Singleton<UserManager>.Instance.VerifyUser(userObj.Account,userObj.Password);
+
             //UserManager manager = new UserManager();
-            bool isSuccess = Singleton<UserManager>.Instance.VerifyUser(username, password);
+            //bool isSuccess = Singleton<UserManager>.Instance.VerifyUser(username, password);
             OperationResponse response = new Photon.SocketServer.OperationResponse(operationRequest.OperationCode);
             //如果验证成功，把成功的结果利用response.ReturnCode返回成功给客户端
             if (isSuccess)
             {
                 response.ReturnCode = (short)ReturnCode.Success;
-                peer.username = username;  //保持当前用户的用户名让ClientPeer管理起来
+                peer.account = username;  //保持当前用户的用户名让ClientPeer管理起来
                 peer.uuid = Singleton<UserManager>.Instance.GetUUid(username);
             }
             else//否则返回失败给客户端

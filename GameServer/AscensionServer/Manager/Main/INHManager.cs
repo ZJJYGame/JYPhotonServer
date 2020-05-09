@@ -8,7 +8,7 @@ namespace AscensionServer
 {
    public interface INHManager
     {
-        void Add<T>(T data) where T : class, new();
+        T Add<T>(T data) where T : class, new();
         void Update<T>(T data) where T:new();
         void Remove<T>(T data) where T:new();
         T Get<T>(object key) where T : new();

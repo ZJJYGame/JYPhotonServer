@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AscensionProtocol.Model
+namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class Vector3Data
+    public class Vector3DataDTO
     {
         public float x { get; set; }
         public float y { get; set; }

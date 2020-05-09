@@ -5,16 +5,16 @@
 */
 
 using System.Collections.Generic;
-
+using System;
 namespace AscensionServer.Model
 {
+    [Serializable]
     public class User
     {
         public virtual string UUID { get; set; }
         public virtual string Account { get; set; }
         public virtual string Password { get; set; }
-        //public virtual ISet<UserRole> UserroleList { get; set; }
-        //public virtual IList<Role> Roles { get; set; }
+
     }
 
 }

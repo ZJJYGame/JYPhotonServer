@@ -20,6 +20,7 @@ namespace AscensionServer.Handler
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, JYClientPeer peer)
         {
+
         }
     }
 }
