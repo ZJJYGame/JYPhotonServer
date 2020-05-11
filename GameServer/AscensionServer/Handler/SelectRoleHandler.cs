@@ -17,7 +17,7 @@ namespace AscensionServer.Handler
         {
             opCode = AscensionProtocol.OperationCode.SelectRole;
         }
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, JYClientPeer peer)
+        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             string username = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.UserCode.Account) as string;
 

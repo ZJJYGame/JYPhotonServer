@@ -9,6 +9,7 @@ namespace AscensionProtocol
     public enum OperationCode:byte//区分请求和响应
     {
         Login,
+        Logoff,
         Register,
         SelectRole,
         CreateRole,

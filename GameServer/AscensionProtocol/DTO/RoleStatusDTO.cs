@@ -5,7 +5,7 @@ using System.Text;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class RoleStatus
+    public class RoleStatusDTO
     {
         public virtual int RoleId { get; set; }
         public virtual int RoleMaxHP { get; set; }
@@ -24,7 +24,7 @@ namespace AscensionProtocol.DTO
         public virtual byte RoleCritResistance { get; set; }
         public override bool Equals(object obj)
         {
-            RoleStatus other = obj as RoleStatus;
+            RoleStatusDTO other = obj as RoleStatusDTO;
             if (other == null) return false;
             if (this.RoleId == other.RoleId && this.RoleHP == other.RoleHP && this.RoleMP == other.RoleMP
                 && this.RoleJingXue == other.RoleJingXue && this.RoleAttackDamage == other.RoleAttackDamage &&

@@ -18,7 +18,7 @@ namespace AscensionServer.Handler
         {
             opCode = AscensionProtocol.OperationCode.SyncRoleStatus;
         }
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, JYClientPeer peer)
+        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
 
         }

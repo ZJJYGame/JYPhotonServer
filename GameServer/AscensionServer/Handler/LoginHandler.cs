@@ -7,44 +7,44 @@ using AscensionProtocol;
 using AscensionProtocol.DTO;
 using Photon.SocketServer;
 using AscensionServer.Model;
-
+using System.Collections.Generic;
 namespace AscensionServer
 {
-    //处理登陆请求的类
+    /// <summary>
+    /// 处理登陆请求的类
+    /// </summary>
     class LoginHandler : BaseHandler
     {
         public LoginHandler()
         {
-            opCode = OperationCode.Login;//赋值OperationCode为Login,表示处理的是那个请求
+            opCode = OperationCode.Login;
         }
-        //登陆请求的处理的代码
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, JYClientPeer peer)
+        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             //根据发送过来的请求获得用户名和密码
-            string username = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.Account) as string;
-            string password = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.Password) as string;
-
             string userJson = Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.User) as string;
             var userObj = Utility.ToObject<User>(userJson);
-            bool isSuccess = Singleton<UserManager>.Instance.VerifyUser(userObj.Account,userObj.Password);
-
-            //UserManager manager = new UserManager();
-            //bool isSuccess = Singleton<UserManager>.Instance.VerifyUser(username, password);
-            OperationResponse response = new Photon.SocketServer.OperationResponse(operationRequest.OperationCode);
+            AscensionServer.log.Info("userJson>>>>>>>>>>>>>>>>>>>:" + userJson);
+            bool verified = Singleton<NHManager>.Instance.Verify<User>(new NHCriteria() { PropertyName = "Account", Value = userObj.Account },
+               new NHCriteria() { PropertyName = "Password", Value = userObj.Password });
             //如果验证成功，把成功的结果利用response.ReturnCode返回成功给客户端
-            if (isSuccess)
+            OperationResponse response = new OperationResponse(operationRequest.OperationCode);
+            if (verified)
             {
                 response.ReturnCode = (short)ReturnCode.Success;
-                peer.account = username;  //保持当前用户的用户名让ClientPeer管理起来
-                peer.uuid = Singleton<UserManager>.Instance.GetUUid(username);
+                Dictionary<byte, object> data = new Dictionary<byte, object>();
+                data.Add((byte)ObjectParameterCode.PeerID, peer.PeerID);
+                response.Parameters = data;
+                peer.Account = userObj.Account;  //保持当前用户的用户名让ClientPeer管理起来
+                peer.UUID = Singleton<UserManager>.Instance.CriteriaGet<User>("Account",userObj.Account).UUID;
+                AscensionServer.log.Info("Login Success:" + userObj.Account);
             }
-            else//否则返回失败给客户端
+            else
             {
+                AscensionServer.log.Info("Login fail:" + userObj.Account);
                 response.ReturnCode = (short)ReturnCode.Fail;
             }
-            //把上面的回应给客户端
             peer.SendOperationResponse(response, sendParameters);
-
         }
     }
 }

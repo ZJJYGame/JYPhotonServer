@@ -10,7 +10,7 @@ using AscensionServer.Model;
 
 namespace AscensionServer
 {
-    public class UserManager :NHManager
+    public class UserManager : NHManager
     {
         public User Add(Model.User user)
         {
@@ -115,10 +115,9 @@ namespace AscensionServer
                 if (user == null) return false;
                 return true;
             }
-            
         }
 
-        public string GetUUid(string account )
+        public string GetUUid(string account)
         {
 
             using (ISession session = NHibernateHelper.OpenSession())
@@ -155,5 +154,6 @@ namespace AscensionServer
             ISession session = NHibernateHelper.OpenSession();
             return session.QueryOver<User>().List();
         }
+
     }
 }

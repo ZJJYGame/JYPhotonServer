@@ -12,14 +12,14 @@ namespace AscensionServer
     /// 泛型单例基类
     /// </summary>
     /// <typeparam name="E">泛型约束为当前类的子类</typeparam>
-    public  class NHManager : INHManager,IBehaviour
+    public class NHManager : INHManager, IBehaviour
     {
         /// <summary>
-        //空的虚方法，在当前单例对象为空初始化时执行一次
+        ///空的虚方法，在当前单例对象为空初始化时执行一次
         /// </summary>
         public virtual void OnInitialization() { }
         /// <summary>
-        //空的虚方法，在当前单例对象被销毁时执行一次
+        /// 空的虚方法，在当前单例对象被销毁时执行一次
         /// </summary>
         public virtual void OnTermination() { }
         /// <summary>
@@ -30,7 +30,7 @@ namespace AscensionServer
         /// <typeparam name="T">数据类型</typeparam>
         /// <param name="data">具体数据</param>
         /// <returns>返回一个完整带有主键ID的对象</returns>
-        public virtual T Add<T>(T data) where T : class, new() 
+        public virtual T Add<T>(T data) where T : class, new()
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
@@ -57,7 +57,7 @@ namespace AscensionServer
             {
                 using (ITransaction transaction = session.BeginTransaction())
                 {
-                     T data = session.Get<T>(key);
+                    T data = session.Get<T>(key);
                     transaction.Commit();
                     return data;
                 }
@@ -72,7 +72,7 @@ namespace AscensionServer
         /// <typeparam name="K">查找类型</typeparam>
         /// <param name="key">查找索引字段</param>
         /// <param name="key"></param>
-        public virtual T CriteriaGet<T>(string columnName, object key) 
+        public virtual T CriteriaGet<T>(string columnName, object key)
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
@@ -80,6 +80,26 @@ namespace AscensionServer
                     Add(Restrictions.Eq(columnName, key))
                     .UniqueResult<T>();
                 return data;
+            }
+        }
+        /// <summary>
+        /// 多条件验证，SQL语句为Equal
+        /// </summary>
+        /// <typeparam name="T">需要验证的类型</typeparam>
+        /// <param name="columns">column类对象</param>
+        /// <returns>验证是否成功</returns>
+        public virtual bool Verify<T>(params NHCriteria[] columns)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                ICriteria criteria = session.CreateCriteria(typeof(T));
+                for (int i = 0; i < columns.Length; i++)
+                {
+                    criteria.Add(Restrictions.Eq(columns[i].PropertyName, columns[i].Value));
+                }
+                T data = criteria.UniqueResult<T>();
+                if (data == null) return false;
+                return true;
             }
         }
         /// <summary>
@@ -115,8 +135,14 @@ namespace AscensionServer
                     transaction.Commit();
                 }
             }
-
         }
-
+    }
+    /// <summary>
+    /// SQL Colum对应类，一个column对应一个传入数值
+    /// </summary>
+    public struct NHCriteria
+    {
+        public string PropertyName { get; set; }
+        public object Value { get; set; }
     }
 }

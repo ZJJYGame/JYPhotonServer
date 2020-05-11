@@ -15,7 +15,7 @@ namespace AscensionServer
             opCode = OperationCode.SyncPositon;
         }
         //获取客户端位置请求的处理的代码
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, JYClientPeer peer)
+        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             //接收位置并保持起来
             float x = (float)Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.x);

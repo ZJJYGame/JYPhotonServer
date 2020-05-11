@@ -97,6 +97,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AscensionPeer.cs" />
     <Compile Include="AscensionServer.cs" />
     <Compile Include="Behaviour\IBehaviour.cs" />
     <Compile Include="Handler\Basehandler.cs" />
@@ -104,12 +105,12 @@
     <Compile Include="Handler\DestroyHandler.cs" />
     <Compile Include="Handler\DefaultHandler.cs" />
     <Compile Include="Handler\LoginHandler.cs" />
+    <Compile Include="Handler\LogoffHandler.cs" />
     <Compile Include="Handler\RegisterHandler.cs" />
     <Compile Include="Handler\SelectRoleHandler.cs" />
     <Compile Include="Handler\SyncPlayerHandler.cs" />
     <Compile Include="Handler\SyncPositionHandler.cs" />
     <Compile Include="Handler\SyncRoleStatusHandler.cs" />
-    <Compile Include="JYClientPeer.cs" />
     <Compile Include="ManagerData\RoleStatusManager.cs" />
     <Compile Include="ManagerData\UserRoleManager.cs" />
     <Compile Include="Manager\IRoleManager.cs" />

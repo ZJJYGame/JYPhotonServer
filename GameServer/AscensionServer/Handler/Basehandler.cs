@@ -14,7 +14,7 @@ namespace AscensionServer
 
         public EventCode evCode;
         //处理请求的方法
-        public abstract void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters,JYClientPeer peer);
+        public abstract void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters,AscensionPeer peer);
 
     }
 }

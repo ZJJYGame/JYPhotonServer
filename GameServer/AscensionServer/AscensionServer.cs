@@ -23,33 +23,42 @@ namespace AscensionServer
         public static readonly ILogger log = LogManager.GetCurrentClassLogger();
 
         private SyncPositionThread syncPositionThread = new SyncPositionThread();
-
-        public static AscensionServer ServerInstance
+       new public static AscensionServer Instance
         {
             get;
             private set;
         }
-
         Dictionary<OperationCode, BaseHandler> handlerDict = new Dictionary<OperationCode, BaseHandler>();
         public Dictionary<OperationCode, BaseHandler> HandlerDict { get { return handlerDict; } }
 
+        SortedList<int, AscensionPeer> jyClientPeerDict = new SortedList<int, AscensionPeer>();
+        public  SortedList<int, AscensionPeer> JYClientPeerDict { get { return jyClientPeerDict; } set { jyClientPeerDict = value; } }
 
-        public List<JYClientPeer> peerList = new List<JYClientPeer>();  //通过这个集合可以访问到所有的客户
+        List<AscensionPeer> peerList = new List<AscensionPeer>();  //通过这个集合可以访问到所有的客户
+        public List<AscensionPeer> PeerList { get { return peerList; } }
+
+        public int ClientCount { get { return PeerList.Count; } }
+        int clientCount = 0;
 
         ///当一个客户端请求连接的时候，服务器就会调用这个方法,我们使用peerbase，表示和一个客户端的连接，然后photon就会把链接管理起来
-        
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
-            log.Info("一个客户端链接进来了！");
-
-            var peer = new JYClientPeer(initRequest);
-            peerList.Add(peer);
+            log.Info("***********************  Client connected !!! ***********************");
+            var peer = new AscensionPeer(initRequest);
+            log.Info("~~~~~~~~~~~~~~~~~~~~~~~~~~~  PeerIP  "+peer.RemoteIP+"  Connected  ~~~~~~~~~~~~~~~~~~~~~~~~");
+            PeerList.Add(peer);
+            UpdatePeer(ref peer);
             return peer;
-            //return new MyClientPeer(initRequest);
+        }
+        void UpdatePeer(ref AscensionPeer peer)
+        {
+            peer.PeerID = clientCount;
+            jyClientPeerDict.Add(peer.PeerID, peer);
+            clientCount++;
         }
         protected override void Setup()
         {
-            ServerInstance = this;
+            Instance = this;
             log4net.GlobalContext.Properties["Photon:ApplicationLogPath"] = Path.Combine(this.ApplicationRootPath, "log");//配置log的输出位置
             FileInfo configFileInfo = new FileInfo(Path.Combine(this.BinaryPath, "log4net.config"));
             if (configFileInfo.Exists)
@@ -61,11 +70,10 @@ namespace AscensionServer
             InitHandler();
             syncPositionThread.Run();
         }
-
         protected override void TearDown()
         {
             syncPositionThread.Stop();
-            log.Info("关闭了服务器");
+            log.Info("***********************  Server Shotdown !!! ***********************");
         }
         void InitHandler()
         {
@@ -83,7 +91,8 @@ namespace AscensionServer
             handlerDict.Add(createHandle.opCode, createHandle);
             SelectRoleHandler selectRoleHandler = new SelectRoleHandler();
             handlerDict.Add(selectRoleHandler.opCode, selectRoleHandler);
-
+            LogoffHandler logoffHandler = new LogoffHandler();
+            handlerDict.Add(logoffHandler.opCode, logoffHandler);
         }
     }
 }

@@ -30,12 +30,12 @@ namespace AscensionServer.Threads
 
         public void SendPosition() {
             List<PlayerDataDTO> playerDatraList = new List<PlayerDataDTO>();
-            foreach (var peer in AscensionServer.ServerInstance.peerList)
+            foreach (var peer in AscensionServer.Instance.PeerList)
             {
-                if (string.IsNullOrEmpty(peer.account) == false)
+                if (string.IsNullOrEmpty(peer.Account) == false)
                 {
                     PlayerDataDTO playerData = new PlayerDataDTO();
-                    playerData.Username = peer.account;
+                    playerData.Username = peer.Account;
                     playerData.pos = new Vector3DataDTO() { x = peer.x, y = peer.y, z = peer.z };
                     playerDatraList.Add(playerData);
                 }
@@ -45,9 +45,9 @@ namespace AscensionServer.Threads
             //data.Add((byte)ParameterCode.UserCode.Playerdatalist, Utility.Serialize(playerDatraList));
             data.Add((byte)ParameterCode.UserCode.Playerdatalist, Utility.ToJson(playerDatraList));
 
-            foreach (var peer in AscensionServer.ServerInstance.peerList)
+            foreach (var peer in AscensionServer.Instance.PeerList)
             {
-                if (string.IsNullOrEmpty(peer.account) == false)
+                if (string.IsNullOrEmpty(peer.Account) == false)
                 {
                     EventData ed = new EventData((byte)EventCode.SyncPosition);
                     ed.Parameters = data;

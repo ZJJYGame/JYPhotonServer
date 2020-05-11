@@ -15,7 +15,7 @@ namespace AscensionServer.Handler
         {
             opCode = AscensionProtocol.OperationCode.CreateRole;
         }
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, JYClientPeer peer)
+        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             string rolename = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.UserCode.Rolename) as string;
             string linggenlist = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.LingGen.LingGenList) as string;
@@ -32,7 +32,7 @@ namespace AscensionServer.Handler
 
             Role role = Singleton<RoleManager>.Instance.GetByRolename(rolename);//根据username查询数据
             OperationResponse response = new Photon.SocketServer.OperationResponse(operationRequest.OperationCode);
-            string str_uuid = peer.uuid;
+            string str_uuid = peer.UUID;
             string strArray = Singleton<UserRoleManager>.Instance.GetArray(str_uuid);
 
             string roleStatusJson = Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.RoleStatus) as string;
