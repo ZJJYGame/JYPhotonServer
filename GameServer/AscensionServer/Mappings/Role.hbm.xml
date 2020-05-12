@@ -8,6 +8,7 @@
       <generator  class="native"/>
     </id>
     <property name="RoleName" column="role_name" type="String"/>
+    <property name="RoleFaction" column="role_faction" type="Byte"/>
     <property name="RoleRoot" column="role_root" type="String"/>
     <property name="RoleExp" column="role_exp" type="Int32"/>
     <property name="RoleLevel" column="role_level" type="Int32"/>

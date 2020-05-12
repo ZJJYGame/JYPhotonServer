@@ -24,7 +24,7 @@ namespace AscensionServer
             //根据发送过来的请求获得用户名和密码
             string userJson = Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.User) as string;
             var userObj = Utility.ToObject<User>(userJson);
-            AscensionServer.log.Info("userJson>>>>>>>>>>>>>>>>>>>:" + userJson);
+            AscensionServer.log.Info("userJson>>>>>>>>>>>>>>>>>>>:" + userJson+ "<<<<<<<<<<<<<<<<<<<<");
             bool verified = Singleton<NHManager>.Instance.Verify<User>(new NHCriteria() { PropertyName = "Account", Value = userObj.Account },
                new NHCriteria() { PropertyName = "Password", Value = userObj.Password });
             //如果验证成功，把成功的结果利用response.ReturnCode返回成功给客户端
@@ -36,8 +36,8 @@ namespace AscensionServer
                 data.Add((byte)ObjectParameterCode.PeerID, peer.PeerID);
                 response.Parameters = data;
                 peer.Account = userObj.Account;  //保持当前用户的用户名让ClientPeer管理起来
-                peer.UUID = Singleton<UserManager>.Instance.CriteriaGet<User>("Account",userObj.Account).UUID;
-                AscensionServer.log.Info("Login Success:" + userObj.Account);
+                peer.UUID = Singleton<UserManager>.Instance.CriteriaGet<User>(new NHCriteria() { PropertyName = "Account", Value = userObj.Account }).UUID;
+                AscensionServer.log.Info("~~~~~~~~~~~~~~~~~~~~~~Login Success : " + userObj.Account+"UUID : "+peer.UUID +"~~~~~~~~~~~~~~~~~~~~~~");
             }
             else
             {

@@ -18,28 +18,6 @@ namespace AscensionServer
         {
             //根据发送过来的请求获得用户名
             string username = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.Account) as string;
-            #region    获取用户名
-            //取得所有已经登陆（在线玩家）的用户名
-            // List<string> usernameList = new List<string>();
-
-            //foreach (MyClientPeer tempPeer in AscensionServer.ServerInstance.peerList)
-            //{
-            //    //string.IsNullOrEmpty(tempPeer.username);//如果用户名为空表示没有登陆
-            //    //如果连接过来的客户端已经登陆了有用户名了并且这个客户端不是当前的客户端
-            //    if (string.IsNullOrEmpty(tempPeer.username) == false && tempPeer != peer)
-            //    {
-            //        usernameList.Add(tempPeer.username);
-            //    }
-            //}
-            //string usernameListString = Utility.Serialize(usernameList);
-            ////给客户端响应
-            //Dictionary<byte, object> data = new Dictionary<byte, object>();
-            //data.Add((byte)ParameterCode.UserCode.Usernamelist, usernameListString);
-            //OperationResponse response = new OperationResponse(operationRequest.OperationCode);
-            //response.Parameters = data;
-            //peer.SendOperationResponse(response, sendParameters);
-            #endregion
-
             //告诉其他客户端有用户下线
             foreach (AscensionPeer temPeer in AscensionServer.Instance.PeerList)
             {

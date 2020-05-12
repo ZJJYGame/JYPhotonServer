@@ -34,7 +34,7 @@ namespace AscensionServer
             //给客户端响应
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             //data.Add((byte)ParameterCode.UserCode.Usernamelist, usernameListString);
-            data.Add((byte)ObjectParameterCode.RoleNameList, usernameListString);
+            //data.Add((byte)ObjectParameterCode.RoleNameList, usernameListString);
             OperationResponse response = new OperationResponse(operationRequest.OperationCode);
             response.Parameters = data;
             peer.SendOperationResponse(response, sendParameters);

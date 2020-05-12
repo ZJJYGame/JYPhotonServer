@@ -36,7 +36,6 @@ namespace AscensionServer
                     Singleton<UserRoleManager>.Instance.AddStr(userRole);
                 }
                 responser.ReturnCode = (short)ReturnCode.Success;//返回成功
-
             }
             else//否者这个用户被注册了
             {

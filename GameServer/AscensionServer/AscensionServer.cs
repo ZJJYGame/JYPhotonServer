@@ -16,6 +16,7 @@ using System.IO;
 using log4net.Config;
 using AscensionServer.Handler;
 using AscensionServer.Threads;
+using ExitGames.Concurrency.Fibers;
 namespace AscensionServer
 {
    public  class AscensionServer:ApplicationBase
@@ -31,8 +32,8 @@ namespace AscensionServer
         Dictionary<OperationCode, BaseHandler> handlerDict = new Dictionary<OperationCode, BaseHandler>();
         public Dictionary<OperationCode, BaseHandler> HandlerDict { get { return handlerDict; } }
 
-        SortedList<int, AscensionPeer> jyClientPeerDict = new SortedList<int, AscensionPeer>();
-        public  SortedList<int, AscensionPeer> JYClientPeerDict { get { return jyClientPeerDict; } set { jyClientPeerDict = value; } }
+        SortedList<string, AscensionPeer> jyClientPeerDict = new SortedList<string, AscensionPeer>();
+        public  SortedList<string, AscensionPeer> JYClientPeerDict { get { return jyClientPeerDict; } set { jyClientPeerDict = value; } }
 
         List<AscensionPeer> peerList = new List<AscensionPeer>();  //通过这个集合可以访问到所有的客户
         public List<AscensionPeer> PeerList { get { return peerList; } }
@@ -40,20 +41,25 @@ namespace AscensionServer
         public int ClientCount { get { return PeerList.Count; } }
         int clientCount = 0;
 
-        ///当一个客户端请求连接的时候，服务器就会调用这个方法,我们使用peerbase，表示和一个客户端的连接，然后photon就会把链接管理起来
+        /// <summary>
+        /// 当一个客户端请求连接的时候，服务器就会调用这个方法
+        /// 我们使用peerbase，表示和一个客户端的连接，然后photon就会把链接管理起来
+        /// </summary>
+        /// <param name="initRequest"></param>
+        /// <returns></returns>
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
-            log.Info("***********************  Client connected !!! ***********************");
             var peer = new AscensionPeer(initRequest);
+            log.Info("***********************  Client connected !!! ***********************");
             log.Info("~~~~~~~~~~~~~~~~~~~~~~~~~~~  PeerIP  "+peer.RemoteIP+"  Connected  ~~~~~~~~~~~~~~~~~~~~~~~~");
             PeerList.Add(peer);
-            UpdatePeer(ref peer);
+            //UpdatePeer(ref peer);
             return peer;
         }
         void UpdatePeer(ref AscensionPeer peer)
         {
             peer.PeerID = clientCount;
-            jyClientPeerDict.Add(peer.PeerID, peer);
+            jyClientPeerDict.Add(peer.RemoteIP, peer);
             clientCount++;
         }
         protected override void Setup()

@@ -33,7 +33,7 @@ namespace AscensionServer
             if (verified)
             {
                 response.ReturnCode =(short) ReturnCode.Success;
-                AscensionServer.Instance.JYClientPeerDict[int.Parse(peerID)].Account = null;
+                AscensionServer.Instance.JYClientPeerDict[peer.RemoteIP].Account = null;
             }
             else
             {
