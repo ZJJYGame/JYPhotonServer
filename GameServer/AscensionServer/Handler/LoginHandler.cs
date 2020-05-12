@@ -36,7 +36,7 @@ namespace AscensionServer
                 data.Add((byte)ObjectParameterCode.PeerID, peer.PeerID);
                 response.Parameters = data;
                 peer.Account = userObj.Account;  //保持当前用户的用户名让ClientPeer管理起来
-                peer.UUID = Singleton<UserManager>.Instance.CriteriaGet<User>(new NHCriteria() { PropertyName = "Account", Value = userObj.Account }).UUID;
+                peer.UUID = Singleton<NHManager>.Instance.CriteriaGet<User>(new NHCriteria() { PropertyName = "Account", Value = userObj.Account }).UUID;
                 AscensionServer.log.Info("~~~~~~~~~~~~~~~~~~~~~~Login Success : " + userObj.Account+"UUID : "+peer.UUID +"~~~~~~~~~~~~~~~~~~~~~~");
             }
             else

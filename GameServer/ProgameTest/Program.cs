@@ -20,7 +20,7 @@ namespace ProgameTest
         //public static readonly ILogger log = LogManager.GetCurrentClassLogger();
         static void Main(string[] args)
         {
-            Singleton<UserRoleManager>.Instance.Add(new UserRole() { UUID = "newuuid", Role_Id_Array = "78,76" });
+            Singleton<NHManager>.Instance.Add(new UserRole() { UUID = "newuuid", Role_Id_Array = "78,76" });
             Console.ReadKey();
         }
     }

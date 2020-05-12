@@ -99,6 +99,8 @@ namespace AscensionServer
             handlerDict.Add(selectRoleHandler.opCode, selectRoleHandler);
             LogoffHandler logoffHandler = new LogoffHandler();
             handlerDict.Add(logoffHandler.opCode, logoffHandler);
+            SyncRoleStatusHandler syncRoleStatusHandler = new SyncRoleStatusHandler();
+            handlerDict.Add(syncRoleStatusHandler.opCode, syncRoleStatusHandler);
         }
     }
 }

@@ -15,25 +15,21 @@ namespace AscensionServer
         {
             opCode = AscensionProtocol.OperationCode.Register;
         }
-
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            string username = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.Username) as string;
-            string password = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.Password) as string;
-
-            User user = Singleton<UserManager>.Instance.GetByUsername(username);//根据username查询数据
+            var userJson = Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.User) as string;
+            var userObj = Utility.ToObject<User>(userJson);
+            bool isExist = Singleton<NHManager>.Instance.Verify<User>(new NHCriteria() { PropertyName = "Account", Value = userObj.Account });
             OperationResponse responser = new OperationResponse(operationRequest.OperationCode);
-            //如果没有查询到代表这个用户没被注册过可用
-            if (user == null)
+            if (!isExist)
             {
                 //添加输入的用户和密码进数据库
-                user = new User() { Account = username, Password = password };
-                User user2 =  Singleton<UserManager>.Instance.Add(user);
-                UserRole userRole =  Singleton<UserRoleManager>.Instance.GetByUUID(user2.UUID);
-                if (userRole == null)
+                userObj=  Singleton<NHManager>.Instance.Add(userObj);
+                bool userRoleExist = Singleton<NHManager>.Instance.Verify<UserRole>(new NHCriteria() { PropertyName = "UUID", Value = userObj.UUID });
+                if (!userRoleExist)
                 {
-                    userRole = new UserRole() { UUID = user2.UUID };
-                    Singleton<UserRoleManager>.Instance.AddStr(userRole);
+                    var userRole = new UserRole() { UUID = userObj.UUID };
+                    Singleton<NHManager>.Instance.Add(userRole);
                 }
                 responser.ReturnCode = (short)ReturnCode.Success;//返回成功
             }

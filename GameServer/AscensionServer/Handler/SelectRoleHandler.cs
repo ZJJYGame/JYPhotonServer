@@ -26,13 +26,12 @@ namespace AscensionServer.Handler
             if (string.IsNullOrEmpty(userRole.Role_Id_Array))
             {
                 Dictionary<byte, object> data = new Dictionary<byte, object>();
-                //data.Add((byte)ParameterCode.UserCode.RoleList, Utility.Serialize(new List<string>()));
                 data.Add((byte)ParameterCode.UserCode.RoleList, Utility.ToJson(new List<string>()));
                 response.Parameters = data;
             }
             else
             {
-                var userRoleObj= Singleton<RoleManager>.Instance.CriteriaGet<UserRole>(new NHCriteria() { PropertyName = "UUID", Value = _uuid });
+                var userRoleObj= Singleton<NHManager>.Instance.CriteriaGet<UserRole>(new NHCriteria() { PropertyName = "UUID", Value = _uuid });
                 string roleListJson = userRoleObj.Role_Id_Array;
                 List<string> rolelist;
                 List<Role> roleObjList=new List<Role>();

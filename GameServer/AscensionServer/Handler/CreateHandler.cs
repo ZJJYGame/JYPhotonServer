@@ -23,7 +23,7 @@ namespace AscensionServer.Handler
             var isExisted = Singleton<NHManager>.Instance.Verify<Role>(new NHCriteria() { PropertyName="RoleName",Value=roleTmp.RoleName});
             if (isExisted)
                 AscensionServer.log.Info("----------------------------  Role >>Role name:+"+roleTmp.RoleName+" already exist !!!  ---------------------------------");
-            Role role = Singleton<RoleManager>.Instance.CriteriaGet<Role>(new NHCriteria() { PropertyName = "RoleName", Value = roleTmp.RoleName });//根据username查询数据
+            Role role = Singleton<NHManager>.Instance.CriteriaGet<Role>(new NHCriteria() { PropertyName = "RoleName", Value = roleTmp.RoleName });//根据username查询数据
             OperationResponse response = new Photon.SocketServer.OperationResponse(operationRequest.OperationCode);
             string str_uuid = peer.UUID;
             var userRole= Singleton<NHManager>.Instance.CriteriaGet<UserRole>(new NHCriteria() { PropertyName = "UUID", Value = str_uuid });
@@ -31,7 +31,6 @@ namespace AscensionServer.Handler
 
             string roleStatusJson = Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.RoleStatus) as string;
             //TODO 精简createHandler代码
-            string str = "";
             //如果没有查询到代表角色没被注册过可用
             if (role == null)
             {
@@ -53,7 +52,7 @@ namespace AscensionServer.Handler
                 rolestatus.RoleId = int.Parse(roleId);
                 Singleton<NHManager>.Instance.Add(rolestatus);
                 var userRoleJson = Utility.ToJson(roleList);
-                Singleton<UserRoleManager>.Instance.Update<UserRole>(new UserRole() { Role_Id_Array = userRoleJson, UUID = str_uuid });
+                Singleton<NHManager>.Instance.Update(new UserRole() { Role_Id_Array = userRoleJson, UUID = str_uuid });
                 response.ReturnCode = (short)ReturnCode.Success;
             }
             else

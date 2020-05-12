@@ -17,7 +17,7 @@ namespace AscensionServer
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             //根据发送过来的请求获得用户名
-            string username = Utility.GetValue<byte, object>(operationRequest.Parameters, (byte)ParameterCode.UserCode.Account) as string;
+            string username = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.UserCode.Account) as string;
             //告诉其他客户端有用户下线
             foreach (AscensionPeer temPeer in AscensionServer.Instance.PeerList)
             {
