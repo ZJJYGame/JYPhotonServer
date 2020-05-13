@@ -5,7 +5,7 @@ using System.Text;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class RoleStatusDTO
+    public class RoleStatusDTO:ProtocolDTO
     {
         public virtual int RoleId { get; set; }
         public virtual int RoleMaxHP { get; set; }
@@ -18,6 +18,8 @@ namespace AscensionProtocol.DTO
         public virtual int RoleAttackPower { get; set; }
         public virtual int RoleResistancePower { get; set; }
         public virtual int RoleSpeedAttack { get; set; }
+        public virtual short RoleShenhun { get; set; }
+        public virtual short RoleMaxShenhun { get; set; }
         public virtual int RoleShenHunDamage { get; set; }
         public virtual int RoleShenHunResistance { get; set; }
         public virtual byte RoleCrit { get; set; }

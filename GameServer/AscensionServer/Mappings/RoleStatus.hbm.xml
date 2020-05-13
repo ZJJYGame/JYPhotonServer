@@ -15,6 +15,8 @@
     <property name="RoleAttackDamage" column="role_attack_damage" type="Int32"/>
     <property name="RoleResistanceDamage" column="role_resistance_damage" type="Int32"/>
     <property name="RoleAttackPower" column="role_attack_power" type="Int32"/>
+    <property name="RoleShenhun" column="role_shenhun" type="Int16"/>
+    <property name="RoleMaxShenhun" column="role_max_shenhun" type="Int16"/>
     <property name="RoleResistancePower" column="role_resistance_power" type="Int32"/>
     <property name="RoleSpeedAttack" column="role_speed_attack" type="Int32"/>
     <property name="RoleShenHunDamage" column="role_shenhun_damage" type="Int32"/>

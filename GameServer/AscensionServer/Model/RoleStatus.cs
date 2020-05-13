@@ -21,6 +21,8 @@ namespace AscensionServer.Model
         public virtual int RoleAttackPower { get; set; }
         public virtual int RoleResistancePower { get; set; }
         public virtual int RoleSpeedAttack { get; set; }
+        public virtual short RoleShenhun { get; set; }
+        public virtual short RoleMaxShenhun { get; set; }
         public virtual int RoleShenHunDamage { get; set; }
         public virtual int RoleShenHunResistance { get; set; }
         public virtual byte RoleCrit { get; set; }

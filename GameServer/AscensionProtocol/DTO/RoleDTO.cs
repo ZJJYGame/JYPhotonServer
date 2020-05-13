@@ -6,7 +6,7 @@ using System.Text;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class RoleDTO
+    public class RoleDTO:ProtocolDTO
     {
         public virtual int RoleId { get; set; }
         public virtual byte RoleFaction { get; set; }

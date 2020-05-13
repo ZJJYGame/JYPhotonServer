@@ -7,12 +7,18 @@ using AscensionProtocol;
 using Photon.SocketServer;
 using PhotonHostRuntimeInterfaces;
 using System.Collections.Generic;
-
+using AscensionServer.Model;
 namespace AscensionServer
 {
     //管理跟客户端的链接的
     public class AscensionPeer : ClientPeer
     {
+        /// <summary>
+        /// 一个Peer保存当前登录的用户
+        /// </summary>
+        User user;
+        public User User { get { return user; } set { user = value; } }
+        public bool IsLogined { get { return user == null; } }
         public float x, y, z;
         string account;
         public string Account { get { return account; } set { account = value; } }

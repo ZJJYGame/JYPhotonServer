@@ -6,7 +6,7 @@ using System.Text;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class Vector3DataDTO
+    public class Vector3DataDTO: ProtocolDTO
     {
         public float x { get; set; }
         public float y { get; set; }

@@ -2,11 +2,12 @@
 {
     public enum ReturnCode : short
     {
-        Success,
-        Error,
-        Fail,
-        Exception,
-        GetTeam,
-        WartingTeam
+        Success=0,
+        Error=1,
+        Fail=2,
+        Empty=3,
+        Exception=4,
+        GetTeam=5,
+        WartingTeam=6
     }
 }

@@ -24,23 +24,66 @@ namespace AscensionServer
         public static readonly ILogger log = LogManager.GetCurrentClassLogger();
 
         private SyncPositionThread syncPositionThread = new SyncPositionThread();
-       new public static AscensionServer Instance
-        {
-            get;
-            private set;
-        }
+       new public static AscensionServer Instance {get;private set; }
         Dictionary<OperationCode, BaseHandler> handlerDict = new Dictionary<OperationCode, BaseHandler>();
         public Dictionary<OperationCode, BaseHandler> HandlerDict { get { return handlerDict; } }
 
         SortedList<string, AscensionPeer> jyClientPeerDict = new SortedList<string, AscensionPeer>();
         public  SortedList<string, AscensionPeer> JYClientPeerDict { get { return jyClientPeerDict; } set { jyClientPeerDict = value; } }
 
-        List<AscensionPeer> peerList = new List<AscensionPeer>();  //通过这个集合可以访问到所有的客户
+        /// <summary>
+        /// 已经连接但是未登录的客户端对象容器
+        /// </summary>
+        HashSet<AscensionPeer> connectedPeer = new HashSet<AscensionPeer>();
+        /// <summary>
+        /// 连接且登录的客户端对象容器
+        /// </summary>
+        SortedList<string, AscensionPeer> loginedPeer = new SortedList<string, AscensionPeer>();
+        /// <summary>
+        /// 连接到服务器
+        /// </summary>
+        /// <param name="peer"></param>
+        public void Connect(AscensionPeer peer)
+        {
+            connectedPeer.Add(peer);
+        }
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="peer"></param>
+        public void Login(AscensionPeer peer)
+        {
+            if (connectedPeer.Contains(peer))
+            {
+                connectedPeer.Remove(peer);
+                loginedPeer.Add(peer.User.Account, peer);
+            }
+        }
+        /// <summary>
+        /// 登出
+        /// </summary>
+        /// <param name="peer"></param>
+        public void Disconnect(AscensionPeer peer)
+        {
+            if (peer.IsLogined)
+            {
+                try
+                {
+                    loginedPeer.Remove(peer.User.Account);
+                }
+                catch (Exception)
+                {
+                    log.Info("Logined account not exist" + peer.User.Account);
+                    throw new Exception("Logined account not exist"+peer.User.Account);
+                }
+            }
+        }
+
+        List<AscensionPeer> peerList = new List<AscensionPeer>();  //通过这个集合可以访问到所有的
         public List<AscensionPeer> PeerList { get { return peerList; } }
 
         public int ClientCount { get { return PeerList.Count; } }
         int clientCount = 0;
-
         /// <summary>
         /// 当一个客户端请求连接的时候，服务器就会调用这个方法
         /// 我们使用peerbase，表示和一个客户端的连接，然后photon就会把链接管理起来

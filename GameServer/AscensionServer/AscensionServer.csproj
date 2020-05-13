@@ -100,12 +100,15 @@
     <Compile Include="AscensionPeer.cs" />
     <Compile Include="AscensionServer.cs" />
     <Compile Include="Behaviour\IBehaviour.cs" />
+    <Compile Include="Behaviour\IOperable.cs" />
+    <Compile Include="ClientPeerContainer.cs" />
     <Compile Include="Handler\Basehandler.cs" />
     <Compile Include="Handler\CreateHandler.cs" />
     <Compile Include="Handler\DestroyHandler.cs" />
     <Compile Include="Handler\DefaultHandler.cs" />
     <Compile Include="Handler\LoginHandler.cs" />
     <Compile Include="Handler\LogoffHandler.cs" />
+    <Compile Include="Handler\PeerInitHandler.cs" />
     <Compile Include="Handler\RegisterHandler.cs" />
     <Compile Include="Handler\SelectRoleHandler.cs" />
     <Compile Include="Handler\SyncPlayerHandler.cs" />

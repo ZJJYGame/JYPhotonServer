@@ -5,10 +5,11 @@ using System.Text;
 
 namespace AscensionProtocol.DTO
 {
+    /// <summary>
+    /// 数据传输通信协议DTO基类
+    /// </summary>
     [Serializable]
-    public class PlayerDataDTO: ProtocolDTO
+  public  class ProtocolDTO
     {
-        public Vector3DataDTO pos { get; set; }
-        public string Username { get; set; }
     }
 }

@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTO\PlayerDataDTO.cs" />
+    <Compile Include="DTO\ProtocolDTO.cs" />
     <Compile Include="DTO\RoleDTO.cs" />
     <Compile Include="DTO\RoleStatusDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />

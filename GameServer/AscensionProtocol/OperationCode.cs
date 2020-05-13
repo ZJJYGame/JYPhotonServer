@@ -8,6 +8,7 @@ namespace AscensionProtocol
 {
     public enum OperationCode:byte//区分请求和响应
     {
+        InitPeer,
         Login,
         Logoff,
         Register,
