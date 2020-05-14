@@ -10,5 +10,7 @@ namespace AscensionProtocol.DTO
     {
         public Vector3DataDTO pos { get; set; }
         public string Username { get; set; }
+
+
     }
 }

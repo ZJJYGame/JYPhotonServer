@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 namespace AscensionServer
 {
     //TODO IOperable类完善
-    public interface IOperable
+    public interface IOperable<T>
+        where T:class
     {
-        void Add<T>(T data);
-        T Get<T, K>(K dataKey);
-        void Update<T>();
+        void Add(T data);
+        T Get<K>(K dataKey) where K:IComparable;
+        void Update(T data);
+        void Remove(T data);
     }
 }

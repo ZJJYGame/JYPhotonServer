@@ -39,6 +39,8 @@ namespace AscensionServer
         /// 连接且登录的客户端对象容器
         /// </summary>
         SortedList<string, AscensionPeer> loginedPeer = new SortedList<string, AscensionPeer>();
+
+        SortedList<string,ClientPeerContainer>containerDict=new SortedList<string, ClientPeerContainer>();
         /// <summary>
         /// 连接到服务器
         /// </summary>

@@ -15,5 +15,16 @@ namespace AscensionProtocol.DTO
         public virtual int RoleLevel { get; set; }
         public virtual int RoleExp { get; set; }
         public virtual byte RoleGender { get; set; }
+
+        public override void Clear()
+        {
+            RoleId = 0;
+            RoleFaction = 0;
+            RoleName = null;
+            RoleRoot = null;
+            RoleLevel = 0;
+            RoleExp = 0;
+            RoleGender = 0;
+        }
     }
 }

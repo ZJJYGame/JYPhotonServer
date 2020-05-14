@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using Cosmos;
 namespace AscensionProtocol.DTO
 {
     /// <summary>
     /// 数据传输通信协议DTO基类
     /// </summary>
     [Serializable]
-  public  class ProtocolDTO
+    public abstract class ProtocolDTO : IReference
     {
+        public abstract void Clear();
     }
 }

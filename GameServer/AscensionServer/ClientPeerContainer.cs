@@ -15,23 +15,38 @@ namespace AscensionServer
     /// <summary>
     /// 客户端容器，广播消息时减少服务器压力。
     /// </summary>
-    public class ClientPeerContainer
+    public class ClientPeerContainer : IOperable<AscensionPeer>
     {
-        public void Add()
-        {
+        SortedList<string, AscensionPeer> peerDict = new SortedList<string, AscensionPeer>();
 
+        public void Add(AscensionPeer data)
+        {
+            try
+            {
+                peerDict.Add(data.Account, data);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Data is already exist>>" + data.ToString());
+            }
         }
-        public void Remove()
+        void AddData<T>(T data)
         {
-
+            peerDict.Add(typeof(T).ToString(), data as AscensionPeer);
         }
-        public void Update()
+        public AscensionPeer Get<K>(K dataKey) where K : IComparable
         {
-
+            throw new NotImplementedException();
         }
-        public void Get()
-        {
 
+        public void Remove(AscensionPeer data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(AscensionPeer data)
+        {
+            throw new NotImplementedException();
         }
     }
 }
