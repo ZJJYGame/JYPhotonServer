@@ -11,10 +11,5 @@ namespace AscensionProtocol.DTO
         public virtual int RoleId { get; set; }
         public virtual string MiShuIdArray { get; set; }
 
-        public override void Clear()
-        {
-            RoleId = 0;
-            MiShuIdArray = null;
-        }
     }
 }

@@ -17,13 +17,6 @@ namespace AscensionProtocol.DTO
         public virtual string Account { get; set; }
         public virtual string Password { get; set; }
         public virtual string UUID { get; set; }
-
-        public override void Clear()
-        {
-            Account = null;
-            Password = null;
-            UUID = null;
-        }
     }
 
 }

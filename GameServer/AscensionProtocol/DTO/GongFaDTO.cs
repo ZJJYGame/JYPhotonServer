@@ -11,12 +11,5 @@ namespace AscensionProtocol.DTO
         public virtual int Id { get; set; }
         public virtual string SkillArray { get; set; }
         public virtual int GongFaId { get; set; }
-
-        public override void Clear()
-        {
-            Id = 0;
-            SkillArray = null;
-            GongFaId = 0;
-        }
     }
 }

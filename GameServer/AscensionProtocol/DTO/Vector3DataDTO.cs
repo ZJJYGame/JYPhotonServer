@@ -12,11 +12,5 @@ namespace AscensionProtocol.DTO
         public float y { get; set; }
         public float z { get; set; }
 
-        public override void Clear()
-        {
-            x = 0;
-            y = 0;
-            z = 0;
-        }
     }
 }
