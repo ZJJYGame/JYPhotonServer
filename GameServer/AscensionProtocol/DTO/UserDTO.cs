@@ -20,7 +20,9 @@ namespace AscensionProtocol.DTO
 
         public override void Clear()
         {
-            throw new NotImplementedException();
+            Account = null;
+            Password = null;
+            UUID = null;
         }
     }
 

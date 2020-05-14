@@ -14,7 +14,9 @@ namespace AscensionProtocol.DTO
 
         public override void Clear()
         {
-            throw new NotImplementedException();
+            x = 0;
+            y = 0;
+            z = 0;
         }
     }
 }

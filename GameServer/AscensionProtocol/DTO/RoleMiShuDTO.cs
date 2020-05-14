@@ -13,7 +13,8 @@ namespace AscensionProtocol.DTO
 
         public override void Clear()
         {
-            throw new NotImplementedException();
+            RoleId = 0;
+            MiShuIdArray = null;
         }
     }
 }

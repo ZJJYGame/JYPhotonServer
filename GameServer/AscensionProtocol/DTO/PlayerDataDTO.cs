@@ -11,6 +11,10 @@ namespace AscensionProtocol.DTO
         public Vector3DataDTO pos { get; set; }
         public string Username { get; set; }
 
-
+        public override void Clear()
+        {
+            pos.Clear();
+            Username = null;
+        }
     }
 }
