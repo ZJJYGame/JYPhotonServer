@@ -116,9 +116,11 @@
     <Compile Include="Handler\SyncRoleStatusHandler.cs" />
     <Compile Include="Manager\Main\INHManager.cs" />
     <Compile Include="Manager\Main\NHManager.cs" />
+    <Compile Include="Model\MiShu.cs" />
     <Compile Include="Model\Role.cs" />
     <Compile Include="Model\RoleGongFa.cs" />
     <Compile Include="Model\RoleLevel.cs" />
+    <Compile Include="Model\RoleMiShu.cs" />
     <Compile Include="Model\RoleStatus.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Model\UserRole.cs" />
@@ -136,6 +138,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Mappings\RoleMiShu.hbm.xml" />
     <EmbeddedResource Include="Mappings\UserRole.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

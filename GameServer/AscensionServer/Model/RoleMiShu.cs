@@ -1,7 +1,7 @@
 ﻿/*
-*Author : xianrenZhang
-*Since :	2020-04-28
-*Description :  功法
+*Author : yingduan
+*Since :	2020-05-14
+*Description :  角色秘术 
 */
 using System;
 using System.Collections.Generic;
@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class RoleGongFa
+    public class RoleMiShu
     {
         public virtual int RoleId { get; set; }
-        public virtual string GongfaIdArray { get; set; }
+        public virtual string MiShuIdArray { get; set; }
     }
 }
