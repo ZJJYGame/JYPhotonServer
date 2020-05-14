@@ -6,10 +6,15 @@ using System.Text;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class GongFaDTO
+    public class GongFaDTO:ProtocolDTO
     {
         public virtual int Id { get; set; }
         public virtual string SkillArray { get; set; }
         public virtual string GongFaId { get; set; }
+
+        public override void Clear()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

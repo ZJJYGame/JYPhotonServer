@@ -14,5 +14,10 @@ namespace AscensionProtocol.DTO
         public virtual int MiShuId { get; set; }
         public virtual int MiShuExp { get; set; }
         public virtual int MiShuLevel { get; set; }
+
+        public override void Clear()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -24,6 +24,12 @@ namespace AscensionProtocol.DTO
         public virtual int RoleShenHunResistance { get; set; }
         public virtual byte RoleCrit { get; set; }
         public virtual byte RoleCritResistance { get; set; }
+
+        public override void Clear()
+        {
+            throw new NotImplementedException();
+        }
+
         public override bool Equals(object obj)
         {
             RoleStatusDTO other = obj as RoleStatusDTO;
