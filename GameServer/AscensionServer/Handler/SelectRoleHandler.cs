@@ -19,14 +19,14 @@ namespace AscensionServer.Handler
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            string account= Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.UserCode.Account) as string;
+            string account= Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Account) as string;
              string _uuid = Singleton<NHManager>.Instance.CriteriaGet<User>(new NHCriteria() { PropertyName="Account",Value= account }).UUID;
             UserRole userRole = Singleton<NHManager>.Instance.CriteriaGet<UserRole>(new NHCriteria() { PropertyName = "UUID", Value = _uuid });
             OperationResponse response = new OperationResponse(operationRequest.OperationCode);
             if (string.IsNullOrEmpty(userRole.Role_Id_Array))
             {
                 Dictionary<byte, object> data = new Dictionary<byte, object>();
-                data.Add((byte)ParameterCode.UserCode.RoleList, Utility.ToJson(new List<string>()));
+                data.Add((byte)ParameterCode.RoleList, Utility.ToJson(new List<string>()));
                 response.Parameters = data;
             }
             else
@@ -46,7 +46,7 @@ namespace AscensionServer.Handler
                     }
                 }
                 Dictionary<byte, object> roleData = new Dictionary<byte, object>();
-                roleData.Add((byte)ObjectParameterCode.RoleData, Utility.ToJson(roleObjList));
+                roleData.Add((byte)ObjectParameterCode.RoleIDList, Utility.ToJson(roleObjList));
                 response.Parameters = roleData;
             }
             // 把上面的结果给客户端

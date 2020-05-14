@@ -46,7 +46,7 @@ namespace AscensionServer
                 {
                     EventData ed = new EventData((byte)EventCode.NewPlayer);
                     Dictionary<byte, object> data2 = new Dictionary<byte, object>();
-                    data2.Add((byte)ParameterCode.UserCode.Username, peer.Account);   //把新进来的用户名传递给其他客户端
+                    data2.Add((byte)ParameterCode.Username, peer.Account);   //把新进来的用户名传递给其他客户端
                     //AscensionServer.log.Info(">>>>>>>>>>>>>>  " + peer.username);
                     ed.Parameters = data2;
                     temPeer.SendEvent(ed,sendParameters); //发送事件

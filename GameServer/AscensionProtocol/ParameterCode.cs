@@ -1,31 +1,31 @@
 ﻿namespace AscensionProtocol
 {
     /// <summary>
-    ///对象参数码
+    ///对象数据参数码
     /// </summary>
-    public enum ObjectParameterCode:byte
+    public enum ObjectParameterCode : byte
     {
+        Account = 63,
         User = 64,
         RoleStatus = 65,
-        Role=66,
-        //完整的角色Json
-        RoleData=67,
-        PeerID=68,
-        RoleID=69
+        Role = 66,
+        RoleIDList = 68,
+        OnlineState = 69
     }
-    public class ParameterCode //区分传送数据的时候，参数的类型
+    /// <summary>
+    /// 单条数据参数码
+    /// </summary>
+    public enum ParameterCode : byte //区分传送数据的时候，参数的类型
     {
-        public enum UserCode : byte
-        {
-            Account,
-            Username,
-            Password,
-            Rolename,
-            Roleposition,
-            x,y,z,
-            Usernamelist,
-            RoleList,
-            Playerdatalist
-        }
+        Account,
+        Username,
+        Password,
+        Rolename,
+        RoleID,
+        Roleposition,
+        x, y, z,
+        Usernamelist,
+        RoleList,
+        Playerdatalist
     }
 }

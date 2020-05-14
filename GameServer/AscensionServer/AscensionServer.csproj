@@ -107,7 +107,7 @@
     <Compile Include="Handler\DestroyHandler.cs" />
     <Compile Include="Handler\DefaultHandler.cs" />
     <Compile Include="Handler\LoginHandler.cs" />
-    <Compile Include="Handler\LogoffHandler.cs" />
+    <Compile Include="Handler\LogOutHandler.cs" />
     <Compile Include="Handler\PeerInitHandler.cs" />
     <Compile Include="Handler\RegisterHandler.cs" />
     <Compile Include="Handler\SelectRoleHandler.cs" />
@@ -118,7 +118,6 @@
     <Compile Include="Manager\Main\NHManager.cs" />
     <Compile Include="Model\MiShu.cs" />
     <Compile Include="Model\GongFa.cs" />
-
     <Compile Include="Model\Role.cs" />
     <Compile Include="Model\RoleGongFa.cs" />
     <Compile Include="Model\RoleLevel.cs" />
