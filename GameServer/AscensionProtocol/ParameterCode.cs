@@ -27,15 +27,5 @@
             RoleList,
             Playerdatalist
         }
-
-        public enum LingGen : byte
-        {
-            LingGenList, //灵根列表
-            Gold,//金
-            Wood,//木
-            Water,//水
-            Fire,//火
-            Soil//土
-        }
     }
 }

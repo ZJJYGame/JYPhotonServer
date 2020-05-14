@@ -6,11 +6,9 @@ using System.Text;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class PlayerDataDTO: ProtocolDTO
+    public class RoleGongFaDTO:ProtocolDTO
     {
-        public Vector3DataDTO pos { get; set; }
-        public string Username { get; set; }
-
-
+        public virtual int RoleId { get; set; }
+        public virtual string GongfaIDArray { get; set; }
     }
 }

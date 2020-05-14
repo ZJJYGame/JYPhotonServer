@@ -37,5 +37,11 @@ namespace AscensionProtocol.DTO
                 return true;
             else return false;
         }
+        public override string ToString()
+        {
+            string str = "";
+            str += "roleid:" + RoleId + ">>roleHp" + RoleHP + ">>roleMP" + RoleMP+">>roleShenhun"+RoleShenhun+">>roleJingxue"+RoleJingXue;
+            return str;
+        }
     }
 }

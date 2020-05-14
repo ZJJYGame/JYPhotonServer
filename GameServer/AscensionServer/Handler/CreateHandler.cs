@@ -30,7 +30,6 @@ namespace AscensionServer.Handler
             string roleJson = userRole.Role_Id_Array;
 
             string roleStatusJson = Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.RoleStatus) as string;
-            //TODO 精简createHandler代码
             //如果没有查询到代表角色没被注册过可用
             if (role == null)
             {
