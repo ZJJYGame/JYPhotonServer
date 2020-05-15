@@ -9,23 +9,20 @@
         User = 64,
         RoleStatus = 65,
         Role = 66,
-        RoleIDList = 68,
-        OnlineState = 69
+        OnlineState = 67
     }
     /// <summary>
     /// 单条数据参数码
     /// </summary>
-    public enum ParameterCode : byte //区分传送数据的时候，参数的类型
+    public enum ParameterCode : byte 
     {
-        Account,
-        Username,
-        Password,
-        Rolename,
-        RoleID,
-        Roleposition,
-        x, y, z,
-        Usernamelist,
-        RoleList,
-        Playerdatalist
+        Account=0,
+        Password=1,
+        Rolename=2,
+        RoleIDList=3,
+        Roleposition=4,
+        x=5, y=6, z=6,
+        RoleList=7,
+        Playerdatalist=8
     }
 }

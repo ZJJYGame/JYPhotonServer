@@ -46,7 +46,7 @@ namespace AscensionServer.Handler
                     }
                 }
                 Dictionary<byte, object> roleData = new Dictionary<byte, object>();
-                roleData.Add((byte)ObjectParameterCode.RoleIDList, Utility.ToJson(roleObjList));
+                roleData.Add((byte)ParameterCode.RoleList, Utility.ToJson(roleObjList));
                 response.Parameters = roleData;
             }
             // 把上面的结果给客户端

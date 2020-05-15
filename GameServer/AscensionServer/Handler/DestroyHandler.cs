@@ -39,7 +39,7 @@ namespace AscensionServer
             AscensionServer.Instance.DeregisterPeerInScene(peer);
             EventData ed = new EventData((byte)EventCode.DeletePlayer);
             Dictionary<byte, object> data = new Dictionary<byte, object>();
-            data.Add((byte)ParameterCode.RoleID, peer.OnlineStateDTO.Role.RoleId);   //把下线的用户名传递给其他客户端
+            data.Add((byte)ParameterCode.RoleIDList, peer.OnlineStateDTO.Role.RoleId);   //把下线的用户名传递给其他客户端
             ed.Parameters = data;
             foreach (AscensionPeer tmpPeer in AscensionServer.Instance.ConnectedPeerHashSet )
             {
