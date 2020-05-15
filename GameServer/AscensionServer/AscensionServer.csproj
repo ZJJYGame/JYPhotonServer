@@ -114,11 +114,11 @@
     <Compile Include="Handler\SyncPlayerHandler.cs" />
     <Compile Include="Handler\SyncPositionHandler.cs" />
     <Compile Include="Handler\SyncRoleStatusHandler.cs" />
+    <Compile Include="Handler\VerifyRoleStatusHandler.cs" />
     <Compile Include="Manager\Main\INHManager.cs" />
     <Compile Include="Manager\Main\NHManager.cs" />
     <Compile Include="Model\MiShu.cs" />
     <Compile Include="Model\GongFa.cs" />
-
     <Compile Include="Model\Role.cs" />
     <Compile Include="Model\RoleGongFa.cs" />
     <Compile Include="Model\RoleLevel.cs" />
@@ -139,6 +139,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Mappings\GongFa.hbm.xml" />
+    <Content Include="Mappings\MiShu.hbm.xml" />
     <Content Include="Mappings\RoleMiShu.hbm.xml" />
     <EmbeddedResource Include="Mappings\UserRole.hbm.xml">
       <SubType>Designer</SubType>
