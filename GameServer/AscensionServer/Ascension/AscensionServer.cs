@@ -108,7 +108,7 @@ namespace AscensionServer
             log.Info("***********************  Client connected !!! ***********************");
             log.Info("~~~~~~~~~~~~~~~~~~~~~~~~~~~  PeerIP  " + peer.RemoteIP + "  Connected  ~~~~~~~~~~~~~~~~~~~~~~~~");
             PeerList.Add(peer);
-            Connect(peer);
+            //Connect(peer);
             return peer;
         }
         protected override void Setup()

@@ -150,12 +150,5 @@ namespace AscensionServer
             }
         }
     }
-    /// <summary>
-    /// SQL Colum对应类，一个column对应一个传入数值
-    /// </summary>
-    public struct NHCriteria
-    {
-        public string PropertyName { get; set; }
-        public object Value { get; set; }
-    }
+
 }

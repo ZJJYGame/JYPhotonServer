@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AscensionServer", "Ascensio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AscensionProtocol", "AscensionProtocol\AscensionProtocol.csproj", "{142CED7D-C56D-43B2-A11F-9DC0F302BD80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgameTest2", "ProgameTest\ProgameTest2.csproj", "{2242C349-3004-4A4A-8BFB-7696469DDE21}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{142CED7D-C56D-43B2-A11F-9DC0F302BD80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{142CED7D-C56D-43B2-A11F-9DC0F302BD80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{142CED7D-C56D-43B2-A11F-9DC0F302BD80}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2242C349-3004-4A4A-8BFB-7696469DDE21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2242C349-3004-4A4A-8BFB-7696469DDE21}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2242C349-3004-4A4A-8BFB-7696469DDE21}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2242C349-3004-4A4A-8BFB-7696469DDE21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -16,7 +16,7 @@ namespace AscensionServer.Model
     {
         public virtual int ID { get; set; }
         public virtual string SkillArry { get; set; }
-        public virtual int MiShuId { get; set; }
+        public virtual int MiShuID { get; set; }
         public virtual int MiShuExp { get; set; }
         public virtual int MiShuLevel { get; set; }
     }

@@ -8,8 +8,8 @@ namespace AscensionProtocol.DTO
     [Serializable]
     public class GongFaDTO:ProtocolDTO
     {
-        public virtual int Id { get; set; }
+        public virtual int ID { get; set; }
         public virtual string SkillArray { get; set; }
-        public virtual int GongFaId { get; set; }
+        public virtual int GongFaID { get; set; }
     }
 }
