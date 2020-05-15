@@ -26,19 +26,9 @@ namespace AscensionServer
                 return default(Value);
             }
         }
-        [Obsolete("即将弃用，请移步ToJson()")]
-        public static string Serialize(object obj)
-        {
-            return JsonConvert.SerializeObject(obj);
-        }
         public static string ToJson(object obj)
         {
             return JsonConvert.SerializeObject(obj);
-        }
-        [Obsolete("即将弃用，请移步ToObject()")]
-        public static T DeSerialize<T>(string jsonStr)
-        {
-            return JsonConvert.DeserializeObject<T>(jsonStr);
         }
         public static T ToObject<T>(string json)
         {

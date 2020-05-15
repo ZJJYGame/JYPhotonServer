@@ -14,7 +14,7 @@ namespace AscensionServer.Model
     [Serializable]
     public class RoleGongFa
     {
-        public virtual int RoleId { get; set; }
+        public virtual int RoleID { get; set; }
         public virtual string GongfaIdArray { get; set; }
     }
 }

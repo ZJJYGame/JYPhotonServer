@@ -14,7 +14,7 @@ namespace AscensionServer.Model
     [Serializable]
     public class RoleMiShu
     {
-        public virtual int RoleId { get; set; }
-        public virtual string MiShuIdArray { get; set; }
+        public virtual int RoleID { get; set; }
+        public virtual string MiShuIDArray { get; set; }
     }
 }

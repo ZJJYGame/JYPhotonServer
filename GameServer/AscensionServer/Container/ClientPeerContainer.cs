@@ -13,7 +13,7 @@ namespace AscensionServer
 {
     //TODO  ClientPeerContainer容器类完善
     /// <summary>
-    /// 客户端容器，广播消息时减少服务器压力。
+    /// 客户普通端容器，广播消息时减少服务器压力。
     /// </summary>
     public class ClientPeerContainer : IOperable<AscensionPeer>
     {
@@ -36,17 +36,39 @@ namespace AscensionServer
         }
         public AscensionPeer Get<K>(K dataKey) where K : IComparable
         {
-            throw new NotImplementedException();
+            try
+            {
+                var dataKeyObj = dataKey as object;
+                return peerDict[dataKeyObj as string];
+            }
+            catch (Exception)
+            {
+                throw new Exception("Data not  exist>>" + dataKey.ToString());
+            }
         }
 
         public void Remove(AscensionPeer data)
         {
-            throw new NotImplementedException();
+            try
+            {
+                peerDict.Remove(data.Account);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Data not  exist>>" + data.ToString());
+            }
         }
 
         public void Update(AscensionPeer data)
         {
-            throw new NotImplementedException();
+            try
+            {
+                peerDict[data.Account] = data;
+            }
+            catch (Exception)
+            {
+                throw new Exception("Data not  exist>>" + data.ToString());
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ namespace AscensionProtocol.DTO
     [Serializable]
     public class RoleDTO:ProtocolDTO
     {
-        public virtual int RoleId { get; set; }
+        public virtual int RoleID { get; set; }
         public virtual byte RoleFaction { get; set; }
         public virtual string RoleName { get; set; }
         public virtual string RoleRoot { get; set; }
