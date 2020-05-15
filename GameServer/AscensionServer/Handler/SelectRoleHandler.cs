@@ -20,10 +20,12 @@ namespace AscensionServer.Handler
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             string account= Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Account) as string;
-             string _uuid = Singleton<NHManager>.Instance.CriteriaGet<User>(new NHCriteria() { PropertyName="Account",Value= account }).UUID;
-            UserRole userRole = Singleton<NHManager>.Instance.CriteriaGet<UserRole>(new NHCriteria() { PropertyName = "UUID", Value = _uuid });
+            NHCriteria nHCriteriaAccount =Singleton< ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Account", account);
+            string _uuid = Singleton<NHManager>.Instance.CriteriaGet<User>(nHCriteriaAccount).UUID;
+            NHCriteria nHCriteriaUUID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("UUID", _uuid);
+            UserRole userRole = Singleton<NHManager>.Instance.CriteriaGet<UserRole>(nHCriteriaUUID);
             OperationResponse response = new OperationResponse(operationRequest.OperationCode);
-            if (string.IsNullOrEmpty(userRole.Role_Id_Array))
+            if (string.IsNullOrEmpty(userRole.RoleIDArray))
             {
                 Dictionary<byte, object> data = new Dictionary<byte, object>();
                 data.Add((byte)ParameterCode.RoleList, Utility.ToJson(new List<string>()));
@@ -31,26 +33,32 @@ namespace AscensionServer.Handler
             }
             else
             {
-                var userRoleObj= Singleton<NHManager>.Instance.CriteriaGet<UserRole>(new NHCriteria() { PropertyName = "UUID", Value = _uuid });
-                string roleListJson = userRoleObj.Role_Id_Array;
-                List<string> rolelist;
+                var userRoleObj= Singleton<NHManager>.Instance.CriteriaGet<UserRole>(nHCriteriaUUID);
+                string roleIDListJson = userRoleObj.RoleIDArray;
+                List<string> roleIDlist;
                 List<Role> roleObjList=new List<Role>();
-                if (!string.IsNullOrEmpty(roleListJson))
+                List<NHCriteria> nHCriteriaList = new List<NHCriteria>();
+                if (!string.IsNullOrEmpty(roleIDListJson))
                 {
-                    rolelist = new List<string>();
-                    rolelist = Utility.ToObject<List<string>>(roleListJson);
-                    for (int i = 0; i < rolelist.Count; i++)
+                    roleIDlist = new List<string>();
+                    roleIDlist = Utility.ToObject<List<string>>(roleIDListJson);
+                    for (int i = 0; i < roleIDlist.Count; i++)
                     {
-                        Role tmpRole = Singleton<NHManager>.Instance.CriteriaGet<Role>(new NHCriteria() { PropertyName = "RoleId", Value =int.Parse( rolelist[i]) });
+                        NHCriteria tmpCriteria = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", int.Parse(roleIDlist[i]));
+                        AscensionServer.log.Info("````````````````````````````tmpCriteria" + tmpCriteria.ToString() + "``````````````````````````````````");
+                        Role tmpRole = Singleton<NHManager>.Instance.CriteriaGet<Role>(tmpCriteria);
                         roleObjList.Add(tmpRole);
+                        nHCriteriaList.Add(tmpCriteria);
                     }
                 }
                 Dictionary<byte, object> roleData = new Dictionary<byte, object>();
                 roleData.Add((byte)ParameterCode.RoleList, Utility.ToJson(roleObjList));
                 response.Parameters = roleData;
+                Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaList);
             }
             // 把上面的结果给客户端
             peer.SendOperationResponse(response, sendParameters);
+            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaUUID, nHCriteriaAccount);
         }
     }
 }

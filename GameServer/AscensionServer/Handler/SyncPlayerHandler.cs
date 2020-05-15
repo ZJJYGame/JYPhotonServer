@@ -20,7 +20,6 @@ namespace AscensionServer
         {
             //取得所有已经登陆（在线玩家）的用户名
             List<string> userAccountList = new List<string>();
-
             foreach (AscensionPeer tempPeer in AscensionServer.Instance.PeerList)
             {
                 //如果连接过来的客户端已经登陆了有用户名了并且这个客户端不是当前的客户端
@@ -33,12 +32,9 @@ namespace AscensionServer
             string usernameListString = Utility.ToJson(userAccountList);
             //给客户端响应
             Dictionary<byte, object> data = new Dictionary<byte, object>();
-            //data.Add((byte)ParameterCode.UserCode.Usernamelist, usernameListString);
-            //data.Add((byte)ObjectParameterCode.RoleNameList, usernameListString);
             OperationResponse response = new OperationResponse(operationRequest.OperationCode);
             response.Parameters = data;
             peer.SendOperationResponse(response, sendParameters);
-
             //告诉其他客户端有新的客户端加入
             foreach (AscensionPeer temPeer in AscensionServer.Instance.PeerList)
             {

@@ -10,7 +10,7 @@ namespace AscensionServer.Model
     [Serializable]
     public class RoleStatus
     {
-        public virtual int RoleId { get; set; }
+        public virtual int RoleID { get; set; }
         public virtual int RoleMaxHP { get; set; }
         public virtual int RoleHP { get; set; }
         public virtual int RoleMaxMP { get; set; }

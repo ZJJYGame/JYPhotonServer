@@ -26,10 +26,11 @@ namespace AscensionServer
             AscensionServer.log.Info("------------------------------------" + "roleJson  : " + roleJson + "---------------------------------------");
             OperationResponse response = new OperationResponse(operationRequest.OperationCode);
             var roleObj = Utility.ToObject<Role>(roleJson);
-            bool exist = Singleton<NHManager>.Instance.Verify<Role>(new NHCriteria() { PropertyName = "RoleId", Value = roleObj.RoleId });
+            NHCriteria nHCriteriaRoleId= Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
+            bool exist = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleId);
             if (exist)
             {
-                RoleStatus roleStatus = Singleton<NHManager>.Instance.CriteriaGet<RoleStatus>(new NHCriteria() { PropertyName = "RoleId", Value =  roleObj.RoleId });
+                RoleStatus roleStatus = Singleton<NHManager>.Instance.CriteriaGet<RoleStatus>(nHCriteriaRoleId);
                 AscensionServer.log.Info("------------------------------------" + "RoleStatus  : " + roleStatus + "---------------------------------------");
                 string roleStatusJson = Utility.ToJson(roleStatus);
                 Dictionary<byte, object> data = new Dictionary<byte, object>();
@@ -40,6 +41,7 @@ namespace AscensionServer
             else
                 response.ReturnCode = (short)ReturnCode.Fail;
             peer.SendOperationResponse(response, sendParameters);
+            Singleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleId);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace AscensionProtocol.DTO
     [Serializable]
     public class RoleStatusDTO:ProtocolDTO
     {
-        public virtual int RoleId { get; set; }
+        public virtual int RoleID { get; set; }
         public virtual int RoleMaxHP { get; set; }
         public virtual int RoleHP { get; set; }
         public virtual int RoleMaxMP { get; set; }
@@ -29,7 +29,7 @@ namespace AscensionProtocol.DTO
         {
             RoleStatusDTO other = obj as RoleStatusDTO;
             if (other == null) return false;
-            if (this.RoleId == other.RoleId && this.RoleHP == other.RoleHP && this.RoleMP == other.RoleMP
+            if (this.RoleID == other.RoleID && this.RoleHP == other.RoleHP && this.RoleMP == other.RoleMP
                 && this.RoleJingXue == other.RoleJingXue && this.RoleAttackDamage == other.RoleAttackDamage &&
                 this.RoleResistanceDamage == other.RoleResistanceDamage && this.RoleAttackPower == other.RoleAttackPower &&
                 this.RoleResistancePower == other.RoleResistancePower && this.RoleSpeedAttack == other.RoleSpeedAttack &&
@@ -41,7 +41,7 @@ namespace AscensionProtocol.DTO
         public override string ToString()
         {
             string str = "";
-            str += "roleid:" + RoleId + ">>roleHp" + RoleHP + ">>roleMP" + RoleMP+">>roleShenhun"+RoleShenhun+">>roleJingxue"+RoleJingXue;
+            str += "roleid:" + RoleID + ">>roleHp" + RoleHP + ">>roleMP" + RoleMP+">>roleShenhun"+RoleShenhun+">>roleJingxue"+RoleJingXue;
             return str;
         }
     }
