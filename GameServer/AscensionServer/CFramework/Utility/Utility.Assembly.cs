@@ -39,19 +39,19 @@ namespace AscensionServer
             /// <param name="assembly">目标程序集</param>
             /// <param name="typeFullName">完全限定名</param>
             /// <returns>返回T类型的目标类型对象</returns>
-            public static T GetTypeInstance<T>(System.Reflection. Assembly assembly, string typeFullName)
-                where T : class ,new()
+            public static T GetTypeInstance<T>(System.Reflection.Assembly assembly, string typeFullName)
+     where T : class
             {
                 Type type = assembly.GetType(typeFullName);
                 if (type != null)
                 {
-                    AscensionServer.log.Info("Utility.Assembly>>>>>>>>>>>>>"+type.FullName+"<<<<<<<<<<<<<<<<<<");
-                    var obj = Activator.CreateInstance(type) as T;
+                    //        var obj = Activator.CreateInstance(type) as T;
+                    var obj = assembly.CreateInstance(typeFullName) as T;
                     return obj;
                 }
                 else
                 {
-                   throw new Exception("Type :" + typeFullName + "  not exist,check your fullName !");
+                    throw new Exception("Type : Assembly" + type.AssemblyQualifiedName + "Not exist!");
                 }
             }
             public static object GetTypeInstance(System.Reflection.Assembly assembly, string typeFullName)
