@@ -17,14 +17,14 @@ namespace AscensionServer.Handler
         {
             opCode = AscensionProtocol.OperationCode.VerifyRole;
         }
-
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             string rolestatusJson = Utility.GetValue(operationRequest.Parameters,(byte)ObjectParameterCode.Role)as string;
             AscensionServer.log.Info(">>>>>>>>>>>>传输过来更新的战斗数据:"+ rolestatusJson +"<<<<<<<<<<<");
             OperationResponse operationResponse = new OperationResponse(operationRequest.OperationCode);
             var rolestatusObj = Utility.ToObject<RoleStatus>(rolestatusJson);
-            bool exist = Singleton<NHManager>.Instance.Verify<RoleStatus>(new NHCriteria() { PropertyName = "RoleId", Value = rolestatusObj.RoleID });
+            NHCriteria nHCriteriaRoleStatue = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID",rolestatusObj.RoleID);
+            bool exist = Singleton<NHManager>.Instance.Verify<RoleStatus>(nHCriteriaRoleStatue);
             if (exist)
             {
                 Singleton<NHManager>.Instance.Update<RoleStatus>(rolestatusObj);
@@ -37,6 +37,7 @@ namespace AscensionServer.Handler
             else
                 operationResponse.ReturnCode = (short)ReturnCode.Fail;
             peer.SendOperationResponse(operationResponse, sendParameters);
+            Singleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleStatue);
         }
     }
 
