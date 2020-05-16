@@ -120,6 +120,9 @@
     <Compile Include="Handler\SyncPlayerHandler.cs" />
     <Compile Include="Handler\SyncPositionHandler.cs" />
     <Compile Include="Handler\SyncRoleStatusHandler.cs" />
+    <Compile Include="Handler\VerifyRoleStatusHandler.cs" />
+    <Compile Include="Manager\Main\INHManager.cs" />
+    <Compile Include="Manager\Main\NHManager.cs" />
     <Compile Include="ModelMap\GongFaMap.cs" />
     <Compile Include="ModelMap\MiShuMap.cs" />
     <Compile Include="ModelMap\MonsterMap.cs" />
