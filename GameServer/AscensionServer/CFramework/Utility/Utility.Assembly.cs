@@ -46,6 +46,7 @@ namespace AscensionServer
                 if (type != null)
                 {
                     //        var obj = Activator.CreateInstance(type) as T;
+                    //TODO 反射失败
                     var obj = assembly.CreateInstance(typeFullName) as T;
                     return obj;
                 }
