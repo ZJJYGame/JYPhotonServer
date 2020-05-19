@@ -19,8 +19,8 @@ namespace AscensionServer
         /// </summary>
         User user;
         public User User { get { return user; } set { user = value; } }
-        OnlineStateDTO onlineStateDTO;
-        public OnlineStateDTO OnlineStateDTO { get { return onlineStateDTO; } set { onlineStateDTO = value; } }
+        OnlineStatusDTO onlineStateDTO;
+        public OnlineStatusDTO OnlineStateDTO { get { return onlineStateDTO; } set { onlineStateDTO = value; } }
         public float x, y, z;
         string account;
         public string Account { get { return account; } set { account = value; } }
