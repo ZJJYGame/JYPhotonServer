@@ -12,7 +12,7 @@ namespace AscensionServer
     {
         public DestroyHandler()
         {
-            opCode = OperationCode.Destroy;
+            opCode = OperationCode.DestroyOtherRole;
         }
 
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)

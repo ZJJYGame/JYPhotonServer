@@ -16,9 +16,9 @@ namespace AscensionServer
     /// <summary>
     /// 账号登出处理者
     /// </summary>
-    public class LogOutHandler : BaseHandler
+    public class LogoffHandler : BaseHandler
     {
-        public LogOutHandler()
+        public LogoffHandler()
         {
             opCode = OperationCode.Logoff;
         }

@@ -10,9 +10,9 @@ using Photon.SocketServer;
 using System.Collections.Generic;
 namespace AscensionServer.Handler
 {
-    class CreateHandler : BaseHandler
+    class CreateRoleHandler : BaseHandler
     {
-        public CreateHandler()
+        public CreateRoleHandler()
         {
             opCode = AscensionProtocol.OperationCode.CreateRole;
         }

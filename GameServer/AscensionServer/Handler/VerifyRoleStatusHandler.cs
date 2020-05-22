@@ -15,7 +15,7 @@ namespace AscensionServer.Handler
     {
         public VerifyRoleStatusHandler()
         {
-            opCode = AscensionProtocol.OperationCode.VerifyRoleStatus;
+            opCode = AscensionProtocol.OperationCode.VerifyRole;
         }
 
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
@@ -24,7 +24,7 @@ namespace AscensionServer.Handler
             AscensionServer.log.Info(">>>>>>>>>>>>传输过来更新的战斗数据:"+ rolestatusJson +"<<<<<<<<<<<");
             OperationResponse operationResponse = new OperationResponse(operationRequest.OperationCode);
             var rolestatusObj = Utility.ToObject<RoleStatus>(rolestatusJson);
-            bool exist = Singleton<NHManager>.Instance.Verify<RoleStatus>(new NHCriteria() { PropertyName = "RoleId", Value = rolestatusObj.RoleId });
+            bool exist = Singleton<NHManager>.Instance.Verify<RoleStatus>(new NHCriteria() { PropertyName = "RoleId", Value = rolestatusObj.RoleID });
             if (exist)
             {
                 Singleton<NHManager>.Instance.Update<RoleStatus>(rolestatusObj);
