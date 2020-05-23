@@ -27,8 +27,15 @@ namespace AscensionServer.Handler
             OperationResponse operationResponse = new OperationResponse(operationRequest.OperationCode);
             if (exist)
             {
+
                 Singleton<NHManager>.Instance.Update(rolestatusObj);
+                String VerifyRoleStatus = Utility.ToJson(rolestatusJson);
+                Dictionary<byte, object> data = new Dictionary<byte, object>();
+                data.Add((byte)ObjectParameterCode.RoleStatus, VerifyRoleStatus);
+                operationResponse.Parameters = data;
+
                 operationResponse.ReturnCode = (short)ReturnCode.Success;
+                
             }
             else
                 operationResponse.ReturnCode = (short)ReturnCode.Fail;
