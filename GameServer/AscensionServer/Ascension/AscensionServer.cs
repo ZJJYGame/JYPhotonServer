@@ -142,11 +142,11 @@ namespace AscensionServer
             handlerDict.Add(syncPositionHandler.opCode, syncPositionHandler);
             SyncPlayerHandler syncPlayerHandler = new SyncPlayerHandler();
             handlerDict.Add(syncPlayerHandler.opCode, syncPlayerHandler);
-            CreateHandler createHandle = new CreateHandler();
+            CreateRoleHandler createHandle = new CreateRoleHandler();
             handlerDict.Add(createHandle.opCode, createHandle);
             SelectRoleHandler selectRoleHandler = new SelectRoleHandler();
             handlerDict.Add(selectRoleHandler.opCode, selectRoleHandler);
-            LogOutHandler logOutHandler = new LogOutHandler();
+            LogoffHandler logOutHandler = new LogoffHandler();
             handlerDict.Add(logOutHandler.opCode, logOutHandler);
             SyncRoleStatusHandler syncRoleStatusHandler = new SyncRoleStatusHandler();
             handlerDict.Add(syncRoleStatusHandler.opCode, syncRoleStatusHandler);

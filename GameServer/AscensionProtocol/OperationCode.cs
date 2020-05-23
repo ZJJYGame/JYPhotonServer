@@ -14,11 +14,14 @@ namespace AscensionProtocol
         SelectRole,
         CreateRole,
         VerifyRole,
+        UpdateRole,
+        RemoveRole,
         SyncPositon,
-        SyncPlayer,
+        SyncSelfRoles,
+        SyncOtherRoles,
         SyncRoleStatus,
         Inventory,
         Default,
-        Destroy,
+        DestroyOtherRole,
     }
 }
