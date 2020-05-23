@@ -25,13 +25,13 @@ namespace AscensionServer.Handler
             NHCriteria nHCriteriaRoleStatue = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolestatusObj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<RoleStatus>(nHCriteriaRoleStatue);
             OperationResponse operationResponse = new OperationResponse(operationRequest.OperationCode);
+
             if (exist)
             {
-
                 Singleton<NHManager>.Instance.Update(rolestatusObj);
-                String VerifyRoleStatus = Utility.ToJson(rolestatusJson);
+                var verifiedRoleStatus = Singleton<NHManager>.Instance.CriteriaGet<RoleStatus>(nHCriteriaRoleStatue);
                 Dictionary<byte, object> data = new Dictionary<byte, object>();
-                data.Add((byte)ObjectParameterCode.RoleStatus, VerifyRoleStatus);
+                data.Add((byte)ObjectParameterCode.RoleStatus, verifiedRoleStatus);
                 operationResponse.Parameters = data;
 
                 operationResponse.ReturnCode = (short)ReturnCode.Success;
@@ -43,7 +43,4 @@ namespace AscensionServer.Handler
             Singleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleStatue);
         }
     }
-
-
-
 }

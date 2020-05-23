@@ -96,6 +96,17 @@ namespace AscensionServer
             {
                 return GetTypeInstance<T>(typeof(T).Assembly, typeFullName);
             }
+            /// <summary>
+            /// 反射工具，得到反射类的对象；
+            /// 不可反射Mono子类，被反射对象必须是具有无参公共构造
+            /// 在IOS上受限，发布IOS需要谨慎
+            /// </summary>
+            /// <param name="type">类型</param>
+            /// <returns>装箱后的对象</returns>
+            public static object GetTypeInstance(Type type)
+            {
+                return type.Assembly.CreateInstance(type.FullName);
+            }
         }
     }
 }
