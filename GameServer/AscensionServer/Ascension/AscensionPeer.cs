@@ -9,6 +9,7 @@ using PhotonHostRuntimeInterfaces;
 using System.Collections.Generic;
 using AscensionServer.Model;
 using AscensionProtocol.DTO;
+using ExitGames.Concurrency.Fibers;
 namespace AscensionServer
 {
     //管理跟客户端的链接的
