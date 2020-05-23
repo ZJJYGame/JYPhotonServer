@@ -28,8 +28,13 @@ namespace AscensionServer.Handler
             if (exist)
             {
                 //Singleton<NHManager>.Instance.Update(rolestatusObj);
-                Singleton<NHManager>.Instance.Update(Utility.ToObject<RoleStatus>(rolestatusJson));
+               Singleton<NHManager>.Instance.Update(Utility.ToObject<RoleStatus>(rolestatusJson));
+                String VerifyRoleStatus = Utility.ToJson(rolestatusJson);
+                Dictionary<byte, object> data = new Dictionary<byte, object>();
+                data.Add((byte)ObjectParameterCode.RoleStatus, VerifyRoleStatus);
+                operationResponse.Parameters = data;
                 operationResponse.ReturnCode = (short)ReturnCode.Success;
+                
             }
             else
                 operationResponse.ReturnCode = (short)ReturnCode.Fail;
