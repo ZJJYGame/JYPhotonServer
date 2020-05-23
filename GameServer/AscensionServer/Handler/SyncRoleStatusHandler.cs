@@ -22,7 +22,7 @@ namespace AscensionServer
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            string roleJson = Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role)as string;
+            string roleJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role));
             AscensionServer.log.Info("------------------------------------" + "roleJson  : " + roleJson + "---------------------------------------");
             OperationResponse response = new OperationResponse(operationRequest.OperationCode);
             var roleObj = Utility.ToObject<Role>(roleJson);

@@ -9,9 +9,9 @@ using Photon.SocketServer;
 
 namespace AscensionServer
 {
-    class SyncPlayerHandler : BaseHandler
+    class SyncOtherRolesHandler : BaseHandler
     {
-        public SyncPlayerHandler()
+        public SyncOtherRolesHandler()
         {
             opCode = OperationCode.SyncOtherRoles;
         }

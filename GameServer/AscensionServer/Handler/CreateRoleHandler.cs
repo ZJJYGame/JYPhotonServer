@@ -8,6 +8,7 @@ using AscensionProtocol.DTO;
 using AscensionServer.Model;
 using Photon.SocketServer;
 using System.Collections.Generic;
+using System;
 namespace AscensionServer.Handler
 {
     class CreateRoleHandler : BaseHandler
@@ -19,7 +20,7 @@ namespace AscensionServer.Handler
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             NHCriteria[] nHCriterias = new NHCriteria[2];
-            string roleJsonTmp = Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role) as string;
+            string roleJsonTmp = Convert.ToString( Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role));
             Role roleTmp = Utility.ToObject<Role>(roleJsonTmp);
             NHCriteria nHCriteriaRoleName = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleName", roleTmp.RoleName);
             var isExisted = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleName);
@@ -31,7 +32,7 @@ namespace AscensionServer.Handler
             NHCriteria nHCriteriaUUID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("UUID", str_uuid);
             var userRole = Singleton<NHManager>.Instance.CriteriaGet<UserRole>(nHCriteriaUUID);
             string roleJson = userRole.RoleIDArray;
-            string roleStatusJson = Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.RoleStatus) as string;
+            string roleStatusJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.RoleStatus));
             //如果没有查询到代表角色没被注册过可用
             if (role == null)
             {

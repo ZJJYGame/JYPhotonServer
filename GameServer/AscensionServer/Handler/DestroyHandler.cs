@@ -33,7 +33,7 @@ namespace AscensionServer
             //    }
             //}
             #endregion
-            var userJson = Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.User) as string;
+            var userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.User));
             var userObj = Utility.ToObject<User>(userJson);
             //AscensionServer.Instance.DeregisterPeerInScene(peer);
             EventData ed = new EventData((byte)EventCode.DeletePlayer);

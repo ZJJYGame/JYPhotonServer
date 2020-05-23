@@ -140,7 +140,7 @@ namespace AscensionServer
             handlerDict.Add(registerHandler.opCode, registerHandler);
             SyncPositionHandler syncPositionHandler = new SyncPositionHandler();
             handlerDict.Add(syncPositionHandler.opCode, syncPositionHandler);
-            SyncPlayerHandler syncPlayerHandler = new SyncPlayerHandler();
+            SyncOtherRolesHandler syncPlayerHandler = new SyncOtherRolesHandler();
             handlerDict.Add(syncPlayerHandler.opCode, syncPlayerHandler);
             CreateRoleHandler createHandle = new CreateRoleHandler();
             handlerDict.Add(createHandle.opCode, createHandle);

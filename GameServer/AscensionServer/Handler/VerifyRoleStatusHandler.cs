@@ -19,16 +19,15 @@ namespace AscensionServer.Handler
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            string rolestatusJson = Utility.GetValue(operationRequest.Parameters,(byte)ObjectParameterCode.Role)as string;
-            AscensionServer.log.Info(">>>>>>>>>>>>传输过来更新的战斗数据:"+ rolestatusJson +"<<<<<<<<<<<");
+            string rolestatusJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role));
+            AscensionServer.log.Info(">>>>>>>>>>>>传输过来更新的战斗数据:" + rolestatusJson + "<<<<<<<<<<<");
             var rolestatusObj = Utility.ToObject<RoleStatus>(rolestatusJson);
             NHCriteria nHCriteriaRoleStatue = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolestatusObj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<RoleStatus>(nHCriteriaRoleStatue);
             OperationResponse operationResponse = new OperationResponse(operationRequest.OperationCode);
             if (exist)
             {
-                //Singleton<NHManager>.Instance.Update(rolestatusObj);
-                Singleton<NHManager>.Instance.Update(Utility.ToObject<RoleStatus>(rolestatusJson));
+                Singleton<NHManager>.Instance.Update(rolestatusObj);
                 operationResponse.ReturnCode = (short)ReturnCode.Success;
             }
             else

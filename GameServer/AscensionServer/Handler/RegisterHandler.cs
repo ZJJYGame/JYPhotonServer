@@ -6,6 +6,7 @@
 using Photon.SocketServer;
 using AscensionProtocol;
 using AscensionServer.Model;
+using System;
 
 namespace AscensionServer
 {
@@ -17,7 +18,7 @@ namespace AscensionServer
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            var userJson = Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.User) as string;
+            var userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.User));
             var userObj = Utility.ToObject<User>(userJson);
             NHCriteria nHCriteriaAccount = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
             bool isExist = Singleton<NHManager>.Instance.Verify<User>(nHCriteriaAccount);
