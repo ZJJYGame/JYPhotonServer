@@ -14,7 +14,7 @@ namespace AscensionServer
             Id(x=>x.RoleID).GeneratedBy.Assigned().Column("role_id");
             Map(x => x.RoleMaxHP).Column("role_max_hp");
             Map(x => x.RoleHP).Column("role_hp");
-            Map(x => x.RoleMaxMP).Column("role_max_hp");
+            Map(x => x.RoleMaxMP).Column("role_max_mp");
             Map(x => x.RoleMP).Column("role_mp");
             Map(x => x.RoleJingXue).Column("role_jingxue");
             Map(x => x.RoleAttackDamage).Column("role_attack_damage");

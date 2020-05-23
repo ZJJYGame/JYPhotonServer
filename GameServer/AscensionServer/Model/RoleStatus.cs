@@ -15,7 +15,7 @@ namespace AscensionServer.Model
         public virtual int RoleHP { get; set; }
         public virtual int RoleMaxMP { get; set; }
         public virtual int RoleMP { get; set; }
-        public virtual byte RoleJingXue { get; set; }
+        public virtual short RoleJingXue { get; set; }
         public virtual int RoleAttackDamage { get; set; }
         public virtual int RoleResistanceDamage { get; set; }
         public virtual int RoleAttackPower { get; set; }
@@ -25,7 +25,7 @@ namespace AscensionServer.Model
         public virtual short RoleMaxShenhun { get; set; }
         public virtual int RoleShenHunDamage { get; set; }
         public virtual int RoleShenHunResistance { get; set; }
-        public virtual byte RoleCrit { get; set; }
-        public virtual byte RoleCritResistance { get; set; }
+        public virtual short RoleCrit { get; set; }
+        public virtual short RoleCritResistance { get; set; }
     }
 }

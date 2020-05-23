@@ -132,6 +132,7 @@
     <Compile Include="ModelMap\RoleGongFaMap.cs" />
     <Compile Include="ModelMap\RoleMiShuMap.cs" />
     <Compile Include="ModelMap\RoleMonsterMap.cs" />
+    <Compile Include="ModelMap\RoleRingMap.cs" />
     <Compile Include="ModelMap\RoleWeaponMap.cs" />
     <Compile Include="ModelMap\WeaponMap.cs" />
     <Compile Include="Model\Monster.cs" />
