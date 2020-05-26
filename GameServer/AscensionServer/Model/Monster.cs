@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace AscensionServer.Model
 {
+    [Serializable]
     public class Monster
     {
         public virtual int ID { get; set; }

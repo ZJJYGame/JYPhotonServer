@@ -8,7 +8,7 @@ using AscensionServer.Model;
 
 namespace AscensionServer.ModelMap
 {
-    class RoleTaskProgressMap:ClassMap<RoleTaskProgress>
+public   class RoleTaskProgressMap:ClassMap<RoleTaskProgress>
     {
         public RoleTaskProgressMap()
         {

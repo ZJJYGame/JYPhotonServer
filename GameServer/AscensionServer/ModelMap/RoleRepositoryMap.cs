@@ -8,7 +8,7 @@ using AscensionServer.Model;
 
 namespace AscensionServer.ModelMap
 {
-    class RoleRepositoryMap:ClassMap<RoleRepository>
+  public  class RoleRepositoryMap:ClassMap<RoleRepository>
     {
         public RoleRepositoryMap()
         {

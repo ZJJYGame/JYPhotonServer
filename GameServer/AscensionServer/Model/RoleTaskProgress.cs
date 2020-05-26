@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    class RoleTaskProgress
+   public class RoleTaskProgress
     {
         public virtual int RoleID { get; set; }
         public virtual string RoleTaskID { get; set; }

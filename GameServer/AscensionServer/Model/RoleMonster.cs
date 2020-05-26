@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace AscensionServer.Model
 {
+    [Serializable]
     public class RoleMonster
     {
         public virtual int RoleID { get; set; }

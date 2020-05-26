@@ -29,10 +29,10 @@ namespace AscensionServer.Handler
             if (exist)
             {
                 Singleton<NHManager>.Instance.Update(rolestatusObj);
-                var verifiedRoleStatus = Singleton<NHManager>.Instance.CriteriaGet<RoleStatus>(nHCriteriaRoleStatue);
-                Dictionary<byte, object> data = new Dictionary<byte, object>();
-                data.Add((byte)ObjectParameterCode.RoleStatus, verifiedRoleStatus);
-                operationResponse.Parameters = data;
+                //var verifiedRoleStatus = Singleton<NHManager>.Instance.CriteriaGet<RoleStatus>(nHCriteriaRoleStatue);
+                //Dictionary<byte, object> data = new Dictionary<byte, object>();
+                //data.Add((byte)ObjectParameterCode.RoleStatus, verifiedRoleStatus);
+                //operationResponse.Parameters = data;
 
                 operationResponse.ReturnCode = (short)ReturnCode.Success;
                 
@@ -40,7 +40,7 @@ namespace AscensionServer.Handler
             else
                 operationResponse.ReturnCode = (short)ReturnCode.Fail;
             peer.SendOperationResponse(operationResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleStatue);
+            //Singleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleStatue);
         }
     }
 }

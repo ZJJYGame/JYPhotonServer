@@ -9,6 +9,6 @@
         Exception = 4,
         GetTeam = 5,
         WartingTeam = 6,
-        InvalidOperation
+        InvalidOperation=7
     }
 }
