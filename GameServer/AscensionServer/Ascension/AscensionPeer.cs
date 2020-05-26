@@ -49,6 +49,7 @@ namespace AscensionServer
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             data.Add((byte)ObjectParameterCode.User,onlineStateDTO);
             ed.Parameters = data;
+            AscensionServer.Instance.Logoff(this);
             foreach (AscensionPeer tmpPeer in AscensionServer.Instance.ConnectedPeerHashSet)
             {
                 tmpPeer.SendEvent(ed, new SendParameters());             
@@ -84,6 +85,10 @@ namespace AscensionServer
             this.User.Account = null;
             this.User.UUID = null;
             this.User.Password = null;
+        }
+        public override string ToString()
+        {
+            return "######Account : " + User.Account + " ; Password : " + User.Password + "; UUID : " + User.UUID+"######";
         }
     }
  }

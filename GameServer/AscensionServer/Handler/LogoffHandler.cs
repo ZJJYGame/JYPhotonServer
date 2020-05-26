@@ -27,7 +27,7 @@ namespace AscensionServer
          
             string userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.User) );
             var userObj = Utility.ToObject<User>(userJson);
-            AscensionServer.log.Info("登出的账号"+userJson+">>>>>>>>>>>>>>>>>>");
+            AscensionServer.log.Info("\n 登出的账号"+userJson+">>>>>>>>>>>>>>>>>>");
             //NHCriteria nHCriteriaAccount = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
             //NHCriteria nHCriteriaPassword = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Password", userObj.Password);
             //bool verified = Singleton<NHManager>.Instance.Verify<User>(nHCriteriaAccount, nHCriteriaPassword);
@@ -36,6 +36,8 @@ namespace AscensionServer
             if (verified)
             {
                 response.ReturnCode =(short) ReturnCode.Success;
+                AscensionServer.Instance.Logoff(peer);
+                peer.Logoff();
             }
             else
             {

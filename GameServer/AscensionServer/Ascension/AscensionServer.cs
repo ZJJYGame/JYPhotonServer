@@ -101,5 +101,32 @@ namespace AscensionServer
             DistributeTaskHandler distributeTaskHandler = new DistributeTaskHandler();
             handlerDict.Add(distributeTaskHandler.opCode, distributeTaskHandler);
         }
+        Dictionary<string, AscensionPeer> loginPeerDict = new Dictionary<string, AscensionPeer>();
+        public void Login(AscensionPeer peer)
+        {
+            try
+            {
+                loginPeerDict.Add(peer.User.Account, peer);
+            }
+            catch (Exception)
+            {
+                log.Info("----------------------------  can't add into loginDict"+peer.ToString()+"------------------------------------");
+            }
+        }
+        public void Logoff(AscensionPeer peer)
+        {
+            try
+            {
+                loginPeerDict.Remove(peer.User.Account);
+            }
+            catch (Exception)
+            {
+                log.Info("----------------------------  can't  remove from loginDict" + peer.ToString() + "------------------------------------");
+            }
+        }
+        public bool IsLogin(AscensionPeer peer)
+        {
+            return loginPeerDict.ContainsKey(peer.User.Account);
+        }
     }
 }

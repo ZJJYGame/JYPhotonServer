@@ -25,5 +25,6 @@ namespace AscensionProtocol
         DestroyOtherRole,
         HeartBeat,
         DistributeTask,
+        SubCode=128,
     }
 }
