@@ -36,10 +36,11 @@ namespace AscensionServer
                 response.ReturnCode = (short)ReturnCode.Success;
                 Dictionary<byte, object> data = new Dictionary<byte, object>();
                 response.Parameters = data;
-                peer.Account = userObj.Account;  //保持当前用户的用户名让ClientPeer管理起来
-                peer.UUID = Singleton<NHManager>.Instance.CriteriaGet<User>(nHCriteriaAccount).UUID;
+                //peer.User.Account = userObj.Account;  //保持当前用户的用户名让ClientPeer管理起来
+                userObj.UUID= Singleton<NHManager>.Instance.CriteriaGet<User>(nHCriteriaAccount).UUID;
+                peer.Login(userObj);
                 //AscensionServer.Instance.RegisterPeer(peer);//注册到服务器的有序字典中
-                AscensionServer.log.Info("~~~~~~~~~~~~~~~~~~~~~~Login Success : " + userObj.Account + "UUID : " + peer.UUID + "~~~~~~~~~~~~~~~~~~~~~~");
+                AscensionServer.log.Info("~~~~~~~~~~~~~~~~~~~~~~Login Success : " + userObj.Account + "UUID : " + peer.User.UUID + "~~~~~~~~~~~~~~~~~~~~~~");
             }
             else
             {

@@ -23,6 +23,7 @@
         Roleposition=4,
         x=5, y=6, z=6,
         RoleList=7,
-        Playerdatalist=8
+        Playerdatalist=8,
+        HeartBeat=9
     }
 }

@@ -32,10 +32,10 @@ namespace AscensionServer.Threads
             List<PlayerDataDTO> playerDatraList = new List<PlayerDataDTO>();
             foreach (var peer in AscensionServer.Instance.PeerList)
             {
-                if (string.IsNullOrEmpty(peer.Account) == false)
+                if (string.IsNullOrEmpty(peer.User.Account) == false)
                 {
                     PlayerDataDTO playerData = new PlayerDataDTO();
-                    playerData.Username = peer.Account;
+                    playerData.Username = peer.User .Account;
                     playerData.pos = new Vector3DataDTO() { x = peer.x, y = peer.y, z = peer.z };
                     playerDatraList.Add(playerData);
                 }
@@ -47,7 +47,7 @@ namespace AscensionServer.Threads
 
             foreach (var peer in AscensionServer.Instance.PeerList)
             {
-                if (string.IsNullOrEmpty(peer.Account) == false)
+                if (string.IsNullOrEmpty(peer.User. Account) == false)
                 {
                     EventData ed = new EventData((byte)EventCode.SyncPosition);
                     ed.Parameters = data;

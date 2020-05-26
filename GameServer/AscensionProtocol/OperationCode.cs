@@ -23,5 +23,6 @@ namespace AscensionProtocol
         Inventory,
         Default,
         DestroyOtherRole,
+        HeartBeat,
     }
 }

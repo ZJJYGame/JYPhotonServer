@@ -28,22 +28,21 @@ namespace AscensionServer
             string userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.User) );
             var userObj = Utility.ToObject<User>(userJson);
             AscensionServer.log.Info("登出的账号"+userJson+">>>>>>>>>>>>>>>>>>");
-            NHCriteria nHCriteriaAccount = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
-            NHCriteria nHCriteriaPassword = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Password", userObj.Password);
-            bool verified = Singleton<NHManager>.Instance.Verify<User>(nHCriteriaAccount, nHCriteriaPassword);
+            //NHCriteria nHCriteriaAccount = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
+            //NHCriteria nHCriteriaPassword = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Password", userObj.Password);
+            //bool verified = Singleton<NHManager>.Instance.Verify<User>(nHCriteriaAccount, nHCriteriaPassword);
+            bool verified= peer.User.Equals(userObj);
             OperationResponse response = new OperationResponse(operationRequest.OperationCode);
             if (verified)
             {
                 response.ReturnCode =(short) ReturnCode.Success;
-                //AscensionServer.Instance.DeregisterPeer(peer);//  从已经登录的有序字典中注销
-                AscensionServer.Instance.DeregisterPeerInScene(peer);
             }
             else
             {
                 response.ReturnCode = (short)ReturnCode.Fail;
             }
             peer.SendOperationResponse(response, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaAccount, nHCriteriaPassword);
+            //Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaAccount, nHCriteriaPassword);
         }
     }
 }

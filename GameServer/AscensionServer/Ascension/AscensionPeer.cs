@@ -18,13 +18,14 @@ namespace AscensionServer
         /// 一个Peer保存当前登录的用户
         /// </summary>
         User user;
-        public User User { get { return user; } set { user = value; } }
+        public User User { get { if (user == null) user = new User(); return user; } set { user = value; } }
         OnlineStatusDTO onlineStateDTO;
         public OnlineStatusDTO OnlineStateDTO { get { return onlineStateDTO; } set { onlineStateDTO = value; } }
         public float x, y, z;
-        string account;
-        public string Account { get { return account; } set { account = value; } }
-        public string UUID { get; set; }
+        /// <summary>
+        /// Peer的UUID
+        /// </summary>
+        public string PeerGUID { get; set; }
         public AscensionPeer(InitRequest initRequest) : base(initRequest) { }
         //处理客户端断开连接的后续工作
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
@@ -71,6 +72,18 @@ namespace AscensionServer
                 BaseHandler defaultHandler = Utility.GetValue<OperationCode, BaseHandler>(AscensionServer.Instance.HandlerDict, OperationCode.Default);
                 defaultHandler.OnOperationRequest(operationRequest, sendParameters, this);
             }
+        }
+        public void Login(User user)
+        {
+            this.User.Account = user.Account;
+            this.User.UUID = user.UUID;
+            this.User.Password = user.Password;
+        }
+        public void Logoff()
+        {
+            this.User.Account = null;
+            this.User.UUID = null;
+            this.User.Password = null;
         }
     }
  }

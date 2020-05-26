@@ -17,13 +17,13 @@ namespace AscensionServer
     /// </summary>
     public class ClientPeerContainer : IOperable<AscensionPeer>
     {
-        SortedList<string, AscensionPeer> peerDict = new SortedList<string, AscensionPeer>();
+        Dictionary<string, AscensionPeer> peerDict = new Dictionary<string, AscensionPeer>();
 
         public void Add(AscensionPeer data)
         {
             try
             {
-                peerDict.Add(data.Account, data);
+                peerDict.Add(data.User. Account, data);
             }
             catch (Exception)
             {
@@ -51,7 +51,7 @@ namespace AscensionServer
         {
             try
             {
-                peerDict.Remove(data.Account);
+                peerDict.Remove(data.User. Account);
             }
             catch (Exception)
             {
@@ -63,7 +63,7 @@ namespace AscensionServer
         {
             try
             {
-                peerDict[data.Account] = data;
+                peerDict[data.User. Account] = data;
             }
             catch (Exception)
             {

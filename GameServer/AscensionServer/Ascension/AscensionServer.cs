@@ -34,63 +34,6 @@ namespace AscensionServer
         /// </summary>
          HashSet<AscensionPeer> connectedPeerHashSet = new HashSet<AscensionPeer>();
         public HashSet<AscensionPeer> ConnectedPeerHashSet { get { return connectedPeerHashSet; }set { connectedPeerHashSet = value; } }
-        /// <summary>
-        /// 连接且登录的客户端对象容器， <Key,Value>---<场景名，客户端容器>
-        /// </summary>
-        SortedList<string, ClientPeerContainer> peerContainerDict = new SortedList<string, ClientPeerContainer>();
-        /// <summary>
-        /// 连接到服务器
-        /// </summary>
-        /// <param name="peer"></param>
-        public void Connect(AscensionPeer peer)
-        {
-            connectedPeerHashSet.Add(peer);
-        }
-        /// <summary>
-        /// 登录，并在服务器中注册
-        /// </summary>
-        /// <param name="peer"></param>
-        public void RegisterPeer(AscensionPeer peer)
-        {
-            if (connectedPeerHashSet.Contains(peer))
-            {
-                var container = peerContainerDict[peer.OnlineStateDTO.CurrentScene];
-                container.Add(peer);
-            }
-        }
-        public void UpdateContainer(AscensionPeer peer)
-        {
-            if (connectedPeerHashSet.Contains(peer))
-            {
-                var previousContainer = peerContainerDict[peer.OnlineStateDTO.PreviousScene];
-                previousContainer.Remove(peer);
-                var currentContainer = peerContainerDict[peer.OnlineStateDTO.CurrentScene];
-                currentContainer.Add(peer);
-            }
-        }
-        /// <summary>
-        /// 注销在服务器的登录
-        /// </summary>
-        /// <param name="peer"></param>
-        public void DeregisterPeer(AscensionPeer peer)
-        {
-            if (connectedPeerHashSet.Contains(peer))
-            {
-                var container = peerContainerDict[peer.OnlineStateDTO.CurrentScene];
-                container.Remove (peer);
-                connectedPeerHashSet.Remove(peer);
-            }
-        }
-        /// <summary>
-        /// 仅仅从注册在场景的容器中取出 
-        /// </summary>
-        public void DeregisterPeerInScene(AscensionPeer peer)
-        {
-            if (connectedPeerHashSet.Contains(peer))
-            {
-                var container = peerContainerDict[peer.OnlineStateDTO.CurrentScene];
-            }
-        }
         List<AscensionPeer> peerList = new List<AscensionPeer>();  //通过这个集合可以访问到所有的
         public List<AscensionPeer> PeerList { get { return peerList; } }
 
@@ -108,9 +51,11 @@ namespace AscensionServer
             log.Info("***********************  Client connected !!! ***********************");
             log.Info("~~~~~~~~~~~~~~~~~~~~~~~~~~~  PeerIP  " + peer.RemoteIP + "  Connected  ~~~~~~~~~~~~~~~~~~~~~~~~");
             PeerList.Add(peer);
-            //Connect(peer);
+            //TODO  连接后的peer 添加到hashset里
+            //ConnectedPeerHashSet.Add(peer);
             return peer;
         }
+
         protected override void Setup()
         {
             Instance = this;
@@ -123,11 +68,12 @@ namespace AscensionServer
                 log.Info("进行初始化");
             }
             InitHandler();
-            syncPositionThread.Run();
+            //syncPositionThread.Run();
         }
+        //TODO 服务器心跳检测
         protected override void TearDown()
         {
-            syncPositionThread.Stop();
+            //syncPositionThread.Stop();
             log.Info("***********************  Server Shotdown !!! ***********************");
         }
         void InitHandler()
@@ -146,8 +92,8 @@ namespace AscensionServer
             handlerDict.Add(createHandle.opCode, createHandle);
             SelectRoleHandler selectRoleHandler = new SelectRoleHandler();
             handlerDict.Add(selectRoleHandler.opCode, selectRoleHandler);
-            LogoffHandler logOutHandler = new LogoffHandler();
-            handlerDict.Add(logOutHandler.opCode, logOutHandler);
+            LogoffHandler logoffHandler = new LogoffHandler();
+            handlerDict.Add(logoffHandler.opCode, logoffHandler);
             SyncRoleStatusHandler syncRoleStatusHandler = new SyncRoleStatusHandler();
             handlerDict.Add(syncRoleStatusHandler.opCode, syncRoleStatusHandler);
             VerifyRoleStatusHandler verifyRoleStatusHandler = new VerifyRoleStatusHandler();

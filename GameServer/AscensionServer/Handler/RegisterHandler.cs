@@ -14,7 +14,7 @@ namespace AscensionServer
     {
         public RegisterHandler()
         {
-            opCode = AscensionProtocol.OperationCode.Register;
+            opCode = OperationCode.Register;
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {

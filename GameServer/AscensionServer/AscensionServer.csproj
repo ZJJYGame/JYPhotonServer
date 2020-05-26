@@ -107,6 +107,7 @@
     <Compile Include="Ascension\AscensionServer.cs" />
     <Compile Include="Behaviour\IBehaviour.cs" />
     <Compile Include="Behaviour\IOperable.cs" />
+    <Compile Include="CFramework\Utility\Utility.Encryption.cs" />
     <Compile Include="Container\ClientPeerContainer.cs" />
     <Compile Include="CFramework\ReferencePool\IReference.cs" />
     <Compile Include="CFramework\ReferencePool\ReferencePoolManager.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Handler\CreateRoleHandler.cs" />
     <Compile Include="Handler\DestroyHandler.cs" />
     <Compile Include="Handler\DefaultHandler.cs" />
+    <Compile Include="Handler\HeartBeatHandler.cs" />
     <Compile Include="Handler\LoginHandler.cs" />
     <Compile Include="Handler\LogoffHandler.cs" />
     <Compile Include="Handler\RegisterHandler.cs" />
