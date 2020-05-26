@@ -117,6 +117,7 @@
     <Compile Include="Handler\CreateRoleHandler.cs" />
     <Compile Include="Handler\DestroyHandler.cs" />
     <Compile Include="Handler\DefaultHandler.cs" />
+    <Compile Include="Handler\DistributeTaskHandler.cs" />
     <Compile Include="Handler\HeartBeatHandler.cs" />
     <Compile Include="Handler\LoginHandler.cs" />
     <Compile Include="Handler\LogoffHandler.cs" />

@@ -23,14 +23,14 @@ namespace AscensionServer.Handler
         {
             string roletask = Convert.ToString(Utility.GetValue(operationRequest.Parameters,(byte)ObjectParameterCode.Role));
             AscensionServer.log.Info(">>>>>>>>>>>>>接受到的任务相关信息："+roletask+">>>>>>>>>>>>>>>>>>>>>>");
-            var roletaskobj = Utility.ToObject<DistributeTaskDTO>(roletask);
+            var roletaskobj = Utility.ToObject<RoleTaskProgress>(roletask);
             NHCriteria nHCriteriaTask = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roletaskobj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaTask);
             OperationResponse operationResponse = new OperationResponse(operationRequest.OperationCode);
             if (exist)
             {
-                Singleton<NHManager>.Instance.Update(roletaskobj);
-                RoleTaskProgress roleTaskProgress = Singleton<NHManager>.Instance.CriteriaGet<RoleTaskProgress>(nHCriteriaTask);
+               Singleton<NHManager>.Instance.Update(roletaskobj);
+                var roleTaskProgress = Singleton<NHManager>.Instance.CriteriaGet<RoleTaskProgress>(nHCriteriaTask);
                 AscensionServer.log.Info(">>>>>>>>>>>>传回去的" + roleTaskProgress + ">>>>>>>>>>>>");
                 Dictionary<byte, object> data = new Dictionary<byte, object>();
                 data.Add((byte)ObjectParameterCode.Role, roleTaskProgress);

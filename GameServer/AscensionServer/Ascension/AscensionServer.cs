@@ -98,6 +98,8 @@ namespace AscensionServer
             handlerDict.Add(syncRoleStatusHandler.opCode, syncRoleStatusHandler);
             VerifyRoleStatusHandler verifyRoleStatusHandler = new VerifyRoleStatusHandler();
             handlerDict.Add(verifyRoleStatusHandler.opCode, verifyRoleStatusHandler);
+            DistributeTaskHandler distributeTaskHandler = new DistributeTaskHandler();
+            handlerDict.Add(distributeTaskHandler.opCode, distributeTaskHandler);
         }
     }
 }
