@@ -27,12 +27,10 @@ namespace AscensionServer
             OperationResponse response = new OperationResponse(operationRequest.OperationCode);
             if (data == 1)
             {
-                response.ReturnCode = (short)ReturnCode.Success;
-            }
-            else
-            {
-                response.ReturnCode = (short)ReturnCode.Fail;
-            }
+                response.OperationCode = (byte)ReturnCode.Success;
+                //AscensionServer.log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>我胡汉三回来了");
+            }else
+            response.OperationCode = (byte)ReturnCode.Fail;
             peer.SendOperationResponse(response, sendParameters);
         }
     }

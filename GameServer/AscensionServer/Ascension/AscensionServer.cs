@@ -55,6 +55,15 @@ namespace AscensionServer
             //ConnectedPeerHashSet.Add(peer);
             return peer;
         }
+        /// <summary>
+        /// 管理已登录的客户端
+        /// </summary>
+        Dictionary<string, AscensionPeer> ALLClientPeer = new Dictionary<string, AscensionPeer>();
+        public Dictionary<string, AscensionPeer> AllClientPeer { get { return ALLClientPeer; }set { ALLClientPeer = value; } }
+
+
+
+
 
         protected override void Setup()
         {
@@ -100,6 +109,8 @@ namespace AscensionServer
             handlerDict.Add(verifyRoleStatusHandler.opCode, verifyRoleStatusHandler);
             DistributeTaskHandler distributeTaskHandler = new DistributeTaskHandler();
             handlerDict.Add(distributeTaskHandler.opCode, distributeTaskHandler);
+            HeartBeatHandler heartBeatHandler = new HeartBeatHandler();
+            handlerDict.Add(heartBeatHandler.opCode, heartBeatHandler);
         }
     }
 }
