@@ -24,5 +24,6 @@ namespace AscensionProtocol
         Default,
         DestroyOtherRole,
         HeartBeat,
+        DistributeTask,
     }
 }
