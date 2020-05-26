@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace AscensionServer.Model
+namespace AscensionProtocol.DTO
 {
     [Serializable]
-    class RoleTaskProgress
+    public class DistributeTaskDTO : ProtocolDTO
     {
         public virtual int RoleID { get; set; }
         public virtual string RoleTaskID { get; set; }
         public virtual string RoleTaskState { get; set; }
     }
 }
+

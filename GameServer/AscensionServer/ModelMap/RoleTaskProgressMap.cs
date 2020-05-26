@@ -14,6 +14,7 @@ namespace AscensionServer.ModelMap
         {
             Id(x => x.RoleID).GeneratedBy.Assigned().Column("role_id");
             Map(x => x.RoleTaskID).Column("role_task_id");
+            Map(x => x.RoleTaskState).Column("role_task_state");
             Table("role_task_progress");
         }
     }
