@@ -51,6 +51,7 @@
     <Compile Include="DTO\OnlineStatusDTO.cs" />
     <Compile Include="DTO\PlayerDataDTO.cs" />
     <Compile Include="DTO\ProtocolDTO.cs" />
+    <Compile Include="DTO\RoleAssetsDTO.cs" />
     <Compile Include="DTO\RoleDTO.cs" />
     <Compile Include="DTO\RoleGongFaDTO.cs" />
     <Compile Include="DTO\RoleMiShuDTO.cs" />
