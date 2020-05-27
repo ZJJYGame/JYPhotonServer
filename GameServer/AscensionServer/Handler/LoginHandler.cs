@@ -19,7 +19,7 @@ namespace AscensionServer
     {
         public LoginHandler()
         {
-            opCode = OperationCode.Login;
+            OpCode = OperationCode.Login;
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {

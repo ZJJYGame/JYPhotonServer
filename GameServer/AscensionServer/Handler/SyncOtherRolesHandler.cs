@@ -13,7 +13,7 @@ namespace AscensionServer
     {
         public SyncOtherRolesHandler()
         {
-            opCode = OperationCode.SyncOtherRoles;
+            OpCode = OperationCode.SyncOtherRoles;
         }
         //获取其他客户端相对应的用户名请求的处理代码
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)

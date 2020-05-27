@@ -18,7 +18,7 @@ namespace AscensionServer
     {
         public SyncRoleStatusHandler()
         {
-            opCode = AscensionProtocol.OperationCode.SyncRoleStatus;
+            OpCode = AscensionProtocol.OperationCode.SyncRoleStatus;
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {

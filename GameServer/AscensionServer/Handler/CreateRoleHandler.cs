@@ -15,11 +15,10 @@ namespace AscensionServer.Handler
     {
         public CreateRoleHandler()
         {
-            opCode = AscensionProtocol.OperationCode.CreateRole;
+            OpCode = AscensionProtocol.OperationCode.CreateRole;
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            NHCriteria[] nHCriterias = new NHCriteria[2];
             string roleJsonTmp = Convert.ToString( Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role));
             Role roleTmp = Utility.ToObject<Role>(roleJsonTmp);
             NHCriteria nHCriteriaRoleName = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleName", roleTmp.RoleName);

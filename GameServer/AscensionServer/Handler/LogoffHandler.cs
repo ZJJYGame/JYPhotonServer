@@ -20,11 +20,10 @@ namespace AscensionServer
     {
         public LogoffHandler()
         {
-            opCode = OperationCode.Logoff;
+            OpCode = OperationCode.Logoff;
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-         
             string userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.User) );
             var userObj = Utility.ToObject<User>(userJson);
             AscensionServer.log.Info("\n 登出的账号"+userJson+">>>>>>>>>>>>>>>>>>");

@@ -88,29 +88,31 @@ namespace AscensionServer
         void InitHandler()
         {
             LoginHandler loginHandler = new LoginHandler();
-            handlerDict.Add(loginHandler.opCode, loginHandler);
+            handlerDict.Add(loginHandler.OpCode, loginHandler);
             DefaultHandler defaultHandler = new DefaultHandler();
-            handlerDict.Add(defaultHandler.opCode, defaultHandler);
+            handlerDict.Add(defaultHandler.OpCode, defaultHandler);
             RegisterHandler registerHandler = new RegisterHandler();
-            handlerDict.Add(registerHandler.opCode, registerHandler);
+            handlerDict.Add(registerHandler.OpCode, registerHandler);
             SyncPositionHandler syncPositionHandler = new SyncPositionHandler();
-            handlerDict.Add(syncPositionHandler.opCode, syncPositionHandler);
+            handlerDict.Add(syncPositionHandler.OpCode, syncPositionHandler);
             SyncOtherRolesHandler syncPlayerHandler = new SyncOtherRolesHandler();
-            handlerDict.Add(syncPlayerHandler.opCode, syncPlayerHandler);
+            handlerDict.Add(syncPlayerHandler.OpCode, syncPlayerHandler);
             CreateRoleHandler createHandle = new CreateRoleHandler();
-            handlerDict.Add(createHandle.opCode, createHandle);
+            handlerDict.Add(createHandle.OpCode, createHandle);
             SelectRoleHandler selectRoleHandler = new SelectRoleHandler();
-            handlerDict.Add(selectRoleHandler.opCode, selectRoleHandler);
+            handlerDict.Add(selectRoleHandler.OpCode, selectRoleHandler);
             LogoffHandler logoffHandler = new LogoffHandler();
-            handlerDict.Add(logoffHandler.opCode, logoffHandler);
+            handlerDict.Add(logoffHandler.OpCode, logoffHandler);
             SyncRoleStatusHandler syncRoleStatusHandler = new SyncRoleStatusHandler();
-            handlerDict.Add(syncRoleStatusHandler.opCode, syncRoleStatusHandler);
+            handlerDict.Add(syncRoleStatusHandler.OpCode, syncRoleStatusHandler);
             VerifyRoleStatusHandler verifyRoleStatusHandler = new VerifyRoleStatusHandler();
-            handlerDict.Add(verifyRoleStatusHandler.opCode, verifyRoleStatusHandler);
-            DistributeTaskHandler distributeTaskHandler = new DistributeTaskHandler();
-            handlerDict.Add(distributeTaskHandler.opCode, distributeTaskHandler);
+            handlerDict.Add(verifyRoleStatusHandler.OpCode, verifyRoleStatusHandler);
+            //DistributeTaskHandler distributeTaskHandler = new DistributeTaskHandler();
+            //handlerDict.Add(distributeTaskHandler.OpCode, distributeTaskHandler);
             HeartBeatHandler heartBeatHandler = new HeartBeatHandler();
-            handlerDict.Add(heartBeatHandler.opCode, heartBeatHandler);
+            handlerDict.Add(heartBeatHandler.OpCode, heartBeatHandler);
+            SyncRoleAssetsHandler syncRoleAssetsHandler = new SyncRoleAssetsHandler();
+            handlerDict.Add(syncRoleAssetsHandler.OpCode, syncRoleAssetsHandler);
         }
         Dictionary<string, AscensionPeer> loginPeerDict = new Dictionary<string, AscensionPeer>();
         public void Login(AscensionPeer peer)

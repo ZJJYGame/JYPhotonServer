@@ -15,7 +15,7 @@ namespace AscensionServer.Handler
     {
         public SelectRoleHandler()
         {
-            opCode = AscensionProtocol.OperationCode.SelectRole;
+            OpCode = AscensionProtocol.OperationCode.SelectRole;
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {

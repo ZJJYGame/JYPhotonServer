@@ -19,7 +19,7 @@ namespace AscensionServer
         /// </summary>
         public HeartBeatHandler()
         {
-            opCode = OperationCode.HeartBeat;
+            OpCode = OperationCode.HeartBeat;
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {

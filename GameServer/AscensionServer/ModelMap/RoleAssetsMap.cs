@@ -16,7 +16,7 @@ namespace AscensionServer.ModelMap
             Map(x => x.SpiritStonesLow).Column("spirit_stones_low");
             Map(x => x.SpiritStonesMedium).Column("spirit_stones_medium");
             Map(x => x.SpiritStonesHigh).Column("spirit_stones_high");
-            Map(x => x.XianXu).Column("xianxu");
+            Map(x => x.XianYu).Column("xianyu");
             Table("role_assets");
         }
     }

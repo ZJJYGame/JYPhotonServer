@@ -13,6 +13,6 @@ namespace AscensionServer.Model
         public virtual long SpiritStonesLow { get; set; }
         public virtual long SpiritStonesMedium { get; set; }
         public virtual long SpiritStonesHigh { get; set; }
-        public virtual long XianXu { get; set; }
+        public virtual long XianYu { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace AscensionServer.Handler
     {
         public VerifyRoleStatusHandler()
         {
-            opCode = AscensionProtocol.OperationCode.VerifyRole;
+            OpCode = AscensionProtocol.OperationCode.VerifyRole;
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {

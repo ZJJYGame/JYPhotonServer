@@ -43,7 +43,7 @@ namespace AscensionServer.Threads
 
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             //data.Add((byte)ParameterCode.UserCode.Playerdatalist, Utility.Serialize(playerDatraList));
-            data.Add((byte)ParameterCode.Playerdatalist, Utility.ToJson(playerDatraList));
+            data.Add((byte)ParameterCode.PlayerDataList, Utility.ToJson(playerDatraList));
 
             foreach (var peer in AscensionServer.Instance.PeerList)
             {

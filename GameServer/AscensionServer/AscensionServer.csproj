@@ -125,6 +125,7 @@
     <Compile Include="Handler\SelectRoleHandler.cs" />
     <Compile Include="Handler\SyncOtherRolesHandler.cs" />
     <Compile Include="Handler\SyncPositionHandler.cs" />
+    <Compile Include="Handler\SyncRoleAssetsHandler.cs" />
     <Compile Include="Handler\SyncRoleStatusHandler.cs" />
     <Compile Include="Handler\VerifyRoleStatusHandler.cs" />
     <Compile Include="ModelMap\GongFaMap.cs" />
