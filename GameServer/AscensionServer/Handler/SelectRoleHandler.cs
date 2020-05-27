@@ -9,7 +9,7 @@ using Photon.SocketServer;
 using System;
 using System.Collections.Generic;
 
-namespace AscensionServer.Handler
+namespace AscensionServer
 {
     class SelectRoleHandler :BaseHandler
     {

@@ -9,7 +9,7 @@ using AscensionProtocol.DTO;
 using AscensionServer.Model;
 
 
-namespace AscensionServer.Handler
+namespace AscensionServer
 {
     class VerifyRoleStatusHandler : BaseHandler
     {

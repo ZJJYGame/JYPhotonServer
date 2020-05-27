@@ -8,7 +8,7 @@ using AscensionProtocol.DTO;
 using Photon.SocketServer;
 using AscensionServer.Model;
 using System.Diagnostics;
-namespace AscensionServer.Handler
+namespace AscensionServer
 {
     public class SyncRoleAssetsHandler : BaseHandler
     {

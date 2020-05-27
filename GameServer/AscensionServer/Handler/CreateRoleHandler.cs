@@ -9,7 +9,7 @@ using AscensionServer.Model;
 using Photon.SocketServer;
 using System.Collections.Generic;
 using System;
-namespace AscensionServer.Handler
+namespace AscensionServer
 {
     class CreateRoleHandler : BaseHandler
     {

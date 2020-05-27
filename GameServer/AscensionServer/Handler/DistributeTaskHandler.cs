@@ -10,7 +10,7 @@ using AscensionProtocol.DTO;
 using AscensionServer.Model;
 using System.Collections.Generic;
 
-namespace AscensionServer.Handler
+namespace AscensionServer
 {
     public class DistributeTaskHandler : BaseHandler
     {
