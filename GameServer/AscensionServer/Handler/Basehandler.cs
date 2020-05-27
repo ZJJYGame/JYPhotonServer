@@ -11,7 +11,7 @@ namespace AscensionServer
     {
 
         protected OperationCode opCode;
-        public OperationCode OpCode { get { return OpCode; }protected set { opCode = value; } }
+        public OperationCode OpCode { get { return opCode; }protected set { opCode = value; } }
         protected EventCode evCode;
         public EventCode EvCode { get { return evCode; }protected set { evCode = value; } }
 
