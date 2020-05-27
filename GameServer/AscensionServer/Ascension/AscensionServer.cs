@@ -123,7 +123,7 @@ namespace AscensionServer
             }
             catch (Exception)
             {
-                log.Info("----------------------------  can't add into loginDict"+peer.ToString()+"------------------------------------");
+                log.Info("----------------------------  can't add into loginDict"+peer.User.Account.ToString()+"------------------------------------");
             }
         }
         public void Logoff(AscensionPeer peer)

@@ -1,5 +1,4 @@
-﻿#define CreateNewRoleAssets
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,15 +19,15 @@ namespace AscensionServer.Handler
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             string roleJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role));
+            AscensionServer.log.Info(">>>>>>>>>>>>>\n"+roleJson+" >>>>>>>>>>>>>>>>>>>>>>");
             var roleObj = Utility.ToObject<Role>(roleJson);
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
-            NHCriteria nHCriteriaRoleName = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleName", roleObj.RoleName);
-            bool exist = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID,nHCriteriaRoleName);
+            //NHCriteria nHCriteriaRoleName = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleName", roleObj.RoleName);
+            bool exist = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID);
             OperationResponse response = new OperationResponse(operationRequest.OperationCode);
             if (exist)
             {
                 var result = Singleton<NHManager>.Instance.CriteriaGet<RoleAssets>(nHCriteriaRoleID);
-                CreateNewRoleAssets(result,roleObj);
                 string roleAssetsJson = Utility.ToJson(result);
                 Dictionary<byte, object> data = new Dictionary<byte, object>();
                 data.Add((byte)ObjectParameterCode.RoleAssets, roleAssetsJson);
@@ -40,15 +39,7 @@ namespace AscensionServer.Handler
                 response.ReturnCode = (byte)ReturnCode.Fail;
             }
             peer.SendOperationResponse(response, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID, nHCriteriaRoleName);
-        }
-        //[Conditional("CreateNewRoleAssets")]
-        void CreateNewRoleAssets(RoleAssets ra,Role role)
-        {
-            if (ra == null)
-                Singleton<NHManager>.Instance.Add(new RoleAssets() { RoleID = role.RoleID,
-                    SpiritStonesLow =100 ,SpiritStonesMedium=100,SpiritStonesHigh = 100
-                });
+            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
         }
     }
 }
