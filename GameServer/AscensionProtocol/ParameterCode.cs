@@ -9,7 +9,8 @@
         User = 64,
         RoleStatus = 65,
         Role = 66,
-        OnlineState = 67
+        OnlineState = 67,
+        RoleAssets
     }
     /// <summary>
     /// 单条数据参数码

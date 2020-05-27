@@ -132,7 +132,7 @@
     <Compile Include="ModelMap\MonsterMap.cs" />
     <Compile Include="ModelMap\MonsterStatusMap.cs" />
     <Compile Include="ModelMap\RingMap.cs" />
-    <Compile Include="ModelMap\RoleAssetMap.cs" />
+    <Compile Include="ModelMap\RoleAssetsMap.cs" />
     <Compile Include="ModelMap\RoleEquipMap.cs" />
     <Compile Include="ModelMap\RoleGongFaMap.cs" />
     <Compile Include="ModelMap\RoleMiShuMap.cs" />
@@ -145,7 +145,7 @@
     <Compile Include="Model\Monster.cs" />
     <Compile Include="Model\MonsterStatus.cs" />
     <Compile Include="Model\Ring.cs" />
-    <Compile Include="Model\RoleAsset.cs" />
+    <Compile Include="Model\RoleAssets.cs" />
     <Compile Include="Model\RoleEquip.cs" />
     <Compile Include="Model\RoleMonster.cs" />
     <Compile Include="Model\RoleRepository.cs" />

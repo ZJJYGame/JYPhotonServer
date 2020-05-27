@@ -20,6 +20,7 @@ namespace AscensionProtocol
         SyncSelfRoles,
         SyncOtherRoles,
         SyncRoleStatus,
+        SyncRoleAssets,
         Inventory,
         Default,
         DestroyOtherRole,

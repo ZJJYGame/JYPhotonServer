@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class RoleAsset
+    public class RoleAssets
     {
         public virtual int RoleID { get; set; }
         public virtual long SpiritStonesLow { get; set; }
