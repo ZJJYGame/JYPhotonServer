@@ -46,7 +46,6 @@ namespace AscensionServer
                     for (int i = 0; i < roleIDlist.Count; i++)
                     {
                         NHCriteria tmpCriteria = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", int.Parse(roleIDlist[i]));
-                        AscensionServer.log.Info("````````````````````````````tmpCriteria" + tmpCriteria.ToString() + "``````````````````````````````````");
                         Role tmpRole = Singleton<NHManager>.Instance.CriteriaGet<Role>(tmpCriteria);
                         roleObjList.Add(tmpRole);
                         nHCriteriaList.Add(tmpCriteria);
