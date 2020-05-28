@@ -13,7 +13,7 @@ namespace AscensionServer
             if (referenceQueue.Count > 0)
                 refer = referenceQueue.Dequeue();
             else
-                refer = Utility.Assembly.GetTypeInstance<object>(type.Assembly, type.GetType().FullName) as IReference;
+                refer = Utility.Assembly.GetTypeInstance(type) as IReference;
             return refer;
         }
         public IReference Spawn<T>()

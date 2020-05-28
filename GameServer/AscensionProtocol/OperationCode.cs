@@ -20,8 +20,12 @@ namespace AscensionProtocol
         SyncSelfRoles,
         SyncOtherRoles,
         SyncRoleStatus,
+        SyncRoleAssets,
         Inventory,
         Default,
         DestroyOtherRole,
+        HeartBeat,
+        DistributeTask,
+        SubCode=128,
     }
 }

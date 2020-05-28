@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class RoleMonster
+    public class RoleEquip
     {
         public virtual int RoleID { get; set; }
-        public virtual string MonsterIDArray { get; set; }
+        public virtual string Equips { get; set; }
     }
 }

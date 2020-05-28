@@ -111,8 +111,7 @@ namespace AscensionServer
                     criteria.Add(Restrictions.Eq(columns[i].PropertyName, columns[i].Value));
                 }
                 T data = criteria.UniqueResult<T>();
-                if (data == null) return false;
-                return true;
+                return data!=null;
             }
         }
         /// <summary>

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace AscensionServer.Model
 {
+    [Serializable]
     public class RoleRing
     {
         //TODO待确认储物戒指

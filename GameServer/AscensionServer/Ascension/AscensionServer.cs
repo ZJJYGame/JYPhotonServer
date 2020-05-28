@@ -14,7 +14,6 @@ using ExitGames.Logging;
 using ExitGames.Logging.Log4Net;
 using System.IO;
 using log4net.Config;
-using AscensionServer.Handler;
 using AscensionServer.Threads;
 using ExitGames.Concurrency.Fibers;
 namespace AscensionServer
@@ -34,63 +33,6 @@ namespace AscensionServer
         /// </summary>
          HashSet<AscensionPeer> connectedPeerHashSet = new HashSet<AscensionPeer>();
         public HashSet<AscensionPeer> ConnectedPeerHashSet { get { return connectedPeerHashSet; }set { connectedPeerHashSet = value; } }
-        /// <summary>
-        /// 连接且登录的客户端对象容器， <Key,Value>---<场景名，客户端容器>
-        /// </summary>
-        SortedList<string, ClientPeerContainer> peerContainerDict = new SortedList<string, ClientPeerContainer>();
-        /// <summary>
-        /// 连接到服务器
-        /// </summary>
-        /// <param name="peer"></param>
-        public void Connect(AscensionPeer peer)
-        {
-            connectedPeerHashSet.Add(peer);
-        }
-        /// <summary>
-        /// 登录，并在服务器中注册
-        /// </summary>
-        /// <param name="peer"></param>
-        public void RegisterPeer(AscensionPeer peer)
-        {
-            if (connectedPeerHashSet.Contains(peer))
-            {
-                var container = peerContainerDict[peer.OnlineStateDTO.CurrentScene];
-                container.Add(peer);
-            }
-        }
-        public void UpdateContainer(AscensionPeer peer)
-        {
-            if (connectedPeerHashSet.Contains(peer))
-            {
-                var previousContainer = peerContainerDict[peer.OnlineStateDTO.PreviousScene];
-                previousContainer.Remove(peer);
-                var currentContainer = peerContainerDict[peer.OnlineStateDTO.CurrentScene];
-                currentContainer.Add(peer);
-            }
-        }
-        /// <summary>
-        /// 注销在服务器的登录
-        /// </summary>
-        /// <param name="peer"></param>
-        public void DeregisterPeer(AscensionPeer peer)
-        {
-            if (connectedPeerHashSet.Contains(peer))
-            {
-                var container = peerContainerDict[peer.OnlineStateDTO.CurrentScene];
-                container.Remove (peer);
-                connectedPeerHashSet.Remove(peer);
-            }
-        }
-        /// <summary>
-        /// 仅仅从注册在场景的容器中取出 
-        /// </summary>
-        public void DeregisterPeerInScene(AscensionPeer peer)
-        {
-            if (connectedPeerHashSet.Contains(peer))
-            {
-                var container = peerContainerDict[peer.OnlineStateDTO.CurrentScene];
-            }
-        }
         List<AscensionPeer> peerList = new List<AscensionPeer>();  //通过这个集合可以访问到所有的
         public List<AscensionPeer> PeerList { get { return peerList; } }
 
@@ -108,9 +50,20 @@ namespace AscensionServer
             log.Info("***********************  Client connected !!! ***********************");
             log.Info("~~~~~~~~~~~~~~~~~~~~~~~~~~~  PeerIP  " + peer.RemoteIP + "  Connected  ~~~~~~~~~~~~~~~~~~~~~~~~");
             PeerList.Add(peer);
-            //Connect(peer);
+            //TODO  连接后的peer 添加到hashset里
+            //ConnectedPeerHashSet.Add(peer);
             return peer;
         }
+        /// <summary>
+        /// 管理已登录的客户端
+        /// </summary>
+        Dictionary<string, AscensionPeer> ALLClientPeer = new Dictionary<string, AscensionPeer>();
+        public Dictionary<string, AscensionPeer> AllClientPeer { get { return ALLClientPeer; }set { ALLClientPeer = value; } }
+
+
+
+
+
         protected override void Setup()
         {
             Instance = this;
@@ -123,35 +76,69 @@ namespace AscensionServer
                 log.Info("进行初始化");
             }
             InitHandler();
-            syncPositionThread.Run();
+            //syncPositionThread.Run();
         }
+        //TODO 服务器心跳检测
         protected override void TearDown()
         {
-            syncPositionThread.Stop();
+            //syncPositionThread.Stop();
             log.Info("***********************  Server Shotdown !!! ***********************");
         }
         void InitHandler()
         {
             LoginHandler loginHandler = new LoginHandler();
-            handlerDict.Add(loginHandler.opCode, loginHandler);
+            handlerDict.Add(loginHandler.OpCode, loginHandler);
             DefaultHandler defaultHandler = new DefaultHandler();
-            handlerDict.Add(defaultHandler.opCode, defaultHandler);
+            handlerDict.Add(defaultHandler.OpCode, defaultHandler);
             RegisterHandler registerHandler = new RegisterHandler();
-            handlerDict.Add(registerHandler.opCode, registerHandler);
+            handlerDict.Add(registerHandler.OpCode, registerHandler);
             SyncPositionHandler syncPositionHandler = new SyncPositionHandler();
-            handlerDict.Add(syncPositionHandler.opCode, syncPositionHandler);
-            SyncPlayerHandler syncPlayerHandler = new SyncPlayerHandler();
-            handlerDict.Add(syncPlayerHandler.opCode, syncPlayerHandler);
+            handlerDict.Add(syncPositionHandler.OpCode, syncPositionHandler);
+            SyncOtherRolesHandler syncPlayerHandler = new SyncOtherRolesHandler();
+            handlerDict.Add(syncPlayerHandler.OpCode, syncPlayerHandler);
             CreateRoleHandler createHandle = new CreateRoleHandler();
-            handlerDict.Add(createHandle.opCode, createHandle);
+            handlerDict.Add(createHandle.OpCode, createHandle);
             SelectRoleHandler selectRoleHandler = new SelectRoleHandler();
-            handlerDict.Add(selectRoleHandler.opCode, selectRoleHandler);
-            LogoffHandler logOutHandler = new LogoffHandler();
-            handlerDict.Add(logOutHandler.opCode, logOutHandler);
+            handlerDict.Add(selectRoleHandler.OpCode, selectRoleHandler);
+            LogoffHandler logoffHandler = new LogoffHandler();
+            handlerDict.Add(logoffHandler.OpCode, logoffHandler);
             SyncRoleStatusHandler syncRoleStatusHandler = new SyncRoleStatusHandler();
-            handlerDict.Add(syncRoleStatusHandler.opCode, syncRoleStatusHandler);
+            handlerDict.Add(syncRoleStatusHandler.OpCode, syncRoleStatusHandler);
             VerifyRoleStatusHandler verifyRoleStatusHandler = new VerifyRoleStatusHandler();
-            handlerDict.Add(verifyRoleStatusHandler.opCode, verifyRoleStatusHandler);
+            handlerDict.Add(verifyRoleStatusHandler.OpCode, verifyRoleStatusHandler);
+            //DistributeTaskHandler distributeTaskHandler = new DistributeTaskHandler();
+            //handlerDict.Add(distributeTaskHandler.OpCode, distributeTaskHandler);
+            HeartBeatHandler heartBeatHandler = new HeartBeatHandler();
+            handlerDict.Add(heartBeatHandler.OpCode, heartBeatHandler);
+            SyncRoleAssetsHandler syncRoleAssetsHandler = new SyncRoleAssetsHandler();
+            handlerDict.Add(syncRoleAssetsHandler.OpCode, syncRoleAssetsHandler);
+        }
+        Dictionary<string, AscensionPeer> loginPeerDict = new Dictionary<string, AscensionPeer>();
+        public void Login(AscensionPeer peer)
+        {
+            try
+            {
+                loginPeerDict.Add(peer.User.Account, peer);
+            }
+            catch (Exception)
+            {
+                log.Info("----------------------------  can't add into loginDict"+peer.User.Account.ToString()+"------------------------------------");
+            }
+        }
+        public void Logoff(AscensionPeer peer)
+        {
+            try
+            {
+                loginPeerDict.Remove(peer.User.Account);
+            }
+            catch (Exception)
+            {
+                log.Info("----------------------------  can't  remove from loginDict" + peer.ToString() + "------------------------------------");
+            }
+        }
+        public bool IsLogin(AscensionPeer peer)
+        {
+            return loginPeerDict.ContainsKey(peer.User.Account);
         }
     }
 }

@@ -9,39 +9,38 @@ using AscensionProtocol.DTO;
 using AscensionServer.Model;
 
 
-namespace AscensionServer.Handler
+namespace AscensionServer
 {
     class VerifyRoleStatusHandler : BaseHandler
     {
         public VerifyRoleStatusHandler()
         {
-            opCode = AscensionProtocol.OperationCode.VerifyRole;
+            OpCode = AscensionProtocol.OperationCode.VerifyRole;
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            string rolestatusJson = Utility.GetValue(operationRequest.Parameters,(byte)ObjectParameterCode.Role)as string;
-            AscensionServer.log.Info(">>>>>>>>>>>>传输过来更新的战斗数据:"+ rolestatusJson +"<<<<<<<<<<<");
-            OperationResponse operationResponse = new OperationResponse(operationRequest.OperationCode);
+            string rolestatusJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role));
+            AscensionServer.log.Info(">>>>>>>>>>>>传输过来更新的战斗数据:" + rolestatusJson + "<<<<<<<<<<<");
             var rolestatusObj = Utility.ToObject<RoleStatus>(rolestatusJson);
-            //bool exist = Singleton<NHManager>.Instance.Verify<RoleStatus>(new NHCriteria() { PropertyName = "RoleId", Value = rolestatusObj.RoleID });
-            NHCriteria nHCriteriaRoleStatue = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID",rolestatusObj.RoleID);
+            NHCriteria nHCriteriaRoleStatue = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolestatusObj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<RoleStatus>(nHCriteriaRoleStatue);
+            OperationResponse operationResponse = new OperationResponse(operationRequest.OperationCode);
+
             if (exist)
             {
-                Singleton<NHManager>.Instance.Update<RoleStatus>(rolestatusObj);
-                Dictionary<byte, object> data = new Dictionary<byte, object>();
+                Singleton<NHManager>.Instance.Update(rolestatusObj);
+                //var verifiedRoleStatus = Singleton<NHManager>.Instance.CriteriaGet<RoleStatus>(nHCriteriaRoleStatue);
+                //Dictionary<byte, object> data = new Dictionary<byte, object>();
+                //data.Add((byte)ObjectParameterCode.RoleStatus, verifiedRoleStatus);
+                //operationResponse.Parameters = data;
 
-                data.Add((byte)ObjectParameterCode.RoleStatus, rolestatusJson);
-                operationResponse.Parameters = data;
                 operationResponse.ReturnCode = (short)ReturnCode.Success;
+                
             }
             else
                 operationResponse.ReturnCode = (short)ReturnCode.Fail;
             peer.SendOperationResponse(operationResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleStatue);
+            //Singleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleStatue);
         }
     }
-
-
-
 }

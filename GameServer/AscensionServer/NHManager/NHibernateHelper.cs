@@ -22,6 +22,11 @@ namespace AscensionServer
             {
                 if (_sessionFactory == null)
                 {
+                    //var configuration = new Configuration();
+                    //configuration.Configure("hibernate.cfg.xml");//解析hibernate.cfg.xml
+                    //configuration.AddAssembly("AscensionServer");//解析映射文件User.hbm.xml   //ClassLibrary  //AscensionServer
+                    //_sessionFactory = configuration.BuildSessionFactory();
+
                     _sessionFactory = Fluently.Configure().
                         Database(MySQLConfiguration.Standard.
                         ConnectionString(db => db.Server("192.168.0.117").

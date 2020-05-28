@@ -12,7 +12,7 @@ namespace AscensionServer
     {
         public SyncPositionHandler()
         {
-            opCode = OperationCode.SyncPositon;
+            OpCode = OperationCode.SyncPositon;
         }
         //获取客户端位置请求的处理的代码
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)

@@ -10,9 +10,11 @@ namespace AscensionServer
     public abstract class BaseHandler
     {
 
-        public OperationCode opCode;
+        protected OperationCode opCode;
+        public OperationCode OpCode { get { return opCode; }protected set { opCode = value; } }
+        protected EventCode evCode;
+        public EventCode EvCode { get { return evCode; }protected set { evCode = value; } }
 
-        public EventCode evCode;
         //处理请求的方法
         public abstract void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters,AscensionPeer peer);
 

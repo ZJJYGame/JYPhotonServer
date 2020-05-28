@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace AscensionServer.Model
 {
+    [Serializable]
     public class Ring
     {
         public virtual int ID { get; set; }
