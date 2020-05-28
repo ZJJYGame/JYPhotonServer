@@ -22,7 +22,8 @@ namespace AscensionServer
             var userObj = Utility.ToObject<User>(userJson);
             NHCriteria nHCriteriaAccount = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
             bool isExist = Singleton<NHManager>.Instance.Verify<User>(nHCriteriaAccount);
-            OperationResponse responser = new OperationResponse(operationRequest.OperationCode);
+            ResponseData.Clear();
+            OpResponse.OperationCode = operationRequest.OperationCode;
             if (!isExist)
             {
                 //添加输入的用户和密码进数据库
@@ -34,15 +35,15 @@ namespace AscensionServer
                     var userRole = new UserRole() { UUID = userObj.UUID };
                     Singleton<NHManager>.Instance.Add(userRole);
                 }
-                responser.ReturnCode = (short)ReturnCode.Success;//返回成功
+            OpResponse.ReturnCode = (short)ReturnCode.Success;//返回成功
                 Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaUUID);
             }
             else//否者这个用户被注册了
             {
-                responser.ReturnCode = (short)ReturnCode.Fail;//返回失败
+                OpResponse.ReturnCode = (short)ReturnCode.Fail;//返回失败
             }
             // 把上面的结果给客户端
-            peer.SendOperationResponse(responser, sendParameters);
+            peer.SendOperationResponse(OpResponse, sendParameters);
             Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaAccount);
         }
     }

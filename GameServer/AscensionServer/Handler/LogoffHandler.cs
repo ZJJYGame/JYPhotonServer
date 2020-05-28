@@ -24,26 +24,23 @@ namespace AscensionServer
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            string userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.User) );
+            string userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.User));
             var userObj = Utility.ToObject<User>(userJson);
-            AscensionServer.log.Info("\n 登出的账号"+userJson+">>>>>>>>>>>>>>>>>>");
-            //NHCriteria nHCriteriaAccount = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
-            //NHCriteria nHCriteriaPassword = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Password", userObj.Password);
-            //bool verified = Singleton<NHManager>.Instance.Verify<User>(nHCriteriaAccount, nHCriteriaPassword);
-            bool verified= peer.User.Equals(userObj);
-            OperationResponse response = new OperationResponse(operationRequest.OperationCode);
+            AscensionServer.log.Info("\n 登出的账号" + userJson + ">>>>>>>>>>>>>>>>>>");
+            ResponseData.Clear();
+            bool verified = peer.User.Equals(userObj);
+            OpResponse.OperationCode = operationRequest.OperationCode;
             if (verified)
             {
-                response.ReturnCode =(short) ReturnCode.Success;
+                opResponse.ReturnCode = (short)ReturnCode.Success;
                 AscensionServer.Instance.Logoff(peer);
                 peer.Logoff();
             }
             else
             {
-                response.ReturnCode = (short)ReturnCode.Fail;
+                OpResponse.ReturnCode = (short)ReturnCode.Fail;
             }
-            peer.SendOperationResponse(response, sendParameters);
-            //Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaAccount, nHCriteriaPassword);
+            peer.SendOperationResponse(OpResponse, sendParameters);
         }
     }
 }

@@ -26,12 +26,13 @@ namespace AscensionServer
             if (isExisted)
                 AscensionServer.log.Info("----------------------------  Role >>Role name:+" + roleTmp.RoleName + " already exist !!!  ---------------------------------");
             Role role = Singleton<NHManager>.Instance.CriteriaGet<Role>(nHCriteriaRoleName);//根据username查询数据
-            OperationResponse response = new Photon.SocketServer.OperationResponse(operationRequest.OperationCode);
+            OpResponse.OperationCode = operationRequest.OperationCode;
             string str_uuid = peer.User.UUID;
             NHCriteria nHCriteriaUUID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("UUID", str_uuid);
             var userRole = Singleton<NHManager>.Instance.CriteriaGet<UserRole>(nHCriteriaUUID);
             string roleJson = userRole.RoleIDArray;
             string roleStatusJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.RoleStatus));
+            ResponseData.Clear();
             //如果没有查询到代表角色没被注册过可用
             if (role == null)
             {
@@ -52,17 +53,16 @@ namespace AscensionServer
                 Singleton<NHManager>.Instance.Add(new RoleAssets() { RoleID = rolestatus.RoleID });
                 var userRoleJson = Utility.ToJson(roleList);
                 Singleton<NHManager>.Instance.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });
-                response.ReturnCode = (short)ReturnCode.Success;
-                Dictionary<byte, object> data = new Dictionary<byte, object>();
-                data.Add((byte)ObjectParameterCode.Role, Utility.ToJson(role));
-                response.Parameters = data;
+                OpResponse.ReturnCode = (short)ReturnCode.Success;
+                ResponseData.Add((byte)ObjectParameterCode.Role, Utility.ToJson(role));
+                OpResponse.Parameters = ResponseData; ;
             }
             else
             {
-                response.ReturnCode = (short)ReturnCode.Fail;
+                OpResponse.ReturnCode = (short)ReturnCode.Fail;
             }
             //把上面的回应给客户端
-            peer.SendOperationResponse(response, sendParameters);
+            peer.SendOperationResponse(OpResponse, sendParameters);
             Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaUUID,nHCriteriaRoleName);
         }
     }

@@ -20,27 +20,20 @@ namespace AscensionServer
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             string rolestatusJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role));
-            AscensionServer.log.Info(">>>>>>>>>>>>传输过来更新的战斗数据:" + rolestatusJson + "<<<<<<<<<<<");
+            AscensionServer.log.Info(">>>>>>>>>>>>VerifyRoleStatusHandler\n传输过来更新的战斗数据:" + rolestatusJson + "VerifyRoleStatusHandler\n<<<<<<<<<<<");
             var rolestatusObj = Utility.ToObject<RoleStatus>(rolestatusJson);
             NHCriteria nHCriteriaRoleStatue = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolestatusObj.RoleID);
+            ResponseData.Clear();
             bool exist = Singleton<NHManager>.Instance.Verify<RoleStatus>(nHCriteriaRoleStatue);
-            OperationResponse operationResponse = new OperationResponse(operationRequest.OperationCode);
-
+            OpResponse.OperationCode = operationRequest.OperationCode;
             if (exist)
             {
                 Singleton<NHManager>.Instance.Update(rolestatusObj);
-                //var verifiedRoleStatus = Singleton<NHManager>.Instance.CriteriaGet<RoleStatus>(nHCriteriaRoleStatue);
-                //Dictionary<byte, object> data = new Dictionary<byte, object>();
-                //data.Add((byte)ObjectParameterCode.RoleStatus, verifiedRoleStatus);
-                //operationResponse.Parameters = data;
-
-                operationResponse.ReturnCode = (short)ReturnCode.Success;
-                
+                OpResponse.ReturnCode = (short)ReturnCode.Success;
             }
             else
-                operationResponse.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(operationResponse, sendParameters);
-            //Singleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleStatue);
+                OpResponse.ReturnCode = (short)ReturnCode.Fail;
+            peer.SendOperationResponse(OpResponse, sendParameters);
         }
     }
 }

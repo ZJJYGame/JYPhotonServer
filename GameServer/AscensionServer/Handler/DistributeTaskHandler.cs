@@ -26,21 +26,21 @@ namespace AscensionServer
             var roletaskobj = Utility.ToObject<RoleTaskProgress>(roletask);
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roletaskobj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID);
-            OperationResponse operationResponse = new OperationResponse(operationRequest.OperationCode);
+            ResponseData.Clear();
+            OpResponse.OperationCode = operationRequest.OperationCode;
             if (exist)
             {
                Singleton<NHManager>.Instance.Update(roletaskobj);
                 var roleTaskProgress = Singleton<NHManager>.Instance.CriteriaGet<RoleTaskProgress>(nHCriteriaRoleID);
                 AscensionServer.log.Info(">>>>>>>>>>>>传回去的" + roleTaskProgress + ">>>>>>>>>>>>");
-                Dictionary<byte, object> data = new Dictionary<byte, object>();
-                data.Add((byte)ObjectParameterCode.Role, roleTaskProgress);
-                operationResponse.Parameters = data;
-                operationResponse.ReturnCode = (short)ReturnCode.Success;
+                ResponseData.Add((byte)ObjectParameterCode.Role, roleTaskProgress);
+                OpResponse.Parameters = ResponseData;
+                OpResponse.ReturnCode = (short)ReturnCode.Success;
 
             }
             else
-                operationResponse.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(operationResponse,sendParameters);
+                OpResponse.ReturnCode = (short)ReturnCode.Fail;
+            peer.SendOperationResponse(OpResponse,sendParameters);
             Singleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleID);
         }
        
