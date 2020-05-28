@@ -23,6 +23,7 @@ namespace AscensionServer
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
+<<<<<<< Updated upstream
             byte heartBeatResult = Convert.ToByte(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.HeartBeat));
             OperationResponse response = new OperationResponse(operationRequest.OperationCode);
             if (heartBeatResult == 1)
@@ -34,6 +35,16 @@ namespace AscensionServer
                 response.ReturnCode = (short)ReturnCode.Fail;
             }
 
+=======
+            byte data = Convert.ToByte(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.HeartBeat));
+            OperationResponse response = new OperationResponse(operationRequest.OperationCode);
+            if (data == 1)
+            {
+                response.OperationCode = (byte)ReturnCode.Success;
+                //AscensionServer.log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>我胡汉三回来了");
+            }else
+            response.OperationCode = (byte)ReturnCode.Fail;
+>>>>>>> Stashed changes
             peer.SendOperationResponse(response, sendParameters);
         }
     }
