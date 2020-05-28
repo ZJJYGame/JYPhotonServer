@@ -33,6 +33,7 @@ namespace AscensionServer
             {
                 response.ReturnCode = (short)ReturnCode.Fail;
             }
+
             peer.SendOperationResponse(response, sendParameters);
         }
     }
