@@ -26,6 +26,8 @@ namespace AscensionProtocol
         DestroyOtherRole=15,
         HeartBeat=16,
         DistributeTask=17,
+        SyncRoleExp=18,
+        SyncGameDate=19,
         SubCode=128,
     }
 }
