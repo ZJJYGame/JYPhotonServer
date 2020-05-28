@@ -14,7 +14,6 @@ using ExitGames.Logging;
 using ExitGames.Logging.Log4Net;
 using System.IO;
 using log4net.Config;
-using AscensionServer.Handler;
 using AscensionServer.Threads;
 using ExitGames.Concurrency.Fibers;
 namespace AscensionServer

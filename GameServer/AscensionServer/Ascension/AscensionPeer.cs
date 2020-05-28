@@ -30,7 +30,6 @@ namespace AscensionServer
         //处理客户端断开连接的后续工作
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
-            AscensionServer.log.Info("\n测试，不知道为何没用");
             EventData ed = new EventData((byte)EventCode.DeletePlayer);
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             data.Add((byte)ObjectParameterCode.User,onlineStateDTO);
