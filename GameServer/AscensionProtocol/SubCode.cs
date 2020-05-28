@@ -5,9 +5,9 @@
     /// </summary>
     public enum SubCode:short
     {
-        GetRole,
-        AddRole,
-        SelectRole,
-        UpdateRole,
+        GetRole=0,
+        AddRole=1,
+        SelectRole=2,
+        UpdateRole=3
     }
 }
