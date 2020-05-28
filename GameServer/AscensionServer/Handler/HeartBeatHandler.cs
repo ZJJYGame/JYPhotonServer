@@ -23,14 +23,17 @@ namespace AscensionServer
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            byte data = Convert.ToByte(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.HeartBeat));
+            byte heartBeatResult = Convert.ToByte(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.HeartBeat));
             OperationResponse response = new OperationResponse(operationRequest.OperationCode);
-            if (data == 1)
+            if (heartBeatResult == 1)
             {
-                response.OperationCode = (byte)ReturnCode.Success;
-                //AscensionServer.log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>我胡汉三回来了");
-            }else
-            response.OperationCode = (byte)ReturnCode.Fail;
+                response.ReturnCode = (short)ReturnCode.Success;
+            }
+            else
+            {
+                response.ReturnCode = (short)ReturnCode.Fail;
+            }
+
             peer.SendOperationResponse(response, sendParameters);
         }
     }
