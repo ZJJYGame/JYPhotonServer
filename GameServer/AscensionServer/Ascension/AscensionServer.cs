@@ -48,7 +48,6 @@ namespace AscensionServer
         {
             var peer = new AscensionPeer(initRequest);
             log.Info("***********************  Client connected !!! ***********************");
-            log.Info("~~~~~~~~~~~~~~~~~~~~~~~~~~~  PeerIP  " + peer.RemoteIP + "  Connected  ~~~~~~~~~~~~~~~~~~~~~~~~");
             PeerList.Add(peer);
             //TODO  连接后的peer 添加到hashset里
             //ConnectedPeerHashSet.Add(peer);
@@ -59,8 +58,6 @@ namespace AscensionServer
         /// </summary>
         Dictionary<string, AscensionPeer> ALLClientPeer = new Dictionary<string, AscensionPeer>();
         public Dictionary<string, AscensionPeer> AllClientPeer { get { return ALLClientPeer; }set { ALLClientPeer = value; } }
-
-
 
 
 

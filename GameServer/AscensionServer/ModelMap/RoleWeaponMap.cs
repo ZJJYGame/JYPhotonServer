@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentNHibernate.Mapping;
 using AscensionServer.Model;
-namespace AscensionServer.ModelMap
+namespace AscensionServer
 {
     public class RoleWeaponMap:ClassMap<RoleWeapon>
     {
