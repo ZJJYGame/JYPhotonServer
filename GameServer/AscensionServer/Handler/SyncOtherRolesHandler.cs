@@ -30,21 +30,19 @@ namespace AscensionServer
                 }
             }
             string usernameListString = Utility.ToJson(userAccountList);
+            ResponseData.Clear();
             //给客户端响应
-            Dictionary<byte, object> data = new Dictionary<byte, object>();
-            OperationResponse response = new OperationResponse(operationRequest.OperationCode);
-            response.Parameters = data;
-            peer.SendOperationResponse(response, sendParameters);
+            OpResponse.OperationCode = operationRequest.OperationCode;
+            OpResponse.Parameters = ResponseData;
+            peer.SendOperationResponse(OpResponse, sendParameters);
+            EventData ed = new EventData((byte)EventCode.NewPlayer);
+            ResponseData.Add((byte)ParameterCode.Account, peer.User.Account);   //把新进来的用户名传递给其他客户端
+            ed.Parameters = ResponseData;
             //告诉其他客户端有新的客户端加入
             foreach (AscensionPeer temPeer in AscensionServer.Instance.PeerList)
             {
                 if (string.IsNullOrEmpty(temPeer.User. Account) == false &&temPeer !=peer)
                 {
-                    EventData ed = new EventData((byte)EventCode.NewPlayer);
-                    Dictionary<byte, object> data2 = new Dictionary<byte, object>();
-                    data2.Add((byte)ParameterCode.Account, peer.User.Account);   //把新进来的用户名传递给其他客户端
-                    //AscensionServer.log.Info(">>>>>>>>>>>>>>  " + peer.username);
-                    ed.Parameters = data2;
                     temPeer.SendEvent(ed,sendParameters); //发送事件
                 }
             }

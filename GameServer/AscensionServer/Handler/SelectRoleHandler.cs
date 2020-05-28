@@ -24,13 +24,12 @@ namespace AscensionServer
             string _uuid = Singleton<NHManager>.Instance.CriteriaGet<User>(nHCriteriaAccount).UUID;
             NHCriteria nHCriteriaUUID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("UUID", _uuid);
             UserRole userRole = Singleton<NHManager>.Instance.CriteriaGet<UserRole>(nHCriteriaUUID);
-            OperationResponse response = new OperationResponse(operationRequest.OperationCode);
+            ResponseData.Clear();
+            OpResponse.OperationCode = operationRequest.OperationCode;
             if (string.IsNullOrEmpty(userRole.RoleIDArray))
             {
-                Dictionary<byte, object> data = new Dictionary<byte, object>();
-                data.Add((byte)ParameterCode.RoleList, Utility.ToJson(new List<string>()));
-                response.Parameters = data;
-                response.ReturnCode = (byte)ReturnCode.Empty;
+                ResponseData.Add((byte)ParameterCode.RoleList, Utility.ToJson(new List<string>()));
+                OpResponse.ReturnCode = (byte)ReturnCode.Empty;
             }
             else
             {
@@ -51,14 +50,13 @@ namespace AscensionServer
                         nHCriteriaList.Add(tmpCriteria);
                     }
                 }
-                Dictionary<byte, object> roleData = new Dictionary<byte, object>();
-                roleData.Add((byte)ParameterCode.RoleList, Utility.ToJson(roleObjList));
-                response.Parameters = roleData;
-                response.ReturnCode = (byte)ReturnCode.Success;
+                ResponseData.Add((byte)ParameterCode.RoleList, Utility.ToJson(roleObjList));
+                OpResponse.Parameters = ResponseData;
+                OpResponse.ReturnCode = (byte)ReturnCode.Success;
                 Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaList);
             }
             // 把上面的结果给客户端
-            peer.SendOperationResponse(response, sendParameters);
+            peer.SendOperationResponse(OpResponse, sendParameters);
             Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaUUID, nHCriteriaAccount);
         }
     }
