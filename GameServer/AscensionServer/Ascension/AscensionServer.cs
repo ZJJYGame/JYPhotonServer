@@ -48,7 +48,6 @@ namespace AscensionServer
         {
             var peer = new AscensionPeer(initRequest);
             log.Info("***********************  Client connected !!! ***********************");
-            log.Info("~~~~~~~~~~~~~~~~~~~~~~~~~~~  PeerIP  " + peer.RemoteIP + "  Connected  ~~~~~~~~~~~~~~~~~~~~~~~~");
             PeerList.Add(peer);
             //TODO  连接后的peer 添加到hashset里
             //ConnectedPeerHashSet.Add(peer);
@@ -59,8 +58,6 @@ namespace AscensionServer
         /// </summary>
         Dictionary<string, AscensionPeer> ALLClientPeer = new Dictionary<string, AscensionPeer>();
         public Dictionary<string, AscensionPeer> AllClientPeer { get { return ALLClientPeer; }set { ALLClientPeer = value; } }
-
-
 
 
 
@@ -106,12 +103,16 @@ namespace AscensionServer
             handlerDict.Add(syncRoleStatusHandler.OpCode, syncRoleStatusHandler);
             VerifyRoleStatusHandler verifyRoleStatusHandler = new VerifyRoleStatusHandler();
             handlerDict.Add(verifyRoleStatusHandler.OpCode, verifyRoleStatusHandler);
-            //DistributeTaskHandler distributeTaskHandler = new DistributeTaskHandler();
-            //handlerDict.Add(distributeTaskHandler.OpCode, distributeTaskHandler);
+            DistributeTaskHandler distributeTaskHandler = new DistributeTaskHandler();
+            handlerDict.Add(distributeTaskHandler.OpCode, distributeTaskHandler);
             HeartBeatHandler heartBeatHandler = new HeartBeatHandler();
             handlerDict.Add(heartBeatHandler.OpCode, heartBeatHandler);
             SyncRoleAssetsHandler syncRoleAssetsHandler = new SyncRoleAssetsHandler();
             handlerDict.Add(syncRoleAssetsHandler.OpCode, syncRoleAssetsHandler);
+            CultivateGongFaHandler cultivateGongFaHandler = new CultivateGongFaHandler();
+            handlerDict.Add(cultivateGongFaHandler.OpCode, cultivateGongFaHandler);
+            CultivateMiShuHandler cultivateMiShuHandler = new CultivateMiShuHandler();
+            handlerDict.Add(cultivateMiShuHandler.OpCode, cultivateMiShuHandler);
         }
         Dictionary<string, AscensionPeer> loginPeerDict = new Dictionary<string, AscensionPeer>();
         public void Login(AscensionPeer peer)

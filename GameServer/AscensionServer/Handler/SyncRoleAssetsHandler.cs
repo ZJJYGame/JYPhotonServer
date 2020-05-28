@@ -19,16 +19,31 @@ namespace AscensionServer
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             string roleJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role));
-            AscensionServer.log.Info(">>>>>>>>>>>>>\n"+roleJson+" >>>>>>>>>>>>>>>>>>>>>>");
+            AscensionServer.log.Info(">>>>>>>>>>>>>SyncRoleAssetsHandler\n" + roleJson+ "\n SyncRoleAssetsHandler >>>>>>>>>>>>>>>>>>>>>>");
             var roleObj = Utility.ToObject<Role>(roleJson);
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
-            //NHCriteria nHCriteriaRoleName = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleName", roleObj.RoleName);
             bool exist = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID);
             OperationResponse response = new OperationResponse(operationRequest.OperationCode);
             if (exist)
             {
                 var result = Singleton<NHManager>.Instance.CriteriaGet<RoleAssets>(nHCriteriaRoleID);
+
+                {
+                    if (result == null)
+                    {
+                        Singleton<NHManager>.Instance.Add(new RoleAssets()
+                        {
+                            RoleID = roleObj.RoleID,
+                            SpiritStonesHigh = 100,
+                            SpiritStonesLow = 100,
+                            SpiritStonesMedium = 100,
+                            XianYu = 50
+                        });
+                        result = Singleton<NHManager>.Instance.CriteriaGet<RoleAssets>(nHCriteriaRoleID);
+                    }
+                }
                 string roleAssetsJson = Utility.ToJson(result);
+                AscensionServer.log.Info("SyncRoleAssetsHandler\n" + roleAssetsJson + "\nSyncRoleAssetsHandler");
                 Dictionary<byte, object> data = new Dictionary<byte, object>();
                 data.Add((byte)ObjectParameterCode.RoleAssets, roleAssetsJson);
                 response.Parameters = data;

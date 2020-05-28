@@ -8,7 +8,6 @@ namespace AscensionProtocol
 {
     public enum OperationCode:byte//区分请求和响应
     {
-<<<<<<< Updated upstream
         Login=0,
         Logoff=1,
         Register=2,
@@ -29,26 +28,8 @@ namespace AscensionProtocol
         DistributeTask=17,
         SyncRoleExp=18,
         SyncGameDate=19,
-=======
-        Login,
-        Logoff,
-        Register,
-        SelectRole,
-        CreateRole,
-        VerifyRole,
-        UpdateRole,
-        RemoveRole,
-        SyncPositon,
-        SyncSelfRoles,
-        SyncOtherRoles,
-        SyncRoleStatus,
-        SyncRoleAssets,
-        Inventory,
-        Default,
-        DestroyOtherRole,
-        HeartBeat,
-        DistributeTask,
->>>>>>> Stashed changes
-        SubCode=128,
+        CultivateMiShu=20,
+        CultivateGongFa=21,
+        SubCode =128,
     }
 }
