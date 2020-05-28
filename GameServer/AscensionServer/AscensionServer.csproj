@@ -115,6 +115,8 @@
     <Compile Include="CFramework\Utility\Utility.Assembly.cs" />
     <Compile Include="Handler\Basehandler.cs" />
     <Compile Include="Handler\CreateRoleHandler.cs" />
+    <Compile Include="Handler\CultivateGongFaHandler.cs" />
+    <Compile Include="Handler\CultivateMiShuHandler.cs" />
     <Compile Include="Handler\DestroyHandler.cs" />
     <Compile Include="Handler\DefaultHandler.cs" />
     <Compile Include="Handler\DistributeTaskHandler.cs" />

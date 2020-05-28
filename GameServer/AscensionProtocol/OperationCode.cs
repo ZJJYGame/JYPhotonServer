@@ -26,6 +26,8 @@ namespace AscensionProtocol
         DestroyOtherRole=15,
         HeartBeat=16,
         DistributeTask=17,
-        SubCode=128,
+        CultivateMiShu=18,
+        CultivateGongFa=19,
+        SubCode =128,
     }
 }
