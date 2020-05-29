@@ -25,7 +25,7 @@ namespace AscensionServer
             NHCriteria nHCriteriaRoleName = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleName", roleTmp.RoleName);
             var isExisted = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleName);
             if (isExisted)
-                AscensionServer.log.Info("----------------------------  Role >>Role name:+" + roleTmp.RoleName + " already exist !!!  ---------------------------------");
+                AscensionServer._Log.Info("----------------------------  Role >>Role name:+" + roleTmp.RoleName + " already exist !!!  ---------------------------------");
             Role role = Singleton<NHManager>.Instance.CriteriaGet<Role>(nHCriteriaRoleName);//根据username查询数据
             OpResponse.OperationCode = operationRequest.OperationCode;
             string str_uuid = peer.User.UUID;

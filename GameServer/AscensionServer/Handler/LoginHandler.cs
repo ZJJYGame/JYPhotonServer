@@ -40,11 +40,11 @@ namespace AscensionServer
                 userObj.UUID= Singleton<NHManager>.Instance.CriteriaGet<User>(nHCriteriaAccount).UUID;
                 peer.Login(userObj);
                 AscensionServer.Instance.Login(peer);
-                AscensionServer.log.Info("~~~~~~~~~~~~~~~~~~~~~~Login Success : " + userObj.Account + "UUID : " + peer.User.UUID + "~~~~~~~~~~~~~~~~~~~~~~");
+                AscensionServer._Log.Info("~~~~~~~~~~~~~~~~~~~~~~Login Success : " + userObj.Account + "UUID : " + peer.User.UUID + "~~~~~~~~~~~~~~~~~~~~~~");
             }
             else
             {
-                AscensionServer.log.Info("Login fail:" + userObj.Account);
+                AscensionServer._Log.Info("Login fail:" + userObj.Account);
                 OpResponse.ReturnCode = (short)ReturnCode.Fail;
             }
             peer.SendOperationResponse(OpResponse, sendParameters);

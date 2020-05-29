@@ -25,7 +25,7 @@ namespace AscensionServer
 
             peer.x = x; peer.y = y; peer.z = z;//把位置数据传递给Clientpeer保存管理起来
 
-            AscensionServer.log.Info(x + "--" + y + "--" + z);//输出测试
+            AscensionServer._Log.Info(x + "--" + y + "--" + z);//输出测试
         }
        
     }

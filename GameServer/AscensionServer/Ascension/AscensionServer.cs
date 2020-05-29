@@ -21,13 +21,11 @@ namespace AscensionServer
 {
     public class AscensionServer : ApplicationBase
     {
-        public static readonly ILogger log = LogManager.GetCurrentClassLogger();
-
+        public static readonly ILogger _Log = LogManager.GetCurrentClassLogger();
         private SyncPositionThread syncPositionThread = new SyncPositionThread();
         new public static AscensionServer Instance { get; private set; }
         Dictionary<OperationCode, HandlerBase> handlerDict = new Dictionary<OperationCode, HandlerBase>();
         public Dictionary<OperationCode, HandlerBase> HandlerDict { get { return handlerDict; } }
-
         /// <summary>
         /// 已经连接但是未登录的客户端对象容器
         /// </summary>
@@ -35,9 +33,6 @@ namespace AscensionServer
         public HashSet<AscensionPeer> ConnectedPeerHashSet { get { return connectedPeerHashSet; }set { connectedPeerHashSet = value; } }
         List<AscensionPeer> peerList = new List<AscensionPeer>();  //通过这个集合可以访问到所有的
         public List<AscensionPeer> PeerList { get { return peerList; } }
-
-        public int ClientCount { get { return PeerList.Count; } }
-        int clientCount = 0;
         /// <summary>
         /// 当一个客户端请求连接的时候，服务器就会调用这个方法
         /// 我们使用peerbase，表示和一个客户端的连接，然后photon就会把链接管理起来
@@ -47,10 +42,9 @@ namespace AscensionServer
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
             var peer = new AscensionPeer(initRequest);
-            log.Info("***********************  Client connected !!! ***********************");
+            _Log.Info("***********************  \nClient connected !!! \n ***********************");
             PeerList.Add(peer);
             //TODO  连接后的peer 添加到hashset里
-            //ConnectedPeerHashSet.Add(peer);
             return peer;
         }
         /// <summary>
@@ -67,7 +61,7 @@ namespace AscensionServer
             {
                 LogManager.SetLoggerFactory(Log4NetLoggerFactory.Instance);
                 XmlConfigurator.ConfigureAndWatch(configFileInfo);//让log4net读取配置文件
-                log.Info("进行初始化");
+                _Log.Info("进行初始化");
             }
             InitHandler();
             //syncPositionThread.Run();
@@ -76,7 +70,8 @@ namespace AscensionServer
         protected override void TearDown()
         {
             //syncPositionThread.Stop();
-            log.Info("***********************  Server Shotdown !!! ***********************");
+            _Log.Info("***********************  Server Shotdown !!! ***********************");
+            handlerDict.Clear();
         }
         void InitHandler()
         {
@@ -107,7 +102,7 @@ namespace AscensionServer
             }
             catch (Exception)
             {
-                log.Info("----------------------------  can't add into loginDict"+peer.User.Account.ToString()+"------------------------------------");
+                _Log.Info("----------------------------  can't add into loginDict"+peer.User.Account.ToString()+"------------------------------------");
             }
         }
         public void Logoff(AscensionPeer peer)
@@ -118,7 +113,7 @@ namespace AscensionServer
             }
             catch (Exception)
             {
-                log.Info("----------------------------  can't  remove from loginDict" + peer.ToString() + "------------------------------------");
+                _Log.Info("----------------------------  can't  remove from loginDict" + peer.ToString() + "------------------------------------");
             }
         }
         public bool IsLogin(AscensionPeer peer)

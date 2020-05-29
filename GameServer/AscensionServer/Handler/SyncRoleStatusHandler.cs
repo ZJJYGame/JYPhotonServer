@@ -24,7 +24,7 @@ namespace AscensionServer
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             string roleJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role));
-            AscensionServer.log.Info("------------------------------------" + "roleJson  : " + roleJson + "---------------------------------------");
+            AscensionServer._Log.Info("------------------------------------" + "roleJson  : " + roleJson + "---------------------------------------");
             OpResponse.OperationCode = operationRequest.OperationCode;
             var roleObj = Utility.ToObject<Role>(roleJson);
             NHCriteria nHCriteriaRoleId = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
@@ -33,7 +33,7 @@ namespace AscensionServer
             if (exist)
             {
                 RoleStatus roleStatus = Singleton<NHManager>.Instance.CriteriaGet<RoleStatus>(nHCriteriaRoleId);
-                AscensionServer.log.Info("------------------------------------" + "RoleStatus  : " + roleStatus + "---------------------------------------");
+                AscensionServer._Log.Info("------------------------------------" + "RoleStatus  : " + roleStatus + "---------------------------------------");
                 string roleStatusJson = Utility.ToJson(roleStatus);
                 ResponseData.Add((byte)ObjectParameterCode.RoleStatus, roleStatusJson);
                 OpResponse.Parameters = ResponseData;

@@ -22,7 +22,7 @@ namespace AscensionServer
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             string roletask = Convert.ToString(Utility.GetValue(operationRequest.Parameters,(byte)ObjectParameterCode.Role));
-            AscensionServer.log.Info(">>>>>>>>>>>>>接受到的任务相关信息："+roletask+">>>>>>>>>>>>>>>>>>>>>>");
+            AscensionServer._Log.Info(">>>>>>>>>>>>>接受到的任务相关信息："+roletask+">>>>>>>>>>>>>>>>>>>>>>");
             var roletaskobj = Utility.ToObject<RoleTaskProgress>(roletask);
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roletaskobj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID);
@@ -32,7 +32,7 @@ namespace AscensionServer
             {
                Singleton<NHManager>.Instance.Update(roletaskobj);
                 var roleTaskProgress = Singleton<NHManager>.Instance.CriteriaGet<RoleTaskProgress>(nHCriteriaRoleID);
-                AscensionServer.log.Info(">>>>>>>>>>>>传回去的" + roleTaskProgress + ">>>>>>>>>>>>");
+                AscensionServer._Log.Info(">>>>>>>>>>>>传回去的" + roleTaskProgress + ">>>>>>>>>>>>");
                 ResponseData.Add((byte)ObjectParameterCode.Role, roleTaskProgress);
                 OpResponse.Parameters = ResponseData;
                 OpResponse.ReturnCode = (short)ReturnCode.Success;

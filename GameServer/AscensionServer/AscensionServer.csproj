@@ -113,13 +113,13 @@
     <Compile Include="CFramework\ReferencePool\ReferencePoolManager.cs" />
     <Compile Include="CFramework\ReferencePool\ReferenceSpawnPool.cs" />
     <Compile Include="CFramework\Utility\Utility.Assembly.cs" />
-    <Compile Include="Handler\Basehandler.cs" />
     <Compile Include="Handler\CreateRoleHandler.cs" />
     <Compile Include="Handler\CultivateGongFaHandler.cs" />
     <Compile Include="Handler\CultivateMiShuHandler.cs" />
     <Compile Include="Handler\DestroyHandler.cs" />
     <Compile Include="Handler\DefaultHandler.cs" />
     <Compile Include="Handler\DistributeTaskHandler.cs" />
+    <Compile Include="Handler\HandlerBase.cs" />
     <Compile Include="Handler\HeartBeatHandler.cs" />
     <Compile Include="Handler\LoginHandler.cs" />
     <Compile Include="Handler\LogoffHandler.cs" />
@@ -196,6 +196,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\AscensionCalculate\AscensionCalculate.csproj">
+      <Project>{a71709ea-e11c-4e7b-b8b7-28a57eff49ef}</Project>
+      <Name>AscensionCalculate</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AscensionProtocol\AscensionProtocol.csproj">
       <Project>{142ced7d-c56d-43b2-a11f-9dc0f302bd80}</Project>
       <Name>AscensionProtocol</Name>

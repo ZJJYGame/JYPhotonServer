@@ -60,7 +60,7 @@ namespace AscensionServer
                 Type type = assembly.GetType(typeFullName);
                 if (type != null)
                 {
-                    AscensionServer.log.Info("Utility.Assembly>>>>>>>>>>>>>" + type.FullName + "<<<<<<<<<<<<<<<<<<");
+                    AscensionServer._Log.Info("Utility.Assembly>>>>>>>>>>>>>" + type.FullName + "<<<<<<<<<<<<<<<<<<");
                     var obj = Activator.CreateInstance(type);
                     return obj;
                 }
