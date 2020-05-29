@@ -7,13 +7,13 @@ using Photon.SocketServer;
 
 namespace AscensionServer
 {
-    public class DefaultHandler : BaseHandler
+    public class DefaultHandler : HandlerBase
     {
-        public DefaultHandler()
+        public override void OnInitialization()
         {
             OpCode = AscensionProtocol.OperationCode.Default;
+            base.OnInitialization();
         }
-
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
         }

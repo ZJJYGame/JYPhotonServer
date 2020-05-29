@@ -15,8 +15,10 @@ namespace AscensionServer.Model
     public class GongFa
     {
         public virtual int ID { get; set; }
-        public virtual string SkillArray { get; set; }
-        public virtual int GongFaID { get; set; }
+        public virtual byte GongFaID { get; set; }
+        public virtual int GongFaExp { get; set; }
+        public virtual short GongFaLevel { get; set; }
+        public virtual string GongFaSkillArray { get; set; }
     }
 }
 

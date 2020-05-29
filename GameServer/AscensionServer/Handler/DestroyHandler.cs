@@ -8,13 +8,13 @@ using AscensionProtocol;
 using AscensionServer.Model;
 namespace AscensionServer
 {
-    public class DestroyHandler: BaseHandler
+    public class DestroyHandler: HandlerBase
     {
-        public DestroyHandler()
+        public override void OnInitialization()
         {
             OpCode = OperationCode.DestroyOtherRole;
+            base.OnInitialization();
         }
-
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.User));

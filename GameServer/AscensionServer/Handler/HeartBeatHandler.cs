@@ -12,14 +12,15 @@ using Photon.SocketServer;
 using AscensionProtocol;
 namespace AscensionServer
 {
-    public class HeartBeatHandler : BaseHandler
+    public class HeartBeatHandler : HandlerBase
     {
         /// <summary>
         /// 服务器心跳检测处理者
         /// </summary>
-        public HeartBeatHandler()
+        public override void OnInitialization()
         {
             OpCode = OperationCode.HeartBeat;
+            base.OnInitialization();
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {

@@ -9,7 +9,7 @@ namespace AscensionProtocol.DTO
     public  class RoleMiShuDTO:ProtocolDTO
     {
         public virtual int RoleID { get; set; }
-        public virtual string MiShuIdArray { get; set; }
+        public virtual string MiShuIDArray { get; set; }
 
     }
 }

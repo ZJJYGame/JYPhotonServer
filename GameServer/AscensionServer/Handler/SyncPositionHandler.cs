@@ -8,11 +8,12 @@ using Photon.SocketServer;
 
 namespace AscensionServer
 {
-    class SyncPositionHandler : BaseHandler
+    class SyncPositionHandler : HandlerBase
     {
-        public SyncPositionHandler()
+        public override void OnInitialization()
         {
             OpCode = OperationCode.SyncPositon;
+            base.OnInitialization();
         }
         //获取客户端位置请求的处理的代码
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)

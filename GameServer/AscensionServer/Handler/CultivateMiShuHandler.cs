@@ -7,11 +7,12 @@ using Photon.SocketServer;
 using AscensionProtocol;
 namespace AscensionServer
 {
-    public class CultivateMiShuHandler : BaseHandler
+    public class CultivateMiShuHandler : HandlerBase
     {
-        public CultivateMiShuHandler()
+        public override void OnInitialization()
         {
             OpCode = OperationCode.CultivateMiShu;
+            base.OnInitialization();
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {

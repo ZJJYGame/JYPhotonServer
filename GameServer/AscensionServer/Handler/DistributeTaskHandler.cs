@@ -12,12 +12,12 @@ using System.Collections.Generic;
 
 namespace AscensionServer
 {
-    public class DistributeTaskHandler : BaseHandler
+    public class DistributeTaskHandler : HandlerBase
     {
-        public DistributeTaskHandler()
+        public override void OnInitialization()
         {
-            AscensionServer.log.Info(">>>>>>>>>>>>>DistributeTaskHandler >>>>>>>>>>>>>>>>>>>>>>");
             OpCode = OperationCode.DistributeTask;
+            base.OnInitialization();
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {

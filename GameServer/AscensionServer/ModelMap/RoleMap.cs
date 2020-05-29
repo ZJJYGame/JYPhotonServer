@@ -13,10 +13,10 @@ namespace AscensionServer
         {
             Id(x => x.RoleID).GeneratedBy.Increment().Column("role_id");
             Map(x => x.RoleFaction).Column("role_faction");
-            Map(x => x.RoleName).Column("role_name").Unique();
-            Map(x => x.RoleRoot).Column("role_root");
-            Map(x => x.RoleExp).Column("role_exp");
             Map(x => x.RoleGender).Column("role_gender");
+            Map(x => x.RoleTalent).Column("role_talent");
+            Map(x => x.RoleRoot).Column("role_root");
+            Map(x => x.RoleName).Column("role_name").Unique();
             Table("role");
         }
     }

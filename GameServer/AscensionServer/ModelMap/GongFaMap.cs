@@ -12,7 +12,10 @@ namespace AscensionServer
         public GongFaMap()
         {
             Id(x => x.ID).GeneratedBy.Increment().Column("id");
-            Map(x => x.SkillArray).Column("skill_array").Nullable();
+            Map(x => x.GongFaID).Column("gongfa_id");
+            Map(x => x.GongFaExp).Column("gongfa_exp");
+            Map(x => x.GongFaLevel).Column("gongfa_level");
+            Map(x => x.GongFaSkillArray).Column("gongfa_skill_array").Nullable();
             Table("gongfa");
         }
     }

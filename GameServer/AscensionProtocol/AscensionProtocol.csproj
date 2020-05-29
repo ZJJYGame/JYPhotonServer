@@ -66,6 +66,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReturnCode.cs" />
     <Compile Include="SubCode.cs" />
+    <Compile Include="SubOperationCode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="log4net.config" />

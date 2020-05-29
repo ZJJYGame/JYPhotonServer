@@ -9,6 +9,6 @@ namespace AscensionProtocol.DTO
     public class RoleGongFaDTO : ProtocolDTO
     {
         public virtual int RoleID { get; set; }
-        public virtual string GongFaIdArray { get; set; }
+        public virtual string GongFaIDArray { get; set; }
     }
 }

@@ -9,11 +9,12 @@ using Photon.SocketServer;
 
 namespace AscensionServer
 {
-    class SyncOtherRolesHandler : BaseHandler
+    class SyncOtherRolesHandler : HandlerBase
     {
-        public SyncOtherRolesHandler()
+        public override void OnInitialization()
         {
             OpCode = OperationCode.SyncOtherRoles;
+            base.OnInitialization();
         }
         //获取其他客户端相对应的用户名请求的处理代码
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)

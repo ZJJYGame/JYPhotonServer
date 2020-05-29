@@ -11,11 +11,12 @@ using System.Collections.Generic;
 using System;
 namespace AscensionServer
 {
-    class CreateRoleHandler : BaseHandler
+    class CreateRoleHandler : HandlerBase
     {
-        public CreateRoleHandler()
+        public override void OnInitialization()
         {
-            OpCode = AscensionProtocol.OperationCode.CreateRole;
+            OpCode = OperationCode.CreateRole;
+            base.OnInitialization();
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {

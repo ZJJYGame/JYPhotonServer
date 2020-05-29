@@ -15,11 +15,12 @@ namespace AscensionServer
     /// <summary>
     /// 处理登陆请求的类
     /// </summary>
-    class LoginHandler : BaseHandler
+    class LoginHandler : HandlerBase
     {
-        public LoginHandler()
+        public override void OnInitialization()
         {
             OpCode = OperationCode.Login;
+            base.OnInitialization();
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {

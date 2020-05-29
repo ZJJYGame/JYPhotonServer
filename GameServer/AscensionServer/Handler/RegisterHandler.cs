@@ -10,11 +10,12 @@ using System;
 
 namespace AscensionServer
 {
-    public class RegisterHandler : BaseHandler
+    public class RegisterHandler : HandlerBase
     {
-        public RegisterHandler()
+        public override void OnInitialization()
         {
             OpCode = OperationCode.Register;
+            base.OnInitialization();
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
