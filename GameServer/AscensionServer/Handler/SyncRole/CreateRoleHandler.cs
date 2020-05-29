@@ -15,7 +15,8 @@ namespace AscensionServer
     {
         public override void OnInitialization()
         {
-            OpCode = OperationCode.CreateRole;
+            //OpCode = OperationCode.CreateRole;
+            OpCode = OperationCode.SyncRole;
             base.OnInitialization();
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
