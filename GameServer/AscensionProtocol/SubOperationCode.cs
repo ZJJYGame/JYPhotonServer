@@ -15,6 +15,7 @@ namespace AscensionProtocol
         Add = 0,
         Remove = 1,
         Get = 2,
-        Update = 3
+        Update = 3,
+        Verify=4
     }
 }

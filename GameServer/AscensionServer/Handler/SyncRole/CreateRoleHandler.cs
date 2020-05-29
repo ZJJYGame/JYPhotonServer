@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System;
 namespace AscensionServer
 {
-    class CreateRoleHandler : HandlerBase
+   public class CreateRoleHandler : HandlerBase
     {
         public override void OnInitialization()
         {

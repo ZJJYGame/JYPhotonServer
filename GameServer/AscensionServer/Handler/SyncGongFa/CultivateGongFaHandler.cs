@@ -11,7 +11,7 @@ namespace AscensionServer
     {
         public override void OnInitialization()
         {
-            opCode = OperationCode.CultivateGongFa;
+            OpCode = OperationCode.CultivateGongFa;
             base.OnInitialization();
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)

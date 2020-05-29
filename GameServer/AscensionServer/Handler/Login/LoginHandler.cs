@@ -15,7 +15,7 @@ namespace AscensionServer
     /// <summary>
     /// 处理登陆请求的类
     /// </summary>
-    class LoginHandler : HandlerBase
+   public class LoginHandler : HandlerBase
     {
         public override void OnInitialization()
         {

@@ -11,7 +11,7 @@ using AscensionServer.Model;
 
 namespace AscensionServer
 {
-    class VerifyRoleStatusHandler : HandlerBase
+  public  class VerifyRoleStatusHandler : HandlerBase
     {
         public override void OnInitialization()
         {

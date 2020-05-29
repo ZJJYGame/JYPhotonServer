@@ -8,7 +8,7 @@ using Photon.SocketServer;
 
 namespace AscensionServer
 {
-    class SyncPositionHandler : HandlerBase
+  public  class SyncPositionHandler : HandlerBase
     {
         public override void OnInitialization()
         {

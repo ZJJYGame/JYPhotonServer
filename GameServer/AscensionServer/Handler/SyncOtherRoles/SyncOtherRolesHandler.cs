@@ -9,7 +9,7 @@ using Photon.SocketServer;
 
 namespace AscensionServer
 {
-    class SyncOtherRolesHandler : HandlerBase
+   public class SyncOtherRolesHandler : HandlerBase
     {
         public override void OnInitialization()
         {

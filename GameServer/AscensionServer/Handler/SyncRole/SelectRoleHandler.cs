@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace AscensionServer
 {
-    class SelectRoleHandler :HandlerBase
+  public  class SelectRoleHandler :HandlerBase
     {
         public override void OnInitialization()
         {
