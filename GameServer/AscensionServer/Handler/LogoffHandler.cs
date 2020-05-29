@@ -16,11 +16,12 @@ namespace AscensionServer
     /// <summary>
     /// 账号登出处理者
     /// </summary>
-    public class LogoffHandler : BaseHandler
+    public class LogoffHandler : HandlerBase
     {
-        public LogoffHandler()
+        public override void OnInitialization()
         {
             OpCode = OperationCode.Logoff;
+            base.OnInitialization();
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {

@@ -7,11 +7,12 @@ using Photon.SocketServer;
 using AscensionProtocol;
 namespace AscensionServer
 {
-    public class CultivateGongFaHandler : BaseHandler
+    public class CultivateGongFaHandler : HandlerBase
     {
-        public CultivateGongFaHandler()
+        public override void OnInitialization()
         {
             opCode = OperationCode.CultivateGongFa;
+            base.OnInitialization();
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {

@@ -1,7 +1,7 @@
 ﻿/*
 *Author : Don
 *Since 	:2020-04-18
-*Description  : 请求角色数值处理者
+*Description  : 请求角色数值处理者，返回角色的status
 */
 using System;
 using System.Collections.Generic;
@@ -14,11 +14,12 @@ using AscensionProtocol.DTO;
 using AscensionServer.Model;
 namespace AscensionServer
 {
-    public class SyncRoleStatusHandler : BaseHandler
+    public class SyncRoleStatusHandler : HandlerBase
     {
-        public SyncRoleStatusHandler()
+        public override void OnInitialization()
         {
-            OpCode = AscensionProtocol.OperationCode.SyncRoleStatus;
+            OpCode = OperationCode.SyncRoleStatus;
+            base.OnInitialization();
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {

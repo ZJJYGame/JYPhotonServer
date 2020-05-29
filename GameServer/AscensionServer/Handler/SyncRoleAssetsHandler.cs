@@ -10,11 +10,12 @@ using AscensionServer.Model;
 using System.Diagnostics;
 namespace AscensionServer
 {
-    public class SyncRoleAssetsHandler : BaseHandler
+    public class SyncRoleAssetsHandler : HandlerBase
     {
-        public SyncRoleAssetsHandler()
+        public override void OnInitialization()
         {
             OpCode = OperationCode.SyncRoleAssets;
+            base.OnInitialization();
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {

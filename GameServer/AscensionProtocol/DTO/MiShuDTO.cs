@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class MiShu:ProtocolDTO
+    public class MiShuDTO:ProtocolDTO
     {
         public virtual int ID { get; set; }
-        public virtual string SkillArry { get; set; }
-        public virtual int MiShuID { get; set; }
+        public virtual byte MiShuID { get; set; }
         public virtual int MiShuExp { get; set; }
-        public virtual int MiShuLevel { get; set; }
+        public virtual short MiShuLevel { get; set; }
+        public virtual string MiShuSkillArry { get; set; }
     }
 }

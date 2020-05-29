@@ -11,11 +11,12 @@ using AscensionServer.Model;
 
 namespace AscensionServer
 {
-    class VerifyRoleStatusHandler : BaseHandler
+    class VerifyRoleStatusHandler : HandlerBase
     {
-        public VerifyRoleStatusHandler()
+        public override void OnInitialization()
         {
-            OpCode = AscensionProtocol.OperationCode.VerifyRole;
+            OpCode = OperationCode.VerifyRole;
+            base.OnInitialization();
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {

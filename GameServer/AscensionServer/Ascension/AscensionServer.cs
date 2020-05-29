@@ -15,6 +15,7 @@ using ExitGames.Logging.Log4Net;
 using System.IO;
 using log4net.Config;
 using AscensionServer.Threads;
+using System.Reflection;
 using ExitGames.Concurrency.Fibers;
 namespace AscensionServer
 {
@@ -24,9 +25,8 @@ namespace AscensionServer
 
         private SyncPositionThread syncPositionThread = new SyncPositionThread();
         new public static AscensionServer Instance { get; private set; }
-        Dictionary<OperationCode, BaseHandler> handlerDict = new Dictionary<OperationCode, BaseHandler>();
-        public Dictionary<OperationCode, BaseHandler> HandlerDict { get { return handlerDict; } }
-
+        Dictionary<OperationCode, HandlerBase> handlerDict = new Dictionary<OperationCode, HandlerBase>();
+        public Dictionary<OperationCode, HandlerBase> HandlerDict { get { return handlerDict; } }
 
         /// <summary>
         /// 已经连接但是未登录的客户端对象容器
@@ -58,9 +58,6 @@ namespace AscensionServer
         /// </summary>
         Dictionary<string, AscensionPeer> ALLClientPeer = new Dictionary<string, AscensionPeer>();
         public Dictionary<string, AscensionPeer> AllClientPeer { get { return ALLClientPeer; }set { ALLClientPeer = value; } }
-
-
-
         protected override void Setup()
         {
             Instance = this;
@@ -83,36 +80,23 @@ namespace AscensionServer
         }
         void InitHandler()
         {
-            LoginHandler loginHandler = new LoginHandler();
-            handlerDict.Add(loginHandler.OpCode, loginHandler);
-            DefaultHandler defaultHandler = new DefaultHandler();
-            handlerDict.Add(defaultHandler.OpCode, defaultHandler);
-            RegisterHandler registerHandler = new RegisterHandler();
-            handlerDict.Add(registerHandler.OpCode, registerHandler);
-            SyncPositionHandler syncPositionHandler = new SyncPositionHandler();
-            handlerDict.Add(syncPositionHandler.OpCode, syncPositionHandler);
-            SyncOtherRolesHandler syncPlayerHandler = new SyncOtherRolesHandler();
-            handlerDict.Add(syncPlayerHandler.OpCode, syncPlayerHandler);
-            CreateRoleHandler createHandle = new CreateRoleHandler();
-            handlerDict.Add(createHandle.OpCode, createHandle);
-            SelectRoleHandler selectRoleHandler = new SelectRoleHandler();
-            handlerDict.Add(selectRoleHandler.OpCode, selectRoleHandler);
-            LogoffHandler logoffHandler = new LogoffHandler();
-            handlerDict.Add(logoffHandler.OpCode, logoffHandler);
-            SyncRoleStatusHandler syncRoleStatusHandler = new SyncRoleStatusHandler();
-            handlerDict.Add(syncRoleStatusHandler.OpCode, syncRoleStatusHandler);
-            VerifyRoleStatusHandler verifyRoleStatusHandler = new VerifyRoleStatusHandler();
-            handlerDict.Add(verifyRoleStatusHandler.OpCode, verifyRoleStatusHandler);
-            DistributeTaskHandler distributeTaskHandler = new DistributeTaskHandler();
-            handlerDict.Add(distributeTaskHandler.OpCode, distributeTaskHandler);
-            HeartBeatHandler heartBeatHandler = new HeartBeatHandler();
-            handlerDict.Add(heartBeatHandler.OpCode, heartBeatHandler);
-            SyncRoleAssetsHandler syncRoleAssetsHandler = new SyncRoleAssetsHandler();
-            handlerDict.Add(syncRoleAssetsHandler.OpCode, syncRoleAssetsHandler);
-            CultivateGongFaHandler cultivateGongFaHandler = new CultivateGongFaHandler();
-            handlerDict.Add(cultivateGongFaHandler.OpCode, cultivateGongFaHandler);
-            CultivateMiShuHandler cultivateMiShuHandler = new CultivateMiShuHandler();
-            handlerDict.Add(cultivateMiShuHandler.OpCode, cultivateMiShuHandler);
+            Type[] types = Assembly.GetAssembly(typeof(HandlerBase)).GetTypes();
+            for (int i = 0; i < types.Length; i++)
+            {
+                if (types[i].FullName.EndsWith("Handler"))
+                {
+                   var handler=  Utility.Assembly.GetTypeInstance( types[i]) as HandlerBase;
+                    handler.OnInitialization();
+                }
+            }
+        }
+        public void RegisterHandler(HandlerBase handler)
+        {
+            handlerDict.Add(handler.OpCode, handler);
+        }
+        public  void  DeregisterHandler(HandlerBase handler)
+        {
+            handlerDict.Remove(handler.OpCode);
         }
         Dictionary<string, AscensionPeer> loginPeerDict = new Dictionary<string, AscensionPeer>();
         public void Login(AscensionPeer peer)

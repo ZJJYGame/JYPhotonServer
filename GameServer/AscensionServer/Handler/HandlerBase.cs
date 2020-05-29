@@ -8,9 +8,8 @@ using AscensionProtocol;
 using System.Collections.Generic;
 namespace AscensionServer
 {
-    public abstract class BaseHandler
+    public abstract class HandlerBase:IBehaviour
     {
-
         protected OperationCode opCode;
         public OperationCode OpCode { get { return opCode; }protected set { opCode = value; } }
         protected EventCode evCode;
@@ -24,5 +23,13 @@ namespace AscensionServer
         //处理请求的方法
         public abstract void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters,AscensionPeer peer);
 
+        public virtual void OnInitialization()
+        {
+            AscensionServer.Instance.RegisterHandler(this);
+        }
+        public virtual void OnTermination()
+        {
+            AscensionServer.Instance.DeregisterHandler(this);
+        }
     }
 }
