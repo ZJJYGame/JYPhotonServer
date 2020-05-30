@@ -24,8 +24,8 @@ namespace AscensionServer
         public static readonly ILogger _Log = LogManager.GetCurrentClassLogger();
         private SyncPositionThread syncPositionThread = new SyncPositionThread();
         new public static AscensionServer Instance { get; private set; }
-        Dictionary<OperationCode, HandlerBase> handlerDict = new Dictionary<OperationCode, HandlerBase>();
-        public Dictionary<OperationCode, HandlerBase> HandlerDict { get { return handlerDict; } }
+        Dictionary<OperationCode, Handler> handlerDict = new Dictionary<OperationCode, Handler>();
+        public Dictionary<OperationCode, Handler> HandlerDict { get { return handlerDict; } }
         /// <summary>
         /// 已经连接但是未登录的客户端对象容器
         /// </summary>
@@ -75,21 +75,26 @@ namespace AscensionServer
         }
         void InitHandler()
         {
-            Type[] types = Assembly.GetAssembly(typeof(HandlerBase)).GetTypes();
+            var handlerType = typeof(Handler);
+            Type[] types = Assembly.GetAssembly(handlerType).GetTypes();
             for (int i = 0; i < types.Length; i++)
             {
-                if (types[i].FullName.EndsWith("Handler"))
+                if (handlerType.IsAssignableFrom(types[i]))
                 {
-                   var handler=  Utility.Assembly.GetTypeInstance( types[i]) as HandlerBase;
-                    handler.OnInitialization();
+                    if (types[i].IsClass && !types[i].IsAbstract)
+                    {
+                        var handler = Utility.Assembly.GetTypeInstance(types[i]) as Handler;
+                        handler.OnInitialization();
+                        _Log.Info("Handler start initialization : \n >>>>>" + handler.GetType().FullName + "<<<<<\n Initialization Done !");
+                    }
                 }
             }
         }
-        public void RegisterHandler(HandlerBase handler)
+        public void RegisterHandler(Handler handler)
         {
             handlerDict.Add(handler.OpCode, handler);
         }
-        public  void  DeregisterHandler(HandlerBase handler)
+        public  void  DeregisterHandler(Handler handler)
         {
             handlerDict.Remove(handler.OpCode);
         }

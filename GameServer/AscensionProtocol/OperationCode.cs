@@ -15,15 +15,14 @@ namespace AscensionProtocol
         SyncRole=4,
         SyncPositon=5,
         SyncSelfRoles=6,
-        SyncOtherRoles=10,
-        SyncRoleStatus=11,
-        SyncRoleAssets=12,
-        SyncInventory=13,
-        SyncDistributeTask=17,
-        SyncGameDate=19,
-        SyncMiShu=20,
-        SyncGongFa=21,
-
+        SyncOtherRoles=7,
+        SyncRoleStatus=8,
+        SyncRoleAssets=9,
+        SyncInventory=10,
+        SyncTask=11,
+        SyncGameDate=12,
+        SyncMiShu=13,
+        SyncGongFa=14,
         /// <summary>
         /// 心跳
         /// </summary>
