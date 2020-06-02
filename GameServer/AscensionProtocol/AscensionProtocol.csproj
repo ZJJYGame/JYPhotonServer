@@ -49,6 +49,7 @@
     <Compile Include="DTO\GongFaDTO.cs" />
     <Compile Include="DTO\MiShuDTO.cs" />
     <Compile Include="DTO\OnlineStatusDTO.cs" />
+    <Compile Include="DTO\OnOffLineDTO.cs" />
     <Compile Include="DTO\PlayerDataDTO.cs" />
     <Compile Include="DTO\ProtocolDTO.cs" />
     <Compile Include="DTO\RoleAssetsDTO.cs" />
