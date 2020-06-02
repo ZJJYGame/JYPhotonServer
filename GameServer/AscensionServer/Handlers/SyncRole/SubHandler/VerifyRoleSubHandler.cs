@@ -16,6 +16,9 @@ namespace AscensionServer
         }
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
+
+            //废弃代码
+            /*
             string rolestatusJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role));
             AscensionServer._Log.Info(">>>>>>>>>>>>VerifyRoleStatusHandler\n传输过来更新的战斗数据:" + rolestatusJson + "VerifyRoleStatusHandler\n<<<<<<<<<<<");
             var rolestatusObj = Utility.ToObject<RoleStatus>(rolestatusJson);
@@ -30,7 +33,7 @@ namespace AscensionServer
             }
             else
                Owner. OpResponse.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner. OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner. OpResponse, sendParameters);*/
         }
     }
 }
