@@ -14,19 +14,20 @@ namespace AscensionServer
     {
         public OperationCode OpCode { get; protected set; }
         public EventCode EvCode { get; protected set; }
-         Dictionary<SubOperationCode, ISubHandler> subHandlerDict;
+         Dictionary<byte, ISubHandler> subHandlerDict;
         public OperationResponse OpResponse { get; protected set; }
         public Dictionary<byte, object> ResponseData { get; protected set; }
         public virtual  void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters,AscensionPeer peer)
         {
-            var subCode = (SubOperationCode)Utility.GetValue(operationRequest.Parameters, (byte)OperationCode.SubOperationCode);
-            if (subCode != SubOperationCode.None)
+            var subCode = Convert.ToByte( Utility.GetValue(operationRequest.Parameters, (byte)OperationCode.SubOperationCode));
+            if (subCode != 0)
             {
                 try
                 {
                     ISubHandler subHandler;
-                    subHandlerDict.TryGetValue(subCode, out subHandler);
-                    subHandler.Handler(operationRequest, sendParameters, peer);
+                    var result=  subHandlerDict.TryGetValue(subCode, out subHandler);
+                    if (result)
+                        subHandler.Handler(operationRequest, sendParameters, peer);
                 }
                 catch
                 {
@@ -38,7 +39,7 @@ namespace AscensionServer
         {
             OpResponse = new OperationResponse();
             ResponseData = new Dictionary<byte, object>();
-            subHandlerDict = new Dictionary<SubOperationCode, ISubHandler>();
+            subHandlerDict = new Dictionary<byte, ISubHandler>();
             AscensionServer.Instance.RegisterHandler(this);
         }
         public virtual void OnTermination()
@@ -59,6 +60,7 @@ namespace AscensionServer
                     subHandlerResult.Owner = this;
                     subHandlerResult.OnInitialization();
                     RegisterSubHandler(subHandlerResult);
+                    AscensionServer._Log.Info(">>>>> KKKKK\n " + subHandlerResult.GetType().FullName + " :  OnSubHandlerInitialization \nKKKK<<<<<");
                 }
             }
         }
@@ -72,13 +74,13 @@ namespace AscensionServer
         }
         void RegisterSubHandler(ISubHandler handler)
         {
-            if (subHandlerDict.ContainsKey(handler.SubOpCode))
+            if (subHandlerDict.ContainsKey((byte)handler.SubOpCode))
                 AscensionServer._Log.Info("重复键值：\n" + handler.ToString() + "\n:" + handler.SubOpCode.ToString() + "\n结束");
-            subHandlerDict.Add(handler.SubOpCode, handler);
+            subHandlerDict.Add((byte)handler.SubOpCode, handler);
         }
         void DeregisterSubHandler(ISubHandler handler)
         {
-            subHandlerDict.Remove(handler.SubOpCode);
+            subHandlerDict.Remove((byte)handler.SubOpCode);
         }
     }
 }

@@ -22,21 +22,22 @@ namespace AscensionServer
             string subDataJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)OperationCode.SubOpCodeData));
             var subDataObj = Utility.ToObject<Dictionary<byte, object>>(subDataJson);
             string roleJsonTmp = Convert.ToString(Utility.GetValue(subDataObj, (byte)ObjectParameterCode.Role));
-
+            Owner.ResponseData.Clear();
+            Owner.OpResponse.OperationCode = operationRequest.OperationCode;
+            Owner.ResponseData.Add((byte)OperationCode.SubOperationCode, (byte)SubOpCode);
             Role roleTmp = Utility.ToObject<Role>(roleJsonTmp);
             NHCriteria nHCriteriaRoleName = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleName", roleTmp.RoleName);
             var isExisted = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleName);
             if (isExisted)
                 AscensionServer._Log.Info("----------------------------  Role >>Role name:+" + roleTmp.RoleName + " already exist !!!  ---------------------------------");
             Role role = Singleton<NHManager>.Instance.CriteriaGet<Role>(nHCriteriaRoleName);//根据username查询数据
-            Owner.OpResponse.OperationCode = operationRequest.OperationCode;
             string str_uuid = peer.User.UUID;
             NHCriteria nHCriteriaUUID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("UUID", str_uuid);
             var userRole = Singleton<NHManager>.Instance.CriteriaGet<UserRole>(nHCriteriaUUID);
             string roleJson = userRole.RoleIDArray;
-            string roleStatusJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.RoleStatus));
-            Owner.ResponseData.Clear();
+            string roleStatusJson = Convert.ToString(Utility.GetValue(subDataObj, (byte)ObjectParameterCode.RoleStatus));
             //如果没有查询到代表角色没被注册过可用
+
             if (role == null)
             {
                 List<string> roleList = new List<string>();
@@ -58,7 +59,7 @@ namespace AscensionServer
                 Singleton<NHManager>.Instance.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 Owner.ResponseData.Add((byte)ObjectParameterCode.Role, Utility.ToJson(role));
-                Owner.OpResponse.Parameters = Owner.ResponseData; ;
+                Owner.OpResponse.Parameters = Owner.ResponseData;
             }
             else
             {
