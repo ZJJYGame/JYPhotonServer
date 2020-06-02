@@ -21,8 +21,11 @@ namespace AscensionServer
             string _uuid = Singleton<NHManager>.Instance.CriteriaGet<User>(nHCriteriaAccount).UUID;
             NHCriteria nHCriteriaUUID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("UUID", _uuid);
             UserRole userRole = Singleton<NHManager>.Instance.CriteriaGet<UserRole>(nHCriteriaUUID);
+
             Owner.ResponseData.Clear();
             Owner.OpResponse.OperationCode = operationRequest.OperationCode;
+            Owner.ResponseData.Add((byte)OperationCode.SubOperationCode, (byte)SubOpCode);
+
             if (string.IsNullOrEmpty(userRole.RoleIDArray))
             {
                 Owner.ResponseData.Add((byte)ParameterCode.RoleList, Utility.ToJson(new List<string>()));

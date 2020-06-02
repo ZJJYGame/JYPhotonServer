@@ -12,8 +12,14 @@ namespace AscensionProtocol
         Login = 1,
         Logoff=2,
         Register=3,
+        /// <summary>
+        /// 同步当前这个角色的数据
+        /// </summary>
         SyncRole=4,
         SyncPositon=5,
+        /// <summary>
+        /// 同步自己当前账号的所有角色信息
+        /// </summary>
         SyncSelfRoles=6,
         SyncOtherRoles=7,
         SyncRoleStatus=8,
@@ -30,6 +36,7 @@ namespace AscensionProtocol
         /// <summary>
         /// 子操作码
         /// </summary>
+        SubOpCodeData = 254,
         SubOperationCode = 255
     }
 }

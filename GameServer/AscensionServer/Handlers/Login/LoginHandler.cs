@@ -39,7 +39,7 @@ namespace AscensionServer
                 userObj.UUID= Singleton<NHManager>.Instance.CriteriaGet<User>(nHCriteriaAccount).UUID;
                 peer.Login(userObj);
                 AscensionServer.Instance.Login(peer);
-                AscensionServer._Log.Info("~~~~~~~~~~~~~~~~~~~~~~Login Success : " + userObj.Account + "UUID : " + peer.User.UUID + "~~~~~~~~~~~~~~~~~~~~~~");
+                AscensionServer._Log.Info("~~~~~~~~~~~~~~~~~~~~~~Login Success : " + userObj.Account + " ; UUID : " + peer.User.UUID + "~~~~~~~~~~~~~~~~~~~~~~");
             }
             else
             {

@@ -116,8 +116,8 @@
     <Compile Include="Handlers\Base\Handler.cs" />
     <Compile Include="Handlers\Base\IHandler.cs" />
     <Compile Include="Handlers\Base\ISubHandler.cs" />
-    <Compile Include="Handlers\SyncGongFa\SunHandler\SyncGongFaSubHandler.cs" />
-    <Compile Include="Handlers\SyncGongFa\SunHandler\UpdateGongFaSubHandler.cs" />
+    <Compile Include="Handlers\SyncGongFa\SubHandler\SyncGongFaSubHandler.cs" />
+    <Compile Include="Handlers\SyncGongFa\SubHandler\UpdateGongFaSubHandler.cs" />
     <Compile Include="Handlers\SyncGongFa\SyncGongFaHandler.cs" />
     <Compile Include="Handlers\SyncInventory\SubHandler\AddInventorySubHandler.cs" />
     <Compile Include="Handlers\SyncInventory\SubHandler\SyncInventorySubHandler.cs" />
@@ -152,9 +152,9 @@
     <Compile Include="Handlers\SyncPosition\SyncPositionHandler.cs" />
     <Compile Include="Handlers\SyncRoleAssets\SyncRoleAssetsHandler.cs" />
     <Compile Include="Handlers\SyncRoleStatus\SyncRoleStatusHandler.cs" />
-    <Compile Include="Handlers\SyncTasks\SunHandler\AddTaskSubHandler.cs" />
-    <Compile Include="Handlers\SyncTasks\SunHandler\SyncTaskSubHandler.cs" />
-    <Compile Include="Handlers\SyncTasks\SunHandler\UpdateTaskSubHandler.cs" />
+    <Compile Include="Handlers\SyncTasks\SubHandler\AddTaskSubHandler.cs" />
+    <Compile Include="Handlers\SyncTasks\SubHandler\SyncTaskSubHandler.cs" />
+    <Compile Include="Handlers\SyncTasks\SubHandler\UpdateTaskSubHandler.cs" />
     <Compile Include="Handlers\SyncTasks\SyncTaskHandler.cs" />
     <Compile Include="ModelMap\GongFaMap.cs" />
     <Compile Include="ModelMap\MiShuMap.cs" />
