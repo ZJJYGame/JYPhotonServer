@@ -35,7 +35,7 @@ namespace AscensionServer
             OpResponse.OperationCode = operationRequest.OperationCode;
             if (exist)
             {
-                Singleton<NHManager>.Instance.Add(roletaskobj.RoleTaskDict);
+                Singleton<NHManager>.Instance.Add(roletaskobj);
                 var roleTaskProgress = Singleton<NHManager>.Instance.CriteriaGet<RoleTaskProgress>(nHCriteriaRoleID);
                 AscensionServer._Log.Info(">>>>>>>>>>>>传回去的" + roleTaskProgress + ">>>>>>>>>>>>");
                 ResponseData.Add((byte)ObjectParameterCode.Role, roleTaskProgress);
