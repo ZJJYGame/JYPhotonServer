@@ -10,7 +10,6 @@ namespace AscensionServer.Model
    public class RoleTaskProgress
     {
         public virtual int RoleID { get; set; }
-        public virtual string RoleTaskID { get; set; }
-        public virtual string RoleTaskState { get; set; }
+        public virtual string RoleTaskDict { get; set; }
     }
 }
