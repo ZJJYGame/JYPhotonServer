@@ -33,7 +33,6 @@ namespace AscensionServer
                     AscensionServer._Log.Info(">>>>>\n" + subCode.ToString() + "has no subHandler \n<<<<<");
                 }
             }
-                  
         }
         public virtual void OnInitialization()
         {
