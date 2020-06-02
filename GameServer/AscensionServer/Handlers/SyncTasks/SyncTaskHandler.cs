@@ -32,10 +32,11 @@ namespace AscensionServer
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roletaskobj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID);
             ResponseData.Clear();
+            AscensionServer._Log.Info(">>>>>>>>>>>>>接受到的任务strString：" + roletaskobj.RoleTaskDict + ">>>>>>>>>>>>>>>>>>>>>>");
             OpResponse.OperationCode = operationRequest.OperationCode;
             if (exist)
             {
-                Singleton<NHManager>.Instance.Add(roletaskobj);
+                Singleton<NHManager>.Instance.Add( new RoleTaskProgress() { RoleTaskDict = roletaskobj.RoleTaskDict });
                 var roleTaskProgress = Singleton<NHManager>.Instance.CriteriaGet<RoleTaskProgress>(nHCriteriaRoleID);
                 AscensionServer._Log.Info(">>>>>>>>>>>>传回去的" + roleTaskProgress + ">>>>>>>>>>>>");
                 ResponseData.Add((byte)ObjectParameterCode.Role, roleTaskProgress);
