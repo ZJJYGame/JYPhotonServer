@@ -14,7 +14,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -113,27 +114,54 @@
     <Compile Include="CFramework\ReferencePool\ReferencePoolManager.cs" />
     <Compile Include="CFramework\ReferencePool\ReferenceSpawnPool.cs" />
     <Compile Include="CFramework\Utility\Utility.Assembly.cs" />
-    <Compile Include="Handler\CreateRoleHandler.cs" />
-    <Compile Include="Handler\CultivateGongFaHandler.cs" />
-    <Compile Include="Handler\CultivateMiShuHandler.cs" />
-    <Compile Include="Handler\DestroyHandler.cs" />
-    <Compile Include="Handler\DefaultHandler.cs" />
-    <Compile Include="Handler\DistributeTaskHandler.cs" />
-    <Compile Include="Handler\HandlerBase.cs" />
-    <Compile Include="Handler\HeartBeatHandler.cs" />
-    <Compile Include="Handler\LoginHandler.cs" />
-    <Compile Include="Handler\LogoffHandler.cs" />
-    <Compile Include="Handler\RegisterHandler.cs" />
-    <Compile Include="Handler\SelectRoleHandler.cs" />
-    <Compile Include="Handler\SyncOtherRolesHandler.cs" />
-    <Compile Include="Handler\SyncPositionHandler.cs" />
-    <Compile Include="Handler\SyncRoleAssetsHandler.cs" />
-    <Compile Include="Handler\SyncRoleStatusHandler.cs" />
-    <Compile Include="Handler\VerifyRoleStatusHandler.cs" />
+    <Compile Include="Handlers\Base\Handler.cs" />
+    <Compile Include="Handlers\Base\IHandler.cs" />
+    <Compile Include="Handlers\Base\ISubHandler.cs" />
+    <Compile Include="Handlers\SyncGongFa\SubHandler\SyncGongFaSubHandler.cs" />
+    <Compile Include="Handlers\SyncGongFa\SubHandler\UpdateGongFaSubHandler.cs" />
+    <Compile Include="Handlers\SyncGongFa\SyncGongFaHandler.cs" />
+    <Compile Include="Handlers\SyncInventory\SubHandler\AddInventorySubHandler.cs" />
+    <Compile Include="Handlers\SyncInventory\SubHandler\SyncInventorySubHandler.cs" />
+    <Compile Include="Handlers\SyncInventory\SubHandler\UpdateInventorySubHandler.cs" />
+    <Compile Include="Handlers\SyncInventory\SyncInventoryHandler.cs" />
+    <Compile Include="Handlers\SyncMiShu\SubHandler\AddMiShuSubHandler.cs" />
+    <Compile Include="Handlers\SyncMiShu\SubHandler\SyncMiShuSubHandler.cs" />
+    <Compile Include="Handlers\SyncMiShu\SubHandler\UpdateMiShuSubHandler.cs" />
+    <Compile Include="Handlers\SyncMiShu\SyncMiShuHandler.cs" />
+    <Compile Include="Handlers\SyncOtherRoles\SubHandler\GetOtherRolesSubHandler.cs" />
+    <Compile Include="Handlers\SyncOtherRoles\SubHandler\RemoveOtherRolesSubHandler.cs" />
+    <Compile Include="Handlers\SyncOtherRoles\SubHandler\SyncOtherRolesSubHandler.cs" />
+    <Compile Include="Handlers\SyncRoleAssets\SubHandler\GetRoleAssetsSubHandler.cs" />
+    <Compile Include="Handlers\SyncRoleAssets\SubHandler\SyncRoleAssetsSubHandler.cs" />
+    <Compile Include="Handlers\SyncRoleAssets\SubHandler\UpdateRoleAssetsSubHandler.cs" />
+    <Compile Include="Handlers\Default\DefaultHandler.cs" />
+    <Compile Include="Handlers\Base\SubHandler.cs" />
+    <Compile Include="Handlers\SyncRoleStatus\SubHandler\GetRoleStatusSubHandler.cs" />
+    <Compile Include="Handlers\SyncRoleStatus\SubHandler\SyncRoleStatusSubHandler.cs" />
+    <Compile Include="Handlers\SyncRole\SubHandler\AddRoleSubHandler.cs" />
+    <Compile Include="Handlers\SyncRole\SubHandler\GetRoleSubHandler.cs" />
+    <Compile Include="Handlers\SyncRole\SubHandler\RemoveRoleSubHandler.cs" />
+    <Compile Include="Handlers\SyncRole\SubHandler\UpdateRoleSubHandler.cs" />
+    <Compile Include="Handlers\SyncRole\SubHandler\VerifyRoleSubHandler.cs" />
+    <Compile Include="Handlers\SyncRole\SyncRoleHandler.cs" />
+    <Compile Include="Handlers\SyncRole\SubHandler\SyncRoleSubHandler.cs" />
+    <Compile Include="Handlers\HeartBeat\HeartBeatHandler.cs" />
+    <Compile Include="Handlers\Login\LoginHandler.cs" />
+    <Compile Include="Handlers\Logoff\LogoffHandler.cs" />
+    <Compile Include="Handlers\Register\RegisterHandler.cs" />
+    <Compile Include="Handlers\SyncOtherRoles\SyncOtherRolesHandler.cs" />
+    <Compile Include="Handlers\SyncPosition\SyncPositionHandler.cs" />
+    <Compile Include="Handlers\SyncRoleAssets\SyncRoleAssetsHandler.cs" />
+    <Compile Include="Handlers\SyncRoleStatus\SyncRoleStatusHandler.cs" />
+    <Compile Include="Handlers\SyncTasks\SubHandler\AddTaskSubHandler.cs" />
+    <Compile Include="Handlers\SyncTasks\SubHandler\SyncTaskSubHandler.cs" />
+    <Compile Include="Handlers\SyncTasks\SubHandler\UpdateTaskSubHandler.cs" />
+    <Compile Include="Handlers\SyncTasks\SyncTaskHandler.cs" />
     <Compile Include="ModelMap\GongFaMap.cs" />
     <Compile Include="ModelMap\MiShuMap.cs" />
     <Compile Include="ModelMap\MonsterMap.cs" />
     <Compile Include="ModelMap\MonsterStatusMap.cs" />
+    <Compile Include="ModelMap\OnOffLineMap.cs" />
     <Compile Include="ModelMap\RingMap.cs" />
     <Compile Include="ModelMap\RoleAssetsMap.cs" />
     <Compile Include="ModelMap\RoleEquipMap.cs" />
@@ -147,6 +175,7 @@
     <Compile Include="ModelMap\WeaponMap.cs" />
     <Compile Include="Model\Monster.cs" />
     <Compile Include="Model\MonsterStatus.cs" />
+    <Compile Include="Model\OnOffLine.cs" />
     <Compile Include="Model\Ring.cs" />
     <Compile Include="Model\RoleAssets.cs" />
     <Compile Include="Model\RoleEquip.cs" />
@@ -194,7 +223,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Handlers\SyncSelfRoles\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AscensionCalculate\AscensionCalculate.csproj">
       <Project>{a71709ea-e11c-4e7b-b8b7-28a57eff49ef}</Project>

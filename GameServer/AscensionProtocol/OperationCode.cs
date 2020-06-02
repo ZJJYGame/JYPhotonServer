@@ -8,28 +8,35 @@ namespace AscensionProtocol
 {
     public enum OperationCode:byte//区分请求和响应
     {
-        Login=0,
-        Logoff=1,
-        Register=2,
-        SelectRole=3,
-        CreateRole=4,
-        VerifyRole=5,
-        UpdateRole=6,
-        RemoveRole=7,
-        SyncPositon=8,
-        SyncSelfRoles=9,
-        SyncOtherRoles=10,
-        SyncRoleStatus=11,
-        SyncRoleAssets=12,
-        Inventory=13,
-        Default=14,
-        DestroyOtherRole=15,
-        HeartBeat=16,
-        DistributeTask=17,
-        SyncRoleExp=18,
-        SyncGameDate=19,
-        CultivateMiShu=20,
-        CultivateGongFa=21,
-        SubCode =128,
+        Default =0,
+        Login = 1,
+        Logoff=2,
+        Register=3,
+        /// <summary>
+        /// 同步当前这个角色的数据
+        /// </summary>
+        SyncRole=4,
+        SyncPositon=5,
+        /// <summary>
+        /// 同步自己当前账号的所有角色信息
+        /// </summary>
+        SyncSelfRoles=6,
+        SyncOtherRoles=7,
+        SyncRoleStatus=8,
+        SyncRoleAssets=9,
+        SyncInventory=10,
+        SyncTask=11,
+        SyncGameDate=12,
+        SyncMiShu=13,
+        SyncGongFa=14,
+        /// <summary>
+        /// 心跳
+        /// </summary>
+        HeartBeat = 244,
+        /// <summary>
+        /// 子操作码
+        /// </summary>
+        SubOpCodeData = 254,
+        SubOperationCode = 255
     }
 }

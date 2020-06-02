@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-   public class RoleTaskProgress
+    public class OnOffLine 
     {
         public virtual int RoleID { get; set; }
-        public virtual string RoleTaskDict { get; set; }
+        public virtual string OnLineTime { get; set; }
+        public virtual string OffLineTime { get; set; }
     }
 }
