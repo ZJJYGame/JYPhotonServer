@@ -19,12 +19,8 @@ namespace AscensionServer
         }
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            string subDataJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)OperationCode.SubOpCodeData));
-            var subDataObj = Utility.ToObject<Dictionary<byte, object>>(subDataJson);
-            string roleJsonTmp = Convert.ToString(Utility.GetValue(subDataObj, (byte)ObjectParameterCode.Role));
-            Owner.ResponseData.Clear();
-            Owner.OpResponse.OperationCode = operationRequest.OperationCode;
-            Owner.ResponseData.Add((byte)OperationCode.SubOperationCode, (byte)SubOpCode);
+            var dict = InitSubOpDict(operationRequest);
+            string roleJsonTmp = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.Role));
             Role roleTmp = Utility.ToObject<Role>(roleJsonTmp);
             NHCriteria nHCriteriaRoleName = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleName", roleTmp.RoleName);
             var isExisted = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleName);
@@ -35,7 +31,7 @@ namespace AscensionServer
             NHCriteria nHCriteriaUUID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("UUID", str_uuid);
             var userRole = Singleton<NHManager>.Instance.CriteriaGet<UserRole>(nHCriteriaUUID);
             string roleJson = userRole.RoleIDArray;
-            string roleStatusJson = Convert.ToString(Utility.GetValue(subDataObj, (byte)ObjectParameterCode.RoleStatus));
+            string roleStatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.RoleStatus));
             //如果没有查询到代表角色没被注册过可用
 
             if (role == null)

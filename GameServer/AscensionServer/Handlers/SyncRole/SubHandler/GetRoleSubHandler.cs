@@ -16,16 +16,12 @@ namespace AscensionServer
         }
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            string account = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Account));
+            var dict = InitSubOpDict(operationRequest);
+            string account = Utility.ToObject<User>(Convert.ToString (Utility.GetValue(dict, (byte)ObjectParameterCode.User))).Account;
             NHCriteria nHCriteriaAccount = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Account", account);
             string _uuid = Singleton<NHManager>.Instance.CriteriaGet<User>(nHCriteriaAccount).UUID;
             NHCriteria nHCriteriaUUID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("UUID", _uuid);
             UserRole userRole = Singleton<NHManager>.Instance.CriteriaGet<UserRole>(nHCriteriaUUID);
-
-            Owner.ResponseData.Clear();
-            Owner.OpResponse.OperationCode = operationRequest.OperationCode;
-            Owner.ResponseData.Add((byte)OperationCode.SubOperationCode, (byte)SubOpCode);
-
             if (string.IsNullOrEmpty(userRole.RoleIDArray))
             {
                 Owner.ResponseData.Add((byte)ParameterCode.RoleList, Utility.ToJson(new List<string>()));
