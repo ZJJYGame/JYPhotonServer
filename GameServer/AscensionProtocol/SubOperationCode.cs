@@ -13,11 +13,10 @@ namespace AscensionProtocol
   public  enum SubOperationCode:byte
     {
         None=0,
-        Default=1,
-        Add = 2,
-        Remove = 3,
-        Get = 4,
-        Update = 5,
-        Verify=6
+        Add = 1,
+        Remove = 2,
+        Get = 3,
+        Update = 4,
+        Verify=5
     }
 }
