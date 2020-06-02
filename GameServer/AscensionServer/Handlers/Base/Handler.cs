@@ -20,16 +20,24 @@ namespace AscensionServer
         public virtual  void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters,AscensionPeer peer)
         {
             var subCode = (SubOperationCode)Utility.GetValue(operationRequest.Parameters, (byte)OperationCode.SubOperationCode);
-            try
+            if (subCode != SubOperationCode.None)
             {
-                ISubHandler subHandler;
-                subHandlerDict.TryGetValue(subCode, out subHandler);
-                subHandler.Handler(operationRequest, sendParameters, peer);
+                try
+                {
+                    ISubHandler subHandler;
+                    subHandlerDict.TryGetValue(subCode, out subHandler);
+                    subHandler.Handler(operationRequest, sendParameters, peer);
+                }
+                catch
+                {
+                    AscensionServer._Log.Info(">>>>>\n" + subCode.ToString() + "has no subHandler \n<<<<<");
+                }
             }
-            catch
+            else
             {
-                AscensionServer._Log.Info(">>>>>\n" + subCode.ToString() + "has no subHandler \n<<<<<");
+
             }
+            
         }
         public virtual void OnInitialization()
         {
