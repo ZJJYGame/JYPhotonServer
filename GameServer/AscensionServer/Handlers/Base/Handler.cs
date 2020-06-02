@@ -60,7 +60,7 @@ namespace AscensionServer
                     subHandlerResult.Owner = this;
                     subHandlerResult.OnInitialization();
                     RegisterSubHandler(subHandlerResult);
-                    AscensionServer._Log.Info(">>>>> KKKKK\n " + subHandlerResult.GetType().FullName + " :  OnSubHandlerInitialization \nKKKK<<<<<");
+                    AscensionServer._Log.Info(">>>>> \n " + subHandlerResult.GetType().FullName + " :  OnSubHandlerInitialization \n<<<<<");
                 }
             }
         }
