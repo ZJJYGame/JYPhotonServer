@@ -22,6 +22,7 @@ namespace AscensionServer
             var roleObj = Utility.ToObject<Role>(roleJson);
             NHCriteria nHCriteriaRoleId = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
             Owner.ResponseData.Clear();
+            Owner.ResponseData.Add((byte)OperationCode.SubOperationCode, (byte)SubOpCode);
             bool exist = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleId);
             if (exist)
             {
