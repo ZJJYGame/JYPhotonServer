@@ -51,6 +51,7 @@ namespace AscensionServer
                 rolestatus.RoleID = int.Parse(roleId);
                 Singleton<NHManager>.Instance.Add(rolestatus);
                 Singleton<NHManager>.Instance.Add(new RoleAssets() { RoleID = rolestatus.RoleID });
+                Singleton<NHManager>.Instance.Add(new OnOffLine() { RoleID = rolestatus.RoleID });
                 var userRoleJson = Utility.ToJson(roleList);
                 Singleton<NHManager>.Instance.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;

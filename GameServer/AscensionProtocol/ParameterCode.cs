@@ -29,6 +29,7 @@
         HeartBeat = 9,
         RoleID = 10,
         GongFaExp = 11,
-        MiShuExp = 12
+        MiShuExp = 12,
+        OnOffLine=13
     }
 }
