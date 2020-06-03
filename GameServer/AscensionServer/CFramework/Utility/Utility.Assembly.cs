@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-    public  static partial class Utility
+    public  sealed partial class Utility
     {
         public static class Assembly
         {

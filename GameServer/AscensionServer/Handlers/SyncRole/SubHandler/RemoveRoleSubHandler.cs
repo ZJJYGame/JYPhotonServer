@@ -16,6 +16,8 @@ namespace AscensionServer
         public override void OnInitialization()
         {
             SubOpCode = SubOperationCode.Remove;
+            base.OnInitialization();
+
         }
     }
 }

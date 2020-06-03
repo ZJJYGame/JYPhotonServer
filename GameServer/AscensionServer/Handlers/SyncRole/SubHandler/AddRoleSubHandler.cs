@@ -16,6 +16,7 @@ namespace AscensionServer
         public override void OnInitialization()
         {
             SubOpCode = SubOperationCode.Add;
+            base.OnInitialization();
         }
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {

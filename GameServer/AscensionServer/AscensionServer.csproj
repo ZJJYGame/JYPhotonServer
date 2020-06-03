@@ -108,6 +108,8 @@
     <Compile Include="Ascension\AscensionServer.cs" />
     <Compile Include="Behaviour\IBehaviour.cs" />
     <Compile Include="Behaviour\IOperable.cs" />
+    <Compile Include="CFramework\Utility\EventActions.cs" />
+    <Compile Include="CFramework\Utility\Utility.Assert.cs" />
     <Compile Include="CFramework\Utility\Utility.Encryption.cs" />
     <Compile Include="Container\ClientPeerContainer.cs" />
     <Compile Include="CFramework\ReferencePool\IReference.cs" />
@@ -207,12 +209,6 @@
     <Compile Include="CFramework\Utility\Utility.cs" />
     <Compile Include="CFramework\Utility\Utility.Text.cs" />
     <Compile Include="CFramework\Utility\Utility.Encode.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="hibernate.cfg.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

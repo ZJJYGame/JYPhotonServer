@@ -7,7 +7,7 @@ using System;
 using System.Text;
 namespace AscensionServer
 { 
-    public static partial class Utility
+    public sealed partial class Utility
     {
         public static class Text
         {

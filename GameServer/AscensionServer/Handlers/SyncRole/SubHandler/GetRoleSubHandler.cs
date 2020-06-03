@@ -13,6 +13,7 @@ namespace AscensionServer
         public override void OnInitialization()
         {
             SubOpCode = SubOperationCode.Get;
+            base.OnInitialization();
         }
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
@@ -24,7 +25,8 @@ namespace AscensionServer
             UserRole userRole = Singleton<NHManager>.Instance.CriteriaGet<UserRole>(nHCriteriaUUID);
             if (string.IsNullOrEmpty(userRole.RoleIDArray))
             {
-                Owner.ResponseData.Add((byte)ParameterCode.RoleList, Utility.ToJson(new List<string>()));
+                SubDict.Add((byte)ParameterCode.RoleList, Utility.ToJson(new List<string>()));
+                Owner.ResponseData.Add((byte)OperationCode.SubOpCodeData,Utility.ToJson(SubDict));
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Empty;
             }
             else
@@ -46,7 +48,8 @@ namespace AscensionServer
                         nHCriteriaList.Add(tmpCriteria);
                     }
                 }
-                Owner.ResponseData.Add((byte)ParameterCode.RoleList, Utility.ToJson(roleObjList));
+                SubDict.Add((byte)ParameterCode.RoleList, Utility.ToJson(roleObjList));
+                Owner.ResponseData.Add((byte)OperationCode.SubOpCodeData, Utility.ToJson(SubDict));
                 Owner.OpResponse.Parameters = Owner.ResponseData;
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
                 Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaList);

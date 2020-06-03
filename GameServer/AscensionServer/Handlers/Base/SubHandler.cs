@@ -17,7 +17,7 @@ namespace AscensionServer
         public Handler Owner { get; set; }
         public SubOperationCode SubOpCode { get; protected set; }
         public abstract void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer);
-        public virtual void OnInitialization() { }
+        public virtual void OnInitialization() {SubDict = new Dictionary<byte, object>();}
         public virtual void OnTermination() { }
         /// <summary>
         /// 获取子操作中的字典对象
@@ -30,7 +30,9 @@ namespace AscensionServer
             Owner.ResponseData.Clear();
             Owner.OpResponse.OperationCode = operationRequest.OperationCode;
             Owner.ResponseData.Add((byte)OperationCode.SubOperationCode, (byte)SubOpCode);
+            SubDict.Clear();
             return subDataObj;
         }
+        public Dictionary<byte, object> SubDict { get; protected set; }
     }
 }
