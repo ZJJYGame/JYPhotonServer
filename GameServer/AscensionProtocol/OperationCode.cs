@@ -29,6 +29,7 @@ namespace AscensionProtocol
         SyncGameDate=12,
         SyncMiShu=13,
         SyncGongFa=14,
+        SyncOnOffLine=15,
         /// <summary>
         /// 心跳
         /// </summary>

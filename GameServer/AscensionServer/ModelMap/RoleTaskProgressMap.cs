@@ -13,7 +13,7 @@ public   class RoleTaskProgressMap:ClassMap<RoleTaskProgress>
         public RoleTaskProgressMap()
         {
             Id(x => x.RoleID).GeneratedBy.Assigned().Column("role_id");
-            Map(x => x.RoleTaskDict).Column("role_task_dict");
+            Map(x => x.RoleTaskInfo).Column("role_task_dict");
             Table("role_task_progress");
         }
     }
