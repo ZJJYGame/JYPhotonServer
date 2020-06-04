@@ -11,7 +11,9 @@
         Role = 66,
         OnlineState = 67,
         RoleAssets = 68,
-
+        GongFa = 69,
+        MiShu = 70,
+        OnOffLine = 71
     }
     /// <summary>
     /// 单条数据参数码
@@ -28,8 +30,6 @@
         PlayerDataList = 8,
         HeartBeat = 9,
         RoleID = 10,
-        GongFaExp = 11,
-        MiShuExp = 12,
-        OnOffLine=13
+
     }
 }

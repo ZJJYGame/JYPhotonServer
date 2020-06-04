@@ -15,7 +15,7 @@ namespace AscensionServer
         }
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            var receivedData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.GongFaExp));
+            var receivedData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.GongFa));
            Owner. OpResponse.OperationCode = operationRequest.OperationCode;
            Owner. ResponseData.Clear();
             if (receivedData != null)

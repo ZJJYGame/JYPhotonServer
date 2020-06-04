@@ -21,85 +21,47 @@ namespace AscensionServer
         {
 
             var dict = ParseSubDict(operationRequest);
-            string roleGFJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.GongFaExp));
-            var RoleGongFatemp = Utility.ToObject<RoleGongFa>(roleGFJson);
-
-            NHCriteria nHCriteriaGf = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", RoleGongFatemp.RoleID);
-            RoleGongFa roleGongFa = Singleton<NHManager>.Instance.CriteriaGet<RoleGongFa>(nHCriteriaGf);
-            //AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>同步功法进来了>>>>>>>>>" + roleGongFa.RoleID);
-            #region
-            //if (string.IsNullOrEmpty(roleGongFa.GongFaIDArray))
-            //{
-            //    SubDict.Add((byte)ParameterCode.Account, Utility.ToJson(new List<string>()));
-            //    Owner.ResponseData.Add((byte)OperationCode.SubOpCodeData, Utility.ToJson(SubDict));
-            //    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Empty;
-            //}
-            //else
-            //{
-            //    var rolGFObj = Singleton<NHManager>.Instance.CriteriaGet<RoleGongFa>(nHCriteriaGf);
-            //    string gongfalist = roleGongFa.GongFaIDArray;
-            //    List<string> roleGFIDlist;
-            //    List<GongFa> gongFaslist = new List<GongFa>();
-            //    List<NHCriteria> nHCriterias = new List<NHCriteria>();
-            //    if (!string.IsNullOrEmpty(gongfalist))
-            //    {
-            //        roleGFIDlist = new List<string>();
-            //        roleGFIDlist = Utility.ToObject<List<string>>(gongfalist);
-            //        for (int i = 0; i < roleGFIDlist.Count; i++)
-            //        {
-            //            NHCriteria nHCriteriatemp = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", int.Parse(roleGFIDlist[i]));
-                       
-            //            GongFa gongFatemp = Singleton<NHManager>.Instance.CriteriaGet<GongFa>(nHCriteriatemp);
-            //            gongFaslist.Add(gongFatemp);
-            //            nHCriterias.Add(nHCriteriatemp);
-            //            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>同步功法进来了>>>>>>>>>" + Utility.ToJson(gongFaslist));
-            //        }
-            //    }
-
-            //    SubDict.Add((byte)ParameterCode.GongFaExp, Utility.ToJson(gongFaslist));
-            //   // Owner.ResponseData.Add((byte)ParameterCode.GongFaExp, Utility.ToJson(gongFaslist));
-            //    //Owner.OpResponse.Parameters = Owner.ResponseData;
-            //    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
-            //    Singleton<ReferencePoolManager>.Instance.Despawns(nHCriterias);
-
-            //}
-#endregion
-            Utility.Assert.NotNull(roleGongFa.GongFaIDArray, () =>
+            string roleGFJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.GongFa));
+            var roleGongFaObj = Utility.ToObject<RoleGongFa>(roleGFJson);
+            NHCriteria nHCriteriaGongFa = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleGongFaObj.RoleID);
+            RoleGongFa roleGongFa = Singleton<NHManager>.Instance.CriteriaGet<RoleGongFa>(nHCriteriaGongFa);
+            Utility.Assert.IsNull(roleGongFa, () => {
+                roleGongFaObj = Singleton<NHManager>.Instance.Add(new RoleGongFa() { RoleID = roleGongFaObj.RoleID });
+            });
+            Utility.Assert.NotNull(roleGongFa, () =>
             {
-                var rolGFObj = Singleton<NHManager>.Instance.CriteriaGet<RoleGongFa>(nHCriteriaGf);
-                string gongfalist = roleGongFa.GongFaIDArray;
-                List<string> roleGFIDlist;
-                List<GongFa> gongFaslist = new List<GongFa>();
-                List<NHCriteria> nHCriterias = new List<NHCriteria>();
-                Utility.Assert.NotNull(gongfalist, () =>
+                roleGongFaObj = Singleton<NHManager>.Instance.CriteriaGet<RoleGongFa>(nHCriteriaGongFa);
+                string gongFaIDList = roleGongFa.GongFaIDArray;
+                List<string> roleGFIDList;
+                List<GongFa> gongFaList = new List<GongFa>();
+                List<NHCriteria> nHCriteriaList = new List<NHCriteria>();
+                Utility.Assert.NotNull(gongFaIDList, () =>
                  {
-                     roleGFIDlist = new List<string>();
-                     roleGFIDlist = Utility.ToObject<List<string>>(gongfalist);
-                     for (int i = 0; i < roleGFIDlist.Count; i++)
+                     roleGFIDList = new List<string>();
+                     roleGFIDList = Utility.ToObject<List<string>>(gongFaIDList);
+                     for (int i = 0; i < roleGFIDList.Count; i++)
                      {
-                         NHCriteria nHCriteriatemp = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", int.Parse(roleGFIDlist[i]));
-
-                         GongFa gongFatemp = Singleton<NHManager>.Instance.CriteriaGet<GongFa>(nHCriteriatemp);
-                         gongFaslist.Add(gongFatemp);
-                         nHCriterias.Add(nHCriteriatemp);
-                         AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>同步功法进来了>>>>>>>>>" + Utility.ToJson(gongFaslist));
+                         NHCriteria nHCriteriaTemp = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", int.Parse(roleGFIDList[i]));
+                         GongFa gongFaTemp = Singleton<NHManager>.Instance.CriteriaGet<GongFa>(nHCriteriaTemp);
+                         gongFaList.Add(gongFaTemp);
+                         nHCriteriaList.Add(nHCriteriaTemp);
+                         AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>同步功法进来了>>>>>>>>>" + Utility.ToJson(gongFaList));
                      }
                  });
                 SetResponseData(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.GongFaExp, Utility.ToJson(gongFaslist));
+                    SubDict.Add((byte)ObjectParameterCode.GongFa, Utility.ToJson(gongFaList));
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
-                Singleton<ReferencePoolManager>.Instance.Despawns(nHCriterias);
+                Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaList);
             },
             () => SetResponseData(() =>
             {
                 SubDict.Add((byte)ParameterCode.RoleList, Utility.ToJson(new List<string>()));
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Empty;
             }));
-
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaGf);
+            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaGongFa);
         }
         }
     }

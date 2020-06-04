@@ -21,19 +21,19 @@ namespace AscensionServer
         {
             var dict = ParseSubDict(operationRequest);
             string roleJsonTemp = Convert.ToString(Utility.GetValue(dict,(byte)ParameterCode.Account));
-            GongFa rolegongFatemp = Utility.ToObject<GongFa>(roleJsonTemp);
-            NHCriteria nHCriteriaGongFa = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolegongFatemp.GongFaID);
+            GongFa roleGongFaTmp = Utility.ToObject<GongFa>(roleJsonTemp);
+            NHCriteria nHCriteriaGongFa = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleGongFaTmp.GongFaID);
             var isExisted = Singleton<NHManager>.Instance.Verify<GongFa>(nHCriteriaGongFa);
-            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>角色ID" + rolegongFatemp.GongFaID + 
+            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>角色ID" + roleGongFaTmp.GongFaID + 
                 ">>>>>>>>>>>>>>>");
             if (!isExisted)
             {
-                rolegongFatemp = Singleton<NHManager>.Instance.Add(rolegongFatemp);
-                NHCriteria nHCriteriaID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID",rolegongFatemp.ID);
+                roleGongFaTmp = Singleton<NHManager>.Instance.Add(roleGongFaTmp);
+                NHCriteria nHCriteriaID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID",roleGongFaTmp.ID);
                 bool rolegongfaID = Singleton<NHManager>.Instance.Verify<RoleGongFa>(nHCriteriaGongFa);
                 if (!rolegongfaID)
                 {
-                    var rolegongfa = new RoleGongFa() { GongFaIDArray= rolegongFatemp.ID.ToString()};
+                    var rolegongfa = new RoleGongFa() { GongFaIDArray= roleGongFaTmp.ID.ToString()};
                     Singleton<NHManager>.Instance.Add(rolegongfa);
                 }
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
