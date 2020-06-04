@@ -23,16 +23,23 @@ namespace AscensionServer
         /// 获取子操作中的字典对象
         /// 执行此方法时候，会同时执行情况Owner字典与添加子操作码步骤
         /// </summary>
-        protected virtual Dictionary<byte,object> InitSubOpDict(OperationRequest operationRequest)
+        protected virtual Dictionary<byte,object> ParseSubDict(OperationRequest operationRequest)
         {
             string subDataJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)OperationCode.SubOpCodeData));
             var subDataObj = Utility.ToObject<Dictionary<byte, object>>(subDataJson);
             Owner.ResponseData.Clear();
             Owner.OpResponse.OperationCode = operationRequest.OperationCode;
             Owner.ResponseData.Add((byte)OperationCode.SubOperationCode, (byte)SubOpCode);
-            SubDict.Clear();
             return subDataObj;
         }
         public Dictionary<byte, object> SubDict { get; protected set; }
+
+        protected void SetResponseData(CFAction callBack)
+        {
+            SubDict.Clear();
+            callBack?.Invoke();
+            Owner.ResponseData.Add((byte)OperationCode.SubOpCodeData, Utility.ToJson(SubDict));
+            Owner.OpResponse.Parameters = Owner.ResponseData;
+        }
     }
 }

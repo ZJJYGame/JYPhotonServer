@@ -20,7 +20,7 @@ namespace AscensionServer
         }
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            var dict = InitSubOpDict(operationRequest);
+            var dict = ParseSubDict(operationRequest);
             string roleJsonTmp = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.Role));
             Role roleTmp = Utility.ToObject<Role>(roleJsonTmp);
             NHCriteria nHCriteriaRoleName = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleName", roleTmp.RoleName);

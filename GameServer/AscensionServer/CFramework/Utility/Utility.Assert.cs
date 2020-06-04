@@ -26,9 +26,9 @@ namespace AscensionServer
             /// <typeparam name="T">泛型类型</typeparam>
             /// <param name="arg">泛型对象</param>
             /// <param name="message">自定义需要打印的信息</param>
-            public static void NotNull<T>(T arg,object message)
+            public static void NotNull(object obj, object message)
             {
-                if (arg == null)
+                if (obj== null)
                     throw new ArgumentNullException(message.ToString());
             }
             /// <summary>
@@ -38,21 +38,21 @@ namespace AscensionServer
             /// <typeparam name="T">泛型类型</typeparam>
             /// <param name="arg">泛型对象</param>
             /// <param name="callBack">若不为空，则执行回调</param>
-            public static void NotNull<T>(T arg, CFAction<T> callBack)
+            public static void NotNull(object obj , CFAction notNullCallBack)
             {
-                if (arg== null)
-                    throw new ArgumentNullException("object" + arg.ToString() + "isEmpty !");
+                if (obj == null)
+                    throw new ArgumentNullException("object" + obj.ToString() + "isEmpty !");
                 else
-                    callBack?.Invoke(arg);
+                    notNullCallBack?.Invoke();
             }
-            public static void NotNull<T>(T arg, CFAction<T> callBack,CFAction nullArgCallBack)
+            public static void NotNull(object obj , CFAction notNullCallBack, CFAction nullCallBack)
             {
-                if (arg == null)
-                    nullArgCallBack?.Invoke();
+                if (obj == null)
+                    nullCallBack?.Invoke();
                 else
-                    callBack?.Invoke(arg);
+                    notNullCallBack?.Invoke();
             }
-            public static void IsAssignable<T1,T2>(T1 super,T2 sub,CFAction<T1,T2>callBack)
+            public static void IsAssignable<T1, T2>(T1 super, T2 sub, CFAction<T1, T2> callBack)
             {
                 Type superType = typeof(T1);
                 Type subType = typeof(T2);
@@ -96,12 +96,17 @@ namespace AscensionServer
             /// <param name="arg">对象</param>
             /// <param name="handler">处理者</param>
             /// <param name="callBack">回调</param>
-            public static void Predicate<T>(T arg, Predicate<T> handler,CFAction<T> callBack)
+            public static void Predicate<T>(T arg, Predicate<T> handler, CFAction<T> callBack)
             {
                 if (handler == null)
                     return;
                 if (handler.Invoke(arg))
                     callBack?.Invoke(arg);
+            }
+            public static void Predicate(CFPredicateAction handler, CFAction callBack)
+            {
+                if (handler.Invoke())
+                    callBack?.Invoke();
             }
         }
     }

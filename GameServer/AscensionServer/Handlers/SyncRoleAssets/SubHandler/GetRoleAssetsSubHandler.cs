@@ -17,39 +17,28 @@ namespace AscensionServer
         }
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            var dict = InitSubOpDict(operationRequest);
+            var dict = ParseSubDict(operationRequest);
             string roleJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.Role));
             AscensionServer._Log.Info(">>>>>>>>>>>>>SyncRoleAssetsHandler\n" + roleJson + "\n SyncRoleAssetsHandler >>>>>>>>>>>>>>>>>>>>>>");
             var roleObj = Utility.ToObject<Role>(roleJson);
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
-            bool exist = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID);
-
-            if (exist)
-            {
-                var result = Singleton<NHManager>.Instance.CriteriaGet<RoleAssets>(nHCriteriaRoleID);
-                if (result == null)
+            var obj=Singleton<NHManager>.Instance.CriteriaGet<Role>(nHCriteriaRoleID);
+            Utility.Assert.NotNull(obj,() =>
                 {
-                    Singleton<NHManager>.Instance.Add(new RoleAssets()
+                    var result = Singleton<NHManager>.Instance.CriteriaGet<RoleAssets>(nHCriteriaRoleID);
+                    Utility.Assert.NotNull(result, () =>
                     {
-                        RoleID = roleObj.RoleID,
-                        SpiritStonesHigh = 0,
-                        SpiritStonesLow = 0,
-                        SpiritStonesMedium = 0,
-                        XianYu = 0
+                        Singleton<NHManager>.Instance.Add(new RoleAssets() { RoleID = roleObj.RoleID, });
+                        result = Singleton<NHManager>.Instance.CriteriaGet<RoleAssets>(nHCriteriaRoleID);
                     });
-                    result = Singleton<NHManager>.Instance.CriteriaGet<RoleAssets>(nHCriteriaRoleID);
-                }
-                string roleAssetsJson = Utility.ToJson(result);
-                AscensionServer._Log.Info(">>>>>>>>>>>>>>roleAssetsJson \n" + roleAssetsJson + "\n roleAssetsJson<<<<<<<<<<<<<<");
-
-                Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
-                Owner.ResponseData.Add((byte)ObjectParameterCode.RoleAssets, roleAssetsJson);
-                Owner.OpResponse.Parameters = Owner.ResponseData;
-            }
-            else
-            {
-                Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
-            }
+                    string roleAssetsJson = Utility.ToJson(result);
+                    SetResponseData(() =>
+                    {
+                        SubDict.Add((byte)ObjectParameterCode.RoleAssets, roleAssetsJson);
+                        Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                    });
+                }, () => Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail);
+          
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
         }
