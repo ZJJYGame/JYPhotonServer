@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 namespace AscensionServer
 {
-    public   static partial class Utility
+    public   sealed partial class Utility
     {
         public static Value GetValue<Key, Value>(Dictionary<Key, Value> dict, Key key)
         {

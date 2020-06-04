@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System;
 namespace AscensionServer
 {
-    public static partial class Utility
+    public sealed partial class Utility
     {
         /// <summary>
         /// 加密工具
         /// </summary>
-        public static class Encryption
+        public sealed class Encryption
         {
             public  enum GUIDFormat
             {
