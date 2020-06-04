@@ -15,10 +15,10 @@ namespace AscensionServer
             /// </summary>
             /// <typeparam name="T">泛型类型</typeparam>
             /// <param name="arg">泛型对象</param>
-            public static void NotNull<T>(T arg)
+            public static void NotNull(object obj)
             {
-                if (arg == null)
-                    throw new ArgumentNullException("object" + arg.ToString() + "isEmpty !");
+                if (obj == null)
+                    throw new ArgumentNullException("object" + obj.ToString() + "isEmpty !");
             }
             /// <summary>
             /// 判断不为空
@@ -41,11 +41,28 @@ namespace AscensionServer
             public static void NotNull(object obj , CFAction notNullCallBack)
             {
                 if (obj == null)
-                    throw new ArgumentNullException("object" + obj.ToString() + "isEmpty !");
+                    throw new ArgumentNullException("object" + obj.ToString() + "is null !");
                 else
                     notNullCallBack?.Invoke();
             }
             public static void NotNull(object obj , CFAction notNullCallBack, CFAction nullCallBack)
+            {
+                if (obj == null)
+                    nullCallBack?.Invoke();
+                else
+                    notNullCallBack?.Invoke();
+            }
+            public static void IsNull(object obj)
+            {
+                if (obj != null)
+                    throw new ArgumentException("Object" + obj.ToString() + "must be null !");
+            }
+            public static void IsNull(object obj,CFAction nullCallBack)
+            {
+                if (obj == null)
+                    nullCallBack?.Invoke();
+            }
+            public static void IsNull(object obj, CFAction nullCallBack,CFAction notNullCallBack)
             {
                 if (obj == null)
                     nullCallBack?.Invoke();
@@ -107,6 +124,29 @@ namespace AscensionServer
             {
                 if (handler.Invoke())
                     callBack?.Invoke();
+            }
+            public static void Predicate(CFPredicateAction handler, CFAction trueCallBack,CFAction falseCallBack)
+            {
+                if (handler.Invoke())
+                    trueCallBack?.Invoke();
+                else
+                    falseCallBack?.Invoke();
+            }
+            /// <summary>
+            /// 普通异常处理捕捉者
+            /// </summary>
+            /// <param name="handler">处理者函数</param>
+            /// <param name="exceptionHandler">异常处理函数</param>
+            public static void ExceptionCatcher(CFAction handler,CFAction exceptionHandler)
+            {
+                try
+                {
+                    handler?.Invoke();
+                }
+                catch 
+                {
+                    exceptionHandler?.Invoke();
+                }
             }
         }
     }

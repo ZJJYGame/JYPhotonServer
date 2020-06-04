@@ -9,6 +9,13 @@ namespace AscensionServer.Model
     [Serializable]
     public class RoleAssets
     {
+        public RoleAssets()
+        {
+            this.SpiritStonesLow = 0;
+            this.SpiritStonesHigh = 0;
+            this.SpiritStonesMedium = 0;
+            this.XianYu = 0;
+        }
         public virtual int RoleID { get; set; }
         public virtual long SpiritStonesLow { get; set; }
         public virtual long SpiritStonesMedium { get; set; }

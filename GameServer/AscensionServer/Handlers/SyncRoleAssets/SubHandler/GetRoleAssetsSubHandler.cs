@@ -19,17 +19,17 @@ namespace AscensionServer
         {
             var dict = ParseSubDict(operationRequest);
             string roleJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.Role));
-            AscensionServer._Log.Info(">>>>>>>>>>>>>SyncRoleAssetsHandler\n" + roleJson + "\n SyncRoleAssetsHandler >>>>>>>>>>>>>>>>>>>>>>");
+            AscensionServer._Log.Info(">>>>>>>>>>>>>GetRoleAssetsSubHandler\n" + roleJson + "\n GetRoleAssetsSubHandler >>>>>>>>>>>>>>>>>>>>>>");
             var roleObj = Utility.ToObject<Role>(roleJson);
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
-            var obj=Singleton<NHManager>.Instance.CriteriaGet<Role>(nHCriteriaRoleID);
+            var obj =Singleton<NHManager>.Instance.CriteriaGet<Role>(nHCriteriaRoleID);
             Utility.Assert.NotNull(obj,() =>
                 {
                     var result = Singleton<NHManager>.Instance.CriteriaGet<RoleAssets>(nHCriteriaRoleID);
-                    Utility.Assert.NotNull(result, () =>
+                    Utility.Assert.IsNull(result, () =>
                     {
-                        Singleton<NHManager>.Instance.Add(new RoleAssets() { RoleID = roleObj.RoleID, });
-                        result = Singleton<NHManager>.Instance.CriteriaGet<RoleAssets>(nHCriteriaRoleID);
+                        AscensionServer._Log.Info(">>>>>>>>>>>>>\n GetRoleAssetsSubHandler  " + roleObj.RoleID+ "  GetRoleAssetsSubHandler  \n >>>>>>>>>>>>>>>>>>>>>>");
+                       result= Singleton<NHManager>.Instance.Add(new RoleAssets() { RoleID = roleObj.RoleID});
                     });
                     string roleAssetsJson = Utility.ToJson(result);
                     SetResponseData(() =>

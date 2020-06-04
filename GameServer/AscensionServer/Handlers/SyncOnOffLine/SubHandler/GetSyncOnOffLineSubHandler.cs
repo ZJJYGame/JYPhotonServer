@@ -14,7 +14,7 @@ namespace AscensionServer
         public override void OnInitialization()
         {
             SubOpCode = SubOperationCode.Get;
-        
+            base.OnInitialization();
         }
 
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
@@ -22,7 +22,7 @@ namespace AscensionServer
 
             string subDataJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)OperationCode.SubOpCodeData));
             var subDataObj = Utility.ToObject<Dictionary<byte, object>>(subDataJson);
-            string roleJsonTmp = Convert.ToString(Utility.GetValue(subDataObj, (byte)ParameterCode.OnOffLine));
+            string roleJsonTmp = Convert.ToString(Utility.GetValue(subDataObj, (byte)ObjectParameterCode.OnOffLine));
             
             Owner.ResponseData.Clear();
             Owner.OpResponse.OperationCode = operationRequest.OperationCode;
@@ -45,7 +45,7 @@ namespace AscensionServer
                 //int Exp = Singleton<NHManager>.Instance.CriteriaGet<GongFa>(nHCriteriaID).GongFaExp;
                 string AllExperience = (35 * interval.TotalSeconds).ToString();
                 AscensionServer._Log.Info("计算出的离线经验>>>>>>>>>" + AllExperience + ">>>>>>>>>>>>");
-                Owner.ResponseData.Add((byte)ParameterCode.OnOffLine, AllExperience);
+                Owner.ResponseData.Add((byte)ObjectParameterCode.OnOffLine, AllExperience);
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 Owner.OpResponse.Parameters = Owner.ResponseData;
             }
