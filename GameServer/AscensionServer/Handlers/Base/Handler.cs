@@ -31,7 +31,7 @@ namespace AscensionServer
                 }
                 catch
                 {
-                    AscensionServer._Log.Info(">>>>>\n" + ((SubOperationCode)subCode).ToString() + " :  has no subHandler \n<<<<<");
+                    AscensionServer._Log.Info(">>>>>\n" + (SubOperationCode)subCode + " :  has no subHandler \n<<<<<");
                 }
             }
         }

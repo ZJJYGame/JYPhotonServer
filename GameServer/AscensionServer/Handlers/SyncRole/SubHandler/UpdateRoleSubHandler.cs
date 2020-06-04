@@ -25,7 +25,6 @@ namespace AscensionServer
             Owner.ResponseData.Clear();
             Owner.OpResponse.OperationCode = operationRequest.OperationCode;
             Owner.ResponseData.Add((byte)OperationCode.SubOperationCode, (byte)SubOpCode);
-            
             bool exist = Singleton<NHManager>.Instance.Verify<RoleStatus>(nHCriteriaRoleStatue);
             Owner.OpResponse.OperationCode = operationRequest.OperationCode;
             if (exist)
