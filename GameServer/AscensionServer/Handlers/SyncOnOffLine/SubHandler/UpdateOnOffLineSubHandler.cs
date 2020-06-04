@@ -8,7 +8,7 @@ using AscensionProtocol;
 using AscensionServer.Model;
 namespace AscensionServer
 {
-    class UpdateOnOffLineSubHandler : SyncOnOffLineSubHandler
+   public class UpdateOnOffLineSubHandler : SyncOnOffLineSubHandler
     {
         public override void OnInitialization()
         {

@@ -119,6 +119,8 @@
     <Compile Include="Handlers\Base\Handler.cs" />
     <Compile Include="Handlers\Base\IHandler.cs" />
     <Compile Include="Handlers\Base\ISubHandler.cs" />
+    <Compile Include="Handlers\SyncGongFa\SubHandler\AddGongFaSubHandler.cs" />
+    <Compile Include="Handlers\SyncGongFa\SubHandler\GetGongFaSubHandler.cs" />
     <Compile Include="Handlers\SyncGongFa\SubHandler\SyncGongFaSubHandler.cs" />
     <Compile Include="Handlers\SyncGongFa\SubHandler\UpdateGongFaSubHandler.cs" />
     <Compile Include="Handlers\SyncGongFa\SyncGongFaHandler.cs" />
