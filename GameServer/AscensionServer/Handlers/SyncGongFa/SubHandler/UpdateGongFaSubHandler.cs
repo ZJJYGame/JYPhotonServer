@@ -19,7 +19,7 @@ namespace AscensionServer
 
             ResetResponseData(operationRequest);
             var receivedRoleData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role));
-            var receivedData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.GongFaExp));
+            var receivedData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.GongFa));
             AscensionServer._Log.Info(">>>>>>>>>>>>接收功法数据：" + receivedData + ">>>>>>>>>>>>>>>>>>>>>>");
             var receivedRoleObj = Utility.ToObject<RoleGongFa>(receivedRoleData);
             var receivedObj = Utility.ToObject<GongFa>(receivedData);
@@ -28,14 +28,8 @@ namespace AscensionServer
             bool exist = Singleton<NHManager>.Instance.Verify<RoleGongFa>(nHCriteriaRoleID);
             int intInfoObj = 0;
             if (exist)
-            var receivedData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.GongFa));
-           Owner. OpResponse.OperationCode = operationRequest.OperationCode;
-           Owner. ResponseData.Clear();
-            if (receivedData != null)
-
             {
                 RoleGongFa GongfaInfo = Singleton<NHManager>.Instance.CriteriaGet<RoleGongFa>(nHCriteriaRoleID);
-
                 NHCriteria nHCriteriaGongFaID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", receivedObj.ID);
                 bool existGongFa = Singleton<NHManager>.Instance.Verify<GongFa>(nHCriteriaGongFaID);
 
