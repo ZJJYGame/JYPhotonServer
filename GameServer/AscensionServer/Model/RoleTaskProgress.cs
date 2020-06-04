@@ -11,6 +11,5 @@ namespace AscensionServer.Model
     {
         public virtual int RoleID { get; set; }
         public virtual string RoleTaskInfo { get; set; }
-        public virtual Dictionary<string, string> RoleTaskDict { get; set; }
     }
 }

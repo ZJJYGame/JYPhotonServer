@@ -6,7 +6,7 @@ namespace AscensionProtocol.DTO
     public class RoleTaskProgressDTO : ProtocolDTO
     {
         public virtual int RoleID { get; set; }
-        public virtual Dictionary<string, string> RoleTaskDict { get; set; }
+        public virtual string RoleTaskInfo { get; set; }
     }
 }
 

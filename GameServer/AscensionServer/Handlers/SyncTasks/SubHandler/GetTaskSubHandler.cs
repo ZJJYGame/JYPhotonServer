@@ -10,11 +10,11 @@ using Newtonsoft.Json;
 
 namespace AscensionServer
 {
-    public class AddTaskSubHandler : SyncTaskSubHandler
+    public class GetTaskSubHandler : SyncTaskSubHandler
     {
         public override void OnInitialization()
         {
-            SubOpCode = SubOperationCode.Add;
+            SubOpCode = SubOperationCode.Get;
         }
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
@@ -24,20 +24,13 @@ namespace AscensionServer
             var roletaskobj = Utility.ToObject<RoleTaskProgress>(roletask);
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roletaskobj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID);
-            string strInfoObj = "";
             if (exist)
             {
                 RoleTaskProgress roleTaskInfo = Singleton<NHManager>.Instance.CriteriaGet<RoleTaskProgress>(nHCriteriaRoleID);
-                if (roleTaskInfo == null)
-                    Singleton<NHManager>.Instance.Add(new RoleTaskProgress() { RoleID = roletaskobj.RoleID, RoleTaskInfo = roletaskobj.RoleTaskInfo });
+                if (roleTaskInfo != null)
+                    Owner.ResponseData.Add((byte)ObjectParameterCode.Role, roleTaskInfo.RoleTaskInfo);
                 else
-                {
-                    strInfoObj = roleTaskInfo.RoleTaskInfo + roletaskobj.RoleTaskInfo;
-                    AscensionServer._Log.Info("角色存在2" + strInfoObj);
-                    Singleton<NHManager>.Instance.Update(new RoleTaskProgress() { RoleID = roletaskobj.RoleID, RoleTaskInfo = strInfoObj });
-                }
-                //AscensionServer._Log.Info(">>>>>>>>>>>>传回去的" + roleTaskProgress.RoleTaskInfo + ">>>>>>>>>>>>");
-                //Owner.ResponseData.Add((byte)ObjectParameterCode.Role, roleTaskProgress.RoleTaskInfo);
+                    Owner.ResponseData.Add((byte)ObjectParameterCode.Role, "数据库不存在任务");
                 Owner.OpResponse.Parameters = Owner.ResponseData;
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             }
