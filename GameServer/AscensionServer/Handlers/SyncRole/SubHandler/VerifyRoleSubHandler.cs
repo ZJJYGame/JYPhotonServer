@@ -17,24 +17,18 @@ namespace AscensionServer
         }
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-
-            //废弃代码
-            /*
-            string rolestatusJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role));
+            var dict = ParseSubDict(operationRequest);
+            string rolestatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.RoleStatus));
             AscensionServer._Log.Info(">>>>>>>>>>>>VerifyRoleStatusHandler\n传输过来更新的战斗数据:" + rolestatusJson + "VerifyRoleStatusHandler\n<<<<<<<<<<<");
             var rolestatusObj = Utility.ToObject<RoleStatus>(rolestatusJson);
             NHCriteria nHCriteriaRoleStatue = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolestatusObj.RoleID);
-            Owner. ResponseData.Clear();
-            bool exist = Singleton<NHManager>.Instance.Verify<RoleStatus>(nHCriteriaRoleStatue);
-           Owner. OpResponse.OperationCode = operationRequest.OperationCode;
-            if (exist)
-            {
-                Singleton<NHManager>.Instance.Update(rolestatusObj);
-               Owner. OpResponse.ReturnCode = (short)ReturnCode.Success;
-            }
-            else
-               Owner. OpResponse.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner. OpResponse, sendParameters);*/
+            Utility.Assert.Predicate(() => Singleton<NHManager>.Instance.Verify<RoleStatus>(nHCriteriaRoleStatue), () =>
+              {
+                  Singleton<NHManager>.Instance.Update(rolestatusObj);
+                  SetResponseData(() => Owner.OpResponse.ReturnCode = (short)ReturnCode.Success);
+              }, () =>{ SetResponseData(() => Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail);
+              });
+            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
         }
     }
 }
