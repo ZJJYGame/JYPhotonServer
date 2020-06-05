@@ -21,6 +21,7 @@ namespace AscensionServer
 {
     public class AscensionServer : ApplicationBase
     {
+        public static IFiber _Fiber { get; private set; }
         public static readonly ILogger _Log = LogManager.GetCurrentClassLogger();
         private SyncPositionThread syncPositionThread = new SyncPositionThread();
         new public static AscensionServer Instance { get; private set; }
@@ -42,6 +43,8 @@ namespace AscensionServer
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
             var peer = new AscensionPeer(initRequest);
+            _Fiber = new PoolFiber();
+            _Fiber.Start();
             _Log.Info("***********************  \nClient connected !!! \n ***********************");
             PeerList.Add(peer);
             //TODO  连接后的peer 添加到hashset里
