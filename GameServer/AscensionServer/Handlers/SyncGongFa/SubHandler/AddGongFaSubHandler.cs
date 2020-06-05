@@ -20,31 +20,30 @@ namespace AscensionServer
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
-            string roleJsonTemp = Convert.ToString(Utility.GetValue(dict,(byte)ParameterCode.Account));
+            string roleJsonTemp = Convert.ToString(Utility.GetValue(dict,(byte)ObjectParameterCode.GongFa));
+
             GongFa roleGongFaTmp = Utility.ToObject<GongFa>(roleJsonTemp);
-            NHCriteria nHCriteriaGongFa = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleGongFaTmp.GongFaID);
-            var isExisted = Singleton<NHManager>.Instance.Verify<GongFa>(nHCriteriaGongFa);
-            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>角色ID" + roleGongFaTmp.GongFaID + 
+            NHCriteria nHCriteriaGongFa = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("GongFaID", roleGongFaTmp.GongFaID);
+            var obj = Singleton<NHManager>.Instance.CriteriaGet<GongFa>(nHCriteriaGongFa);
+            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>角色ID>>>>>>" + roleJsonTemp + 
                 ">>>>>>>>>>>>>>>");
-            if (!isExisted)
+            NHCriteria nHCriteriaID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", roleGongFaTmp.ID);
+
+            Utility.Assert.NotNull(obj, () =>
             {
-                roleGongFaTmp = Singleton<NHManager>.Instance.Add(roleGongFaTmp);
-                NHCriteria nHCriteriaID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID",roleGongFaTmp.ID);
-                bool rolegongfaID = Singleton<NHManager>.Instance.Verify<RoleGongFa>(nHCriteriaGongFa);
-                if (!rolegongfaID)
-                {
-                    var rolegongfa = new RoleGongFa() { GongFaIDArray= roleGongFaTmp.ID.ToString()};
-                    Singleton<NHManager>.Instance.Add(rolegongfa);
-                }
-                Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
-                Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaID);
-
-            }else
-                Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
-
-            peer.SendOperationResponse(Owner.OpResponse,sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaGongFa);
-               }
+                RoleGongFa roleGongFa = new RoleGongFa() { RoleID = 33 };
+                NHCriteria rolegongfaobj = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleGongFa.RoleID);
+                var result = Singleton<NHManager>.Instance.CriteriaGet<RoleGongFa>(rolegongfaobj);
+                Utility.Assert.IsNull(result, () =>
+                 {
+                     result = Singleton<NHManager>.Instance.Add(new RoleGongFa() { GongFaIDArray = roleGongFaTmp.ID.ToString() });
+                     AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>角色ID>>>>>>" + roleGongFaTmp.ID +
+                ">>>>>>>>>>>>>>>");
+                 },() => { Singleton<NHManager>.Instance.Update(result);AscensionServer._Log.Info("AddGongFaSubHandler \n成功"); });
+            });
+            //peer.SendOperationResponse(Owner.OpResponse,sendParameters);
+            //Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaGongFa);
+        }
         
     }
 }
