@@ -30,6 +30,12 @@ namespace AscensionProtocol
         SyncMiShu=13,
         SyncGongFa=14,
         SyncOnOffLine=15,
+
+
+        /// <summary>
+        /// 测试消息队列
+        /// </summary>
+        MessageQueue=137,
         /// <summary>
         /// 心跳
         /// </summary>

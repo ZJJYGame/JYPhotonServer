@@ -69,6 +69,15 @@ namespace AscensionServer
                 else
                     notNullCallBack?.Invoke();
             }
+            public static void State(bool expression)
+            {
+                State(expression, "this state must be true");
+            }
+            public static void State(bool expression, string message)
+            {
+                if (!expression)
+                    throw new Exception(message);
+            }
             public static void IsAssignable<T1, T2>(T1 super, T2 sub, CFAction<T1, T2> callBack)
             {
                 Type superType = typeof(T1);
