@@ -49,11 +49,11 @@ namespace AscensionServer
                             }
                             gongFaDic.Add(roleId, gongFaIdList);
                         }
+                        else
+                            gongFaDic.Add(roleId, new List<GongFa>());
                     }
                     else
-                    {
                         Singleton<NHManager>.Instance.Add(new RoleGongFa() { RoleID = roleId });
-                    }
                 }
                 Owner.OpResponse.Parameters = Owner.ResponseData;
                 Owner.ResponseData.Add((byte)ObjectParameterCode.GongFa, Utility.ToJson(gongFaDic));
