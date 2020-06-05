@@ -31,7 +31,7 @@ namespace AscensionServer
 
             Utility.Assert.NotNull(obj, () =>
             {
-                RoleGongFa roleGongFa = new RoleGongFa() { RoleID = 33 };
+                RoleGongFa roleGongFa = new RoleGongFa() ;
                 NHCriteria rolegongfaobj = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleGongFa.RoleID);
                 var result = Singleton<NHManager>.Instance.CriteriaGet<RoleGongFa>(rolegongfaobj);
                 Utility.Assert.IsNull(result, () =>
