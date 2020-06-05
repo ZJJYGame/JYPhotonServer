@@ -13,17 +13,17 @@ namespace AscensionServer
         public override void OnInitialization()
         {
             SubOpCode = SubOperationCode.Update;
+            //base.OnInitialization();
         }
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-
             ResetResponseData(operationRequest);
             var receivedRoleData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role));
             var receivedData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.GongFa));
+            AscensionServer._Log.Info(">>>>>>>>>>>>接收功法数据：" + receivedRoleData + ">>>>>>>>>>>>>>>>>>>>>>");
             AscensionServer._Log.Info(">>>>>>>>>>>>接收功法数据：" + receivedData + ">>>>>>>>>>>>>>>>>>>>>>");
             var receivedRoleObj = Utility.ToObject<RoleGongFa>(receivedRoleData);
             var receivedObj = Utility.ToObject<GongFa>(receivedData);
-
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<RoleGongFa>(nHCriteriaRoleID);
             int intInfoObj = 0;
@@ -32,7 +32,6 @@ namespace AscensionServer
                 RoleGongFa GongfaInfo = Singleton<NHManager>.Instance.CriteriaGet<RoleGongFa>(nHCriteriaRoleID);
                 NHCriteria nHCriteriaGongFaID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", receivedObj.ID);
                 bool existGongFa = Singleton<NHManager>.Instance.Verify<GongFa>(nHCriteriaGongFaID);
-
                 if (existGongFa)
                 {
                     GongFa GongfaInfoExp = Singleton<NHManager>.Instance.CriteriaGet<GongFa>(nHCriteriaGongFaID);
@@ -41,7 +40,7 @@ namespace AscensionServer
                         if (int.Parse(item) == receivedObj.ID)
                         {
                             intInfoObj = GongfaInfoExp.GongFaExp + receivedObj.GongFaExp;
-                            Singleton<NHManager>.Instance.Update(new GongFa() { GongFaExp = intInfoObj });
+                            Singleton<NHManager>.Instance.Update(new GongFa() { ID = GongfaInfoExp.ID, GongFaID = GongfaInfoExp.GongFaID, GongFaLevel = GongfaInfoExp.GongFaLevel, GongFaSkillArray = GongfaInfoExp.GongFaSkillArray, GongFaExp = intInfoObj }) ;
                         }
                     }
                 }
