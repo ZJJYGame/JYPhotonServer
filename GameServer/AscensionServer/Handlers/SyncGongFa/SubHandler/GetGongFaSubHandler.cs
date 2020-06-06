@@ -34,9 +34,9 @@ namespace AscensionServer
                 {
                     NHCriteria nHCriteriaGongFa = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleId);
                     bool exist = Singleton<NHManager>.Instance.Verify<RoleGongFa>(nHCriteriaGongFa);
+                    gongFaIdList = new List<GongFa>();
                     if (exist)
                     {
-                        gongFaIdList = new List<GongFa>();
                         var roleIdArray = Singleton<NHManager>.Instance.CriteriaGet<RoleGongFa>(nHCriteriaGongFa);
                         if (!string.IsNullOrEmpty(roleIdArray.GongFaIDArray))
                         {
@@ -53,7 +53,10 @@ namespace AscensionServer
                             gongFaDic.Add(roleId, new List<GongFa>());
                     }
                     else
+                    {
                         Singleton<NHManager>.Instance.Add(new RoleGongFa() { RoleID = roleId });
+                        gongFaDic.Add(roleId, new List<GongFa>());
+                    }
                 }
                 Owner.OpResponse.Parameters = Owner.ResponseData;
                 Owner.ResponseData.Add((byte)ObjectParameterCode.GongFa, Utility.ToJson(gongFaDic));
