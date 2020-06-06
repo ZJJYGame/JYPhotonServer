@@ -27,6 +27,7 @@ namespace AscensionServer
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<RoleGongFa>(nHCriteriaRoleID);
             int intInfoObj = 0;
+            int intLevel = 0; 
             if (exist)
             {
                 RoleGongFa GongfaInfo = Singleton<NHManager>.Instance.CriteriaGet<RoleGongFa>(nHCriteriaRoleID);
@@ -39,8 +40,19 @@ namespace AscensionServer
                     {
                         if (int.Parse(item) == receivedObj.ID)
                         {
-                            intInfoObj = GongfaInfoExp.GongFaExp + receivedObj.GongFaExp;
-                            Singleton<NHManager>.Instance.Update(new GongFa() { ID = GongfaInfoExp.ID, GongFaID = GongfaInfoExp.GongFaID, GongFaLevel = GongfaInfoExp.GongFaLevel, GongFaSkillArray = GongfaInfoExp.GongFaSkillArray, GongFaExp = intInfoObj }) ;
+                            if (receivedObj.GongFaLevel != 0)
+                            {
+                                GongfaInfoExp.GongFaExp = 0;
+                                intInfoObj = GongfaInfoExp.GongFaExp + receivedObj.GongFaExp;
+                                intLevel = GongfaInfoExp.GongFaLevel + receivedObj.GongFaLevel;
+                                Singleton<NHManager>.Instance.Update(new GongFa() { ID = GongfaInfoExp.ID, GongFaID = GongfaInfoExp.GongFaID, GongFaLevel = (short)intLevel, GongFaSkillArray = GongfaInfoExp.GongFaSkillArray, GongFaExp = intInfoObj });
+                            }
+                            else
+                            {
+                                intInfoObj = GongfaInfoExp.GongFaExp + receivedObj.GongFaExp;
+                                Singleton<NHManager>.Instance.Update(new GongFa() { ID = GongfaInfoExp.ID, GongFaID = GongfaInfoExp.GongFaID, GongFaLevel = GongfaInfoExp.GongFaLevel, GongFaSkillArray = GongfaInfoExp.GongFaSkillArray, GongFaExp = intInfoObj });
+
+                            }
                         }
                     }
                 }
