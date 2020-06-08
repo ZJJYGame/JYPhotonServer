@@ -13,7 +13,8 @@
         RoleAssets = 68,
         GongFa = 69,
         MiShu = 70,
-        OnOffLine = 71
+        OnOffLine = 71,
+        Inventory = 72
     }
     /// <summary>
     /// 单条数据参数码

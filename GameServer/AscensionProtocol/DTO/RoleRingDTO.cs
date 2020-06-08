@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace AscensionServer.Model
+namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class RoleRing
+    public class RoleRingDTO
     {
-        //TODO待确认储物戒指
         public virtual int RoleID { get; set; }
         public virtual string RingIdArray { get; set; }
     }
