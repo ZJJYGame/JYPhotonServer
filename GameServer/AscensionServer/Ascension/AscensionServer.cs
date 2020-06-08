@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Photon.SocketServer;
 using AscensionProtocol;
+using AscensionProtocol.DTO;
 using ExitGames.Logging;
 using ExitGames.Logging.Log4Net;
 using System.IO;
@@ -127,6 +128,42 @@ namespace AscensionServer
         public bool IsLogin(AscensionPeer peer)
         {
             return loginPeerDict.ContainsKey(peer.User.Account);
+        }
+        Dictionary<string, AscensionPeer> onlinePeerDict = new Dictionary<string, AscensionPeer>();
+        public void online(AscensionPeer peer, int roleid)
+        {
+            try
+            {
+                onlinePeerDict.Add(peer.User.Account, peer);
+                RoleDTO roleDTO = new RoleDTO() { RoleID = roleid };
+                OnlineStatusDTO onlineStatusDTO = new OnlineStatusDTO() { Role = roleDTO };
+                onlinePeerDict[peer.User.Account].OnlineStateDTO = onlineStatusDTO;
+            }
+            catch (Exception)
+            {
+                _Log.Info("----------------------------  can't add into onlinePeerDict" + peer.User.Account.ToString() + "------------------------------------");
+            }
+        }
+        public void offline(AscensionPeer peer)
+        {
+            try
+            {
+                onlinePeerDict.Remove(peer.User.Account);
+            }
+            catch (Exception)
+            {
+                _Log.Info("----------------------------  can't add into offlinePeerDict" + peer.User.Account.ToString() + "------------------------------------");
+            }
+        }
+        public int HasOnlineID(AscensionPeer peer)
+        {
+            if (onlinePeerDict.ContainsKey(peer.User.Account))
+            {
+                return onlinePeerDict[peer.User.Account].OnlineStateDTO.Role.RoleID;
+
+            }
+            else
+                return 0;
         }
     }
 }

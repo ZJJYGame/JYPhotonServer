@@ -18,43 +18,28 @@ namespace AscensionServer
 
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
+            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收到離綫時間");
             var dict = ParseSubDict(operationRequest);
             string subDataJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.OnOffLine));
+            /////
+            //OnOffLine onOffLine = new OnOffLine() { RoleID=33};
+            //string str = Convert.ToString(onOffLine);
+            //////
             var onofflinetemp = Utility.ToObject<OnOffLine>(subDataJson);
            
             NHCriteria nHCriteriaOnoff = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
-            bool exist = Singleton<NHManager>.Instance.Verify<OnOffLine>(nHCriteriaOnoff);
             var obj = Singleton<NHManager>.Instance.CriteriaGet<OnOffLine>(nHCriteriaOnoff);
-            #region
-            //if (subDataJson != null)
-            //{
-            //    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
-            //    if (exist)
-            //    {
-            //        Singleton<NHManager>.Instance.Update(new OnOffLine() { RoleID = onofflinetemp.RoleID, OffLineTime = DateTime.Now.ToString() });
-            //    }
-            //    else
-            //    {
-
-            //        //
-            //        Singleton<NHManager>.Instance.Add(new OnOffLine() { RoleID = onofflinetemp.RoleID, OffLineTime = DateTime.Now.ToString() });
-
-            //    }
-            //}
-            //else
-            //    Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-            #endregion
-            Utility.Assert.NotNull(obj.RoleID, () =>
+            Utility.Assert.NotNull(obj, () =>
             {
                 Singleton<NHManager>.Instance.Update(new OnOffLine() { RoleID = onofflinetemp.RoleID, OffLineTime = DateTime.Now.ToString() });
                 SetResponseData(() =>
                 {
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
-            }, () => Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail);
+            }, () => { Singleton<NHManager>.Instance.Add<OnOffLine>(new OnOffLine() { RoleID = onofflinetemp.RoleID, OffLineTime = DateTime.Now.ToString() }); });
 
-
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            
+            //peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaOnoff);
         }
     }

@@ -41,8 +41,8 @@ namespace AscensionServer
                 ">>>>>>>>>>>>>>>");
                  },() => { Singleton<NHManager>.Instance.Update(result);AscensionServer._Log.Info("AddGongFaSubHandler \n成功"); });
             });
-            //peer.SendOperationResponse(Owner.OpResponse,sendParameters);
-            //Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaGongFa);
+            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaGongFa);
         }
         
     }
