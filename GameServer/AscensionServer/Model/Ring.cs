@@ -14,9 +14,11 @@ namespace AscensionServer.Model
     [Serializable]
     public class Ring
     {
-        public virtual int ID { get; set; }
-        public virtual string ItemArray { get; set;}
-        public virtual ushort RingID { get; set; }
+        public virtual int ID { set; get; }
+        public virtual int RingId { get; set; }
+        public virtual int RingItemId { get; set; }
+        public virtual int RingItemCount { get; set; }
+        public virtual bool RingItemAdorn { get; set; }
     }
 }
 
