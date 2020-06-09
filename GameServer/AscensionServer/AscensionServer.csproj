@@ -231,9 +231,9 @@
     <Folder Include="Handlers\SyncSelfRoles\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AscensionCalculate\AscensionCalculate.csproj">
+    <ProjectReference Include="..\AscensionCalculate\AscensionCalculator.csproj">
       <Project>{a71709ea-e11c-4e7b-b8b7-28a57eff49ef}</Project>
-      <Name>AscensionCalculate</Name>
+      <Name>AscensionCalculator</Name>
     </ProjectReference>
     <ProjectReference Include="..\AscensionProtocol\AscensionProtocol.csproj">
       <Project>{142ced7d-c56d-43b2-a11f-9dc0f302bd80}</Project>

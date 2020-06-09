@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AscensionServer", "Ascensio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AscensionProtocol", "AscensionProtocol\AscensionProtocol.csproj", "{142CED7D-C56D-43B2-A11F-9DC0F302BD80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AscensionCalculate", "AscensionCalculate\AscensionCalculate.csproj", "{A71709EA-E11C-4E7B-B8B7-28A57EFF49EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AscensionCalculator", "AscensionCalculate\AscensionCalculator.csproj", "{A71709EA-E11C-4E7B-B8B7-28A57EFF49EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
