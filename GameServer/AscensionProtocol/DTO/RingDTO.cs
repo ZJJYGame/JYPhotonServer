@@ -15,7 +15,6 @@ namespace AscensionProtocol.DTO
     [Serializable]
     public class RingItemsDTO
     {
-        public virtual int RingItemId { get; set; }
         public virtual int RingItemCount { get; set; }
         public virtual string RingItemAdorn { get; set; }
     }
