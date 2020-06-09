@@ -19,12 +19,5 @@ namespace AscensionServer.Model
         public virtual int RingId { get; set; }
         public virtual string RingItems { get; set; }
     }
-    [Serializable]
-    public class RingItems
-    {
-        public virtual int RingItemId { get; set; }
-        public virtual int RingItemCount { get; set; }
-        public virtual string RingItemAdorn { get; set; }
-    }
 }
 
