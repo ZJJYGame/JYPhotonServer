@@ -35,7 +35,7 @@ namespace AscensionServer
             {
                 OpResponse.ReturnCode = (short)ReturnCode.Success;
                 AscensionServer.Instance.Logoff(peer);
-                AscensionServer.Instance.offline(peer);
+               // AscensionServer.Instance.offline(peer);
                 peer.Logoff();
             }
             else

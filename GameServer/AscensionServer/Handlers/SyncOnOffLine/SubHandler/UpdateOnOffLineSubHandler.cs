@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+*Author : yingduan
+*Since :	2020-05-26
+*Description :  离线时间记录
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

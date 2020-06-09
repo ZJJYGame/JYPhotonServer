@@ -36,14 +36,14 @@ namespace AscensionServer
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             data.Add((byte)ObjectParameterCode.User,onlineStateDTO);
             ed.Parameters = data;
-            if (this.User.Account!=null)
-            {
-                if (AscensionServer.Instance.HasOnlineID(this) != 0)
-                {
-                    RecordOnOffLine(AscensionServer.Instance.HasOnlineID(this));
-                }
-                AscensionServer.Instance.offline(this);
-            }
+            //if (this.User.Account!=null)
+            //{
+            //    if (AscensionServer.Instance.HasOnlineID(this) != 0)
+            //    {
+            //        RecordOnOffLine(AscensionServer.Instance.HasOnlineID(this));
+            //    }
+            //    AscensionServer.Instance.offline(this);
+            //}
 
             AscensionServer.Instance.Logoff(this);
             foreach (AscensionPeer tmpPeer in AscensionServer.Instance.ConnectedPeerHashSet)
