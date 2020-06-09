@@ -27,8 +27,11 @@ namespace AscensionServer
             OpResponse.OperationCode = operationRequest.OperationCode;
             if (!isExist)
             {
+                AscensionServer._Log.Info("==========\n  before add UUID ：" +userJson +"\n"+ userObj.UUID + "\n================");
+
                 //添加输入的用户和密码进数据库
-                userObj=  Singleton<NHManager>.Instance.Add(userObj);
+                userObj =  Singleton<NHManager>.Instance.Add(userObj);
+                AscensionServer._Log.Info("==========\n after add UUID ：" + userJson + "\n" + userObj.UUID+"\n================");
                 NHCriteria nHCriteriaUUID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("UUID", userObj.UUID);
                 bool userRoleExist = Singleton<NHManager>.Instance.Verify<UserRole>(nHCriteriaUUID);
                 if (!userRoleExist)

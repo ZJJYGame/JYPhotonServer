@@ -17,7 +17,9 @@ namespace AscensionServer
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
+            AscensionServer._Log.Info("==================MQ==================");
             AscensionServer._Log.Info("MQ消息");
+            AscensionServer._Log.Info("==================MQ==================");
             ResponseData.Clear();
             OpResponse.Parameters = ResponseData;
             OpResponse.ReturnCode = (byte)ReturnCode.Success;
