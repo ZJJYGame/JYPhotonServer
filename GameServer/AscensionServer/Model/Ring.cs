@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThirdParty.Json.LitJson;
 
 namespace AscensionServer.Model
 {
@@ -16,9 +17,14 @@ namespace AscensionServer.Model
     {
         public virtual int ID { set; get; }
         public virtual int RingId { get; set; }
+        public virtual string RingItems { get; set; }
+    }
+    [Serializable]
+    public class RingItems
+    {
         public virtual int RingItemId { get; set; }
         public virtual int RingItemCount { get; set; }
-        public virtual bool RingItemAdorn { get; set; }
+        public virtual string RingItemAdorn { get; set; }
     }
 }
 
