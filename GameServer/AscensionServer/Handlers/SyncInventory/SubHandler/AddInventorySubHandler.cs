@@ -9,6 +9,7 @@ using AscensionServer.Model;
 using NHibernate.Linq.Clauses;
 using AscensionProtocol.DTO;
 using Renci.SshNet.Security;
+using Newtonsoft.Json;
 
 namespace AscensionServer
 {
@@ -21,80 +22,64 @@ namespace AscensionServer
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             ResetResponseData(operationRequest);
+            var InventoryRoleData = Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role) as string;
             var InventoryData = Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Inventory) as string;
+            AscensionServer._Log.Info(">>>>>接收roleId" + InventoryRoleData + ">>>>>>>>>>>>>");
             AscensionServer._Log.Info(">>>>>接收背包的数据" + InventoryData + ">>>>>>>>>>>>>");
-            var InventoryRoleObj = Utility.ToObject<Dictionary<int,HashSet<RingDTO>>>(InventoryData);
+            var InventoryRoleObj = Utility.ToObject<RoleRing>(InventoryRoleData);
+            var InventoryObj = Utility.ToObject<RingDTO>(InventoryData);
 
-            foreach (var intRold in InventoryRoleObj)
+            NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", InventoryRoleObj.RoleID);
+            bool exist = Singleton<NHManager>.Instance.Verify<RoleRing>(nHCriteriaRoleID);
+            if (exist)
             {
-                NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", intRold.Key);
-                bool exist = Singleton<NHManager>.Instance.Verify<RoleRing>(nHCriteriaRoleID);
-                if (exist)
+                var ringArray = Singleton<NHManager>.Instance.CriteriaGet<RoleRing>(nHCriteriaRoleID);
+                NHCriteria nHCriteriaRingID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RingId", InventoryObj.RingId);
+                bool existRing = Singleton<NHManager>.Instance.Verify<Ring>(nHCriteriaRingID);
+                if (existRing)
                 {
-                    var ringIdArray = intRold.Value;
-                    AscensionServer._Log.Info("ringarray" + ringIdArray.Count);
-
-                    var ringArray = Singleton<NHManager>.Instance.CriteriaGet<RoleRing>(nHCriteriaRoleID);
-                    int ringCount = 0;
-                    string ringitem = "";
-                    foreach (var item in Utility.ToObject<List<int>>(ringArray.RingIdArray))
+                    //string serverInfoItem = "";
+                    int serverInfoItemCount = 0;
+                    string severInfoItemAdorn = "";
+                    var ringServerArray = Singleton<NHManager>.Instance.CriteriaGet<Ring>(nHCriteriaRingID);
+                    foreach (var n in Utility.ToObject<List<int>>(ringArray.RingIdArray))
                     {
-                        foreach (var n in ringIdArray)
+                        if (n == ringServerArray.ID)
                         {
-                            if (item == n.ID)
+                            AscensionServer._Log.Info("ringarray" + ringServerArray.RingItems);
+                            var ServerDic = Utility.ToObject<HashSet<RingItemsDTO>>(ringServerArray.RingItems);
+                            foreach (var p in ServerDic)
                             {
-                                NHCriteria nHCriteriaId = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", n.ID);
-                                bool existId = Singleton<NHManager>.Instance.Verify<Ring>(nHCriteriaId);
-                                if (existId)
+                                foreach (var client_p in InventoryObj.RingItems)
                                 {
-                                    var ringData = Singleton<NHManager>.Instance.CriteriaGet<Ring>(nHCriteriaId);
-                                    AscensionServer._Log.Info(ringData.RingItems + ">>>>>>>>>>>>>>>>>");
-                                    var ClientObj = n.RingItems;
-                                    Singleton<NHManager>.Instance.Update(new Ring() { ID = ringData.ID, RingId = ringData.RingId, RingItems = Utility.ToJson(n.RingItems) });
-                                    AscensionServer._Log.Info(ringData.RingItems + ">>>>>>>>>>>>>>>>>");
-
-                                    var ServerObj = ringData.RingItems;
-                                    var objStr = Utility.ToObject<HashSet<RingItems>>(ringData.RingItems);
-                                    //foreach (var key in ServerObj)
-                                    //{
-                                    //    AscensionServer._Log.Info(key.Value + ">>>>>>>>>>>>>>>>>");
-                                    //}
-                                    //AscensionServer._Log.Info(ServerObj.Count + ">>>>>>>>>>>>>>>>>");
-
-                                    //if (ServerObj.RingItemId == ClientObj.RingItemId)
-                                    //{
-                                    //ringCount = ServerObj.RingItemCount + ClientObj.RingItemCount;
-                                    //ServerObj.RingItemCount = ringCount;
-                                    //Singleton<NHManager>.Instance.Update(new Ring() { ID = ringData.ID, RingId = ringData.RingId, RingItems = Utility.ToJson(n.RingItems) });
-                                    //}
-                                    //  else
-                                    // {
-                                    //ringitem = ServerObj.ToString() + ClientObj.ToString();
-                                    //Singleton<NHManager>.Instance.Add(new Ring() { ID = ringData.ID, RingId = ringData.RingId, RingItems = Utility.ToJson(ringitem) });
-
-                                    //  }
-                                    //AscensionServer._Log.Info(Utility.ToJson(ClientObj) + ">>>>>>>>>>>>>>>>>");
-                                    //var ServerObj = ringData.RingItems.ToList();
-                                    //AscensionServer._Log.Info(ServerObj.Count+ ">>>>>>>>>>>>>>>>>");
-                                    //foreach (var p in ServerObj)
-                                    //{
-                                    //AscensionServer._Log.Info(p.RingItemId + ">>>>>>>>>>>>>>>>>");
-
-                                    //if (ClientObj.RingItemId == p.RingItemId)
-                                    //{
-
-                                    //}
-                                    // }
-
-                                    AscensionServer._Log.Info(ringData.RingItems+ ">>>>>>>>>>>>>>>>>");
+                                    if (p.RingItemId == client_p.RingItemId)
+                                    {
+                                        serverInfoItemCount = p.RingItemCount;
+                                        if (p.RingItemCount != client_p.RingItemCount)
+                                        {
+                                            serverInfoItemCount = p.RingItemCount + client_p.RingItemCount;
+                                            client_p.RingItemCount = serverInfoItemCount;
+                                        }
+                                        severInfoItemAdorn = p.RingItemAdorn;
+                                        if (p.RingItemAdorn != client_p.RingItemAdorn)
+                                        {
+                                            severInfoItemAdorn = client_p.RingItemAdorn;
+                                            client_p.RingItemAdorn = severInfoItemAdorn;
+                                        }
+                                        //AscensionServer._Log.Info("  ><<<<<<<<<<<<<" + Utility.ToJson(InventoryObj.RingItems));
+                                        Singleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.ToJson(InventoryObj.RingItems) });
+                                    }
+                                    else
+                                    {
+                                        ServerDic.Add(client_p);
+                                        Singleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.ToJson(ServerDic) });
+                                    }
                                 }
                             }
                         }
                     }
                 }
-
             }
         }
     }
 }
-//{100002,88,"1"}

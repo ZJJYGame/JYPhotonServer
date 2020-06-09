@@ -10,7 +10,7 @@ namespace AscensionProtocol.DTO
     {
         public virtual int ID { set; get; }
         public virtual int RingId { get; set; }
-        public virtual RingItemsDTO RingItems { get; set; }
+        public virtual HashSet< RingItemsDTO> RingItems { get; set; }
     }
     [Serializable]
     public class RingItemsDTO

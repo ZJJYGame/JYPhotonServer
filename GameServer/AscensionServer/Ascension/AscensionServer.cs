@@ -160,7 +160,6 @@ namespace AscensionServer
             if (onlinePeerDict.ContainsKey(peer.User.Account))
             {
                 return onlinePeerDict[peer.User.Account].OnlineStateDTO.Role.RoleID;
-
             }
             else
                 return 0;
