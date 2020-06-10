@@ -28,6 +28,7 @@ namespace AscensionServer
         new public static AscensionServer Instance { get; private set; }
         Dictionary<OperationCode, Handler> handlerDict = new Dictionary<OperationCode, Handler>();
         public Dictionary<OperationCode, Handler> HandlerDict { get { return handlerDict; } }
+
         /// <summary>
         /// 已经连接但是未登录的客户端对象容器
         /// </summary>
