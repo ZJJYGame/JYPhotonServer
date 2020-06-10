@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AscensionCalculator
+namespace AscensionHive
 {
-    public class BattleHandler
+    public class Room : IRoom
     {
-
+        public void Dispose()
+        {
+        }
     }
 }
