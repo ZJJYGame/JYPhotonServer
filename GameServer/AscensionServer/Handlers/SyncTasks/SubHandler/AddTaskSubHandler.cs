@@ -7,6 +7,7 @@ using Photon.SocketServer;
 using AscensionProtocol;
 using AscensionServer.Model;
 using Newtonsoft.Json;
+using AscensionProtocol.DTO;
 
 namespace AscensionServer
 {
@@ -21,28 +22,45 @@ namespace AscensionServer
             ResetResponseData(operationRequest);
             string roletask = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role));
             AscensionServer._Log.Info(">>>>>>>>>>>>>接受到的任务相关信息：" + roletask + ">>>>>>>>>>>>>>>>>>>>>>");
-            var roletaskobj = Utility.ToObject<RoleTaskProgress>(roletask);
+            var roletaskobj = Utility.ToObject<RoleTaskProgressDTO>(roletask);
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roletaskobj.RoleID);
-            bool exist = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID);
-            string strInfoObj = "";
+            bool exist = Singleton<NHManager>.Instance.Verify<RoleTaskProgress>(nHCriteriaRoleID);
+            Dictionary<int, RoleTaskItemDTO> Dic;
             if (exist)
             {
-                RoleTaskProgress roleTaskInfo = Singleton<NHManager>.Instance.CriteriaGet<RoleTaskProgress>(nHCriteriaRoleID);
-                if (roleTaskInfo == null)
-                    Singleton<NHManager>.Instance.Add(new RoleTaskProgress() { RoleID = roletaskobj.RoleID, RoleTaskInfo = roletaskobj.RoleTaskInfo });
-                else
+                Dic = new Dictionary<int, RoleTaskItemDTO>();
+                var roleTaskInfo = Singleton<NHManager>.Instance.CriteriaGet<RoleTaskProgress>(nHCriteriaRoleID);
+                var ServerDic = Utility.ToObject<Dictionary<int, RoleTaskItemDTO>>(roleTaskInfo.RoleTaskInfoDic);
+
+                if (roleTaskInfo.RoleTaskInfoDic != null)
                 {
-                    strInfoObj = roleTaskInfo.RoleTaskInfo + roletaskobj.RoleTaskInfo;
-                    AscensionServer._Log.Info("角色存在2" + strInfoObj);
-                    Singleton<NHManager>.Instance.Update(new RoleTaskProgress() { RoleID = roletaskobj.RoleID, RoleTaskInfo = strInfoObj });
+                    foreach (var server_n in ServerDic)
+                    {
+                        if (roletaskobj.RoleTaskInfoDic.ContainsKey(server_n.Key))
+                            continue;
+                        Dic.Add(server_n.Key,server_n.Value);
+                    }
+
+                    foreach (var client_n in roletaskobj.RoleTaskInfoDic)
+                    {
+                        if (!ServerDic.ContainsKey(client_n.Key))
+                        {
+                            Dic.Add(client_n.Key, client_n.Value);
+                            Singleton<NHManager>.Instance.Update(new RoleTaskProgress() { RoleID = roletaskobj.RoleID, RoleTaskInfoDic = Utility.ToJson(Dic) });
+                        }
+                    }
+                    Owner.OpResponse.Parameters = Owner.ResponseData;
+                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
-                //AscensionServer._Log.Info(">>>>>>>>>>>>传回去的" + roleTaskProgress.RoleTaskInfo + ">>>>>>>>>>>>");
-                //Owner.ResponseData.Add((byte)ObjectParameterCode.Role, roleTaskProgress.RoleTaskInfo);
+                else
+                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+            }
+            else 
+            {
+                Singleton<NHManager>.Instance.Add(new RoleTaskProgress() { RoleID = roletaskobj.RoleID, RoleTaskInfoDic = Utility.ToJson(roletaskobj.RoleTaskInfoDic) });
                 Owner.OpResponse.Parameters = Owner.ResponseData;
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             }
-            else
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             Singleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleID);
         }

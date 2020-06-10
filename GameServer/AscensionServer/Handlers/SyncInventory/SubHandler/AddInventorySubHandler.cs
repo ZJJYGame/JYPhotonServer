@@ -31,16 +31,18 @@ namespace AscensionServer
 
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", InventoryRoleObj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<RoleRing>(nHCriteriaRoleID);
+            NHCriteria nHCriteriaRingID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RingId", InventoryObj.RingId);
+            bool existRing = Singleton<NHManager>.Instance.Verify<Ring>(nHCriteriaRingID);
+            Dictionary<int, RingItemsDTO> Dic;
+            int serverInfoItemCount = 0;
+            string severInfoItemAdorn = "";
             if (exist)
             {
                 var ringArray = Singleton<NHManager>.Instance.CriteriaGet<RoleRing>(nHCriteriaRoleID);
-                NHCriteria nHCriteriaRingID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RingId", InventoryObj.RingId);
-                bool existRing = Singleton<NHManager>.Instance.Verify<Ring>(nHCriteriaRingID);
+
                 if (existRing)
                 {
-                    Dictionary<int, RingItemsDTO> Dic;
-                    int serverInfoItemCount = 0;
-                    string severInfoItemAdorn = "";
+
                     var ringServerArray = Singleton<NHManager>.Instance.CriteriaGet<Ring>(nHCriteriaRingID);
                     foreach (var n in Utility.ToObject<List<int>>(ringArray.RingIdArray))
                     {
@@ -73,7 +75,7 @@ namespace AscensionServer
                                         severInfoItemAdorn = client_p.Value.RingItemAdorn;
                                         client_p.Value.RingItemAdorn = severInfoItemAdorn;
                                     }
-                                   
+
                                     Dic.Add(client_p.Key, client_p.Value);
                                     Singleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.ToJson(Dic) });
                                 }
@@ -85,8 +87,14 @@ namespace AscensionServer
                             }
                         }
                     }
+                    Owner.OpResponse.Parameters = Owner.ResponseData;
+                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
             }
+            else
+                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID, nHCriteriaRingID);
         }
     }
 }
