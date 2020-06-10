@@ -111,7 +111,12 @@ namespace AscensionServer
             }
             catch (Exception)
             {
+                ReplaceLogin(peer);
+                loginPeerDict.Remove(peer.User.Account);
+               
+                loginPeerDict.Add(peer.User.Account, peer);
                 _Log.Info("----------------------------  can't add into loginDict"+peer.User.Account.ToString()+"------------------------------------");
+               
             }
         }
         public void Logoff(AscensionPeer peer)
@@ -163,6 +168,16 @@ namespace AscensionServer
             }
             else
                 return 0;
+        }
+        //处理登录冲突部分代码
+        void ReplaceLogin(AscensionPeer peer)
+        {
+            EventData ed = new EventData((byte)EventCode.ReplacePlayer);
+            Dictionary<byte, object> data = new Dictionary<byte, object>();
+            data.Add((byte)ParameterCode.ForcedOffline, (byte)0);
+            ed.Parameters = data;
+            peer.SendEvent(ed,new SendParameters());
+            _Log.Info("登录冲突检测》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》");
         }
     }
 }

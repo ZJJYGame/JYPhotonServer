@@ -32,6 +32,6 @@
         PlayerDataList = 8,
         HeartBeat = 9,
         RoleID = 10,
-
+        ForcedOffline=11,
     }
 }
