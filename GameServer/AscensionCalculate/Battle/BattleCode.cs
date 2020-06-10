@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Threading;
+
 namespace AscensionCalculator
 {
     //================================================
-    //战斗中的计算器。利用读写分离锁实现线程安全
+    //战斗中的操作码，约束为byte。
     //
     //================================================
-    public class Calculator
+    public enum BattleCode:byte
     {
-        ReaderWriterLockSlim locker;
-
+        ChooseEnemy=0,
+        ChooseTeammate = 1,
     }
 }
