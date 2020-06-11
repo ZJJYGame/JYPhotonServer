@@ -167,6 +167,11 @@
     <Compile Include="Handlers\SyncTasks\SubHandler\SyncTaskSubHandler.cs" />
     <Compile Include="Handlers\SyncTasks\SubHandler\UpdateTaskSubHandler.cs" />
     <Compile Include="Handlers\SyncTasks\SyncTaskHandler.cs" />
+    <Compile Include="Hive\Base\IHive.cs" />
+    <Compile Include="Hive\Room\IRoom.cs" />
+    <Compile Include="Hive\Room\Room.cs" />
+    <Compile Include="Hive\Team\ITeam.cs" />
+    <Compile Include="Hive\Team\Team.cs" />
     <Compile Include="ModelMap\GongFaMap.cs" />
     <Compile Include="ModelMap\MiShuMap.cs" />
     <Compile Include="ModelMap\MonsterMap.cs" />

@@ -26,17 +26,48 @@ namespace AscensionServer
 
             var rolemishuObj = Utility.ToObject<RoleMiShu>(rmsJson);
             var mishuObj = Utility.ToObject<MiShu>(msJson);
-
-
-
             #region BugFix
-            NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("MiShu", rolemishuObj.RoleID);
-            var miShuIDArrayResult = Singleton<NHManager>.Instance.CriteriaGet<RoleMiShu>(nHCriteriaRoleID);
-            var arrayResult = Utility.ToObject<List<string>>(miShuIDArrayResult.MiShuIDArray);
-            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler"+arrayResult+"\n >>>>>>>>>>>>");
-            mishuObj = Singleton<NHManager>.Instance.Add(mishuObj);
-            arrayResult.Add(mishuObj.ID.ToString());
-            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler" + "success"+ "\n >>>>>>>>>>>>");
+            NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolemishuObj.RoleID);
+            var roleMiShuObj= Singleton<NHManager>.Instance.CriteriaGet<RoleMiShu>(nHCriteriaRoleID);
+            if (roleMiShuObj==null)
+            {
+                Singleton<NHManager>.Instance.Add(rolemishuObj);
+                AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler  add roleMiShuObj" + rmsJson+ "\n >>>>>>>>>>>>");
+                mishuObj = Singleton<NHManager>.Instance.Add(mishuObj);
+                List<string> miShuIDList = new List<string>();
+                miShuIDList.Add(mishuObj.ID.ToString());
+                rolemishuObj.MiShuIDArray = Utility.ToJson(miShuIDList);
+            }
+            else
+            {
+                AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler  Update roleMiShuObj" + rmsJson + "\n >>>>>>>>>>>>");
+                mishuObj = Singleton<NHManager>.Instance.Add(mishuObj);
+                List<string> miShuIDList = new List<string>();
+                if (string.IsNullOrEmpty(roleMiShuObj.MiShuIDArray))
+                {
+                    AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler  Update  empty roleMiShuObj" + rmsJson + "\n >>>>>>>>>>>>");
+
+                    miShuIDList.Add(mishuObj.ID.ToString());
+                }
+                else
+                {
+                    AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler  Update existed roleMiShuObj" + rmsJson + "\n >>>>>>>>>>>>");
+
+                    miShuIDList = Utility.ToObject<List<string>>(roleMiShuObj.MiShuIDArray);
+                    if(!miShuIDList.Contains(mishuObj.ID.ToString()))
+                        miShuIDList.Add(mishuObj.ID.ToString());
+                    else
+                        AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler mishu is already existed !!" + rmsJson + "\n >>>>>>>>>>>>");
+                }
+                rolemishuObj.MiShuIDArray = Utility.ToJson(miShuIDList);
+            }
+            Singleton<NHManager>.Instance.Update<RoleMiShu>(rolemishuObj);
+
+            //var arrayResult = Utility.ToObject<List<string>>(roleMiShuObj.MiShuIDArray);
+            //AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler"+arrayResult+"\n >>>>>>>>>>>>");
+            //mishuObj = Singleton<NHManager>.Instance.Add(mishuObj);
+            //arrayResult.Add(mishuObj.ID.ToString());
+            //AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler" + "success"+ "\n >>>>>>>>>>>>");
 
             #endregion
 

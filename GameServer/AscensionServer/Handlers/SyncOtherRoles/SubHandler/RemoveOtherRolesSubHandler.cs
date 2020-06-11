@@ -20,7 +20,7 @@ namespace AscensionServer
             var userObj = Utility.ToObject<User>(userJson);
             Owner. ResponseData.Clear();
             EventData ed = new EventData((byte)EventCode.DeletePlayer);
-            Owner. ResponseData.Add((byte)ParameterCode.RoleIDList, peer.OnlineStateDTO.Role.RoleID);   //把下线的用户名传递给其他客户端
+            Owner. ResponseData.Add((byte)ParameterCode.RoleIDList, peer.OnlineStateDTO.RoleID);   //把下线的用户名传递给其他客户端
             ed.Parameters = Owner. ResponseData;
             foreach (AscensionPeer tmpPeer in AscensionServer.Instance.ConnectedPeerHashSet)
             {
