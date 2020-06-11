@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AscensionHive
+namespace AscensionServer
 {
     //================================================
-    //蜂巢，用于组队，洞府双休，战斗房间
+    //蜂巢系统接口，用于组队，洞府双休，战斗房间
     //
     //================================================
 

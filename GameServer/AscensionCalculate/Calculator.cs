@@ -9,9 +9,10 @@ namespace AscensionCalculator
     //战斗中的计算器。利用读写分离锁实现线程安全
     // encapsulate  calculator
     //================================================
-    public class Calculator
+    public class Calculator:IDisposable
     {
         ReaderWriterLockSlim locker;
 
+        public void Dispose(){}
     }
 }

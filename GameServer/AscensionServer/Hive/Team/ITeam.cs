@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AscensionHive
+namespace AscensionServer
 {
-    public class Room : IRoom
+    public interface ITeam:IHive
     {
-        public void Dispose()
-        {
-        }
     }
 }

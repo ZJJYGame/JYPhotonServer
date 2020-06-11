@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AscensionHive
+namespace AscensionServer
 {
     public interface IRoom:IHive
     {

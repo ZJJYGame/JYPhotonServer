@@ -14,7 +14,8 @@ namespace AscensionProtocol.DTO
         public bool IsLogined { get; set; }
         public string PreviousScene { get; set; }
         public string CurrentScene { get; set; }
-        public UserDTO User { get; set; }
-        public RoleDTO Role { get; set; }
+        public string Account { get; set; }
+        public string UUID { get; set; }
+        public virtual int RoleID { get; set; }
     }
 }

@@ -142,7 +142,7 @@ namespace AscensionServer
             {
                 onlinePeerDict.Add(peer.User.Account, peer);
                 RoleDTO roleDTO = new RoleDTO() { RoleID = roleid };
-                OnlineStatusDTO onlineStatusDTO = new OnlineStatusDTO() { Role = roleDTO };
+                OnlineStatusDTO onlineStatusDTO = new OnlineStatusDTO() { RoleID = roleDTO.RoleID };
                 onlinePeerDict[peer.User.Account].OnlineStateDTO = onlineStatusDTO;
             }
             catch (Exception)
@@ -165,7 +165,7 @@ namespace AscensionServer
         {
             if (onlinePeerDict.ContainsKey(peer.User.Account))
             {
-                return onlinePeerDict[peer.User.Account].OnlineStateDTO.Role.RoleID;
+                return onlinePeerDict[peer.User.Account].OnlineStateDTO.RoleID;
             }
             else
                 return 0;

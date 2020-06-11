@@ -235,6 +235,10 @@
       <Project>{a71709ea-e11c-4e7b-b8b7-28a57eff49ef}</Project>
       <Name>AscensionCalculator</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AscensionHive\AscensionHive.csproj">
+      <Project>{82c02503-5da6-43ea-9b2d-3c86dc3134f7}</Project>
+      <Name>AscensionHive</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AscensionProtocol\AscensionProtocol.csproj">
       <Project>{142ced7d-c56d-43b2-a11f-9dc0f302bd80}</Project>
       <Name>AscensionProtocol</Name>
