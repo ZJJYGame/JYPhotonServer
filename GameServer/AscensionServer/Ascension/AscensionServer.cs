@@ -109,6 +109,7 @@ namespace AscensionServer
             try
             {
                 loginPeerDict.Add(peer.User.Account, peer);
+                _Log.Info("----------------------------  88888888888888888888888888888------------------------------------");
             }
             catch (Exception)
             {
@@ -116,7 +117,7 @@ namespace AscensionServer
                 loginPeerDict.Remove(peer.User.Account);
                
                 loginPeerDict.Add(peer.User.Account, peer);
-                _Log.Info("----------------------------  can't add into loginDict"+peer.User.Account.ToString()+"------------------------------------");
+                _Log.Info("----------------------------  can't add into loginDict------------------------------------"+ loginPeerDict.ContainsKey(peer.User.Account));
                
             }
         }
@@ -174,10 +175,11 @@ namespace AscensionServer
         void ReplaceLogin(AscensionPeer peer)
         {
             EventData ed = new EventData((byte)EventCode.ReplacePlayer);
+
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             data.Add((byte)ParameterCode.ForcedOffline, (byte)0);
             ed.Parameters = data;
-            peer.SendEvent(ed,new SendParameters());
+            loginPeerDict[peer.User.Account].SendEvent(ed,new SendParameters());
             _Log.Info("登录冲突检测》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》");
         }
     }

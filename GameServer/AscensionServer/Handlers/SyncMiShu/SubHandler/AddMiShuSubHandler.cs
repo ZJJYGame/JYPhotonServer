@@ -71,6 +71,7 @@ namespace AscensionServer
 
             #endregion
 
+            
             #region YZQ
             //NHCriteria nHCriteriaMiShu = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("MiShuID", mishuObj.MiShuID);
             //NHCriteria nHCriteriamishuid = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", mishuObj.ID);
@@ -131,5 +132,26 @@ namespace AscensionServer
             //Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleMiShu, nHCriteriaMiShu);
             #endregion
         }
+
+        public bool VerifyMishuID(List<string> MiShuID)
+        {
+            for (int i = 0; i < MiShuID.Count; i++)
+            {
+                //if (GetMiShuID(MiShuID[i])== mishuObj.ID)
+                //{
+
+                //}
+            }
+            return true;
+        }
+
+        public int GetMiShuID(int id)
+        {
+            MiShu miShu = new MiShu() { ID=id};
+            NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", miShu.ID);
+            var nHCriteriaMiShuID = Singleton<NHManager>.Instance.CriteriaGet<MiShu>(nHCriteriaRoleID);
+            return nHCriteriaMiShuID.MiShuID;
+        }
+
     }
 }
