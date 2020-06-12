@@ -9,7 +9,9 @@ namespace AscensionProtocol.DTO
    public class OnOffLineDTO:ProtocolDTO
     {
         public virtual int RoleID { get; set; }
-        public virtual int UpgradeExp { get; set; }
+        public virtual int GongFaExp { get; set; }
         public virtual string OffLineTime { get; set; }
+        public virtual int MiShuExp { get; set; }
+        public virtual int ExpType { get; set; }
     }
 }

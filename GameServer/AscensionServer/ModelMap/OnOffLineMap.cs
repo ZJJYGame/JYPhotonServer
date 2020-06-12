@@ -13,8 +13,10 @@ namespace AscensionServer.ModelMap
         public OnOffLineMap()
         {
             Id(x => x.RoleID).GeneratedBy.Assigned().Column("roleid");
-            Map(x => x.UpgradeExp).Column("upgradeexp");
+            Map(x => x.GongFaExp).Column("gongfaexp");
             Map(x => x.OffLineTime).Column("offlinetime");
+            Map(x => x.MiShuExp).Column("mishuexp");
+            Map(x => x.ExpType).Column("exptype");
             Table("onoffline");
         }
     }

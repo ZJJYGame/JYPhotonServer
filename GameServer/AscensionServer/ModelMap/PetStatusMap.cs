@@ -12,7 +12,7 @@ namespace AscensionServer
     {
         public PetStatusMap()
         {
-            Id(x => x.PetID).Column("pet_id").GeneratedBy.Increment();
+            Id(x => x.PetID).Column("pet_id").GeneratedBy.Assigned();
             Map(x => x.PetMaxHP).Column("pet_max_hp");
             Map(x => x.PetHP).Column("pet_hp");
             Map(x => x.PetMaxMP).Column("pet_max_mp");
