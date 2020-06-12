@@ -36,7 +36,7 @@ namespace AscensionServer
             bool exist = Singleton<NHManager>.Instance.Verify<OnOffLine>(nHCriteriarole);
             Utility.Assert.NotNull(rsult, ()=>
             {
-                string AllExperience = (5 * interval.TotalSeconds/5).ToString();
+                string AllExperience = (onofflinetemp.UpgradeExp * interval.TotalSeconds/5).ToString();
                 AscensionServer._Log.Info("计算出的离线经验>>>>>>>>>" + AllExperience + ">>>>>>>>>>>>");
                 SetResponseData(()=>
                 {

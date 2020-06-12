@@ -62,7 +62,9 @@ namespace AscensionServer
                         AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler mishu is already existed !!" + rgfJson + "\n >>>>>>>>>>>>");
                 }
                 rolegongfaObj.GongFaIDArray = Utility.ToJson(gongfaIDList);
+                Owner.OpResponse.ReturnCode =(short) ReturnCode.Success;
             }
+            peer.SendOperationResponse(Owner.OpResponse,sendParameters);
             Singleton<NHManager>.Instance.Update<RoleGongFa>(rolegongfaObj);
         }
         
