@@ -30,8 +30,9 @@ namespace AscensionProtocol
         SyncMiShu=13,
         SyncGongFa=14,
         SyncOnOffLine=15,
-
-
+        SyncPet=16,
+        SyncPetStatus=17,
+        SyncRolePet=18,
         /// <summary>
         /// 测试消息队列
         /// </summary>
