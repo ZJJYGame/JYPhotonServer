@@ -20,29 +20,50 @@ namespace AscensionServer
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
-            string roleJsonTemp = Convert.ToString(Utility.GetValue(dict,(byte)ObjectParameterCode.GongFa));
 
-            GongFa roleGongFaTmp = Utility.ToObject<GongFa>(roleJsonTemp);
-            NHCriteria nHCriteriaGongFa = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("GongFaID", roleGongFaTmp.GongFaID);
-            var obj = Singleton<NHManager>.Instance.CriteriaGet<GongFa>(nHCriteriaGongFa);
-            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>角色ID>>>>>>" + roleJsonTemp + 
-                ">>>>>>>>>>>>>>>");
-            NHCriteria nHCriteriaID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", roleGongFaTmp.ID);
+            string gfJson = Convert.ToString(Utility.GetValue(dict,(byte)ObjectParameterCode.GongFa));
+            string rgfJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.RoleGongFa));
 
-            Utility.Assert.NotNull(obj, () =>
+            var rolegongfaObj = Utility.ToObject<RoleGongFa>(rgfJson);
+            var gongfaObj = Utility.ToObject<GongFa>(gfJson);
+            NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolegongfaObj.RoleID);
+            var roleGongFaObj = Singleton<NHManager>.Instance.CriteriaGet<RoleGongFa>(nHCriteriaRoleID);
+            if (roleGongFaObj == null)
             {
-                RoleGongFa roleGongFa = new RoleGongFa() ;
-                NHCriteria rolegongfaobj = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleGongFa.RoleID);
-                var result = Singleton<NHManager>.Instance.CriteriaGet<RoleGongFa>(rolegongfaobj);
-                Utility.Assert.IsNull(result, () =>
-                 {
-                     result = Singleton<NHManager>.Instance.Add(new RoleGongFa() { GongFaIDArray = roleGongFaTmp.ID.ToString() });
-                     AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>角色ID>>>>>>" + roleGongFaTmp.ID +
-                ">>>>>>>>>>>>>>>");
-                 },() => { Singleton<NHManager>.Instance.Update(result);AscensionServer._Log.Info("AddGongFaSubHandler \n成功"); });
-            });
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaGongFa);
+                Singleton<NHManager>.Instance.Add(rolegongfaObj);
+                AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler  add roleMiShuObj" + rgfJson + "\n >>>>>>>>>>>>");
+                gongfaObj = Singleton<NHManager>.Instance.Add(gongfaObj);
+                List<string> gongfaIDList = new List<string>();
+                gongfaIDList.Add(gongfaObj.ID.ToString());
+                rolegongfaObj.GongFaIDArray = Utility.ToJson(gongfaIDList);
+            }
+            else
+            {
+                AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler  Update roleMiShuObj" + rgfJson + "\n >>>>>>>>>>>>");
+                gongfaObj = Singleton<NHManager>.Instance.Add(gongfaObj);
+                List<string> gongfaIDList = new List<string>();
+                if (string.IsNullOrEmpty(roleGongFaObj.GongFaIDArray))
+                {
+                    AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler  Update  empty roleMiShuObj" + rgfJson + "\n >>>>>>>>>>>>");
+
+                    gongfaIDList.Add(gongfaObj.ID.ToString());
+                }
+                else
+                {
+                    AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler  Update existed roleMiShuObj" + rgfJson + "\n >>>>>>>>>>>>");
+
+                    gongfaIDList = Utility.ToObject<List<string>>(roleGongFaObj.GongFaIDArray);
+                    if (!gongfaIDList.Contains(gongfaObj.ID.ToString()))
+                    {
+                        gongfaIDList.Add(gongfaObj.ID.ToString());
+                    }
+
+                    else
+                        AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler mishu is already existed !!" + rgfJson + "\n >>>>>>>>>>>>");
+                }
+                rolegongfaObj.GongFaIDArray = Utility.ToJson(gongfaIDList);
+            }
+            Singleton<NHManager>.Instance.Update<RoleGongFa>(rolegongfaObj);
         }
         
     }

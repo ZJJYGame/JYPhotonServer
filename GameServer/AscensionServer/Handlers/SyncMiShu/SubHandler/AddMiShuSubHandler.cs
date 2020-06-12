@@ -54,15 +54,18 @@ namespace AscensionServer
                     AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler  Update existed roleMiShuObj" + rmsJson + "\n >>>>>>>>>>>>");
 
                     miShuIDList = Utility.ToObject<List<string>>(roleMiShuObj.MiShuIDArray);
-                    if(!miShuIDList.Contains(mishuObj.ID.ToString()))
-                        miShuIDList.Add(mishuObj.ID.ToString());
+                    if (!miShuIDList.Contains(mishuObj.ID.ToString()))
+                    {                    
+                            miShuIDList.Add(mishuObj.ID.ToString());
+                    }
+                        
                     else
                         AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler mishu is already existed !!" + rmsJson + "\n >>>>>>>>>>>>");
                 }
                 rolemishuObj.MiShuIDArray = Utility.ToJson(miShuIDList);
             }
             Singleton<NHManager>.Instance.Update<RoleMiShu>(rolemishuObj);
-
+            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
             //var arrayResult = Utility.ToObject<List<string>>(roleMiShuObj.MiShuIDArray);
             //AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler"+arrayResult+"\n >>>>>>>>>>>>");
             //mishuObj = Singleton<NHManager>.Instance.Add(mishuObj);
@@ -71,7 +74,7 @@ namespace AscensionServer
 
             #endregion
 
-            
+
             #region YZQ
             //NHCriteria nHCriteriaMiShu = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("MiShuID", mishuObj.MiShuID);
             //NHCriteria nHCriteriamishuid = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", mishuObj.ID);
@@ -129,28 +132,8 @@ namespace AscensionServer
             //}, () => Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail);
 
             //peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            //Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleMiShu, nHCriteriaMiShu);
+
             #endregion
-        }
-
-        public bool VerifyMishuID(List<string> MiShuID)
-        {
-            for (int i = 0; i < MiShuID.Count; i++)
-            {
-                //if (GetMiShuID(MiShuID[i])== mishuObj.ID)
-                //{
-
-                //}
-            }
-            return true;
-        }
-
-        public int GetMiShuID(int id)
-        {
-            MiShu miShu = new MiShu() { ID=id};
-            NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", miShu.ID);
-            var nHCriteriaMiShuID = Singleton<NHManager>.Instance.CriteriaGet<MiShu>(nHCriteriaRoleID);
-            return nHCriteriaMiShuID.MiShuID;
         }
 
     }

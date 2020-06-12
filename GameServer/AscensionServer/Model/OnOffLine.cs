@@ -10,7 +10,7 @@ namespace AscensionServer.Model
     public class OnOffLine 
     {
         public virtual int RoleID { get; set; }
-        public virtual string OnLineTime { get; set; }
+        public virtual string UpgradeExp { get; set; }
         public virtual string OffLineTime { get; set; }
     }
 }

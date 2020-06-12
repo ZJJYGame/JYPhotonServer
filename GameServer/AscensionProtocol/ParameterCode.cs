@@ -15,7 +15,9 @@
         MiShu = 70,
         OnOffLine = 71,
         Inventory = 72,
-        RoleMiShu=73
+        RoleMiShu=73,
+        RoleGongFa=74
+
     }
     /// <summary>
     /// 单条数据参数码

@@ -125,7 +125,10 @@ namespace AscensionServer
         {
             try
             {
-                loginPeerDict.Remove(peer.User.Account);
+                if (!peer.OnlineStateDTO.IsLogined)
+                {
+                    loginPeerDict.Remove(peer.User.Account);
+                }
             }
             catch (Exception)
             {
@@ -143,7 +146,7 @@ namespace AscensionServer
             {
                 onlinePeerDict.Add(peer.User.Account, peer);
                 RoleDTO roleDTO = new RoleDTO() { RoleID = roleid };
-                OnlineStatusDTO onlineStatusDTO = new OnlineStatusDTO() { RoleID = roleDTO.RoleID };
+                OnlineStatusDTO onlineStatusDTO = new OnlineStatusDTO() { RoleID = roleDTO.RoleID,IsLogined=true };
                 onlinePeerDict[peer.User.Account].OnlineStateDTO = onlineStatusDTO;
             }
             catch (Exception)
@@ -177,7 +180,7 @@ namespace AscensionServer
             EventData ed = new EventData((byte)EventCode.ReplacePlayer);
 
             Dictionary<byte, object> data = new Dictionary<byte, object>();
-            data.Add((byte)ParameterCode.ForcedOffline, (byte)0);
+            data.Add((byte)ParameterCode.ForcedOffline, 0);
             ed.Parameters = data;
             loginPeerDict[peer.User.Account].SendEvent(ed,new SendParameters());
             _Log.Info("登录冲突检测》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》");
