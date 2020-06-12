@@ -9,7 +9,7 @@ namespace AscensionProtocol.DTO
     /// 在线状态DTO，记录当前所在的场景，登录的用户，等等
     /// </summary>
     [Serializable]
-  public  class OnlineStatusDTO
+  public  class OnlineStatusDTO:ProtocolDTO
     {
         public bool IsLogined { get; set; }
         public string PreviousScene { get; set; }

@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace AscensionProtocol.DTO
+{
+    [Serializable]
+    public class PetStatusDTO:ProtocolDTO
+    {
+        public virtual int PetID { get; set; }
+        public virtual short PetSpeed { get; set; }
+        public virtual short PetAttackDamage { get; set; }
+        public virtual short PetResistanceAttack { get; set; }
+        public virtual short PetAbilityPower { get; set; }
+        public virtual short PetResistancePower { get; set; }
+        public virtual int PetMaxHP { get; set; }
+        public virtual int PetHP { get; set; }
+        public virtual int PetMaxMP { get; set; }
+        public virtual int PetMP { get; set; }
+        public virtual string PetTalent { get; set; }
+        public virtual ushort PetShenshi { get; set; }
+        public virtual int PetShenhunDamage { get; set; }
+        public virtual int PetShenhunResistance { get; set; }
+    }
+}

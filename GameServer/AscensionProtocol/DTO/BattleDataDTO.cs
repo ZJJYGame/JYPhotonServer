@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AscensionProtocol
+namespace AscensionProtocol.DTO
 {
-    public class BattleDataDTO
+    public class BattleDataDTO:ProtocolDTO
     {
         public int TargetID { get; set; }
         public int instructionID { get; set; }

@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="DTO\BattleDataDTO.cs" />
     <Compile Include="DTO\GongFaDTO.cs" />
+    <Compile Include="DTO\PetDTO.cs" />
+    <Compile Include="DTO\PetStatusDTO.cs" />
     <Compile Include="DTO\RingDTO.cs" />
     <Compile Include="DTO\MiShuDTO.cs" />
     <Compile Include="DTO\OnlineStatusDTO.cs" />
@@ -57,6 +59,7 @@
     <Compile Include="DTO\RoleAssetsDTO.cs" />
     <Compile Include="DTO\RoleDTO.cs" />
     <Compile Include="DTO\RoleGongFaDTO.cs" />
+    <Compile Include="DTO\RolePetDTO.cs" />
     <Compile Include="DTO\RoleRingDTO.cs" />
     <Compile Include="DTO\RoleMiShuDTO.cs" />
     <Compile Include="DTO\RoleStatusDTO.cs" />

@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace AscensionServer.Model
+namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class RoleMonster
+    public class RolePetDTO:ProtocolDTO
     {
         public virtual int RoleID { get; set; }
-        public virtual string MonsterIDArray { get; set; }
+        public virtual string PetIDArray { get; set; }
     }
 }

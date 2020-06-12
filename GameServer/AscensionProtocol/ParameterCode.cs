@@ -16,8 +16,10 @@
         OnOffLine = 71,
         Inventory = 72,
         RoleMiShu=73,
-        RoleGongFa=74
-
+        RoleGongFa=74,
+        RolePet=75,
+        Pet=76,
+        PetStatus=77
     }
     /// <summary>
     /// 单条数据参数码
@@ -35,5 +37,6 @@
         HeartBeat = 9,
         RoleID = 10,
         ForcedOffline=11,
+        PetID=12
     }
 }

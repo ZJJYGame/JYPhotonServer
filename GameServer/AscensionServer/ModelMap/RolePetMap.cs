@@ -2,13 +2,13 @@
 using FluentNHibernate.Mapping;
 namespace AscensionServer
 {
-   public class RoleMonsterMap:ClassMap<RoleMonster>
+   public class RolePetMap:ClassMap<RolePet>
     {
-        public RoleMonsterMap()
+        public RolePetMap()
         {
             Id(x => x.RoleID).GeneratedBy.Assigned().Column("role_id");
-            Map(x => x.MonsterIDArray).Column("monster_id_array");
-            Table("role_monster");
+            Map(x => x.PetIDArray).Column("pet_id_array");
+            Table("role_pet");
         }
     }
 }
