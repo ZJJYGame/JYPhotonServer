@@ -19,7 +19,8 @@ namespace AscensionProtocol.DTO
         public virtual int PetMaxMP { get; set; }
         public virtual int PetMP { get; set; }
         public virtual string PetTalent { get; set; }
-        public virtual ushort PetShenshi { get; set; }
+        public virtual short PetMaxShenhun { get; set; }
+        public virtual short PetShenhun { get; set; }
         public virtual int PetShenhunDamage { get; set; }
         public virtual int PetShenhunResistance { get; set; }
     }

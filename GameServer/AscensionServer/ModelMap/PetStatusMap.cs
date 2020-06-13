@@ -23,7 +23,8 @@ namespace AscensionServer
             Map(x => x.PetResistancePower).Column("pet_resistance_power");
             Map(x => x.PetSpeed).Column("pet_speed");
             Map(x => x.PetTalent).Column("pet_talent");
-            Map(x => x.PetShenshi).Column("pet_shenshi");
+            Map(x => x.PetShenhun).Column("pet_shenshi");
+            Map(x => x.PetMaxShenhun).Column("pet_max_shenhun");
             Map(x => x.PetShenhunDamage).Column("pet_shenhun_damage");
             Map(x => x.PetShenhunResistance).Column("pet_shenhun_resistance");
             Table("pet_status");

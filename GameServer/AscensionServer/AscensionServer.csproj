@@ -158,6 +158,12 @@
     <Compile Include="Handlers\SyncOtherRoles\SubHandler\GetOtherRolesSubHandler.cs" />
     <Compile Include="Handlers\SyncOtherRoles\SubHandler\RemoveOtherRolesSubHandler.cs" />
     <Compile Include="Handlers\SyncOtherRoles\SubHandler\SyncOtherRolesSubHandler.cs" />
+    <Compile Include="Handlers\SyncPetStatus\SubHandler\GetPetStatusSubHandler.cs" />
+    <Compile Include="Handlers\SyncPetStatus\SubHandler\SyncPetStatusSubHandler.cs" />
+    <Compile Include="Handlers\SyncPetStatus\SyncPetStatusHandler.cs" />
+    <Compile Include="Handlers\SyncPet\SubHandler\GetPetHandler.cs" />
+    <Compile Include="Handlers\SyncPet\SubHandler\SyncPetSubHandler.cs" />
+    <Compile Include="Handlers\SyncPet\SyncPetHandler.cs" />
     <Compile Include="Handlers\SyncRoleAssets\SubHandler\GetRoleAssetsSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAssets\SubHandler\SyncRoleAssetsSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAssets\SubHandler\UpdateRoleAssetsSubHandler.cs" />

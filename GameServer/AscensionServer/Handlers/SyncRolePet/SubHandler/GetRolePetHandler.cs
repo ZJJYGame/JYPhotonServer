@@ -19,10 +19,13 @@ namespace AscensionServer
 
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
+            //AscensionServer._Log.Info(">>>>>>>>>>>>>》》》》》》》》》》》》>>获得宠物进来了");
             var dict = ParseSubDict(operationRequest);
             string rolepet = Convert.ToString(Utility.GetValue(dict,(byte)ObjectParameterCode.RolePet));
+
             var rolepetObj = Utility.ToObject<RolePet>(rolepet);
             NHCriteria nHCriteriaRolePet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
+            
             var rolepets = Singleton<NHManager>.Instance.CriteriaGet<RolePet>(nHCriteriaRolePet);
             Utility.Assert.NotNull(rolepets.PetIDArray, () =>
              {

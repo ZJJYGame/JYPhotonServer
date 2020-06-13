@@ -15,7 +15,7 @@ using AscensionServer.Model;
 
 namespace AscensionServer
 {
-   public  class GetOnOffLineSubHandler : SyncOnOffLineSubHandler
+   public  class GetSyncOnOffLineSubHandler : SyncOnOffLineSubHandler
     {
         public override void OnInitialization()
         {
