@@ -16,7 +16,10 @@ namespace AscensionProtocol
         /// 同步当前这个角色的数据
         /// </summary>
         SyncRole=4,
-        SyncPositon=5,
+        /// <summary>
+        /// 同步当前角色的位置信息，position&rotation 
+        /// </summary>
+        SyncRoleTransform = 5,
         /// <summary>
         /// 同步自己当前账号的所有角色信息
         /// </summary>
@@ -33,6 +36,7 @@ namespace AscensionProtocol
         SyncPet=16,
         SyncPetStatus=17,
         SyncRolePet=18,
+
         /// <summary>
         /// 测试消息队列
         /// </summary>

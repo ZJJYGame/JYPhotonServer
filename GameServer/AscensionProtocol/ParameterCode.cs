@@ -19,7 +19,8 @@
         RoleGongFa=74,
         RolePet=75,
         Pet=76,
-        PetStatus=77
+        PetStatus=77,
+        RoleTransfrom=78
     }
     /// <summary>
     /// 单条数据参数码

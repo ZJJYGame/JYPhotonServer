@@ -28,22 +28,14 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string subDataJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.OnOffLine));
             var onofflinetemp = Utility.ToObject<OnOffLine>(subDataJson);
-            NHCriteria nHCriteriarole = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
-
+            NHCriteria nHCriteriaRole = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
             ///获取的时间秒
             OffLineTimeDTO offLineTime = new OffLineTimeDTO() { RoleID = onofflinetemp.RoleID };
-            string onofflineJson = Utility.ToJson(offLineTime);
-            //////
-            var offtimetemp = Utility.ToObject<OffLineTime>(onofflineJson);
-
-            NHCriteria nHCriteriaOnoff = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
-            var obj = Singleton<NHManager>.Instance.CriteriaGet<OffLineTime>(nHCriteriaOnoff);
+            var obj = Singleton<NHManager>.Instance.CriteriaGet<OffLineTime>(nHCriteriaRole);
             TimeSpan interval = (DateTime.Now).Subtract(Convert.ToDateTime(obj.OffTime));
-
-            bool exist = Singleton<NHManager>.Instance.Verify<OnOffLine>(nHCriteriarole);
             Utility.Assert.NotNull(obj, ()=>
             {
-                var Exptypeobj = Singleton<NHManager>.Instance.CriteriaGet<OnOffLine>(nHCriteriarole);
+                var Exptypeobj = Singleton<NHManager>.Instance.CriteriaGet<OnOffLine>(nHCriteriaRole);
                 if (Exptypeobj.ExpType==0)
                 {
                     List<string> date = new List<string>();
@@ -87,7 +79,7 @@ namespace AscensionServer
             }));
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriarole);
+            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRole);
         }
     }
     }

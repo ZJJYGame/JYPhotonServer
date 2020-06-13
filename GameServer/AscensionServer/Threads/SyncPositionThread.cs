@@ -27,7 +27,6 @@ namespace AscensionServer.Threads
                 SendPosition();
             }
         }
-
         public void SendPosition() {
             List<PlayerDataDTO> playerDatraList = new List<PlayerDataDTO>();
             foreach (var peer in AscensionServer.Instance.PeerList)

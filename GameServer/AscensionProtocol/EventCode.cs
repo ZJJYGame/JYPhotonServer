@@ -5,6 +5,7 @@
         NewPlayer=0,
         SyncPosition=1,
         DeletePlayer=2,
-        ReplacePlayer=3
+        ReplacePlayer=3,
+        SyncRoleTransform=4
     }
 }

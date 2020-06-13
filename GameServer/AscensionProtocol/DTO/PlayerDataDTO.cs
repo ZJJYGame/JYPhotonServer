@@ -6,6 +6,8 @@ using System.Text;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
+    [Obsolete("弃用，移步RoleTransformDTO")]
+
     public class PlayerDataDTO: ProtocolDTO
     {
         public Vector3DataDTO pos { get; set; }

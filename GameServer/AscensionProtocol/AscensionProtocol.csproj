@@ -58,6 +58,7 @@
     <Compile Include="DTO\PlayerDataDTO.cs" />
     <Compile Include="DTO\ProtocolDTO.cs" />
     <Compile Include="DTO\RoleAssetsDTO.cs" />
+    <Compile Include="DTO\RoleDataDTO.cs" />
     <Compile Include="DTO\RoleDTO.cs" />
     <Compile Include="DTO\RoleGongFaDTO.cs" />
     <Compile Include="DTO\RolePetDTO.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="DTO\RoleMiShuDTO.cs" />
     <Compile Include="DTO\RoleStatusDTO.cs" />
     <Compile Include="DTO\RoleTaskProgressDTO.cs" />
+    <Compile Include="DTO\RoleTransformDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="DTO\Vector3DataDTO.cs" />
     <Compile Include="ErrorCode.cs" />
