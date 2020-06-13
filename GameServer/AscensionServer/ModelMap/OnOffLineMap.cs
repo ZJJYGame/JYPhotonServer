@@ -16,6 +16,7 @@ namespace AscensionServer.ModelMap
             Map(x => x.GongFaExp).Column("gongfaexp");
             Map(x => x.OffLineTime).Column("offlinetime");
             Map(x => x.MiShuExp).Column("mishuexp");
+            Map(x => x.MsGfID).Column("gongfa_or_mishu");
             Map(x => x.ExpType).Column("exptype");
             Table("onoffline");
         }

@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="DTO\BattleDataDTO.cs" />
     <Compile Include="DTO\GongFaDTO.cs" />
+    <Compile Include="DTO\OffLineTimeDTO.cs" />
     <Compile Include="DTO\PetDTO.cs" />
     <Compile Include="DTO\PetStatusDTO.cs" />
     <Compile Include="DTO\RingDTO.cs" />

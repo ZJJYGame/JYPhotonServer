@@ -6,7 +6,7 @@ using System.Text;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class Pet:ProtocolDTO
+    public class PetDTO:ProtocolDTO
     {
         public virtual int ID { get; set; }
         public virtual byte PetLevel { get; set; }

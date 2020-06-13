@@ -36,12 +36,12 @@ namespace AscensionServer
             var obj = Singleton<NHManager>.Instance.CriteriaGet<OnOffLine>(nHCriteriaOnoff);
             Utility.Assert.NotNull(obj, () =>
             {
-                Singleton<NHManager>.Instance.Update(new OnOffLine() { RoleID = onofflinetemp.RoleID, OffLineTime = DateTime.Now.ToString() });
+                Singleton<NHManager>.Instance.Update(onofflinetemp);
                 SetResponseData(() =>
                 {
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
-            }, () => { Singleton<NHManager>.Instance.Add<OnOffLine>(new OnOffLine() { RoleID = onofflinetemp.RoleID, OffLineTime = DateTime.Now.ToString() }); });
+            }, () => { Singleton<NHManager>.Instance.Add(onofflinetemp); });
 
             
             //peer.SendOperationResponse(Owner.OpResponse, sendParameters);

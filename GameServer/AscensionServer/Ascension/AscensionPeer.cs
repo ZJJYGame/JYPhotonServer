@@ -90,17 +90,17 @@ namespace AscensionServer
         protected void RecordOnOffLine(int roleid)
         {
             AscensionServer._Log.Info("同步离线时间成功");
-            OnOffLineDTO onOffLine = new OnOffLineDTO() { RoleID = roleid };           
-            string onofflineJson = Utility.ToJson(onOffLine);
+            OffLineTimeDTO offLineTime = new OffLineTimeDTO() { RoleID = roleid };
+            string onofflineJson = Utility.ToJson(offLineTime);
             //////
-            var onofflinetemp = Utility.ToObject<OnOffLine>(onofflineJson);
+            var onofflinetemp = Utility.ToObject<OffLineTime>(onofflineJson);
 
             NHCriteria nHCriteriaOnoff = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
-            var obj = Singleton<NHManager>.Instance.CriteriaGet<OnOffLine>(nHCriteriaOnoff);
+            var obj = Singleton<NHManager>.Instance.CriteriaGet<OffLineTime>(nHCriteriaOnoff);
             Utility.Assert.NotNull(obj, () =>
             {
-                Singleton<NHManager>.Instance.Update(new OnOffLine() { RoleID = onofflinetemp.RoleID, OffLineTime = DateTime.Now.ToString() });            
-            }, () => { Singleton<NHManager>.Instance.Add<OnOffLine>(new OnOffLine() { RoleID = onofflinetemp.RoleID, OffLineTime = DateTime.Now.ToString() }); });
+                Singleton<NHManager>.Instance.Update(new OffLineTime() { RoleID = onofflinetemp.RoleID, OffTime = DateTime.Now.ToString() });            
+            }, () => { Singleton<NHManager>.Instance.Add<OffLineTime>(new OffLineTime() { RoleID = onofflinetemp.RoleID, OffTime = DateTime.Now.ToString() }); });
         }
     }
  }

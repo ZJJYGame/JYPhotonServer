@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Photon.SocketServer;
 using AscensionProtocol;
+using AscensionProtocol.DTO;
 using AscensionServer.Model;
 
 namespace AscensionServer
@@ -30,20 +31,60 @@ namespace AscensionServer
             NHCriteria nHCriteriarole = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
 
             ///获取的时间秒
-            var rsult = Singleton<NHManager>.Instance.CriteriaGet<OnOffLine>(nHCriteriarole);
-            TimeSpan interval = (DateTime.Now).Subtract(Convert.ToDateTime(rsult.OffLineTime));
+            OffLineTimeDTO offLineTime = new OffLineTimeDTO() { RoleID = onofflinetemp.RoleID };
+            string onofflineJson = Utility.ToJson(offLineTime);
+            //////
+            var offtimetemp = Utility.ToObject<OffLineTime>(onofflineJson);
+
+            NHCriteria nHCriteriaOnoff = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
+            var obj = Singleton<NHManager>.Instance.CriteriaGet<OffLineTime>(nHCriteriaOnoff);
+            TimeSpan interval = (DateTime.Now).Subtract(Convert.ToDateTime(obj.OffTime));
 
             bool exist = Singleton<NHManager>.Instance.Verify<OnOffLine>(nHCriteriarole);
-            Utility.Assert.NotNull(rsult, ()=>
+            Utility.Assert.NotNull(obj, ()=>
             {
-                string AllExperience = (onofflinetemp.UpgradeExp * interval.TotalSeconds/5).ToString();
-                AscensionServer._Log.Info("计算出的离线经验>>>>>>>>>" + AllExperience + ">>>>>>>>>>>>");
-                SetResponseData(()=>
+                var Exptypeobj = Singleton<NHManager>.Instance.CriteriaGet<OnOffLine>(nHCriteriarole);
+                if (Exptypeobj.ExpType==0)
                 {
-                    SubDict.Add((byte)ObjectParameterCode.OnOffLine, AllExperience);
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    List<string> date = new List<string>();
+                    string AllExperience = (onofflinetemp.GongFaExp * interval.TotalSeconds / 5).ToString();
+                    date.Add(AllExperience);
+                    date.Add(Exptypeobj.ExpType.ToString());
+
+                    SetResponseData(() =>
+                    {
+                        //AscensionServer._Log.Info("计算出功法的离线经验>>>>>>>>>" + AllExperience + ">>>>>>>>>>>>");
+                        SubDict.Add((byte)ObjectParameterCode.OnOffLine, Utility.ToJson(date));
+                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    });
+                }
+                else if (Exptypeobj.ExpType== 1)
+                {
+                    List<string> date = new List<string>();
+                    string AllExperience = (onofflinetemp.MiShuExp * interval.TotalSeconds / 5).ToString();
+                    date.Add(AllExperience);
+                    date.Add(Exptypeobj.ExpType.ToString());
+                    SetResponseData(() =>
+                    {
+                        //AscensionServer._Log.Info("计算出秘書的离线经验>>>>>>>>>" + AllExperience + ">>>>>>>>>>>>");
+                        SubDict.Add((byte)ObjectParameterCode.OnOffLine, Utility.ToJson(date));
+                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    });
+                }
+                else {
+                SetResponseData(() =>
+                {
+                   // AscensionServer._Log.Info("计算出的离线经验>>>>>>>>> 爲空 >>>>>>>>>>>>");
+                    SubDict.Add((byte)ObjectParameterCode.OnOffLine, Utility.ToJson(new List<string>()));
+                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
-            },()=> Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail);
+        }
+            },() => SetResponseData(() =>
+            {
+               // AscensionServer._Log.Info("计算出的离线经验>>>>>>>>> 失敗 >>>>>>>>>>>>");
+                SubDict.Add((byte)ObjectParameterCode.OnOffLine, Utility.ToJson(new List<string>()));
+                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+            }));
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriarole);
