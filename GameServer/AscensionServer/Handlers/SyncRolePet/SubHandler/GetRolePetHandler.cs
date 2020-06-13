@@ -20,7 +20,7 @@ namespace AscensionServer
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
-            string rolepet = Convert.ToString(Utility.GetValue(dict,(byte)ObjectParameterCode.Pet));
+            string rolepet = Convert.ToString(Utility.GetValue(dict,(byte)ObjectParameterCode.RolePet));
             var rolepetObj = Utility.ToObject<RolePet>(rolepet);
             NHCriteria nHCriteriaRolePet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
             var rolepets = Singleton<NHManager>.Instance.CriteriaGet<RolePet>(nHCriteriaRolePet);
@@ -44,7 +44,7 @@ namespace AscensionServer
                      }
                  }); SetResponseData(() =>
                  {
-                     SubDict.Add((byte)ObjectParameterCode.Pet, Utility.ToJson(petlist));
+                     SubDict.Add((byte)ObjectParameterCode.RolePet, Utility.ToJson(petlist));
                      Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
 
                  });
@@ -52,7 +52,7 @@ namespace AscensionServer
              }, () => SetResponseData(()=>
              {
                  AscensionServer._Log.Info(">>>>>>>>>>>>>》》》》》》》》》》》》>>获得宠物失败");
-                 SubDict.Add((byte)ObjectParameterCode.Pet,Utility.ToJson(new List<string>()));
+                 SubDict.Add((byte)ObjectParameterCode.RolePet, Utility.ToJson(new List<string>()));
                  Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
              }));
 
