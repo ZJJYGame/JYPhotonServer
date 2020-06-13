@@ -15,7 +15,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -147,6 +147,7 @@
     <Compile Include="Handlers\SyncInventory\SubHandler\UpdateInventorySubHandler.cs" />
     <Compile Include="Handlers\SyncInventory\SyncInventoryHandler.cs" />
     <Compile Include="Handlers\SyncMiShu\SubHandler\AddMiShuSubHandler.cs" />
+    <Compile Include="Handlers\SyncMiShu\SubHandler\GetMiShuSubHandle.cs" />
     <Compile Include="Handlers\SyncMiShu\SubHandler\SyncMiShuSubHandler.cs" />
     <Compile Include="Handlers\SyncMiShu\SubHandler\UpdateMiShuSubHandler.cs" />
     <Compile Include="Handlers\SyncMiShu\SyncMiShuHandler.cs" />
@@ -162,6 +163,12 @@
     <Compile Include="Handlers\SyncRoleAssets\SubHandler\UpdateRoleAssetsSubHandler.cs" />
     <Compile Include="Handlers\Default\DefaultHandler.cs" />
     <Compile Include="Handlers\Base\SubHandler.cs" />
+    <Compile Include="Handlers\SyncRolePetStatus\SubHandler\GetRolePetStatusSubHandler.cs" />
+    <Compile Include="Handlers\SyncRolePetStatus\SubHandler\SyncRolePetStatusSubHandler.cs" />
+    <Compile Include="Handlers\SyncRolePetStatus\SyncRolePetStatusHandler.cs" />
+    <Compile Include="Handlers\SyncRolePet\SubHandler\GetRolePetHandler.cs" />
+    <Compile Include="Handlers\SyncRolePet\SubHandler\SyncRolePetSubHandler.cs" />
+    <Compile Include="Handlers\SyncRolePet\SyncRolePetHandler.cs" />
     <Compile Include="Handlers\SyncRoleStatus\SubHandler\GetRoleStatusSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleStatus\SubHandler\SyncRoleStatusSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleStatus\SubHandler\UpdateRoleStatusSubHandler.cs" />
@@ -170,7 +177,6 @@
     <Compile Include="Handlers\SyncRole\SubHandler\RemoveRoleSubHandler.cs" />
     <Compile Include="Handlers\SyncRole\SubHandler\UpdateRoleSubHandler.cs" />
     <Compile Include="Handlers\SyncRole\SubHandler\VerifyRoleSubHandler.cs" />
-    <Compile Include="Handlers\SyncRole\SyncRoleHandler.cs" />
     <Compile Include="Handlers\SyncRole\SubHandler\SyncRoleSubHandler.cs" />
     <Compile Include="Handlers\HeartBeat\HeartBeatHandler.cs" />
     <Compile Include="Handlers\Login\LoginHandler.cs" />
@@ -180,6 +186,7 @@
     <Compile Include="Handlers\SyncPosition\SyncPositionHandler.cs" />
     <Compile Include="Handlers\SyncRoleAssets\SyncRoleAssetsHandler.cs" />
     <Compile Include="Handlers\SyncRoleStatus\SyncRoleStatusHandler.cs" />
+    <Compile Include="Handlers\SyncRole\SyncRoleHandler.cs" />
     <Compile Include="Handlers\SyncTasks\SubHandler\AddTaskSubHandler.cs" />
     <Compile Include="Handlers\SyncTasks\SubHandler\SyncTaskSubHandler.cs" />
     <Compile Include="Handlers\SyncTasks\SubHandler\UpdateTaskSubHandler.cs" />
@@ -189,6 +196,7 @@
     <Compile Include="Message\RoomMessage.cs" />
     <Compile Include="ModelMap\GongFaMap.cs" />
     <Compile Include="ModelMap\MiShuMap.cs" />
+    <Compile Include="ModelMap\OffLineTimeMap.cs" />
     <Compile Include="ModelMap\OnOffLineMap.cs" />
     <Compile Include="ModelMap\PetMap.cs" />
     <Compile Include="ModelMap\PetStatusMap.cs" />
@@ -203,6 +211,7 @@
     <Compile Include="ModelMap\RoleTaskProgressMap.cs" />
     <Compile Include="ModelMap\RoleWeaponMap.cs" />
     <Compile Include="ModelMap\WeaponMap.cs" />
+    <Compile Include="Model\OffLineTime.cs" />
     <Compile Include="Model\OnOffLine.cs" />
     <Compile Include="Model\Pet.cs" />
     <Compile Include="Model\PetStatus.cs" />
