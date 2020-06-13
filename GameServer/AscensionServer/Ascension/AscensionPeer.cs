@@ -23,6 +23,10 @@ namespace AscensionServer
         OnlineStatusDTO onlineStateDTO;
         public OnlineStatusDTO OnlineStateDTO { get { return onlineStateDTO; } set { onlineStateDTO = value; } }
         public float x, y, z;
+        public RoleTransformDTO RoleTransform { get; set; }
+        public string RoleTransformJson { get; set; }
+
+        public int SetIndex { get; set; }
         /// <summary>
         /// Peer的UUID
         /// </summary>
@@ -42,7 +46,7 @@ namespace AscensionServer
                 {
                     RecordOnOffLine(AscensionServer.Instance.HasOnlineID(this));
                 }
-                AscensionServer.Instance.offline(this);
+                AscensionServer.Instance.Offline(this);
             }
 
             AscensionServer.Instance.Logoff(this);

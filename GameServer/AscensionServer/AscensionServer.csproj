@@ -15,7 +15,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -107,6 +107,7 @@
     <Compile Include="Actor\Actor.cs" />
     <Compile Include="Actor\ActorCollection.cs" />
     <Compile Include="Actor\ActorGroup.cs" />
+    <Compile Include="Ascension\AscensionConst.cs" />
     <Compile Include="Ascension\AscensionPeer.cs" />
     <Compile Include="Ascension\AscensionServer.cs" />
     <Compile Include="Behaviour\IBehaviour.cs" />
@@ -151,7 +152,7 @@
     <Compile Include="Handlers\SyncMiShu\SubHandler\SyncMiShuSubHandler.cs" />
     <Compile Include="Handlers\SyncMiShu\SubHandler\UpdateMiShuSubHandler.cs" />
     <Compile Include="Handlers\SyncMiShu\SyncMiShuHandler.cs" />
-    <Compile Include="Handlers\SyncOnOffLine\SubHandler\GetSyncOnOffLineSubHandler.cs" />
+    <Compile Include="Handlers\SyncOnOffLine\SubHandler\GetOnOffLineSubHandler.cs" />
     <Compile Include="Handlers\SyncOnOffLine\SubHandler\SyncOnOffLineSubHandler.cs" />
     <Compile Include="Handlers\SyncOnOffLine\SubHandler\UpdateOnOffLineSubHandler.cs" />
     <Compile Include="Handlers\SyncOnOffLine\SyncOnOffLineHandler.cs" />
@@ -264,11 +265,15 @@
     <Compile Include="Operations\SetPropertiesRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Room\Room.cs" />
+    <Compile Include="Threads\Base\ISyncEvent.cs" />
+    <Compile Include="Threads\Base\SyncEvent.cs" />
+    <Compile Include="Threads\SyncEvent\SyncRoleTransformEvent.cs" />
     <Compile Include="Threads\SyncPositionThread.cs" />
     <Compile Include="CFramework\Singleton\Singleton.cs" />
     <Compile Include="CFramework\Utility\Utility.cs" />
     <Compile Include="CFramework\Utility\Utility.Text.cs" />
     <Compile Include="CFramework\Utility\Utility.Encode.cs" />
+    <Compile Include="Threads\ThreadEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
