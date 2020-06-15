@@ -20,26 +20,30 @@ namespace AscensionServer
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
 
-            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>同步宠物属性竟来了");
             var dict = ParseSubDict(operationRequest);
             string petstatus = Convert.ToString(Utility.GetValue(dict,(byte)ObjectParameterCode.PetStatus));
             var rolepetObj = Utility.ToObject<RolePet>(petstatus);
             List<PetStatus> petstatusList;
             NHCriteria nHCriteriarolepet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
             var petarray = Singleton<NHManager>.Instance.CriteriaGet<RolePet>( nHCriteriarolepet);
+            List<int> petstatuslist;
             if (petarray != null)
             {
-                
+
                 petstatusList = new List<PetStatus>();
                 if (!string.IsNullOrEmpty(petarray.PetIDArray))
                 {
-                    foreach (var petid in Utility.ToObject<List<int>>(petarray.PetIDArray))
+                    //AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>同步宠物属性竟来了" + petarray.PetIDArray);
+                    petstatuslist = new List<int>();
+                    petstatuslist = Utility.ToObject<List<int>>(petarray.PetIDArray);
+                    for (int i = 0; i < petstatuslist.Count; i++)
                     {
-                        NHCriteria nHCriteriapetstatus = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", petid);
-
+                        NHCriteria nHCriteriapetstatus = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", petstatuslist[i]);
+                        AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>同步宠物属性进来了" + petstatuslist.Count);
                         var petidarray = Singleton<NHManager>.Instance.CriteriaGet<PetStatus>(nHCriteriapetstatus);
+
+
                         petstatusList.Add(petidarray);
-                        AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>同步宠物属性进来了"+ petidarray);
                     }
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     SubDict.Add((byte)ObjectParameterCode.PetStatus,Utility.ToJson(petstatusList));
