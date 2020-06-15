@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AscensionProtocol;
 using Photon.SocketServer;
 using AscensionServer.Model;
-
+using Cosmos;
 namespace AscensionServer
 {
     public class AddPetHandler : SyncPetSubHandler
@@ -22,7 +22,7 @@ namespace AscensionServer
 
             string petJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.Pet));
 
-            var petObj = Utility.ToObject<Pet>(petJson);
+            var petObj = Utility.Json.ToObject<Pet>(petJson);
             NHCriteria nHCriteriaPet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("PetID", petObj.PetID);
 
             var PetObj = Singleton<NHManager>.Instance.CriteriaGet<Pet>(nHCriteriaPet);

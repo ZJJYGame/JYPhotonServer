@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AscensionProtocol;
 using Photon.SocketServer;
 using AscensionServer.Model;
-
+using Cosmos;
 namespace AscensionServer
 {
     public class AddRolePetSubHandler : SyncRolePetSubHandler
@@ -24,16 +24,16 @@ namespace AscensionServer
             string pJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.Pet));
             string psJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.PetStatus));
 
-            var rolepetObj = Utility.ToObject<RolePet>(rpJson);
-            var petObj = Utility.ToObject<Pet>(pJson);
-            var petstatusObj = Utility.ToObject<PetStatus>(psJson);
+            var rolepetObj = Utility.Json.ToObject<RolePet>(rpJson);
+            var petObj = Utility.Json.ToObject<Pet>(pJson);
+            var petstatusObj = Utility.Json.ToObject<PetStatus>(psJson);
             NHCriteria nHCriteriaroleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
             var rolepet = Singleton<NHManager>.Instance.CriteriaGet<RolePet>(nHCriteriaroleID);
             Dictionary<int, int> petDict;
             Utility.Assert.NotNull(rolepet.PetIDDict,()=>
             {
                 petDict = new Dictionary<int, int>();
-                petDict = Utility.ToObject<Dictionary<int, int>>(rolepet.PetIDDict);
+                petDict = Utility.Json.ToObject<Dictionary<int, int>>(rolepet.PetIDDict);
                 petstatusObj.PetID = petObj.ID;
                 petObj = Singleton<NHManager>.Instance.Add<Pet>(petObj);
                 petstatusObj = Singleton<NHManager>.Instance.Add<PetStatus>(petstatusObj);

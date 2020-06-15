@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Photon.SocketServer;
 using AscensionProtocol;
 using AscensionServer.Model;
-
+using Cosmos;
 namespace AscensionServer
 {
     public class UpdatePetStatusSubHandler : SyncPetStatusSubHandler
@@ -21,7 +21,7 @@ namespace AscensionServer
             AscensionServer._Log.Info("更新宠物数据的请求进来了》》》》》》》》》》》》》》》》》");
             var dict = ParseSubDict(operationRequest);
             string petstatusJson = Convert.ToString(Utility.GetValue(dict,(byte)ObjectParameterCode.PetStatus));
-            var petstatusObj = Utility.ToObject<PetStatus>(petstatusJson);
+            var petstatusObj = Utility.Json.ToObject<PetStatus>(petstatusJson);
             NHCriteria nHCriteriapetstatus = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("PetID", petstatusObj.PetID);
             Utility.Assert.Predicate(() => Singleton<NHManager>.Instance.Verify<PetStatus>(nHCriteriapetstatus), () =>
             {
