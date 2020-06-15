@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Photon.SocketServer;
 using AscensionProtocol;
 using AscensionServer.Model;
+using Cosmos;
 namespace AscensionServer
 {
    public class UpdateOnOffLineSubHandler : SyncOnOffLineSubHandler
@@ -30,7 +31,7 @@ namespace AscensionServer
             //OnOffLine onOffLine = new OnOffLine() { RoleID=33};
             //string str = Convert.ToString(onOffLine);
             //////
-            var onofflinetemp = Utility.ToObject<OnOffLine>(subDataJson);
+            var onofflinetemp = Utility.Json.ToObject<OnOffLine>(subDataJson);
            
             NHCriteria nHCriteriaOnoff = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
             var obj = Singleton<NHManager>.Instance.CriteriaGet<OnOffLine>(nHCriteriaOnoff);

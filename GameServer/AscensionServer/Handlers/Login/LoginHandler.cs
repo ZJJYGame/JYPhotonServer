@@ -9,7 +9,7 @@ using Photon.SocketServer;
 using AscensionServer.Model;
 using System.Collections.Generic;
 using System;
-
+using Cosmos;
 namespace AscensionServer
 {
     /// <summary>
@@ -26,7 +26,7 @@ namespace AscensionServer
         {
             //根据发送过来的请求获得用户名和密码
             string userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.User));
-            var userObj = Utility.ToObject<User>(userJson);
+            var userObj = Utility.Json.ToObject<User>(userJson);
             NHCriteria nHCriteriaAccount = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
             NHCriteria nHCriteriaPassword = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Password", userObj.Password);
             bool verified = Singleton<NHManager>.Instance.Verify<User>(nHCriteriaAccount, nHCriteriaPassword);
@@ -39,7 +39,7 @@ namespace AscensionServer
                 userObj.UUID= Singleton<NHManager>.Instance.CriteriaGet<User>(nHCriteriaAccount).UUID;
                 peer.Login(userObj);
                 AscensionServer.Instance.Login(peer);
-                AscensionServer._Log.Info("~~~~~~~~~~~~~~~~~~~~~~Login Success : " + userObj.Account + " ; UUID : " + peer.User.UUID + "~~~~~~~~~~~~~~~~~~~~~~");
+                AscensionServer._Log.Info("~~~~~~~~~~~~~~~~~~~~~~Login Success : " + userObj.Account + " ; UUID : " + peer.PeerCache.UUID + "~~~~~~~~~~~~~~~~~~~~~~");
             }
             else
             {

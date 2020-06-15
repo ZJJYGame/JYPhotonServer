@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Photon.SocketServer;
 using AscensionProtocol;
+using Cosmos;
 namespace AscensionServer
 {
     public interface IHandler:IBehaviour

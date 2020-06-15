@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Photon.SocketServer;
 using AscensionProtocol;
 using AscensionServer.Model;
+using Cosmos;
 namespace AscensionServer
 {
     public class UpdateMiShuSubHandler : SyncMiShuSubHandler
@@ -22,8 +23,8 @@ namespace AscensionServer
             var receivedData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.MiShu));
             AscensionServer._Log.Info(">>>>>>>>>>>>接收秘术数据：" + receivedRoleData + ">>>>>>>>>>>>>>>>>>>>>>");
             AscensionServer._Log.Info(">>>>>>>>>>>>接收秘术数据：" + receivedData + ">>>>>>>>>>>>>>>>>>>>>>");
-            var receivedRoleObj = Utility.ToObject<RoleMiShu>(receivedRoleData);
-            var receivedObj = Utility.ToObject<MiShu>(receivedData);
+            var receivedRoleObj = Utility.Json.ToObject<RoleMiShu>(receivedRoleData);
+            var receivedObj = Utility.Json.ToObject<MiShu>(receivedData);
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<RoleMiShu>(nHCriteriaRoleID);
             int intInfoObj = 0;
@@ -36,7 +37,7 @@ namespace AscensionServer
                 if (existMiShu)
                 {
                     MiShu MishuInfoExp = Singleton<NHManager>.Instance.CriteriaGet<MiShu>(nHCriteriaMiShuID);
-                    foreach (var item in Utility.ToObject<List<string>>(MishuInfo.MiShuIDArray))
+                    foreach (var item in Utility.Json.ToObject<List<string>>(MishuInfo.MiShuIDArray))
                     {
                         if (int.Parse(item) == receivedObj.ID)
                         {

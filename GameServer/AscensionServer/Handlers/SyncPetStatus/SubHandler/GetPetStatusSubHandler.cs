@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AscensionProtocol;
 using Photon.SocketServer;
 using AscensionServer.Model;
-
+using Cosmos;
 namespace AscensionServer
 {
     public class GetPetStatusSubHandler : SyncPetStatusSubHandler
@@ -22,7 +22,7 @@ namespace AscensionServer
 
             var dict = ParseSubDict(operationRequest);
             string petstatus = Convert.ToString(Utility.GetValue(dict,(byte)ObjectParameterCode.PetStatus));
-            var rolepetObj = Utility.ToObject<RolePet>(petstatus);
+            var rolepetObj = Utility.Json.ToObject<RolePet>(petstatus);
             List<PetStatus> petstatusList;
             NHCriteria nHCriteriarolepet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
             var petarray = Singleton<NHManager>.Instance.CriteriaGet<RolePet>( nHCriteriarolepet);
@@ -35,7 +35,7 @@ namespace AscensionServer
                 {
                     //AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>同步宠物属性竟来了" + petarray.PetIDArray);
                     petstatuslist = new List<int>();
-                    petstatuslist = Utility.ToObject<List<int>>(petarray.PetIDArray);
+                    petstatuslist = Utility.Json.ToObject<List<int>>(petarray.PetIDArray);
                     for (int i = 0; i < petstatuslist.Count; i++)
                     {
                         NHCriteria nHCriteriapetstatus = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", petstatuslist[i]);
@@ -46,12 +46,12 @@ namespace AscensionServer
                         petstatusList.Add(petidarray);
                     }
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
-                    SubDict.Add((byte)ObjectParameterCode.PetStatus,Utility.ToJson(petstatusList));
+                    SubDict.Add((byte)ObjectParameterCode.PetStatus,Utility.Json.ToJson(petstatusList));
                 }
                 else
                 {
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-                    SubDict.Add((byte)ObjectParameterCode.PetStatus, Utility.ToJson(new List<string>()));
+                    SubDict.Add((byte)ObjectParameterCode.PetStatus, Utility.Json.ToJson(new List<string>()));
                 }
             }
             else

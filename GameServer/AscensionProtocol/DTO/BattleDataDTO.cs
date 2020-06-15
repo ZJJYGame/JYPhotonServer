@@ -8,6 +8,11 @@ namespace AscensionProtocol.DTO
     public class BattleDataDTO:ProtocolDTO
     {
         public int TargetID { get; set; }
-        public int instructionID { get; set; }
+        public int InstructionID { get; set; }
+        public override void Clear()
+        {
+            TargetID = 0;
+            InstructionID = 0;
+        }
     }
 }

@@ -15,7 +15,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -107,28 +107,22 @@
     <Compile Include="Actor\Actor.cs" />
     <Compile Include="Actor\ActorCollection.cs" />
     <Compile Include="Actor\ActorGroup.cs" />
+    <Compile Include="Ascension\AscensionServer.Cache.cs" />
+    <Compile Include="Caching\Cache.cs" />
     <Compile Include="Ascension\AscensionConst.cs" />
     <Compile Include="Ascension\AscensionPeer.cs" />
     <Compile Include="Ascension\AscensionServer.cs" />
-    <Compile Include="Behaviour\IBehaviour.cs" />
-    <Compile Include="Behaviour\IOperable.cs" />
     <Compile Include="Caching\EventCache.cs" />
     <Compile Include="Caching\EventCacheDictionary.cs" />
     <Compile Include="Caching\LiteGameCache.cs" />
+    <Compile Include="Caching\PeerCache.cs" />
     <Compile Include="Caching\RoomCacheBase.cs" />
     <Compile Include="Caching\RoomEventCache.cs" />
     <Compile Include="Caching\RoomReference.cs" />
-    <Compile Include="CFramework\Utility\EventActions.cs" />
-    <Compile Include="CFramework\Utility\Utility.Assert.cs" />
-    <Compile Include="CFramework\Utility\Utility.Encryption.cs" />
     <Compile Include="Common\Property.cs" />
     <Compile Include="Common\PropertyBag.cs" />
     <Compile Include="Common\PropertyChangedEventArgs.cs" />
     <Compile Include="Container\ClientPeerContainer.cs" />
-    <Compile Include="CFramework\ReferencePool\IReference.cs" />
-    <Compile Include="CFramework\ReferencePool\ReferencePoolManager.cs" />
-    <Compile Include="CFramework\ReferencePool\ReferenceSpawnPool.cs" />
-    <Compile Include="CFramework\Utility\Utility.Assembly.cs" />
     <Compile Include="Events\CustomEvent.cs" />
     <Compile Include="Events\JoinEvent.cs" />
     <Compile Include="Events\LeaveEvent.cs" />
@@ -170,9 +164,6 @@
     <Compile Include="Handlers\SyncRoleAssets\SubHandler\UpdateRoleAssetsSubHandler.cs" />
     <Compile Include="Handlers\Default\DefaultHandler.cs" />
     <Compile Include="Handlers\Base\SubHandler.cs" />
-    <Compile Include="Handlers\SyncRolePetStatus\SubHandler\GetRolePetStatusSubHandler.cs" />
-    <Compile Include="Handlers\SyncRolePetStatus\SubHandler\SyncRolePetStatusSubHandler.cs" />
-    <Compile Include="Handlers\SyncRolePetStatus\SyncRolePetStatusHandler.cs" />
     <Compile Include="Handlers\SyncRolePet\SubHandler\GetRolePetSubHandler.cs" />
     <Compile Include="Handlers\SyncRolePet\SubHandler\SyncRolePetSubHandler.cs" />
     <Compile Include="Handlers\SyncRolePet\SyncRolePetHandler.cs" />
@@ -198,6 +189,7 @@
     <Compile Include="Handlers\SyncTasks\SubHandler\SyncTaskSubHandler.cs" />
     <Compile Include="Handlers\SyncTasks\SubHandler\UpdateTaskSubHandler.cs" />
     <Compile Include="Handlers\SyncTasks\SyncTaskHandler.cs" />
+    <Compile Include="JsonWrapper\NewtonjsonWrapper.cs" />
     <Compile Include="Message\GameMessageCodes.cs" />
     <Compile Include="Message\IMessage.cs" />
     <Compile Include="Message\RoomMessage.cs" />
@@ -269,10 +261,6 @@
     <Compile Include="Threads\Base\SyncEvent.cs" />
     <Compile Include="Threads\SyncEvent\SyncRoleTransformEvent.cs" />
     <Compile Include="Threads\SyncPositionThread.cs" />
-    <Compile Include="CFramework\Singleton\Singleton.cs" />
-    <Compile Include="CFramework\Utility\Utility.cs" />
-    <Compile Include="CFramework\Utility\Utility.Text.cs" />
-    <Compile Include="CFramework\Utility\Utility.Encode.cs" />
     <Compile Include="Threads\ThreadEvent.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -292,13 +280,13 @@
       <Project>{a71709ea-e11c-4e7b-b8b7-28a57eff49ef}</Project>
       <Name>AscensionCalculator</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AscensionHive\AscensionHive.csproj">
-      <Project>{82c02503-5da6-43ea-9b2d-3c86dc3134f7}</Project>
-      <Name>AscensionHive</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AscensionProtocol\AscensionProtocol.csproj">
       <Project>{142ced7d-c56d-43b2-a11f-9dc0f302bd80}</Project>
       <Name>AscensionProtocol</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Framework\CosmosFramework.csproj">
+      <Project>{81a14e63-385f-4b83-b403-a6b7d6fc94d8}</Project>
+      <Name>CosmosFramework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

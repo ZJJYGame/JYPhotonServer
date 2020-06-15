@@ -8,7 +8,7 @@ using AscensionProtocol;
 using AscensionServer.Model;
 using FluentNHibernate.Testing.Values;
 using NHibernate.Mapping;
-
+using Cosmos;
 namespace AscensionServer
 {
     public class GetGongFaSubHandler : SyncGongFaSubHandler
@@ -23,7 +23,7 @@ namespace AscensionServer
         {
             var dict = ParseSubDict(operationRequest);
             string roleGFJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.GongFa));
-            var roleGongFaObj = Utility.ToObject<List<int>>(roleGFJson);
+            var roleGongFaObj = Utility.Json.ToObject<List<int>>(roleGFJson);
             List<GongFa> gongFaIdList;
             Dictionary<int, List<GongFa>> gongFaDic;
             AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>同步功法进来了>>>>>>>>>" + roleGongFaObj.Count);
@@ -40,7 +40,7 @@ namespace AscensionServer
                         var roleIdArray = Singleton<NHManager>.Instance.CriteriaGet<RoleGongFa>(nHCriteriaGongFa);
                         if (!string.IsNullOrEmpty(roleIdArray.GongFaIDArray))
                         {
-                            foreach (var gongFaId in Utility.ToObject<List<int>>(roleIdArray.GongFaIDArray))
+                            foreach (var gongFaId in Utility.Json.ToObject<List<int>>(roleIdArray.GongFaIDArray))
                             {
                                 NHCriteria nHCriteriaGongFaId = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", gongFaId);
                                 var gongFaIdArray = Singleton<NHManager>.Instance.CriteriaGet<GongFa>(nHCriteriaGongFaId);
@@ -59,7 +59,7 @@ namespace AscensionServer
                     }
                 }
                 Owner.OpResponse.Parameters = Owner.ResponseData;
-                Owner.ResponseData.Add((byte)ObjectParameterCode.GongFa, Utility.ToJson(gongFaDic));
+                Owner.ResponseData.Add((byte)ObjectParameterCode.GongFa, Utility.Json.ToJson(gongFaDic));
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             }
             else

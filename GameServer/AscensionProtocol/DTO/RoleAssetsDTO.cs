@@ -14,5 +14,13 @@ namespace AscensionProtocol.DTO
         public virtual int SpiritStonesMedium { get; set; }
         public virtual int SpiritStonesHigh { get; set; }
         public virtual int XianYu { get; set; }
+        public override void Clear()
+        {
+            RoleID = -1;
+            SpiritStonesLow = 0;
+            SpiritStonesMedium = 0;
+            SpiritStonesHigh = 0;
+            XianYu = 0;
+        }
     }
 }

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Photon.SocketServer;
 using AscensionProtocol;
 using AscensionServer.Model;
+using Cosmos;
 namespace AscensionServer
 {
     /// <summary>
@@ -26,10 +27,10 @@ namespace AscensionServer
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             string userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.User));
-            var userObj = Utility.ToObject<User>(userJson);
+            var userObj = Utility.Json.ToObject<User>(userJson);
             AscensionServer._Log.Info("\n 登出的账号" + userJson + ">>>>>>>>>>>>>>>>>>");
             ResponseData.Clear();
-            bool verified = peer.User.Equals(userObj);
+            bool verified = peer.PeerCache.EqualUser(userObj);
             OpResponse.OperationCode = operationRequest.OperationCode;
             if (verified)
             {

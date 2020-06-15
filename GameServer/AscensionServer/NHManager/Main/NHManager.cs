@@ -6,6 +6,7 @@
 using System;
 using NHibernate;
 using NHibernate.Criterion;
+using Cosmos;
 namespace AscensionServer
 {
     /// <summary>

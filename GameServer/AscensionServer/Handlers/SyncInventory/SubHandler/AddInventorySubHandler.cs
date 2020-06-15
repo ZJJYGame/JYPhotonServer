@@ -9,8 +9,7 @@ using AscensionServer.Model;
 using NHibernate.Linq.Clauses;
 using AscensionProtocol.DTO;
 using Renci.SshNet.Security;
-using Newtonsoft.Json;
-
+using Cosmos;
 namespace AscensionServer
 {
     public class AddInventorySubHandler : SyncInventorySubHandler
@@ -26,8 +25,8 @@ namespace AscensionServer
             var InventoryData = Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Inventory) as string;
             AscensionServer._Log.Info(">>>>>接收roleId" + InventoryRoleData + ">>>>>>>>>>>>>");
             AscensionServer._Log.Info(">>>>>接收背包的数据" + InventoryData + ">>>>>>>>>>>>>");
-            var InventoryRoleObj = Utility.ToObject<RoleRing>(InventoryRoleData);
-            var InventoryObj = Utility.ToObject<RingDTO>(InventoryData);
+            var InventoryRoleObj = Utility.Json.ToObject<RoleRing>(InventoryRoleData);
+            var InventoryObj = Utility.Json.ToObject<RingDTO>(InventoryData);
 
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", InventoryRoleObj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<RoleRing>(nHCriteriaRoleID);
@@ -44,13 +43,13 @@ namespace AscensionServer
                 {
 
                     var ringServerArray = Singleton<NHManager>.Instance.CriteriaGet<Ring>(nHCriteriaRingID);
-                    foreach (var n in Utility.ToObject<List<int>>(ringArray.RingIdArray))
+                    foreach (var n in Utility.Json.ToObject<List<int>>(ringArray.RingIdArray))
                     {
                         if (n == ringServerArray.ID)
                         {
                             Dic = new Dictionary<int, RingItemsDTO>();
                             AscensionServer._Log.Info("ringarray" + ringServerArray.RingItems);
-                            var ServerDic = Utility.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingItems);
+                            var ServerDic = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingItems);
                             AscensionServer._Log.Info(ServerDic.Count);
                             foreach (var server_p in ServerDic)
                             {
@@ -77,12 +76,12 @@ namespace AscensionServer
                                     }
 
                                     Dic.Add(client_p.Key, client_p.Value);
-                                    Singleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.ToJson(Dic) });
+                                    Singleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(Dic) });
                                 }
                                 else
                                 {
                                     Dic.Add(client_p.Key, client_p.Value);
-                                    Singleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.ToJson(Dic) });
+                                    Singleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(Dic) });
                                 }
                             }
                         }

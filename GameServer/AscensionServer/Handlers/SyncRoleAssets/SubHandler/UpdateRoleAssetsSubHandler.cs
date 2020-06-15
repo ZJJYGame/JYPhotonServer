@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Photon.SocketServer;
 using AscensionProtocol;
 using AscensionServer.Model;
+using Cosmos;
 namespace AscensionServer
 {
     public class UpdateRoleAssetsSubHandler : SyncRoleAssetsSubHandler
@@ -19,7 +20,7 @@ namespace AscensionServer
         {
             var dict = ParseSubDict(operationRequest);
             string roleAssetsJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.RoleAssets));
-            var roleAssetsObj = Utility.ToObject<RoleAssets>(roleAssetsJson);
+            var roleAssetsObj = Utility.Json.ToObject<RoleAssets>(roleAssetsJson);
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleAssetsObj.RoleID);
             bool roleExist = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID);
             bool roleAssetsExist = Singleton<NHManager>.Instance.Verify<RoleAssets>(nHCriteriaRoleID);

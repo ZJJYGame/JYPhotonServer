@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace AscensionServer
+namespace Cosmos
 {
     /// <summary>
     /// 单例的基类new()约束

@@ -12,7 +12,7 @@ using Photon.SocketServer;
 using AscensionProtocol;
 using AscensionProtocol.DTO;
 using AscensionServer.Model;
-
+using Cosmos;
 namespace AscensionServer
 {
    public  class GetSyncOnOffLineSubHandler : SyncOnOffLineSubHandler
@@ -27,7 +27,7 @@ namespace AscensionServer
         {
             var dict = ParseSubDict(operationRequest);
             string subDataJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.OnOffLine));
-            var onofflinetemp = Utility.ToObject<OnOffLine>(subDataJson);
+            var onofflinetemp = Utility.Json.ToObject<OnOffLine>(subDataJson);
             NHCriteria nHCriteriaRole = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
             ///获取的时间秒
             OffLineTimeDTO offLineTime = new OffLineTimeDTO() { RoleID = onofflinetemp.RoleID };
@@ -46,7 +46,7 @@ namespace AscensionServer
                     SetResponseData(() =>
                     {
                         //AscensionServer._Log.Info("计算出功法的离线经验>>>>>>>>>" + AllExperience + ">>>>>>>>>>>>");
-                        SubDict.Add((byte)ObjectParameterCode.OnOffLine, Utility.ToJson(date));
+                        SubDict.Add((byte)ObjectParameterCode.OnOffLine, Utility.Json.ToJson(date));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
@@ -59,7 +59,7 @@ namespace AscensionServer
                     SetResponseData(() =>
                     {
                         //AscensionServer._Log.Info("计算出秘書的离线经验>>>>>>>>>" + AllExperience + ">>>>>>>>>>>>");
-                        SubDict.Add((byte)ObjectParameterCode.OnOffLine, Utility.ToJson(date));
+                        SubDict.Add((byte)ObjectParameterCode.OnOffLine, Utility.Json.ToJson(date));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
@@ -67,14 +67,14 @@ namespace AscensionServer
                 SetResponseData(() =>
                 {
                    // AscensionServer._Log.Info("计算出的离线经验>>>>>>>>> 爲空 >>>>>>>>>>>>");
-                    SubDict.Add((byte)ObjectParameterCode.OnOffLine, Utility.ToJson(new List<string>()));
+                    SubDict.Add((byte)ObjectParameterCode.OnOffLine, Utility.Json.ToJson(new List<string>()));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
         }
             },() => SetResponseData(() =>
             {
                // AscensionServer._Log.Info("计算出的离线经验>>>>>>>>> 失敗 >>>>>>>>>>>>");
-                SubDict.Add((byte)ObjectParameterCode.OnOffLine, Utility.ToJson(new List<string>()));
+                SubDict.Add((byte)ObjectParameterCode.OnOffLine, Utility.Json.ToJson(new List<string>()));
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             }));
 

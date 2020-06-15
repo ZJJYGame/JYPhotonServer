@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-namespace AscensionServer
+namespace Cosmos
 {
     public interface  IReference 
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using AscensionServer;
 using Photon.SocketServer;
-
+using Cosmos;
 namespace AscensionServer.Threads
 {
     public interface ISyncEvent:IBehaviour

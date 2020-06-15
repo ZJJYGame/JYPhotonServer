@@ -8,6 +8,7 @@ using AscensionProtocol;
 using AscensionProtocol.DTO;
 using AscensionServer.Model;
 using Photon.SocketServer;
+using Cosmos;
 namespace AscensionServer.Threads
 {
     public class SyncPositionThread
@@ -29,24 +30,24 @@ namespace AscensionServer.Threads
         }
         public void SendPosition() {
             List<PlayerDataDTO> playerDatraList = new List<PlayerDataDTO>();
-            foreach (var peer in AscensionServer.Instance.PeerList)
+            foreach (var peer in AscensionServer.Instance.LoggedPeer)
             {
-                if (string.IsNullOrEmpty(peer.User.Account) == false)
+                if (string.IsNullOrEmpty(peer.PeerCache.Account) == false)
                 {
                     PlayerDataDTO playerData = new PlayerDataDTO();
-                    playerData.Username = peer.User .Account;
-                    playerData.pos = new Vector3DataDTO() { x = peer.x, y = peer.y, z = peer.z };
+                    playerData.Username = peer.PeerCache.Account;
+                    //playerData.pos = new Vector3DataDTO() { x = peer.x, y = peer.y, z = peer.z };
                     playerDatraList.Add(playerData);
                 }
             }
 
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             //data.Add((byte)ParameterCode.UserCode.Playerdatalist, Utility.Serialize(playerDatraList));
-            data.Add((byte)ParameterCode.PlayerDataList, Utility.ToJson(playerDatraList));
+            data.Add((byte)ParameterCode.PlayerDataList, Utility.Json.ToJson(playerDatraList));
 
-            foreach (var peer in AscensionServer.Instance.PeerList)
+            foreach (var peer in AscensionServer.Instance.LoggedPeer)
             {
-                if (string.IsNullOrEmpty(peer.User. Account) == false)
+                if (string.IsNullOrEmpty(peer.PeerCache. Account) == false)
                 {
                     EventData ed = new EventData((byte)EventCode.SyncPosition);
                     ed.Parameters = data;

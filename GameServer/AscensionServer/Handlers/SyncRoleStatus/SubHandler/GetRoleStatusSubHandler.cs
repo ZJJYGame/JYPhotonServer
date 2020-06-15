@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Photon.SocketServer;
 using AscensionProtocol;
 using AscensionServer.Model;
+using Cosmos;
 namespace AscensionServer
 {
     public class GetRoleStatusSubHandler : SyncRoleStatusSubHandler
@@ -20,7 +21,7 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string roleJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.Role));
             AscensionServer._Log.Info("------------------------------------" + "roleJson  : " + roleJson + "---------------------------------------");
-            var roleObj = Utility.ToObject<Role>(roleJson);
+            var roleObj = Utility.Json.ToObject<Role>(roleJson);
             NHCriteria nHCriteriaRoleId = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleId);
             if (exist)
@@ -28,7 +29,7 @@ namespace AscensionServer
                 AscensionServer.Instance.Online(peer, roleObj.RoleID);
                 RoleStatus roleStatus = Singleton<NHManager>.Instance.CriteriaGet<RoleStatus>(nHCriteriaRoleId);
                 AscensionServer._Log.Info("------------------------------------GetRoleStatusSubHandler\n" + "RoleStatus  : " + roleStatus + "\nGetRoleStatusSubHandler---------------------------------------");
-                string roleStatusJson = Utility.ToJson(roleStatus);
+                string roleStatusJson = Utility.Json.ToJson(roleStatus);
                 SetResponseData(() => {SubDict.Add((byte)ObjectParameterCode.RoleStatus, roleStatusJson);});
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             }

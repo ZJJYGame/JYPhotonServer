@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AscensionProtocol;
 using Photon.SocketServer;
 using AscensionServer.Model;
-
+using Cosmos;
 namespace AscensionServer
 {
     public class GetRolePetSubHandler : SyncRolePetSubHandler
@@ -23,7 +23,7 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string rolepet = Convert.ToString(Utility.GetValue(dict,(byte)ObjectParameterCode.RolePet));
 
-            var rolepetObj = Utility.ToObject<RolePet>(rolepet);
+            var rolepetObj = Utility.Json.ToObject<RolePet>(rolepet);
             NHCriteria nHCriteriaRolePet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
             
             var rolepets = Singleton<NHManager>.Instance.CriteriaGet<RolePet>(nHCriteriaRolePet);
@@ -37,7 +37,7 @@ namespace AscensionServer
                  Utility.Assert.NotNull(RolePetList, () =>
                  {
                      PetIDList = new List<string>();
-                     PetIDList = Utility.ToObject<List<string>>(RolePetList);
+                     PetIDList = Utility.Json.ToObject<List<string>>(RolePetList);
                      for (int i = 0; i < PetIDList.Count; i++)
                      {
                          NHCriteria nHCriteriapet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", int.Parse(PetIDList[i]));
@@ -47,7 +47,7 @@ namespace AscensionServer
                      }
                  }); SetResponseData(() =>
                  {
-                     SubDict.Add((byte)ObjectParameterCode.RolePet, Utility.ToJson(petlist));
+                     SubDict.Add((byte)ObjectParameterCode.RolePet, Utility.Json.ToJson(petlist));
                      Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
 
                  });
@@ -55,7 +55,7 @@ namespace AscensionServer
              }, () => SetResponseData(()=>
              {
                  AscensionServer._Log.Info(">>>>>>>>>>>>>》》》》》》》》》》》》>>获得宠物失败");
-                 SubDict.Add((byte)ObjectParameterCode.RolePet, Utility.ToJson(new List<string>()));
+                 SubDict.Add((byte)ObjectParameterCode.RolePet, Utility.Json.ToJson(new List<string>()));
                  Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
              }));
 

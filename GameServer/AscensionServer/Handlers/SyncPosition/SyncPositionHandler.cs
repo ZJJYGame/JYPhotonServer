@@ -6,7 +6,7 @@
 using AscensionProtocol;
 using Photon.SocketServer;
 using System;
-
+using Cosmos;
 namespace AscensionServer
 {
   public  class SyncRoleTransformHandler : Handler
@@ -30,7 +30,7 @@ namespace AscensionServer
 
             var roleTransformJson = Convert.ToString (Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.RoleTransfrom));
             peer.RoleTransformJson = roleTransformJson;
-            AscensionServer._Log.Info("Role:ID "+peer.OnlineStateDTO.RoleID+"\n RoleJson :"+roleTransformJson);
+            AscensionServer._Log.Info("Role:ID "+peer.PeerCache.RoleID+"\n RoleJson :"+roleTransformJson);
         }
     }
 }
