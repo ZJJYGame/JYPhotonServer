@@ -15,7 +15,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -170,9 +170,6 @@
     <Compile Include="Handlers\SyncRoleAssets\SubHandler\UpdateRoleAssetsSubHandler.cs" />
     <Compile Include="Handlers\Default\DefaultHandler.cs" />
     <Compile Include="Handlers\Base\SubHandler.cs" />
-    <Compile Include="Handlers\SyncRolePetStatus\SubHandler\GetRolePetStatusSubHandler.cs" />
-    <Compile Include="Handlers\SyncRolePetStatus\SubHandler\SyncRolePetStatusSubHandler.cs" />
-    <Compile Include="Handlers\SyncRolePetStatus\SyncRolePetStatusHandler.cs" />
     <Compile Include="Handlers\SyncRolePet\SubHandler\GetRolePetHandler.cs" />
     <Compile Include="Handlers\SyncRolePet\SubHandler\SyncRolePetSubHandler.cs" />
     <Compile Include="Handlers\SyncRolePet\SyncRolePetHandler.cs" />
