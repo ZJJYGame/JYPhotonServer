@@ -21,7 +21,7 @@ namespace AscensionServer.Threads
             while (true)
             {
                 Thread.Sleep(AscensionConst.ThreadExecuteInterval);
-                AscensionServer._Log.Info("SyncRoleTransformEvent test");
+                //AscensionServer._Log.Info("SyncRoleTransformEvent test");
                 //SendPosition();
             }
         }

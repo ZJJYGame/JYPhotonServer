@@ -37,7 +37,7 @@ namespace AscensionServer
             {
                 ReplaceLogin(peer);
                 loggedPeerCache.Set(peer.PeerCache.Account, peer);
-                _Log.Info("----------------------------  can't add into loginDict------------------------------------" + loginPeerDict.ContainsKey(peer.PeerCache.Account));
+                _Log.Info("----------------------------  can't add into logged Dict------------------------------------" + loginPeerDict.ContainsKey(peer.PeerCache.Account));
             }
         }
         public void Logoff(AscensionPeer peer)
@@ -51,7 +51,7 @@ namespace AscensionServer
             }
             else
             {
-                _Log.Info("----------------------------  can't  remove from loginDict" + peer.ToString() + "------------------------------------");
+                _Log.Info("----------------------------  can't  remove from logged Dict" + peer.ToString() + "------------------------------------");
             }
         }
     }

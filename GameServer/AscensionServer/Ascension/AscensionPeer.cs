@@ -28,11 +28,14 @@ namespace AscensionServer
         /// Peer的UUID
         /// </summary>
         public string PeerGUID { get; set; }
-        public AscensionPeer(InitRequest initRequest) : base(initRequest) { }
+        public AscensionPeer(InitRequest initRequest) : base(initRequest)
+        {
+            peerCache = new PeerCache();
+            RoleTransform = new RoleTransformDTO();
+        }
         //处理客户端断开连接的后续工作
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
-            
             EventData ed = new EventData((byte)EventCode.DeletePlayer);
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             data.Add((byte)ObjectParameterCode.User,peerCache);
@@ -47,12 +50,10 @@ namespace AscensionServer
             }
 
             AscensionServer.Instance.Logoff(this);
-            foreach (AscensionPeer tmpPeer in AscensionServer.Instance.ConnectedPeerHashSet)
+            foreach (AscensionPeer tmpPeer in AscensionServer.Instance.LoggedPeerCache.Dict.Values)
             {
                 tmpPeer.SendEvent(ed, new SendParameters());                      
             }
-           
-
         }
         //处理客户端的请求
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)

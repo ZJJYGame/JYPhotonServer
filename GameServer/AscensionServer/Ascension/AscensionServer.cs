@@ -30,7 +30,7 @@ namespace AscensionServer
         new public static AscensionServer Instance { get; private set; }
         Dictionary<OperationCode, Handler> handlerDict = new Dictionary<OperationCode, Handler>();
         public Dictionary<OperationCode, Handler> HandlerDict { get { return handlerDict; } }
-  
+
         Dictionary<string, AscensionPeer> loginPeerDict = new Dictionary<string, AscensionPeer>();
         public Dictionary<string, AscensionPeer> LoginPeerDict { get { return loginPeerDict; } }
 
@@ -98,7 +98,7 @@ namespace AscensionServer
         {
             handlerDict.Add(handler.OpCode, handler);
         }
-        public  void  DeregisterHandler(Handler handler)
+        public void DeregisterHandler(Handler handler)
         {
             handlerDict.Remove(handler.OpCode);
         }
@@ -109,28 +109,40 @@ namespace AscensionServer
         Dictionary<string, AscensionPeer> onlinePeerDict = new Dictionary<string, AscensionPeer>();
         public void Online(AscensionPeer peer, int roleid)
         {
-            try
+
+            var result = loggedPeerCache.Set(peer.PeerCache.Account, peer);
+            if (result)
             {
-                onlinePeerDict.Add(peer.PeerCache.Account, peer);
-                RoleDTO roleDTO = new RoleDTO() { RoleID = roleid };
-                PeerCache onlineStatusDTO = new PeerCache() { RoleID = roleDTO.RoleID,IsLogged=true };
-                onlinePeerDict[peer.PeerCache.Account].PeerCache = onlineStatusDTO;
+                peer.PeerCache.RoleID = roleid;
+                peer.PeerCache.IsLogged = true;
             }
-            catch (Exception)
-            {
-                _Log.Info("----------------------------  can't add into onlinePeerDict" + peer.PeerCache.Account.ToString() + "------------------------------------");
-            }
+            else
+                _Log.Info("----------------------------  can't set into  logged Dict : " + peer.PeerCache.Account.ToString() + "------------------------------------");
+            //try
+            //{
+            //    onlinePeerDict.Add(peer.PeerCache.Account, peer);
+            //    RoleDTO roleDTO = new RoleDTO() { RoleID = roleid };
+            //    PeerCache onlineStatusDTO = new PeerCache() { RoleID = roleDTO.RoleID,IsLogged=true };
+            //    onlinePeerDict[peer.PeerCache.Account].PeerCache = onlineStatusDTO;
+            //}
+            //catch (Exception)
+            //{
+            //    _Log.Info("----------------------------  can't add into onlinePeerDict" + peer.PeerCache.Account.ToString() + "------------------------------------");
+            //}
         }
         public void Offline(AscensionPeer peer)
         {
-            try
-            {
-                onlinePeerDict.Remove(peer.PeerCache.Account);
-            }
-            catch (Exception)
-            {
-                _Log.Info("----------------------------  can't add into offlinePeerDict" + peer.PeerCache.Account.ToString() + "------------------------------------");
-            }
+            var result = loggedPeerCache.Remove(peer.PeerCache.Account);
+            if (!result)
+                _Log.Info("----------------------------  can't  remove from logged Dict : " + peer.PeerCache.Account.ToString() + "------------------------------------");
+            //try
+            //{
+            //    onlinePeerDict.Remove(peer.PeerCache.Account);
+            //}
+            //catch (Exception)
+            //{
+            //    _Log.Info("----------------------------  can't add into offlinePeerDict" + peer.PeerCache.Account.ToString() + "------------------------------------");
+            //}
         }
         public int HasOnlineID(AscensionPeer peer)
         {
