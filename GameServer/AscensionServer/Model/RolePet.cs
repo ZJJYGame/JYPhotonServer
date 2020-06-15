@@ -10,6 +10,6 @@ namespace AscensionServer.Model
     public class RolePet
     {
         public virtual int RoleID { get; set; }
-        public virtual string PetIDArray { get; set; }
+        public virtual string PetIDDict { get; set; }
     }
 }

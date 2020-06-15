@@ -7,7 +7,7 @@ namespace AscensionServer
         public RolePetMap()
         {
             Id(x => x.RoleID).GeneratedBy.Assigned().Column("role_id");
-            Map(x => x.PetIDArray).Column("pet_id_array");
+            Map(x => x.PetIDDict).Column("pet_id_dict");
             Table("role_pet");
         }
     }
