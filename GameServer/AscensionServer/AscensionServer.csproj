@@ -161,7 +161,9 @@
     <Compile Include="Handlers\SyncOtherRoles\SubHandler\SyncOtherRolesSubHandler.cs" />
     <Compile Include="Handlers\SyncPetStatus\SubHandler\GetPetStatusSubHandler.cs" />
     <Compile Include="Handlers\SyncPetStatus\SubHandler\SyncPetStatusSubHandler.cs" />
+    <Compile Include="Handlers\SyncPetStatus\SubHandler\UpdatePetStatusSubHandler.cs" />
     <Compile Include="Handlers\SyncPetStatus\SyncPetStatusHandler.cs" />
+    <Compile Include="Handlers\SyncPet\SubHandler\AddPetHandler.cs" />
     <Compile Include="Handlers\SyncPet\SubHandler\GetPetHandler.cs" />
     <Compile Include="Handlers\SyncPet\SubHandler\SyncPetSubHandler.cs" />
     <Compile Include="Handlers\SyncPet\SyncPetHandler.cs" />
@@ -170,9 +172,7 @@
     <Compile Include="Handlers\SyncRoleAssets\SubHandler\UpdateRoleAssetsSubHandler.cs" />
     <Compile Include="Handlers\Default\DefaultHandler.cs" />
     <Compile Include="Handlers\Base\SubHandler.cs" />
-    <Compile Include="Handlers\SyncRolePetStatus\SubHandler\GetRolePetStatusSubHandler.cs" />
-    <Compile Include="Handlers\SyncRolePetStatus\SubHandler\SyncRolePetStatusSubHandler.cs" />
-    <Compile Include="Handlers\SyncRolePetStatus\SyncRolePetStatusHandler.cs" />
+    <Compile Include="Handlers\SyncRolePet\SubHandler\AddRolePetSubHandler.cs" />
     <Compile Include="Handlers\SyncRolePet\SubHandler\GetRolePetSubHandler.cs" />
     <Compile Include="Handlers\SyncRolePet\SubHandler\SyncRolePetSubHandler.cs" />
     <Compile Include="Handlers\SyncRolePet\SyncRolePetHandler.cs" />
