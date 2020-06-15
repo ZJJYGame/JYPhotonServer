@@ -27,20 +27,20 @@ namespace AscensionServer
             NHCriteria nHCriteriaRolePet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
             
             var rolepets = Singleton<NHManager>.Instance.CriteriaGet<RolePet>(nHCriteriaRolePet);
-            Utility.Assert.NotNull(rolepets.PetIDArray, () =>
+            Utility.Assert.NotNull(rolepets.PetIDDict, () =>
              {
                  var rpetObj = Singleton<NHManager>.Instance.CriteriaGet<RolePet>(nHCriteriaRolePet);
-                 string RolePetList = rpetObj.PetIDArray;
-                 List<string> PetIDList;
+                 string RolePetList = rpetObj.PetIDDict;
+                 Dictionary<int, int> petIDList;
                  List<Pet> petlist = new List<Pet>();
                  List<NHCriteria> nHCriteriasList = new List<NHCriteria>();
                  Utility.Assert.NotNull(RolePetList, () =>
                  {
-                     PetIDList = new List<string>();
-                     PetIDList = Utility.Json.ToObject<List<string>>(RolePetList);
-                     for (int i = 0; i < PetIDList.Count; i++)
+                     petIDList = new Dictionary<int, int>();
+                     petIDList = Utility.Json.ToObject<Dictionary<int, int>>(RolePetList);
+                     foreach (var petid in petIDList)
                      {
-                         NHCriteria nHCriteriapet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", int.Parse(PetIDList[i]));
+                         NHCriteria nHCriteriapet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", petid.Key);
                          Pet petObj = Singleton<NHManager>.Instance.CriteriaGet<Pet>(nHCriteriapet);
                          petlist.Add(petObj);
                          nHCriteriasList.Add(nHCriteriapet);

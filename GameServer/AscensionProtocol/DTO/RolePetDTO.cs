@@ -9,11 +9,12 @@ namespace AscensionProtocol.DTO
     public class RolePetDTO:ProtocolDTO
     {
         public virtual int RoleID { get; set; }
-        public virtual string PetIDArray { get; set; }
+        public virtual string PetIDDict { get; set; }
+
         public override void Clear()
         {
             RoleID = -1;
-            PetIDArray = null;
+            PetIDDict = null;
         }
     }
 }
