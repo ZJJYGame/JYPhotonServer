@@ -112,6 +112,7 @@
     <Compile Include="Ascension\AscensionConst.cs" />
     <Compile Include="Ascension\AscensionPeer.cs" />
     <Compile Include="Ascension\AscensionServer.cs" />
+    <Compile Include="Caching\ConcurrencyCache.cs" />
     <Compile Include="Caching\EventCache.cs" />
     <Compile Include="Caching\EventCacheDictionary.cs" />
     <Compile Include="Caching\LiteGameCache.cs" />

@@ -109,7 +109,6 @@ namespace AscensionServer
         Dictionary<string, AscensionPeer> onlinePeerDict = new Dictionary<string, AscensionPeer>();
         public void Online(AscensionPeer peer, int roleid)
         {
-
             var result = loggedPeerCache.Set(peer.PeerCache.Account, peer);
             if (result)
             {
