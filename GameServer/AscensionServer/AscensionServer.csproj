@@ -173,7 +173,7 @@
     <Compile Include="Handlers\SyncRolePetStatus\SubHandler\GetRolePetStatusSubHandler.cs" />
     <Compile Include="Handlers\SyncRolePetStatus\SubHandler\SyncRolePetStatusSubHandler.cs" />
     <Compile Include="Handlers\SyncRolePetStatus\SyncRolePetStatusHandler.cs" />
-    <Compile Include="Handlers\SyncRolePet\SubHandler\GetRolePetHandler.cs" />
+    <Compile Include="Handlers\SyncRolePet\SubHandler\GetRolePetSubHandler.cs" />
     <Compile Include="Handlers\SyncRolePet\SubHandler\SyncRolePetSubHandler.cs" />
     <Compile Include="Handlers\SyncRolePet\SyncRolePetHandler.cs" />
     <Compile Include="Handlers\SyncRoleStatus\SubHandler\GetRoleStatusSubHandler.cs" />

@@ -121,17 +121,17 @@ namespace AscensionServer
                 loginPeerDict.Remove(peer.User.Account);
                 loginPeerDict.Add(peer.User.Account, peer);
                 _Log.Info("----------------------------  can't add into loginDict------------------------------------"+ loginPeerDict.ContainsKey(peer.User.Account));
-               
             }
         }
         public void Logoff(AscensionPeer peer)
         {
             try
             {
-                //TODO服务器登出
+                //TODO 服务器登出
                 _Log.Info("---------------------------- remove peer logoff : " +peer. ToString() + "------------------------------------");
                 if (!peer.OnlineStateDTO.IsLogined)
                 {
+                    peer.OnlineStateDTO.IsLogined = false;
                     loginPeerDict.Remove(peer.User.Account);
                 }
             }

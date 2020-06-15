@@ -9,7 +9,7 @@ using AscensionServer.Model;
 
 namespace AscensionServer
 {
-    public class GetRolePetHandler : SyncRolePetSubHandler
+    public class GetRolePetSubHandler : SyncRolePetSubHandler
     {
         public override void OnInitialization()
         {

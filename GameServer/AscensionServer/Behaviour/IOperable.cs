@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-    //TODO IOperable类完善
     public interface IOperable<T>
         where T:class
     {

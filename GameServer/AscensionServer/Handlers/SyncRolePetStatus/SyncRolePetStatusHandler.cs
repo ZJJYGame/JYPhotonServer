@@ -14,7 +14,7 @@ namespace AscensionServer
     {
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncPetStatus;
+            OpCode = OperationCode.SyncRolePet;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncRolePetStatusSubHandler>();
         }
