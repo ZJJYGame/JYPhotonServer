@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AscensionProtocol.DTO;
+using AscensionServer.Model;
 namespace AscensionServer
 {
     /// <summary>
@@ -19,7 +19,7 @@ namespace AscensionServer
         public virtual int RoleID { get; set; }
         public bool EqualUser(object obj)
         {
-            UserDTO user = obj as UserDTO;
+            User user = obj as User;
             return this.Account == user.Account 
                 && this.Password == user.Password 
                 && this.UUID == user.UUID;
