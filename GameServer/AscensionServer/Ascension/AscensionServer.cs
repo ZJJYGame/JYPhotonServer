@@ -150,12 +150,6 @@ namespace AscensionServer
         }
         public int HasOnlineID(AscensionPeer peer)
         {
-            //if (onlinePeerDict.ContainsKey(peer.PeerCache.Account))
-            //{
-            //    return onlinePeerDict[peer.PeerCache.Account].PeerCache.RoleID;
-            //}
-            //else
-            //    return 0;
             if (loggedPeerCache.IsExists(peer.PeerCache.Account))
             {
                 return loggedPeerCache[peer.PeerCache.Account].PeerCache.RoleID;
