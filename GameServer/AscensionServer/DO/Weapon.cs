@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class Weapon:Model
+    public class Weapon:DataObject
     {
         public virtual int ID { get; set; }
         public virtual byte WeaponID { get; set; }

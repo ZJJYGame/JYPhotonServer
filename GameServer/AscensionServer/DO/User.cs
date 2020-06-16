@@ -9,7 +9,7 @@ using System;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class User:Model
+    public class User:DataObject
     {
         public virtual string Account { get; set; }
         public virtual string Password { get; set; }

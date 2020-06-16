@@ -6,7 +6,7 @@ using System.Text;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class GongFaDTO:ProtocolDTO
+    public class GongFaDTO: DataTransferObject
     {
         public virtual int ID { get; set; }
         public virtual byte GongFaID { get; set; }

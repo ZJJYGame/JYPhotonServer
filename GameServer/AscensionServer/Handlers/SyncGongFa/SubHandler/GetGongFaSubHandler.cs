@@ -37,13 +37,13 @@ namespace AscensionServer
                     gongFaIdList = new List<GongFa>();
                     if (exist)
                     {
-                        var roleIdArray = Singleton<NHManager>.Instance.CriteriaGet<RoleGongFa>(nHCriteriaGongFa);
+                        var roleIdArray = Singleton<NHManager>.Instance.CriteriaSelect<RoleGongFa>(nHCriteriaGongFa);
                         if (!string.IsNullOrEmpty(roleIdArray.GongFaIDArray))
                         {
                             foreach (var gongFaId in Utility.Json.ToObject<List<int>>(roleIdArray.GongFaIDArray))
                             {
                                 NHCriteria nHCriteriaGongFaId = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", gongFaId);
-                                var gongFaIdArray = Singleton<NHManager>.Instance.CriteriaGet<GongFa>(nHCriteriaGongFaId);
+                                var gongFaIdArray = Singleton<NHManager>.Instance.CriteriaSelect<GongFa>(nHCriteriaGongFaId);
                                 //AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>同步功法进来了>>>>>>>>>" + gongFaIdArray.GongFaID);
                                 gongFaIdList.Add(gongFaIdArray);
                             }
@@ -54,7 +54,7 @@ namespace AscensionServer
                     }
                     else
                     {
-                        Singleton<NHManager>.Instance.Add(new RoleGongFa() { RoleID = roleId });
+                        Singleton<NHManager>.Instance.Insert(new RoleGongFa() { RoleID = roleId });
                         gongFaDic.Add(roleId, new List<GongFa>());
                     }
                 }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class Role:Model
+    public class Role:DataObject
     {
         public virtual int RoleID { get; set; }
         public virtual byte RoleFaction { get; set; }

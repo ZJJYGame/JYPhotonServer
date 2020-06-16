@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class GongFa:Model
+    public class GongFa:DataObject
     {
         public virtual int ID { get; set; }
         public virtual byte GongFaID { get; set; }

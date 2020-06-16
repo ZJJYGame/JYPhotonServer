@@ -6,8 +6,8 @@ using System.Text;
 namespace AscensionProtocol.DTO
 {
         [Serializable]
-        public class OffLineTimeDTO : ProtocolDTO
-        {
+        public class OffLineTimeDTO : DataTransferObject
+    {
             public virtual int RoleID { get; set; }
             public virtual string OffTime { get; set; }
         public override void Clear()

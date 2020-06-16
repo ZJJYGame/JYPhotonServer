@@ -23,40 +23,44 @@ namespace AscensionServer
             string roleMSJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.MiShu));
             var roleMiShuObj = Utility.Json.ToObject<RoleMiShu>(roleMSJson);
             NHCriteria nHCriteriamishu = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleMiShuObj.RoleID);
-            RoleMiShu roleMiShu = Singleton<NHManager>.Instance.CriteriaGet<RoleMiShu>(nHCriteriamishu);
+            RoleMiShu roleMiShu = Singleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriamishu);
             AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收到获取秘术的数组" + roleMiShu.MiShuIDArray);
-            Utility.Assert.NotNull(roleMiShu.MiShuIDArray, () =>
+            if (roleMiShuObj.MiShuIDArray != null)
             {
-
-                var rMiShuObj = Singleton<NHManager>.Instance.CriteriaGet<RoleMiShu>(nHCriteriamishu);
+                var rMiShuObj = Singleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriamishu);
                 string rolemishuJson = rMiShuObj.MiShuIDArray;
                 List<string> roleIDlist;
                 List<MiShu> miShuIdList = new List<MiShu>();
                 List<NHCriteria> nHCriteriaslist = new List<NHCriteria>();
-                Utility.Assert.NotNull(rolemishuJson, () =>
+                if (!string.IsNullOrEmpty(rolemishuJson))
                 {
                     roleIDlist = new List<string>();
                     roleIDlist = Utility.Json.ToObject<List<string>>(rolemishuJson);
                     for (int i = 0; i < roleIDlist.Count; i++)
                     {
                         NHCriteria tmpcriteria = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", int.Parse(roleIDlist[i]));
-                        MiShu miShu = Singleton<NHManager>.Instance.CriteriaGet<MiShu>(tmpcriteria);
+                        MiShu miShu = Singleton<NHManager>.Instance.CriteriaSelect<MiShu>(tmpcriteria);
                         miShuIdList.Add(miShu);
                         nHCriteriaslist.Add(tmpcriteria);
-
                     }
-                }); SetResponseData(() =>
+                }
+                SetResponseData(() =>
                 {
                     SubDict.Add((byte)ObjectParameterCode.MiShu, Utility.Json.ToJson(miShuIdList));
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
                 Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaslist);
-            }, () => SetResponseData(() =>
+            }
+            else
             {
-                AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收到获取秘术的id为空");
-                SubDict.Add((byte)ObjectParameterCode.MiShu, Utility.Json.ToJson(new List<string>()));
-                Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
-            }));
+              SetResponseData(() =>
+                {
+                    AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收到获取秘术的id为空");
+                    SubDict.Add((byte)ObjectParameterCode.MiShu, Utility.Json.ToJson(new List<string>()));
+                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
+                });
+            }
+
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriamishu);
         }

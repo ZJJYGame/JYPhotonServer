@@ -7,7 +7,7 @@ namespace AscensionProtocol.DTO
 {
     [Serializable]
     [Obsolete("弃用，有新方法")]
-    public class Vector3DataDTO: ProtocolDTO
+    public class Vector3DataDTO: DataTransferObject
     {
         public float x { get; set; }
         public float y { get; set; }

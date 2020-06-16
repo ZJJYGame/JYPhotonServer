@@ -7,15 +7,14 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class OffLineTime:Model
+    public class RoleRepository:DataObject
     {
         public virtual int RoleID { get; set; }
-        public virtual string OffTime { get; set; }
-
+        public virtual string Items { get; set; }
         public override void Clear()
         {
             RoleID = -1;
-            OffTime = null;
+            Items = null;
         }
     }
 }

@@ -9,8 +9,9 @@ namespace AscensionServer
     public partial class AscensionConst
     {
         /// <summary>
-        /// 线程间隔时间为毫秒，因此间隔时间位5s
+        /// 线程间隔时间为毫秒，时间间距： s*1000=ms
+        /// 同步登录玩家的位置信息时间间隔
         /// </summary>
-        public const int ThreadExecuteInterval = 5000;
+        public const int SyncLoggedRolesPositionInterval = 1000;
     }
 }

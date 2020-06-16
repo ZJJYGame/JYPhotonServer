@@ -6,7 +6,7 @@ using System.Text;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class RingDTO: ProtocolDTO
+    public class RingDTO: DataTransferObject
     {
         public virtual int ID { set; get; }
         public virtual int RingId { get; set; }

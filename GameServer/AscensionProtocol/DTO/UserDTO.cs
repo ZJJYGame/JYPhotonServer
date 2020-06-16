@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class UserDTO: ProtocolDTO
+    public class UserDTO: DataTransferObject
     {
         public virtual string Account { get; set; }
         public virtual string Password { get; set; }

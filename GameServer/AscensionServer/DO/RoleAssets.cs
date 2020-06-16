@@ -7,7 +7,7 @@ using Cosmos;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class RoleAssets:Model
+    public class RoleAssets:DataObject
     {
         public RoleAssets()
         {

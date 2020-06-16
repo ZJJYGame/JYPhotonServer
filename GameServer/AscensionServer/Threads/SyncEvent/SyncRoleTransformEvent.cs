@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AscensionServer;
 using AscensionProtocol.DTO;
+using AscensionProtocol.BO;
 using AscensionProtocol;
 using ExitGames.Client.Photon;
 using System.Timers;
@@ -20,35 +21,37 @@ namespace AscensionServer.Threads
         {
             while (true)
             {
-                Thread.Sleep(AscensionConst.ThreadExecuteInterval);
-                //AscensionServer._Log.Info("SyncRoleTransformEvent test");
-                //SendPosition();
+                Thread.Sleep(AscensionConst.SyncLoggedRolesPositionInterval);
+                BroadcastLoggedRolesPosition();
             }
         }
-        public void SendPosition()
+        List<RoleTransformDTO> roleTransformList = new List<RoleTransformDTO>();
+        /// <summary>
+        /// TODO 当前未使用瓦片算法进行分区域消息广播
+        /// </summary>
+        void BroadcastLoggedRolesPosition()
         {
-            List<RoleDataDTO> roleDataList= new List<RoleDataDTO>();
-            foreach (var peer in AscensionServer.Instance.LoggedPeer)
+            var loggedList = AscensionServer.Instance.LoggedPeerCache.GetValuesList();
+            if (loggedList.Count <= 0)
+                return;
+            roleTransformList.Capacity = loggedList.Count;
+            for (int i = 0; i <loggedList.Count ; i++)
             {
-                if (string.IsNullOrEmpty(peer.PeerCache.Account) == false)
-                {
-                    PlayerDataDTO playerData = new PlayerDataDTO();
-                    playerData.Username = peer.PeerCache.Account;
-                    //playerData.pos = new Vector3DataDTO() { x = peer.x, y = peer.y, z = peer.z };
-                    //playerDatraList.Add(playerData);
-                }
+                var roleDataTmp = Singleton<ReferencePoolManager>.Instance.Spawn<RoleTransformDTO>();
+                roleDataTmp = loggedList[i].RoleTransform;
+                roleTransformList.Add(roleDataTmp);
             }
-            EventDataDict.Add((byte)ParameterCode.PlayerDataList, Utility.Json.ToJson(roleDataList));
-            EventData ed = new EventData((byte)EventCode.SyncRoleTransform);
-            ed.Parameters = EventDataDict;
-
-            foreach (var loggedPeer in AscensionServer.Instance.LoginPeerDict.Values)
+            EventDataDict.Add((byte)ParameterCode.PlayerDataList, Utility.Json.ToJson(roleTransformList));
+            EventData = new EventData((byte)EventCode.SyncRoleTransform);
+            EventData.Parameters = EventDataDict;
+            for (int i = 0; i < loggedList.Count; i++)
             {
-                if (string.IsNullOrEmpty(loggedPeer.PeerCache.Account) == false)
-                {
-                    loggedPeer.SendEvent(ed, SendParameter);
-                }
+                loggedList[i].SendEvent(EventData, SendParameter);
             }
+            Singleton<ReferencePoolManager>.Instance.Despawns(roleTransformList.ToArray());
+            roleTransformList.Clear();
+            EventData.Parameters.Clear();
+            EventDataDict.Clear();
         }
 
     }

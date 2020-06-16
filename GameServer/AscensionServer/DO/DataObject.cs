@@ -5,7 +5,7 @@
 using Cosmos;
 namespace AscensionServer.Model
 {
-    public abstract class Model : IReference
+    public abstract class DataObject : IReference
     {
         public abstract void Clear();
     }

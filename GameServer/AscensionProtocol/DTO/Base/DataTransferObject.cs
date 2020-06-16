@@ -9,7 +9,7 @@ namespace AscensionProtocol.DTO
     /// 数据传输通信协议DTO基类
     /// </summary>
     [Serializable]
-    public abstract class ProtocolDTO : IReference
+    public abstract class DataTransferObject : IReference
     {
         public abstract void Clear();
     }

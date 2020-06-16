@@ -7,6 +7,8 @@ using System;
 using NHibernate;
 using NHibernate.Criterion;
 using Cosmos;
+using System.Collections;
+using System.Collections.Generic;
 namespace AscensionServer
 {
     /// <summary>
@@ -31,7 +33,7 @@ namespace AscensionServer
         /// <typeparam name="T">数据类型</typeparam>
         /// <param name="data">具体数据</param>
         /// <returns>返回一个完整带有主键ID的对象</returns>
-        public virtual T Add<T>(T data) where T : class, new()
+        public virtual T Insert<T>(T data) where T : class, new()
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
@@ -73,7 +75,7 @@ namespace AscensionServer
         /// <typeparam name="K">查找类型</typeparam>
         /// <param name="key">查找索引字段</param>
         /// <param name="key"></param>
-        public virtual T CriteriaGet<T>(params NHCriteria[] columns)
+        public virtual T CriteriaSelect<T>(params NHCriteria[] columns)
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
@@ -84,6 +86,24 @@ namespace AscensionServer
                 }
                 T data = criteria.UniqueResult<T>();
                 return data;
+            }
+        }
+        /// <summary>
+        /// 条件查找符合的集合
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="columns"></param>
+        /// <returns></returns>
+        public virtual IList<T>  CriteriaSelectList<T>(params NHCriteria[] columns)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                ICriteria criteria = session.CreateCriteria(typeof(T));
+                for (int i = 0; i < columns.Length; i++)
+                {
+                    criteria.Add(Restrictions.Eq(columns[i].PropertyName, columns[i].Value));
+                }
+                return criteria.List<T>();
             }
         }
         /// <summary>
@@ -106,12 +126,31 @@ namespace AscensionServer
             }
         }
         /// <summary>
+        /// 查找并返回所有条件对象的总数
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="columns"></param>
+        /// <returns></returns>
+        public virtual int Count<T>(params NHCriteria[] columns)
+            where T : class
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                ICriteria criteria = session.CreateCriteria<T>();
+                for (int i = 0; i < columns.Length; i++)
+                {
+                    criteria.Add(Restrictions.Eq(columns[i].PropertyName, columns[i].Value));
+                }
+               return criteria.List<T>().Count;
+            }
+        }
+        /// <summary>
         /// 可覆写非空虚函数;
         /// 移除数据
         /// </summary>
         /// <typeparam name="T">数据类型</typeparam>
         /// <param name="data">具体数据</param>
-        public virtual void Remove<T>(T data) where T : new()
+        public virtual void Delete<T>(T data) where T : new()
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {

@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AscensionProtocol", "Ascens
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AscensionCalculator", "AscensionCalculate\AscensionCalculator.csproj", "{A71709EA-E11C-4E7B-B8B7-28A57EFF49EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmosFramework", "Framework\CosmosFramework.csproj", "{81A14E63-385F-4B83-B403-A6B7D6FC94D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFramework", "Framework\CFramework.csproj", "{81A14E63-385F-4B83-B403-A6B7D6FC94D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

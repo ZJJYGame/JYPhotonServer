@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class RoleEquip:Model
+    public class RolePet:DataObject
     {
         public virtual int RoleID { get; set; }
-        public virtual string Equips { get; set; }
+        public virtual string PetIDDict { get; set; }
         public override void Clear()
         {
             RoleID = -1;
-            Equips = null;
+            PetIDDict = null;
         }
     }
 }

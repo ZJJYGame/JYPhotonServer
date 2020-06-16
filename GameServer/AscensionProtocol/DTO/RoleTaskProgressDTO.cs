@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class RoleTaskProgressDTO : ProtocolDTO
+    public class RoleTaskProgressDTO : DataTransferObject
     {
         public virtual int RoleID { get; set; }
         public virtual Dictionary<int,RoleTaskItemDTO> RoleTaskInfoDic { get; set; }

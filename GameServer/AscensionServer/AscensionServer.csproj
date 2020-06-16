@@ -15,7 +15,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -104,31 +104,32 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actor\Actor.cs" />
-    <Compile Include="Actor\ActorCollection.cs" />
-    <Compile Include="Actor\ActorGroup.cs" />
+    <Compile Include="DO\DataObject.cs" />
+    <Compile Include="Lite\Actor\Actor.cs" />
+    <Compile Include="Lite\Actor\ActorCollection.cs" />
+    <Compile Include="Lite\Actor\ActorGroup.cs" />
     <Compile Include="Ascension\AscensionServer.Cache.cs" />
     <Compile Include="Caching\Cache.cs" />
     <Compile Include="Ascension\AscensionConst.cs" />
     <Compile Include="Ascension\AscensionPeer.cs" />
     <Compile Include="Ascension\AscensionServer.cs" />
     <Compile Include="Caching\ConcurrencyCache.cs" />
-    <Compile Include="Caching\EventCache.cs" />
-    <Compile Include="Caching\EventCacheDictionary.cs" />
-    <Compile Include="Caching\LiteGameCache.cs" />
-    <Compile Include="Caching\PeerCache.cs" />
-    <Compile Include="Caching\RoomCacheBase.cs" />
-    <Compile Include="Caching\RoomEventCache.cs" />
-    <Compile Include="Caching\RoomReference.cs" />
-    <Compile Include="Common\Property.cs" />
-    <Compile Include="Common\PropertyBag.cs" />
-    <Compile Include="Common\PropertyChangedEventArgs.cs" />
+    <Compile Include="Lite\Caching\EventCache.cs" />
+    <Compile Include="Lite\Caching\EventCacheDictionary.cs" />
+    <Compile Include="Lite\Caching\LiteGameCache.cs" />
+    <Compile Include="Lite\Caching\PeerCache.cs" />
+    <Compile Include="Lite\Caching\RoomCacheBase.cs" />
+    <Compile Include="Lite\Caching\RoomEventCache.cs" />
+    <Compile Include="Lite\Caching\RoomReference.cs" />
+    <Compile Include="Lite\Common\Property.cs" />
+    <Compile Include="Lite\Common\PropertyBag.cs" />
+    <Compile Include="Lite\Common\PropertyChangedEventArgs.cs" />
     <Compile Include="Container\ClientPeerContainer.cs" />
-    <Compile Include="Events\CustomEvent.cs" />
-    <Compile Include="Events\JoinEvent.cs" />
-    <Compile Include="Events\LeaveEvent.cs" />
-    <Compile Include="Events\LiteEventBase.cs" />
-    <Compile Include="Events\PropertiesChangedEvent.cs" />
+    <Compile Include="Lite\Events\CustomEvent.cs" />
+    <Compile Include="Lite\Events\JoinEvent.cs" />
+    <Compile Include="Lite\Events\LeaveEvent.cs" />
+    <Compile Include="Lite\Events\LiteEventBase.cs" />
+    <Compile Include="Lite\Events\PropertiesChangedEvent.cs" />
     <Compile Include="Handlers\Base\Handler.cs" />
     <Compile Include="Handlers\Base\IHandler.cs" />
     <Compile Include="Handlers\Base\ISubHandler.cs" />
@@ -194,74 +195,73 @@
     <Compile Include="Handlers\SyncTasks\SubHandler\UpdateTaskSubHandler.cs" />
     <Compile Include="Handlers\SyncTasks\SyncTaskHandler.cs" />
     <Compile Include="JsonWrapper\NewtonjsonWrapper.cs" />
-    <Compile Include="Message\GameMessageCodes.cs" />
-    <Compile Include="Message\IMessage.cs" />
-    <Compile Include="Message\RoomMessage.cs" />
-    <Compile Include="ModelMap\GongFaMap.cs" />
-    <Compile Include="ModelMap\MiShuMap.cs" />
-    <Compile Include="ModelMap\OffLineTimeMap.cs" />
-    <Compile Include="ModelMap\OnOffLineMap.cs" />
-    <Compile Include="ModelMap\PetMap.cs" />
-    <Compile Include="ModelMap\PetStatusMap.cs" />
-    <Compile Include="ModelMap\RingMap.cs" />
-    <Compile Include="ModelMap\RoleAssetsMap.cs" />
-    <Compile Include="ModelMap\RoleEquipMap.cs" />
-    <Compile Include="ModelMap\RoleGongFaMap.cs" />
-    <Compile Include="ModelMap\RoleMiShuMap.cs" />
-    <Compile Include="ModelMap\RolePetMap.cs" />
-    <Compile Include="ModelMap\RoleRepositoryMap.cs" />
-    <Compile Include="ModelMap\RoleRingMap.cs" />
-    <Compile Include="ModelMap\RoleTaskProgressMap.cs" />
-    <Compile Include="ModelMap\RoleWeaponMap.cs" />
-    <Compile Include="ModelMap\WeaponMap.cs" />
-    <Compile Include="Model\Model.cs" />
-    <Compile Include="Model\OffLineTime.cs" />
-    <Compile Include="Model\OnOffLine.cs" />
-    <Compile Include="Model\Pet.cs" />
-    <Compile Include="Model\PetStatus.cs" />
-    <Compile Include="Model\Ring.cs" />
-    <Compile Include="Model\RoleAssets.cs" />
-    <Compile Include="Model\RoleEquip.cs" />
-    <Compile Include="Model\RolePet.cs" />
-    <Compile Include="Model\RoleRepository.cs" />
-    <Compile Include="Model\RoleRing.cs" />
-    <Compile Include="Model\RoleTaskProgress.cs" />
-    <Compile Include="Model\RoleWeapon.cs" />
-    <Compile Include="Model\Weapon.cs" />
+    <Compile Include="Lite\Message\GameMessageCodes.cs" />
+    <Compile Include="Lite\Message\IMessage.cs" />
+    <Compile Include="Lite\Message\RoomMessage.cs" />
+    <Compile Include="DOMap\GongFaMap.cs" />
+    <Compile Include="DOMap\MiShuMap.cs" />
+    <Compile Include="DOMap\OffLineTimeMap.cs" />
+    <Compile Include="DOMap\OnOffLineMap.cs" />
+    <Compile Include="DOMap\PetMap.cs" />
+    <Compile Include="DOMap\PetStatusMap.cs" />
+    <Compile Include="DOMap\RingMap.cs" />
+    <Compile Include="DOMap\RoleAssetsMap.cs" />
+    <Compile Include="DOMap\RoleEquipMap.cs" />
+    <Compile Include="DOMap\RoleGongFaMap.cs" />
+    <Compile Include="DOMap\RoleMiShuMap.cs" />
+    <Compile Include="DOMap\RolePetMap.cs" />
+    <Compile Include="DOMap\RoleRepositoryMap.cs" />
+    <Compile Include="DOMap\RoleRingMap.cs" />
+    <Compile Include="DOMap\RoleTaskProgressMap.cs" />
+    <Compile Include="DOMap\RoleWeaponMap.cs" />
+    <Compile Include="DOMap\WeaponMap.cs" />
+    <Compile Include="DO\OffLineTime.cs" />
+    <Compile Include="DO\OnOffLine.cs" />
+    <Compile Include="DO\Pet.cs" />
+    <Compile Include="DO\PetStatus.cs" />
+    <Compile Include="DO\Ring.cs" />
+    <Compile Include="DO\RoleAssets.cs" />
+    <Compile Include="DO\RoleEquip.cs" />
+    <Compile Include="DO\RolePet.cs" />
+    <Compile Include="DO\RoleRepository.cs" />
+    <Compile Include="DO\RoleRing.cs" />
+    <Compile Include="DO\RoleTaskProgress.cs" />
+    <Compile Include="DO\RoleWeapon.cs" />
+    <Compile Include="DO\Weapon.cs" />
     <Compile Include="NHManager\Main\INHManager.cs" />
     <Compile Include="NHManager\Main\NHManager.cs" />
-    <Compile Include="ModelMap\RoleMap.cs" />
-    <Compile Include="ModelMap\RoleStatusMap.cs" />
-    <Compile Include="ModelMap\UserMap.cs" />
-    <Compile Include="ModelMap\UserRoleMap.cs" />
-    <Compile Include="Model\MiShu.cs" />
-    <Compile Include="Model\GongFa.cs" />
-    <Compile Include="Model\Role.cs" />
-    <Compile Include="Model\RoleGongFa.cs" />
-    <Compile Include="Model\RoleMiShu.cs" />
-    <Compile Include="Model\RoleStatus.cs" />
-    <Compile Include="Model\User.cs" />
-    <Compile Include="Model\UserRole.cs" />
+    <Compile Include="DOMap\RoleMap.cs" />
+    <Compile Include="DOMap\RoleStatusMap.cs" />
+    <Compile Include="DOMap\UserMap.cs" />
+    <Compile Include="DOMap\UserRoleMap.cs" />
+    <Compile Include="DO\MiShu.cs" />
+    <Compile Include="DO\GongFa.cs" />
+    <Compile Include="DO\Role.cs" />
+    <Compile Include="DO\RoleGongFa.cs" />
+    <Compile Include="DO\RoleMiShu.cs" />
+    <Compile Include="DO\RoleStatus.cs" />
+    <Compile Include="DO\User.cs" />
+    <Compile Include="DO\UserRole.cs" />
     <Compile Include="NHManager\NHCriteria\NHCriteria.cs" />
     <Compile Include="NHManager\NHibernateHelper.cs" />
-    <Compile Include="OperationLogging\LogEntry.cs" />
-    <Compile Include="OperationLogging\LogQueue.cs" />
-    <Compile Include="Operations\CacheOperation.cs" />
-    <Compile Include="Operations\ChangeGroups.cs" />
-    <Compile Include="Operations\EventCode.cs" />
-    <Compile Include="Operations\GetPropertiesRequest.cs" />
-    <Compile Include="Operations\GetPropertiesResponse.cs" />
-    <Compile Include="Operations\JoinRequest.cs" />
-    <Compile Include="Operations\JoinResponse.cs" />
-    <Compile Include="Operations\LeaveRequest.cs" />
-    <Compile Include="Operations\OperationCode.cs" />
-    <Compile Include="Operations\ParameterKey.cs" />
-    <Compile Include="Operations\PropertyType.cs" />
-    <Compile Include="Operations\RaiseEventRequest.cs" />
-    <Compile Include="Operations\ReceiverGroup.cs" />
-    <Compile Include="Operations\SetPropertiesRequest.cs" />
+    <Compile Include="Lite\OperationLogging\LogEntry.cs" />
+    <Compile Include="Lite\OperationLogging\LogQueue.cs" />
+    <Compile Include="Lite\Operations\CacheOperation.cs" />
+    <Compile Include="Lite\Operations\ChangeGroups.cs" />
+    <Compile Include="Lite\Operations\EventCode.cs" />
+    <Compile Include="Lite\Operations\GetPropertiesRequest.cs" />
+    <Compile Include="Lite\Operations\GetPropertiesResponse.cs" />
+    <Compile Include="Lite\Operations\JoinRequest.cs" />
+    <Compile Include="Lite\Operations\JoinResponse.cs" />
+    <Compile Include="Lite\Operations\LeaveRequest.cs" />
+    <Compile Include="Lite\Operations\OperationCode.cs" />
+    <Compile Include="Lite\Operations\ParameterKey.cs" />
+    <Compile Include="Lite\Operations\PropertyType.cs" />
+    <Compile Include="Lite\Operations\RaiseEventRequest.cs" />
+    <Compile Include="Lite\Operations\ReceiverGroup.cs" />
+    <Compile Include="Lite\Operations\SetPropertiesRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Room\Room.cs" />
+    <Compile Include="Lite\Room\Room.cs" />
     <Compile Include="Threads\Base\ISyncEvent.cs" />
     <Compile Include="Threads\Base\SyncEvent.cs" />
     <Compile Include="Threads\SyncEvent\SyncRoleTransformEvent.cs" />
@@ -289,9 +289,9 @@
       <Project>{142ced7d-c56d-43b2-a11f-9dc0f302bd80}</Project>
       <Name>AscensionProtocol</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Framework\CosmosFramework.csproj">
+    <ProjectReference Include="..\Framework\CFramework.csproj">
       <Project>{81a14e63-385f-4b83-b403-a6b7d6fc94d8}</Project>
-      <Name>CosmosFramework</Name>
+      <Name>CFramework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

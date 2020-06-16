@@ -15,7 +15,13 @@ namespace AscensionServer.Threads
         public virtual void OnInitialization() {
             EventDataDict = new Dictionary<byte, object>();
             SendParameter = new SendParameters();
+            EventData = new EventData();
         }
-        public  virtual void OnTermination() { }
+        protected EventData EventData { get; set; }
+        public  virtual void OnTermination()
+        {
+            EventDataDict.Clear();
+            EventData.Parameters.Clear();
+        }
     }
 }
