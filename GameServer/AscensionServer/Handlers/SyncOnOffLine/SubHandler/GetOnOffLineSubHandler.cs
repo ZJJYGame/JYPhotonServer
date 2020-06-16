@@ -36,31 +36,31 @@ namespace AscensionServer
             Utility.Assert.NotNull(obj, ()=>
             {
                 var Exptypeobj = Singleton<NHManager>.Instance.CriteriaGet<OnOffLine>(nHCriteriaRole);
-                if (Exptypeobj.ExpType==0)
+                if (Exptypeobj.ExpType==1)
                 {
-                    List<string> date = new List<string>();
-                    string AllExperience = (onofflinetemp.GongFaExp * interval.TotalSeconds / 5).ToString();
+                    List<int> date = new List<int>();
+                    int AllExperience = (int)(onofflinetemp.GongFaExp * interval.TotalSeconds / 5);
                     date.Add(AllExperience);
-                    date.Add(onofflinetemp.MsGfID.ToString());
-                    date.Add(Exptypeobj.ExpType.ToString());
+                    date.Add(Exptypeobj.MsGfID);
+                    date.Add(Exptypeobj.ExpType);
 
                     SetResponseData(() =>
                     {
-                        //AscensionServer._Log.Info("计算出功法的离线经验>>>>>>>>>" + AllExperience + ">>>>>>>>>>>>");
+                        //AscensionServer._Log.Info("计算出功法的离线经验>>>>>>>>>" + onofflinetemp.MsGfID.ToString() + ">>>>>>>>>>>>");
                         SubDict.Add((byte)ObjectParameterCode.OnOffLine, Utility.Json.ToJson(date));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
-                else if (Exptypeobj.ExpType== 1)
+                else if (Exptypeobj.ExpType==2)
                 {
-                    List<string> date = new List<string>();
-                    string AllExperience = (onofflinetemp.MiShuExp * interval.TotalSeconds / 5).ToString();
+                    List<int> date = new List<int>();
+                    int AllExperience =(int)(onofflinetemp.MiShuExp * interval.TotalSeconds / 5);
                     date.Add(AllExperience);
-                    date.Add(onofflinetemp.MsGfID.ToString());
-                    date.Add(Exptypeobj.ExpType.ToString());
+                    date.Add(Exptypeobj.MsGfID);
+                    date.Add(Exptypeobj.ExpType);
                     SetResponseData(() =>
                     {
-                        //AscensionServer._Log.Info("计算出秘書的离线经验>>>>>>>>>" + AllExperience + ">>>>>>>>>>>>");
+                        //AscensionServer._Log.Info("计算出秘書的离线经验>>>>>>>>>" + onofflinetemp.MsGfID.ToString() + ">>>>>>>>>>>>");
                         SubDict.Add((byte)ObjectParameterCode.OnOffLine, Utility.Json.ToJson(date));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
@@ -68,14 +68,14 @@ namespace AscensionServer
                 else {
                 SetResponseData(() =>
                 {
-                   // AscensionServer._Log.Info("计算出的离线经验>>>>>>>>> 爲空 >>>>>>>>>>>>");
+                    AscensionServer._Log.Info("计算出的离线经验>>>>>>>>> 爲空 >>>>>>>>>>>>");
                     SubDict.Add((byte)ObjectParameterCode.OnOffLine, Utility.Json.ToJson(new List<string>()));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
-        }
-            },() => SetResponseData(() =>
+                }
+            },()=> SetResponseData(() =>
             {
-               // AscensionServer._Log.Info("计算出的离线经验>>>>>>>>> 失敗 >>>>>>>>>>>>");
+                AscensionServer._Log.Info("计算出的离线经验>>>>>>>>> 失敗 >>>>>>>>>>>>");
                 SubDict.Add((byte)ObjectParameterCode.OnOffLine, Utility.Json.ToJson(new List<string>()));
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             }));

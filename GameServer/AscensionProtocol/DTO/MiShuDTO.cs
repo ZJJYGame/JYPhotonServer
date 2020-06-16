@@ -10,7 +10,7 @@ namespace AscensionProtocol.DTO
     public class MiShuDTO:ProtocolDTO
     {
         public virtual int ID { get; set; }
-        public virtual byte MiShuID { get; set; }
+        public virtual int MiShuID { get; set; }
         public virtual int MiShuExp { get; set; }
         public virtual short MiShuLevel { get; set; }
         public virtual string MiShuSkillArry { get; set; }

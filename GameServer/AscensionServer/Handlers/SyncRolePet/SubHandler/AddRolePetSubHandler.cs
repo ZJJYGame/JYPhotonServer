@@ -42,6 +42,7 @@ namespace AscensionServer
                     petstatusObj.PetID = petObj.ID;
                     petstatusObj = Singleton<NHManager>.Instance.Add<PetStatus>(petstatusObj);
                     petDict.Add(petObj.ID, petObj.PetID);
+                    
                     Singleton<NHManager>.Instance.Update(new RolePet() {RoleID = rolepet.RoleID,  PetIDDict = Utility.Json.ToJson(petDict) });
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
@@ -54,6 +55,7 @@ namespace AscensionServer
                     petstatusObj.PetID = petObj.ID;
                     petstatusObj = Singleton<NHManager>.Instance.Add<PetStatus>(petstatusObj);
                     petDict.Add(petObj.ID, petObj.PetID);
+
                     Singleton<NHManager>.Instance.Update(new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }

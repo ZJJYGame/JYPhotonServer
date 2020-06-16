@@ -7,8 +7,8 @@
     <ProjectGuid>{81A14E63-385F-4B83-B403-A6B7D6FC94D8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CosmosFramework</RootNamespace>
-    <AssemblyName>CosmosFramework</AssemblyName>
+    <RootNamespace>CFramework</RootNamespace>
+    <AssemblyName>CFramework</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
