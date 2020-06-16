@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Photon.SocketServer;
 using AscensionProtocol;
 using AscensionServer.Model;
-
+using Cosmos;
 namespace AscensionServer
 {
     public class AddGongFaSubHandler : SyncGongFaSubHandler
@@ -24,8 +24,8 @@ namespace AscensionServer
             string gfJson = Convert.ToString(Utility.GetValue(dict,(byte)ObjectParameterCode.GongFa));
             string rgfJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.RoleGongFa));
 
-            var rolegongfaObj = Utility.ToObject<RoleGongFa>(rgfJson);
-            var gongfaObj = Utility.ToObject<GongFa>(gfJson);
+            var rolegongfaObj = Utility.Json.ToObject<RoleGongFa>(rgfJson);
+            var gongfaObj = Utility.Json.ToObject<GongFa>(gfJson);
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolegongfaObj.RoleID);
             var roleGongFaObj = Singleton<NHManager>.Instance.CriteriaGet<RoleGongFa>(nHCriteriaRoleID);
             if (roleGongFaObj == null)
@@ -35,7 +35,7 @@ namespace AscensionServer
                 gongfaObj = Singleton<NHManager>.Instance.Add(gongfaObj);
                 List<string> gongfaIDList = new List<string>();
                 gongfaIDList.Add(gongfaObj.ID.ToString());
-                rolegongfaObj.GongFaIDArray = Utility.ToJson(gongfaIDList);
+                rolegongfaObj.GongFaIDArray = Utility.Json.ToJson(gongfaIDList);
             }
             else
             {
@@ -52,7 +52,7 @@ namespace AscensionServer
                 {
                     AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler  Update existed roleMiShuObj" + rgfJson + "\n >>>>>>>>>>>>");
 
-                    gongfaIDList = Utility.ToObject<List<string>>(roleGongFaObj.GongFaIDArray);
+                    gongfaIDList = Utility.Json.ToObject<List<string>>(roleGongFaObj.GongFaIDArray);
                     if (!gongfaIDList.Contains(gongfaObj.ID.ToString()))
                     {
                         gongfaIDList.Add(gongfaObj.ID.ToString());
@@ -61,7 +61,7 @@ namespace AscensionServer
                     else
                         AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler mishu is already existed !!" + rgfJson + "\n >>>>>>>>>>>>");
                 }
-                rolegongfaObj.GongFaIDArray = Utility.ToJson(gongfaIDList);
+                rolegongfaObj.GongFaIDArray = Utility.Json.ToJson(gongfaIDList);
                 Owner.OpResponse.ReturnCode =(short) ReturnCode.Success;
             }
             peer.SendOperationResponse(Owner.OpResponse,sendParameters);

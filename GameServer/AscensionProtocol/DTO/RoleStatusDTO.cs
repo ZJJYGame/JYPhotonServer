@@ -5,7 +5,7 @@ using System.Text;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class RoleStatusDTO:ProtocolDTO
+    public class RoleStatusDTO : ProtocolDTO
     {
         public virtual int RoleID { get; set; }
         public virtual int RoleMaxHP { get; set; }
@@ -41,8 +41,28 @@ namespace AscensionProtocol.DTO
         public override string ToString()
         {
             string str = "";
-            str += "roleid:" + RoleID + ">>roleHp" + RoleHP + ">>roleMP" + RoleMP+">>roleShenhun"+RoleShenhun+">>roleJingxue"+RoleJingXue;
+            str += "roleid:" + RoleID + ">>roleHp" + RoleHP + ">>roleMP" + RoleMP + ">>roleShenhun" + RoleShenhun + ">>roleJingxue" + RoleJingXue;
             return str;
+        }
+        public override void Clear()
+        {
+            RoleID = -1;
+            RoleMaxHP = 0;
+            RoleHP = 0;
+            RoleMaxMP = 0;
+            RoleMP = 0;
+            RoleJingXue = 0;
+            RoleAttackDamage = 0;
+            RoleResistanceDamage = 0;
+            RoleAttackPower = 0;
+            RoleResistancePower = 0;
+            RoleSpeedAttack = 0;
+            RoleShenhun = 0;
+            RoleMaxShenhun = 0;
+            RoleShenHunDamage = 0;
+            RoleShenHunResistance = 0;
+            RoleCrit = 0;
+            RoleCritResistance = 0;
         }
     }
 }

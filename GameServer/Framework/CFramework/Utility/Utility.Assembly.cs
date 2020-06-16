@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace AscensionServer
+namespace Cosmos
 {
     public  sealed partial class Utility
     {
@@ -26,7 +25,10 @@ namespace AscensionServer
             public static string GetTypeFullName(Type type, string name)
             {
                 if (type == null)
-                    throw new Exception("Type is invalid.无效类");
+                {
+                    DebugError("Type is invalid.无效类");
+                    return null;
+                }
                 string typeName = type.FullName;
                 return string.IsNullOrEmpty(name) ? typeName : Utility.Text.Format(typeName, name);
             }
@@ -45,28 +47,12 @@ namespace AscensionServer
                 Type type = assembly.GetType(typeFullName);
                 if (type != null)
                 {
-                    //        var obj = Activator.CreateInstance(type) as T;
-                    //TODO 反射失败
                     var obj = assembly.CreateInstance(typeFullName) as T;
                     return obj;
                 }
                 else
                 {
-                    throw new Exception("Type : Assembly" + type.AssemblyQualifiedName + "Not exist!");
-                }
-            }
-            public static object GetTypeInstance(System.Reflection.Assembly assembly, string typeFullName)
-            {
-                Type type = assembly.GetType(typeFullName);
-                if (type != null)
-                {
-                    AscensionServer._Log.Info("Utility.Assembly>>>>>>>>>>>>>" + type.FullName + "<<<<<<<<<<<<<<<<<<");
-                    var obj = Activator.CreateInstance(type);
-                    return obj;
-                }
-                else
-                {
-                    throw new Exception("Type :" + typeFullName + "  not exist,check your fullName !");
+                    throw new CFrameworkException("Type : Assembly" + type.AssemblyQualifiedName + "Not exist!");
                 }
             }
             /// <summary>
@@ -79,7 +65,7 @@ namespace AscensionServer
             /// <param name="typeFullName">完全限定名</param>
             /// <returns>返回T类型的目标类型对象</returns>
             public static T GetTypeInstance<T>(Type type, string typeFullName)
-                where T : class,new()
+                where T : class
             {
                 return GetTypeInstance<T>(type.Assembly, typeFullName);
             }
@@ -92,7 +78,7 @@ namespace AscensionServer
             /// <param name="typeFullName">完全限定名</param>
             /// <returns>返回T类型的目标类型对象</returns>
             public static T GetTypeInstance<T>(T arg, string typeFullName)
-                where T : class,new()
+                where T : class
             {
                 return GetTypeInstance<T>(typeof(T).Assembly, typeFullName);
             }
@@ -106,6 +92,18 @@ namespace AscensionServer
             public static object GetTypeInstance(Type type)
             {
                 return type.Assembly.CreateInstance(type.FullName);
+            }
+            /// <summary>
+            /// 反射工具，得到反射类的对象；
+            /// T传入一个对象，获取这个对象的程序集，再由完全限定名获取具体对象
+            /// 不可反射Mono子类，被反射对象必须是具有无参公共构造
+            /// </summary>
+            /// <typeparam name="T">泛型对象，需要此对象的程序集</typeparam>
+            /// <param name="fullName">完全限定名</param>
+            /// <returns>装箱后的对象</returns>
+            public static object GetTypeInstance<T>(string fullName)
+            {
+                return typeof(T).Assembly.CreateInstance(fullName);
             }
         }
     }

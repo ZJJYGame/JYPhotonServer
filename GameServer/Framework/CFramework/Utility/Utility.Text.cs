@@ -1,12 +1,6 @@
-﻿/*
-*Author : Don
-*Since 	:2020-05-05
-*Description  : 同用工具分部类，字段工具
-*/
-using System;
+﻿using System;
 using System.Text;
-namespace AscensionServer
-{ 
+namespace Cosmos { 
     public sealed partial class Utility
     {
         public static class Text
@@ -33,11 +27,11 @@ namespace AscensionServer
             {
                 if (format == null)
                 {
-                    throw new Exception("Format is invalid.");
+                    throw new CFrameworkException("Format is invalid.");
                 }
                 if (args == null)
                 {
-                    throw new Exception("Args is invalid.");
+                    throw new CFrameworkException("Args is invalid.");
                 }
                 StringBuilderCache.Length = 0;
                 StringBuilderCache.AppendFormat(format, args);
@@ -53,11 +47,11 @@ namespace AscensionServer
             {
                 if (string.IsNullOrEmpty(format))
                 {
-                    throw new Exception("Format is invalid.");
+                    throw new CFrameworkException("Format is invalid.");
                 }
                 if (arg==null)
                 {
-                    throw new Exception("Arg is invalid.");
+                    throw new CFrameworkException("Arg is invalid.");
                 }
                 StringBuilderCache.Length = 0;
                 StringBuilderCache.AppendFormat(format, arg);
@@ -114,7 +108,7 @@ namespace AscensionServer
                 if (string.IsNullOrEmpty(fullString) || string.IsNullOrEmpty(separator.ToString()))
                 {
                     //DebugError("charCount \n string invaild!");
-                    throw new Exception("charCount \n string invaild!");
+                    throw new CFrameworkException("charCount \n string invaild!");
                     //return 0;
                 }
                 int count = 0;

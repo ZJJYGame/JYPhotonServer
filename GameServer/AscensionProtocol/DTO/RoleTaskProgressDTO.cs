@@ -7,6 +7,11 @@ namespace AscensionProtocol.DTO
     {
         public virtual int RoleID { get; set; }
         public virtual Dictionary<int,RoleTaskItemDTO> RoleTaskInfoDic { get; set; }
+        public override void Clear()
+        {
+            RoleID = -1;
+            RoleTaskInfoDic.Clear();
+        }
     }
     [Serializable]
     public class RoleTaskItemDTO

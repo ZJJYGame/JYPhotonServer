@@ -4,20 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AscensionServer
+namespace Cosmos
 {
     /// <summary>
-    /// 生命周期接口
-    /// </summary>
-    public interface IBehaviour
+    /// 可控生命周期接口，
+    /// 能够暂停、恢复
+    public interface IControllable
     {
         /// <summary>
-        /// 初始化
+        /// 暂停
         /// </summary>
-        void OnInitialization();
+        void OnPause();
         /// <summary>
-        /// 终止
+        /// 恢复暂停
         /// </summary>
-        void OnTermination();
+        void OnUnPause();
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol;
 using Photon.SocketServer;
-
+using Cosmos;
 namespace AscensionServer
 {
     /// <summary>
@@ -26,7 +26,7 @@ namespace AscensionServer
         protected virtual Dictionary<byte, object> ParseSubDict(OperationRequest operationRequest)
         {
             string subDataJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)OperationCode.SubOpCodeData));
-            var subDataObj = Utility.ToObject<Dictionary<byte, object>>(subDataJson);
+            var subDataObj = Utility.Json.ToObject<Dictionary<byte, object>>(subDataJson);
             Owner.ResponseData.Clear();
             Owner.OpResponse.OperationCode = operationRequest.OperationCode;
             Owner.ResponseData.Add((byte)OperationCode.SubOperationCode, (byte)SubOpCode);
@@ -44,7 +44,7 @@ namespace AscensionServer
         {
             SubDict.Clear();
             callBack?.Invoke();
-            Owner.ResponseData.Add((byte)OperationCode.SubOpCodeData, Utility.ToJson(SubDict));
+            Owner.ResponseData.Add((byte)OperationCode.SubOpCodeData, Utility.Json.ToJson(SubDict));
             Owner.OpResponse.Parameters = Owner.ResponseData;
         }
     }

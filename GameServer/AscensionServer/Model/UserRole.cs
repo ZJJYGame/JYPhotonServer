@@ -5,7 +5,7 @@
  */
 using System;
 using System.Collections.Generic;
-
+using Cosmos;
 namespace AscensionServer.Model
 {
     [Serializable]

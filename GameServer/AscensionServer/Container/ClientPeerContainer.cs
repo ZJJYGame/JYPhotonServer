@@ -15,15 +15,14 @@ namespace AscensionServer
     /// <summary>
     /// 客户普通端容器，广播消息时减少服务器压力。
     /// </summary>
-    public class ClientPeerContainer : IOperable<AscensionPeer>
+    public class ClientPeerContainer 
     {
         Dictionary<string, AscensionPeer> peerDict = new Dictionary<string, AscensionPeer>();
-
         public void Add(AscensionPeer data)
         {
             try
             {
-                peerDict.Add(data.User. Account, data);
+                peerDict.Add(data.PeerCache. Account, data);
             }
             catch (Exception)
             {
@@ -51,7 +50,7 @@ namespace AscensionServer
         {
             try
             {
-                peerDict.Remove(data.User. Account);
+                peerDict.Remove(data.PeerCache. Account);
             }
             catch (Exception)
             {
@@ -63,7 +62,7 @@ namespace AscensionServer
         {
             try
             {
-                peerDict[data.User. Account] = data;
+                peerDict[data.PeerCache. Account] = data;
             }
             catch (Exception)
             {

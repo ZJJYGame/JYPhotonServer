@@ -10,37 +10,37 @@ using System.Collections.Generic;
 using AscensionServer.Model;
 using AscensionProtocol.DTO;
 using System;
+using Cosmos;
 namespace AscensionServer
 {
     //管理跟客户端的链接的
     public class AscensionPeer : ClientPeer
     {
         /// <summary>
-        /// 一个Peer保存当前登录的用户
+        /// 保存当前用户登录的信息与状态
         /// </summary>
-        User user;
-        public User User { get { if (user == null) user = new User(); return user; } set { user = value; } }
-        OnlineStatusDTO onlineStateDTO;
-        public OnlineStatusDTO OnlineStateDTO { get { return onlineStateDTO; } set { onlineStateDTO = value; } }
-        public float x, y, z;
+        PeerCache peerCache;
+        public PeerCache PeerCache { get { return peerCache; } set { peerCache = value; } }
+        //public float x, y, z;
         public RoleTransformDTO RoleTransform { get; set; }
         public string RoleTransformJson { get; set; }
-
-        public int SetIndex { get; set; }
         /// <summary>
         /// Peer的UUID
         /// </summary>
         public string PeerGUID { get; set; }
-        public AscensionPeer(InitRequest initRequest) : base(initRequest) { }
+        public AscensionPeer(InitRequest initRequest) : base(initRequest)
+        {
+            peerCache = new PeerCache();
+            RoleTransform = new RoleTransformDTO();
+        }
         //处理客户端断开连接的后续工作
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
-            
             EventData ed = new EventData((byte)EventCode.DeletePlayer);
             Dictionary<byte, object> data = new Dictionary<byte, object>();
-            data.Add((byte)ObjectParameterCode.User,onlineStateDTO);
+            data.Add((byte)ObjectParameterCode.User,peerCache);
             ed.Parameters = data;
-            if (this.User.Account != null)
+            if (this.PeerCache.Account != null)
             {
                 if (AscensionServer.Instance.HasOnlineID(this) != 0)
                 {
@@ -48,14 +48,11 @@ namespace AscensionServer
                 }
                 AscensionServer.Instance.Offline(this);
             }
-
             AscensionServer.Instance.Logoff(this);
-            foreach (AscensionPeer tmpPeer in AscensionServer.Instance.ConnectedPeerHashSet)
+            foreach (AscensionPeer tmpPeer in AscensionServer.Instance.LoggedPeerCache.Dict.Values)
             {
                 tmpPeer.SendEvent(ed, new SendParameters());                      
             }
-           
-
         }
         //处理客户端的请求
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
@@ -76,28 +73,28 @@ namespace AscensionServer
         }
         public void Login(User user)
         {
-            this.User.Account = user.Account;
-            this.User.UUID = user.UUID;
-            this.User.Password = user.Password;
+            this.PeerCache.Account = user.Account;
+            this.PeerCache.UUID= user.UUID;
+            this.PeerCache.Password= user.Password;
         }
         public void Logoff()
         {
-            this.User.Account = null;
-            this.User.UUID = null;
-            this.User.Password = null;
+            this.PeerCache.Account =null;
+            this.PeerCache.UUID = null;
+            this.PeerCache.Password =null;
         }
         public override string ToString()
         {
-            return "######Account : " + User.Account + " ; Password : " + User.Password + "; UUID : " + User.UUID+"######";
+            return "######Account : " + PeerCache.Account + " ; Password : " + PeerCache.Password + "; UUID : " + PeerCache.UUID+"######";
         }
         //记录客户端离线时间
         protected void RecordOnOffLine(int roleid)
         {
             AscensionServer._Log.Info("同步离线时间成功");
             OffLineTimeDTO offLineTime = new OffLineTimeDTO() { RoleID = roleid };
-            string onofflineJson = Utility.ToJson(offLineTime);
+            string onofflineJson = Utility.Json.ToJson(offLineTime);
             //////
-            var onofflinetemp = Utility.ToObject<OffLineTime>(onofflineJson);
+            var onofflinetemp = Utility.Json.ToObject<OffLineTime>(onofflineJson);
 
             NHCriteria nHCriteriaOnoff = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
             var obj = Singleton<NHManager>.Instance.CriteriaGet<OffLineTime>(nHCriteriaOnoff);

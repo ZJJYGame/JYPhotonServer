@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Photon.SocketServer;
 using AscensionProtocol;
 using AscensionServer.Model;
+using Cosmos;
 namespace AscensionServer
 {
     public class UpdateGongFaSubHandler : SyncGongFaSubHandler
@@ -22,8 +23,8 @@ namespace AscensionServer
             var receivedData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.GongFa));
             AscensionServer._Log.Info(">>>>>>>>>>>>接收功法数据：" + receivedRoleData + ">>>>>>>>>>>>>>>>>>>>>>");
             AscensionServer._Log.Info(">>>>>>>>>>>>接收功法数据：" + receivedData + ">>>>>>>>>>>>>>>>>>>>>>");
-            var receivedRoleObj = Utility.ToObject<RoleGongFa>(receivedRoleData);
-            var receivedObj = Utility.ToObject<GongFa>(receivedData);
+            var receivedRoleObj = Utility.Json.ToObject<RoleGongFa>(receivedRoleData);
+            var receivedObj = Utility.Json.ToObject<GongFa>(receivedData);
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<RoleGongFa>(nHCriteriaRoleID);
             int intInfoObj = 0;
@@ -36,7 +37,7 @@ namespace AscensionServer
                 if (existGongFa)
                 {
                     GongFa GongfaInfoExp = Singleton<NHManager>.Instance.CriteriaGet<GongFa>(nHCriteriaGongFaID);
-                    foreach (var item in Utility.ToObject<List<string>>(GongfaInfo.GongFaIDArray))
+                    foreach (var item in Utility.Json.ToObject<List<string>>(GongfaInfo.GongFaIDArray))
                     {
                         if (int.Parse(item) == receivedObj.ID)
                         {

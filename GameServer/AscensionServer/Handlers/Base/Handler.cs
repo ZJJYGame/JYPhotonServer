@@ -8,6 +8,7 @@ using AscensionProtocol;
 using System.Collections.Generic;
 using System;
 using System.Reflection;
+using Cosmos;
 namespace AscensionServer
 {
     public abstract class  Handler:IHandler

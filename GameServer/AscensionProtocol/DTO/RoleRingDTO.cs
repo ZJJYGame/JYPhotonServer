@@ -10,5 +10,10 @@ namespace AscensionProtocol.DTO
     {
         public virtual int RoleID { get; set; }
         public virtual string RingIdArray { get; set; }
+        public override void Clear()
+        {
+            RoleID = -1;
+            RingIdArray = null;
+        }
     }
 }

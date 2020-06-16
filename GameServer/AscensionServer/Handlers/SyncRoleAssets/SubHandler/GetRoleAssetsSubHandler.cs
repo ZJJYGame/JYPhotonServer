@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Photon.SocketServer;
 using AscensionProtocol;
 using AscensionServer.Model;
+using Cosmos;
 namespace AscensionServer
 {
     public class GetRoleAssetsSubHandler : SyncRoleAssetsSubHandler
@@ -20,7 +21,7 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string roleJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.Role));
             AscensionServer._Log.Info(">>>>>>>>>>>>>GetRoleAssetsSubHandler\n" + roleJson + "\n GetRoleAssetsSubHandler >>>>>>>>>>>>>>>>>>>>>>");
-            var roleObj = Utility.ToObject<Role>(roleJson);
+            var roleObj = Utility.Json.ToObject<Role>(roleJson);
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
             var obj =Singleton<NHManager>.Instance.CriteriaGet<Role>(nHCriteriaRoleID);
             Utility.Assert.NotNull(obj,() =>
@@ -31,7 +32,7 @@ namespace AscensionServer
                         AscensionServer._Log.Info(">>>>>>>>>>>>>\n GetRoleAssetsSubHandler  " + roleObj.RoleID+ "  GetRoleAssetsSubHandler  \n >>>>>>>>>>>>>>>>>>>>>>");
                        result= Singleton<NHManager>.Instance.Add(new RoleAssets() { RoleID = roleObj.RoleID});
                     });
-                    string roleAssetsJson = Utility.ToJson(result);
+                    string roleAssetsJson = Utility.Json.ToJson(result);
                     SetResponseData(() =>
                     {
                         SubDict.Add((byte)ObjectParameterCode.RoleAssets, roleAssetsJson);

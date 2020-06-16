@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AscensionProtocol;
 using Photon.SocketServer;
 using AscensionServer.Model;
+using Cosmos;
 namespace AscensionServer
 {
     public class UpdateRoleSubHandler : SyncRoleSubHandler
@@ -20,7 +21,7 @@ namespace AscensionServer
         {
             string rolestatusJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role));
             AscensionServer._Log.Info(">>>>>>>>>>>>VerifyRoleStatusHandler\n传输过来更新的战斗数据:" + rolestatusJson + "VerifyRoleStatusHandler\n<<<<<<<<<<<");
-            var rolestatusObj = Utility.ToObject<RoleStatus>(rolestatusJson);
+            var rolestatusObj = Utility.Json.ToObject<RoleStatus>(rolestatusJson);
             NHCriteria nHCriteriaRoleStatue = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolestatusObj.RoleID);
             Owner.ResponseData.Clear();
             Owner.OpResponse.OperationCode = operationRequest.OperationCode;

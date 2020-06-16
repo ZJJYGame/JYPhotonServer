@@ -11,7 +11,7 @@ using System.Timers;
 using Photon.SocketServer;
 using EventData = Photon.SocketServer.EventData;
 using System.Threading;
-
+using Cosmos;
 namespace AscensionServer.Threads
 {
     public class SyncRoleTransformEvent : SyncEvent
@@ -21,30 +21,31 @@ namespace AscensionServer.Threads
             while (true)
             {
                 Thread.Sleep(AscensionConst.ThreadExecuteInterval);
-                AscensionServer._Log.Info("SyncRoleTransformEvent test");
+                //AscensionServer._Log.Info("SyncRoleTransformEvent test");
                 //SendPosition();
             }
         }
         public void SendPosition()
         {
-            List<PlayerDataDTO> playerDatraList = new List<PlayerDataDTO>();
-            foreach (var peer in AscensionServer.Instance.PeerList)
+            List<RoleDataDTO> roleDataList= new List<RoleDataDTO>();
+            foreach (var peer in AscensionServer.Instance.LoggedPeer)
             {
-                if (string.IsNullOrEmpty(peer.User.Account) == false)
+                if (string.IsNullOrEmpty(peer.PeerCache.Account) == false)
                 {
                     PlayerDataDTO playerData = new PlayerDataDTO();
-                    playerData.Username = peer.User.Account;
-                    playerData.pos = new Vector3DataDTO() { x = peer.x, y = peer.y, z = peer.z };
-                    playerDatraList.Add(playerData);
+                    playerData.Username = peer.PeerCache.Account;
+                    //playerData.pos = new Vector3DataDTO() { x = peer.x, y = peer.y, z = peer.z };
+                    //playerDatraList.Add(playerData);
                 }
             }
-            EventDataDict.Add((byte)ParameterCode.PlayerDataList, Utility.ToJson(playerDatraList));
+            EventDataDict.Add((byte)ParameterCode.PlayerDataList, Utility.Json.ToJson(roleDataList));
             EventData ed = new EventData((byte)EventCode.SyncRoleTransform);
+            ed.Parameters = EventDataDict;
+
             foreach (var loggedPeer in AscensionServer.Instance.LoginPeerDict.Values)
             {
-                if (string.IsNullOrEmpty(loggedPeer.OnlineStateDTO.Account) == false)
+                if (string.IsNullOrEmpty(loggedPeer.PeerCache.Account) == false)
                 {
-                    ed.Parameters = EventDataDict;
                     loggedPeer.SendEvent(ed, SendParameter);
                 }
             }

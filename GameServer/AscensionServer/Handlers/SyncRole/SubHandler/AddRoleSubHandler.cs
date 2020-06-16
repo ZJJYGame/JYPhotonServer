@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AscensionProtocol;
 using Photon.SocketServer;
 using AscensionServer.Model;
+using Cosmos;
 namespace AscensionServer
 {
     /// <summary>
@@ -22,13 +23,13 @@ namespace AscensionServer
         {
             var dict = ParseSubDict(operationRequest);
             string roleJsonTmp = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.Role));
-            Role roleTmp = Utility.ToObject<Role>(roleJsonTmp);
+            Role roleTmp = Utility.Json.ToObject<Role>(roleJsonTmp);
             NHCriteria nHCriteriaRoleName = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleName", roleTmp.RoleName);
             var isExisted = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleName);
             if (isExisted)
                 AscensionServer._Log.Info("----------------------------  Role >>Role name:+" + roleTmp.RoleName + " already exist !!!  ---------------------------------");
             Role role = Singleton<NHManager>.Instance.CriteriaGet<Role>(nHCriteriaRoleName);//根据username查询数据
-            string str_uuid = peer.User.UUID;
+            string str_uuid = peer.PeerCache.UUID;
             NHCriteria nHCriteriaUUID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("UUID", str_uuid);
             var userRole = Singleton<NHManager>.Instance.CriteriaGet<UserRole>(nHCriteriaUUID);
             string roleJson = userRole.RoleIDArray;
@@ -39,10 +40,10 @@ namespace AscensionServer
             {
                 List<string> roleList = new List<string>();
                 if (!string.IsNullOrEmpty(roleJson))
-                    roleList = Utility.ToObject<List<string>>(roleJson);
+                    roleList = Utility.Json.ToObject<List<string>>(roleJson);
                 //添加输入的用户进数据库
                 role = roleTmp;
-                var rolestatus = Utility.ToObject<RoleStatus>(roleStatusJson);
+                var rolestatus = Utility.Json.ToObject<RoleStatus>(roleStatusJson);
                 role = Singleton<NHManager>.Instance.Add<Role>(role);
                 string roleId = role.RoleID.ToString();
                 if (!string.IsNullOrEmpty(roleJson))
@@ -53,10 +54,10 @@ namespace AscensionServer
                 Singleton<NHManager>.Instance.Add(rolestatus);
                 Singleton<NHManager>.Instance.Add(new RoleAssets() { RoleID = rolestatus.RoleID });
                 Singleton<NHManager>.Instance.Add(new OnOffLine() { RoleID = rolestatus.RoleID });
-                var userRoleJson = Utility.ToJson(roleList);
+                var userRoleJson = Utility.Json.ToJson(roleList);
                 Singleton<NHManager>.Instance.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
-                Owner.ResponseData.Add((byte)ObjectParameterCode.Role, Utility.ToJson(role));
+                Owner.ResponseData.Add((byte)ObjectParameterCode.Role, Utility.Json.ToJson(role));
                 Owner.OpResponse.Parameters = Owner.ResponseData;
             }
             else
