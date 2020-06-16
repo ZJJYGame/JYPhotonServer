@@ -64,7 +64,7 @@ namespace AscensionServer
                                 {
                                     var severValue = ServerDic[client_p.Key];
                                     serverInfoItemCount = severValue.RingItemCount;
-                                    if (severValue.RingItemCount != client_p.Value.RingItemCount)
+                                    if ( client_p.Value.RingItemCount >=0)
                                     {
                                         serverInfoItemCount = severValue.RingItemCount + client_p.Value.RingItemCount;
                                         client_p.Value.RingItemCount = serverInfoItemCount;
@@ -75,7 +75,7 @@ namespace AscensionServer
                                         severInfoItemAdorn = client_p.Value.RingItemAdorn;
                                         client_p.Value.RingItemAdorn = severInfoItemAdorn;
                                     }
-
+                                    AscensionServer._Log.Info("背包数量" + client_p);
                                     Dic.Add(client_p.Key, client_p.Value);
                                     Singleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.ToJson(Dic) });
                                 }
