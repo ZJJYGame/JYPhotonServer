@@ -27,7 +27,7 @@ namespace AscensionServer
             if (exist)
             {
                 AscensionServer.Instance.Online(peer, roleObj.RoleID);
-                RoleStatus roleStatus = Singleton<NHManager>.Instance.CriteriaGet<RoleStatus>(nHCriteriaRoleId);
+                RoleStatus roleStatus = Singleton<NHManager>.Instance.CriteriaSelect<RoleStatus>(nHCriteriaRoleId);
                 AscensionServer._Log.Info("------------------------------------GetRoleStatusSubHandler\n" + "RoleStatus  : " + roleStatus + "\nGetRoleStatusSubHandler---------------------------------------");
                 string roleStatusJson = Utility.Json.ToJson(roleStatus);
                 SetResponseData(() => {SubDict.Add((byte)ObjectParameterCode.RoleStatus, roleStatusJson);});

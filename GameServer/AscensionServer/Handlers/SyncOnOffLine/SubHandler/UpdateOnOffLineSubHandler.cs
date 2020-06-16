@@ -34,17 +34,19 @@ namespace AscensionServer
             var onofflinetemp = Utility.Json.ToObject<OnOffLine>(subDataJson);
            
             NHCriteria nHCriteriaOnoff = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
-            var obj = Singleton<NHManager>.Instance.CriteriaGet<OnOffLine>(nHCriteriaOnoff);
-            Utility.Assert.NotNull(obj, () =>
+            var obj = Singleton<NHManager>.Instance.CriteriaSelect<OnOffLine>(nHCriteriaOnoff);
+            if (obj != null)
             {
                 Singleton<NHManager>.Instance.Update(onofflinetemp);
                 SetResponseData(() =>
                 {
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
-            }, () => { Singleton<NHManager>.Instance.Add(onofflinetemp); });
-
-            
+            }
+            else
+            {
+                Singleton<NHManager>.Instance.Insert(onofflinetemp);
+            }
             //peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaOnoff);
         }

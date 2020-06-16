@@ -24,21 +24,21 @@ namespace AscensionServer
 
             var petObj = Utility.Json.ToObject<Pet>(petJson);
             NHCriteria nHCriteriaPet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("PetID", petObj.PetID);
-
-            var PetObj = Singleton<NHManager>.Instance.CriteriaGet<Pet>(nHCriteriaPet);
-            Utility.Assert.NotNull(petJson,()=> 
+            var PetObj = Singleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriaPet);
+            if (!string.IsNullOrEmpty(petJson))
             {
-                petObj= Singleton<NHManager>.Instance.Add(petObj);
+                petObj = Singleton<NHManager>.Instance.Insert(petObj);
                 AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>添加宠物进来了》》》》》》》》》》》》》》》");
                 SetResponseData(() =>
                 {
                     SubDict.Add((byte)ObjectParameterCode.Pet, petObj);
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
-            },()=> SetResponseData(() =>
+            }
+            else
             {
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-            }));
+            }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
         }
     }

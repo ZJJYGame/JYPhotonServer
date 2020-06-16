@@ -9,7 +9,7 @@ using Cosmos;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class UserRole:Model
+    public class UserRole:DataObject
     {
         public virtual string UUID { get; set; }
         public virtual string RoleIDArray { get; set; }

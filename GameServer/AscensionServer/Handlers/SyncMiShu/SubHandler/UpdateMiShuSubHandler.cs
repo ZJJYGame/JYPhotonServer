@@ -31,12 +31,12 @@ namespace AscensionServer
             int intLevel = 0;
             if (exist)
             {
-                RoleMiShu MishuInfo = Singleton<NHManager>.Instance.CriteriaGet<RoleMiShu>(nHCriteriaRoleID);
+                RoleMiShu MishuInfo = Singleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriaRoleID);
                 NHCriteria nHCriteriaMiShuID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", receivedObj.ID);
                 bool existMiShu = Singleton<NHManager>.Instance.Verify<MiShu>(nHCriteriaMiShuID);
                 if (existMiShu)
                 {
-                    MiShu MishuInfoExp = Singleton<NHManager>.Instance.CriteriaGet<MiShu>(nHCriteriaMiShuID);
+                    MiShu MishuInfoExp = Singleton<NHManager>.Instance.CriteriaSelect<MiShu>(nHCriteriaMiShuID);
                     foreach (var item in Utility.Json.ToObject<List<string>>(MishuInfo.MiShuIDArray))
                     {
                         if (int.Parse(item) == receivedObj.ID)

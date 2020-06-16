@@ -9,6 +9,7 @@ using PhotonHostRuntimeInterfaces;
 using System.Collections.Generic;
 using AscensionServer.Model;
 using AscensionProtocol.DTO;
+using AscensionProtocol.BO;
 using System;
 using Cosmos;
 namespace AscensionServer
@@ -101,19 +102,21 @@ namespace AscensionServer
                 return;
             }
             NHCriteria nHCriteriaOnOff = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleID);
-            var obj = Singleton<NHManager>.Instance.CriteriaGet<OffLineTime>(nHCriteriaOnOff);
-            Utility.Assert.NotNull(obj, () =>
+            var obj = Singleton<NHManager>.Instance.CriteriaSelect<OffLineTime>(nHCriteriaOnOff);
+            if (obj != null)
             {
                 obj.OffTime = DateTime.Now.ToString();
                 obj.RoleID = roleID;
                 Singleton<NHManager>.Instance.Update(obj);
-            }, () => {
+            }
+            else
+            {
                 var offLineTimeTmp = Singleton<ReferencePoolManager>.Instance.Spawn<OffLineTime>();
                 offLineTimeTmp.RoleID = roleID;
                 offLineTimeTmp.OffTime = DateTime.Now.ToString();
-                Singleton<NHManager>.Instance.Add(offLineTimeTmp);
+                Singleton<NHManager>.Instance.Insert(offLineTimeTmp);
                 Singleton<ReferencePoolManager>.Instance.Despawn(offLineTimeTmp);
-            });
+            }
             Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaOnOff);
             AscensionServer._Log.Info("同步离线时间成功");
         }

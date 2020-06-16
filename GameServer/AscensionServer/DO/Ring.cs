@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class Ring:Model
+    public class Ring:DataObject
     {
         public virtual int ID { set; get; }
         public virtual int RingId { get; set; }

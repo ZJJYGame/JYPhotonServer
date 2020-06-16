@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class MiShu:Model
+    public class MiShu:DataObject
     {
         public virtual int ID { get; set; }
         public virtual int MiShuID { get; set; }

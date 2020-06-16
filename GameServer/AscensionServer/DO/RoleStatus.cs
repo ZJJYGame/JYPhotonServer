@@ -8,7 +8,7 @@ using System;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class RoleStatus:Model
+    public class RoleStatus:DataObject
     {
         public virtual int RoleID { get; set; }
         public virtual int RoleMaxHP { get; set; }

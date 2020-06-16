@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class Pet:Model
+    public class Pet:DataObject
     {
         public virtual int ID { get; set; }
         public virtual byte PetLevel { get; set; }

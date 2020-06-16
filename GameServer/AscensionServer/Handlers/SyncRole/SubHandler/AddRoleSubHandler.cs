@@ -28,10 +28,10 @@ namespace AscensionServer
             var isExisted = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleName);
             if (isExisted)
                 AscensionServer._Log.Info("----------------------------  Role >>Role name:+" + roleTmp.RoleName + " already exist !!!  ---------------------------------");
-            Role role = Singleton<NHManager>.Instance.CriteriaGet<Role>(nHCriteriaRoleName);//根据username查询数据
+            Role role = Singleton<NHManager>.Instance.CriteriaSelect<Role>(nHCriteriaRoleName);//根据username查询数据
             string str_uuid = peer.PeerCache.UUID;
             NHCriteria nHCriteriaUUID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("UUID", str_uuid);
-            var userRole = Singleton<NHManager>.Instance.CriteriaGet<UserRole>(nHCriteriaUUID);
+            var userRole = Singleton<NHManager>.Instance.CriteriaSelect<UserRole>(nHCriteriaUUID);
             string roleJson = userRole.RoleIDArray;
             string roleStatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.RoleStatus));
             //如果没有查询到代表角色没被注册过可用
@@ -44,17 +44,16 @@ namespace AscensionServer
                 //添加输入的用户进数据库
                 role = roleTmp;
                 var rolestatus = Utility.Json.ToObject<RoleStatus>(roleStatusJson);
-                role = Singleton<NHManager>.Instance.Add<Role>(role);
+                role = Singleton<NHManager>.Instance.Insert<Role>(role);
                 string roleId = role.RoleID.ToString();
                 if (!string.IsNullOrEmpty(roleJson))
                     roleList.Add(roleId);
                 else
                     roleList.Add(roleId);
                 rolestatus.RoleID = int.Parse(roleId);
-                Singleton<NHManager>.Instance.Add(rolestatus);
-                Singleton<NHManager>.Instance.Add(new RoleAssets() { RoleID = rolestatus.RoleID });
-                Singleton<NHManager>.Instance.Add(new OnOffLine() { RoleID = rolestatus.RoleID });
-
+                Singleton<NHManager>.Instance.Insert(rolestatus);
+                Singleton<NHManager>.Instance.Insert(new RoleAssets() { RoleID = rolestatus.RoleID });
+                Singleton<NHManager>.Instance.Insert(new OnOffLine() { RoleID = rolestatus.RoleID });
                 var userRoleJson = Utility.Json.ToJson(roleList);
                 Singleton<NHManager>.Instance.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;

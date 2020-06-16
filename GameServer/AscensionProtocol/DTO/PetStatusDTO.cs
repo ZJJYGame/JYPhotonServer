@@ -6,7 +6,7 @@ using System.Text;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class PetStatusDTO:ProtocolDTO
+    public class PetStatusDTO: DataTransferObject
     {
         public virtual int PetID { get; set; }
         public virtual short PetSpeed { get; set; }

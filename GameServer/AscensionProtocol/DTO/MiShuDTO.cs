@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class MiShuDTO:ProtocolDTO
+    public class MiShuDTO: DataTransferObject
     {
         public virtual int ID { get; set; }
         public virtual int MiShuID { get; set; }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class PetStatus:Model
+    public class PetStatus:DataObject
     {
         public virtual int PetID { get; set; }
         public virtual short PetSpeed { get; set; }

@@ -8,11 +8,11 @@ namespace AscensionServer
 {
    public interface INHManager
     {
-        T Add<T>(T data) where T : class, new();
+        T Insert<T>(T data) where T : class, new();
         void Update<T>(T data) where T:new();
-        void Remove<T>(T data) where T:new();
+        void Delete<T>(T data) where T:new();
         T Get<T>(object key) where T : new();
         //T CriteriaGet<T>(string columnName,object key) ;
-        T CriteriaGet<T>(params NHCriteria[] columns);
+        T CriteriaSelect<T>(params NHCriteria[] columns);
     }
 }

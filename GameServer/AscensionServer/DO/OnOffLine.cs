@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class OnOffLine :Model
+    public class OnOffLine :DataObject
     {
         public virtual int RoleID { get; set; }
         public virtual int GongFaExp { get; set; }
