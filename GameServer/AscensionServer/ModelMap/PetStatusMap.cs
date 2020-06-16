@@ -20,7 +20,7 @@ namespace AscensionServer
             Map(x => x.PetAttackDamage).Column("pet_attack_damage");
             Map(x => x.PetResistanceAttack).Column("pet_resistance_attack");
             Map(x => x.PetAbilityPower).Column("pet_ability_power");
-            Map(x => x.PetResistancePower).Column("pet_reistance_power");
+            Map(x => x.PetResistancePower).Column("pet_resistance_power");
             Map(x => x.PetSpeed).Column("pet_speed");
             Map(x => x.PetTalent).Column("pet_talent");
             Map(x => x.PetShenhun).Column("pet_shenhun");

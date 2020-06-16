@@ -145,12 +145,22 @@ namespace AscensionServer
         }
         public int HasOnlineID(AscensionPeer peer)
         {
-            if (onlinePeerDict.ContainsKey(peer.PeerCache.Account))
+            var result = loggedPeerCache.IsExists(peer.PeerCache.Account);
+            if (result)
             {
-                return onlinePeerDict[peer.PeerCache.Account].PeerCache.RoleID;
+                 loggedPeerCache.TryGetValue(peer.PeerCache.Account,out peer);
+              return  peer.PeerCache.RoleID;
             }
             else
                 return 0;
+            #region
+            //if (onlinePeerDict.ContainsKey(peer.PeerCache.Account))
+            //{
+            //    return onlinePeerDict[peer.PeerCache.Account].PeerCache.RoleID;
+            //}
+            //else
+            //    return 0;
+            #endregion
         }
         //处理登录冲突部分代码
         void ReplaceLogin(AscensionPeer peer)

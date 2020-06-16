@@ -41,6 +41,7 @@ namespace AscensionServer
                     List<string> date = new List<string>();
                     string AllExperience = (onofflinetemp.GongFaExp * interval.TotalSeconds / 5).ToString();
                     date.Add(AllExperience);
+                    date.Add(onofflinetemp.MsGfID.ToString());
                     date.Add(Exptypeobj.ExpType.ToString());
 
                     SetResponseData(() =>
@@ -55,6 +56,7 @@ namespace AscensionServer
                     List<string> date = new List<string>();
                     string AllExperience = (onofflinetemp.MiShuExp * interval.TotalSeconds / 5).ToString();
                     date.Add(AllExperience);
+                    date.Add(onofflinetemp.MsGfID.ToString());
                     date.Add(Exptypeobj.ExpType.ToString());
                     SetResponseData(() =>
                     {
