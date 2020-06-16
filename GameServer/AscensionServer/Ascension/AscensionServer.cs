@@ -131,6 +131,8 @@ namespace AscensionServer
         }
         public void Offline(AscensionPeer peer)
         {
+            if (!peer.PeerCache.IsLogged)
+                return;
             var result = loggedPeerCache.Remove(peer.PeerCache.Account);
             if (!result)
                 _Log.Info("----------------------------  can't  remove from logged Dict : " + peer.PeerCache.Account.ToString() + "------------------------------------");

@@ -42,7 +42,8 @@ namespace AscensionServer
         }
         public void Logoff(AscensionPeer peer)
         {
-            // TODO 修改回调
+            if (!peer.PeerCache.IsLogged)
+                return;
             var result = loggedPeerCache.Remove(peer.PeerCache.Account);
             if (result)
             {

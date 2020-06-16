@@ -48,7 +48,6 @@ namespace AscensionServer
                 }
                 AscensionServer.Instance.Offline(this);
             }
-
             AscensionServer.Instance.Logoff(this);
             foreach (AscensionPeer tmpPeer in AscensionServer.Instance.LoggedPeerCache.Dict.Values)
             {
@@ -74,11 +73,6 @@ namespace AscensionServer
         }
         public void Login(User user)
         {
-
-            //this.User.Account = user.Account;
-            //this.User.UUID = user.UUID;
-            //this.User.Password = user.Password;
-
             this.PeerCache.Account = user.Account;
             this.PeerCache.UUID= user.UUID;
             this.PeerCache.Password= user.Password;
@@ -88,9 +82,6 @@ namespace AscensionServer
             this.PeerCache.Account =null;
             this.PeerCache.UUID = null;
             this.PeerCache.Password =null;
-            //this.User.Account = null;
-            //this.User.UUID = null;
-            //this.User.Password = null;
         }
         public override string ToString()
         {
