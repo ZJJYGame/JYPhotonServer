@@ -214,6 +214,7 @@
     <Compile Include="ModelMap\RoleTaskProgressMap.cs" />
     <Compile Include="ModelMap\RoleWeaponMap.cs" />
     <Compile Include="ModelMap\WeaponMap.cs" />
+    <Compile Include="Model\Model.cs" />
     <Compile Include="Model\OffLineTime.cs" />
     <Compile Include="Model\OnOffLine.cs" />
     <Compile Include="Model\Pet.cs" />

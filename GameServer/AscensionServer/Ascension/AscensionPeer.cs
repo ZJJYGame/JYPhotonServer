@@ -40,19 +40,24 @@ namespace AscensionServer
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             data.Add((byte)ObjectParameterCode.User,peerCache);
             ed.Parameters = data;
-            if (this.PeerCache.Account != null)
+            if (peerCache.IsLogged)
             {
-                if (AscensionServer.Instance.HasOnlineID(this) != 0)
-                {
-                    RecordOnOffLine(AscensionServer.Instance.HasOnlineID(this));
-                }
-                AscensionServer.Instance.Offline(this);
+                RecordOnOffLine(AscensionServer.Instance.HasOnlineID(this));
             }
+            //if (this.PeerCache.Account != null)
+            //{
+            //    if (AscensionServer.Instance.HasOnlineID(this) != -1)
+            //    {
+            //        RecordOnOffLine(AscensionServer.Instance.HasOnlineID(this));
+            //    }
+            //    AscensionServer.Instance.Offline(this);
+            //}
             AscensionServer.Instance.Logoff(this);
             foreach (AscensionPeer tmpPeer in AscensionServer.Instance.LoggedPeerCache.Dict.Values)
             {
                 tmpPeer.SendEvent(ed, new SendParameters());                      
             }
+            AscensionServer. _Log.Info("***********************  Client Disconnect    ***********************");
         }
         //处理客户端的请求
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
@@ -88,20 +93,29 @@ namespace AscensionServer
             return "######Account : " + PeerCache.Account + " ; Password : " + PeerCache.Password + "; UUID : " + PeerCache.UUID+"######";
         }
         //记录客户端离线时间
-        protected void RecordOnOffLine(int roleid)
+        protected void RecordOnOffLine(int roleID)
         {
-            AscensionServer._Log.Info("同步离线时间成功");
-            OffLineTimeDTO offLineTime = new OffLineTimeDTO() { RoleID = roleid };
-            string onofflineJson = Utility.Json.ToJson(offLineTime);
-            //////
-            var onofflinetemp = Utility.Json.ToObject<OffLineTime>(onofflineJson);
-
-            NHCriteria nHCriteriaOnoff = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
-            var obj = Singleton<NHManager>.Instance.CriteriaGet<OffLineTime>(nHCriteriaOnoff);
+            if (roleID == -1)
+            {
+                AscensionServer._Log.Info("============AscensionPeer.RecordOnOffLine() : Can't RecordOnOffLine ============");
+                return;
+            }
+            NHCriteria nHCriteriaOnOff = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleID);
+            var obj = Singleton<NHManager>.Instance.CriteriaGet<OffLineTime>(nHCriteriaOnOff);
             Utility.Assert.NotNull(obj, () =>
             {
-                Singleton<NHManager>.Instance.Update(new OffLineTime() { RoleID = onofflinetemp.RoleID, OffTime = DateTime.Now.ToString() });            
-            }, () => { Singleton<NHManager>.Instance.Add<OffLineTime>(new OffLineTime() { RoleID = onofflinetemp.RoleID, OffTime = DateTime.Now.ToString() }); });
+                obj.OffTime = DateTime.Now.ToString();
+                obj.RoleID = roleID;
+                Singleton<NHManager>.Instance.Update(obj);
+            }, () => {
+                var offLineTimeTmp = Singleton<ReferencePoolManager>.Instance.Spawn<OffLineTime>();
+                offLineTimeTmp.RoleID = roleID;
+                offLineTimeTmp.OffTime = DateTime.Now.ToString();
+                Singleton<NHManager>.Instance.Add(offLineTimeTmp);
+                Singleton<ReferencePoolManager>.Instance.Despawn(offLineTimeTmp);
+            });
+            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaOnOff);
+            AscensionServer._Log.Info("同步离线时间成功");
         }
     }
  }

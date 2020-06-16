@@ -12,9 +12,14 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class RoleGongFa
+    public class RoleGongFa:Model
     {
         public virtual int RoleID { get; set; }
         public virtual string GongFaIDArray { get; set; }
+        public override void Clear()
+        {
+            RoleID = -1;
+            GongFaIDArray = null;
+        }
     }
 }

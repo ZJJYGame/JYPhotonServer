@@ -12,9 +12,14 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class RoleMiShu
+    public class RoleMiShu:Model
     {
         public virtual int RoleID { get; set; }
         public virtual string MiShuIDArray { get; set; }
+        public override void Clear()
+        {
+            RoleID = -1;
+            MiShuIDArray = null;
+        }
     }
 }

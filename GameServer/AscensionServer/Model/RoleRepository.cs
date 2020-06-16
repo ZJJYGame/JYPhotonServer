@@ -7,9 +7,14 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class RoleRepository
+    public class RoleRepository:Model
     {
         public virtual int RoleID { get; set; }
         public virtual string Items { get; set; }
+        public override void Clear()
+        {
+            RoleID = -1;
+            Items = null;
+        }
     }
 }

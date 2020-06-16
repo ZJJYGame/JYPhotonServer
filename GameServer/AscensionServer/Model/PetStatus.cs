@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class PetStatus
+    public class PetStatus:Model
     {
         public virtual int PetID { get; set; }
         public virtual short PetSpeed { get; set; }
@@ -24,5 +24,23 @@ namespace AscensionServer.Model
         public virtual short PetShenhun { get; set; }
         public virtual int PetShenhunDamage { get; set; }
         public virtual int PetShenhunResistance { get; set; }
+        public override void Clear()
+        {
+            PetID = 0;
+            PetSpeed = 0;
+            PetAttackDamage = 0;
+            PetResistanceAttack = 0;
+            PetAbilityPower = 0;
+            PetResistancePower = 0;
+            PetMaxHP = 0;
+            PetHP = 0;
+            PetMaxMP = 0;
+            PetMP = 0;
+            PetTalent = null;
+            PetMaxShenhun = 0;
+            PetShenhun = 0;
+            PetShenhunDamage = 0;
+            PetShenhunResistance = 0;
+        }
     }
 }

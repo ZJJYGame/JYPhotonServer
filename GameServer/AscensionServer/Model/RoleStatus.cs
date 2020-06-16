@@ -8,7 +8,7 @@ using System;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class RoleStatus
+    public class RoleStatus:Model
     {
         public virtual int RoleID { get; set; }
         public virtual int RoleMaxHP { get; set; }
@@ -27,5 +27,25 @@ namespace AscensionServer.Model
         public virtual int RoleShenHunResistance { get; set; }
         public virtual short RoleCrit { get; set; }
         public virtual short RoleCritResistance { get; set; }
+        public override void Clear()
+        {
+            RoleID = -1;
+            RoleMaxHP = 0;
+            RoleHP = 0;
+            RoleMaxMP = 0;
+            RoleMP = 0;
+            RoleJingXue = 0;
+            RoleAttackDamage = 0;
+            RoleResistanceDamage = 0;
+            RoleAttackPower = 0;
+            RoleResistancePower = 0;
+            RoleSpeedAttack = 0;
+            RoleShenhun = 0;
+            RoleMaxShenhun = 0;
+            RoleShenHunDamage = 0;
+            RoleShenHunResistance = 0;
+            RoleCrit = 0;
+            RoleCritResistance = 0;
+        }
     }
 }

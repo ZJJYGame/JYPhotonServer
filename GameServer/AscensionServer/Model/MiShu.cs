@@ -12,12 +12,20 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class MiShu
+    public class MiShu:Model
     {
         public virtual int ID { get; set; }
         public virtual byte MiShuID { get; set; }
         public virtual int MiShuExp { get; set; }
         public virtual short MiShuLevel { get; set; }
         public virtual string MiShuSkillArry { get; set; }
+        public override void Clear()
+        {
+            ID = -1;
+            MiShuID = 0;
+            MiShuExp = 0;
+            MiShuLevel = 0;
+            MiShuSkillArry = null;
+        }
     }
 }

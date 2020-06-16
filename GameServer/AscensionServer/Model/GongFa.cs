@@ -12,13 +12,21 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class GongFa
+    public class GongFa:Model
     {
         public virtual int ID { get; set; }
         public virtual byte GongFaID { get; set; }
         public virtual int GongFaExp { get; set; }
         public virtual short GongFaLevel { get; set; }
         public virtual string GongFaSkillArray { get; set; }
+        public override void Clear()
+        {
+            ID = -1;
+            GongFaID = 0;
+            GongFaExp = 0;
+            GongFaLevel = 0;
+            GongFaSkillArray = null;
+        }
     }
 }
 

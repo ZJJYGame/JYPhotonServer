@@ -73,16 +73,6 @@ namespace AscensionServer
         /// <typeparam name="K">查找类型</typeparam>
         /// <param name="key">查找索引字段</param>
         /// <param name="key"></param>
-        //public virtual T CriteriaGet<T>(string columnName, object key)
-        //{
-        //    using (ISession session = NHibernateHelper.OpenSession())
-        //    {
-        //        T data = session.CreateCriteria(typeof(T)).
-        //            Add(Restrictions.Eq(columnName, key))
-        //            .UniqueResult<T>();
-        //        return data;
-        //    }
-        //}
         public virtual T CriteriaGet<T>(params NHCriteria[] columns)
         {
             using (ISession session = NHibernateHelper.OpenSession())

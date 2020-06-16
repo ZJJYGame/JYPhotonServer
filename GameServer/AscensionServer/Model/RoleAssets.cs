@@ -7,7 +7,7 @@ using Cosmos;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class RoleAssets
+    public class RoleAssets:Model
     {
         public RoleAssets()
         {
@@ -25,6 +25,14 @@ namespace AscensionServer.Model
         {
             return Utility.Text.Format("{ RoleID : " + RoleID + " ; " + " SpiritStonesLow : " + SpiritStonesLow 
                 + ";SpiritStonesMedium" + SpiritStonesMedium+ ";SpiritStonesHigh"+ SpiritStonesHigh+ " ; XianYu"+ XianYu+"}");
+        }
+        public override void Clear()
+        {
+            RoleID = -1;
+            SpiritStonesLow = 0;
+            SpiritStonesMedium = 0;
+            SpiritStonesHigh = 0;
+            XianYu = 0;
         }
     }
 }

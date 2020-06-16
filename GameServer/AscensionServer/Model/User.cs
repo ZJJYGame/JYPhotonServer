@@ -9,7 +9,7 @@ using System;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class User
+    public class User:Model
     {
         public virtual string Account { get; set; }
         public virtual string Password { get; set; }
@@ -18,6 +18,12 @@ namespace AscensionServer.Model
         {
             User user = obj as User;
             return user.Account == this.Account && user.Password == this.Password ;
+        }
+        public override void Clear()
+        {
+            Account = null;
+            Password = null;
+            UUID = null;
         }
     }
 

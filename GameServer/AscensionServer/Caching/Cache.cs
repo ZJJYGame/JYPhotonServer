@@ -8,7 +8,6 @@ namespace AscensionServer
 {
     /// <summary>
     /// 这是一个缓存容器，利用hash存储key,dictionary存储 T value。
-    /// 使用了读写分离锁确保线程安全。
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class Cache<T>
@@ -99,7 +98,6 @@ namespace AscensionServer
                 if (exist)
                 {
                     value = dict[key];
-
                 }
                 return value;
             }

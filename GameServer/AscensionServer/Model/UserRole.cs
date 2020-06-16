@@ -9,7 +9,7 @@ using Cosmos;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class UserRole
+    public class UserRole:Model
     {
         public virtual string UUID { get; set; }
         public virtual string RoleIDArray { get; set; }
@@ -26,6 +26,11 @@ namespace AscensionServer.Model
         public override string ToString()
         {
             return Utility.Text.Format("UUID : " + UUID + ">>" + "Role_Id_Array : " + RoleIDArray + "\n");
+        }
+        public override void Clear()
+        {
+            UUID = null;
+            RoleIDArray = null;
         }
     }
 }

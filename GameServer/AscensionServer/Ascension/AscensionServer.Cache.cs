@@ -31,13 +31,13 @@ namespace AscensionServer
             if (result)
             {
                 peer.PeerCache.IsLogged = true;
-                _Log.Info("----------------------------  Server management logged peer : " + peer.ToString() + "------------------------------------");
+                _Log.Info("----------------------------  AscensionServer.Cache.Login() : Server management logged peer success : " + peer.ToString() + "------------------------------------");
             }
             else
             {
                 ReplaceLogin(peer);
                 loggedPeerCache.Set(peer.PeerCache.Account, peer);
-                _Log.Info("----------------------------  can't add into logged Dict------------------------------------" + loginPeerDict.ContainsKey(peer.PeerCache.Account));
+                _Log.Info("----------------------------  AscensionServer.Cache.Login() :  can't add into logged Dict------------------------------------" + loginPeerDict.ContainsKey(peer.PeerCache.Account));
             }
         }
         public void Logoff(AscensionPeer peer)
@@ -48,11 +48,11 @@ namespace AscensionServer
             if (result)
             {
                 peer.PeerCache.IsLogged = false;
-                _Log.Info("---------------------------- remove peer logoff : " + peer.ToString() + "------------------------------------");
+                _Log.Info("---------------------------- AscensionServer.Cache.Logoff() :remove peer logoff success : " + peer.ToString() + "------------------------------------");
             }
             else
             {
-                _Log.Info("----------------------------  can't  remove from logged Dict" + peer.ToString() + "------------------------------------");
+                _Log.Info("---------------------------- AscensionServer.Cache.Logoff() : can't  remove from logged Dict  : " + peer.ToString() + "------------------------------------");
             }
         }
     }
