@@ -10,13 +10,14 @@ using AscensionProtocol;
 using Photon.SocketServer;
 using AscensionServer.Model;
 using Cosmos;
+
 namespace AscensionServer
 {
-   public class GetPetHandler: SyncPetSubHandler
+    public class UpdatePetHandler : SyncPetSubHandler
     {
         public override void OnInitialization()
         {
-            SubOpCode = SubOperationCode.Get;
+            SubOpCode = SubOperationCode.Update;
             base.OnInitialization();
         }
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
@@ -28,21 +29,23 @@ namespace AscensionServer
             var petObj = Utility.Json.ToObject<Pet>(petJson);
             NHCriteria nHCriteriaPet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", petObj.ID);
             var pet = Singleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriaPet);
-            if (pet!=null)
+            if (pet != null)
             {
+                Singleton<NHManager>.Instance.Update<Pet>(pet);
                 SetResponseData(() =>
                 {
                     SubDict.Add((byte)ObjectParameterCode.Pet, Utility.Json.ToJson(pet));
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
-            }else
+            }
+            else
+            {
+                pet = Singleton<NHManager>.Instance.Insert<Pet>(pet);
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
+            }
+
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaPet);
-
         }
-
-       
-
     }
 }

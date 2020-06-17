@@ -121,8 +121,9 @@ namespace AscensionServer
                
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             }
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
+            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+
             #endregion
         }
 

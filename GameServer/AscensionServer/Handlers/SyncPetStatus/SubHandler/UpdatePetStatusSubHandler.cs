@@ -34,6 +34,7 @@ namespace AscensionServer
                 SetResponseData(() => Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail);
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriapetstatus);
         }
     }
 }

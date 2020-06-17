@@ -57,6 +57,7 @@ namespace AscensionServer
                         Singleton<NHManager>.Instance.Insert(new RoleGongFa() { RoleID = roleId });
                         gongFaDic.Add(roleId, new List<GongFa>());
                     }
+                    Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaGongFa);
                 }
                 Owner.OpResponse.Parameters = Owner.ResponseData;
                 Owner.ResponseData.Add((byte)ObjectParameterCode.GongFa, Utility.Json.ToJson(gongFaDic));
@@ -67,6 +68,7 @@ namespace AscensionServer
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+
         }
     }
 }
