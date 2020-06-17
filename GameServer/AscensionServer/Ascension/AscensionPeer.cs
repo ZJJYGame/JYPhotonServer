@@ -9,7 +9,6 @@ using PhotonHostRuntimeInterfaces;
 using System.Collections.Generic;
 using AscensionServer.Model;
 using AscensionProtocol.DTO;
-using AscensionProtocol.BO;
 using System;
 using Cosmos;
 namespace AscensionServer
@@ -45,14 +44,6 @@ namespace AscensionServer
             {
                 RecordOnOffLine(AscensionServer.Instance.HasOnlineID(this));
             }
-            //if (this.PeerCache.Account != null)
-            //{
-            //    if (AscensionServer.Instance.HasOnlineID(this) != -1)
-            //    {
-            //        RecordOnOffLine(AscensionServer.Instance.HasOnlineID(this));
-            //    }
-            //    AscensionServer.Instance.Offline(this);
-            //}
             AscensionServer.Instance.Logoff(this);
             foreach (AscensionPeer tmpPeer in AscensionServer.Instance.LoggedPeerCache.Dict.Values)
             {

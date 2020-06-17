@@ -8,6 +8,7 @@ namespace AscensionServer
     /// <summary>
     /// 用户登录后的缓存
     /// </summary>
+    [Serializable]
   public  class PeerCache
     {
         public bool IsLogged { get; set; }

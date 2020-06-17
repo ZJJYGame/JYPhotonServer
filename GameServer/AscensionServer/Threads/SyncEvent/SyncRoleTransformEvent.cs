@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using AscensionServer;
 using AscensionProtocol.DTO;
-using AscensionProtocol.BO;
 using AscensionProtocol;
 using ExitGames.Client.Photon;
 using System.Timers;
@@ -34,15 +33,16 @@ namespace AscensionServer.Threads
             var loggedList = AscensionServer.Instance.LoggedPeerCache.GetValuesList();
             if (loggedList.Count <= 0)
                 return;
-            roleTransformList.Capacity = loggedList.Count;
+            //roleTransformList.Capacity = loggedList.Count;
             for (int i = 0; i <loggedList.Count ; i++)
             {
                 var roleDataTmp = Singleton<ReferencePoolManager>.Instance.Spawn<RoleTransformDTO>();
                 roleDataTmp = loggedList[i].RoleTransform;
                 roleTransformList.Add(roleDataTmp);
             }
-            EventDataDict.Add((byte)ParameterCode.PlayerDataList, Utility.Json.ToJson(roleTransformList));
-            EventData = new EventData((byte)EventCode.SyncRoleTransform);
+            EventDataDict.Add((byte)ObjectParameterCode.RoleTransfrom, Utility.Json.ToJson(roleTransformList));
+            //EventData = new EventData((byte)EventCode.SyncRoleTransform);
+            EventData.Code = (byte)EventCode.SyncRoleTransform;
             EventData.Parameters = EventDataDict;
             for (int i = 0; i < loggedList.Count; i++)
             {

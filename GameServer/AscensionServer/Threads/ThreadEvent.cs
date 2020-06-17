@@ -18,10 +18,12 @@ namespace AscensionServer.Threads
         public static int SyncEventCount { get { return syncEventHash.Count; } }
         public static void AddSyncEvent(ISyncEvent syncEvent)
         {
+            syncEvent.OnInitialization();
             syncEventHash.Add(syncEvent);
         }
         public static void RemoveSyncEvent(ISyncEvent syncEvent)
         {
+            syncEvent.OnTermination();
             syncEventHash.Remove(syncEvent);
         }
         public static void ExecuteEvent()

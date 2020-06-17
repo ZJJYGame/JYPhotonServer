@@ -106,6 +106,12 @@
   <ItemGroup>
     <Compile Include="DO\DataObject.cs" />
     <Compile Include="Handlers\SyncRolePet\SubHandler\RemoveRolePetSubHandler.cs" />
+    <Compile Include="DO\Base\DataObject.cs" />
+    <Compile Include="Handlers\MQ\SubHandler\AddMQSubHandler.cs" />
+    <Compile Include="Handlers\MQ\SubHandler\GetMQSubHandler.cs" />
+    <Compile Include="Handlers\MQ\SubHandler\MQSubHandler.cs" />
+    <Compile Include="Handlers\MQ\SubHandler\RemoveMQSubHandler.cs" />
+    <Compile Include="Handlers\MQ\SubHandler\UpdateMQSubHandler.cs" />
     <Compile Include="Lite\Actor\Actor.cs" />
     <Compile Include="Lite\Actor\ActorCollection.cs" />
     <Compile Include="Lite\Actor\ActorGroup.cs" />
