@@ -49,8 +49,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AO\Base\ApplicationObject.cs" />
-    <Compile Include="BO\Base\BusinessObject.cs" />
     <Compile Include="DTO\BattleDataDTO.cs" />
     <Compile Include="DTO\Base\DataTransferObject.cs" />
     <Compile Include="DTO\GongFaDTO.cs" />

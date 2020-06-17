@@ -7,7 +7,6 @@ using Photon.SocketServer;
 using AscensionProtocol;
 using AscensionProtocol.DTO;
 using AscensionProtocol.VO;
-using AscensionProtocol.BO;
 using Cosmos;
 namespace AscensionServer
 {
