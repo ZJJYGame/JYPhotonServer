@@ -63,7 +63,7 @@ namespace AscensionServer
                                 {
                                     var severValue = ServerDic[client_p.Key];
                                     serverInfoItemCount = severValue.RingItemCount;
-                                    if ( client_p.Value.RingItemCount >=0)
+                                    if ( client_p.Value.RingItemCount > 0)
                                     {
                                         serverInfoItemCount = severValue.RingItemCount + client_p.Value.RingItemCount;
                                         client_p.Value.RingItemCount = serverInfoItemCount;
@@ -97,3 +97,5 @@ namespace AscensionServer
         }
     }
 }
+
+

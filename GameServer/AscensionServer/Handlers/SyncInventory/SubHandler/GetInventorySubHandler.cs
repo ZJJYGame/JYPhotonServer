@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +8,7 @@ using AscensionServer.Model;
 using NHibernate.Linq.Clauses;
 using AscensionProtocol.DTO;
 using Renci.SshNet.Security;
-using Newtonsoft.Json;
+using Cosmos;
 
 namespace AscensionServer
 {
@@ -27,8 +26,8 @@ namespace AscensionServer
             var InventoryData = Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Inventory) as string;
             AscensionServer._Log.Info(">>>>>接收roleId" + InventoryRoleData + ">>>>>>>>>>>>>");
             AscensionServer._Log.Info(">>>>>接收背包的数据" + InventoryData + ">>>>>>>>>>>>>");
-            var InventoryRoleObj = Utility.ToObject<RoleRing>(InventoryRoleData);
-            var InventoryObj = Utility.ToObject<RingDTO>(InventoryData);
+            var InventoryRoleObj = Utility.Json.ToObject<RoleRing>(InventoryRoleData);
+            var InventoryObj = Utility.Json.ToObject<RingDTO>(InventoryData);
 
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", InventoryRoleObj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<RoleRing>(nHCriteriaRoleID);
@@ -55,3 +54,4 @@ namespace AscensionServer
         }
     }
 }
+
