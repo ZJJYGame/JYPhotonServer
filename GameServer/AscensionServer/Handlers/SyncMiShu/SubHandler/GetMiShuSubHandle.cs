@@ -29,16 +29,16 @@ namespace AscensionServer
             {
                 var rMiShuObj = Singleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriamishu);
                 string rolemishuJson = rMiShuObj.MiShuIDArray;
-                List<string> roleIDlist;
+                Dictionary<int, int> roleIDict;
                 List<MiShu> miShuIdList = new List<MiShu>();
                 List<NHCriteria> nHCriteriaslist = new List<NHCriteria>();
                 if (!string.IsNullOrEmpty(rolemishuJson))
                 {
-                    roleIDlist = new List<string>();
-                    roleIDlist = Utility.Json.ToObject<List<string>>(rolemishuJson);
-                    for (int i = 0; i < roleIDlist.Count; i++)
+                    roleIDict = new Dictionary<int, int>();
+                    roleIDict = Utility.Json.ToObject<Dictionary<int, int>>(rolemishuJson);
+                    foreach (var roleid in roleIDict)
                     {
-                        NHCriteria tmpcriteria = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", int.Parse(roleIDlist[i]));
+                        NHCriteria tmpcriteria = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", roleid.Key);
                         MiShu miShu = Singleton<NHManager>.Instance.CriteriaSelect<MiShu>(tmpcriteria);
                         miShuIdList.Add(miShu);
                         nHCriteriaslist.Add(tmpcriteria);

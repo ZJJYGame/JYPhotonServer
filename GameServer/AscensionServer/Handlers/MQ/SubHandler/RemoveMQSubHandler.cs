@@ -16,9 +16,9 @@ namespace AscensionServer {
         }
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            AscensionServer._Log.Info("==================MQ==================");
-            AscensionServer._Log.Info("MQ消息       UpdateMQSubHandler");
-            AscensionServer._Log.Info("==================MQ==================");
+            //AscensionServer._Log.Info("==================MQ==================");
+            //AscensionServer._Log.Info("MQ消息       UpdateMQSubHandler");
+            //AscensionServer._Log.Info("==================MQ==================");
             var dict = ParseSubDict(operationRequest);
             SetResponseData(() => {
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;

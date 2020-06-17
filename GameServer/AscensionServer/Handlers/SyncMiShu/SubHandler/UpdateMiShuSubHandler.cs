@@ -37,9 +37,9 @@ namespace AscensionServer
                 if (existMiShu)
                 {
                     MiShu MishuInfoExp = Singleton<NHManager>.Instance.CriteriaSelect<MiShu>(nHCriteriaMiShuID);
-                    foreach (var item in Utility.Json.ToObject<List<string>>(MishuInfo.MiShuIDArray))
+                    foreach (var item in Utility.Json.ToObject<Dictionary<int,int>>(MishuInfo.MiShuIDArray))
                     {
-                        if (int.Parse(item) == receivedObj.ID)
+                        if (item.Key == receivedObj.ID)
                         {
                             if (receivedObj.MiShuLevel != 0)
                             {
