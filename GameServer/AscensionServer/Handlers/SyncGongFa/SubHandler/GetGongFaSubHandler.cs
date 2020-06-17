@@ -40,9 +40,9 @@ namespace AscensionServer
                         var roleIdArray = Singleton<NHManager>.Instance.CriteriaSelect<RoleGongFa>(nHCriteriaGongFa);
                         if (!string.IsNullOrEmpty(roleIdArray.GongFaIDArray))
                         {
-                            foreach (var gongFaId in Utility.Json.ToObject<List<int>>(roleIdArray.GongFaIDArray))
+                            foreach (var gongFaId in Utility.Json.ToObject<Dictionary<int, int>>(roleIdArray.GongFaIDArray))
                             {
-                                NHCriteria nHCriteriaGongFaId = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", gongFaId);
+                                NHCriteria nHCriteriaGongFaId = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", gongFaId.Key);
                                 var gongFaIdArray = Singleton<NHManager>.Instance.CriteriaSelect<GongFa>(nHCriteriaGongFaId);
                                 //AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>同步功法进来了>>>>>>>>>" + gongFaIdArray.GongFaID);
                                 gongFaIdList.Add(gongFaIdArray);
