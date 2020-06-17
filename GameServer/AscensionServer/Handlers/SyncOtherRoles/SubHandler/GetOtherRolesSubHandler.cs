@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Photon.SocketServer;
 using AscensionProtocol;
+using AscensionProtocol.DTO;
+using AscensionProtocol.VO;
 using Cosmos;
 namespace AscensionServer
 {
@@ -15,8 +17,13 @@ namespace AscensionServer
             SubOpCode = SubOperationCode.Get;
             base.OnInitialization();
         }
+        List<RoleDataVO> roleDataList = new List<RoleDataVO>();
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
+
+            var dict = ParseSubDict(operationRequest);
+
+
             //取得所有已经登陆（在线玩家）的用户名
             //List<string> userAccountList = new List<string>();
             //foreach (AscensionPeer tempPeer in AscensionServer.Instance.LoggedPeer)

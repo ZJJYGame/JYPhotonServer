@@ -28,7 +28,7 @@ namespace AscensionServer
         {
             string userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.User));
             var userObj = Utility.Json.ToObject<User>(userJson);
-            AscensionServer._Log.Info("\n 登出的账号" + userJson + ">>>>>>>>>>>>>>>>>>");
+            AscensionServer._Log.Info("LogoffHandler \n 登出的账号" + userJson + ">>>>>>>>>>>>>>>>>>");
             ResponseData.Clear();
             bool verified = peer.PeerCache.EqualUser(userObj);
             OpResponse.OperationCode = operationRequest.OperationCode;

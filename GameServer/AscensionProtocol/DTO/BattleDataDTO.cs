@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AscensionProtocol.DTO
 {
-    public class BattleDataDTO:ProtocolDTO
+    public class BattleDataDTO: DataTransferObject
     {
         public int TargetID { get; set; }
         public int InstructionID { get; set; }

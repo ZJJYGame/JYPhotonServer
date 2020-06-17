@@ -29,7 +29,7 @@ namespace AscensionServer
             if (exist)
             {
                 Dic = new Dictionary<int, RoleTaskItemDTO>();
-                var roleTaskInfo = Singleton<NHManager>.Instance.CriteriaGet<RoleTaskProgress>(nHCriteriaRoleID);
+                var roleTaskInfo = Singleton<NHManager>.Instance.CriteriaSelect<RoleTaskProgress>(nHCriteriaRoleID);
                 var ServerDic = Utility.Json.ToObject<Dictionary<int, RoleTaskItemDTO>>(roleTaskInfo.RoleTaskInfoDic);
 
                 if (roleTaskInfo.RoleTaskInfoDic != null)
@@ -57,7 +57,7 @@ namespace AscensionServer
             }
             else 
             {
-                Singleton<NHManager>.Instance.Add(new RoleTaskProgress() { RoleID = roletaskobj.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(roletaskobj.RoleTaskInfoDic) });
+                Singleton<NHManager>.Instance.Insert(new RoleTaskProgress() { RoleID = roletaskobj.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(roletaskobj.RoleTaskInfoDic) });
                 Owner.OpResponse.Parameters = Owner.ResponseData;
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             }

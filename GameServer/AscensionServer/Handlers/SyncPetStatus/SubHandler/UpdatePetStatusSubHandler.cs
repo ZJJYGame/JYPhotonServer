@@ -23,13 +23,16 @@ namespace AscensionServer
             string petstatusJson = Convert.ToString(Utility.GetValue(dict,(byte)ObjectParameterCode.PetStatus));
             var petstatusObj = Utility.Json.ToObject<PetStatus>(petstatusJson);
             NHCriteria nHCriteriapetstatus = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("PetID", petstatusObj.PetID);
-            Utility.Assert.Predicate(() => Singleton<NHManager>.Instance.Verify<PetStatus>(nHCriteriapetstatus), () =>
+            var result = Singleton<NHManager>.Instance.Verify<PetStatus>(nHCriteriapetstatus);
+            if (result)
             {
                 Singleton<NHManager>.Instance.Update(petstatusObj);
                 SetResponseData(() => Owner.OpResponse.ReturnCode = (short)ReturnCode.Success);
-            }, () => {
+            }
+            else
+            {
                 SetResponseData(() => Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail);
-            });
+            }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
         }
     }

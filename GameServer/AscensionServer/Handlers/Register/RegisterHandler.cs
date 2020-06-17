@@ -30,14 +30,14 @@ namespace AscensionServer
                 AscensionServer._Log.Info("==========\n  before add UUID ：" +userJson +"\n"+ userObj.UUID + "\n================");
 
                 //添加输入的用户和密码进数据库
-                userObj =  Singleton<NHManager>.Instance.Add(userObj);
+                userObj =  Singleton<NHManager>.Instance.Insert(userObj);
                 AscensionServer._Log.Info("==========\n after add UUID ：" + userJson + "\n" + userObj.UUID+"\n================");
                 NHCriteria nHCriteriaUUID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("UUID", userObj.UUID);
                 bool userRoleExist = Singleton<NHManager>.Instance.Verify<UserRole>(nHCriteriaUUID);
                 if (!userRoleExist)
                 {
                     var userRole = new UserRole() { UUID = userObj.UUID };
-                    Singleton<NHManager>.Instance.Add(userRole);
+                    Singleton<NHManager>.Instance.Insert(userRole);
                 }
             OpResponse.ReturnCode = (short)ReturnCode.Success;//返回成功
                 Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaUUID);

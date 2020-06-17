@@ -7,7 +7,7 @@ using AscensionProtocol;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-   public class RoleAssetsDTO:ProtocolDTO
+   public class RoleAssetsDTO: DataTransferObject
     {
         public virtual int RoleID { get; set; }
         public virtual int SpiritStonesLow { get; set; }

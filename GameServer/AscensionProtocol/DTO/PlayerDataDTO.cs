@@ -8,7 +8,7 @@ namespace AscensionProtocol.DTO
     [Serializable]
     [Obsolete("弃用，移步RoleTransformDTO")]
 
-    public class PlayerDataDTO: ProtocolDTO
+    public class PlayerDataDTO: DataTransferObject
     {
         public Vector3DataDTO pos { get; set; }
         public string Username { get; set; }

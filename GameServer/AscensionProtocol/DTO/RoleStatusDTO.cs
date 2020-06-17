@@ -5,7 +5,7 @@ using System.Text;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class RoleStatusDTO : ProtocolDTO
+    public class RoleStatusDTO : DataTransferObject
     {
         public virtual int RoleID { get; set; }
         public virtual int RoleMaxHP { get; set; }

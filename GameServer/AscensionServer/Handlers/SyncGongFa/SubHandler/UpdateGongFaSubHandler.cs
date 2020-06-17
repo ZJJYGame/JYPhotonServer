@@ -31,12 +31,12 @@ namespace AscensionServer
             int intLevel = 0; 
             if (exist)
             {
-                RoleGongFa GongfaInfo = Singleton<NHManager>.Instance.CriteriaGet<RoleGongFa>(nHCriteriaRoleID);
+                RoleGongFa GongfaInfo = Singleton<NHManager>.Instance.CriteriaSelect<RoleGongFa>(nHCriteriaRoleID);
                 NHCriteria nHCriteriaGongFaID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", receivedObj.ID);
                 bool existGongFa = Singleton<NHManager>.Instance.Verify<GongFa>(nHCriteriaGongFaID);
                 if (existGongFa)
                 {
-                    GongFa GongfaInfoExp = Singleton<NHManager>.Instance.CriteriaGet<GongFa>(nHCriteriaGongFaID);
+                    GongFa GongfaInfoExp = Singleton<NHManager>.Instance.CriteriaSelect<GongFa>(nHCriteriaGongFaID);
                     foreach (var item in Utility.Json.ToObject<List<string>>(GongfaInfo.GongFaIDArray))
                     {
                         if (int.Parse(item) == receivedObj.ID)

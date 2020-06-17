@@ -114,9 +114,10 @@ namespace AscensionServer
             {
                 peer.PeerCache.RoleID = roleid;
                 peer.PeerCache.IsLogged = true;
+                _Log.Info("----------------------------  AscensionServer.Offline() : online success : " + peer.PeerCache.Account.ToString() + "------------------------------------");
             }
             else
-                _Log.Info("----------------------------  can't set into  logged Dict : " + peer.PeerCache.Account.ToString() + "------------------------------------");
+                _Log.Info("---------------------------- AscensionServer.Online()  :  can't set into  logged Dict : " + peer.PeerCache.Account.ToString() + "------------------------------------");
             //try
             //{
             //    onlinePeerDict.Add(peer.PeerCache.Account, peer);
@@ -135,7 +136,9 @@ namespace AscensionServer
                 return;
             var result = loggedPeerCache.Remove(peer.PeerCache.Account);
             if (!result)
-                _Log.Info("----------------------------  can't  remove from logged Dict : " + peer.PeerCache.Account.ToString() + "------------------------------------");
+                _Log.Info("----------------------------  AscensionServer.Offline() :can't  remove from logged Dict : " + peer.PeerCache.Account.ToString() + "------------------------------------");
+            else
+                _Log.Info("----------------------------  AscensionServer.Offline() : offline success : " + peer.PeerCache.Account.ToString() + "------------------------------------");
             //try
             //{
             //    onlinePeerDict.Remove(peer.PeerCache.Account);
@@ -147,12 +150,12 @@ namespace AscensionServer
         }
         public int HasOnlineID(AscensionPeer peer)
         {
-            if (onlinePeerDict.ContainsKey(peer.PeerCache.Account))
+            if (loggedPeerCache.IsExists(peer.PeerCache.Account))
             {
-                return onlinePeerDict[peer.PeerCache.Account].PeerCache.RoleID;
+                return loggedPeerCache[peer.PeerCache.Account].PeerCache.RoleID;
             }
             else
-                return 0;
+                return -1;
         }
         //处理登录冲突部分代码
         void ReplaceLogin(AscensionPeer peer)
