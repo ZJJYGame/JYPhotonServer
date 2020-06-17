@@ -35,7 +35,7 @@ namespace AscensionServer
             TimeSpan interval = (DateTime.Now).Subtract(Convert.ToDateTime(obj.OffTime));
             if (obj != null)
             {
-                var Exptypeobj = Singleton<NHManager>.Instance.CriteriaGet<OnOffLine>(nHCriteriaRole);
+                var Exptypeobj = Singleton<NHManager>.Instance.CriteriaSelect<OnOffLine>(nHCriteriaRole);
                 if (Exptypeobj.ExpType==1)
 
                 {
