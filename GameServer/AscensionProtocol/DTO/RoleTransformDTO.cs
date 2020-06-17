@@ -25,5 +25,11 @@ namespace AscensionProtocol.DTO
             RotationY = 0;
             RotationZ = 0;
         }
+        public override string ToString()
+        {
+            return "###### RoleID : " + RoleID + " ; PositionX : " + PositionX
+         + "; PositionY: " + PositionY + "; PositionZ : " + PositionZ
+         + ";RotationX : " + RotationX + ";RotationY : " + RotationY + ";RotationZ: " + RotationZ +"######";
+        }
     }
 }

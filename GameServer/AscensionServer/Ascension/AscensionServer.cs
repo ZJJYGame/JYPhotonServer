@@ -19,6 +19,8 @@ using AscensionServer.Threads;
 using System.Reflection;
 using ExitGames.Concurrency.Fibers;
 using Cosmos;
+using AscensionServer.Model;
+
 namespace AscensionServer
 {
     public partial class AscensionServer : ApplicationBase
@@ -26,7 +28,7 @@ namespace AscensionServer
         #region Properties
         public static IFiber _Fiber { get; private set; }
         public static readonly ILogger _Log = LogManager.GetCurrentClassLogger();
-        private SyncPositionThread syncPositionThread = new SyncPositionThread();
+        //private SyncPositionThread syncPositionThread = new SyncPositionThread();
         new public static AscensionServer Instance { get; private set; }
         Dictionary<OperationCode, Handler> handlerDict = new Dictionary<OperationCode, Handler>();
         public Dictionary<OperationCode, Handler> HandlerDict { get { return handlerDict; } }
@@ -106,67 +108,6 @@ namespace AscensionServer
         {
             return loginPeerDict.ContainsKey(peer.PeerCache.Account);
         }
-        Dictionary<string, AscensionPeer> onlinePeerDict = new Dictionary<string, AscensionPeer>();
-        public void Online(AscensionPeer peer, int roleid)
-        {
-            var result = loggedPeerCache.Set(peer.PeerCache.Account, peer);
-            if (result)
-            {
-                peer.PeerCache.RoleID = roleid;
-                peer.PeerCache.IsLogged = true;
-                _Log.Info("----------------------------  AscensionServer.Offline() : online success : " + peer.PeerCache.Account.ToString() + "------------------------------------");
-            }
-            else
-                _Log.Info("---------------------------- AscensionServer.Online()  :  can't set into  logged Dict : " + peer.PeerCache.Account.ToString() + "------------------------------------");
-            //try
-            //{
-            //    onlinePeerDict.Add(peer.PeerCache.Account, peer);
-            //    RoleDTO roleDTO = new RoleDTO() { RoleID = roleid };
-            //    PeerCache onlineStatusDTO = new PeerCache() { RoleID = roleDTO.RoleID,IsLogged=true };
-            //    onlinePeerDict[peer.PeerCache.Account].PeerCache = onlineStatusDTO;
-            //}
-            //catch (Exception)
-            //{
-            //    _Log.Info("----------------------------  can't add into onlinePeerDict" + peer.PeerCache.Account.ToString() + "------------------------------------");
-            //}
-        }
-        public void Offline(AscensionPeer peer)
-        {
-            if (!peer.PeerCache.IsLogged)
-                return;
-            var result = loggedPeerCache.Remove(peer.PeerCache.Account);
-            if (!result)
-                _Log.Info("----------------------------  AscensionServer.Offline() :can't  remove from logged Dict : " + peer.PeerCache.Account.ToString() + "------------------------------------");
-            else
-                _Log.Info("----------------------------  AscensionServer.Offline() : offline success : " + peer.PeerCache.Account.ToString() + "------------------------------------");
-            //try
-            //{
-            //    onlinePeerDict.Remove(peer.PeerCache.Account);
-            //}
-            //catch (Exception)
-            //{
-            //    _Log.Info("----------------------------  can't add into offlinePeerDict" + peer.PeerCache.Account.ToString() + "------------------------------------");
-            //}
-        }
-        public int HasOnlineID(AscensionPeer peer)
-        {
-            if (loggedPeerCache.IsExists(peer.PeerCache.Account))
-            {
-                return loggedPeerCache[peer.PeerCache.Account].PeerCache.RoleID;
-            }
-            else
-                return -1;
-        }
-        //处理登录冲突部分代码
-        void ReplaceLogin(AscensionPeer peer)
-        {
-            EventData ed = new EventData((byte)EventCode.ReplacePlayer);
-            Dictionary<byte, object> data = new Dictionary<byte, object>();
-            data.Add((byte)ParameterCode.ForcedOffline, 0);
-            ed.Parameters = data;
-            //loginPeerDict[peer.PeerCache.Account].SendEvent(ed, new SendParameters());
-            loggedPeerCache[peer.PeerCache.Account].SendEvent(ed, new SendParameters());
-            _Log.Info("登录冲突检测》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》");
-        }
+
     }
 }

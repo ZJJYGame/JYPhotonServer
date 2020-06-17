@@ -25,6 +25,20 @@ namespace AscensionProtocol.VO
             RoleID = -1;
             PersonalizedSignature = null;
         }
+        public RoleDataVO()
+        {
+            RoleID = -1;
+            RoleFaction = 0;
+            RoleName= null;
+            GongFaLevel = 0;
+            PersonalizedSignature = null;
+        }
+        public override string ToString()
+        {
+            return "###### RoleID : " + RoleID+ " ; RoleFaction : " +RoleFaction
+                + "; RoleName: " + RoleName + "; GongFaLevel: " + GongFaLevel 
+                + "; PersonalizedSignature: " + PersonalizedSignature + "######";
+        }
     }
 
 }

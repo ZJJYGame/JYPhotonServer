@@ -20,21 +20,7 @@ namespace AscensionServer
         List<RoleDataVO> roleDataList = new List<RoleDataVO>();
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-
             var dict = ParseSubDict(operationRequest);
-
-
-            //取得所有已经登陆（在线玩家）的用户名
-            //List<string> userAccountList = new List<string>();
-            //foreach (AscensionPeer tempPeer in AscensionServer.Instance.LoggedPeer)
-            //{
-            //    //如果连接过来的客户端已经登陆了有用户名了并且这个客户端不是当前的客户端
-            //    if (string.IsNullOrEmpty(tempPeer.PeerCache.Account) == false && tempPeer != peer)
-            //    {
-            //        //把这些客户端的Usernam添加到集合里面
-            //        userAccountList.Add(tempPeer.PeerCache.Account);
-            //    }
-            //}
             var loggedPeers = AscensionServer.Instance.LoggedPeerCache.GetValuesHashSet();
             loggedPeers.Remove(peer);
             List<string> userAccountList = new List<string>(loggedPeers.Count);
