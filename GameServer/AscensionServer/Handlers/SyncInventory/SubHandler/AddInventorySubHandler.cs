@@ -40,7 +40,7 @@ namespace AscensionServer
                 var ringArray = Singleton<NHManager>.Instance.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
 
                 if (existRing)
-                {
+                { 
 
                     var ringServerArray = Singleton<NHManager>.Instance.CriteriaSelect<Ring>(nHCriteriaRingID);
                     foreach (var n in Utility.Json.ToObject<List<int>>(ringArray.RingIdArray))
