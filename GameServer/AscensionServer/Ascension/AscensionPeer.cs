@@ -38,16 +38,20 @@ namespace AscensionServer
         {
             EventData ed = new EventData((byte)EventCode.DeletePlayer);
             Dictionary<byte, object> data = new Dictionary<byte, object>();
-            data.Add((byte)ObjectParameterCode.User,peerCache);
+            data.Add((byte)ObjectParameterCode.Role,Utility.Json.ToJson(peerCache.Role));
             ed.Parameters = data;
             if (peerCache.IsLogged)
             {
-                RecordOnOffLine(AscensionServer.Instance.HasOnlineID(this));
+                //RecordOnOffLine(AscensionServer.Instance.HasOnlineID(this));
+                RecordOnOffLine(peerCache.RoleID);
             }
-            AscensionServer.Instance.Logoff(this);
-            foreach (AscensionPeer tmpPeer in AscensionServer.Instance.LoggedPeerCache.Dict.Values)
+            AscensionServer.Instance.RemoveFromLoggedUserCache(this);
+            var loggedPeerHashSet = AscensionServer.Instance.LoggedPeerCache.GetValuesHashSet();
+            loggedPeerHashSet.Remove(this);
+            var sendParameter = new SendParameters();
+            foreach (AscensionPeer tmpPeer in loggedPeerHashSet )
             {
-                tmpPeer.SendEvent(ed, new SendParameters());                      
+                tmpPeer.SendEvent(ed, sendParameter);                      
             }
             AscensionServer. _Log.Info("***********************  Client Disconnect    ***********************");
         }
@@ -79,6 +83,7 @@ namespace AscensionServer
             this.PeerCache.Account =null;
             this.PeerCache.UUID = null;
             this.PeerCache.Password =null;
+            this.PeerCache.RoleID = -1;
         }
         public override string ToString()
         {

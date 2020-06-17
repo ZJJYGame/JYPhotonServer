@@ -20,7 +20,8 @@
         RolePet=75,
         Pet=76,
         PetStatus=77,
-        RoleTransfrom=78
+        RoleTransfrom=78,
+        RoleTransfromList=79
     }
     /// <summary>
     /// 单条数据参数码

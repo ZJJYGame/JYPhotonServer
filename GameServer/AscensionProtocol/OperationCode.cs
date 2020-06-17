@@ -37,6 +37,10 @@ namespace AscensionProtocol
         SyncPetStatus=17,
         SyncRolePet=18,
 
+
+
+        EnterAdventureScene=111,
+        ExitAdventureScene=112,
         /// <summary>
         /// 测试消息队列
         /// </summary>

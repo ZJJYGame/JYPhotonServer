@@ -30,9 +30,13 @@ namespace AscensionServer.Threads
         /// </summary>
         void BroadcastLoggedRolesPosition()
         {
-            var loggedList = AscensionServer.Instance.LoggedPeerCache.GetValuesList();
+            //var loggedList = AscensionServer.Instance.LoggedPeerCache.GetValuesList();
+            var loggedList = AscensionServer.Instance.AddventureScenePeerCache.GetValuesList();
             if (loggedList.Count <= 0)
                 return;
+            roleTransformList.Clear();
+            EventData.Parameters.Clear();
+            EventDataDict.Clear();
             //roleTransformList.Capacity = loggedList.Count;
             for (int i = 0; i <loggedList.Count ; i++)
             {
@@ -40,18 +44,17 @@ namespace AscensionServer.Threads
                 roleDataTmp = loggedList[i].RoleTransform;
                 roleTransformList.Add(roleDataTmp);
             }
-            EventDataDict.Add((byte)ObjectParameterCode.RoleTransfrom, Utility.Json.ToJson(roleTransformList));
-            //EventData = new EventData((byte)EventCode.SyncRoleTransform);
             EventData.Code = (byte)EventCode.SyncRoleTransform;
+            EventDataDict.Add((byte)ObjectParameterCode.RoleTransfromList, Utility.Json.ToJson(roleTransformList));
+            //EventData = new EventData((byte)EventCode.SyncRoleTransform);
             EventData.Parameters = EventDataDict;
             for (int i = 0; i < loggedList.Count; i++)
             {
                 loggedList[i].SendEvent(EventData, SendParameter);
             }
             Singleton<ReferencePoolManager>.Instance.Despawns(roleTransformList.ToArray());
-            roleTransformList.Clear();
-            EventData.Parameters.Clear();
-            EventDataDict.Clear();
+   
+            AscensionServer._Log.Info("位置同步事件广播");
         }
 
     }

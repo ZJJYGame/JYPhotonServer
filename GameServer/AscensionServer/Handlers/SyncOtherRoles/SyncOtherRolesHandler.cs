@@ -6,7 +6,8 @@
 using System.Collections.Generic;
 using AscensionProtocol;
 using Photon.SocketServer;
-
+using Cosmos;
+using System;
 namespace AscensionServer
 {
    public class SyncOtherRolesHandler : Handler
@@ -15,7 +16,15 @@ namespace AscensionServer
         {
             OpCode = OperationCode.SyncOtherRoles;
             base.OnInitialization();
-            OnSubHandlerInitialization<SyncOtherRolesSubHandler>();
+            //OnSubHandlerInitialization<SyncOtherRolesSubHandler>();
+        }
+        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        {
+            var JsonResult =Convert.ToString( Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.RoleTransfrom));
+            peer.RoleTransformJson = JsonResult;
+            ResponseData.Clear();
+            OpResponse.ReturnCode = (short)ReturnCode.Success;
+            peer.SendOperationResponse(OpResponse, sendParameters);
         }
     }
 }

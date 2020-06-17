@@ -26,7 +26,7 @@ namespace AscensionServer
             bool exist = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleId);
             if (exist)
             {
-                AscensionServer.Instance.Online(peer, roleObj.RoleID);
+                AscensionServer.Instance.Online(peer, roleObj);
                 RoleStatus roleStatus = Singleton<NHManager>.Instance.CriteriaSelect<RoleStatus>(nHCriteriaRoleId);
                 AscensionServer._Log.Info("------------------------------------GetRoleStatusSubHandler\n" + "RoleStatus  : " + roleStatus + "\nGetRoleStatusSubHandler---------------------------------------");
                 string roleStatusJson = Utility.Json.ToJson(roleStatus);
