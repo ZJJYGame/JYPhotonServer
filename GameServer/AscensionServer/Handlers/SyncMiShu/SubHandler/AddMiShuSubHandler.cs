@@ -96,8 +96,8 @@ namespace AscensionServer
                     {
                         mishuObj = Singleton<NHManager>.Instance.Insert(mishuObj);
                         mishuDict.Add(mishuObj.ID, mishuObj.MiShuID);
-                        AscensionServer._Log.Info("添加1秘术ID》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》"+ mishuObj.ID);
-                        Singleton<NHManager>.Instance.Update(new RoleMiShuDTO() { RoleID = rolemishuObj.RoleID, MiShuIDArray = Utility.Json.ToJson(mishuDict) });
+                        //AscensionServer._Log.Info("添加1秘术ID》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》"+ mishuObj.ID);
+                        Singleton<NHManager>.Instance.Update(new RoleMiShu() { RoleID = rolemishuObj.RoleID, MiShuIDArray = Utility.Json.ToJson(mishuDict) });
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     }
                 }
@@ -106,8 +106,8 @@ namespace AscensionServer
                     mishuDict = new Dictionary<int, int>();
                     mishuObj = Singleton<NHManager>.Instance.Insert(mishuObj);
                     mishuDict.Add(mishuObj.ID, mishuObj.MiShuID);
-                    AscensionServer._Log.Info("添加2秘术ID》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》" + mishuObj.ID);
-                    Singleton<NHManager>.Instance.Update(new RoleMiShuDTO() { RoleID = rolemishuObj.RoleID, MiShuIDArray = Utility.Json.ToJson(mishuDict) });
+                    //AscensionServer._Log.Info("添加2秘术ID》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》" + mishuObj.ID);
+                    Singleton<NHManager>.Instance.Update(new RoleMiShu() { RoleID = rolemishuObj.RoleID, MiShuIDArray = Utility.Json.ToJson(mishuDict) });
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
             }
@@ -116,8 +116,9 @@ namespace AscensionServer
                 mishuDict = new Dictionary<int, int>();
                 mishuObj = Singleton<NHManager>.Instance.Insert(mishuObj);
                 mishuDict.Add(mishuObj.ID, mishuObj.MiShuID);
-                AscensionServer._Log.Info("添加3秘术ID》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》" + mishuObj.ID);
-                Singleton<NHManager>.Instance.Update(new RoleMiShuDTO() { RoleID = rolemishuObj.RoleID, MiShuIDArray = Utility.Json.ToJson(mishuDict) });
+                //AscensionServer._Log.Info("添加3秘术ID》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》" + Utility.Json.ToJson(mishuDict));
+                Singleton<NHManager>.Instance.Update(new RoleMiShu() { RoleID = rolemishuObj.RoleID, MiShuIDArray = Utility.Json.ToJson(mishuDict) });
+               
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);

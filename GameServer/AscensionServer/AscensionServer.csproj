@@ -104,7 +104,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DO\DataObject.cs" />
     <Compile Include="Handlers\SyncRolePet\SubHandler\RemoveRolePetSubHandler.cs" />
     <Compile Include="DO\Base\DataObject.cs" />
     <Compile Include="Handlers\MQ\SubHandler\AddMQSubHandler.cs" />
