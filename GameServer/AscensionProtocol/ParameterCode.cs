@@ -38,6 +38,7 @@
         HeartBeat = 9,
         RoleID = 10,
         ForcedOffline=11,
-        PetID=12
+        PetID=12,
+        MessageQueue=13
     }
 }
