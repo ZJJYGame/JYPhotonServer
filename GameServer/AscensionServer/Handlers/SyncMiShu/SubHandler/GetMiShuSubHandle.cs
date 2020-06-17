@@ -25,7 +25,7 @@ namespace AscensionServer
             NHCriteria nHCriteriamishu = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleMiShuObj.RoleID);
             RoleMiShu roleMiShu = Singleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriamishu);
             AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收到获取秘术的数组" + roleMiShu.MiShuIDArray);
-            if (roleMiShuObj.MiShuIDArray != null)
+            if ( !string.IsNullOrEmpty(roleMiShu.MiShuIDArray))
             {
                 var rMiShuObj = Singleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriamishu);
                 string rolemishuJson = rMiShuObj.MiShuIDArray;
