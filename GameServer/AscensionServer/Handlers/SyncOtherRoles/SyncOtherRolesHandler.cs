@@ -20,9 +20,10 @@ namespace AscensionServer
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            var JsonResult =Convert.ToString( Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.RoleTransfrom));
+            var JsonResult = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.RoleTransfrom));
             peer.RoleTransformJson = JsonResult;
             ResponseData.Clear();
+            OpResponse.OperationCode = operationRequest.OperationCode;
             OpResponse.ReturnCode = (short)ReturnCode.Success;
             peer.SendOperationResponse(OpResponse, sendParameters);
         }

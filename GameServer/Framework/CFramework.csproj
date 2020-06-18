@@ -44,6 +44,8 @@
     <Compile Include="CFramework\Base\Behaviour\IBehaviour.cs" />
     <Compile Include="CFramework\Base\Behaviour\IControllable.cs" />
     <Compile Include="CFramework\Base\Behaviour\IControllableBehaviour.cs" />
+    <Compile Include="CFramework\Base\EventArg\CFEventArgs.cs" />
+    <Compile Include="CFramework\Base\EventArg\IEventArgs.cs" />
     <Compile Include="CFramework\Exception\CFrameworkException.cs" />
     <Compile Include="CFramework\ReferencePool\IReference.cs" />
     <Compile Include="CFramework\ReferencePool\ReferencePoolManager.cs" />

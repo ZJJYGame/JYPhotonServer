@@ -1,4 +1,5 @@
-﻿using Photon.SocketServer;
+﻿using Cosmos;
+using Photon.SocketServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,25 @@ namespace AscensionServer.Threads
         {
             EventDataDict.Clear();
             EventData.Parameters.Clear();
+            ClearFinishedHandler();
+        }
+        /// <summary>
+        /// 空的虚函数
+        /// </summary>
+        /// <param name="eventArgs"></param>
+        public virtual void SetData(IThreadData eventArgs) { }
+        public void AddFinishedHandler(Action handler)
+        {
+            finishedHandler += handler;
+        }
+       protected Action finishedHandler;
+        public void ClearFinishedHandler()
+        {
+            finishedHandler = null;
+        }
+        public void Clear()
+        {
+            OnTermination();
         }
     }
 }

@@ -15,7 +15,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -125,7 +125,7 @@
     <Compile Include="Lite\Caching\EventCache.cs" />
     <Compile Include="Lite\Caching\EventCacheDictionary.cs" />
     <Compile Include="Lite\Caching\LiteGameCache.cs" />
-    <Compile Include="Lite\Caching\PeerCache.cs" />
+    <Compile Include="Caching\PeerCache.cs" />
     <Compile Include="Lite\Caching\RoomCacheBase.cs" />
     <Compile Include="Lite\Caching\RoomEventCache.cs" />
     <Compile Include="Lite\Caching\RoomReference.cs" />
@@ -271,9 +271,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Lite\Room\Room.cs" />
     <Compile Include="Threads\Base\ISyncEvent.cs" />
+    <Compile Include="Threads\Base\LogicEventArgs.cs" />
     <Compile Include="Threads\Base\SyncEvent.cs" />
+    <Compile Include="Threads\Base\IThreadData.cs" />
+    <Compile Include="Threads\SyncEvent\SyncOtherRoleEvent.cs" />
     <Compile Include="Threads\SyncEvent\SyncRoleTransformEvent.cs" />
     <Compile Include="Threads\SyncPositionThread.cs" />
+    <Compile Include="Threads\ThreadData.cs" />
     <Compile Include="Threads\ThreadEvent.cs" />
   </ItemGroup>
   <ItemGroup>

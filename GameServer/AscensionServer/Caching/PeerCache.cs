@@ -26,6 +26,9 @@ namespace AscensionServer
         public RoleDataVO RoleDataVO { get; set; }
         public PeerCache()
         {
+            User = new User();
+            Role = new Role();
+            RoleDataVO = new RoleDataVO();
             IsLogged = false;
             Account = null;
             Password = null;
@@ -33,9 +36,7 @@ namespace AscensionServer
             RoleID = -1;
             PreviousScene = null;
             CurrentScene = null;
-            User = new User();
-            Role = new Role();
-            RoleDataVO = new RoleDataVO();
+   
         }
         public bool EqualUser(object obj)
         {
