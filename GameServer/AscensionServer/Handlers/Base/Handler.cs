@@ -83,5 +83,14 @@ namespace AscensionServer
         {
             subHandlerDict.Remove((byte)handler.SubOpCode);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operationRequest"></param>
+        protected void SetRequestData(OperationRequest operationRequest)
+        {
+            ResponseData.Clear();
+            OpResponse.OperationCode = operationRequest.OperationCode;
+        }
     }
 }

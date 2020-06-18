@@ -26,7 +26,7 @@ namespace AscensionServer
         Cache<AscensionPeer> loggedPeerCache = new Cache<AscensionPeer>();
         public Cache<AscensionPeer> LoggedPeerCache { get { return loggedPeerCache; } }
         Cache<AscensionPeer> addventureScenePeerCache = new Cache<AscensionPeer>();
-        public Cache<AscensionPeer>   AddventureScenePeerCache{ get { return addventureScenePeerCache; } }
+        public Cache<AscensionPeer>   AdventureScenePeerCache{ get { return addventureScenePeerCache; } }
         /// <summary>
         /// 角色在主界面时候，相当于在游戏大厅
         /// </summary>
@@ -51,6 +51,7 @@ namespace AscensionServer
                 //ReplaceLogin(peer);
                 loggedPeerCache.Add(peer.PeerCache.Account, peer);
                 //_Log.Info("----------------------------  AscensionServer.Cache.Login() :  can't add into logged Dict------------------------------------" + loginPeerDict.ContainsKey(peer.PeerCache.Account));
+
             }
         }
         public void RemoveFromLoggedUserCache(AscensionPeer peer)
@@ -162,6 +163,11 @@ namespace AscensionServer
             {
                 _Log.Info("---------------------------- AscensionServer.Cache.Logoff() : can't  remove from laddventureScenePeerCache : " + peer.ToString() + "------------------------------------");
             }
+        }
+        public bool IsEnterAdventureScene(AscensionPeer peer)
+        {
+            var result = addventureScenePeerCache.IsExists(peer.PeerCache.Account);
+            return result;
         }
     }
 }

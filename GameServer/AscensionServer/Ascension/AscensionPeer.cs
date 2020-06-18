@@ -46,6 +46,8 @@ namespace AscensionServer
                 RecordOnOffLine(peerCache.RoleID);
             }
             AscensionServer.Instance.RemoveFromLoggedUserCache(this);
+            if(AscensionServer.Instance.IsEnterAdventureScene(this))
+            AscensionServer.Instance.ExitAdventureScene(this);
             var loggedPeerHashSet = AscensionServer.Instance.LoggedPeerCache.GetValuesHashSet();
             loggedPeerHashSet.Remove(this);
             var sendParameter = new SendParameters();

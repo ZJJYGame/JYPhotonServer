@@ -36,7 +36,6 @@ namespace AscensionServer
             RoleID = -1;
             PreviousScene = null;
             CurrentScene = null;
-
         }
         public bool EqualUser(object obj)
         {
