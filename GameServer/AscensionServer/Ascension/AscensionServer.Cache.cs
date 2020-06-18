@@ -43,9 +43,14 @@ namespace AscensionServer
             }
             else
             {
-                ReplaceLogin(peer);
-                loggedPeerCache.Set(peer.PeerCache.Account, peer);
-                _Log.Info("----------------------------  AscensionServer.Cache.Login() :  can't add into logged Dict------------------------------------" + loginPeerDict.ContainsKey(peer.PeerCache.Account));
+                if (loggedPeerCache.TryGetValue(peer.PeerCache.Account,out AscensionPeer oldpeer))
+                {
+                    ReplaceLogin(oldpeer);
+                    loggedPeerCache.Remove(oldpeer.PeerCache.Account);
+                }
+                //ReplaceLogin(peer);
+                loggedPeerCache.Add(peer.PeerCache.Account, peer);
+                //_Log.Info("----------------------------  AscensionServer.Cache.Login() :  can't add into logged Dict------------------------------------" + loginPeerDict.ContainsKey(peer.PeerCache.Account));
             }
         }
         public void RemoveFromLoggedUserCache(AscensionPeer peer)
@@ -77,6 +82,7 @@ namespace AscensionServer
         //处理登录冲突部分代码
         void ReplaceLogin(AscensionPeer peer)
         {
+            peer.PeerCache.IsLogged = false;
             EventData ed = new EventData((byte)EventCode.ReplacePlayer);
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             data.Add((byte)ParameterCode.ForcedOffline, 0);

@@ -15,6 +15,7 @@ namespace AscensionServer.Model
         public virtual int PetExp { get; set; }
         public virtual string PetName { get; set; }
         public virtual string PetSkillArray { get; set; }
+        public virtual bool PetIsBattle { get; set; }
         public override void Clear()
         {
             ID = -1;

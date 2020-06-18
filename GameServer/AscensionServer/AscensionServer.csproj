@@ -104,8 +104,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AreaHandler\EnterAdventureSceneHandler.cs" />
-    <Compile Include="AreaHandler\ExitAdventureSceneHandler.cs" />
+    <Compile Include="Handlers\SyncPet\SubHandler\UpdatePetHandler.cs" />
     <Compile Include="Handlers\SyncRolePet\SubHandler\RemoveRolePetSubHandler.cs" />
     <Compile Include="DO\Base\DataObject.cs" />
     <Compile Include="Handlers\MQ\SubHandler\AddMQSubHandler.cs" />
