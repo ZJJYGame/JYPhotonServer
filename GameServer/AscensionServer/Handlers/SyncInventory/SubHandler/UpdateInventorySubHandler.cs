@@ -65,8 +65,7 @@ namespace AscensionServer
                                     {
                                         serverInfoItemCount = severValue.RingItemCount - client_p.Value.RingItemCount;
                                         client_p.Value.RingItemCount = serverInfoItemCount;
-                                        severInfoItemTime = severValue.RingItemTime;
-                                        client_p.Value.RingItemTime = severInfoItemTime;
+                                        client_p.Value.RingItemTime = severValue.RingItemTime;
                                         Dic.Add(client_p.Key, client_p.Value);
                                     }
                                     else
