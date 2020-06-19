@@ -20,9 +20,9 @@ namespace AscensionServer
         {
             var dict = ParseSubDict(operationRequest);
 
-            string rpJson = Convert.ToString(Utility.GetValue(dict,(byte)ObjectParameterCode.RolePet));
-            string pJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.Pet));
-            string psJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.PetStatus));
+            string rpJson = Convert.ToString(Utility.GetValue(dict,(byte)ParameterCode.RolePet));
+            string pJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Pet));
+            string psJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.PetStatus));
             AscensionServer._Log.Info("添加宠物进来了》》》》》》》》》》》》》》》》》》》》》》》》》》》》》");
             var rolepetObj = Utility.Json.ToObject<RolePet>(rpJson);
             var petObj = Utility.Json.ToObject<Pet>(pJson);

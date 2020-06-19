@@ -28,7 +28,7 @@ namespace AscensionServer
 
             //AscensionServer._Log.Info(x + "--" + y + "--" + z);//输出测试
 
-            var roleTransformJson = Convert.ToString (Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.RoleTransfrom));
+            var roleTransformJson = Convert.ToString (Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleTransfrom));
             peer.RoleTransformJson = roleTransformJson;
             AscensionServer._Log.Info("Role:ID "+peer.PeerCache.RoleID+"\n RoleJson :"+roleTransformJson);
         }

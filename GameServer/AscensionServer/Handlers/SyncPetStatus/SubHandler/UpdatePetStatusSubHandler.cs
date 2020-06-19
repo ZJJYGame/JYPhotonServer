@@ -20,7 +20,7 @@ namespace AscensionServer
         {
             AscensionServer._Log.Info("更新宠物数据的请求进来了》》》》》》》》》》》》》》》》》");
             var dict = ParseSubDict(operationRequest);
-            string petstatusJson = Convert.ToString(Utility.GetValue(dict,(byte)ObjectParameterCode.PetStatus));
+            string petstatusJson = Convert.ToString(Utility.GetValue(dict,(byte)ParameterCode.PetStatus));
             var petstatusObj = Utility.Json.ToObject<PetStatus>(petstatusJson);
             NHCriteria nHCriteriapetstatus = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("PetID", petstatusObj.PetID);
             var result = Singleton<NHManager>.Instance.Verify<PetStatus>(nHCriteriapetstatus);

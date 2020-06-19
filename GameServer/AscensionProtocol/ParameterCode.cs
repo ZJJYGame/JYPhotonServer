@@ -3,43 +3,33 @@
     /// <summary>
     ///对象数据参数码
     /// </summary>
-    public enum ObjectParameterCode : byte
-    {
-        Account = 63,
-        User = 64,
-        RoleStatus = 65,
-        Role = 66,
-        OnlineState = 67,
-        RoleAssets = 68,
-        GongFa = 69,
-        MiShu = 70,
-        OnOffLine = 71,
-        Inventory = 72,
-        RoleMiShu=73,
-        RoleGongFa=74,
-        RolePet=75,
-        Pet=76,
-        PetStatus=77,
-        RoleTransfrom=78,
-        RoleTransfromList=79
-    }
-    /// <summary>
-    /// 单条数据参数码
-    /// </summary>
     public enum ParameterCode : byte
     {
-        Account = 0,
-        Password = 1,
-        RoleName = 2,
-        RoleIDList = 3,
-        RolePosition = 4,
-        x = 5, y = 6, z = 6,
-        RoleList = 7,
-        PlayerDataList = 8,
-        HeartBeat = 9,
-        RoleID = 10,
-        ForcedOffline=11,
-        PetID=12,
-        MessageQueue=13
+        HeartBeat = 0,
+        ForcedOffline = 1,
+        MessageQueue=2,
+        ///////////////////前16为系统预留////////////////////////
+
+        User = 17,
+        RoleStatus = 18,
+        RoleStatusSet = 19,
+        Role = 20,
+        RoleSet = 21,
+        RoleAssets = 22,
+        GongFa = 23,
+        GongFaSet = 24,
+        MiShu = 25,
+        MiShuSet = 26,
+        OnOffLine = 27,
+        Inventory = 28,
+        RoleMiShu=29,
+        RoleGongFa=30,
+        RolePet=31,
+        Pet=32,
+        PetSet=33,
+        PetStatus=34,
+        PetStatusSet=35,
+        RoleTransfrom=36,
+        RoleTransfromSet=37,
     }
 }

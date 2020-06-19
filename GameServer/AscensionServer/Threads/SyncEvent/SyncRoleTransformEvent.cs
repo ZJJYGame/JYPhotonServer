@@ -45,7 +45,7 @@ namespace AscensionServer.Threads
                 roleTransformList.Add(roleDataTmp);
             }
             EventData.Code = (byte)EventCode.SyncRoleTransform;
-            EventDataDict.Add((byte)ObjectParameterCode.RoleTransfromList, Utility.Json.ToJson(roleTransformList));
+            EventDataDict.Add((byte)ParameterCode.RoleTransfromSet, Utility.Json.ToJson(roleTransformList));
             //EventData = new EventData((byte)EventCode.SyncRoleTransform);
             EventData.Parameters = EventDataDict;
             for (int i = 0; i < loggedList.Count; i++)

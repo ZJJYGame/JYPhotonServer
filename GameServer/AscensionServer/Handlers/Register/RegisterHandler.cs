@@ -19,7 +19,7 @@ namespace AscensionServer
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            var userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.User));
+            var userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.User));
             var userObj = Utility.Json.ToObject<User>(userJson);
             NHCriteria nHCriteriaAccount = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
             bool isExist = Singleton<NHManager>.Instance.Verify<User>(nHCriteriaAccount);

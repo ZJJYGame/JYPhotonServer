@@ -26,7 +26,7 @@ namespace AscensionServer
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            string userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.User));
+            string userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.User));
             var userObj = Utility.Json.ToObject<User>(userJson);
             AscensionServer._Log.Info("LogoffHandler \n 登出的账号" + userJson + ">>>>>>>>>>>>>>>>>>");
             ResponseData.Clear();

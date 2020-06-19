@@ -23,7 +23,7 @@ namespace AscensionServer
         {
             var dict = ParseSubDict(operationRequest);
 
-            string petJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.Pet));
+            string petJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Pet));
 
             var petObj = Utility.Json.ToObject<Pet>(petJson);
             NHCriteria nHCriteriaPet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", petObj.ID);
@@ -32,7 +32,7 @@ namespace AscensionServer
             {
                 SetResponseData(() =>
                 {
-                    SubDict.Add((byte)ObjectParameterCode.Pet, Utility.Json.ToJson(pet));
+                    SubDict.Add((byte)ParameterCode.Pet, Utility.Json.ToJson(pet));
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
             }else

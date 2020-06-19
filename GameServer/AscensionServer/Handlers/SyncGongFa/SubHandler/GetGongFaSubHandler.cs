@@ -22,7 +22,7 @@ namespace AscensionServer
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
-            string roleGFJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.GongFa));
+            string roleGFJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.GongFa));
             var roleGongFaObj = Utility.Json.ToObject<List<int>>(roleGFJson);
             List<GongFa> gongFaIdList;
             Dictionary<int, List<GongFa>> gongFaDic;
@@ -60,7 +60,7 @@ namespace AscensionServer
                     Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaGongFa);
                 }
                 Owner.OpResponse.Parameters = Owner.ResponseData;
-                Owner.ResponseData.Add((byte)ObjectParameterCode.GongFa, Utility.Json.ToJson(gongFaDic));
+                Owner.ResponseData.Add((byte)ParameterCode.GongFa, Utility.Json.ToJson(gongFaDic));
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             }
             else

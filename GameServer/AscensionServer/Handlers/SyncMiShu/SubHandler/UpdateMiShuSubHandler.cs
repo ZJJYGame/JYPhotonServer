@@ -19,8 +19,8 @@ namespace AscensionServer
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             ResetResponseData(operationRequest);
-            var receivedRoleData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role));
-            var receivedData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.MiShu));
+            var receivedRoleData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
+            var receivedData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.MiShu));
             AscensionServer._Log.Info(">>>>>>>>>>>>接收秘术数据：" + receivedRoleData + ">>>>>>>>>>>>>>>>>>>>>>");
             AscensionServer._Log.Info(">>>>>>>>>>>>接收秘术数据：" + receivedData + ">>>>>>>>>>>>>>>>>>>>>>");
             var receivedRoleObj = Utility.Json.ToObject<RoleMiShu>(receivedRoleData);

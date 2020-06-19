@@ -38,7 +38,7 @@ namespace AscensionServer
             Owner.OpResponse.Parameters = Owner.ResponseData;
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             EventData ed = new EventData((byte)EventCode.NewPlayer);
-            Owner.ResponseData.Add((byte)ParameterCode.Account, peer.PeerCache.Account);   //把新进来的用户名传递给其他客户端
+            //Owner.ResponseData.Add((byte)ParameterCode.Account, peer.PeerCache.Account);   //把新进来的用户名传递给其他客户端
             ed.Parameters = Owner.ResponseData;
             //告诉其他客户端有新的客户端加入
             foreach (AscensionPeer temPeer in AscensionServer.Instance.LoggedPeer)

@@ -19,7 +19,7 @@ namespace AscensionServer
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
-            string account = Utility.Json.ToObject<User>(Convert.ToString (Utility.GetValue(dict, (byte)ObjectParameterCode.User))).Account;
+            string account = Utility.Json.ToObject<User>(Convert.ToString (Utility.GetValue(dict, (byte)ParameterCode.User))).Account;
             NHCriteria nHCriteriaAccount = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Account", account);
             string _uuid = Singleton<NHManager>.Instance.CriteriaSelect<User>(nHCriteriaAccount).UUID;
             NHCriteria nHCriteriaUUID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("UUID", _uuid);
@@ -45,7 +45,7 @@ namespace AscensionServer
                 }
                 SetResponseData(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.RoleList, Utility.Json.ToJson(roleObjList));
+                    SubDict.Add((byte)ParameterCode.RoleSet, Utility.Json.ToJson(roleObjList));
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
                 Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaList);
@@ -54,7 +54,7 @@ namespace AscensionServer
             {
                 SetResponseData(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.RoleList, Utility.Json.ToJson(new List<string>()));
+                    SubDict.Add((byte)ParameterCode.RoleSet, Utility.Json.ToJson(new List<string>()));
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Empty;
                 });
             }

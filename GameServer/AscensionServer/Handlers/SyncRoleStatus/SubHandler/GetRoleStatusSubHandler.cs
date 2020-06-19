@@ -19,7 +19,7 @@ namespace AscensionServer
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
-            string roleJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.Role));
+            string roleJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role));
             AscensionServer._Log.Info("------------------------------------" + "roleJson  : " + roleJson + "---------------------------------------");
             var roleObj = Utility.Json.ToObject<Role>(roleJson);
             NHCriteria nHCriteriaRoleId = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
@@ -30,7 +30,7 @@ namespace AscensionServer
                 RoleStatus roleStatus = Singleton<NHManager>.Instance.CriteriaSelect<RoleStatus>(nHCriteriaRoleId);
                 AscensionServer._Log.Info("------------------------------------GetRoleStatusSubHandler\n" + "RoleStatus  : " + roleStatus + "\nGetRoleStatusSubHandler---------------------------------------");
                 string roleStatusJson = Utility.Json.ToJson(roleStatus);
-                SetResponseData(() => {SubDict.Add((byte)ObjectParameterCode.RoleStatus, roleStatusJson);});
+                SetResponseData(() => {SubDict.Add((byte)ParameterCode.RoleStatus, roleStatusJson);});
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             }
             else
