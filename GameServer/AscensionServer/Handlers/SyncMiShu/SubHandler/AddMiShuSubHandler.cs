@@ -104,6 +104,7 @@ namespace AscensionServer
                 else
                 {
                     mishuDict = new Dictionary<int, int>();
+                    mishuDict = Utility.Json.ToObject<Dictionary<int, int>>(roleMiShuObj.MiShuIDArray);
                     mishuObj = Singleton<NHManager>.Instance.Insert(mishuObj);
                     mishuDict.Add(mishuObj.ID, mishuObj.MiShuID);
                     //AscensionServer._Log.Info("添加2秘术ID》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》" + mishuObj.ID);
@@ -114,6 +115,7 @@ namespace AscensionServer
             else
             {
                 mishuDict = new Dictionary<int, int>();
+                mishuDict = Utility.Json.ToObject<Dictionary<int, int>>(roleMiShuObj.MiShuIDArray);
                 mishuObj = Singleton<NHManager>.Instance.Insert(mishuObj);
                 mishuDict.Add(mishuObj.ID, mishuObj.MiShuID);
                 //AscensionServer._Log.Info("添加3秘术ID》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》" + Utility.Json.ToJson(mishuDict));
