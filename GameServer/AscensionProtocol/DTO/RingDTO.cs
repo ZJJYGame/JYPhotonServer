@@ -23,5 +23,6 @@ namespace AscensionProtocol.DTO
     {
         public virtual int RingItemCount { get; set; }
         public virtual string RingItemAdorn { get; set; }
+        public virtual string RingItemTime { get; set; }
     }
 }

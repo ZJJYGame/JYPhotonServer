@@ -29,7 +29,7 @@ namespace AscensionServer
 
             Dictionary<int, RingItemsDTO> Dic;
             int serverInfoItemCount = 0;
-            string severInfoItemAdorn = "";
+            string severInfoItemTime = "0";
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", InventoryRoleObj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<RoleRing>(nHCriteriaRoleID);
             NHCriteria nHCriteriaRingID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RingId", InventoryObj.RingId);
@@ -61,11 +61,12 @@ namespace AscensionServer
                                 if (ServerDic.ContainsKey(client_p.Key))
                                 {
                                     var severValue = ServerDic[client_p.Key];
-                                    //serverInfoItemCount = severValue.RingItemCount;
                                     if (severValue.RingItemCount > client_p.Value.RingItemCount)
                                     {
                                         serverInfoItemCount = severValue.RingItemCount - client_p.Value.RingItemCount;
                                         client_p.Value.RingItemCount = serverInfoItemCount;
+                                        severInfoItemTime = severValue.RingItemTime;
+                                        client_p.Value.RingItemTime = severInfoItemTime;
                                         Dic.Add(client_p.Key, client_p.Value);
                                     }
                                     else

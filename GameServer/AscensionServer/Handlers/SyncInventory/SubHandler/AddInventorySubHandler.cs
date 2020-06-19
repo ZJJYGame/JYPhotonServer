@@ -35,6 +35,7 @@ namespace AscensionServer
             Dictionary<int, RingItemsDTO> Dic;
             int serverInfoItemCount = 0;
             string severInfoItemAdorn = "";
+            string severInfoItemTime = "0";
             if (exist)
             {
                 var ringArray = Singleton<NHManager>.Instance.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
@@ -43,6 +44,7 @@ namespace AscensionServer
                 { 
 
                     var ringServerArray = Singleton<NHManager>.Instance.CriteriaSelect<Ring>(nHCriteriaRingID);
+                
                     foreach (var n in Utility.Json.ToObject<List<int>>(ringArray.RingIdArray))
                     {
                         if (n == ringServerArray.ID)
@@ -50,7 +52,7 @@ namespace AscensionServer
                             Dic = new Dictionary<int, RingItemsDTO>();
                             AscensionServer._Log.Info("ringarray" + ringServerArray.RingItems);
                             var ServerDic = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingItems);
-                            AscensionServer._Log.Info(ServerDic.Count);
+                            //AscensionServer._Log.Info(ServerDic.Count);
                             foreach (var server_p in ServerDic)
                             {
                                 if (InventoryObj.RingItems.ContainsKey(server_p.Key))
@@ -74,12 +76,19 @@ namespace AscensionServer
                                         severInfoItemAdorn = client_p.Value.RingItemAdorn;
                                         client_p.Value.RingItemAdorn = severInfoItemAdorn;
                                     }
+                                    severInfoItemTime = severValue.RingItemTime;
+                                    if (severValue.RingItemTime != client_p.Value.RingItemTime)
+                                    {
+                                        severInfoItemTime = client_p.Value.RingItemTime;
+                                        client_p.Value.RingItemTime = severInfoItemTime;
+                                    }
                                     AscensionServer._Log.Info("背包数量" + client_p);
                                     Dic.Add(client_p.Key, client_p.Value);
                                     Singleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(Dic) });
                                 }
                                 else
                                 {
+                                    AscensionServer._Log.Info("222222222222" + client_p.Value.RingItemTime);
                                     Dic.Add(client_p.Key, client_p.Value);
                                     Singleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(Dic) });
                                 }
