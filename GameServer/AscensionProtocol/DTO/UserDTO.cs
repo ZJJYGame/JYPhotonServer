@@ -23,6 +23,11 @@ namespace AscensionProtocol.DTO
             Password = null;
             UUID = null;
         }
+        public override string ToString()
+        {
+            return "###### Account : " + Account + " ; Password : " + Password
++ "; UUID: " + UUID + "######";
+        }
     }
 
 }

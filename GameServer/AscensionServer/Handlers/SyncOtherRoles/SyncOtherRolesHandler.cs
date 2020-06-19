@@ -10,11 +10,11 @@ using Cosmos;
 using System;
 namespace AscensionServer
 {
-   public class SyncOtherRolesHandler : Handler
+   public class SyncSelfRoleTransformHandler : Handler
     {
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncOtherRoles;
+            OpCode = OperationCode.SyncSelfRoleTransform;
             base.OnInitialization();
             //OnSubHandlerInitialization<SyncOtherRolesSubHandler>();
         }

@@ -53,7 +53,7 @@ namespace AscensionServer.Threads
                 loggedList[i].SendEvent(EventData, SendParameter);
             }
             Singleton<ReferencePoolManager>.Instance.Despawns(roleTransformList.ToArray());
-            AscensionServer._Log.Info("BroadcastLoggedRolesPosition");
+            //AscensionServer._Log.Info("BroadcastLoggedRolesPosition");
         }
 
     }

@@ -35,7 +35,9 @@ namespace AscensionServer
             threadData.SetData(peerSet, (byte)EventCode.DeletePlayer, peer);
             var syncEvent = Singleton<ReferencePoolManager>.Instance.Spawn<SyncOtherRoleEvent>();
             syncEvent.SetData(threadData);
-            syncEvent.AddFinishedHandler(() => { Singleton<ReferencePoolManager>.Instance.Despawns(syncEvent, threadData); });
+            syncEvent.AddFinishedHandler(() => { Singleton<ReferencePoolManager>.Instance.Despawns(syncEvent, threadData);
+                ThreadEvent.RemoveSyncEvent(syncEvent);
+            });
             ThreadEvent.AddSyncEvent(syncEvent);
             ThreadEvent.ExecuteEvent();
         }
