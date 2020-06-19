@@ -21,8 +21,8 @@ namespace AscensionServer
         {
             var dict = ParseSubDict(operationRequest);
 
-            string msJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.MiShu));
-            string rmsJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.RoleMiShu));
+            string msJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.MiShu));
+            string rmsJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleMiShu));
 
 
             var rolemishuObj = Utility.Json.ToObject<RoleMiShu>(rmsJson);
@@ -87,7 +87,7 @@ namespace AscensionServer
                     {
                         SetResponseData(() =>
                         {
-                            SubDict.Add((byte)ObjectParameterCode.OnOffLine, Utility.Json.ToJson(new List<string>()));
+                            SubDict.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(new List<string>()));
                             Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
                             return;
                         });

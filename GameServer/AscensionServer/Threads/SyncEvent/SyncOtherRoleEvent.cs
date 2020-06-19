@@ -20,7 +20,7 @@ namespace AscensionServer.Threads
                 int peerCount = threadData.Collection.Count;
                 var roleJson = Utility.Json.ToJson(threadData.Data.PeerCache.Role);
                 EventDataDict.Clear();
-                EventDataDict.Add((byte)ObjectParameterCode.Role, roleJson);
+                EventDataDict.Add((byte)ParameterCode.Role, roleJson);
                 EventData.Parameters = EventDataDict;
                 EventData.Code = threadData.EventCode;
                 foreach (var peer in threadData.Collection)

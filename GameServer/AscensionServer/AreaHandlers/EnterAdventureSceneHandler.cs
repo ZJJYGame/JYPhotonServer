@@ -27,7 +27,10 @@ namespace AscensionServer
             ResponseData.Clear();
             OpResponse.OperationCode = operationRequest.OperationCode;
             OpResponse.ReturnCode = (byte)ReturnCode.Success;
+            ResponseData.Add((byte)ParameterCode.RoleSet, Utility.Json.ToJson(peerSet));
+            OpResponse.Parameters = ResponseData;
             peer.SendOperationResponse(OpResponse, sendParameters);
+
             //利用池生成线程池所需要使用的对象，并为其赋值，结束时回收
             var threadData = Singleton<ReferencePoolManager>.Instance.Spawn<ThreadData<AscensionPeer>>();
             threadData.SetData(peerSet, (byte)EventCode.NewPlayer, peer);

@@ -26,7 +26,7 @@ namespace AscensionServer
         {
             AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收到離綫時間");
             var dict = ParseSubDict(operationRequest);
-            string subDataJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.OnOffLine));
+            string subDataJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.OnOffLine));
             /////
             //OnOffLine onOffLine = new OnOffLine() { RoleID=33};
             //string str = Convert.ToString(onOffLine);

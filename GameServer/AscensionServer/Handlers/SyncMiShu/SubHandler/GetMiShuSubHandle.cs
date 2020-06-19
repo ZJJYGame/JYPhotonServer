@@ -20,7 +20,7 @@ namespace AscensionServer
         {
 
             var dict = ParseSubDict(operationRequest);
-            string roleMSJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.MiShu));
+            string roleMSJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.MiShu));
             var roleMiShuObj = Utility.Json.ToObject<RoleMiShu>(roleMSJson);
             NHCriteria nHCriteriamishu = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleMiShuObj.RoleID);
             RoleMiShu roleMiShu = Singleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriamishu);
@@ -46,7 +46,7 @@ namespace AscensionServer
                 }
                 SetResponseData(() =>
                 {
-                    SubDict.Add((byte)ObjectParameterCode.MiShu, Utility.Json.ToJson(miShuIdList));
+                    SubDict.Add((byte)ParameterCode.MiShu, Utility.Json.ToJson(miShuIdList));
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
                 Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaslist);
@@ -56,7 +56,7 @@ namespace AscensionServer
               SetResponseData(() =>
                 {
                     AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收到获取秘术的id为空");
-                    SubDict.Add((byte)ObjectParameterCode.MiShu, Utility.Json.ToJson(new List<string>()));
+                    SubDict.Add((byte)ParameterCode.MiShu, Utility.Json.ToJson(new List<string>()));
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
                 });
             }

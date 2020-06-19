@@ -21,8 +21,8 @@ namespace AscensionServer
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
-            string rpJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.RolePet));
-            string pJson = Convert.ToString(Utility.GetValue(dict, (byte)ObjectParameterCode.Pet));
+            string rpJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RolePet));
+            string pJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Pet));
 
             var rpObj = Utility.Json.ToObject<RolePet>(rpJson);
             var pObj = Utility.Json.ToObject<Pet>(pJson);
