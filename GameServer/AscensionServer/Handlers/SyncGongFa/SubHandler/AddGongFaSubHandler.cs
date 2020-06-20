@@ -70,7 +70,7 @@ namespace AscensionServer
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolegongfaObj.RoleID);
             var roleGongFaObj = Singleton<NHManager>.Instance.CriteriaSelect<RoleGongFa>(nHCriteriaRoleID);
             Dictionary<int, int> gongfaDict;
-            Dictionary<int, DataObject> DOdict=new Dictionary<int, DataObject>();
+            Dictionary<int, string> DOdict=new Dictionary<int, string>();
             if (roleGongFaObj != null)
             {
                 if (!string.IsNullOrEmpty(roleGongFaObj.GongFaIDArray))
@@ -93,7 +93,7 @@ namespace AscensionServer
                         
                         Singleton<NHManager>.Instance.Update(new RoleGongFa() { RoleID = rolegongfaObj.RoleID, GongFaIDArray = Utility.Json.ToJson(gongfaDict) });
                         AscensionServer._Log.Info("添加1功法ID》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》" + Utility.Json.ToJson(gongfaDict));
-                        DOdict.Add(1, gongfaObj);
+                        DOdict.Add(1, Utility.Json.ToJson(gongfaObj));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     }
                 }
@@ -104,7 +104,7 @@ namespace AscensionServer
                     gongfaObj = Singleton<NHManager>.Instance.Insert<GongFa>(gongfaObj);
                     gongfaDict.Add(gongfaObj.ID, gongfaObj.GongFaID);
                    AscensionServer._Log.Info("添加2功法ID》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》" + Utility.Json.ToJson(gongfaDict));
-                    DOdict.Add(1, gongfaObj);
+                    DOdict.Add(1, Utility.Json.ToJson(gongfaObj));
                     Singleton<NHManager>.Instance.Update(new RoleGongFa() { RoleID = rolegongfaObj.RoleID, GongFaIDArray = Utility.Json.ToJson(gongfaDict) });
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
@@ -117,16 +117,16 @@ namespace AscensionServer
                 gongfaObj = Singleton<NHManager>.Instance.Insert<GongFa>(gongfaObj);
                 gongfaDict.Add(gongfaObj.ID, gongfaObj.GongFaID);
                 AscensionServer._Log.Info("添加3功法ID》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》" + Utility.Json.ToJson(gongfaDict));
-                DOdict.Add(1, gongfaObj);
+                DOdict.Add(1, Utility.Json.ToJson(gongfaObj));
                 Singleton<NHManager>.Instance.Update(new RoleGongFa() { RoleID = rolegongfaObj.RoleID, GongFaIDArray = Utility.Json.ToJson(gongfaDict) });
                 
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             }
             var roleGongFaSendObj = Singleton<NHManager>.Instance.CriteriaSelect<RoleGongFa>(nHCriteriaRoleID);
-            DOdict.Add(2, roleGongFaSendObj);
+            DOdict.Add(2, Utility.Json.ToJson(roleGongFaSendObj) );
             Owner.OpResponse.Parameters = Owner.ResponseData;
             AscensionServer._Log.Info("发送功法ID》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》" + Utility.Json.ToJson(DOdict));
-            Owner.ResponseData.Add((byte)ObjectParameterCode.RoleGongFa, Utility.Json.ToJson(DOdict));
+            Owner.ResponseData.Add((byte)ParameterCode.RoleGongFa, Utility.Json.ToJson(DOdict));
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
         }
