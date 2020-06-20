@@ -36,24 +36,23 @@ namespace AscensionServer
                 bool existGongFa = Singleton<NHManager>.Instance.Verify<GongFa>(nHCriteriaGongFaID);
                 if (existGongFa)
                 {
-                    GongFa GongfaInfoExp = Singleton<NHManager>.Instance.CriteriaSelect<GongFa>(nHCriteriaGongFaID);
-                    foreach (var item in Utility.Json.ToObject<List<string>>(GongfaInfo.GongFaIDArray))
-                    {
-                        if (int.Parse(item) == receivedObj.ID)
-                        {
-                            if (receivedObj.GongFaLevel != 0)
-                            {
-                                GongfaInfoExp.GongFaExp = 0;
-                                intInfoObj = GongfaInfoExp.GongFaExp + receivedObj.GongFaExp;
-                                intLevel = GongfaInfoExp.GongFaLevel + receivedObj.GongFaLevel;
-                                Singleton<NHManager>.Instance.Update(new GongFa() { ID = GongfaInfoExp.ID, GongFaID = GongfaInfoExp.GongFaID, GongFaLevel = (short)intLevel, GongFaSkillArray = GongfaInfoExp.GongFaSkillArray, GongFaExp = intInfoObj });
-                            }
-                            else
-                            {
-                                intInfoObj = GongfaInfoExp.GongFaExp + receivedObj.GongFaExp;
-                                Singleton<NHManager>.Instance.Update(new GongFa() { ID = GongfaInfoExp.ID, GongFaID = GongfaInfoExp.GongFaID, GongFaLevel = GongfaInfoExp.GongFaLevel, GongFaSkillArray = GongfaInfoExp.GongFaSkillArray, GongFaExp = intInfoObj });
+                   GongFa GongfaInfoExp = Singleton<NHManager>.Instance.CriteriaSelect<GongFa>(nHCriteriaGongFaID);
+                   var dicGongFaId =   Utility.Json.ToObject<Dictionary<int,int>>(GongfaInfo.GongFaIDArray);
 
-                            }
+                    if (dicGongFaId.ContainsKey(receivedObj.ID))
+                    {
+                        if (receivedObj.GongFaLevel != 0)
+                        {
+                            GongfaInfoExp.GongFaExp = 0;
+                            intInfoObj = GongfaInfoExp.GongFaExp + receivedObj.GongFaExp;
+                            intLevel = GongfaInfoExp.GongFaLevel + receivedObj.GongFaLevel;
+                            Singleton<NHManager>.Instance.Update(new GongFa() { ID = GongfaInfoExp.ID, GongFaID = GongfaInfoExp.GongFaID, GongFaLevel = (short)intLevel, GongFaSkillArray = GongfaInfoExp.GongFaSkillArray, GongFaExp = intInfoObj });
+                        }
+                        else
+                        {
+                            intInfoObj = GongfaInfoExp.GongFaExp + receivedObj.GongFaExp;
+                            Singleton<NHManager>.Instance.Update(new GongFa() { ID = GongfaInfoExp.ID, GongFaID = GongfaInfoExp.GongFaID, GongFaLevel = GongfaInfoExp.GongFaLevel, GongFaSkillArray = GongfaInfoExp.GongFaSkillArray, GongFaExp = intInfoObj });
+
                         }
                     }
                 }
