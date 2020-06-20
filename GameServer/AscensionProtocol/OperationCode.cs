@@ -24,7 +24,7 @@ namespace AscensionProtocol
         /// 同步自己当前账号的所有角色信息
         /// </summary>
         SyncSelfRoles=6,
-        SyncOtherRoles=7,
+        SyncSelfRoleTransform=7,
         SyncRoleStatus=8,
         SyncRoleAssets=9,
         SyncInventory=10,
