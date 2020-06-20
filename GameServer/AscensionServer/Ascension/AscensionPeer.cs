@@ -21,20 +21,17 @@ namespace AscensionServer
         /// <summary>
         /// 保存当前用户登录的信息与状态
         /// </summary>
-        PeerCache peerCache;
+        PeerCache peerCache=new PeerCache();
         public PeerCache PeerCache { get { return peerCache; } set { peerCache = value; } }
-        //public float x, y, z;
-        public RoleTransformDTO RoleTransform { get; set; }
+
+        public RoleTransformDTO RoleTransform { get{ return roleTransform; } set { roleTransform = value; } }
+        RoleTransformDTO roleTransform = new RoleTransformDTO();
         public string RoleTransformJson { get; set; }
         /// <summary>
         /// Peer的UUID
         /// </summary>
         public string PeerGUID { get; set; }
-        public AscensionPeer(InitRequest initRequest) : base(initRequest)
-        {
-            peerCache = new PeerCache();
-            RoleTransform = new RoleTransformDTO();
-        }
+        public AscensionPeer(InitRequest initRequest) : base(initRequest){}
         //处理客户端断开连接的后续工作
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
@@ -52,28 +49,14 @@ namespace AscensionServer
             var sendParameter = new SendParameters();
             if (AscensionServer.Instance.IsEnterAdventureScene(this))
                 AscensionServer.Instance.ExitAdventureScene(this);
-            Logoff();
             AscensionServer.Instance.RemoveFromLoggedUserCache(this);
             foreach (AscensionPeer tmpPeer in loggedPeerHashSet )
             {
                 tmpPeer.SendEvent(ed, sendParameter);                      
             }
+            Logoff();
             AscensionServer. _Log.Info("***********************  Client Disconnect    ***********************");
         }
-        //void ExitAventureHandler()
-        //{
-        //    var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
-        //    var threadData = Singleton<ReferencePoolManager>.Instance.Spawn<ThreadData<AscensionPeer>>();
-        //    threadData.SetData(peerSet, (byte)EventCode.DeletePlayer, this);
-        //    var syncEvent = Singleton<ReferencePoolManager>.Instance.Spawn<SyncOtherRoleEvent>();
-        //    syncEvent.SetData(threadData);
-        //    syncEvent.AddFinishedHandler(() => {
-        //        Singleton<ReferencePoolManager>.Instance.Despawns(syncEvent, threadData);
-        //        ThreadEvent.RemoveSyncEvent(syncEvent);
-        //    });
-        //    ThreadEvent.AddSyncEvent(syncEvent);
-        //    ThreadEvent.ExecuteEvent();
-        //}
         //处理客户端的请求
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
         {
