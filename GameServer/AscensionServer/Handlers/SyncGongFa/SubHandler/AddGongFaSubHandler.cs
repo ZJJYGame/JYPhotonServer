@@ -126,7 +126,7 @@ namespace AscensionServer
             DOdict.Add(2, roleGongFaSendObj);
             Owner.OpResponse.Parameters = Owner.ResponseData;
             AscensionServer._Log.Info("发送功法ID》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》" + Utility.Json.ToJson(DOdict));
-            Owner.ResponseData.Add((byte)ObjectParameterCode.RoleGongFa, Utility.Json.ToJson(DOdict));
+            Owner.ResponseData.Add((byte)ParameterCode.RoleGongFa, Utility.Json.ToJson(DOdict));
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
         }
