@@ -38,7 +38,6 @@ namespace AscensionServer.Threads
             roleTransformList.Clear();
             //try{EventData.Parameters.Clear();}catch {}
             EventData.Parameters = EventDataDict;
-            EventDataDict.Clear();
             for (int i = 0; i < loggedCount; i++)
             {
                 var roleDataTmp = Singleton<ReferencePoolManager>.Instance.Spawn<RoleTransformDTO>();
@@ -46,6 +45,7 @@ namespace AscensionServer.Threads
                 roleTransformList.Add(roleDataTmp);
             }
             EventData.Code = (byte)EventCode.SyncRoleTransform;
+            EventDataDict.Clear();
             EventDataDict.Add((byte)ParameterCode.RoleTransfromSet, Utility.Json.ToJson(roleTransformList));
             for (int i = 0; i < loggedList.Count; i++)
             {
