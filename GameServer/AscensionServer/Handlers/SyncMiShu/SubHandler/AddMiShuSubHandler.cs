@@ -27,56 +27,13 @@ namespace AscensionServer
 
             var rolemishuObj = Utility.Json.ToObject<RoleMiShu>(rmsJson);
             var mishuObj = Utility.Json.ToObject<MiShu>(msJson);
-            #region BugFix
-            //NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolemishuObj.RoleID);
-
-            //var roleMiShuObj = Singleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriaRoleID);
-            //if (roleMiShuObj == null)
-            //{
-            //    Singleton<NHManager>.Instance.Insert(rolemishuObj);
-            //    AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler  add roleMiShuObj" + rmsJson + "\n >>>>>>>>>>>>");
-            //    mishuObj = Singleton<NHManager>.Instance.Insert(mishuObj);
-
-            //    List<string> miShuIDList = new List<string>();
-            //    miShuIDList.Add(mishuObj.ID.ToString());
-            //    rolemishuObj.MiShuIDArray = Utility.Json.ToJson(miShuIDList);
-            //}
-            //else
-            //{
-            //    AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler  Update roleMiShuObj" + rmsJson + "\n >>>>>>>>>>>>");
-            //    mishuObj = Singleton<NHManager>.Instance.Insert(mishuObj);
-            //    List<string> miShuIDList = new List<string>();
-            //    if (string.IsNullOrEmpty(roleMiShuObj.MiShuIDArray))
-            //    {
-            //        AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler  Update  empty roleMiShuObj" + rmsJson + "\n >>>>>>>>>>>>");
-
-            //        miShuIDList.Add(mishuObj.ID.ToString());
-            //    }
-            //    else
-            //    {
-            //        AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler  Update existed roleMiShuObj" + rmsJson + "\n >>>>>>>>>>>>");
-
-            //        miShuIDList = Utility.Json.ToObject<List<string>>(roleMiShuObj.MiShuIDArray);
-            //        if (!miShuIDList.Contains(mishuObj.ID.ToString()))
-            //        {
-            //            miShuIDList.Add(mishuObj.ID.ToString());
-            //        }
-
-            //        else
-            //            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>> \n AddMiShuSubHandler mishu is already existed !!" + rmsJson + "\n >>>>>>>>>>>>");
-            //    }
-            //    rolemishuObj.MiShuIDArray = Utility.Json.ToJson(miShuIDList);
-            //}
-            //Singleton<NHManager>.Instance.Update<RoleMiShu>(rolemishuObj);
-            //Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
-            #endregion
 
 
-            #region YZQ
-            AscensionServer._Log.Info("添加秘术》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》");
+
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolemishuObj.RoleID);
             var roleMiShuObj = Singleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriaRoleID);
             Dictionary<int, int> mishuDict;
+            Dictionary<int, string> DOdict = new Dictionary<int, string>();
             if (roleMiShuObj != null)
             {
                 if (!string.IsNullOrEmpty(roleMiShuObj.MiShuIDArray))
@@ -96,8 +53,9 @@ namespace AscensionServer
                     {
                         mishuObj = Singleton<NHManager>.Instance.Insert(mishuObj);
                         mishuDict.Add(mishuObj.ID, mishuObj.MiShuID);
-                        //AscensionServer._Log.Info("添加1秘术ID》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》"+ mishuObj.ID);
+
                         Singleton<NHManager>.Instance.Update(new RoleMiShu() { RoleID = rolemishuObj.RoleID, MiShuIDArray = Utility.Json.ToJson(mishuDict) });
+                        DOdict.Add(1,Utility.Json.ToJson(mishuObj));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     }
                 }
@@ -107,8 +65,9 @@ namespace AscensionServer
                     mishuDict = Utility.Json.ToObject<Dictionary<int, int>>(roleMiShuObj.MiShuIDArray);
                     mishuObj = Singleton<NHManager>.Instance.Insert(mishuObj);
                     mishuDict.Add(mishuObj.ID, mishuObj.MiShuID);
-                    //AscensionServer._Log.Info("添加2秘术ID》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》" + mishuObj.ID);
+
                     Singleton<NHManager>.Instance.Update(new RoleMiShu() { RoleID = rolemishuObj.RoleID, MiShuIDArray = Utility.Json.ToJson(mishuDict) });
+                    DOdict.Add(1, Utility.Json.ToJson(mishuObj));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
             }
@@ -118,15 +77,18 @@ namespace AscensionServer
                 mishuDict = Utility.Json.ToObject<Dictionary<int, int>>(roleMiShuObj.MiShuIDArray);
                 mishuObj = Singleton<NHManager>.Instance.Insert(mishuObj);
                 mishuDict.Add(mishuObj.ID, mishuObj.MiShuID);
-                //AscensionServer._Log.Info("添加3秘术ID》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》" + Utility.Json.ToJson(mishuDict));
+
                 Singleton<NHManager>.Instance.Update(new RoleMiShu() { RoleID = rolemishuObj.RoleID, MiShuIDArray = Utility.Json.ToJson(mishuDict) });
-               
+                DOdict.Add(1, Utility.Json.ToJson(mishuObj));
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             }
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
+            var roleMiShuSendObj = Singleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriaRoleID);
+            DOdict.Add(2,Utility.Json.ToJson(roleMiShuSendObj));
+            Owner.OpResponse.Parameters = Owner.ResponseData;
+            Owner.ResponseData.Add((byte)ParameterCode.RoleMiShu,Utility.Json.ToJson(DOdict));
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
 
-            #endregion
         }
 
     }
