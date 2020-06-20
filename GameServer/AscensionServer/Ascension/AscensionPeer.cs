@@ -11,6 +11,8 @@ using AscensionServer.Model;
 using AscensionProtocol.DTO;
 using System;
 using Cosmos;
+using AscensionServer.Threads;
+
 namespace AscensionServer
 {
     //管理跟客户端的链接的
@@ -45,18 +47,33 @@ namespace AscensionServer
                 //RecordOnOffLine(AscensionServer.Instance.HasOnlineID(this));
                 RecordOnOffLine(peerCache.RoleID);
             }
-            AscensionServer.Instance.RemoveFromLoggedUserCache(this);
-            if(AscensionServer.Instance.IsEnterAdventureScene(this))
-            AscensionServer.Instance.ExitAdventureScene(this);
             var loggedPeerHashSet = AscensionServer.Instance.LoggedPeerCache.GetValuesHashSet();
             loggedPeerHashSet.Remove(this);
             var sendParameter = new SendParameters();
+            if (AscensionServer.Instance.IsEnterAdventureScene(this))
+                AscensionServer.Instance.ExitAdventureScene(this);
+            Logoff();
+            AscensionServer.Instance.RemoveFromLoggedUserCache(this);
             foreach (AscensionPeer tmpPeer in loggedPeerHashSet )
             {
                 tmpPeer.SendEvent(ed, sendParameter);                      
             }
             AscensionServer. _Log.Info("***********************  Client Disconnect    ***********************");
         }
+        //void ExitAventureHandler()
+        //{
+        //    var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
+        //    var threadData = Singleton<ReferencePoolManager>.Instance.Spawn<ThreadData<AscensionPeer>>();
+        //    threadData.SetData(peerSet, (byte)EventCode.DeletePlayer, this);
+        //    var syncEvent = Singleton<ReferencePoolManager>.Instance.Spawn<SyncOtherRoleEvent>();
+        //    syncEvent.SetData(threadData);
+        //    syncEvent.AddFinishedHandler(() => {
+        //        Singleton<ReferencePoolManager>.Instance.Despawns(syncEvent, threadData);
+        //        ThreadEvent.RemoveSyncEvent(syncEvent);
+        //    });
+        //    ThreadEvent.AddSyncEvent(syncEvent);
+        //    ThreadEvent.ExecuteEvent();
+        //}
         //处理客户端的请求
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
         {

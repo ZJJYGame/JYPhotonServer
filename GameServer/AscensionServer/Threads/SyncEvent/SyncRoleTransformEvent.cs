@@ -32,13 +32,14 @@ namespace AscensionServer.Threads
         {
             //var loggedList = AscensionServer.Instance.LoggedPeerCache.GetValuesList();
             var loggedList = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
-            if (loggedList.Count <= 0)
+            var loggedCount = loggedList.Count;
+            if (loggedCount <= 0)
                 return;
             roleTransformList.Clear();
-            try{EventData.Parameters.Clear();}catch {}
+            //try{EventData.Parameters.Clear();}catch {}
+            EventData.Parameters = EventDataDict;
             EventDataDict.Clear();
-            //roleTransformList.Capacity = loggedList.Count;
-            for (int i = 0; i <loggedList.Count ; i++)
+            for (int i = 0; i < loggedCount; i++)
             {
                 var roleDataTmp = Singleton<ReferencePoolManager>.Instance.Spawn<RoleTransformDTO>();
                 roleDataTmp = loggedList[i].RoleTransform;
@@ -46,8 +47,6 @@ namespace AscensionServer.Threads
             }
             EventData.Code = (byte)EventCode.SyncRoleTransform;
             EventDataDict.Add((byte)ParameterCode.RoleTransfromSet, Utility.Json.ToJson(roleTransformList));
-            //EventData = new EventData((byte)EventCode.SyncRoleTransform);
-            EventData.Parameters = EventDataDict;
             for (int i = 0; i < loggedList.Count; i++)
             {
                 loggedList[i].SendEvent(EventData, SendParameter);

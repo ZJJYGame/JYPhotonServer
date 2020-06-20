@@ -140,23 +140,30 @@ namespace AscensionServer
         /// </summary>
         /// <param name="peer"></param>
         // TODO 进入探索界面容器需要优化，未对结构进行设计
-        public void EnterAdventureScene(AscensionPeer peer)
+        public void EnterAdventureScene(AscensionPeer peer,Action callBack=null)
         {
             var result = addventureScenePeerCache.Add(peer.PeerCache.Account, peer);
             if (result)
             {
-                _Log.Info("---------------------------- AscensionServer.Cache.Logoff() :remove peer addventureScenePeerCachesuccess : " + peer.ToString() + "------------------------------------");
+                callBack?.Invoke();
+                _Log.Info("---------------------------- AscensionServer.Cache.Logoff() :remove peer addventureScenePeerCache  success : " + peer.ToString() + "------------------------------------");
             }
             else
             {
                 _Log.Info("---------------------------- AscensionServer.Cache.Logoff() : can't  remove from laddventureScenePeerCache  : " + peer.ToString() + "------------------------------------");
             }
         }
-        public void ExitAdventureScene(AscensionPeer peer)
+        /// <summary>
+        /// 离开探索界面
+        /// </summary>
+        /// <param name="peer">peer对象</param>
+        /// <param name="callBack">离开成功后执行的回调</param>
+        public void ExitAdventureScene(AscensionPeer peer,Action callBack=null)
         {
             var result = addventureScenePeerCache.Remove(peer.PeerCache.Account);
             if (result)
             {
+                callBack?.Invoke();
                 _Log.Info("---------------------------- AscensionServer.Cache.Logoff() :remove peer addventureScenePeerCache success : " + peer.ToString() + "------------------------------------");
             }
             else
