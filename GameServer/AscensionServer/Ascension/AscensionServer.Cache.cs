@@ -38,7 +38,7 @@ namespace AscensionServer
             var result = loggedPeerCache.Add(peer.PeerCache.Account, peer);
             if (result)
             {
-                peer.PeerCache.IsLogged = true;
+                //peer.PeerCache.IsLogged = true;
                 _Log.Info("----------------------------  AscensionServer.Cache.Login() : Server management logged peer success : " + peer.ToString() + "------------------------------------");
             }
             else
@@ -61,7 +61,7 @@ namespace AscensionServer
             var result = loggedPeerCache.Remove(peer.PeerCache.Account);
             if (result)
             {
-                peer.PeerCache.IsLogged = false;
+                //peer.PeerCache.IsLogged = false;
                 _Log.Info("---------------------------- AscensionServer.Cache.Logoff() :remove peer logoff success : " + peer.ToString() + "------------------------------------");
             }
             else

@@ -79,9 +79,13 @@ namespace AscensionServer
             this.PeerCache.Account = user.Account;
             this.PeerCache.UUID= user.UUID;
             this.PeerCache.Password= user.Password;
+            this.peerCache.IsLogged = true;
         }
         public void Logoff()
         {
+            if (!peerCache.IsLogged)
+                return;
+            this.peerCache.IsLogged = false;
             this.PeerCache.Account =null;
             this.PeerCache.UUID = null;
             this.PeerCache.Password =null;
