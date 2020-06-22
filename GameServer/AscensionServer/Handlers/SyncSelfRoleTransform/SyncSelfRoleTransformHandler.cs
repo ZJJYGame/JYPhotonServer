@@ -5,6 +5,7 @@
 */
 using System.Collections.Generic;
 using AscensionProtocol;
+using AscensionProtocol.DTO;
 using Photon.SocketServer;
 using Cosmos;
 using System;
@@ -22,6 +23,7 @@ namespace AscensionServer
         {
             var JsonResult = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleTransfrom));
             peer.RoleTransformJson = JsonResult;
+            peer.RoleTransform = Utility.Json.ToObject<RoleTransformDTO>(JsonResult);
             ResponseData.Clear();
             OpResponse.OperationCode = operationRequest.OperationCode;
             OpResponse.ReturnCode = (short)ReturnCode.Success;

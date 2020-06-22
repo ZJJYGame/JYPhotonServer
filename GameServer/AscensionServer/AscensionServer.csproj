@@ -107,6 +107,7 @@
     <Compile Include="AreaHandlers\EnterAdventureSceneHandler.cs" />
     <Compile Include="AreaHandlers\ExitAdventureSceneHandler.cs" />
     <Compile Include="Handlers\SyncInventory\SubHandler\GetInventorySubHandler.cs" />
+    <Compile Include="Handlers\SyncSelfRoleTransform\SyncSelfRoleTransformHandler.cs" />
     <Compile Include="Handlers\SyncPet\SubHandler\UpdatePetHandler.cs" />
     <Compile Include="Handlers\SyncRolePet\SubHandler\RemoveRolePetSubHandler.cs" />
     <Compile Include="DO\Base\DataObject.cs" />
@@ -162,9 +163,9 @@
     <Compile Include="Handlers\SyncOnOffLine\SubHandler\SyncOnOffLineSubHandler.cs" />
     <Compile Include="Handlers\SyncOnOffLine\SubHandler\UpdateOnOffLineSubHandler.cs" />
     <Compile Include="Handlers\SyncOnOffLine\SyncOnOffLineHandler.cs" />
-    <Compile Include="Handlers\SyncOtherRoles\SubHandler\GetOtherRolesSubHandler.cs" />
-    <Compile Include="Handlers\SyncOtherRoles\SubHandler\RemoveOtherRolesSubHandler.cs" />
-    <Compile Include="Handlers\SyncOtherRoles\SubHandler\SyncOtherRolesSubHandler.cs" />
+    <Compile Include="Handlers\SyncSelfRoleTransform\SubHandler\GetOtherRolesSubHandler.cs" />
+    <Compile Include="Handlers\SyncSelfRoleTransform\SubHandler\RemoveOtherRolesSubHandler.cs" />
+    <Compile Include="Handlers\SyncSelfRoleTransform\SubHandler\SyncOtherRolesSubHandler.cs" />
     <Compile Include="Handlers\SyncPetStatus\SubHandler\GetPetStatusSubHandler.cs" />
     <Compile Include="Handlers\SyncPetStatus\SubHandler\SyncPetStatusSubHandler.cs" />
     <Compile Include="Handlers\SyncPetStatus\SubHandler\UpdatePetStatusSubHandler.cs" />
@@ -195,7 +196,6 @@
     <Compile Include="Handlers\Login\LoginHandler.cs" />
     <Compile Include="Handlers\Logoff\LogoffHandler.cs" />
     <Compile Include="Handlers\Register\RegisterHandler.cs" />
-    <Compile Include="Handlers\SyncOtherRoles\SyncOtherRolesHandler.cs" />
     <Compile Include="Handlers\SyncPosition\SyncPositionHandler.cs" />
     <Compile Include="Handlers\SyncRoleAssets\SyncRoleAssetsHandler.cs" />
     <Compile Include="Handlers\SyncRoleStatus\SyncRoleStatusHandler.cs" />
