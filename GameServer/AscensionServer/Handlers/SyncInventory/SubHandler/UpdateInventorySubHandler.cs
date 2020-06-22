@@ -32,19 +32,16 @@ namespace AscensionServer
             string severInfoItemTime = "0";
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", InventoryRoleObj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<RoleRing>(nHCriteriaRoleID);
-            NHCriteria nHCriteriaRingID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RingId", InventoryObj.RingId);
+            NHCriteria nHCriteriaRingID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", InventoryObj.RingId);
             bool existRing = Singleton<NHManager>.Instance.Verify<Ring>(nHCriteriaRingID);
 
             if (exist)
             {
-                var ringArray = Singleton<NHManager>.Instance.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
-
                 if (existRing)
                 {
                     var ringServerArray = Singleton<NHManager>.Instance.CriteriaSelect<Ring>(nHCriteriaRingID);
-                    foreach (var n in Utility.Json.ToObject<List<int>>(ringArray.RingIdArray))
-                    {
-                        if (n == ringServerArray.ID)
+                 
+                        if (InventoryObj.ID == ringServerArray.ID)
                         {
                             Dic = new Dictionary<int, RingItemsDTO>();
                             var ServerDic = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingItems);
@@ -81,7 +78,6 @@ namespace AscensionServer
                                     Singleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(Dic) });
                                 }*/
                             }
-                        }
                     }
                     Owner.OpResponse.Parameters = Owner.ResponseData;
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
