@@ -35,11 +35,13 @@ namespace AscensionServer
             OpResponse.OperationCode = operationRequest.OperationCode;
             if (verified)
             {
-                OpResponse.ReturnCode = (short)ReturnCode.Success;
+               OpResponse.ReturnCode = (short)ReturnCode.Success;
                 userObj.UUID= Singleton<NHManager>.Instance.CriteriaSelect<User>(nHCriteriaAccount).UUID;
                 peer.Login(userObj);
                 AscensionServer.Instance.AddIntoLoggedUserCache(peer);
                 AscensionServer._Log.Info("~~~~~~~~~~~~~~~~~~~~~~Login Success : " + userObj.Account + " ; UUID : " + peer.PeerCache.UUID + "~~~~~~~~~~~~~~~~~~~~~~");
+                ResponseData.Add((byte)ParameterCode.Role, Utility.Json.ToJson(userObj));
+                OpResponse.Parameters = ResponseData;
             }
             else
             {
