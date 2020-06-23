@@ -47,7 +47,6 @@ namespace AscensionServer
 
                     SetResponseData(() =>
                     {
-                        //AscensionServer._Log.Info("计算出功法的离线经验>>>>>>>>>" + onofflinetemp.MsGfID.ToString() + ">>>>>>>>>>>>");
                         SubDict.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
@@ -62,7 +61,6 @@ namespace AscensionServer
                     date.Add(Exptypeobj.ExpType);
                     SetResponseData(() =>
                     {
-                        //AscensionServer._Log.Info("计算出秘書的离线经验>>>>>>>>>" + onofflinetemp.MsGfID.ToString() + ">>>>>>>>>>>>");
                         SubDict.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
@@ -71,7 +69,6 @@ namespace AscensionServer
                 {
                     SetResponseData(() =>
                     {
-                        // AscensionServer._Log.Info("计算出的离线经验>>>>>>>>> 爲空 >>>>>>>>>>>>");
                         SubDict.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(new List<string>()));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
                     });
@@ -79,7 +76,6 @@ namespace AscensionServer
                 }else{
                 SetResponseData(() =>
                 {
-                        AscensionServer._Log.Info("计算出的离线经验>>>>>>>>> 失敗 >>>>>>>>>>>>");
                 SubDict.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(new List<string>()));
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
                 });

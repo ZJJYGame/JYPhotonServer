@@ -61,7 +61,7 @@ namespace AscensionServer
                 Singleton<NHManager>.Instance.Insert(rolestatus);
                 Singleton<NHManager>.Instance.Insert(new RoleAssets() { RoleID = rolestatus.RoleID });
                 Singleton<NHManager>.Instance.Insert(new OnOffLine() { RoleID = rolestatus.RoleID });
-
+                Dictionary<string, string> DOdict = new Dictionary<string, string>();
                 #region 测试待修改
                 RoleGFDict.Clear();
                 GongFa gongFa = new GongFa();
@@ -99,7 +99,10 @@ namespace AscensionServer
                 var userRoleJson = Utility.Json.ToJson(roleList);
                 Singleton<NHManager>.Instance.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
-                Owner.ResponseData.Add((byte)ParameterCode.Role, Utility.Json.ToJson(role));
+                DOdict.Add("Role", Utility.Json.ToJson(role));
+                DOdict.Add("RoleStatus", Utility.Json.ToJson(rolestatus));
+                DOdict.Add("GongFa", Utility.Json.ToJson(gongFa));
+                Owner.ResponseData.Add((byte)ParameterCode.Role, Utility.Json.ToJson(DOdict));
                 Owner.OpResponse.Parameters = Owner.ResponseData;
             }
             else

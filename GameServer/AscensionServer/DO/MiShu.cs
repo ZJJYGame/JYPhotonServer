@@ -18,7 +18,7 @@ namespace AscensionServer.Model
         {
             MiShuID = 13001;
             MiShuExp = 0;
-            MiShuLevel = 0;
+            MiShuLevel = 1;
             MiShuSkillArry = "";
         }
         public virtual int ID { get; set; }
