@@ -14,6 +14,7 @@ namespace AscensionServer
             Id(x => x.ID).GeneratedBy.Increment().Column("id");
             Map(x => x.RingId).Column("ring_id");
             Map(x => x.RingItems).Column("ring_items");
+            Map(x => x.RingAdorn).Column("ring_adorn");
             Table("ring");
         }
     }

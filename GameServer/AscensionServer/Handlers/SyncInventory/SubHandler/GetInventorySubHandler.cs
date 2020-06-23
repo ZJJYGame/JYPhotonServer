@@ -32,17 +32,18 @@ namespace AscensionServer
 
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", InventoryRoleObj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<RoleRing>(nHCriteriaRoleID);
-            List<int> idRing = new List<int>();
+            Dictionary<int,int> idRing = new Dictionary<int,int>();
             Ring ring = null ;
             if (exist)
             {
                 var ringArray = Singleton<NHManager>.Instance.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
+                /*
                 if (string.IsNullOrEmpty(ringArray.RingIdArray))
                 {
                     ring = Singleton<NHManager>.Instance.Insert<Ring>(new Ring() { RingId = InventoryObj.RingId, RingItems = Utility.Json.ToJson(new Dictionary<int, RingItemsDTO>()) });
-                    idRing.Add(ring.ID);
+                    idRing.Add(ring.ID, ring.RingAdorn);
                     Singleton<NHManager>.Instance.Update<RoleRing>(new RoleRing() { RoleID = InventoryRoleObj.RoleID, RingIdArray = Utility.Json.ToJson(idRing) });
-                }
+                }*/
                 NHCriteria nHCriteriaRingID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", InventoryObj.ID);
                 bool existRing = Singleton<NHManager>.Instance.Verify<Ring>(nHCriteriaRingID);
                 if (existRing)
