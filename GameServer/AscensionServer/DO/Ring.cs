@@ -17,11 +17,13 @@ namespace AscensionServer.Model
         public virtual int ID { set; get; }
         public virtual int RingId { get; set; }
         public virtual string RingItems { get; set; }
+        public virtual int RingAdorn { get; set; }
         public override void Clear()
         {
             ID = -1;
             RingId = 0;
             RingItems = null;
+            RingAdorn = -1;
         }
     }
 }

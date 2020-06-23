@@ -12,7 +12,7 @@ namespace AscensionServer
         public RoleRingMap()
         {
             Id(x => x.RoleID).GeneratedBy.Assigned().Column("role_id");
-            Map(x => x.RingIdArray).Column("ring_id_array").Nullable();
+            Map(x => x.RingIdArray).Column("ring_id_array");//.Nullable()
             Table("role_ring");
         }
     }

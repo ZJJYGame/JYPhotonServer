@@ -7,6 +7,8 @@ using AscensionProtocol;
 using Photon.SocketServer;
 using AscensionServer.Model;
 using Cosmos;
+using AscensionProtocol.DTO;
+
 namespace AscensionServer
 {
     /// <summary>
@@ -37,6 +39,8 @@ namespace AscensionServer
             var userRole = Singleton<NHManager>.Instance.CriteriaSelect<UserRole>(nHCriteriaUUID);
             string roleJson = userRole.RoleIDArray;
             string roleStatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleStatus));
+            Dictionary<int, int> idRing = new Dictionary<int, int>();
+            Ring ring = null;
             //如果没有查询到代表角色没被注册过可用
 
             if (role == null)
@@ -57,6 +61,7 @@ namespace AscensionServer
                 Singleton<NHManager>.Instance.Insert(rolestatus);
                 Singleton<NHManager>.Instance.Insert(new RoleAssets() { RoleID = rolestatus.RoleID });
                 Singleton<NHManager>.Instance.Insert(new OnOffLine() { RoleID = rolestatus.RoleID });
+
                 #region 测试待修改
                 RoleGFDict.Clear();
                 GongFa gongFa = new GongFa();
@@ -78,6 +83,18 @@ namespace AscensionServer
                 petStatus = Singleton<NHManager>.Instance.Insert(petStatus);
                 RolePetDict.Add(pet.ID, pet.PetID);
                 Singleton<NHManager>.Instance.Insert(new RolePet() { RoleID = rolestatus.RoleID, PetIDDict = Utility.Json.ToJson(RolePetDict) });
+                #endregion
+                #region 背包
+                Singleton<NHManager>.Instance.Insert(new RoleRing() { RoleID = rolestatus.RoleID });
+                NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolestatus.RoleID);
+                var ringArray = Singleton<NHManager>.Instance.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
+                if (string.IsNullOrEmpty(ringArray.RingIdArray))
+               {
+                   ring = Singleton<NHManager>.Instance.Insert<Ring>(new Ring() { RingId = 11110, RingItems = Utility.Json.ToJson(new Dictionary<int, RingItemsDTO>()) });
+                   idRing.Add(ring.ID, ring.RingAdorn);
+                   Singleton<NHManager>.Instance.Update<RoleRing>(new RoleRing() { RoleID = rolestatus.RoleID, RingIdArray = Utility.Json.ToJson(idRing) });
+               }
+
                 #endregion
                 var userRoleJson = Utility.Json.ToJson(roleList);
                 Singleton<NHManager>.Instance.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });

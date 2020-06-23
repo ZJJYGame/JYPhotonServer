@@ -32,12 +32,20 @@ namespace AscensionServer
 
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", InventoryRoleObj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<RoleRing>(nHCriteriaRoleID);
-            NHCriteria nHCriteriaRingID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RingId", InventoryObj.RingId);
-            bool existRing = Singleton<NHManager>.Instance.Verify<Ring>(nHCriteriaRingID);
-
+            Dictionary<int,int> idRing = new Dictionary<int,int>();
+            Ring ring = null ;
             if (exist)
             {
                 var ringArray = Singleton<NHManager>.Instance.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
+                /*
+                if (string.IsNullOrEmpty(ringArray.RingIdArray))
+                {
+                    ring = Singleton<NHManager>.Instance.Insert<Ring>(new Ring() { RingId = InventoryObj.RingId, RingItems = Utility.Json.ToJson(new Dictionary<int, RingItemsDTO>()) });
+                    idRing.Add(ring.ID, ring.RingAdorn);
+                    Singleton<NHManager>.Instance.Update<RoleRing>(new RoleRing() { RoleID = InventoryRoleObj.RoleID, RingIdArray = Utility.Json.ToJson(idRing) });
+                }*/
+                NHCriteria nHCriteriaRingID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", InventoryObj.ID);
+                bool existRing = Singleton<NHManager>.Instance.Verify<Ring>(nHCriteriaRingID);
                 if (existRing)
                 {
                     var ringServerArray = Singleton<NHManager>.Instance.CriteriaSelect<Ring>(nHCriteriaRingID);
@@ -51,8 +59,21 @@ namespace AscensionServer
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID, nHCriteriaRingID);
+            Singleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleID);
         }
     }
 }
+/*
+               if (!string.IsNullOrEmpty(ringArray.RingIdArray))
+               {
+                   idRing = Utility.Json.ToObject<List<int>>(ringArray.RingIdArray);
+                   foreach (var item in idRing)
+                   {
+                       if (item != InventoryObj.ID)
+                       {
+                           idRing.Add(ring.ID);
+                       }
+                   }
+               }
+               else*/
 

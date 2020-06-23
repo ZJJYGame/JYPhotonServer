@@ -30,7 +30,8 @@ namespace AscensionServer
                 RoleStatus roleStatus = Singleton<NHManager>.Instance.CriteriaSelect<RoleStatus>(nHCriteriaRoleId);
                 AscensionServer._Log.Info("------------------------------------GetRoleStatusSubHandler\n" + "RoleStatus  : " + roleStatus + "\nGetRoleStatusSubHandler---------------------------------------");
                 string roleStatusJson = Utility.Json.ToJson(roleStatus);
-                SetResponseData(() => {SubDict.Add((byte)ParameterCode.RoleStatus, roleStatusJson);});
+                RoleRing roleRing =  Singleton<NHManager>.Instance.CriteriaSelect<RoleRing>(nHCriteriaRoleId);
+                SetResponseData(() => {SubDict.Add((byte)ParameterCode.RoleStatus, roleStatusJson); SubDict.Add((byte)ParameterCode.Inventory, Utility.Json.ToObject<Dictionary<int,int>>(roleRing.RingIdArray)); });
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             }
             else
