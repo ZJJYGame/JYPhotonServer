@@ -14,6 +14,13 @@ namespace AscensionServer.Model
     [Serializable]
     public class MiShu:DataObject
     {
+        public MiShu()
+        {
+            MiShuID = 13001;
+            MiShuExp = 0;
+            MiShuLevel = 0;
+            MiShuSkillArry = "";
+        }
         public virtual int ID { get; set; }
         public virtual int MiShuID { get; set; }
         public virtual int MiShuExp { get; set; }

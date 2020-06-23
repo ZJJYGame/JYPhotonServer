@@ -14,6 +14,9 @@ namespace AscensionServer
     /// </summary>
     public class AddRoleSubHandler : SyncRoleSubHandler
     {
+        Dictionary<int, int> RoleGFDict = new Dictionary<int, int>();
+        Dictionary<int, int> RoleMiShuDict = new Dictionary<int, int>();
+        Dictionary<int, int> RolePetDict = new Dictionary<int, int>();
         public override void OnInitialization()
         {
             SubOpCode = SubOperationCode.Add;
@@ -54,6 +57,28 @@ namespace AscensionServer
                 Singleton<NHManager>.Instance.Insert(rolestatus);
                 Singleton<NHManager>.Instance.Insert(new RoleAssets() { RoleID = rolestatus.RoleID });
                 Singleton<NHManager>.Instance.Insert(new OnOffLine() { RoleID = rolestatus.RoleID });
+                #region 测试待修改
+                RoleGFDict.Clear();
+                GongFa gongFa = new GongFa();
+                gongFa = Singleton<NHManager>.Instance.Insert(gongFa);
+                RoleGFDict.Add(gongFa.ID, gongFa.GongFaID);
+                Singleton<NHManager>.Instance.Insert(new RoleGongFa() { RoleID = rolestatus.RoleID, GongFaIDArray = Utility.Json.ToJson(RoleGFDict) });
+
+
+                RoleMiShuDict.Clear();
+                MiShu miShu = new MiShu();
+                miShu = Singleton<NHManager>.Instance.Insert(miShu);
+                RoleMiShuDict.Add(miShu.ID, miShu.MiShuID);
+                Singleton<NHManager>.Instance.Insert(new RoleMiShu() { RoleID = rolestatus.RoleID, MiShuIDArray = Utility.Json.ToJson(RoleMiShuDict) });
+
+                RolePetDict.Clear();
+                Pet pet = new Pet();
+                pet = Singleton<NHManager>.Instance.Insert(pet);
+                PetStatus petStatus = new PetStatus() { PetID = pet.ID };
+                petStatus = Singleton<NHManager>.Instance.Insert(petStatus);
+                RolePetDict.Add(pet.ID, pet.PetID);
+                Singleton<NHManager>.Instance.Insert(new RolePet() { RoleID = rolestatus.RoleID, PetIDDict = Utility.Json.ToJson(RolePetDict) });
+                #endregion
                 var userRoleJson = Utility.Json.ToJson(roleList);
                 Singleton<NHManager>.Instance.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;

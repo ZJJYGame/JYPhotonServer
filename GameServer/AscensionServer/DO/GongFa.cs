@@ -14,6 +14,13 @@ namespace AscensionServer.Model
     [Serializable]
     public class GongFa:DataObject
     {
+        public GongFa()
+        {
+            GongFaID = 18001;
+            GongFaExp = 0;
+            GongFaLevel = 0;
+            GongFaSkillArray = "";
+        }
         public virtual int ID { get; set; }
         public virtual int GongFaID { get; set; }
         public virtual int GongFaExp { get; set; }

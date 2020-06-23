@@ -9,6 +9,24 @@ namespace AscensionServer.Model
     [Serializable]
     public class PetStatus:DataObject
     {
+        public PetStatus()
+        {
+            PetID = 0;
+            PetSpeed = 0;
+            PetAttackDamage = 0;
+            PetResistanceAttack = 0;
+            PetAbilityPower = 0;
+            PetResistancePower = 0;
+            PetMaxHP = 0;
+            PetHP = 0;
+            PetMaxMP = 0;
+            PetMP = 0;
+            PetTalent = "";
+            PetMaxShenhun = 0;
+            PetShenhun = 0;
+            PetShenhunDamage = 0;
+            PetShenhunResistance = 0;
+        }
         public virtual int PetID { get; set; }
         public virtual short PetSpeed { get; set; }
         public virtual short PetAttackDamage { get; set; }

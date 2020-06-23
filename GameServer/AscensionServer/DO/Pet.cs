@@ -9,9 +9,18 @@ namespace AscensionServer.Model
     [Serializable]
     public class Pet:DataObject
     {
+        public Pet()
+        {
+            PetLevel = 0;
+            PetID = 8001;
+            PetExp = 0;
+            PetName = "";
+            PetSkillArray = "";
+            PetIsBattle = false;
+        }
         public virtual int ID { get; set; }
         public virtual byte PetLevel { get; set; }
-        public virtual byte PetID { get; set; }
+        public virtual int PetID { get; set; }
         public virtual int PetExp { get; set; }
         public virtual string PetName { get; set; }
         public virtual string PetSkillArray { get; set; }
@@ -24,6 +33,7 @@ namespace AscensionServer.Model
             PetExp = 0;
             PetName = null;
             PetSkillArray = null;
+            PetIsBattle = false;
         }
     }
 }

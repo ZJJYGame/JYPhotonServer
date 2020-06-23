@@ -10,7 +10,7 @@ namespace AscensionProtocol.DTO
     {
         public virtual int ID { get; set; }
         public virtual byte PetLevel { get; set; }
-        public virtual byte PetID { get; set; }
+        public virtual int PetID { get; set; }
         public virtual int PetExp { get; set; }
         public virtual string PetName { get; set; }
         public virtual string PetSkillArray { get; set; }
@@ -23,6 +23,7 @@ namespace AscensionProtocol.DTO
             PetExp = 0;
             PetName = null;
             PetSkillArray = null;
+            PetIsBattle = false;
         }
     }
 }
