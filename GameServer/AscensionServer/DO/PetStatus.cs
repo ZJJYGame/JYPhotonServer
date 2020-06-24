@@ -12,20 +12,20 @@ namespace AscensionServer.Model
         public PetStatus()
         {
             PetID = 0;
-            PetSpeed = 0;
-            PetAttackDamage = 0;
-            PetResistanceAttack = 0;
-            PetAbilityPower = 0;
-            PetResistancePower = 0;
-            PetMaxHP = 0;
-            PetHP = 0;
-            PetMaxMP = 0;
-            PetMP = 0;
-            PetTalent = "";
-            PetMaxShenhun = 0;
-            PetShenhun = 0;
-            PetShenhunDamage = 0;
-            PetShenhunResistance = 0;
+            PetSpeed = 40;
+            PetAttackDamage = 40;
+            PetResistanceAttack = 30;
+            PetAbilityPower = 30;
+            PetResistancePower = 40;
+            PetMaxHP = 40;
+            PetHP = 40;
+            PetMaxMP = 50;
+            PetMP = 50;
+            PetTalent = 1;
+            PetMaxShenhun = 50;
+            PetShenhun =50;
+            PetShenhunDamage = 10;
+            PetShenhunResistance = 10;
         }
         public virtual int PetID { get; set; }
         public virtual short PetSpeed { get; set; }
@@ -37,7 +37,7 @@ namespace AscensionServer.Model
         public virtual int PetHP { get; set; }
         public virtual int PetMaxMP { get; set; }
         public virtual int PetMP { get; set; }
-        public virtual string PetTalent { get; set; }
+        public virtual int PetTalent { get; set; }
         public virtual short PetMaxShenhun { get; set; }
         public virtual short PetShenhun { get; set; }
         public virtual int PetShenhunDamage { get; set; }
@@ -54,7 +54,7 @@ namespace AscensionServer.Model
             PetHP = 0;
             PetMaxMP = 0;
             PetMP = 0;
-            PetTalent = null;
+            PetTalent = 0;
             PetMaxShenhun = 0;
             PetShenhun = 0;
             PetShenhunDamage = 0;

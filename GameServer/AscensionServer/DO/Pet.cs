@@ -14,7 +14,7 @@ namespace AscensionServer.Model
             PetLevel = 0;
             PetID = 8001;
             PetExp = 0;
-            PetName = "";
+            PetName = "皮卡丘";
             PetSkillArray = "";
             PetIsBattle = false;
         }
