@@ -16,9 +16,10 @@ namespace AscensionProtocol.DTO
     [Serializable]
     public class RoleTaskItemDTO
     {
-        public virtual string RoleTaskState  { get; set; }
+        public virtual string RoleTaskAchieveState { get; set; }
         public virtual string RoleTaskType { get; set; }
-        public virtual string RoleTaskResult{ get; set; }
+        public virtual string RoleTaskAcceptState { get; set; }
+        public virtual string RoleTaskAbandonState { get; set; }
     }
 }
 

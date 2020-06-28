@@ -86,7 +86,6 @@ namespace AscensionServer
                             }
                             else
                             {
-                                AscensionServer._Log.Info("222222222222" + client_p.Value.RingItemTime);
                                 Dic.Add(client_p.Key, client_p.Value);
                                 Singleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(Dic) });
                             }

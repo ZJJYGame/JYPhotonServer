@@ -31,5 +31,6 @@
         PetStatusSet=35,
         RoleTransfrom=36,
         RoleTransfromSet=37,
+        Task =38,
     }
 }
