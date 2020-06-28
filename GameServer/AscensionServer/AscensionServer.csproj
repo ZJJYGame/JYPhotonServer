@@ -15,7 +15,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -119,6 +119,8 @@
     <Compile Include="Handlers\MQ\SubHandler\MQSubHandler.cs" />
     <Compile Include="Handlers\MQ\SubHandler\RemoveMQSubHandler.cs" />
     <Compile Include="Handlers\MQ\SubHandler\UpdateMQSubHandler.cs" />
+    <Compile Include="Handlers\SyncTasks\SubHandler\GetTaskSubHandler.cs" />
+    <Compile Include="Handlers\SyncTasks\SubHandler\RemoveTaskSubHandler.cs" />
     <Compile Include="Lite\Actor\Actor.cs" />
     <Compile Include="Lite\Actor\ActorCollection.cs" />
     <Compile Include="Lite\Actor\ActorGroup.cs" />

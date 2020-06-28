@@ -7,6 +7,8 @@ using Photon.SocketServer;
 using AscensionProtocol;
 using AscensionServer.Model;
 using Newtonsoft.Json;
+using AscensionProtocol.DTO;
+using Cosmos;
 
 namespace AscensionServer
 {
@@ -19,18 +21,18 @@ namespace AscensionServer
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             ResetResponseData(operationRequest);
-            string roletask = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role));
-            AscensionServer._Log.Info(">>>>>>>>>>>>>接受到的任务相关信息：" + roletask + ">>>>>>>>>>>>>>>>>>>>>>");
-            var roletaskobj = Utility.ToObject<RoleTaskProgress>(roletask);
+            string roletask = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Task));
+            AscensionServer._Log.Info(">>>>>>>>>>>>>获得任务相关信息：" + roletask + ">>>>>>>>>>>>>>>>>>>>>>");
+            var roletaskobj = Utility.Json.ToObject<RoleTaskProgress>(roletask);
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roletaskobj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID);
             if (exist)
             {
-                RoleTaskProgress roleTaskInfo = Singleton<NHManager>.Instance.CriteriaGet<RoleTaskProgress>(nHCriteriaRoleID);
-                if (roleTaskInfo != null)
-                    Owner.ResponseData.Add((byte)ObjectParameterCode.Role, roleTaskInfo.RoleTaskInfo);
+                RoleTaskProgress roleTaskInfo = Singleton<NHManager>.Instance.CriteriaSelect<RoleTaskProgress>(nHCriteriaRoleID);
+                if (string.IsNullOrEmpty(roleTaskInfo.RoleTaskInfoDic))
+                    Owner.ResponseData.Add((byte)ParameterCode.Task, roleTaskInfo.RoleTaskInfoDic);
                 else
-                    Owner.ResponseData.Add((byte)ObjectParameterCode.Role, "数据库不存在任务");
+                    Owner.ResponseData.Add((byte)ParameterCode.Task, new Dictionary<string,RoleTaskItemDTO>());
                 Owner.OpResponse.Parameters = Owner.ResponseData;
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             }

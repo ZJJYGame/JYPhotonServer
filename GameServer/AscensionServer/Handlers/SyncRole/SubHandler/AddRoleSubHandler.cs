@@ -96,6 +96,9 @@ namespace AscensionServer
                }
 
                 #endregion
+                #region 任务
+                Singleton<NHManager>.Instance.Insert(new RoleTaskProgress() { RoleID = rolestatus.RoleID ,  RoleTaskInfoDic = Utility.Json.ToJson(new Dictionary<int, RoleTaskItemDTO>()) });
+                #endregion
                 var userRoleJson = Utility.Json.ToJson(roleList);
                 Singleton<NHManager>.Instance.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
