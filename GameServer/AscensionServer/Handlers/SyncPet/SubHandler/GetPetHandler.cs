@@ -32,6 +32,7 @@ namespace AscensionServer
             {
                 SetResponseData(() =>
                 {
+                    pet.PetIsBattle = petObj.PetIsBattle;
                     SubDict.Add((byte)ParameterCode.Pet, Utility.Json.ToJson(pet));
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
                 });

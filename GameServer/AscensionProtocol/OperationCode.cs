@@ -36,10 +36,10 @@ namespace AscensionProtocol
         SyncPet=16,
         SyncPetStatus=17,
         SyncRolePet=18,
+        SyncBottleneck=19,
 
 
-
-        EnterAdventureScene=111,
+        EnterAdventureScene =111,
         ExitAdventureScene=112,
         /// <summary>
         /// 测试消息队列

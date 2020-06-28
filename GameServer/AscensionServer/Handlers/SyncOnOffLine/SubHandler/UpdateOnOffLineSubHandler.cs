@@ -24,20 +24,17 @@ namespace AscensionServer
 
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收到離綫時間");
+
             var dict = ParseSubDict(operationRequest);
             string subDataJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.OnOffLine));
-            /////
-            //OnOffLine onOffLine = new OnOffLine() { RoleID=33};
-            //string str = Convert.ToString(onOffLine);
-            //////
             var onofflinetemp = Utility.Json.ToObject<OnOffLine>(subDataJson);
-           
             NHCriteria nHCriteriaOnoff = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
             var obj = Singleton<NHManager>.Instance.CriteriaSelect<OnOffLine>(nHCriteriaOnoff);
             if (obj != null)
             {
-                Singleton<NHManager>.Instance.Update(onofflinetemp);
+                obj.MsGfID = onofflinetemp.MsGfID;
+                obj.ExpType = onofflinetemp.ExpType;
+                Singleton<NHManager>.Instance.Update(obj);
                 SetResponseData(() =>
                 {
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;

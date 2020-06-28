@@ -26,7 +26,7 @@ namespace AscensionServer
             string rgfJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleGongFa));
 
             var rolegongfaObj = Utility.Json.ToObject<RoleGongFa>(rgfJson);
-            var gongfaObj = Utility.Json.ToObject<GongFa>(gfJson);
+            var gongfaObj = Utility.Json.ToObject<CultivationMethod>(gfJson);
 
            
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolegongfaObj.RoleID);
@@ -51,7 +51,7 @@ namespace AscensionServer
                     else
                     {
                         gongfaObj = Singleton<NHManager>.Instance.Insert(gongfaObj);
-                        gongfaDict.Add(gongfaObj.ID, gongfaObj.GongFaID);
+                        gongfaDict.Add(gongfaObj.ID, gongfaObj.CultivationMethodID);
                         
                         Singleton<NHManager>.Instance.Update(new RoleGongFa() { RoleID = rolegongfaObj.RoleID, GongFaIDArray = Utility.Json.ToJson(gongfaDict) });
 
@@ -63,8 +63,8 @@ namespace AscensionServer
                 {
                     gongfaDict = new Dictionary<int, int>();
 
-                    gongfaObj = Singleton<NHManager>.Instance.Insert<GongFa>(gongfaObj);
-                    gongfaDict.Add(gongfaObj.ID, gongfaObj.GongFaID);
+                    gongfaObj = Singleton<NHManager>.Instance.Insert<CultivationMethod>(gongfaObj);
+                    gongfaDict.Add(gongfaObj.ID, gongfaObj.CultivationMethodID);
   
                     DOdict.Add(1, Utility.Json.ToJson(gongfaObj));
                     Singleton<NHManager>.Instance.Update(new RoleGongFa() { RoleID = rolegongfaObj.RoleID, GongFaIDArray = Utility.Json.ToJson(gongfaDict) });
@@ -76,8 +76,8 @@ namespace AscensionServer
                 rolegongfaObj= Singleton<NHManager>.Instance.Insert(new RoleGongFa() { RoleID = rolegongfaObj.RoleID });
                 gongfaDict = new Dictionary<int, int>();
 
-                gongfaObj = Singleton<NHManager>.Instance.Insert<GongFa>(gongfaObj);
-                gongfaDict.Add(gongfaObj.ID, gongfaObj.GongFaID);
+                gongfaObj = Singleton<NHManager>.Instance.Insert<CultivationMethod>(gongfaObj);
+                gongfaDict.Add(gongfaObj.ID, gongfaObj.CultivationMethodID);
 
                 DOdict.Add(1, Utility.Json.ToJson(gongfaObj));
                 Singleton<NHManager>.Instance.Update(new RoleGongFa() { RoleID = rolegongfaObj.RoleID, GongFaIDArray = Utility.Json.ToJson(gongfaDict) });

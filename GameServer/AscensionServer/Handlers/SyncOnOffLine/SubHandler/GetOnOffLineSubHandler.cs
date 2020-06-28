@@ -28,11 +28,15 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string subDataJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.OnOffLine));
             var onofflinetemp = Utility.Json.ToObject<OnOffLine>(subDataJson);
+            Bottleneck bottleneck = new Bottleneck() {RoleID= onofflinetemp.RoleID };
+            NHCriteria nHCriteriabottleneck = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", bottleneck.RoleID);
             NHCriteria nHCriteriaRole = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
+            var bottleneckObj= Singleton<NHManager>.Instance.CriteriaSelect<Bottleneck>(nHCriteriabottleneck);
             ///获取的时间秒
             OffLineTimeDTO offLineTime = new OffLineTimeDTO() { RoleID = onofflinetemp.RoleID };
             var obj = Singleton<NHManager>.Instance.CriteriaSelect<OffLineTime>(nHCriteriaRole);
             TimeSpan interval = (DateTime.Now).Subtract(Convert.ToDateTime(obj.OffTime));
+
             if (obj != null)
             {
                 var Exptypeobj = Singleton<NHManager>.Instance.CriteriaSelect<OnOffLine>(nHCriteriaRole);
@@ -44,7 +48,12 @@ namespace AscensionServer
                     date.Add(AllExperience);
                     date.Add(Exptypeobj.MsGfID);
                     date.Add(Exptypeobj.ExpType);
-
+                    if (bottleneckObj!=null)
+                    {
+                        date.Add(Convert.ToByte(bottleneckObj.IsBottleneck));
+                    }else
+                        date.Add(0);
+                    AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>得到的离线时间1" + Exptypeobj.MsGfID+"id"+ Exptypeobj.ExpType);
                     SetResponseData(() =>
                     {
                         SubDict.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
@@ -59,6 +68,13 @@ namespace AscensionServer
                     date.Add(AllExperience);
                     date.Add(Exptypeobj.MsGfID);
                     date.Add(Exptypeobj.ExpType);
+                    if (bottleneckObj != null)
+                    {
+                        date.Add(Convert.ToByte(bottleneckObj.IsBottleneck));
+                    }
+                    else
+                        date.Add(0);
+                    AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>得到的离线时间2" + Exptypeobj.MsGfID + "id" + Exptypeobj.ExpType);
                     SetResponseData(() =>
                     {
                         SubDict.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));

@@ -7,16 +7,16 @@ using AscensionServer.Model;
 using FluentNHibernate.Mapping;
 namespace AscensionServer
 {
-    public class GongFaMap:ClassMap<GongFa>
+    public class GongFaMap:ClassMap<CultivationMethod>
     {
         public GongFaMap()
         {
             Id(x => x.ID).GeneratedBy.Increment().Column("id");
-            Map(x => x.GongFaID).Column("gongfa_id");
-            Map(x => x.GongFaExp).Column("gongfa_exp");
-            Map(x => x.GongFaLevel).Column("gongfa_level");
-            Map(x => x.GongFaSkillArray).Column("gongfa_skill_array").Nullable();
-            Table("gongfa");
+            Map(x => x.CultivationMethodID).Column("cultivation_method_id");
+            Map(x => x.CultivationMethodExp).Column("cultivation_method_exp");
+            Map(x => x.CultivationMethodLevel).Column("cultivation_method_level");
+            Map(x => x.CultivationMethodLevelSkillArray).Column("cultivation_method_skill_array").Nullable();
+            Table("cultivation_method");
         }
     }
 }

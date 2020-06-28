@@ -51,7 +51,8 @@
   <ItemGroup>
     <Compile Include="DTO\BattleDataDTO.cs" />
     <Compile Include="DTO\Base\DataTransferObject.cs" />
-    <Compile Include="DTO\GongFaDTO.cs" />
+    <Compile Include="DTO\BottleneckDTO.cs" />
+    <Compile Include="DTO\CultivationMethodDTO.cs" />
     <Compile Include="DTO\OffLineTimeDTO.cs" />
     <Compile Include="DTO\PetDTO.cs" />
     <Compile Include="DTO\PetStatusDTO.cs" />

@@ -106,6 +106,9 @@
   <ItemGroup>
     <Compile Include="AreaHandlers\EnterAdventureSceneHandler.cs" />
     <Compile Include="AreaHandlers\ExitAdventureSceneHandler.cs" />
+    <Compile Include="DOMap\BottleneckMap.cs" />
+    <Compile Include="DO\Bottleneck.cs" />
+    <Compile Include="Handlers\SyncBottleneck\SyncBottleneckHandler.cs" />
     <Compile Include="Handlers\SyncInventory\SubHandler\GetInventorySubHandler.cs" />
     <Compile Include="Handlers\SyncSelfRoleTransform\SyncSelfRoleTransformHandler.cs" />
     <Compile Include="Handlers\SyncPet\SubHandler\UpdatePetHandler.cs" />
@@ -245,7 +248,7 @@
     <Compile Include="DOMap\UserMap.cs" />
     <Compile Include="DOMap\UserRoleMap.cs" />
     <Compile Include="DO\MiShu.cs" />
-    <Compile Include="DO\GongFa.cs" />
+    <Compile Include="DO\CultivationMethod.cs" />
     <Compile Include="DO\Role.cs" />
     <Compile Include="DO\RoleGongFa.cs" />
     <Compile Include="DO\RoleMiShu.cs" />

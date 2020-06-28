@@ -24,7 +24,7 @@ namespace AscensionServer
             AscensionServer._Log.Info(">>>>>>>>>>>>接收功法数据：" + receivedRoleData + ">>>>>>>>>>>>>>>>>>>>>>");
             AscensionServer._Log.Info(">>>>>>>>>>>>接收功法数据：" + receivedData + ">>>>>>>>>>>>>>>>>>>>>>");
             var receivedRoleObj = Utility.Json.ToObject<RoleGongFa>(receivedRoleData);
-            var receivedObj = Utility.Json.ToObject<GongFa>(receivedData);
+            var receivedObj = Utility.Json.ToObject<CultivationMethod>(receivedData);
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<RoleGongFa>(nHCriteriaRoleID);
             int intInfoObj = 0;
@@ -33,25 +33,25 @@ namespace AscensionServer
             {
                 RoleGongFa GongfaInfo = Singleton<NHManager>.Instance.CriteriaSelect<RoleGongFa>(nHCriteriaRoleID);
                 NHCriteria nHCriteriaGongFaID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", receivedObj.ID);
-                bool existGongFa = Singleton<NHManager>.Instance.Verify<GongFa>(nHCriteriaGongFaID);
+                bool existGongFa = Singleton<NHManager>.Instance.Verify<CultivationMethod>(nHCriteriaGongFaID);
                 if (existGongFa)
                 {
-                   GongFa GongfaInfoExp = Singleton<NHManager>.Instance.CriteriaSelect<GongFa>(nHCriteriaGongFaID);
+                    CultivationMethod GongfaInfoExp = Singleton<NHManager>.Instance.CriteriaSelect<CultivationMethod>(nHCriteriaGongFaID);
                    var dicGongFaId =   Utility.Json.ToObject<Dictionary<int,int>>(GongfaInfo.GongFaIDArray);
 
                     if (dicGongFaId.ContainsKey(receivedObj.ID))
                     {
-                        if (receivedObj.GongFaLevel != 0)
+                        if (receivedObj.CultivationMethodLevel != 0)
                         {
-                            GongfaInfoExp.GongFaExp = 0;
-                            intInfoObj = GongfaInfoExp.GongFaExp + receivedObj.GongFaExp;
-                            intLevel = GongfaInfoExp.GongFaLevel + receivedObj.GongFaLevel;
-                            Singleton<NHManager>.Instance.Update(new GongFa() { ID = GongfaInfoExp.ID, GongFaID = GongfaInfoExp.GongFaID, GongFaLevel = (short)intLevel, GongFaSkillArray = GongfaInfoExp.GongFaSkillArray, GongFaExp = intInfoObj });
+                            GongfaInfoExp.CultivationMethodExp = 0;
+                            intInfoObj = GongfaInfoExp.CultivationMethodExp + receivedObj.CultivationMethodExp;
+                            intLevel = GongfaInfoExp.CultivationMethodLevel + receivedObj.CultivationMethodLevel;
+                            Singleton<NHManager>.Instance.Update(new CultivationMethod() { ID = GongfaInfoExp.ID, CultivationMethodID = GongfaInfoExp.CultivationMethodID, CultivationMethodLevel = (short)intLevel, CultivationMethodLevelSkillArray = GongfaInfoExp.CultivationMethodLevelSkillArray, CultivationMethodExp = intInfoObj });
                         }
                         else
                         {
-                            intInfoObj = GongfaInfoExp.GongFaExp + receivedObj.GongFaExp;
-                            Singleton<NHManager>.Instance.Update(new GongFa() { ID = GongfaInfoExp.ID, GongFaID = GongfaInfoExp.GongFaID, GongFaLevel = GongfaInfoExp.GongFaLevel, GongFaSkillArray = GongfaInfoExp.GongFaSkillArray, GongFaExp = intInfoObj });
+                            intInfoObj = GongfaInfoExp.CultivationMethodExp + receivedObj.CultivationMethodExp;
+                            Singleton<NHManager>.Instance.Update(new CultivationMethod() { ID = GongfaInfoExp.ID, CultivationMethodID = GongfaInfoExp.CultivationMethodID, CultivationMethodLevel = GongfaInfoExp.CultivationMethodLevel, CultivationMethodLevelSkillArray = GongfaInfoExp.CultivationMethodLevelSkillArray, CultivationMethodExp = intInfoObj });
 
                         }
                     }

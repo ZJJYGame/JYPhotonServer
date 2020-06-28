@@ -27,11 +27,11 @@ namespace AscensionServer
             string petJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Pet));
 
             var petObj = Utility.Json.ToObject<Pet>(petJson);
-            NHCriteria nHCriteriaPet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", petObj.ID);
+            NHCriteria nHCriteriaPet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", petObj.ID);       
             var pet = Singleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriaPet);
             if (pet != null)
             {
-                Singleton<NHManager>.Instance.Update<Pet>(pet);
+                Singleton<NHManager>.Instance.Update<Pet>(petObj);
                 SetResponseData(() =>
                 {
                     SubDict.Add((byte)ParameterCode.Pet, Utility.Json.ToJson(pet));
@@ -40,6 +40,7 @@ namespace AscensionServer
             }
             else
             {
+                AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>传过来的宠物状态为空" + petJson);
                 pet = Singleton<NHManager>.Instance.Insert<Pet>(pet);
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
             }

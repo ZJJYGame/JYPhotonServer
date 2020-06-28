@@ -24,17 +24,17 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string roleGFJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.GongFa));
             var roleGongFaObj = Utility.Json.ToObject<List<int>>(roleGFJson);
-            List<GongFa> gongFaIdList;
-            Dictionary<int, List<GongFa>> gongFaDic;
+            List<CultivationMethod> gongFaIdList;
+            Dictionary<int, List<CultivationMethod>> gongFaDic;
             AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>同步功法进来了>>>>>>>>>" + roleGongFaObj.Count);
             if (roleGongFaObj.Count != 0)
             {
-                gongFaDic = new Dictionary<int, List<GongFa>>();
+                gongFaDic = new Dictionary<int, List<CultivationMethod>>();
                 foreach (var roleId in roleGongFaObj)
                 {
                     NHCriteria nHCriteriaGongFa = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleId);
                     bool exist = Singleton<NHManager>.Instance.Verify<RoleGongFa>(nHCriteriaGongFa);
-                    gongFaIdList = new List<GongFa>();
+                    gongFaIdList = new List<CultivationMethod>();
                     if (exist)
                     {
                         var roleIdArray = Singleton<NHManager>.Instance.CriteriaSelect<RoleGongFa>(nHCriteriaGongFa);
@@ -43,19 +43,19 @@ namespace AscensionServer
                             foreach (var gongFaId in Utility.Json.ToObject<Dictionary<int, int>>(roleIdArray.GongFaIDArray))
                             {
                                 NHCriteria nHCriteriaGongFaId = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", gongFaId.Key);
-                                var gongFaIdArray = Singleton<NHManager>.Instance.CriteriaSelect<GongFa>(nHCriteriaGongFaId);
+                                var gongFaIdArray = Singleton<NHManager>.Instance.CriteriaSelect<CultivationMethod>(nHCriteriaGongFaId);
                                 //AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>同步功法进来了>>>>>>>>>" + gongFaIdArray.GongFaID);
                                 gongFaIdList.Add(gongFaIdArray);
                             }
                             gongFaDic.Add(roleId, gongFaIdList);
                         }
                         else
-                            gongFaDic.Add(roleId, new List<GongFa>());
+                            gongFaDic.Add(roleId, new List<CultivationMethod>());
                     }
                     else
                     {
                         Singleton<NHManager>.Instance.Insert(new RoleGongFa() { RoleID = roleId });
-                        gongFaDic.Add(roleId, new List<GongFa>());
+                        gongFaDic.Add(roleId, new List<CultivationMethod>());
                     }
                     Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaGongFa);
                 }

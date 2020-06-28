@@ -64,9 +64,9 @@ namespace AscensionServer
                 Dictionary<string, string> DOdict = new Dictionary<string, string>();
                 #region 测试待修改
                 RoleGFDict.Clear();
-                GongFa gongFa = new GongFa();
+                CultivationMethod gongFa = new CultivationMethod();
                 gongFa = Singleton<NHManager>.Instance.Insert(gongFa);
-                RoleGFDict.Add(gongFa.ID, gongFa.GongFaID);
+                RoleGFDict.Add(gongFa.ID, gongFa.CultivationMethodID);
                 Singleton<NHManager>.Instance.Insert(new RoleGongFa() { RoleID = rolestatus.RoleID, GongFaIDArray = Utility.Json.ToJson(RoleGFDict) });
 
 
