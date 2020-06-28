@@ -29,7 +29,7 @@ namespace AscensionServer
             {
                 var roleTaskInfo = Singleton<NHManager>.Instance.CriteriaSelect<RoleTaskProgress>(nHCriteriaRoleID);
                 Dic = Utility.Json.ToObject<Dictionary<int, RoleTaskItemDTO>>(roleTaskInfo.RoleTaskInfoDic);
-                if (string.IsNullOrEmpty(roleTaskInfo.RoleTaskInfoDic))
+                if (roleTaskInfo.RoleTaskInfoDic != null)
                 {
                     foreach (var client_p in roletaskobj.RoleTaskInfoDic)
                     {

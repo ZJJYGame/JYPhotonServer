@@ -61,6 +61,9 @@ namespace AscensionServer
                 Singleton<NHManager>.Instance.Insert(rolestatus);
                 Singleton<NHManager>.Instance.Insert(new RoleAssets() { RoleID = rolestatus.RoleID });
                 Singleton<NHManager>.Instance.Insert(new OnOffLine() { RoleID = rolestatus.RoleID });
+                #region 任务
+                Singleton<NHManager>.Instance.Insert(new RoleTaskProgress() { RoleID = rolestatus.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(new Dictionary<int, RoleTaskItemDTO>()) });
+                #endregion
                 Dictionary<string, string> DOdict = new Dictionary<string, string>();
                 #region 测试待修改
                 RoleGFDict.Clear();
@@ -95,9 +98,6 @@ namespace AscensionServer
                    Singleton<NHManager>.Instance.Update<RoleRing>(new RoleRing() { RoleID = rolestatus.RoleID, RingIdArray = Utility.Json.ToJson(idRing) });
                }
 
-                #endregion
-                #region 任务
-                Singleton<NHManager>.Instance.Insert(new RoleTaskProgress() { RoleID = rolestatus.RoleID ,  RoleTaskInfoDic = Utility.Json.ToJson(new Dictionary<int, RoleTaskItemDTO>()) });
                 #endregion
                 var userRoleJson = Utility.Json.ToJson(roleList);
                 Singleton<NHManager>.Instance.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });
