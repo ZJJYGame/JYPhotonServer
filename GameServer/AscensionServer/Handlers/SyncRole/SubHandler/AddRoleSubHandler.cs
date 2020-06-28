@@ -19,6 +19,7 @@ namespace AscensionServer
         Dictionary<int, int> RoleGFDict = new Dictionary<int, int>();
         Dictionary<int, int> RoleMiShuDict = new Dictionary<int, int>();
         Dictionary<int, int> RolePetDict = new Dictionary<int, int>();
+        Dictionary<int, RoleTaskItemDTO> roleTaskDic = new Dictionary<int, RoleTaskItemDTO>();
         public override void OnInitialization()
         {
             SubOpCode = SubOperationCode.Add;
@@ -62,7 +63,8 @@ namespace AscensionServer
                 Singleton<NHManager>.Instance.Insert(new RoleAssets() { RoleID = rolestatus.RoleID });
                 Singleton<NHManager>.Instance.Insert(new OnOffLine() { RoleID = rolestatus.RoleID });
                 #region 任务
-                Singleton<NHManager>.Instance.Insert(new RoleTaskProgress() { RoleID = rolestatus.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(new Dictionary<int, RoleTaskItemDTO>()) });
+                roleTaskDic.Add(0001, new RoleTaskItemDTO() { RoleTaskType = "DialogSystem", RoleTaskAchieveState = "NoAchieveTask", RoleTaskAcceptState = "NoAcceptAbleTask", RoleTaskAbandonState = "NoAbandonTask" });
+                Singleton<NHManager>.Instance.Insert(new RoleTaskProgress() { RoleID = rolestatus.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(roleTaskDic)});
                 #endregion
                 Dictionary<string, string> DOdict = new Dictionary<string, string>();
                 #region 测试待修改
