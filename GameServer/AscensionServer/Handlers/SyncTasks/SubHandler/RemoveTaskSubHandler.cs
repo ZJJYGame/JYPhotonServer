@@ -34,15 +34,14 @@ namespace AscensionServer
                 {
                     foreach (var client_p in roletaskobj.RoleTaskInfoDic)
                     {
-                        if (Dic.ContainsKey(client_p.Key))
+                        if (Dic.ContainsKey(client_p.Key) && client_p.Value.RoleTaskAchieveState == "AchieveTask")
                         {
                             Dic.Remove(client_p.Key);
                             Singleton<NHManager>.Instance.Update(new RoleTaskProgress() { RoleID = roletaskobj.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(Dic) });
-
+                            Owner.OpResponse.Parameters = Owner.ResponseData;
+                            Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                         }
                     }
-                    Owner.OpResponse.Parameters = Owner.ResponseData;
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
             }
             else
