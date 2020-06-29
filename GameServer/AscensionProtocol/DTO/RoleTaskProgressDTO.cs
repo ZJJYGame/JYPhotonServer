@@ -20,6 +20,7 @@ namespace AscensionProtocol.DTO
         public virtual string RoleTaskType { get; set; }
         public virtual string RoleTaskAcceptState { get; set; }
         public virtual string RoleTaskAbandonState { get; set; }
+        public virtual string RoleTaskKind { get; set; }
     }
 }
 
