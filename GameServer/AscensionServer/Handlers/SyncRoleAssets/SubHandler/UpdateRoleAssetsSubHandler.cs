@@ -18,8 +18,9 @@ namespace AscensionServer
         }
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            var dict = ParseSubDict(operationRequest);
-            string roleAssetsJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAssets));
+            ResetResponseData(operationRequest);
+            string roleAssetsJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleAssets));
+            AscensionServer._Log.Info(">>>>>>>>>>>>>更新财产相关信息：" + roleAssetsJson + ">>>>>>>>>>>>>>>>>>>>>>");
             var roleAssetsObj = Utility.Json.ToObject<RoleAssets>(roleAssetsJson);
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleAssetsObj.RoleID);
             bool roleExist = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID);
