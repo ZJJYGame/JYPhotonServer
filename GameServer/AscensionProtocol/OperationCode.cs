@@ -37,6 +37,7 @@ namespace AscensionProtocol
         SyncPetStatus=17,
         SyncRolePet=18,
         SyncBottleneck=19,
+        SyncMoveStatus =20,
 
 
         EnterAdventureScene =111,

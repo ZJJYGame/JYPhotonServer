@@ -27,6 +27,10 @@ namespace AscensionServer
         public RoleTransformDTO RoleTransform { get{ return roleTransform; } set { roleTransform = value; } }
         RoleTransformDTO roleTransform = new RoleTransformDTO();
         public string RoleTransformJson { get; set; }
+
+        public RoleMoveStatusDTO RoleMoveStatus { get; set; }
+        RoleMoveStatusDTO roleMoveStatus = new RoleMoveStatusDTO();
+        public string RoleMoveStatusJson { get; set; }
         /// <summary>
         /// Peer的UUID
         /// </summary>

@@ -29,6 +29,7 @@ namespace AscensionServer.Threads
             }
         }
         public void SendPosition() {
+            /*
             List<PlayerDataDTO> playerDatraList = new List<PlayerDataDTO>();
             foreach (var peer in AscensionServer.Instance.LoggedPeer)
             {
@@ -39,7 +40,7 @@ namespace AscensionServer.Threads
                     //playerData.pos = new Vector3DataDTO() { x = peer.x, y = peer.y, z = peer.z };
                     playerDatraList.Add(playerData);
                 }
-            }
+            }*/
 
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             //data.Add((byte)ParameterCode.UserCode.Playerdatalist, Utility.Serialize(playerDatraList));

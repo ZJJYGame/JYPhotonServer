@@ -110,6 +110,7 @@
     <Compile Include="DO\Bottleneck.cs" />
     <Compile Include="Handlers\SyncBottleneck\SyncBottleneckHandler.cs" />
     <Compile Include="Handlers\SyncInventory\SubHandler\GetInventorySubHandler.cs" />
+    <Compile Include="Handlers\SyncMoveStatus\SyncMoveStatusHandler.cs" />
     <Compile Include="Handlers\SyncSelfRoleTransform\SyncSelfRoleTransformHandler.cs" />
     <Compile Include="Handlers\SyncPet\SubHandler\UpdatePetHandler.cs" />
     <Compile Include="Handlers\SyncRolePet\SubHandler\RemoveRolePetSubHandler.cs" />
@@ -201,7 +202,6 @@
     <Compile Include="Handlers\Login\LoginHandler.cs" />
     <Compile Include="Handlers\Logoff\LogoffHandler.cs" />
     <Compile Include="Handlers\Register\RegisterHandler.cs" />
-    <Compile Include="Handlers\SyncPosition\SyncPositionHandler.cs" />
     <Compile Include="Handlers\SyncRoleAssets\SyncRoleAssetsHandler.cs" />
     <Compile Include="Handlers\SyncRoleStatus\SyncRoleStatusHandler.cs" />
     <Compile Include="Handlers\SyncRole\SyncRoleHandler.cs" />
@@ -282,6 +282,7 @@
     <Compile Include="Threads\Base\SyncEvent.cs" />
     <Compile Include="Threads\Base\IThreadData.cs" />
     <Compile Include="Threads\SyncEvent\SyncOtherRoleEvent.cs" />
+    <Compile Include="Threads\SyncEvent\SyncRoleMoveStatus.cs" />
     <Compile Include="Threads\SyncEvent\SyncRoleTransformEvent.cs" />
     <Compile Include="Threads\SyncPositionThread.cs" />
     <Compile Include="Threads\ThreadData.cs" />
