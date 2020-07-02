@@ -36,7 +36,6 @@ namespace AscensionServer.Threads
             if (loggedCount <= 0)
                 return;
             //roleTransformSet.Clear();
-            //try{EventData.Parameters.Clear();}catch {}
             EventData.Parameters = EventDataDict;
             for (int i = 0; i < loggedCount; i++)
             {
@@ -52,7 +51,6 @@ namespace AscensionServer.Threads
                 loggedList[i].SendEvent(EventData, SendParameter);
             }
             Singleton<ReferencePoolManager>.Instance.Despawns(roleTransformSet.ToArray());
-            //AscensionServer._Log.Info("BroadcastLoggedRolesPosition");
         }
 
     }

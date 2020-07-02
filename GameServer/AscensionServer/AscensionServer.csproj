@@ -169,9 +169,6 @@
     <Compile Include="Handlers\SyncOnOffLine\SubHandler\SyncOnOffLineSubHandler.cs" />
     <Compile Include="Handlers\SyncOnOffLine\SubHandler\UpdateOnOffLineSubHandler.cs" />
     <Compile Include="Handlers\SyncOnOffLine\SyncOnOffLineHandler.cs" />
-    <Compile Include="Handlers\SyncSelfRoleTransform\SubHandler\GetOtherRolesSubHandler.cs" />
-    <Compile Include="Handlers\SyncSelfRoleTransform\SubHandler\RemoveOtherRolesSubHandler.cs" />
-    <Compile Include="Handlers\SyncSelfRoleTransform\SubHandler\SyncOtherRolesSubHandler.cs" />
     <Compile Include="Handlers\SyncPetStatus\SubHandler\GetPetStatusSubHandler.cs" />
     <Compile Include="Handlers\SyncPetStatus\SubHandler\SyncPetStatusSubHandler.cs" />
     <Compile Include="Handlers\SyncPetStatus\SubHandler\UpdatePetStatusSubHandler.cs" />
@@ -284,7 +281,6 @@
     <Compile Include="Threads\SyncEvent\SyncOtherRoleEvent.cs" />
     <Compile Include="Threads\SyncEvent\SyncRoleMoveStatus.cs" />
     <Compile Include="Threads\SyncEvent\SyncRoleTransformEvent.cs" />
-    <Compile Include="Threads\SyncPositionThread.cs" />
     <Compile Include="Threads\ThreadData.cs" />
     <Compile Include="Threads\ThreadEvent.cs" />
   </ItemGroup>
@@ -297,9 +293,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Handlers\SyncSelfRoles\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\AscensionCalculate\AscensionCalculator.csproj">
       <Project>{a71709ea-e11c-4e7b-b8b7-28a57eff49ef}</Project>

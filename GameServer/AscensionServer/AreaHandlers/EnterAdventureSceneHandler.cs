@@ -26,6 +26,8 @@ namespace AscensionServer
             AscensionServer._Log.Info("EnterAdventureScene  :  " + peer.ToString());
             //这条，获取当前玩家未进入探索界面时候所有玩家的集合
             var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
+            AscensionServer.Instance.EnterAdventureScene(peer);
+
             int peerSetLength = peerSet.Count;
              roleSet.Clear();
             for (int i = 0; i < peerSetLength; i++)
@@ -40,8 +42,6 @@ namespace AscensionServer
             ResponseData.Add((byte)ParameterCode.RoleSet, roleSetJson);
             OpResponse.Parameters = ResponseData;
             peer.SendOperationResponse(OpResponse, sendParameters);
-
-            AscensionServer.Instance.EnterAdventureScene(peer);
 
             //利用池生成线程池所需要使用的对象，并为其赋值，结束时回收
             var threadData = Singleton<ReferencePoolManager>.Instance.Spawn<ThreadData<AscensionPeer>>();
