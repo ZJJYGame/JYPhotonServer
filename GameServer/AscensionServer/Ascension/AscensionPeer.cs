@@ -32,6 +32,7 @@ namespace AscensionServer
         /// </summary>
         RoleTransformSetDTO roleTransformSetDTO = new RoleTransformSetDTO();
         //TODO RoleTransformSetJson消息队列
+        public bool IsSendedTransform { get; set; }
         public RoleTransformSetDTO RoleTransformSetDTO { get { return roleTransformSetDTO; } set { roleTransformSetDTO = value; } }
         public RoleMoveStatusDTO RoleMoveStatus { get; set; }
         RoleMoveStatusDTO roleMoveStatus = new RoleMoveStatusDTO();

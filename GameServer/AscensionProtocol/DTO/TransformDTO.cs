@@ -21,6 +21,15 @@ namespace AscensionProtocol.DTO
             RotationY = rotationY;
             RotationZ = rotationZ;
         }
+        public void SetDataMilVezes(float positionX, float positionY, float positionZ, float rotationX, float rotationY, float rotationZ)
+        {
+            PositionX = positionX*1000;
+            PositionY = positionY *1000;
+            PositionZ = positionZ * 1000;
+            RotationX = rotationX * 1000;
+            RotationY = rotationY * 1000;
+            RotationZ = rotationZ * 1000;
+        }
         public float PositionX { get; set; }
         public float PositionY { get; set; }
         public float PositionZ { get; set; }

@@ -37,7 +37,11 @@ namespace AscensionServer.Threads
             EventData.Parameters = EventDataDict;
             for (int i = 0; i < loggedCount; i++)
             {
-                roleTransformSet.Add(loggedList[i].RoleTransformSetDTO);
+                if (!loggedList[i].IsSendedTransform)
+                {
+                    roleTransformSet.Add(loggedList[i].RoleTransformSetDTO);
+                    loggedList[i].IsSendedTransform = true;
+                }
             }
             EventData.Code = (byte)EventCode.SyncRoleTransform;
             EventDataDict.Clear();

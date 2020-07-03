@@ -23,6 +23,7 @@ namespace AscensionServer
             var JsonResult = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.SingleRoleTransformSet));
             peer.RoleTransformSetDTO = Utility.Json.ToObject<RoleTransformSetDTO>(JsonResult);
             peer.RoleTransformSetDTO.RoleID = peer.PeerCache.RoleID;
+            peer.IsSendedTransform = false;
             ResponseData.Clear();
             OpResponse.OperationCode = operationRequest.OperationCode;
             OpResponse.ReturnCode = (short)ReturnCode.Success;
