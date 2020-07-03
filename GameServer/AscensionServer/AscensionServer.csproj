@@ -15,7 +15,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -110,6 +110,9 @@
     <Compile Include="DOMap\BottleneckMap.cs" />
     <Compile Include="DO\Alchemy.cs" />
     <Compile Include="DO\Bottleneck.cs" />
+    <Compile Include="Handlers\SyncAlchemy\SubHandler\GetAlchemySubHandler.cs" />
+    <Compile Include="Handlers\SyncAlchemy\SubHandler\SyncAlchemySubHandler.cs" />
+    <Compile Include="Handlers\SyncAlchemy\SyncAlchemyHandler.cs" />
     <Compile Include="Handlers\SyncBottleneck\SyncBottleneckHandler.cs" />
     <Compile Include="Handlers\SyncInventory\SubHandler\GetInventorySubHandler.cs" />
     <Compile Include="Handlers\SyncMoveStatus\SyncMoveStatusHandler.cs" />

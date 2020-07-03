@@ -31,7 +31,7 @@
         PetStatusSet=35,
         RoleTransfrom=36,
         RoleTransfromSet=37,
-
+        JobAlchemy=38,
         Task =38,
         RoleBottleneck=39,
         RoleMoveStatus =40,
