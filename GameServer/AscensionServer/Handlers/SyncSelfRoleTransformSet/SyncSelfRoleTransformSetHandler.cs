@@ -1,7 +1,7 @@
 ﻿/*
-*Author : xianrenZhang
+*Author : ZHD
 *Since 	:2020-04-18
-*Description  : 同步客户端自身位置到服务器存储
+*Description  : 同步滋生在客户端的位置集合到服务器
 */
 using System.Collections.Generic;
 using AscensionProtocol;
@@ -11,19 +11,18 @@ using Cosmos;
 using System;
 namespace AscensionServer
 {
-   public class SyncSelfRoleTransformHandler : Handler
+    public class SyncSelfRoleTransformSetHandler : Handler
     {
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncSelfRoleTransform;
+            OpCode = OperationCode.SyncSelfRoleTransformSet;
             base.OnInitialization();
-            //OnSubHandlerInitialization<SyncOtherRolesSubHandler>();
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            var JsonResult = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleTransfrom));
-            peer.RoleTransformJson = JsonResult;
-            peer.RoleTransform = Utility.Json.ToObject<RoleTransformDTO>(JsonResult);
+            var JsonResult = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.SingleRoleTransformSet));
+            peer.RoleTransformSetDTO.RoleID = peer.PeerCache.RoleID;
+            peer.RoleTransformSetDTO.RoleTransformSet = Utility.Json.ToObject<Queue< RoleTransformDTO>>(JsonResult);
             ResponseData.Clear();
             OpResponse.OperationCode = operationRequest.OperationCode;
             OpResponse.ReturnCode = (short)ReturnCode.Success;

@@ -27,7 +27,12 @@ namespace AscensionServer
         public RoleTransformDTO RoleTransform { get{ return roleTransform; } set { roleTransform = value; } }
         RoleTransformDTO roleTransform = new RoleTransformDTO();
         public string RoleTransformJson { get; set; }
-
+        /// <summary>
+        /// 角色移动位置集合的队列，这里是使用消息队列处理
+        /// </summary>
+        RoleTransformSetDTO roleTransformSetDTO = new RoleTransformSetDTO();
+        //TODO RoleTransformSetJson消息队列
+        public RoleTransformSetDTO RoleTransformSetDTO { get { return roleTransformSetDTO; } set { roleTransformSetDTO = value; } }
         public RoleMoveStatusDTO RoleMoveStatus { get; set; }
         RoleMoveStatusDTO roleMoveStatus = new RoleMoveStatusDTO();
         public string RoleMoveStatusJson { get; set; }
