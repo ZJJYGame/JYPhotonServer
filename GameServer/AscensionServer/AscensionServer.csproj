@@ -15,7 +15,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -112,6 +112,7 @@
     <Compile Include="DO\Bottleneck.cs" />
     <Compile Include="Handlers\SyncBottleneck\SyncBottleneckHandler.cs" />
     <Compile Include="Handlers\SyncInventory\SubHandler\GetInventorySubHandler.cs" />
+    <Compile Include="Handlers\SyncMoveStatus\SyncMoveStatusHandler.cs" />
     <Compile Include="Handlers\SyncSelfRoleTransform\SyncSelfRoleTransformHandler.cs" />
     <Compile Include="Handlers\SyncPet\SubHandler\UpdatePetHandler.cs" />
     <Compile Include="Handlers\SyncRolePet\SubHandler\RemoveRolePetSubHandler.cs" />
@@ -170,9 +171,6 @@
     <Compile Include="Handlers\SyncOnOffLine\SubHandler\SyncOnOffLineSubHandler.cs" />
     <Compile Include="Handlers\SyncOnOffLine\SubHandler\UpdateOnOffLineSubHandler.cs" />
     <Compile Include="Handlers\SyncOnOffLine\SyncOnOffLineHandler.cs" />
-    <Compile Include="Handlers\SyncSelfRoleTransform\SubHandler\GetOtherRolesSubHandler.cs" />
-    <Compile Include="Handlers\SyncSelfRoleTransform\SubHandler\RemoveOtherRolesSubHandler.cs" />
-    <Compile Include="Handlers\SyncSelfRoleTransform\SubHandler\SyncOtherRolesSubHandler.cs" />
     <Compile Include="Handlers\SyncPetStatus\SubHandler\GetPetStatusSubHandler.cs" />
     <Compile Include="Handlers\SyncPetStatus\SubHandler\SyncPetStatusSubHandler.cs" />
     <Compile Include="Handlers\SyncPetStatus\SubHandler\UpdatePetStatusSubHandler.cs" />
@@ -203,7 +201,6 @@
     <Compile Include="Handlers\Login\LoginHandler.cs" />
     <Compile Include="Handlers\Logoff\LogoffHandler.cs" />
     <Compile Include="Handlers\Register\RegisterHandler.cs" />
-    <Compile Include="Handlers\SyncPosition\SyncPositionHandler.cs" />
     <Compile Include="Handlers\SyncRoleAssets\SyncRoleAssetsHandler.cs" />
     <Compile Include="Handlers\SyncRoleStatus\SyncRoleStatusHandler.cs" />
     <Compile Include="Handlers\SyncRole\SyncRoleHandler.cs" />
@@ -284,8 +281,8 @@
     <Compile Include="Threads\Base\SyncEvent.cs" />
     <Compile Include="Threads\Base\IThreadData.cs" />
     <Compile Include="Threads\SyncEvent\SyncOtherRoleEvent.cs" />
+    <Compile Include="Threads\SyncEvent\SyncRoleMoveStatus.cs" />
     <Compile Include="Threads\SyncEvent\SyncRoleTransformEvent.cs" />
-    <Compile Include="Threads\SyncPositionThread.cs" />
     <Compile Include="Threads\ThreadData.cs" />
     <Compile Include="Threads\ThreadEvent.cs" />
   </ItemGroup>
@@ -298,11 +295,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Handlers\RloeMovingState\" />
-    <Folder Include="Handlers\SyncAlchemy\SubHandler\" />
-    <Folder Include="Handlers\SyncSelfRoles\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\AscensionCalculate\AscensionCalculator.csproj">
       <Project>{a71709ea-e11c-4e7b-b8b7-28a57eff49ef}</Project>

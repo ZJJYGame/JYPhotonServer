@@ -24,35 +24,33 @@ namespace AscensionServer.Threads
                 BroadcastLoggedRolesPosition();
             }
         }
-        List<RoleTransformDTO> roleTransformList = new List<RoleTransformDTO>();
         /// <summary>
         /// TODO 当前未使用瓦片算法进行分区域消息广播
         /// </summary>
         void BroadcastLoggedRolesPosition()
         {
+            List<RoleTransformDTO> roleTransformSet = new List<RoleTransformDTO>();
             //var loggedList = AscensionServer.Instance.LoggedPeerCache.GetValuesList();
             var loggedList = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
             var loggedCount = loggedList.Count;
             if (loggedCount <= 0)
                 return;
-            roleTransformList.Clear();
-            //try{EventData.Parameters.Clear();}catch {}
+            //roleTransformSet.Clear();
             EventData.Parameters = EventDataDict;
             for (int i = 0; i < loggedCount; i++)
             {
                 var roleDataTmp = Singleton<ReferencePoolManager>.Instance.Spawn<RoleTransformDTO>();
                 roleDataTmp = loggedList[i].RoleTransform;
-                roleTransformList.Add(roleDataTmp);
+                roleTransformSet.Add(roleDataTmp);
             }
             EventData.Code = (byte)EventCode.SyncRoleTransform;
             EventDataDict.Clear();
-            EventDataDict.Add((byte)ParameterCode.RoleTransfromSet, Utility.Json.ToJson(roleTransformList));
+            EventDataDict.Add((byte)ParameterCode.RoleTransfromSet, Utility.Json.ToJson(roleTransformSet));
             for (int i = 0; i < loggedList.Count; i++)
             {
                 loggedList[i].SendEvent(EventData, SendParameter);
             }
-            Singleton<ReferencePoolManager>.Instance.Despawns(roleTransformList.ToArray());
-            //AscensionServer._Log.Info("BroadcastLoggedRolesPosition");
+            Singleton<ReferencePoolManager>.Instance.Despawns(roleTransformSet.ToArray());
         }
 
     }

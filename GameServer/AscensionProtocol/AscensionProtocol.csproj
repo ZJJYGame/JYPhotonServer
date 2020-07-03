@@ -60,8 +60,8 @@
     <Compile Include="DTO\RingDTO.cs" />
     <Compile Include="DTO\MiShuDTO.cs" />
     <Compile Include="DTO\OnOffLineDTO.cs" />
-    <Compile Include="DTO\PlayerDataDTO.cs" />
     <Compile Include="DTO\RoleAssetsDTO.cs" />
+    <Compile Include="DTO\RoleMoveStatusDTO.cs" />
     <Compile Include="DTO\RoleTransformDTO.cs" />
     <Compile Include="DTO\RoleDTO.cs" />
     <Compile Include="DTO\RoleGongFaDTO.cs" />
@@ -71,7 +71,6 @@
     <Compile Include="DTO\RoleStatusDTO.cs" />
     <Compile Include="DTO\RoleTaskProgressDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
-    <Compile Include="DTO\Vector3DataDTO.cs" />
     <Compile Include="ErrorCode.cs" />
     <Compile Include="EventCode.cs" />
     <Compile Include="OperationCode.cs" />

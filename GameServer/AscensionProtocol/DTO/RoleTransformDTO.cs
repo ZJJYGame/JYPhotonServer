@@ -8,6 +8,15 @@ namespace AscensionProtocol.DTO
 {
     public class RoleTransformDTO : DataTransferObject
     {
+        public void SetData( float positionX, float positionY, float positionZ, float rotationX, float rotationY, float rotationZ)
+        {
+            PositionX = positionX;
+            PositionY = positionY;
+            PositionZ = positionZ;
+            RotationX = rotationX;
+            RotationY = rotationY;
+            RotationZ = rotationZ;
+        }
         public int RoleID { get; set; }
         public float PositionX { get; set; }
         public float PositionY { get; set; }
@@ -31,5 +40,6 @@ namespace AscensionProtocol.DTO
          + "; PositionY: " + PositionY + "; PositionZ : " + PositionZ
          + ";RotationX : " + RotationX + ";RotationY : " + RotationY + ";RotationZ: " + RotationZ +"######";
         }
+
     }
 }

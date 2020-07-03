@@ -13,5 +13,7 @@ namespace AscensionServer
         /// 同步登录玩家的位置信息时间间隔
         /// </summary>
         public const int SyncLoggedRolesPositionInterval = 300;
+
+        public const int SyncRoleMoveStasus = 1000;
     }
 }
