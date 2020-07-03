@@ -10,12 +10,19 @@ namespace AscensionServer.Model
     public class Alchemy : DataObject
     {
         public virtual int RoleID { get; set; }
-        public virtual string AlchemyStatusDict { get; set; }
+        public virtual int JobLevel { get; set; }
+        public virtual string Recipe_Array { get; set; }
+        public Alchemy()
+        {
+            JobLevel = 5;
+            Recipe_Array = "15001";
+        }
 
         public override void Clear()
         {
             RoleID = -1;
-            AlchemyStatusDict=null;
+            JobLevel = 0;
+            Recipe_Array = null;
         }
     }
 

@@ -12,8 +12,9 @@ namespace AscensionServer
     {
         public AlchemyMap()
         {
-            Id(x => x.RoleID).GeneratedBy.Increment().Column("roleid");
-            Map(x => x.AlchemyStatusDict).Column("alchemy_status_dict");
+            Id(x => x.RoleID).GeneratedBy.Assigned().Column("roleid");
+            Map(x => x.JobLevel).Column("joblevel");
+            Map(x => x.Recipe_Array).Column("recipe_array");
             Table("alchemy");
         }
     }

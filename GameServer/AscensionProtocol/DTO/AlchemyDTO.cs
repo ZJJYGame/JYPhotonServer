@@ -10,18 +10,17 @@ namespace AscensionProtocol.DTO
     public class AlchemyDTO: DataTransferObject
     {
         public virtual int RoleID { get; set; }
-        public virtual Dictionary<string, AlchemyStatus> AlchemyStatusDict { get; set; }
+        public virtual int JobLevel { get; set; }
+        public virtual HashSet<int> Recipe_Array { get; set; }
+
 
         public override void Clear()
         {
             RoleID = -1;
-            AlchemyStatusDict.Clear();
+            JobLevel = 0;
+            Recipe_Array = null;
         }
     }
 
-    public class AlchemyStatus
-    {
-        public virtual int Level { get; set; }
-        public virtual string Recipe { get; set; }
-    }
+  
 }
