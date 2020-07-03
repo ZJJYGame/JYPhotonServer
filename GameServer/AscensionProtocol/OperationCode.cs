@@ -38,9 +38,13 @@ namespace AscensionProtocol
         SyncRolePet=18,
         SyncBottleneck=19,
         SyncMoveStatus =20,
+        /// <summary>
+        /// 同步自身位置的集合，参考消息队列
+        /// </summary>
+        SyncSelfRoleTransformSet= 21,
 
 
-        EnterAdventureScene =111,
+        EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>
         /// 测试消息队列

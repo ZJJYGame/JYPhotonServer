@@ -35,5 +35,6 @@
         Task =38,
         RoleBottleneck=39,
         RoleMoveStatus =40,
+        SingleRoleTransformSet=41
     }
 }

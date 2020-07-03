@@ -29,7 +29,8 @@ namespace AscensionServer.Threads
         /// </summary>
         void BroadcastLoggedRolesPosition()
         {
-            List<RoleTransformDTO> roleTransformSet = new List<RoleTransformDTO>();
+            //List<RoleTransformDTO> roleTransformSet = new List<RoleTransformDTO>();
+            List<RoleTransformSetDTO> roleTransformSetJson = new List<RoleTransformSetDTO>();
             //var loggedList = AscensionServer.Instance.LoggedPeerCache.GetValuesList();
             var loggedList = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
             var loggedCount = loggedList.Count;
@@ -39,18 +40,18 @@ namespace AscensionServer.Threads
             EventData.Parameters = EventDataDict;
             for (int i = 0; i < loggedCount; i++)
             {
-                var roleDataTmp = Singleton<ReferencePoolManager>.Instance.Spawn<RoleTransformDTO>();
-                roleDataTmp = loggedList[i].RoleTransform;
-                roleTransformSet.Add(roleDataTmp);
+                //var roleDataTmp = Singleton<ReferencePoolManager>.Instance.Spawn<RoleTransformDTO>();
+                //roleDataTmp = loggedList[i].RoleTransformSetJson;
+                roleTransformSetJson.Add(loggedList[i].RoleTransformSetDTO);
             }
             EventData.Code = (byte)EventCode.SyncRoleTransform;
             EventDataDict.Clear();
-            EventDataDict.Add((byte)ParameterCode.RoleTransfromSet, Utility.Json.ToJson(roleTransformSet));
+            EventDataDict.Add((byte)ParameterCode.RoleTransfromSet, Utility.Json.ToJson(roleTransformSetJson));
             for (int i = 0; i < loggedList.Count; i++)
             {
                 loggedList[i].SendEvent(EventData, SendParameter);
             }
-            Singleton<ReferencePoolManager>.Instance.Despawns(roleTransformSet.ToArray());
+            //Singleton<ReferencePoolManager>.Instance.Despawns(roleTransformSet.ToArray());
         }
 
     }

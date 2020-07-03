@@ -68,7 +68,8 @@
       <HintPath>..\packages\NHibernate.4.1.2.4000\lib\net40\NHibernate.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Photon.SocketServer">
+    <Reference Include="Photon.SocketServer, Version=4.0.28.11245, Culture=neutral, PublicKeyToken=48c2fa3b6988090e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\Photon.SocketServer.dll</HintPath>
     </Reference>
     <Reference Include="Photon.SocketServer.NUnit">
@@ -111,6 +112,7 @@
     <Compile Include="Handlers\SyncBottleneck\SyncBottleneckHandler.cs" />
     <Compile Include="Handlers\SyncInventory\SubHandler\GetInventorySubHandler.cs" />
     <Compile Include="Handlers\SyncMoveStatus\SyncMoveStatusHandler.cs" />
+    <Compile Include="Handlers\SyncSelfRoleTransformSet\SyncSelfRoleTransformSetHandler.cs" />
     <Compile Include="Handlers\SyncSelfRoleTransform\SyncSelfRoleTransformHandler.cs" />
     <Compile Include="Handlers\SyncPet\SubHandler\UpdatePetHandler.cs" />
     <Compile Include="Handlers\SyncRolePet\SubHandler\RemoveRolePetSubHandler.cs" />
