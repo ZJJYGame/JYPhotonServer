@@ -10,6 +10,26 @@ namespace AscensionServer.Model
     [Serializable]
     public class RoleStatus:DataObject
     {
+        public RoleStatus()
+        {
+
+            RoleMaxHP = 100;
+            RoleHP = 488;
+            RoleMaxMP = 100;
+            RoleMP = 300;
+            RoleJingXue = 0;
+            RoleAttackDamage = 40;
+            RoleResistanceDamage = 40;
+            RoleAttackPower = 30;
+            RoleResistancePower = 40;
+            RoleSpeedAttack = 40;
+            RoleShenhun = 320;
+            RoleMaxShenhun = 60;
+            RoleShenHunDamage = 10;
+            RoleShenHunResistance = 10;
+            RoleCrit = 0;
+            RoleCritResistance = 0;
+        }
         public virtual int RoleID { get; set; }
         public virtual int RoleMaxHP { get; set; }
         public virtual int RoleHP { get; set; }
