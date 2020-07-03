@@ -9,12 +9,13 @@ using System;
 using Cosmos;
 using AscensionProtocol.DTO;
 using AscensionServer.Threads;
+using System.Collections.Generic;
 
 namespace AscensionServer
 {
-
     public class SyncMoveStatusHandler : Handler
     {
+        HashSet<RoleMoveStatusDTO> roleSet = new HashSet<RoleMoveStatusDTO>();
         public override void OnInitialization()
         {
             OpCode = OperationCode.SyncMoveStatus;
@@ -28,11 +29,23 @@ namespace AscensionServer
             peer.RoleMoveStatusJson = roleMoveStatusJson;
             peer.RoleMoveStatus = Utility.Json.ToObject<RoleMoveStatusDTO>(roleMoveStatusJson);
             AscensionServer._Log.Info("Role:ID " + peer.PeerCache.RoleID + "\n RoleJson :" + roleMoveStatusJson);
+            
+            roleSet.Clear();
+            var peerSet =  AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
+            int peerSetLength = peerSet.Count;
+            for (int i = 0; i < peerSetLength; i++)
+            {
+                roleSet.Add(peerSet[i].RoleMoveStatus);
+            }
+            var roleSetJson = Utility.Json.ToJson(roleSet);
+
+            ResponseData.Add((byte)ParameterCode.RoleMoveStatus, roleSetJson);
             OpResponse.OperationCode = operationRequest.OperationCode;
             OpResponse.ReturnCode = (short)ReturnCode.Success;
+            OpResponse.Parameters = ResponseData;
             peer.SendOperationResponse(OpResponse, sendParameters);
-        
-            var peerSet =  AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
+
+
             var threadData = Singleton<ReferencePoolManager>.Instance.Spawn<ThreadData<AscensionPeer>>();
             threadData.SetData(peerSet, (byte)EventCode.SyncRoleMoveStatus, peer);
             var syncEvent = Singleton<ReferencePoolManager>.Instance.Spawn<SyncRoleMoveStatusEvent>();
