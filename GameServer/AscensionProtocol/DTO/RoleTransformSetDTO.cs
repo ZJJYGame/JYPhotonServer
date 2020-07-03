@@ -12,16 +12,17 @@ namespace AscensionProtocol.DTO
     [Serializable]
     public class RoleTransformSetDTO : DataTransferObject
     {
+        public int RoleID { get; set; }
+        public Queue<TransformDTO> TransformSet { get; set; }
         public RoleTransformSetDTO()
         {
-            RoleTransformSet = new Queue<RoleTransformDTO>();
+            RoleID = -1;
+            TransformSet = new Queue<TransformDTO>();
         }
-        public int RoleID { get; set; }
-        public Queue<RoleTransformDTO> RoleTransformSet { get; set; }
         public override void Clear()
         {
             RoleID = -1;
-            RoleTransformSet.Clear();
+            TransformSet.Clear();
         }
     }
 }

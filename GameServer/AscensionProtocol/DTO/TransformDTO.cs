@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace AscensionProtocol.DTO
 {
+    /// <summary>
+    /// 纯位置信息DTO，用以传输位置数据
+    /// </summary>
     [Serializable]
-    public class RoleTransformDTO : DataTransferObject
+    public class TransformDTO : DataTransferObject
     {
-        public void SetData( float positionX, float positionY, float positionZ, float rotationX, float rotationY, float rotationZ)
+        public void SetData(float positionX, float positionY, float positionZ, float rotationX, float rotationY, float rotationZ)
         {
             PositionX = positionX;
             PositionY = positionY;
@@ -18,7 +21,6 @@ namespace AscensionProtocol.DTO
             RotationY = rotationY;
             RotationZ = rotationZ;
         }
-        public int RoleID { get; set; }
         public float PositionX { get; set; }
         public float PositionY { get; set; }
         public float PositionZ { get; set; }
@@ -27,7 +29,6 @@ namespace AscensionProtocol.DTO
         public float RotationZ { get; set; }
         public override void Clear()
         {
-            RoleID = -1;
             PositionX = 0;
             PositionY = 0;
             PositionZ = 0;
@@ -35,12 +36,5 @@ namespace AscensionProtocol.DTO
             RotationY = 0;
             RotationZ = 0;
         }
-        public override string ToString()
-        {
-            return "###### RoleID : " + RoleID + " ; PositionX : " + PositionX
-         + "; PositionY: " + PositionY + "; PositionZ : " + PositionZ
-         + ";RotationX : " + RotationX + ";RotationY : " + RotationY + ";RotationZ: " + RotationZ +"######";
-        }
-
     }
 }
