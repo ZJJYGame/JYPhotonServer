@@ -102,6 +102,9 @@ namespace AscensionServer
                }
 
                 #endregion
+                #region 副职业
+                Singleton<NHManager>.Instance.Insert<Alchemy>(new Alchemy() { RoleID= rolestatus.RoleID });
+                #endregion
                 var userRoleJson = Utility.Json.ToJson(roleList);
                 Singleton<NHManager>.Instance.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;

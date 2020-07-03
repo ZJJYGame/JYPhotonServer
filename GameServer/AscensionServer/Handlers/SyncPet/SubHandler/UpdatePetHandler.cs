@@ -27,21 +27,49 @@ namespace AscensionServer
             string petJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Pet));
 
             var petObj = Utility.Json.ToObject<Pet>(petJson);
-            NHCriteria nHCriteriaPet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", petObj.ID);       
+            NHCriteria nHCriteriaPet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", petObj.ID);
+            int level;
+            int exp;
             var pet = Singleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriaPet);
             if (pet != null)
             {
-                Singleton<NHManager>.Instance.Update<Pet>(petObj);
+                if (petObj.PetLevel!=0)
+                {
+                   
+                    pet.PetExp = 0;
+                    level = pet.PetLevel + petObj.PetLevel;
+                    exp = pet.PetExp + petObj.PetExp;
+                    Singleton<NHManager>.Instance.Update(new Pet()
+                    {
+                        ID= petObj.ID,PetID=petObj.PetID,PetExp= exp,PetLevel=(byte)level,PetIsBattle=petObj.PetIsBattle,PetSkillArray=petObj.PetSkillArray,PetName=petObj.PetName
+                    });
+                }
+                else
+                {
+                    exp = pet.PetExp + petObj.PetExp;
+                    Singleton<NHManager>.Instance.Update(new Pet()
+                    {
+                        ID = petObj.ID,
+                        PetID = petObj.PetID,
+                        PetExp = exp,
+                        PetLevel = pet.PetLevel,
+                        PetIsBattle = petObj.PetIsBattle,
+                        PetSkillArray = petObj.PetSkillArray,
+                        PetName = petObj.PetName
+
+                    });
+                }
                 SetResponseData(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.Pet, Utility.Json.ToJson(pet));
+                    var sendPet = Singleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriaPet);
+                    SubDict.Add((byte)ParameterCode.Pet, Utility.Json.ToJson(sendPet));
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
             }
             else
             {
                 AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>传过来的宠物状态为空" + petJson);
-                pet = Singleton<NHManager>.Instance.Insert<Pet>(pet);
+                //pet = Singleton<NHManager>.Instance.Insert<Pet>(pet);
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
             }
 
