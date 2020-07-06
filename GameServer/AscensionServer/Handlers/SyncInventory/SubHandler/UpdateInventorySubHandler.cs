@@ -40,47 +40,47 @@ namespace AscensionServer
                 if (existRing)
                 {
                     var ringServerArray = Singleton<NHManager>.Instance.CriteriaSelect<Ring>(nHCriteriaRingID);
-                 
-                        if (InventoryObj.ID == ringServerArray.ID)
+
+                    if (InventoryObj.ID == ringServerArray.ID)
+                    {
+                        Dic = new Dictionary<int, RingItemsDTO>();
+                        var ServerDic = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingItems);
+                        foreach (var server_p in ServerDic)
                         {
-                            Dic = new Dictionary<int, RingItemsDTO>();
-                            var ServerDic = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingItems);
-                            foreach (var server_p in ServerDic)
+                            if (InventoryObj.RingItems.ContainsKey(server_p.Key))
+                                continue;
+                            Dic.Add(server_p.Key, server_p.Value);
+                        }
+                        foreach (var client_p in InventoryObj.RingItems)
+                        {
+                            if (ServerDic.ContainsKey(client_p.Key))
                             {
-                                if (InventoryObj.RingItems.ContainsKey(server_p.Key))
-                                    continue;
-                                Dic.Add(server_p.Key, server_p.Value);
-                            }
-                            foreach (var client_p in InventoryObj.RingItems)
-                            {
-                                if (ServerDic.ContainsKey(client_p.Key))
+                                var severValue = ServerDic[client_p.Key];
+                                if (severValue.RingItemCount > client_p.Value.RingItemCount)
                                 {
-                                    var severValue = ServerDic[client_p.Key];
-                                    if (severValue.RingItemCount > client_p.Value.RingItemCount)
-                                    {
-                                        serverInfoItemCount = severValue.RingItemCount - client_p.Value.RingItemCount;
-                                        client_p.Value.RingItemCount = serverInfoItemCount;
-                                        client_p.Value.RingItemTime = severValue.RingItemTime;
-                                        client_p.Value.RingItemAdorn = severValue.RingItemAdorn;
-                                        AscensionServer._Log.Info("" + client_p.Value.RingItemTime);
-                                        Dic.Add(client_p.Key, client_p.Value);
-                                    }
-                                    else
-                                    {
-                                        Dic.Remove(client_p.Key);
-                                    }
-                                    Singleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(Dic) });
+                                    serverInfoItemCount = severValue.RingItemCount - client_p.Value.RingItemCount;
+                                    client_p.Value.RingItemCount = serverInfoItemCount;
+                                    client_p.Value.RingItemTime = severValue.RingItemTime;
+                                    client_p.Value.RingItemAdorn = severValue.RingItemAdorn;
+                                    AscensionServer._Log.Info("" + client_p.Value.RingItemTime);
+                                    Dic.Add(client_p.Key, client_p.Value);
                                 }
-                                /*
                                 else
                                 {
-                                    Dic.Add(client_p.Key, client_p.Value);
-                                    Singleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(Dic) });
-                                }*/
+                                    Dic.Remove(client_p.Key);
+                                }
+                                Singleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(Dic) });
                             }
+                            /*
+                            else
+                            {
+                                Dic.Add(client_p.Key, client_p.Value);
+                                Singleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(Dic) });
+                            }*/
+                        }
+                        Owner.OpResponse.Parameters = Owner.ResponseData;
+                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     }
-                    Owner.OpResponse.Parameters = Owner.ResponseData;
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
             }
             else

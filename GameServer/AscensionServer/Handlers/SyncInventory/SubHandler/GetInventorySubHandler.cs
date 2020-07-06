@@ -37,13 +37,6 @@ namespace AscensionServer
             if (exist)
             {
                 var ringArray = Singleton<NHManager>.Instance.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
-                /*
-                if (string.IsNullOrEmpty(ringArray.RingIdArray))
-                {
-                    ring = Singleton<NHManager>.Instance.Insert<Ring>(new Ring() { RingId = InventoryObj.RingId, RingItems = Utility.Json.ToJson(new Dictionary<int, RingItemsDTO>()) });
-                    idRing.Add(ring.ID, ring.RingAdorn);
-                    Singleton<NHManager>.Instance.Update<RoleRing>(new RoleRing() { RoleID = InventoryRoleObj.RoleID, RingIdArray = Utility.Json.ToJson(idRing) });
-                }*/
                 NHCriteria nHCriteriaRingID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", InventoryObj.ID);
                 bool existRing = Singleton<NHManager>.Instance.Verify<Ring>(nHCriteriaRingID);
                 if (existRing)
@@ -63,17 +56,4 @@ namespace AscensionServer
         }
     }
 }
-/*
-               if (!string.IsNullOrEmpty(ringArray.RingIdArray))
-               {
-                   idRing = Utility.Json.ToObject<List<int>>(ringArray.RingIdArray);
-                   foreach (var item in idRing)
-                   {
-                       if (item != InventoryObj.ID)
-                       {
-                           idRing.Add(ring.ID);
-                       }
-                   }
-               }
-               else*/
 

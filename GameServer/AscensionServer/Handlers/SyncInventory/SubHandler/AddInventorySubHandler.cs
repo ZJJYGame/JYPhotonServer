@@ -90,9 +90,9 @@ namespace AscensionServer
                                 Singleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(Dic) });
                             }
                         }
+                        Owner.OpResponse.Parameters = Owner.ResponseData;
+                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     }
-                    Owner.OpResponse.Parameters = Owner.ResponseData;
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
             }
             else
