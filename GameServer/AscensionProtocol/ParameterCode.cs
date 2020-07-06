@@ -35,6 +35,10 @@
         Task =38,
         RoleBottleneck=39,
         RoleMoveStatus =40,
-        SingleRoleTransformSet=41
+        /// <summary>
+        /// 角色的移动状态集合
+        /// </summary>
+        RoleMoveStatusSet =41,
+        SingleRoleTransformSet=42
     }
 }

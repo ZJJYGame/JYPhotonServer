@@ -10,12 +10,12 @@ namespace AscensionProtocol.DTO
     {
 
         public int RoleID { get; set; }
-        public string MoveStatus { get; set; }
+        public byte MoveStatus { get; set; }
         
         public override void Clear()
         {
             RoleID = -1;
-            MoveStatus = "";
+            MoveStatus =0;
         }
     }
 }

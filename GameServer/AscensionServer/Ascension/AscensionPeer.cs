@@ -34,8 +34,11 @@ namespace AscensionServer
         //TODO RoleTransformSetJson消息队列
         public bool IsSendedTransform { get; set; }
         public RoleTransformSetDTO RoleTransformSetDTO { get { return roleTransformSetDTO; } set { roleTransformSetDTO = value; } }
-        public RoleMoveStatusDTO RoleMoveStatus { get; set; }
         RoleMoveStatusDTO roleMoveStatus = new RoleMoveStatusDTO();
+        public RoleMoveStatusDTO RoleMoveStatus { get { return roleMoveStatus; }set { roleMoveStatus = value; } }
+        /// <summary>
+        /// 移动状态Json
+        /// </summary>
         public string RoleMoveStatusJson { get; set; }
         /// <summary>
         /// Peer的UUID
