@@ -75,6 +75,7 @@
     <Compile Include="DTO\RoleTransformSetDTO.cs" />
     <Compile Include="DTO\SchoolDTO.cs" />
     <Compile Include="DTO\TransformDTO.cs" />
+    <Compile Include="DTO\TreasureatticDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="ErrorCode.cs" />
     <Compile Include="EventCode.cs" />
