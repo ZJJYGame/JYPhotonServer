@@ -111,9 +111,15 @@
     <Compile Include="DOMap\AlchemyMap.cs" />
     <Compile Include="DOMap\BottleneckMap.cs" />
     <Compile Include="DOMap\HerbsFieldMap.cs" />
+    <Compile Include="DOMap\RoleSchoolMap.cs" />
+    <Compile Include="DOMap\SchoolMap.cs" />
+    <Compile Include="DOMap\TreasureatticMap.cs" />
     <Compile Include="DO\Alchemy.cs" />
     <Compile Include="DO\Bottleneck.cs" />
     <Compile Include="DO\HerbsField.cs" />
+    <Compile Include="DO\RoleSchool.cs" />
+    <Compile Include="DO\School.cs" />
+    <Compile Include="DO\Treasureattic.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\AddAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\GetAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\SyncAlchemySubHandler.cs" />

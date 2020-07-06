@@ -63,6 +63,7 @@
     <Compile Include="DTO\OnOffLineDTO.cs" />
     <Compile Include="DTO\RoleAssetsDTO.cs" />
     <Compile Include="DTO\RoleMoveStatusDTO.cs" />
+    <Compile Include="DTO\RoleSchoolDTO.cs" />
     <Compile Include="DTO\RoleTransformDTO.cs" />
     <Compile Include="DTO\RoleDTO.cs" />
     <Compile Include="DTO\RoleGongFaDTO.cs" />
@@ -72,7 +73,9 @@
     <Compile Include="DTO\RoleStatusDTO.cs" />
     <Compile Include="DTO\RoleTaskProgressDTO.cs" />
     <Compile Include="DTO\RoleTransformSetDTO.cs" />
+    <Compile Include="DTO\SchoolDTO.cs" />
     <Compile Include="DTO\TransformDTO.cs" />
+    <Compile Include="DTO\TreasureatticDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="ErrorCode.cs" />
     <Compile Include="EventCode.cs" />
