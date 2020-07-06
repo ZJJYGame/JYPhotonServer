@@ -52,6 +52,7 @@ namespace AscensionServer
                 ThreadEvent.RemoveSyncEvent(syncEvent); });
             ThreadEvent.AddSyncEvent(syncEvent);
             ThreadEvent.ExecuteEvent();
+
         }
     }
 }

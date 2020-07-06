@@ -10,15 +10,12 @@ namespace AscensionProtocol.DTO
     {
 
         public int RoleID { get; set; }
-        public string Default { get; set; }
-        public string FlyCarrier { get; set; }
-        public string FlyShip { get; set; }
+        public string MoveStatus { get; set; }
+        
         public override void Clear()
         {
             RoleID = -1;
-            Default = "";
-            FlyCarrier = "";
-            FlyShip = "";
+            MoveStatus = "";
         }
     }
 }
