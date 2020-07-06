@@ -41,6 +41,7 @@ namespace AscensionServer
             string roleJson = userRole.RoleIDArray;
             string roleStatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleStatus));
             Dictionary<int, int> idRing = new Dictionary<int, int>();
+            Dictionary<int, int> initialSchool = new Dictionary<int, int>();
             Ring ring = null;
             //如果没有查询到代表角色没被注册过可用
 
@@ -106,6 +107,13 @@ namespace AscensionServer
                 Singleton<NHManager>.Instance.Insert<Alchemy>(new Alchemy() { RoleID= rolestatus.RoleID});
                 AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>添加副职业成功");
                 #endregion
+                #region 初始化门派
+                School school = new School();
+                school = Singleton<NHManager>.Instance.Insert(school);
+                initialSchool.Add(school.ID, school.SchoolID);
+                Singleton<NHManager>.Instance.Insert(new RoleSchool() { RoleID = rolestatus.RoleID, RoleJoiningSchool = Utility.Json.ToJson(initialSchool),RoleJoinedSchool= Utility.Json.ToJson("") });
+                #endregion
+
                 var userRoleJson = Utility.Json.ToJson(roleList);
                 Singleton<NHManager>.Instance.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;

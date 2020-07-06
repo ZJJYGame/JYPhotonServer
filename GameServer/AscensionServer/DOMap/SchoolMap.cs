@@ -12,7 +12,7 @@ namespace AscensionServer
     {
         public SchoolMap()
         {
-            Id(x => x.ID).GeneratedBy.Assigned().Column("id");
+            Id(x => x.ID).GeneratedBy.Increment().Column("id");
             Map(x => x.RankingListID).Column("ranking_list_id");
             Map(x => x.SchoolID).Column("school_id");
             Map(x => x.SchoolJob).Column("school_job");

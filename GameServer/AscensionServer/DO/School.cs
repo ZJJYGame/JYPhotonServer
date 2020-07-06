@@ -19,6 +19,17 @@ namespace AscensionServer.Model
         public virtual int SchoolJob { get; set; }
         public virtual int SchoolMember { get; set; }
 
+        public School()
+        {
+            SchoolID = 900;
+            Contribution = 0;
+            Hatred = 0;
+            TreasureAtticID = 0;
+            SutrasAtticID = 0;
+            RankingListID = 0;
+            SchoolJob = 0;
+            SchoolMember = 0;
+        }
 
         public override void Clear()
         {
