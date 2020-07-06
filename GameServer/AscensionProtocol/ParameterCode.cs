@@ -35,6 +35,7 @@
         Task =38,
         RoleBottleneck=39,
         RoleMoveStatus =40,
-        SingleRoleTransformSet=41
+        SingleRoleTransformSet=41,
+        Treasureattic=42
     }
 }
