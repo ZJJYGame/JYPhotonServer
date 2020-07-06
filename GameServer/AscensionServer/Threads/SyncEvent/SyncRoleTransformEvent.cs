@@ -24,17 +24,22 @@ namespace AscensionServer.Threads
                 BroadcastLoggedRolesPosition();
             }
         }
+        public override void OnInitialization()
+        {
+            base.OnInitialization();
+            EventData.Parameters = EventDataDict;
+        }
         /// <summary>
         /// TODO 当前未使用瓦片算法进行分区域消息广播
         /// </summary>
         void BroadcastLoggedRolesPosition()
         {
+            EventDataDict.Clear();
             HashSet<RoleTransformSetDTO> roleTransformSet = new HashSet<RoleTransformSetDTO>();
             var loggedList = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
             var loggedCount = loggedList.Count;
             if (loggedCount <= 0)
                 return;
-            EventData.Parameters = EventDataDict;
             for (int i = 0; i < loggedCount; i++)
             {
                 if (!loggedList[i].IsSendedTransform)
@@ -44,7 +49,6 @@ namespace AscensionServer.Threads
                 }
             }
             EventData.Code = (byte)EventCode.SyncRoleTransform;
-            EventDataDict.Clear();
             EventDataDict.Add((byte)ParameterCode.SingleRoleTransformSet, Utility.Json.ToJson(roleTransformSet));
             for (int i = 0; i < loggedList.Count; i++)
             {
