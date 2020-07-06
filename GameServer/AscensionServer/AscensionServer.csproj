@@ -17,6 +17,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -110,8 +111,14 @@
     <Compile Include="AreaHandlers\ExitAdventureSceneHandler.cs" />
     <Compile Include="DOMap\AlchemyMap.cs" />
     <Compile Include="DOMap\BottleneckMap.cs" />
+    <Compile Include="DOMap\HerbsFieldMap.cs" />
+    <Compile Include="DOMap\RoleSchoolMap.cs" />
+    <Compile Include="DOMap\SchoolMap.cs" />
     <Compile Include="DO\Alchemy.cs" />
     <Compile Include="DO\Bottleneck.cs" />
+    <Compile Include="DO\HerbsField.cs" />
+    <Compile Include="DO\RoleSchool.cs" />
+    <Compile Include="DO\School.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\AddAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\GetAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\SyncAlchemySubHandler.cs" />
@@ -305,7 +312,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Handlers\SyncHerbsField\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AscensionCalculate\AscensionCalculator.csproj">
       <Project>{a71709ea-e11c-4e7b-b8b7-28a57eff49ef}</Project>
