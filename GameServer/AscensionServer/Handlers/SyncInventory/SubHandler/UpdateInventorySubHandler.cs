@@ -32,7 +32,7 @@ namespace AscensionServer
             string severInfoItemTime = "0";
             NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", InventoryRoleObj.RoleID);
             bool exist = Singleton<NHManager>.Instance.Verify<RoleRing>(nHCriteriaRoleID);
-            NHCriteria nHCriteriaRingID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", InventoryObj.RingId);
+            NHCriteria nHCriteriaRingID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", InventoryObj.ID);
             bool existRing = Singleton<NHManager>.Instance.Verify<Ring>(nHCriteriaRingID);
 
             if (exist)
