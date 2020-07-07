@@ -30,14 +30,17 @@ namespace AscensionServer
             var treasureatticTemp = Singleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
             var schoolTemp = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaschool);
             int contribution=0;
+            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>更新藏宝阁"+ schoolTemp.ID);
             Dictionary<int, int> itemDict = new Dictionary<int, int>();
             Dictionary<string, string> DOdict = new Dictionary<string, string>();
             if (schoolTemp != null)
             {
+                AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>更新藏宝阁2");
                 contribution = schoolTemp.Contribution - schoolObj.Contribution;
                 Singleton<NHManager>.Instance.Update<School>(new School() { ID= schoolTemp .ID,SchoolID= schoolTemp .SchoolID,SchoolJob= schoolTemp .SchoolJob, TreasureAtticID = schoolTemp.TreasureAtticID,Contribution= contribution });
                 if (treasureatticTemp!=null)
                 {
+                    AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>更新藏宝阁3");
                     itemDict = Utility.Json.ToObject<Dictionary<int, int>>(treasureatticTemp.ItemRedeemedDict);
                     foreach (var item in Utility.Json.ToObject<Dictionary<int,int> >(treasureatticObj.ItemRedeemedDict))
                     {

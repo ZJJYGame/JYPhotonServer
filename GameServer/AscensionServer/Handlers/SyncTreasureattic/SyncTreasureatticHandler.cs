@@ -13,6 +13,7 @@ namespace AscensionServer
             OpCode = OperationCode.SyncTreasureattic;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncTreasureatticSubHandler>();
+
         }
     }
 }

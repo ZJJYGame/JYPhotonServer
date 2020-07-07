@@ -35,30 +35,59 @@ namespace AscensionServer
                 {
                     NHCriteria nHCriteriarole = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleId);
                     var roleschoolObj = Singleton<NHManager>.Instance.CriteriaSelect<RoleSchool>(nHCriteriarole);
-                    if (!string.IsNullOrEmpty(roleschoolObj.RoleJoiningSchool))
+                    var verify= Singleton<NHManager>.Instance.Verify<RoleSchool>(nHCriteriarole);
+                    if (verify)
                     {
-                        AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>..收到请求宗门的请求2");
-                        foreach (var item in Utility.Json.ToObject<Dictionary<int, int>>(roleschoolObj.RoleJoiningSchool))
+                        if (!string.IsNullOrEmpty(roleschoolObj.RoleJoiningSchool))
                         {
-                            NHCriteria nHCriteriaSchool = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", item.Key);
-                            var schoolObj = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
-                            schoolDict.Add(roleId, schoolObj);
-                            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaSchool);
+
+                            foreach (var item in Utility.Json.ToObject<Dictionary<int, int>>(roleschoolObj.RoleJoiningSchool))
+                            {
+
+                                NHCriteria nHCriteriaSchool = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", item.Key);
+                                var schoolObj = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
+                                schoolDict.Add(roleId, schoolObj);
+                                AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>..加入的ID" + roleId + "加入的宗门" + schoolObj.ID);
+                                Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaSchool);
+                            }
+
                         }
-
+                        else
+                            schoolDict.Clear();
                     }
-                 
-                    Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriarole);
-                }
-                SetResponseData(() =>
-                {
+                    else
+                    {
 
-                    SubDict.Add((byte)ParameterCode.RoleSchool, Utility.Json.ToJson(schoolDict));
-                    AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>..发送加入的宗门" + Utility.Json.ToJson(schoolDict));
-                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
-                });
+                        SetResponseData(() =>
+                        {
+                            Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
+                        });
+                        peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+                        return;
+                    }
+                    Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriarole);
+                    
+                }
+             
+                if (schoolDict.Count == roleobj.Count)
+                {
+                    SetResponseData(() =>
+                    {
+
+                        SubDict.Add((byte)ParameterCode.RoleSchool, Utility.Json.ToJson(schoolDict));
+
+                        Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                    });
+                }
+                else
+                {
+                    SetResponseData(() =>
+                    {
+                        Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
+                    });
+                }
             }
-            
+            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>..发送加入的宗门" + SubDict.Count);
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
 
         }
