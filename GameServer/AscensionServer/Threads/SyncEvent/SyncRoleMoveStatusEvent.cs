@@ -16,7 +16,7 @@ namespace AscensionServer.Threads
             if (threadData != null)
             {
                 int peerCount = threadData.Collection.Count;
-                var roleJson = Utility.Json.ToJson(threadData.Data.RoleMoveStatus);
+                var roleJson = Utility.Json.ToJson(threadData.Data.PeerCache.RoleMoveStatus);
                 EventDataDict.Clear();
                 EventDataDict.Add((byte)ParameterCode.RoleMoveStatus, roleJson);
                 EventData.Parameters = EventDataDict;

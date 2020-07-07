@@ -19,7 +19,6 @@ namespace AscensionServer
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            //var resultJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role));
             AscensionServer._Log.Info( "ExitAdventureScene  : "+ peer.ToString());
             AscensionServer.Instance.ExitAdventureScene(peer);
             //这条，获取玩家已经离开探索界面时候所有玩家的集合

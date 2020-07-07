@@ -52,6 +52,7 @@ namespace AscensionProtocol
         SyncTreasureattic=29,
         SyncSchool=30,
         SyncRoleSchool=31,
+        SyncResources = 32,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>

@@ -17,6 +17,7 @@ namespace AscensionServer
 {
     public partial class AscensionServer:ApplicationBase
     {
+        #region Properties
         /// <summary>
         /// 已经连接但是未登录的客户端对象容器
         /// </summary>
@@ -33,12 +34,14 @@ namespace AscensionServer
         // TODO 需要添加大厅功能
         Cache<AscensionPeer> lobby = new Cache<AscensionPeer>();
         public Cache<AscensionPeer> Lobby { get { return lobby; } }
+        #endregion
+
+        #region Methods
         public void AddIntoLoggedUserCache(AscensionPeer peer)
         {
             var result = loggedPeerCache.Add(peer.PeerCache.Account, peer);
             if (result)
             {
-                //peer.PeerCache.IsLogged = true;
                 _Log.Info("----------------------------  AscensionServer.Cache.Login() : Server management logged peer success : " + peer.ToString() + "------------------------------------");
             }
             else
@@ -48,10 +51,7 @@ namespace AscensionServer
                     ReplaceLogin(oldpeer);
                     loggedPeerCache.Remove(oldpeer.PeerCache.Account);
                 }
-                //ReplaceLogin(peer);
                 loggedPeerCache.Add(peer.PeerCache.Account, peer);
-                //_Log.Info("----------------------------  AscensionServer.Cache.Login() :  can't add into logged Dict------------------------------------" + loginPeerDict.ContainsKey(peer.PeerCache.Account));
-
             }
         }
         public void RemoveFromLoggedUserCache(AscensionPeer peer)
@@ -69,8 +69,6 @@ namespace AscensionServer
                 _Log.Info("---------------------------- AscensionServer.Cache.Logoff() : can't  remove from logged Dict  : " + peer.ToString() + "------------------------------------");
             }
         }
-        Dictionary<string, AscensionPeer> onlinePeerDict = new Dictionary<string, AscensionPeer>();
-
         public int HasOnlineID(AscensionPeer peer)
         {
             if (loggedPeerCache.IsExists(peer.PeerCache.Account))
@@ -104,17 +102,6 @@ namespace AscensionServer
             }
             else
                 _Log.Info("---------------------------- AscensionServer.Online()  :  can't set into  logged Dict : " + peer.PeerCache.Account.ToString() + "------------------------------------");
-            //try
-            //{
-            //    onlinePeerDict.Add(peer.PeerCache.Account, peer);
-            //    RoleDTO roleDTO = new RoleDTO() { RoleID = roleid };
-            //    PeerCache onlineStatusDTO = new PeerCache() { RoleID = roleDTO.RoleID,IsLogged=true };
-            //    onlinePeerDict[peer.PeerCache.Account].PeerCache = onlineStatusDTO;
-            //}
-            //catch (Exception)
-            //{
-            //    _Log.Info("----------------------------  can't add into onlinePeerDict" + peer.PeerCache.Account.ToString() + "------------------------------------");
-            //}
         }
         public void Offline(AscensionPeer peer)
         {
@@ -125,14 +112,6 @@ namespace AscensionServer
                 _Log.Info("----------------------------  AscensionServer.Offline() :can't  remove from logged Dict : " + peer.PeerCache.Account.ToString() + "------------------------------------");
             else
                 _Log.Info("----------------------------  AscensionServer.Offline() : offline success : " + peer.PeerCache.Account.ToString() + "------------------------------------");
-            //try
-            //{
-            //    onlinePeerDict.Remove(peer.PeerCache.Account);
-            //}
-            //catch (Exception)
-            //{
-            //    _Log.Info("----------------------------  can't add into offlinePeerDict" + peer.PeerCache.Account.ToString() + "------------------------------------");
-            //}
         }
 
         /// <summary>
@@ -176,5 +155,6 @@ namespace AscensionServer
             var result = addventureScenePeerCache.IsExists(peer.PeerCache.Account);
             return result;
         }
+        #endregion
     }
 }

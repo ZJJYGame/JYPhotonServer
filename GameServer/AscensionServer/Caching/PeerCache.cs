@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using AscensionServer.Model;
 using AscensionProtocol.VO;
+using AscensionProtocol.DTO;
+
 namespace AscensionServer
 {
     /// <summary>
@@ -24,11 +26,17 @@ namespace AscensionServer
         public User User { get; set; }
         public Role Role { get; set; }
         public RoleDataVO RoleDataVO { get; set; }
+        public RoleTransformQueueDTO RoleTransformQueue { get; set; }
+        public RoleMoveStatusDTO RoleMoveStatus { get; set; }
+        public ResourcesDTO Resources { get; set; }
         public PeerCache()
         {
             User = new User();
             Role = new Role();
             RoleDataVO = new RoleDataVO();
+            RoleTransformQueue = new RoleTransformQueueDTO();
+            RoleMoveStatus = new RoleMoveStatusDTO();
+            Resources = new ResourcesDTO();
             IsLogged = false;
             Account = null;
             Password = null;
