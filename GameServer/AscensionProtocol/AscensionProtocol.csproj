@@ -58,6 +58,7 @@
     <Compile Include="DTO\OffLineTimeDTO.cs" />
     <Compile Include="DTO\PetDTO.cs" />
     <Compile Include="DTO\PetStatusDTO.cs" />
+    <Compile Include="DTO\ResourcesDTO.cs" />
     <Compile Include="DTO\RingDTO.cs" />
     <Compile Include="DTO\MiShuDTO.cs" />
     <Compile Include="DTO\OnOffLineDTO.cs" />

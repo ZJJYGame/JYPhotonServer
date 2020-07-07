@@ -6,6 +6,7 @@
         DeletePlayer=1,
         ReplacePlayer=2,
         SyncRoleTransform=3,
-        SyncRoleMoveStatus = 4
+        SyncRoleMoveStatus = 4,
+        SyncItemResources = 5
     }
 }
