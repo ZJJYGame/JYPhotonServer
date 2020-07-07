@@ -72,7 +72,7 @@
     <Compile Include="DTO\RoleMiShuDTO.cs" />
     <Compile Include="DTO\RoleStatusDTO.cs" />
     <Compile Include="DTO\RoleTaskProgressDTO.cs" />
-    <Compile Include="DTO\RoleTransformSetDTO.cs" />
+    <Compile Include="DTO\RoleTransformQueueDTO.cs" />
     <Compile Include="DTO\SchoolDTO.cs" />
     <Compile Include="DTO\TransformDTO.cs" />
     <Compile Include="DTO\TreasureatticDTO.cs" />

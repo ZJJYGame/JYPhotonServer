@@ -21,29 +21,36 @@ namespace AscensionServer
         }
         HashSet<Role> roleSet = new HashSet<Role>();
         HashSet<RoleMoveStatusDTO> roleMoveStatusSet = new HashSet<RoleMoveStatusDTO>();
+        HashSet<RoleTransformQueueDTO> roleTransformQueueSet = new HashSet<RoleTransformQueueDTO>();
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            //var resultJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ObjectParameterCode.Role));
+            var resultJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
+            var moveStatusJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleMoveStatus));
             AscensionServer._Log.Info("EnterAdventureScene  :  " + peer.ToString());
             //这条，获取当前玩家未进入探索界面时候所有玩家的集合
             var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
             AscensionServer.Instance.EnterAdventureScene(peer);
 
+            peer.RoleMoveStatus = Utility.Json.ToObject<RoleMoveStatusDTO>(moveStatusJson);
             int peerSetLength = peerSet.Count;
              roleSet.Clear();
             roleMoveStatusSet.Clear();
+            roleTransformQueueSet.Clear();
             for (int i = 0; i < peerSetLength; i++)
             {
                 roleSet.Add( peerSet[i].PeerCache.Role);
                 roleMoveStatusSet.Add(peerSet[i].RoleMoveStatus);
+                roleTransformQueueSet.Add(peerSet[i].RoleTransformQueueDTO);
             }
             var roleSetJson = Utility.Json.ToJson(roleSet);
             var roleMoveStatusSetJson = Utility.Json.ToJson(roleMoveStatusSet);
+            var roleTransformQueueSetJson = Utility.Json.ToJson(roleTransformQueueSet);
             ResponseData.Clear();
             OpResponse.OperationCode = operationRequest.OperationCode;
             OpResponse.ReturnCode = (byte)ReturnCode.Success;
             ResponseData.Add((byte)ParameterCode.RoleSet, roleSetJson);
             ResponseData.Add((byte)ParameterCode.RoleMoveStatusSet, roleMoveStatusSetJson);
+            ResponseData.Add((byte)ParameterCode.RoleTransformQueueSet,roleTransformQueueSetJson);
             OpResponse.Parameters = ResponseData;
             peer.SendOperationResponse(OpResponse, sendParameters);
 

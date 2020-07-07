@@ -10,11 +10,11 @@ namespace AscensionProtocol.DTO
     /// RoleTransformDTO的信息队列
     /// </summary>
     [Serializable]
-    public class RoleTransformSetDTO : DataTransferObject
+    public class RoleTransformQueueDTO : DataTransferObject
     {
         public int RoleID { get; set; }
         public Queue<TransformDTO> TransformSet { get; set; }
-        public RoleTransformSetDTO()
+        public RoleTransformQueueDTO()
         {
             RoleID = -1;
             TransformSet = new Queue<TransformDTO>();

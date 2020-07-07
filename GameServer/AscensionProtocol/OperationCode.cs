@@ -45,7 +45,7 @@ namespace AscensionProtocol
         /// <summary>
         /// 同步自身位置的集合，参考消息队列
         /// </summary>
-        SyncSelfRoleTransformSet = 28,
+        SyncSelfRoleTransformQueue = 28,
         /// <summary>
         /// 同步宗门数据，藏宝阁，藏经阁，排行榜
         /// </summary>
