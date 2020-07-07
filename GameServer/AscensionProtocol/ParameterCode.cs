@@ -59,6 +59,6 @@
         /// 表示单个角色在单位时间内所记录的位置点队列
         /// </summary>
         RoleTransformQueue= 52,
-        SyncResourcesLoad,
+        SyncResourcesLoad = 53,
     }
 }

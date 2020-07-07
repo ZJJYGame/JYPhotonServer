@@ -30,21 +30,19 @@ namespace AscensionServer
         {
             ResponseData.Clear();
             var roleMoveStatusJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.SyncResourcesLoad));
-            /*
-            peer.RoleMoveStatusJson = roleMoveStatusJson;
-            peer.RoleMoveStatus = Utility.Json.ToObject<RoleMoveStatusDTO>(roleMoveStatusJson);
-            AscensionServer._Log.Info("Role:ID " + peer.PeerCache.RoleID + "\n RoleJson :" + roleMoveStatusJson);
+            peer.PeerCache.Resources = Utility.Json.ToObject<ResourcesDTO>(roleMoveStatusJson); ;
+            AscensionServer._Log.Info("ID " + peer.PeerCache.RoleID + "\n RoleJson :" + roleMoveStatusJson);
 
             resSet.Clear();
             var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
             int peerSetLength = peerSet.Count;
             for (int i = 0; i < peerSetLength; i++)
             {
-                resSet.Add(peerSet[i].RoleMoveStatus);
+                resSet.Add(peerSet[i].PeerCache.Resources);
             }
             var roleSetJson = Utility.Json.ToJson(resSet);
 
-            ResponseData.Add((byte)ParameterCode.RoleMoveStatus, roleSetJson);
+            ResponseData.Add((byte)ParameterCode.SyncResourcesLoad, roleSetJson);
             OpResponse.OperationCode = operationRequest.OperationCode;
             OpResponse.ReturnCode = (short)ReturnCode.Success;
             OpResponse.Parameters = ResponseData;
@@ -52,7 +50,7 @@ namespace AscensionServer
 
 
             var threadData = Singleton<ReferencePoolManager>.Instance.Spawn<ThreadData<AscensionPeer>>();
-            threadData.SetData(peerSet, (byte)EventCode.SyncRoleMoveStatus, peer);
+            threadData.SetData(peerSet, (byte)EventCode.SyncItemResources, peer);
             var syncEvent = Singleton<ReferencePoolManager>.Instance.Spawn<SyncRoleMoveStatusEvent>();
             syncEvent.SetData(threadData);
             syncEvent.AddFinishedHandler(() => {
@@ -60,7 +58,7 @@ namespace AscensionServer
                 ThreadEvent.RemoveSyncEvent(syncEvent);
             });
             ThreadEvent.AddSyncEvent(syncEvent);
-            ThreadEvent.ExecuteEvent();*/
+            ThreadEvent.ExecuteEvent();
         }
     }
 }

@@ -130,10 +130,9 @@
     <Compile Include="Handlers\SyncForge\SyncForgeHandler.cs" />
     <Compile Include="Handlers\SyncInventory\SubHandler\GetInventorySubHandler.cs" />
     <Compile Include="Handlers\SyncMoveStatus\SyncMoveStatusHandler.cs" />
-    <Compile Include="Handlers\SyncRoleSchool\SubHandler\GetRoleSchoolHandler.cs" />
+    <Compile Include="Handlers\SyncResources\SyncResourcesHandler.cs" />
     <Compile Include="Handlers\SyncRoleSchool\SubHandler\SyncRoleSchoolSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleSchool\SyncRoleSchoolHandler.cs" />
-    <Compile Include="Handlers\SyncSchool\SubHandler\UpdateSchoolHandler.cs" />
     <Compile Include="Handlers\SyncSchool\SyncSchoolHandler.cs" />
     <Compile Include="Handlers\SyncSchool\SubHandler\SyncSchoolSubHandler.cs" />
     <Compile Include="Handlers\SyncSelfRoleTransformSet\SyncSelfRoleTransformSetHandler.cs" />
@@ -150,7 +149,6 @@
     <Compile Include="Handlers\SyncTreasureattic\SubHandler\GetTreasureatticHandler.cs" />
     <Compile Include="Handlers\SyncTreasureattic\SubHandler\SyncTreasureatticSubHandler.cs" />
     <Compile Include="Handlers\SyncTreasureattic\SubHandler\UpdateTreasureatticHandler.cs" />
-    <Compile Include="Handlers\SyncTreasureattic\SubHandler\VerifyTreasureAtticHandler.cs" />
     <Compile Include="Handlers\SyncTreasureattic\SyncTreasureatticHandler.cs" />
     <Compile Include="Lite\Actor\Actor.cs" />
     <Compile Include="Lite\Actor\ActorCollection.cs" />
@@ -309,6 +307,7 @@
     <Compile Include="Threads\Base\SyncEvent.cs" />
     <Compile Include="Threads\Base\IThreadData.cs" />
     <Compile Include="Threads\SyncEvent\SyncOtherRoleEvent.cs" />
+    <Compile Include="Threads\SyncEvent\SyncResourcesEvent.cs" />
     <Compile Include="Threads\SyncEvent\SyncRoleMoveStatusEvent.cs" />
     <Compile Include="Threads\SyncEvent\SyncRoleTransformEvent.cs" />
     <Compile Include="Threads\ThreadData.cs" />
