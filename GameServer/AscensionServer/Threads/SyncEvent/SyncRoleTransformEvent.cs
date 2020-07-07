@@ -35,7 +35,7 @@ namespace AscensionServer.Threads
         void BroadcastLoggedRolesPosition()
         {
             EventDataDict.Clear();
-            HashSet<RoleTransformSetDTO> roleTransformSet = new HashSet<RoleTransformSetDTO>();
+            HashSet<RoleTransformQueueDTO> roleTransformSet = new HashSet<RoleTransformQueueDTO>();
             var loggedList = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
             var loggedCount = loggedList.Count;
             if (loggedCount <= 0)
@@ -44,12 +44,12 @@ namespace AscensionServer.Threads
             {
                 if (!loggedList[i].IsSendedTransform)
                 {
-                    roleTransformSet.Add(loggedList[i].RoleTransformSetDTO);
+                    roleTransformSet.Add(loggedList[i].RoleTransformQueueDTO);
                     loggedList[i].IsSendedTransform = true;
                 }
             }
             EventData.Code = (byte)EventCode.SyncRoleTransform;
-            EventDataDict.Add((byte)ParameterCode.SingleRoleTransformSet, Utility.Json.ToJson(roleTransformSet));
+            EventDataDict.Add((byte)ParameterCode.RoleTransformQueueSet, Utility.Json.ToJson(roleTransformSet));
             for (int i = 0; i < loggedList.Count; i++)
             {
                 loggedList[i].SendEvent(EventData, SendParameter);

@@ -29,8 +29,16 @@
         PetSet=33,
         PetStatus=34,
         PetStatusSet=35,
+        /// <summary>
+        /// 单个的位置信息
+        /// 表示一个角色的单个位置点
+        /// </summary>
         RoleTransfrom=36,
-        RoleTransfromSet=37,
+        /// <summary>
+        /// 位置信息的集合
+        /// RoleTransfrom为此集合的子集
+        /// </summary>
+        RoleTransfromSet = 37,
         JobAlchemy=38,
         Task =38,
         RoleBottleneck=39,
@@ -38,10 +46,18 @@
         TreasureAttic=41,
         School=42,
         RoleSchool=43,
-        /// <summary>
-        /// 角色的移动状态集合
-        /// </summary>
+   
         RoleMoveStatusSet =50,
-        SingleRoleTransformSet=51
+        /// <summary>
+        /// 位置信息的集合队列
+        /// 表示单位时间内记录的位置点队列集合
+        /// 集合元素为 RoleTransformQueue 
+        /// </summary>
+        RoleTransformQueueSet = 51,
+        /// <summary>
+        /// 单个位置信息的队列
+        /// 表示单个角色在单位时间内所记录的位置点队列
+        /// </summary>
+        RoleTransformQueue= 52
     }
 }

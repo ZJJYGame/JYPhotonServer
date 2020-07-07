@@ -24,7 +24,7 @@ namespace AscensionServer.Threads
                 EventDataDict.Clear();
                 EventDataDict.Add((byte)ParameterCode.Role, roleJson);
                 EventDataDict.Add((byte)ParameterCode.RoleMoveStatus, roleMoveStatusJson);
-                EventDataDict.Add((byte)ParameterCode.RoleTransfrom, roleTransformJson);
+                //EventDataDict.Add((byte)ParameterCode.RoleTransfrom, roleTransformJson);
                 EventData.Parameters = EventDataDict;
                 EventData.Code = threadData.EventCode;
                 foreach (var peer in threadData.Collection)
