@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AscensionServer.Threads.SyncEvent
+namespace AscensionServer.Threads
 {
-    class SyncResourcesEvent
+    public class SyncResourcesEvent
     {
     }
 }
