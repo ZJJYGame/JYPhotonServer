@@ -21,9 +21,56 @@ namespace AscensionServer
         {
             var dict = ParseSubDict(operationRequest);
             string treasureatticJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.TreasureAttic));
+            string schoolJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.School));
+
             var treasureatticObj = Utility.Json.ToObject<Treasureattic>(treasureatticJson);
+            var schoolObj = Utility.Json.ToObject<School>(schoolJson);
             NHCriteria nHCriteriaTreasureattic = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", treasureatticObj.ID);
+            NHCriteria nHCriteriaschool = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
             var treasureatticTemp = Singleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
+            var schoolTemp = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaschool);
+            int contribution=0;
+            Dictionary<int, int> itemDict = new Dictionary<int, int>();
+            Dictionary<string, string> DOdict = new Dictionary<string, string>();
+            if (schoolTemp != null)
+            {
+                contribution = schoolTemp.Contribution - schoolObj.Contribution;
+                Singleton<NHManager>.Instance.Update<School>(new School() { ID= schoolTemp .ID,SchoolID= schoolTemp .SchoolID,SchoolJob= schoolTemp .SchoolJob, TreasureAtticID = schoolTemp.TreasureAtticID,Contribution= contribution });
+                if (treasureatticTemp!=null)
+                {
+                    itemDict = Utility.Json.ToObject<Dictionary<int, int>>(treasureatticTemp.ItemRedeemedDict);
+                    foreach (var item in Utility.Json.ToObject<Dictionary<int,int> >(treasureatticObj.ItemRedeemedDict))
+                    {
+                        if (itemDict.ContainsKey(item.Key))
+                        {
+                            itemDict[item.Key] += treasureatticObj.ItemRedeemedDict[item.Key];
+                        }
+                        else
+                        { itemDict.Add(item.Key, treasureatticObj.ItemRedeemedDict[item.Key]); }
+
+                    }
+                    Singleton<NHManager>.Instance.Update<Treasureattic>(new Treasureattic() { ID = treasureatticTemp.ID, ItemAmountDict = Utility.Json.ToJson(treasureatticObj), ItemRedeemedDict=Utility.Json.ToJson(itemDict) });
+                }
+                var taSendObj = Singleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
+                var sSendObj = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaschool);
+                DOdict.Add("Treasureattic", Utility.Json.ToJson(taSendObj));
+                DOdict.Add("School", Utility.Json.ToJson(sSendObj));
+                SetResponseData(() =>
+                {
+
+                    SubDict.Add((byte)ParameterCode.TreasureAttic, Utility.Json.ToJson(DOdict));
+                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                });
+            }
+            else
+            {
+                SetResponseData(() =>
+                {
+                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
+                });
+            }
+            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaTreasureattic, nHCriteriaschool);
         }
     }
 }

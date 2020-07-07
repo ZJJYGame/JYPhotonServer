@@ -26,8 +26,7 @@ namespace AscensionServer
         {
             ResponseData.Clear();
             var roleMoveStatusJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleMoveStatus));
-            peer.RoleMoveStatusJson = roleMoveStatusJson;
-            peer.RoleMoveStatus = Utility.Json.ToObject<RoleMoveStatusDTO>(roleMoveStatusJson);
+            peer.PeerCache.RoleMoveStatus = Utility.Json.ToObject<RoleMoveStatusDTO>(roleMoveStatusJson);
             AscensionServer._Log.Info("Role:ID " + peer.PeerCache.RoleID + "\n RoleJson :" + roleMoveStatusJson);
             
             roleSet.Clear();
@@ -35,7 +34,7 @@ namespace AscensionServer
             int peerSetLength = peerSet.Count;
             for (int i = 0; i < peerSetLength; i++)
             {
-                roleSet.Add(peerSet[i].RoleMoveStatus);
+                roleSet.Add(peerSet[i].PeerCache.RoleMoveStatus);
             }
             var roleSetJson = Utility.Json.ToJson(roleSet);
 
