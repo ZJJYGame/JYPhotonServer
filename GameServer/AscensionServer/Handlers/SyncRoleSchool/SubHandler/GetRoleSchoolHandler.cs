@@ -45,16 +45,17 @@ namespace AscensionServer
                             schoolDict.Add(roleId, schoolObj);
                             Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaSchool);
                         }
-                        SetResponseData(() =>
-                        {
-                            
-                            SubDict.Add((byte)ParameterCode.RoleSchool, Utility.Json.ToJson(schoolDict));
-                            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>..发送加入的宗门" + Utility.Json.ToJson(schoolDict));
-                            Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
-                        });
+                       
                     }
                     Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriarole);
                 }
+                SetResponseData(() =>
+                {
+
+                    SubDict.Add((byte)ParameterCode.RoleSchool, Utility.Json.ToJson(schoolDict));
+                    AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>..发送加入的宗门" + Utility.Json.ToJson(schoolDict));
+                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                });
             }
             else
             {
