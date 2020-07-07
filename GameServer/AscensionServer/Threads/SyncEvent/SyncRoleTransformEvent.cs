@@ -44,7 +44,7 @@ namespace AscensionServer.Threads
             {
                 if (!loggedList[i].IsSendedTransform)
                 {
-                    roleTransformSet.Add(loggedList[i].RoleTransformQueueDTO);
+                    roleTransformSet.Add(loggedList[i].PeerCache.RoleTransformQueue);
                     loggedList[i].IsSendedTransform = true;
                 }
             }

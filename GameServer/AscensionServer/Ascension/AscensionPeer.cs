@@ -18,32 +18,19 @@ namespace AscensionServer
     //管理跟客户端的链接的
     public class AscensionPeer : ClientPeer
     {
+        #region Properties
         /// <summary>
         /// 保存当前用户登录的信息与状态
         /// </summary>
-        PeerCache peerCache=new PeerCache();
+        PeerCache peerCache =new PeerCache();
         public PeerCache PeerCache { get { return peerCache; } set { peerCache = value; } }
-
-        public RoleTransformDTO RoleTransform { get{ return roleTransform; } set { roleTransform = value; } }
-        RoleTransformDTO roleTransform = new RoleTransformDTO();
-        public string RoleTransformJson { get; set; }
         /// <summary>
-        /// 角色移动位置集合的队列，这里是使用消息队列处理
+        /// 是否已经发送位置信息
         /// </summary>
-        RoleTransformQueueDTO roleTransformQueueDTO = new RoleTransformQueueDTO();
-        //TODO RoleTransformSetJson消息队列
         public bool IsSendedTransform { get; set; }
-        public RoleTransformQueueDTO RoleTransformQueueDTO { get { return roleTransformQueueDTO; } set { roleTransformQueueDTO = value; } }
-        RoleMoveStatusDTO roleMoveStatus = new RoleMoveStatusDTO();
-        public RoleMoveStatusDTO RoleMoveStatus { get { return roleMoveStatus; }set { roleMoveStatus = value; } }
-        /// <summary>
-        /// 移动状态Json
-        /// </summary>
-        public string RoleMoveStatusJson { get; set; }
-        /// <summary>
-        /// Peer的UUID
-        /// </summary>
-        public string PeerGUID { get; set; }
+        #endregion
+
+        #region Methods
         public AscensionPeer(InitRequest initRequest) : base(initRequest){}
         //处理客户端断开连接的后续工作
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
@@ -54,7 +41,6 @@ namespace AscensionServer
             ed.Parameters = data;
             if (peerCache.IsLogged)
             {
-                //RecordOnOffLine(AscensionServer.Instance.HasOnlineID(this));
                 RecordOnOffLine(peerCache.RoleID);
             }
             var loggedPeerHashSet = AscensionServer.Instance.LoggedPeerCache.GetValuesHashSet();
@@ -136,4 +122,5 @@ namespace AscensionServer
             AscensionServer._Log.Info("同步离线时间成功");
         }
     }
- }
+    #endregion
+}

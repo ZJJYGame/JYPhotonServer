@@ -31,7 +31,7 @@ namespace AscensionServer
             var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
             AscensionServer.Instance.EnterAdventureScene(peer);
 
-            peer.RoleMoveStatus = Utility.Json.ToObject<RoleMoveStatusDTO>(moveStatusJson);
+            peer.PeerCache.RoleMoveStatus = Utility.Json.ToObject<RoleMoveStatusDTO>(moveStatusJson);
             int peerSetLength = peerSet.Count;
              roleSet.Clear();
             roleMoveStatusSet.Clear();
@@ -39,8 +39,8 @@ namespace AscensionServer
             for (int i = 0; i < peerSetLength; i++)
             {
                 roleSet.Add( peerSet[i].PeerCache.Role);
-                roleMoveStatusSet.Add(peerSet[i].RoleMoveStatus);
-                roleTransformQueueSet.Add(peerSet[i].RoleTransformQueueDTO);
+                roleMoveStatusSet.Add(peerSet[i].PeerCache.RoleMoveStatus);
+                roleTransformQueueSet.Add(peerSet[i].PeerCache.RoleTransformQueue);
             }
             var roleSetJson = Utility.Json.ToJson(roleSet);
             var roleMoveStatusSetJson = Utility.Json.ToJson(roleMoveStatusSet);
