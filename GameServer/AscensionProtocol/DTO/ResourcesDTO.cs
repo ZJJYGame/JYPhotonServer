@@ -11,7 +11,6 @@ namespace AscensionProtocol.DTO
     {
 
         public virtual int ID { get; set; }
-        public virtual string Name { get; set; }
 
         public virtual int Amout { get; set; }
 
@@ -21,7 +20,6 @@ namespace AscensionProtocol.DTO
         public override void Clear()
         {
             ID = 0;
-            Name = null;
             Amout = 0;
             Level = 0;
             Vector3 = new Vector3DTO() { posX = 0, posY = 0, posZ = 0 };

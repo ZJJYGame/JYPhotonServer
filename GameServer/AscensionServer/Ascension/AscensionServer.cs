@@ -104,9 +104,9 @@ namespace AscensionServer
         }
         public void ResourcesLoad()
         {
-            Resources.Add(new ResourcesDTO() { ID = new Random(8002).Next(8001, 8005), Amout = new Random(11).Next(10, 20), Vector3 = new ResourcesDTO.Vector3DTO() {  posX  = new Random(6).Next(3,20)} });
-            Resources.Add(new ResourcesDTO() { ID = new Random(8004).Next(8001, 8005), Amout = new Random(12).Next(10, 20), Vector3 = new ResourcesDTO.Vector3DTO() { posX = new Random(7).Next(3, 20) } });
-            Resources.Add(new ResourcesDTO() { ID = new Random(8001).Next(8001, 8005), Amout = new Random(13).Next(10, 20),Vector3 = new ResourcesDTO.Vector3DTO() { posX = new Random(8).Next(3, 20) } });
+            Resources.Add(new ResourcesDTO() { ID = new Random(8001).Next(8001, 8004), Amout = new Random(11).Next(10, 20), Level = new Random(1).Next(1, 10), Vector3 = new ResourcesDTO.Vector3DTO() {  posX  = new Random(6).Next(3,20)} });
+            Resources.Add(new ResourcesDTO() { ID = new Random(21001).Next(21001, 21005), Amout = new Random(12).Next(10, 20), Vector3 = new ResourcesDTO.Vector3DTO() { posX = new Random(7).Next(3, 20) } });
+            Resources.Add(new ResourcesDTO() { ID = new Random(22001).Next(22001, 22005), Amout = new Random(13).Next(10, 20), Vector3 = new ResourcesDTO.Vector3DTO() { posX = new Random(8).Next(3, 20) } });
             resDic.Add(1, Resources);
         }
 
