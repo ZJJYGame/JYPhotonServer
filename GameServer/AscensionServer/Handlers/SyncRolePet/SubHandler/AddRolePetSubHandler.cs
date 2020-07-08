@@ -23,7 +23,6 @@ namespace AscensionServer
             string rpJson = Convert.ToString(Utility.GetValue(dict,(byte)ParameterCode.RolePet));
             string pJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Pet));
             string psJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.PetStatus));
-            AscensionServer._Log.Info("添加宠物进来了》》》》》》》》》》》》》》》》》》》》》》》》》》》》》");
             var rolepetObj = Utility.Json.ToObject<RolePet>(rpJson);
             var petObj = Utility.Json.ToObject<Pet>(pJson);
             var petstatusObj = Utility.Json.ToObject<PetStatus>(psJson);
