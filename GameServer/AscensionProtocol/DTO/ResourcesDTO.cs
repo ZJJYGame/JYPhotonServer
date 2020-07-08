@@ -17,12 +17,22 @@ namespace AscensionProtocol.DTO
 
         public virtual int Level { get; set; }
 
+        public virtual Vector3DTO Vector3 { get; set; }
         public override void Clear()
         {
             ID = 0;
             Name = null;
             Amout = 0;
             Level = 0;
+            Vector3 = new Vector3DTO() { posX = 0, posY = 0, posZ = 0 };
+        }
+
+        [Serializable]
+        public class Vector3DTO
+        {
+            public virtual float posX { get; set; } 
+            public virtual float posY { get; set; } 
+            public virtual float posZ { get; set; } 
         }
     }
 }

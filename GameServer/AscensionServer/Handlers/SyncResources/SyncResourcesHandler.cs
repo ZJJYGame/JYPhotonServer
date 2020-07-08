@@ -19,18 +19,40 @@ namespace AscensionServer
 {
     public class SyncResourcesHandler: Handler
     {
-        HashSet<ResourcesDTO> resSet = new HashSet<ResourcesDTO>();
+        //HashSet<HashSet<ResourcesDTO>> resSet = new HashSet<HashSet<ResourcesDTO>>();
         public override void OnInitialization()
         {
             OpCode = OperationCode.SyncResources;
             base.OnInitialization();
+         
         }
 
+        
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             ResponseData.Clear();
             var roleMoveStatusJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.SyncResourcesLoad));
-            peer.PeerCache.Resources = Utility.Json.ToObject<ResourcesDTO>(roleMoveStatusJson); ;
+            var roleObj = Utility.Json.ToObject<int>(roleMoveStatusJson); ;
+            AscensionServer._Log.Info("ID " + peer.PeerCache.RoleID + "\n RoleJson :" + roleMoveStatusJson);
+            if (AscensionServer.Instance.resDic.ContainsKey(roleObj))
+            {
+                ResponseData.Add((byte)ParameterCode.SyncResourcesLoad, Utility.Json.ToJson(AscensionServer.Instance.resDic[roleObj]));
+                OpResponse.OperationCode = operationRequest.OperationCode;
+                OpResponse.ReturnCode = (short)ReturnCode.Success;
+                OpResponse.Parameters = ResponseData;
+            }
+            else
+            {
+                OpResponse.ReturnCode = (short)ReturnCode.Fail;
+            }
+                peer.SendOperationResponse(OpResponse, sendParameters);
+        }
+    }
+
+
+    /*  ResponseData.Clear();
+            var roleMoveStatusJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.SyncResourcesLoad));
+            peer.PeerCache.Resources = Utility.Json.ToObject<HashSet<ResourcesDTO>>(roleMoveStatusJson); ;
             AscensionServer._Log.Info("ID " + peer.PeerCache.RoleID + "\n RoleJson :" + roleMoveStatusJson);
 
             resSet.Clear();
@@ -51,14 +73,12 @@ namespace AscensionServer
 
             var threadData = Singleton<ReferencePoolManager>.Instance.Spawn<ThreadData<AscensionPeer>>();
             threadData.SetData(peerSet, (byte)EventCode.SyncItemResources, peer);
-            var syncEvent = Singleton<ReferencePoolManager>.Instance.Spawn<SyncRoleMoveStatusEvent>();
+            var syncEvent = Singleton<ReferencePoolManager>.Instance.Spawn<SyncResourcesEvent>();
             syncEvent.SetData(threadData);
             syncEvent.AddFinishedHandler(() => {
                 Singleton<ReferencePoolManager>.Instance.Despawns(syncEvent, threadData);
                 ThreadEvent.RemoveSyncEvent(syncEvent);
             });
             ThreadEvent.AddSyncEvent(syncEvent);
-            ThreadEvent.ExecuteEvent();
-        }
-    }
+            ThreadEvent.ExecuteEvent();*/
 }

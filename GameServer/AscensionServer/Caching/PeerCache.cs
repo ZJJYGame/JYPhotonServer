@@ -28,7 +28,7 @@ namespace AscensionServer
         public RoleDataVO RoleDataVO { get; set; }
         public RoleTransformQueueDTO RoleTransformQueue { get; set; }
         public RoleMoveStatusDTO RoleMoveStatus { get; set; }
-        public ResourcesDTO Resources { get; set; }
+        public HashSet<ResourcesDTO> Resources { get; set; }
         public PeerCache()
         {
             User = new User();
@@ -36,7 +36,7 @@ namespace AscensionServer
             RoleDataVO = new RoleDataVO();
             RoleTransformQueue = new RoleTransformQueueDTO();
             RoleMoveStatus = new RoleMoveStatusDTO();
-            Resources = new ResourcesDTO();
+            Resources = new HashSet<ResourcesDTO>();
             IsLogged = false;
             Account = null;
             Password = null;

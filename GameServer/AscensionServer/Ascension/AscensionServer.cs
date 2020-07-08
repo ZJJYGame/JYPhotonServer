@@ -45,6 +45,11 @@ namespace AscensionServer
         /// </summary>
         /// <param name="initRequest"></param>
         /// <returns></returns>
+        /// 
+
+        public HashSet<ResourcesDTO> Resources = new HashSet<ResourcesDTO>();
+
+        public Dictionary<int, HashSet<ResourcesDTO>> resDic = new Dictionary<int, HashSet<ResourcesDTO>>();
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
             var peer = new AscensionPeer(initRequest);
@@ -67,6 +72,7 @@ namespace AscensionServer
             _Fiber = new PoolFiber();
             _Fiber.Start();
             InitHandler();
+            ResourcesLoad();
             Utility.Json.SetJsonWarpper(new NewtonjsonWrapper());
             //syncPositionThread.Run();
             ThreadEvent.AddSyncEvent(new SyncRoleTransformEvent());
@@ -96,6 +102,14 @@ namespace AscensionServer
                 }
             }
         }
+        public void ResourcesLoad()
+        {
+            Resources.Add(new ResourcesDTO() { ID = new Random(8002).Next(8001, 8005), Amout = new Random(11).Next(10, 20), Vector3 = new ResourcesDTO.Vector3DTO() {  posX  = new Random(6).Next(3,20)} });
+            Resources.Add(new ResourcesDTO() { ID = new Random(8004).Next(8001, 8005), Amout = new Random(12).Next(10, 20), Vector3 = new ResourcesDTO.Vector3DTO() { posX = new Random(7).Next(3, 20) } });
+            Resources.Add(new ResourcesDTO() { ID = new Random(8001).Next(8001, 8005), Amout = new Random(13).Next(10, 20),Vector3 = new ResourcesDTO.Vector3DTO() { posX = new Random(8).Next(3, 20) } });
+            resDic.Add(1, Resources);
+        }
+
         public void RegisterHandler(Handler handler)
         {
             handlerDict.Add(handler.OpCode, handler);
