@@ -80,7 +80,7 @@
       <HintPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\Photon3Unity3D.dll</HintPath>
     </Reference>
     <Reference Include="PhotonHostRuntimeInterfaces">
-      <HintPath>..\..\..\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\PhotonHostRuntimeInterfaces.dll</HintPath>
+      <HintPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\PhotonHostRuntimeInterfaces.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
@@ -131,8 +131,10 @@
     <Compile Include="Handlers\SyncInventory\SubHandler\GetInventorySubHandler.cs" />
     <Compile Include="Handlers\SyncMoveStatus\SyncMoveStatusHandler.cs" />
     <Compile Include="Handlers\SyncResources\SyncResourcesHandler.cs" />
+    <Compile Include="Handlers\SyncRoleSchool\SubHandler\GetRoleSchoolHandler.cs" />
     <Compile Include="Handlers\SyncRoleSchool\SubHandler\SyncRoleSchoolSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleSchool\SyncRoleSchoolHandler.cs" />
+    <Compile Include="Handlers\SyncSchool\SubHandler\UpdateSchoolHandler.cs" />
     <Compile Include="Handlers\SyncSchool\SyncSchoolHandler.cs" />
     <Compile Include="Handlers\SyncSchool\SubHandler\SyncSchoolSubHandler.cs" />
     <Compile Include="Handlers\SyncSelfRoleTransformSet\SyncSelfRoleTransformSetHandler.cs" />
