@@ -21,8 +21,6 @@ namespace AscensionServer
 
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-
-
             var dict = ParseSubDict(operationRequest);
             string roleListJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleSchool));
             var roleobj = Utility.Json.ToObject<List<int>>(roleListJson);
@@ -38,22 +36,26 @@ namespace AscensionServer
                     var verify= Singleton<NHManager>.Instance.Verify<RoleSchool>(nHCriteriarole);
                     if (verify)
                     {
-                        if (!string.IsNullOrEmpty(roleschoolObj.RoleJoiningSchool))
-                        {
+                        NHCriteria nHCriteriaSchool = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", roleschoolObj.RoleJoiningSchool);
+                        var schoolObj = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
+                        schoolDict.Add(roleId, schoolObj);
+                        AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>..加入的ID" + roleId + "加入的宗门" + schoolObj.ID);
+                        Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaSchool);
 
-                            foreach (var item in Utility.Json.ToObject<Dictionary<int, int>>(roleschoolObj.RoleJoiningSchool))
-                            {
 
-                                NHCriteria nHCriteriaSchool = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", item.Key);
-                                var schoolObj = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
-                                schoolDict.Add(roleId, schoolObj);
-                                AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>..加入的ID" + roleId + "加入的宗门" + schoolObj.ID);
-                                Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaSchool);
-                            }
+                        //if (!string.IsNullOrEmpty(roleschoolObj.RoleJoiningSchool))
+                        //{
+                           
 
-                        }
-                        else
-                            schoolDict.Clear();
+                        //    //foreach (var item in Utility.Json.ToObject<Dictionary<int, int>>(roleschoolObj.RoleJoiningSchool))
+                        //    //{
+
+                                
+                        //    //}
+
+                        //}
+                        //else
+                        //    schoolDict.Clear();
                     }
                     else
                     {

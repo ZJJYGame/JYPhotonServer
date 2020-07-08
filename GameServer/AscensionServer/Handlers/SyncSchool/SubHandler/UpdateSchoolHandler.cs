@@ -23,15 +23,26 @@ namespace AscensionServer
         {
 
 
-     var dict = ParseSubDict(operationRequest);
-            string schoolJson = Convert.ToString(Utility.GetValue(dict,(byte)ParameterCode.School));
+            var dict = ParseSubDict(operationRequest);
+            string schoolJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.School));
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
 
-            NHCriteria nHCriteriaSchool = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
-            var schoolTemp = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
-            if (schoolTemp!=null)
-            {
+            string treasureatticJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.TreasureAttic));
+            var treasureatticObj = Utility.Json.ToObject<Treasureattic>(treasureatticJson);
 
+            NHCriteria nHCriteriaSchool = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
+            NHCriteria nHCriteriaTreasureattic = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", treasureatticObj.ID);
+
+            var schoolTemp = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
+            var treasureatticTemp = Singleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
+            if (schoolTemp != null)
+            {
+                //if (treasureatticTemp!=null)
+                //{
+                //    treasureatticTemp.ID = treasureatticObj.ID;
+                //    treasureatticTemp.ItemAmountDict = Utility.Json.ToJson(treasureatticObj.ItemAmountDict);
+                //    Singleton<NHManager>.Instance.Update(treasureatticTemp);
+                //}
                 schoolTemp.SchoolID = schoolObj.SchoolID;
                 schoolTemp.SchoolJob = schoolObj.SchoolJob;
                 Singleton<NHManager>.Instance.Update(schoolTemp);

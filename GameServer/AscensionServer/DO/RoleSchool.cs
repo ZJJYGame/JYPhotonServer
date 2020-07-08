@@ -12,15 +12,17 @@ namespace AscensionServer.Model
     public class RoleSchool : DataObject
     {
         public virtual int RoleID { get; set; }
-        public virtual string RoleJoiningSchool { get; set; }
-        public virtual string RoleJoinedSchool { get; set; }
+        public virtual int RoleJoiningSchool { get; set; }
+        public virtual int RoleJoinedSchool { get; set; }
+        public virtual Dictionary<int, string> RoleSchoolHatred { get; set; }
 
 
         public override void Clear()
         {
             RoleID = 0;
-            RoleJoiningSchool = null;
-            RoleJoinedSchool = null;
+            RoleJoiningSchool = 0;
+            RoleJoinedSchool = 0;
+            RoleSchoolHatred.Clear();
         }
     }
 }

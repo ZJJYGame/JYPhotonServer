@@ -108,14 +108,12 @@ namespace AscensionServer
                 AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>添加副职业成功");
                 #endregion
                 #region 初始化门派
-                initialSchool.Clear();
                 Treasureattic treasureatti = new Treasureattic();
                 treasureatti = Singleton<NHManager>.Instance.Insert(treasureatti);
                 School school = new School();
                 school.TreasureAtticID = treasureatti.ID;
                 school = Singleton<NHManager>.Instance.Insert(school);
-                initialSchool.Add(school.ID, school.SchoolID);
-                Singleton<NHManager>.Instance.Insert(new RoleSchool() { RoleID = rolestatus.RoleID, RoleJoiningSchool = Utility.Json.ToJson(initialSchool), RoleJoinedSchool = Utility.Json.ToJson("") });
+                Singleton<NHManager>.Instance.Insert(new RoleSchool() { RoleID = rolestatus.RoleID, RoleJoiningSchool = school.ID, RoleJoinedSchool = 0 });
                 #endregion
 
                 var userRoleJson = Utility.Json.ToJson(roleList);
