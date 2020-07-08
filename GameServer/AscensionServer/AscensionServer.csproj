@@ -131,8 +131,10 @@
     <Compile Include="Handlers\SyncInventory\SubHandler\GetInventorySubHandler.cs" />
     <Compile Include="Handlers\SyncMoveStatus\SyncMoveStatusHandler.cs" />
     <Compile Include="Handlers\SyncResources\SyncResourcesHandler.cs" />
+    <Compile Include="Handlers\SyncRoleSchool\SubHandler\GetRoleSchoolHandler.cs" />
     <Compile Include="Handlers\SyncRoleSchool\SubHandler\SyncRoleSchoolSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleSchool\SyncRoleSchoolHandler.cs" />
+    <Compile Include="Handlers\SyncSchool\SubHandler\UpdateSchoolHandler.cs" />
     <Compile Include="Handlers\SyncSchool\SyncSchoolHandler.cs" />
     <Compile Include="Handlers\SyncSchool\SubHandler\SyncSchoolSubHandler.cs" />
     <Compile Include="Handlers\SyncSelfRoleTransformSet\SyncSelfRoleTransformSetHandler.cs" />
