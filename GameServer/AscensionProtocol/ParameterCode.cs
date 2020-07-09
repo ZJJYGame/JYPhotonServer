@@ -44,8 +44,9 @@
         RoleBottleneck=39,
         RoleMoveStatus =40,
         TreasureAttic=41,
-        School=42,
-        RoleSchool=43,
+        SutrasAtticm=42,
+        School =43,
+        RoleSchool=44,
    
         RoleMoveStatusSet =50,
         /// <summary>

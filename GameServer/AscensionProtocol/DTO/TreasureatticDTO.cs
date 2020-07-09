@@ -10,14 +10,17 @@ namespace AscensionProtocol.DTO
     public class TreasureatticDTO : DataTransferObject
     {
         public virtual int ID { get; set; }
+        //public virtual string ItemAmountDict { get; set; }
+        //public virtual string ItemRedeemedDict { get; set; }
+
         public virtual Dictionary<int, int> ItemAmountDict { get; set; }
         public virtual Dictionary<int, int> ItemRedeemedDict { get; set; }
 
         public override void Clear()
         {
             ID = -1;
-            ItemAmountDict.Clear();
-            ItemRedeemedDict.Clear();
+            ItemAmountDict=null;
+            ItemRedeemedDict= null;
 
         }
     }

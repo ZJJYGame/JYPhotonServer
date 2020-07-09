@@ -50,9 +50,11 @@ namespace AscensionProtocol
         /// 同步宗门数据，藏宝阁，藏经阁，排行榜
         /// </summary>
         SyncTreasureattic=29,
-        SyncSchool=30,
-        SyncRoleSchool=31,
-        SyncResources = 32,
+        SyncSutrasAtticm=30,
+        SyncSchool =31,
+        SyncRoleSchool=32,
+        SyncResources = 33,
+        SyncResourcesEvent = 34,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>

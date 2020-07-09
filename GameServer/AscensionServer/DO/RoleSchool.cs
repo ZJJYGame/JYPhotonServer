@@ -14,7 +14,7 @@ namespace AscensionServer.Model
         public virtual int RoleID { get; set; }
         public virtual int RoleJoiningSchool { get; set; }
         public virtual int RoleJoinedSchool { get; set; }
-        public virtual Dictionary<int, string> RoleSchoolHatred { get; set; }
+        public virtual string RoleSchoolHatred { get; set; }
 
 
         public override void Clear()
@@ -22,7 +22,7 @@ namespace AscensionServer.Model
             RoleID = 0;
             RoleJoiningSchool = 0;
             RoleJoinedSchool = 0;
-            RoleSchoolHatred.Clear();
+            RoleSchoolHatred=null;
         }
     }
 }

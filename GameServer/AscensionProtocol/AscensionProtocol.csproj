@@ -78,6 +78,7 @@
     <Compile Include="DTO\RoleTaskProgressDTO.cs" />
     <Compile Include="DTO\RoleTransformQueueDTO.cs" />
     <Compile Include="DTO\SchoolDTO.cs" />
+    <Compile Include="DTO\SutrasAtticDTO.cs" />
     <Compile Include="DTO\TransformDTO.cs" />
     <Compile Include="DTO\TreasureatticDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
