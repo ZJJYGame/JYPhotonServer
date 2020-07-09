@@ -31,8 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MathNet.Numerics, Version=4.11.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.4.11.0\lib\net461\MathNet.Numerics.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,14 +46,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Module\AdventureJsonCache.cs" />
     <Compile Include="AscensionData.cs" />
+    <Compile Include="Region.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegionJsonDataManager.cs" />
+    <Compile Include="ResourceCreator\ResourceCreator.cs" />
+    <Compile Include="ResourceCreator\ResVariable.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AscensionServer\AscensionServer.csproj">
-      <Project>{59c2adff-55d0-4139-9a85-0ac66adffcf8}</Project>
-      <Name>AscensionServer</Name>
+    <ProjectReference Include="..\AscensionProtocol\AscensionProtocol.csproj">
+      <Project>{142ced7d-c56d-43b2-a11f-9dc0f302bd80}</Project>
+      <Name>AscensionProtocol</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AscensionRegion\AscensionRegion.csproj">
+      <Project>{a9e692bc-924b-47a8-86d0-dd263e1aa85b}</Project>
+      <Name>AscensionRegion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Framework\CFramework.csproj">
+      <Project>{81a14e63-385f-4b83-b403-a6b7d6fc94d8}</Project>
+      <Name>CFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Json\Module\Adventure\Region\Region_0.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

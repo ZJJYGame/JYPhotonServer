@@ -16,7 +16,7 @@
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -80,7 +80,7 @@
       <HintPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\Photon3Unity3D.dll</HintPath>
     </Reference>
     <Reference Include="PhotonHostRuntimeInterfaces">
-      <HintPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\PhotonHostRuntimeInterfaces.dll</HintPath>
+      <HintPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\PhotonHostRuntimeInterfaces.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
@@ -332,9 +332,17 @@
       <Project>{a71709ea-e11c-4e7b-b8b7-28a57eff49ef}</Project>
       <Name>AscensionCalculator</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AscensionData\AscensionData.csproj">
+      <Project>{baf68e5b-51c2-438a-8680-0c689deaedc8}</Project>
+      <Name>AscensionData</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AscensionProtocol\AscensionProtocol.csproj">
       <Project>{142ced7d-c56d-43b2-a11f-9dc0f302bd80}</Project>
       <Name>AscensionProtocol</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AscensionRegion\AscensionRegion.csproj">
+      <Project>{a9e692bc-924b-47a8-86d0-dd263e1aa85b}</Project>
+      <Name>AscensionRegion</Name>
     </ProjectReference>
     <ProjectReference Include="..\Framework\CFramework.csproj">
       <Project>{81a14e63-385f-4b83-b403-a6b7d6fc94d8}</Project>
