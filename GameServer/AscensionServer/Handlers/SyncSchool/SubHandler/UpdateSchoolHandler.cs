@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol;
+using AscensionProtocol.DTO;
 using Photon.SocketServer;
 using AscensionServer.Model;
 using Cosmos;
@@ -22,21 +23,24 @@ namespace AscensionServer
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
 
-
             var dict = ParseSubDict(operationRequest);
             string schoolJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.School));
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
 
+            AscensionServer._Log.Info(">>>>>>>加入1宗门的请求收到了"+ schoolJson);
             string treasureatticJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.TreasureAttic));
-            var treasureatticObj = Utility.Json.ToObject<Treasureattic>(treasureatticJson);
+            var treasureatticObj = Utility.Json.ToObject<TreasureatticDTO>(treasureatticJson);
 
+            AscensionServer._Log.Info(">>>>>>>加入2宗门的请求收到了"+ treasureatticJson);
             NHCriteria nHCriteriaSchool = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
             NHCriteria nHCriteriaTreasureattic = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", treasureatticObj.ID);
 
             var schoolTemp = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
             var treasureatticTemp = Singleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
+        
             if (schoolTemp != null)
             {
+                AscensionServer._Log.Info(">>>>>>>加入宗门的请求收到了"+ schoolTemp.SchoolID);
                 //if (treasureatticTemp!=null)
                 //{
                 //    treasureatticTemp.ID = treasureatticObj.ID;

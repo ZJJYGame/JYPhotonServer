@@ -36,26 +36,16 @@ namespace AscensionServer
                     var verify= Singleton<NHManager>.Instance.Verify<RoleSchool>(nHCriteriarole);
                     if (verify)
                     {
-                        NHCriteria nHCriteriaSchool = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", roleschoolObj.RoleJoiningSchool);
-                        var schoolObj = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
-                        schoolDict.Add(roleId, schoolObj);
-                        AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>..加入的ID" + roleId + "加入的宗门" + schoolObj.ID);
-                        Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaSchool);
+                        if (roleschoolObj.RoleJoiningSchool!=null)
+                        {
+                            NHCriteria nHCriteriaSchool = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", roleschoolObj.RoleJoiningSchool);
+                            var schoolObj = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
+                            schoolDict.Add(roleId, schoolObj);
+                            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>..加入的ID" + roleId + "加入的宗门" + schoolObj.ID);
+                            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaSchool);
+                        }else
+                            schoolDict.Clear();
 
-
-                        //if (!string.IsNullOrEmpty(roleschoolObj.RoleJoiningSchool))
-                        //{
-                           
-
-                        //    //foreach (var item in Utility.Json.ToObject<Dictionary<int, int>>(roleschoolObj.RoleJoiningSchool))
-                        //    //{
-
-                                
-                        //    //}
-
-                        //}
-                        //else
-                        //    schoolDict.Clear();
                     }
                     else
                     {

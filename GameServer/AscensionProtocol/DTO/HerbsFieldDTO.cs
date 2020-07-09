@@ -11,21 +11,24 @@ namespace AscensionProtocol.DTO
     {
         public virtual int RoleID { get; set; }
         public virtual int jobLevel { get; set; }
-         public virtual Dictionary<int, HerbsStatus> AllHerbs { get; set; }//以灵田下标为key值
+        //public virtual string  AllHerbs { get; set; }//list下标为灵田下标
+        public virtual List<HerbFieldStatus> AllHerbs { get; set; }//list下标为灵田下标
 
         public override void Clear()
         {
             RoleID = -1;
             jobLevel = 0;
-            AllHerbs.Clear();
+            AllHerbs=null;
         }
     }
     [Serializable]
-    public class HerbsStatus
+    public class HerbFieldStatus
     {
+        public virtual bool IsPick { get; set; }
         public virtual int HerbsID { get; set; }
-        public virtual int HerbsCount { get; set; }
-        public virtual string PlantTime { get; set; }
+        public virtual int HerbsYear { get; set; }//生长年份
+        public virtual int FieldLecel { get; set; }
+        public virtual string RemainingTime { get; set; }//记录灵草成熟剩余时间
     }
 
 }

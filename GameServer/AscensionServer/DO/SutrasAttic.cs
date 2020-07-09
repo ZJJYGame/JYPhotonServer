@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AscensionServer.Model
+{
+    [Serializable]
+    public  class SutrasAttic:DataObject
+    {
+        public virtual int ID { get; set; }
+
+        public virtual String SutrasAmountDict { get; set; }
+        public virtual String SutrasRedeemedDictl { get; set; }
+
+
+        public override void Clear()
+        {
+            ID = -1;
+            SutrasAmountDict=null;
+            SutrasRedeemedDictl = null;
+        }
+    }
+}
