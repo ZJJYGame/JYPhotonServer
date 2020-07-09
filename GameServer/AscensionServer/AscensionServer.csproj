@@ -149,6 +149,9 @@
     <Compile Include="Handlers\MQ\SubHandler\MQSubHandler.cs" />
     <Compile Include="Handlers\MQ\SubHandler\RemoveMQSubHandler.cs" />
     <Compile Include="Handlers\MQ\SubHandler\UpdateMQSubHandler.cs" />
+    <Compile Include="Handlers\SyncSutrasAtticm\SubHandler\SyncSutrasAtticmSubHandler.cs" />
+    <Compile Include="Handlers\SyncSutrasAtticm\SubHandler\VerifySutrasAtticmHandler.cs" />
+    <Compile Include="Handlers\SyncSutrasAtticm\SyncSutrasAtticmHandler.cs" />
     <Compile Include="Handlers\SyncTasks\SubHandler\GetTaskSubHandler.cs" />
     <Compile Include="Handlers\SyncTasks\SubHandler\RemoveTaskSubHandler.cs" />
     <Compile Include="Handlers\SyncTreasureattic\SubHandler\GetTreasureatticHandler.cs" />
