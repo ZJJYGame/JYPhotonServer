@@ -11,18 +11,29 @@ namespace AscensionData
         public void OnInitialization() { }
         public void OnTermination() { }
         /// <summary>
-        /// 获取区域的json数据
+        /// 获取对应区域的对应瓦块的Json数据
         /// </summary>
-        /// <param name="region">模块</param>
-        /// <param name="regionIndex">区域的序号码</param>
+        /// <param name="region">区域码</param>
+        /// <param name="tileID">瓦块的码</param>
         /// <returns>json的内容</returns>
-        public static string GetRegionJsonContent(Region region,int regionIndex)
+        public static string GetRegionJsonContent(Region region,int tileID)
         {
             string json=string.Empty;
             switch (region)
             {
                 case Region.Adventure:
-                    json = Singleton<AdventureJsonCache>.Instance.GetRegionJsonData(regionIndex);
+                    json = Singleton<AdventureJsonCache>.Instance.GetRegionJsonData(tileID);
+                    break;
+            }
+            return json;
+        }
+        public static string GetRegionJsonContent(short regionID, int tileID)
+        {
+            string json = string.Empty;
+            switch ((Region)regionID)
+            {
+                case Region.Adventure:
+                    json = Singleton<AdventureJsonCache>.Instance.GetRegionJsonData(tileID);
                     break;
             }
             return json;

@@ -14,6 +14,15 @@ namespace AscensionProtocol.DTO
     [Serializable]
     public class OccupiedUnitDTO:DataTransferObject
     {
+        //TODO 迭代RegionID+TileID
+        /// <summary>
+        /// 区域码
+        /// </summary>
+        int RegionID { get; set; }
+        /// <summary>
+        /// 区域中的瓦片ID
+        /// </summary>
+        int TileID { get; set; }
         public int GlobalID { get; set; }
         public int ResID { get; set; }
         public void SetVale(int globalID,int resID)

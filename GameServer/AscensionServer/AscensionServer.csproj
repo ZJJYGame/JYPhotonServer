@@ -317,6 +317,7 @@
     <Compile Include="Threads\Base\LogicEventArgs.cs" />
     <Compile Include="Threads\Base\SyncEvent.cs" />
     <Compile Include="Threads\Base\IThreadData.cs" />
+    <Compile Include="Threads\SyncEvent\SyncOccupiedUnitEvent.cs" />
     <Compile Include="Threads\SyncEvent\SyncOtherRoleEvent.cs" />
     <Compile Include="Threads\SyncEvent\SyncResourcesEvent.cs" />
     <Compile Include="Threads\SyncEvent\SyncRoleMoveStatusEvent.cs" />

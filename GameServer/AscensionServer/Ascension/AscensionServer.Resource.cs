@@ -19,31 +19,40 @@ namespace AscensionServer
         #region Properties
         public Dictionary<int, HashSet<ResourcesDTO>> resDic = new Dictionary<int, HashSet<ResourcesDTO>>();
         Dictionary<int, ResourceUnitSetDTO> resUnitSetDict = new Dictionary<int, ResourceUnitSetDTO>();
-		/// <summary>
+        /// <summary>
         /// 资源单位集合的字典
         /// </summary>
-		public Dictionary<int, ResourceUnitSetDTO> ResSetDict { get { return resUnitSetDict; }private set { resUnitSetDict = value; } }
+        public Dictionary<int, ResourceUnitSetDTO> ResSetDict { get { return resUnitSetDict; } private set { resUnitSetDict = value; } }
+        /// <summary>
+        /// 临时的占用资源单位容器，需要迭代
+        /// </summary>
+        HashSet<OccupiedUnitDTO> occupiedUnitSetCache = new HashSet<OccupiedUnitDTO>();
+        //TODO  临时的占用资源单位容器，需要迭代
+        public HashSet<OccupiedUnitDTO> OccupiedUnitSetCache { get { return occupiedUnitSetCache; }private set { occupiedUnitSetCache = value; } }
         #endregion
 
         #region Methods
 		/// <summary>
-        /// 占用资源
+        /// 对资源进行占用；
+        /// 若资源占用成功，则将参数类对象加入被占用的缓存集合中
         /// </summary>
-        /// <param name="globalID">资源的全局ID</param>
-        /// <param name="resID">资源被分配时的ID</param>
+        /// <param name="occupiedUnit">占用资源的参数类对象</param>
         /// <returns>是否占用成功</returns>
-		public bool OccupiedResUnit(int globalID,int resID)
+        public bool OccupiedResUnit(OccupiedUnitDTO occupiedUnit)
         {
-            if (!resUnitSetDict.ContainsKey(globalID))
+            if (!resUnitSetDict.ContainsKey(occupiedUnit.GlobalID))
                 return false;
-            return resUnitSetDict[globalID].OccupiedResUnit(resID);
+			bool result= resUnitSetDict[occupiedUnit.GlobalID].OccupiedResUnit(occupiedUnit.ResID);
+            if (result)
+                OccupiedUnitSetCache.Add(occupiedUnit);
+            return result;
         }
         /// <summary>
         /// 释放被占用的资源
-        /// <param name="globalID">资源的全局ID</param>
-        /// <param name="resID">资源被分配时的ID</param>
+        /// </summary>
+        /// <param name="occupiedUnit">占用资源的参数类对象</param>
         /// <returns>是否释放成功</returns>
-        public bool ReleaseResUnit(int globalID,int resID)
+        public bool ReleaseResUnit(OccupiedUnitDTO occupiedUnit)
         {
             //TODO ReleaseResUnit 释放被占用的资源 ，未完成！
             return false;

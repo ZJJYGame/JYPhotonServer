@@ -26,7 +26,7 @@ namespace AscensionServer
             ResponseData.Clear();
             var occupiedUnitJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.OccupiedUnit));
             var occupiedUnitObj = Utility.Json.ToObject<OccupiedUnitDTO>(occupiedUnitJson);
-            var result= AscensionServer.Instance.OccupiedResUnit(occupiedUnitObj.GlobalID, occupiedUnitObj.ResID);
+            var result= AscensionServer.Instance.OccupiedResUnit(occupiedUnitObj);
             if (result)
             {
                 OpResponse.ReturnCode = (short)ReturnCode.Success;
