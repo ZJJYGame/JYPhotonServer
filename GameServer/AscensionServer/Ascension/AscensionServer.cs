@@ -20,7 +20,8 @@ using System.Reflection;
 using ExitGames.Concurrency.Fibers;
 using Cosmos;
 using AscensionServer.Model;
-
+using AscensionData;
+using AscensionRegion;
 namespace AscensionServer
 {
     public partial class AscensionServer : ApplicationBase
@@ -55,7 +56,6 @@ namespace AscensionServer
             var peer = new AscensionPeer(initRequest);
             _Log.Info("***********************  Client connected   ***********************");
             connectedPeerHashSet.Add(peer);
-            //TODO  连接后的peer 添加到hashset里
             return peer;
         }
         protected override void Setup()
@@ -72,16 +72,14 @@ namespace AscensionServer
             _Fiber = new PoolFiber();
             _Fiber.Start();
             InitHandler();
-            ResourcesLoad();
             Utility.Json.SetJsonWarpper(new NewtonjsonWrapper());
-            //syncPositionThread.Run();
             ThreadEvent.AddSyncEvent(new SyncRoleTransformEvent());
             ThreadEvent.ExecuteEvent();
+            ResourcesLoad();
         }
         //TODO 服务器心跳检测
         protected override void TearDown()
         {
-            //syncPositionThread.Stop();
             _Log.Info("***********************  Server Shotdown !!! ***********************");
             handlerDict.Clear();
         }
@@ -104,10 +102,14 @@ namespace AscensionServer
         }
         public void ResourcesLoad()
         {
-            Resources.Add(new ResourcesDTO() { ID = new Random(8001).Next(8001, 8004), Amout = new Random(11).Next(10, 20), Level = new Random(1).Next(1, 10), Vector3 = new ResourcesDTO.Vector3DTO() {  posX  = new Random(6).Next(3,20)} });
-            Resources.Add(new ResourcesDTO() { ID = new Random(21001).Next(21001, 21005), Amout = new Random(12).Next(10, 20), Vector3 = new ResourcesDTO.Vector3DTO() { posX = new Random(7).Next(3, 20) } });
-            Resources.Add(new ResourcesDTO() { ID = new Random(22001).Next(22001, 22005), Amout = new Random(13).Next(10, 20), Vector3 = new ResourcesDTO.Vector3DTO() { posX = new Random(8).Next(3, 20) } });
-            resDic.Add(1, Resources);
+            Vector2 border = new Vector2(6400, 4500);
+          var str=  RegionJsonDataManager.GetRegionJsonContent(AscensionData.Region.Adventure, 0);
+            var resVar = Singleton<ReferencePoolManager>.Instance.Spawn<ResVariable>();
+            resVar.SetValue(8001, 2, 1, 6, 2);
+            var ResourceSetDTO= Singleton<ResourceCreator>.Instance.CreateRandomResourceSet(resVar, border);
+            Singleton<ReferencePoolManager>.Instance.Despawn(resVar);
+              //_Log.Info( Utility.Json.ToJson(ResourceSetDTO));
+              _Log.Info(str);
         }
 
         public void RegisterHandler(Handler handler)

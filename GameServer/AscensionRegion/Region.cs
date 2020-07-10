@@ -7,8 +7,8 @@ namespace AscensionRegion
 {
     public class Region : IDisposable
     {
-        Tile stratRegion;
-        Tile endRegion;
+        Vector2 stratRegion;
+        Vector2 endRegion;
         public Region()
         {
 
@@ -16,7 +16,7 @@ namespace AscensionRegion
         public void Dispose()
         {
         }
-        public Tile RegionSize()
+        public Vector2 RegionSize()
         {
             return stratRegion - endRegion;
         }
