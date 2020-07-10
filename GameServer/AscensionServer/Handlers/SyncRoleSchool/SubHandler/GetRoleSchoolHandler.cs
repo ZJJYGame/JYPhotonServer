@@ -21,8 +21,10 @@ namespace AscensionServer
 
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
+
             var dict = ParseSubDict(operationRequest);
             string roleListJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleSchool));
+            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>..收到请求宗门的请求"+ roleListJson);
             var roleobj = Utility.Json.ToObject<List<int>>(roleListJson);
             Dictionary<int, School> schoolDict = new Dictionary<int, School>();
             if (roleobj.Count>0)

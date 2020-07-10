@@ -40,13 +40,13 @@
         /// </summary>
         RoleTransfromSet = 37,
         JobAlchemy=38,
-        Task =38,
-        RoleBottleneck=39,
-        RoleMoveStatus =40,
-        TreasureAttic=41,
-        SutrasAtticm=42,
-        School =43,
-        RoleSchool=44,
+        Task =39,
+        RoleBottleneck=40,
+        RoleMoveStatus =41,
+        TreasureAttic=42,
+        SutrasAtticm=43,
+        School =44,
+        RoleSchool=45,
    
         RoleMoveStatusSet =50,
         /// <summary>
