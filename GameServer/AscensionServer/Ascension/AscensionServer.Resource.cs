@@ -17,7 +17,6 @@ namespace AscensionServer
     public partial class AscensionServer : ApplicationBase
     {
         #region Properties
-        public Dictionary<int, HashSet<ResourcesDTO>> resDic = new Dictionary<int, HashSet<ResourcesDTO>>();
         Dictionary<int, ResourceUnitSetDTO> resUnitSetDict = new Dictionary<int, ResourceUnitSetDTO>();
         /// <summary>
         /// 资源单位集合的字典
