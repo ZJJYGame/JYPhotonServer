@@ -56,7 +56,7 @@ namespace AscensionProtocol.DTO
             bool result = false;
             if (ResUnitDict.ContainsKey(resID))
             {
-                if (ResUnitDict[resID].Occupied = true)
+                if (ResUnitDict[resID].Occupied == true)
                     result = false;
                 else
                 {

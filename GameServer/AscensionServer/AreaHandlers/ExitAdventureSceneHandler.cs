@@ -29,16 +29,12 @@ namespace AscensionServer
             OpResponse.ReturnCode = (byte)ReturnCode.Success;
             peer.SendOperationResponse(OpResponse, sendParameters);
 
-            //利用池生成线程池所需要使用的对象，并为其赋值，结束时回收
-            var threadData = Singleton<ReferencePoolManager>.Instance.Spawn<ThreadData<AscensionPeer>>();
-            threadData.SetData(peerSet, (byte)EventCode.DeletePlayer, peer);
-            var syncEvent = Singleton<ReferencePoolManager>.Instance.Spawn<SyncOtherRoleEvent>();
-            syncEvent.SetData(threadData);
-            syncEvent.AddFinishedHandler(() => { Singleton<ReferencePoolManager>.Instance.Despawns(syncEvent, threadData);
-                ThreadEvent.RemoveSyncEvent(syncEvent);
-            });
-            ThreadEvent.AddSyncEvent(syncEvent);
-            ThreadEvent.ExecuteEvent();
+            var roleJson = Utility.Json.ToJson(peer.PeerCache.Role);
+
+            //广播事件
+            threadEventParameter.Clear();
+            threadEventParameter.Add((byte)ParameterCode.Role, roleJson);
+            ExecuteThreadEvent(peerSet, EventCode.DeletePlayer, threadEventParameter);
         }
     }
 }

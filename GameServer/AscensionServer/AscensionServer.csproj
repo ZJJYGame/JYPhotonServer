@@ -314,6 +314,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Lite\Room\Room.cs" />
     <Compile Include="Threads\Base\ISyncEvent.cs" />
+    <Compile Include="Threads\Base\IThreadEventData.cs" />
     <Compile Include="Threads\Base\LogicEventArgs.cs" />
     <Compile Include="Threads\Base\SyncEvent.cs" />
     <Compile Include="Threads\Base\IThreadData.cs" />
@@ -324,6 +325,8 @@
     <Compile Include="Threads\SyncEvent\SyncRoleTransformEvent.cs" />
     <Compile Include="Threads\ThreadData.cs" />
     <Compile Include="Threads\ThreadEvent.cs" />
+    <Compile Include="Threads\Base\ThreadEventData.cs" />
+    <Compile Include="Threads\ThreadSyncEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
