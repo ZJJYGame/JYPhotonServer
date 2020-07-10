@@ -62,7 +62,7 @@ namespace AscensionServer
         /// </summary>
         partial void ResourcesLoad()
         {
-            Vector2 border = new Vector2(5400, 3900);
+            Vector2 border = new Vector2(54000, 39000);
             var str = RegionJsonDataManager.GetRegionJsonContent(AscensionData.Region.Adventure, 0);
             HashSet<ResVariable> resVarSet = Utility.Json.ToObject<HashSet<ResVariable>>(str);
             foreach (var res in resVarSet)
