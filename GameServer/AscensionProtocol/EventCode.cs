@@ -7,6 +7,9 @@
         ReplacePlayer=2,
         SyncRoleTransform=3,
         SyncRoleMoveStatus = 4,
-        SyncItemResources = 5
+        /// <summary>
+        /// 占用资源单位事件
+        /// </summary>
+        OccupiedResourceUnit = 5
     }
 }

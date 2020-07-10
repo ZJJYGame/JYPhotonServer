@@ -23,10 +23,16 @@ namespace AscensionProtocol.DTO
         /// 位置信息
         /// </summary>
         public Vector3DTO Position { get; set; }
+        /// <summary>
+        /// 表示这个资源已经被占用
+        /// </summary>
+        public bool Occupied { get; set; }
         public override void Clear()
         {
             ID = -1;
+            Level = 0;
             Position?.Clear();
+            Occupied = false;
         }
     }
 }
