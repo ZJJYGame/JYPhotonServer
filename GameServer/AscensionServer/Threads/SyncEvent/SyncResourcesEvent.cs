@@ -16,7 +16,7 @@ namespace AscensionServer.Threads
             if (threadData != null)
             {
                 int peerCount = threadData.Collection.Count;
-                var roleJson = Utility.Json.ToJson(threadData.Data.PeerCache.Resources);
+                var roleJson = Utility.Json.ToJson(threadData.Data.PeerCache.Vect2);
                 EventDataDict.Clear();
                 EventDataDict.Add((byte)ParameterCode.SyncResourcesLoad, roleJson);
                 EventData.Parameters = EventDataDict;

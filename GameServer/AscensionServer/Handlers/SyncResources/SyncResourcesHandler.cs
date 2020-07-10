@@ -24,7 +24,6 @@ namespace AscensionServer
         {
             OpCode = OperationCode.SyncResources;
             base.OnInitialization();
-         
         }
 
         

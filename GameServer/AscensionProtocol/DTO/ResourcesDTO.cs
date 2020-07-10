@@ -33,4 +33,10 @@ namespace AscensionProtocol.DTO
             public virtual float posZ { get; set; } 
         }
     }
+    [Serializable]
+    public class Vector2DTO
+    {
+        public virtual float posX { get; set; }
+        public virtual float posY { get; set; }
+    }
 }
