@@ -318,12 +318,7 @@
     <Compile Include="Threads\Base\LogicEventArgs.cs" />
     <Compile Include="Threads\Base\SyncEvent.cs" />
     <Compile Include="Threads\Base\IThreadData.cs" />
-    <Compile Include="Threads\SyncEvent\SyncOccupiedUnitEvent.cs" />
-    <Compile Include="Threads\SyncEvent\SyncOtherRoleEvent.cs" />
-    <Compile Include="Threads\SyncEvent\SyncResourcesEvent.cs" />
-    <Compile Include="Threads\SyncEvent\SyncRoleMoveStatusEvent.cs" />
     <Compile Include="Threads\SyncEvent\SyncRoleTransformEvent.cs" />
-    <Compile Include="Threads\ThreadData.cs" />
     <Compile Include="Threads\ThreadEvent.cs" />
     <Compile Include="Threads\Base\ThreadEventData.cs" />
     <Compile Include="Threads\ThreadSyncEvent.cs" />
