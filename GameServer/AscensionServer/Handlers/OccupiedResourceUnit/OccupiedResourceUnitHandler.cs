@@ -35,7 +35,9 @@ namespace AscensionServer
                 OpResponse.ReturnCode = (short)ReturnCode.Success;
                 var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
 
-                var threadData = Singleton<ReferencePoolManager>.Instance.Spawn<ThreadData<AscensionPeer>>();
+                var thread
+                    
+                    Data = Singleton<ReferencePoolManager>.Instance.Spawn<ThreadData<AscensionPeer>>();
                 threadData.SetData(peerSet, (byte)EventCode.OccupiedResourceUnit, peer);
                 var syncEvent = Singleton<ReferencePoolManager>.Instance.Spawn<SyncOccupiedUnitEvent>();
                 syncEvent.SetData(threadData);
