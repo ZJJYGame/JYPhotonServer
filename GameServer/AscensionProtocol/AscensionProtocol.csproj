@@ -59,7 +59,6 @@
     <Compile Include="DTO\PetDTO.cs" />
     <Compile Include="DTO\PetStatusDTO.cs" />
     <Compile Include="DTO\Resource\OccupiedUnitDTO.cs" />
-    <Compile Include="DTO\Resource\ResourcesDTO.cs" />
     <Compile Include="DTO\Resource\ResourceUnitDTO.cs" />
     <Compile Include="DTO\Resource\ResourceUnitSetDTO.cs" />
     <Compile Include="DTO\Resource\Vector3DTO.cs" />

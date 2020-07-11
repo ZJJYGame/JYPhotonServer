@@ -29,7 +29,6 @@ namespace AscensionServer
         public RoleTransformQueueDTO RoleTransformQueue { get; set; }
         public RoleMoveStatusDTO RoleMoveStatus { get; set; }
 
-        public Vector2DTO Vect2 { get; set; }
         public PeerCache()
         {
             User = new User();
@@ -44,7 +43,6 @@ namespace AscensionServer
             RoleID = -1;
             PreviousScene = null;
             CurrentScene = null;
-            Vect2 = new Vector2DTO() { posX = 0, posY = 0 };
         }
         public bool EqualUser(object obj)
         {

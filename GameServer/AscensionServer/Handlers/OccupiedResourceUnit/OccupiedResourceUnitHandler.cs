@@ -43,7 +43,6 @@ namespace AscensionServer
             OpResponse.Parameters = ResponseData;
             OpResponse.OperationCode = operationRequest.OperationCode;
             peer.SendOperationResponse(OpResponse, sendParameters);
-
         }
     }
 }
