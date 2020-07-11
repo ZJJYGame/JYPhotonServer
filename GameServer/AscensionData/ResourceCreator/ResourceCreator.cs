@@ -25,10 +25,10 @@ namespace AscensionData
         /// <param name="resVariable">资源参数类</param>
         /// <param name="border">边界信息</param>
         /// <returns>被生成后的对象</returns>
-        public ResourceSetDTO CreateRandomResourceSet(ResVariable resVariable, Vector2 border)
+        public ResourceUnitSetDTO CreateRandomResourceSet(ResVariable resVariable, Vector2 border)
         {
 
-            var resSetDTO =Singleton<ReferencePoolManager>.Instance.Spawn<ResourceSetDTO>();
+            var resSetDTO =Singleton<ReferencePoolManager>.Instance.Spawn<ResourceUnitSetDTO>();
             resSetDTO.GlobalID = resVariable.GlobalID;
             int count = GetRandomNumber(resVariable.Count, (int)resVariable.CountOffset);
             for (int i = 0; i < count; i++)
@@ -37,7 +37,7 @@ namespace AscensionData
                 int level = GetRandomNumber(resVariable.Level, (int)resVariable.LevelOffset);
                 ResourceUnitDTO resUnit = new ResourceUnitDTO()
                 { ID = i, Level = level, Position = new Vector3DTO(randonVector.X, 0, randonVector.Y) };
-                resSetDTO.ResUnitSet.Add(resUnit);
+                resSetDTO.AddResUnit(resUnit);
             }
             return resSetDTO;
         }

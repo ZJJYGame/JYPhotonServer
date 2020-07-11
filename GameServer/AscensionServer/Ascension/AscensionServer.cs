@@ -48,9 +48,6 @@ namespace AscensionServer
         /// <returns></returns>
         /// 
 
-        public HashSet<ResourcesDTO> Resources = new HashSet<ResourcesDTO>();
-
-        public Dictionary<int, HashSet<ResourcesDTO>> resDic = new Dictionary<int, HashSet<ResourcesDTO>>();
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
             var peer = new AscensionPeer(initRequest);
@@ -100,18 +97,6 @@ namespace AscensionServer
                 }
             }
         }
-        public void ResourcesLoad()
-        {
-            Vector2 border = new Vector2(6400, 4500);
-          var str=  RegionJsonDataManager.GetRegionJsonContent(AscensionData.Region.Adventure, 0);
-            var resVar = Singleton<ReferencePoolManager>.Instance.Spawn<ResVariable>();
-            resVar.SetValue(8001, 2, 1, 6, 2);
-            var ResourceSetDTO= Singleton<ResourceCreator>.Instance.CreateRandomResourceSet(resVar, border);
-            Singleton<ReferencePoolManager>.Instance.Despawn(resVar);
-              //_Log.Info( Utility.Json.ToJson(ResourceSetDTO));
-              _Log.Info(str);
-        }
-
         public void RegisterHandler(Handler handler)
         {
             handlerDict.Add(handler.OpCode, handler);
@@ -124,6 +109,9 @@ namespace AscensionServer
         {
             return loginPeerDict.ContainsKey(peer.PeerCache.Account);
         }
-
+        /// <summary>
+        /// 初始化资源分布类
+        /// </summary>
+        partial void ResourcesLoad();
     }
 }

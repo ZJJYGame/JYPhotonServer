@@ -43,18 +43,10 @@ namespace AscensionServer
             OpResponse.ReturnCode = (short)ReturnCode.Success;
             OpResponse.Parameters = ResponseData;
             peer.SendOperationResponse(OpResponse, sendParameters);
-
-
-            var threadData = Singleton<ReferencePoolManager>.Instance.Spawn<ThreadData<AscensionPeer>>();
-            threadData.SetData(peerSet, (byte)EventCode.SyncRoleMoveStatus, peer);
-            var syncEvent = Singleton<ReferencePoolManager>.Instance.Spawn<SyncRoleMoveStatusEvent>();
-            syncEvent.SetData(threadData);
-            syncEvent.AddFinishedHandler(() => {
-                Singleton<ReferencePoolManager>.Instance.Despawns(syncEvent, threadData);
-                ThreadEvent.RemoveSyncEvent(syncEvent);
-            });
-            ThreadEvent.AddSyncEvent(syncEvent);
-            ThreadEvent.ExecuteEvent();
+            //广播事件
+            threadEventParameter.Clear();
+            threadEventParameter.Add((byte)ParameterCode.RoleMoveStatus, roleMoveStatusJson);
+            ExecuteThreadEvent(peerSet, EventCode.SyncRoleMoveStatus, threadEventParameter);
         }
     }
 }

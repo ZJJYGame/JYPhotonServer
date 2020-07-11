@@ -12,7 +12,20 @@ namespace AscensionServer.Threads
     {
         public Dictionary<byte, object> EventDataDict { get; protected set; }
         public SendParameters SendParameter { get; set; }
-        public abstract void Handler(object state);
+        protected IThreadEventData threadEventData;
+        public virtual void Handler(object state)
+        {
+            if (threadEventData != null)
+            {
+                EventData.Parameters = threadEventData.Parameters;
+                EventData.Code = threadEventData.EventCode;
+                foreach (var peer in threadEventData.PeerCollection)
+                {
+                    peer.SendEvent(EventData, SendParameter);
+                }
+            }
+            finishedHandler?.Invoke();
+        }
         public virtual void OnInitialization() {
             EventDataDict = new Dictionary<byte, object>();
             SendParameter = new SendParameters();
@@ -24,12 +37,10 @@ namespace AscensionServer.Threads
             EventDataDict.Clear();
             EventData.Parameters.Clear();
             ClearFinishedHandler();
+            threadEventData.Clear();
         }
-        /// <summary>
-        /// 空的虚函数
-        /// </summary>
-        /// <param name="eventArgs"></param>
-        public virtual void SetData(IThreadData eventArgs) { }
+        public  void SetEventData(IThreadEventData threadEventData)
+        { this.threadEventData = threadEventData; }
         public void AddFinishedHandler(Action handler)
         {
             finishedHandler += handler;

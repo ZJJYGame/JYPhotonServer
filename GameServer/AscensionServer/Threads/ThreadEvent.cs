@@ -14,21 +14,21 @@ namespace AscensionServer.Threads
 {
     public static class ThreadEvent
     {
-        static HashSet<ISyncEvent> syncEventHash = new HashSet<ISyncEvent>();
-        public static int SyncEventCount { get { return syncEventHash.Count; } }
+        static HashSet<ISyncEvent> syncEventHashSet = new HashSet<ISyncEvent>();
+        public static int SyncEventCount { get { return syncEventHashSet.Count; } }
         public static void AddSyncEvent(ISyncEvent syncEvent)
         {
             syncEvent.OnInitialization();
-            syncEventHash.Add(syncEvent);
+            syncEventHashSet.Add(syncEvent);
         }
         public static void RemoveSyncEvent(ISyncEvent syncEvent)
         {
             syncEvent.OnTermination();
-            syncEventHash.Remove(syncEvent);
+            syncEventHashSet.Remove(syncEvent);
         }
         public static void ExecuteEvent()
         {
-            foreach (var threadEvent in syncEventHash)
+            foreach (var threadEvent in syncEventHashSet)
             {
                 ThreadPool.QueueUserWorkItem(threadEvent.Handler);
             }

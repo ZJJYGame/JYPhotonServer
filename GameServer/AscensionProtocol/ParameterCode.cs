@@ -12,8 +12,14 @@
 
         User = 17,
         RoleStatus = 18,
+        /// <summary>
+        /// 角色状态的集合
+        /// </summary>
         RoleStatusSet = 19,
         Role = 20,
+        /// <summary>
+        /// 角色的集合
+        /// </summary>
         RoleSet = 21,
         RoleAssets = 22,
         GongFa = 23,
@@ -60,6 +66,19 @@
         /// 表示单个角色在单位时间内所记录的位置点队列
         /// </summary>
         RoleTransformQueue= 52,
-        SyncResourcesLoad = 53,
+        /// <summary>
+        /// 资源单位
+        /// </summary>
+        ResourcesUnit = 53,
+        /// <summary>
+        /// 占用的单元
+        /// 全局ID+分配的ID
+        /// </summary>
+        OccupiedUnit= 53,
+        /// <summary>
+        /// 表示资源单位的集合；
+        /// 一个全局ID下存储了当前这个全局ID的对象集合
+        /// </summary>
+        ResourcesUnitSet = 54,
     }
 }

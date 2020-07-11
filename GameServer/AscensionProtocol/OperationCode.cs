@@ -53,8 +53,14 @@ namespace AscensionProtocol
         SyncSutrasAtticm=30,
         SyncSchool =31,
         SyncRoleSchool=32,
+        /// <summary>
+        /// 同步资源
+        /// </summary>
         SyncResources = 33,
-        SyncResourcesEvent = 34,
+        /// <summary>
+        /// 占用资源单位
+        /// </summary>
+        OccupiedResourceUnit = 34,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>

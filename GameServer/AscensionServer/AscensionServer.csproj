@@ -16,7 +16,7 @@
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -80,7 +80,7 @@
       <HintPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\Photon3Unity3D.dll</HintPath>
     </Reference>
     <Reference Include="PhotonHostRuntimeInterfaces">
-      <HintPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\PhotonHostRuntimeInterfaces.dll</HintPath>
+      <HintPath>..\..\..\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\PhotonHostRuntimeInterfaces.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
@@ -122,6 +122,7 @@
     <Compile Include="DO\School.cs" />
     <Compile Include="DO\SutrasAttic.cs" />
     <Compile Include="DO\Treasureattic.cs" />
+    <Compile Include="Handlers\OccupiedResourceUnit\OccupiedResourceUnitHandler.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\AddAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\GetAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\SyncAlchemySubHandler.cs" />
@@ -132,7 +133,6 @@
     <Compile Include="Handlers\SyncForge\SyncForgeHandler.cs" />
     <Compile Include="Handlers\SyncInventory\SubHandler\GetInventorySubHandler.cs" />
     <Compile Include="Handlers\SyncMoveStatus\SyncMoveStatusHandler.cs" />
-    <Compile Include="Handlers\SyncResources\SyncResourcesHandler.cs" />
     <Compile Include="Handlers\SyncRoleSchool\SubHandler\GetRoleSchoolHandler.cs" />
     <Compile Include="Handlers\SyncRoleSchool\SubHandler\SyncRoleSchoolSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleSchool\SubHandler\UpdateRoleSchoolHandler.cs" />
@@ -314,18 +314,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Lite\Room\Room.cs" />
     <Compile Include="Threads\Base\ISyncEvent.cs" />
+    <Compile Include="Threads\Base\IThreadEventData.cs" />
     <Compile Include="Threads\Base\LogicEventArgs.cs" />
     <Compile Include="Threads\Base\SyncEvent.cs" />
     <Compile Include="Threads\Base\IThreadData.cs" />
-    <Compile Include="Threads\SyncEvent\SyncOtherRoleEvent.cs" />
-    <Compile Include="Threads\SyncEvent\SyncResourcesEvent.cs" />
-    <Compile Include="Threads\SyncEvent\SyncRoleMoveStatusEvent.cs" />
     <Compile Include="Threads\SyncEvent\SyncRoleTransformEvent.cs" />
-    <Compile Include="Threads\ThreadData.cs" />
     <Compile Include="Threads\ThreadEvent.cs" />
+    <Compile Include="Threads\Base\ThreadEventData.cs" />
+    <Compile Include="Threads\ThreadSyncEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Compile Include="Ascension\AscensionServer.Resource.cs" />
     <None Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AscensionData
 {
-    public enum Region
+    public enum Region:short
     {
         Adventure,
     }
