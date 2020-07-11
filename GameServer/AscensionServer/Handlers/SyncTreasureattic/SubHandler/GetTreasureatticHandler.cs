@@ -20,7 +20,7 @@ namespace AscensionServer
 
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-
+            
         }
     }
 }

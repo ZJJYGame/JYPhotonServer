@@ -21,7 +21,7 @@ namespace AscensionServer.Model
 
         public School()
         {
-            SchoolID = 901;
+            SchoolID = 900;
             Contribution = 0;
             Hatred = 0;
             TreasureAtticID = 0;

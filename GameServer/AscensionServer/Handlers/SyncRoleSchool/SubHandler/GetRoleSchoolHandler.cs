@@ -24,13 +24,10 @@ namespace AscensionServer
 
             var dict = ParseSubDict(operationRequest);
             string roleListJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleSchool));
-            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>..收到请求宗门的请求"+ roleListJson);
             var roleobj = Utility.Json.ToObject<List<int>>(roleListJson);
             Dictionary<int, School> schoolDict = new Dictionary<int, School>();
             if (roleobj.Count>0)
-            {
-                AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>..收到请求宗门的请求"+ roleListJson);
-
+            {          
                 foreach (var roleId in roleobj)
                 {
                     NHCriteria nHCriteriarole = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleId);
@@ -43,7 +40,7 @@ namespace AscensionServer
                             NHCriteria nHCriteriaSchool = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", roleschoolObj.RoleJoiningSchool);
                             var schoolObj = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
                             schoolDict.Add(roleId, schoolObj);
-                            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>..加入的ID" + roleId + "加入的宗门" + schoolObj.ID);
+
                             Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaSchool);
                         }else
                             schoolDict.Clear();
