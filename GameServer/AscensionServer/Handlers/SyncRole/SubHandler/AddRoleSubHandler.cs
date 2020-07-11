@@ -110,8 +110,11 @@ namespace AscensionServer
                 #region 初始化门派
                 Treasureattic treasureatti = new Treasureattic();
                 treasureatti = Singleton<NHManager>.Instance.Insert(treasureatti);
+                SutrasAttic sutrasAttic = new SutrasAttic();
+                sutrasAttic = Singleton<NHManager>.Instance.Insert(sutrasAttic);
                 School school = new School();
                 school.TreasureAtticID = treasureatti.ID;
+                school.SutrasAtticID = sutrasAttic.ID;
                 school = Singleton<NHManager>.Instance.Insert(school);
                 Singleton<NHManager>.Instance.Insert(new RoleSchool() { RoleID = rolestatus.RoleID, RoleJoiningSchool = school.ID, RoleJoinedSchool = 0 });
                 #endregion

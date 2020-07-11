@@ -137,6 +137,7 @@
     <Compile Include="Handlers\SyncRoleSchool\SubHandler\SyncRoleSchoolSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleSchool\SubHandler\UpdateRoleSchoolHandler.cs" />
     <Compile Include="Handlers\SyncRoleSchool\SyncRoleSchoolHandler.cs" />
+    <Compile Include="Handlers\SyncSchool\SubHandler\GetSchoolSubHandler.cs" />
     <Compile Include="Handlers\SyncSchool\SubHandler\UpdateSchoolHandler.cs" />
     <Compile Include="Handlers\SyncSchool\SyncSchoolHandler.cs" />
     <Compile Include="Handlers\SyncSchool\SubHandler\SyncSchoolSubHandler.cs" />
