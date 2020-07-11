@@ -70,8 +70,8 @@ namespace AscensionServer
             _Fiber.Start();
             InitHandler();
             Utility.Json.SetJsonWarpper(new NewtonjsonWrapper());
-            ThreadEvent.AddSyncEvent(new SyncRoleTransformEvent());
-            ThreadEvent.ExecuteEvent();
+            ThreadPoolEvent.AddSyncEvent(new SyncRoleTransformEvent());
+            ThreadPoolEvent.ExecuteEvent();
             ResourcesLoad();
         }
         //TODO 服务器心跳检测

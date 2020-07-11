@@ -16,7 +16,7 @@
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -44,10 +44,10 @@
       <HintPath>..\packages\BouncyCastle.1.8.3.1\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="ExitGames.Logging.Log4Net">
-      <HintPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\ExitGames.Logging.Log4Net.dll</HintPath>
+      <HintPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\ExitGames.Logging.Log4Net.dll</HintPath>
     </Reference>
     <Reference Include="ExitGamesLibs">
-      <HintPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\ExitGamesLibs.dll</HintPath>
+      <HintPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\ExitGamesLibs.dll</HintPath>
     </Reference>
     <Reference Include="FluentNHibernate, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
@@ -71,7 +71,7 @@
     </Reference>
     <Reference Include="Photon.SocketServer, Version=4.0.28.11245, Culture=neutral, PublicKeyToken=48c2fa3b6988090e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\Photon.SocketServer.dll</HintPath>
+      <HintPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\Photon.SocketServer.dll</HintPath>
     </Reference>
     <Reference Include="Photon.SocketServer.NUnit">
       <HintPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\Photon.SocketServer.NUnit.dll</HintPath>
@@ -80,7 +80,7 @@
       <HintPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\Photon3Unity3D.dll</HintPath>
     </Reference>
     <Reference Include="PhotonHostRuntimeInterfaces">
-      <HintPath>..\..\..\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\PhotonHostRuntimeInterfaces.dll</HintPath>
+      <HintPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\PhotonHostRuntimeInterfaces.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
@@ -314,12 +314,10 @@
     <Compile Include="Lite\Room\Room.cs" />
     <Compile Include="Threads\Base\ISyncEvent.cs" />
     <Compile Include="Threads\Base\IThreadEventData.cs" />
-    <Compile Include="Threads\Base\LogicEventArgs.cs" />
     <Compile Include="Threads\Base\SyncEvent.cs" />
-    <Compile Include="Threads\Base\IThreadData.cs" />
     <Compile Include="Threads\SyncEvent\SyncRoleTransformEvent.cs" />
-    <Compile Include="Threads\ThreadEvent.cs" />
     <Compile Include="Threads\Base\ThreadEventData.cs" />
+    <Compile Include="Threads\Base\ThreadPoolEvent.cs" />
     <Compile Include="Threads\ThreadSyncEvent.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -12,7 +12,11 @@ using System.Threading;
 
 namespace AscensionServer.Threads
 {
-    public static class ThreadEvent
+    /// <summary>
+    /// 线程池事件，用于处理需要开启新线程进行处理的事件；
+    /// 例如同步玩家位置信息
+    /// </summary>
+    public static class ThreadPoolEvent
     {
         static HashSet<ISyncEvent> syncEventHashSet = new HashSet<ISyncEvent>();
         public static int SyncEventCount { get { return syncEventHashSet.Count; } }

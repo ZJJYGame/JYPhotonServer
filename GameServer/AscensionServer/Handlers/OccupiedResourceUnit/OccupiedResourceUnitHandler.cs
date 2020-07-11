@@ -35,7 +35,6 @@ namespace AscensionServer
                 OpResponse.ReturnCode = (short)ReturnCode.Success;
                 var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
                 //广播事件
-                threadEventParameter.Clear();
                 threadEventParameter.Add((byte)ParameterCode.OccupiedUnit, occupiedUnitJson);
                 ExecuteThreadEvent(peerSet, EventCode.OccupiedResourceUnit, threadEventParameter);
             }else

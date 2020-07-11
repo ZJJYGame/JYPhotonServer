@@ -32,7 +32,6 @@ namespace AscensionServer
             var roleJson = Utility.Json.ToJson(peer.PeerCache.Role);
 
             //广播事件
-            threadEventParameter.Clear();
             threadEventParameter.Add((byte)ParameterCode.Role, roleJson);
             ExecuteThreadEvent(peerSet, EventCode.DeletePlayer, threadEventParameter);
         }
