@@ -31,6 +31,12 @@ namespace AscensionServer
                 AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>数据库贡献点" + schoolTemp.Contribution+"传过来的贡献点" + schoolObj.Contribution);
                 if (schoolTemp.Contribution> schoolObj.Contribution)
                 {
+                    //NHCriteria nHCriteriaTreasureAttic = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolTemp.TreasureAtticID);
+                    //var TreasureAtticTemp = Singleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureAttic);
+                    //if (Utility.Json.ToObject<Dictionary<int, int>>(TreasureAtticTemp.ItemAmountDict).TryGetValue(5, out int amout))
+                    //{
+                    //    //判断兑换数是否超过存储总数
+                    //}
                     SetResponseData(() =>
                     {
 

@@ -27,7 +27,7 @@ namespace AscensionServer
             var treasureatticObj = Utility.Json.ToObject<TreasureatticDTO>(treasureatticJson);
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
            NHCriteria nHCriteriaTreasureattic = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", treasureatticObj.ID);
-           
+            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>更新藏宝阁" + treasureatticJson);
             NHCriteria nHCriteriaschool = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
            var treasureatticTemp = Singleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
             var schoolTemp = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaschool);

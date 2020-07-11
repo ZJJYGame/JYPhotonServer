@@ -15,12 +15,16 @@ namespace AscensionServer
 {
     public abstract class  Handler:IHandler
     {
+        #region Properties
         public OperationCode OpCode { get; protected set; }
         public EventCode EvCode { get; protected set; }
          Dictionary<byte, ISubHandler> subHandlerDict;
         public OperationResponse OpResponse { get; protected set; }
         public Dictionary<byte, object> ResponseData { get; protected set; }
         protected Dictionary<byte, object> threadEventParameter { get; set; }
+        #endregion
+
+        #region Methods
         public virtual  void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters,AscensionPeer peer)
         {
             var subCode = Convert.ToByte( Utility.GetValue(operationRequest.Parameters, (byte)OperationCode.SubOperationCode));
@@ -52,6 +56,10 @@ namespace AscensionServer
             AscensionServer.Instance.DeregisterHandler(this);
             OnSubHandlerTermination();
         }
+        public void ResetHandler()
+        {
+            ResponseData.Clear();
+        }
         protected virtual void OnSubHandlerInitialization<T>()
             where T:class, ISubHandler
         {
@@ -77,16 +85,6 @@ namespace AscensionServer
                 DeregisterSubHandler(handler.Value);
             }
         }
-        void RegisterSubHandler(ISubHandler handler)
-        {
-            if (subHandlerDict.ContainsKey((byte)handler.SubOpCode))
-                AscensionServer._Log.Info("重复键值：\n" + handler.ToString() + "\n:" + handler.SubOpCode.ToString() + "\n结束");
-            subHandlerDict.Add((byte)handler.SubOpCode, handler);
-        }
-        void DeregisterSubHandler(ISubHandler handler)
-        {
-            subHandlerDict.Remove((byte)handler.SubOpCode);
-        }
         /// <summary>
         /// 非空虚函数
         /// </summary>
@@ -97,7 +95,8 @@ namespace AscensionServer
             OpResponse.OperationCode = operationRequest.OperationCode;
         }
         /// <summary>
-        /// 派发线程事件
+        /// 执行线程事件；
+        /// 线程执行结束后，会自动回收线程数据对象，并清空线程事件参数字典
         /// </summary>
         /// <param name="peerCollection"></param>
         /// <param name="eventCode"></param>
@@ -112,10 +111,23 @@ namespace AscensionServer
             threadSyncEvent.SetEventData(threadEventData);
             threadSyncEvent.AddFinishedHandler(() => {
                 Singleton<ReferencePoolManager>.Instance.Despawns(threadSyncEvent, threadEventData);
-                ThreadEvent.RemoveSyncEvent(threadSyncEvent);
+                ThreadPoolEvent.RemoveSyncEvent(threadSyncEvent);
             });
-            ThreadEvent.AddSyncEvent(threadSyncEvent);
-            ThreadEvent.ExecuteEvent();
+            ThreadPoolEvent.AddSyncEvent(threadSyncEvent);
+            ThreadPoolEvent.ExecuteEvent();
         }
+        void RegisterSubHandler(ISubHandler handler)
+        {
+            if (subHandlerDict.ContainsKey((byte)handler.SubOpCode))
+                AscensionServer._Log.Info("重复键值：\n" + handler.ToString() + "\n:" + handler.SubOpCode.ToString() + "\n结束");
+            subHandlerDict.Add((byte)handler.SubOpCode, handler);
+        }
+        void DeregisterSubHandler(ISubHandler handler)
+        {
+            subHandlerDict.Remove((byte)handler.SubOpCode);
+        }
+
+
+        #endregion
     }
 }
