@@ -12,6 +12,13 @@ namespace AscensionServer.Model
         public virtual int RoleID { get; set; }
         public virtual int jobLevel { get; set; }
         public virtual string AllHerbs { get; set; }//以灵田下标为key值
+        public HerbsField()
+        {
+            RoleID = 0;
+            jobLevel = 0;
+            AllHerbs = null;
+        }
+
 
         public override void Clear()
         {
