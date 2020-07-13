@@ -21,7 +21,7 @@ namespace AscensionServer
         /// <summary>
         /// 资源单位集合的字典
         /// </summary>
-        public Dictionary<int, ResourceUnitSetDTO> ResSetDict { get { return resUnitSetDict; } private set { resUnitSetDict = value; } }
+        public Dictionary<int, ResourceUnitSetDTO> ResUnitSetDict { get { return resUnitSetDict; } private set { resUnitSetDict = value; } }
         /// <summary>
         /// 临时的占用资源单位容器，需要迭代
         /// </summary>
@@ -69,7 +69,7 @@ namespace AscensionServer
                 var resSetDto = Singleton<ResourceCreator>.Instance.CreateRandomResourceSet(res, border);
                 resUnitSetDict.Add(resSetDto.GlobalID,resSetDto);
             }
-            //_Log.Info(Utility.Json.ToJson(resUnitSetDict));
+            _Log.Info(Utility.Json.ToJson(resUnitSetDict));
         }
         #endregion
     }
