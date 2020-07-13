@@ -2,28 +2,28 @@
     {
         "GlobalID":8001,
         "Level":1006,
-        "LevelOffset":4,
+        "LevelOffset":0,
         "Count":10,
         "CountOffset":0
     },
     {
         "GlobalID":8002,
         "Level":1006,
-        "LevelOffset":4,
+        "LevelOffset":0,
         "Count":10,
         "CountOffset":0
     },
     {
         "GlobalID":8003,
         "Level":1006,
-        "LevelOffset":4,
+        "LevelOffset":0,
         "Count":15,
         "CountOffset":0
     },
     {
         "GlobalID":8004,
         "Level":1006,
-        "LevelOffset":4,
+        "LevelOffset":0,
         "Count":9,
         "CountOffset":0
     },
