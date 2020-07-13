@@ -16,7 +16,6 @@ namespace AscensionServer
             Map(x => x.RankingListID).Column("ranking_list_id");
             Map(x => x.SchoolID).Column("school_id");
             Map(x => x.SchoolJob).Column("school_job");
-            Map(x => x.SchoolMember).Column("school_member");
             Map(x => x.SutrasAtticID).Column("sutras_attic_id");
             Map(x => x.TreasureAtticID).Column("treasure_attic_id");
             Map(x => x.Hatred).Column("hatred");

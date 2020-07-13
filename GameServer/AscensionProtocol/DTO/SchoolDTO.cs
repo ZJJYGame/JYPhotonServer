@@ -17,7 +17,6 @@ namespace AscensionProtocol.DTO
         public virtual int SutrasAtticID { get; set; }
         public virtual int RankingListID { get; set; }
         public virtual int SchoolJob { get; set; }
-        public virtual int SchoolMember { get; set; }
         public virtual int SchoolAward { get; set; }
         public virtual int ContributionHistory { get; set; }
 
@@ -31,7 +30,6 @@ namespace AscensionProtocol.DTO
             SutrasAtticID = 0;
             RankingListID = 0;
             SchoolJob = 0;
-            SchoolMember = 0;
             SchoolAward = 0;
             ContributionHistory = 0;
         }
