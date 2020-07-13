@@ -131,7 +131,7 @@
     <Compile Include="Handlers\SyncForge\SubHandler\GetForgeSubHandler.cs" />
     <Compile Include="Handlers\SyncForge\SubHandler\SyncForgeSubHandler.cs" />
     <Compile Include="Handlers\SyncForge\SyncForgeHandler.cs" />
-    <Compile Include="Handlers\SyncHerbsField\SubHandler\GETHerbsFieldSubHandler.cs" />
+    <Compile Include="Handlers\SyncHerbsField\SubHandler\GetHerbsFieldSubHandler.cs" />
     <Compile Include="Handlers\SyncHerbsField\SubHandler\SyncHerbsFieldSubHandler.cs" />
     <Compile Include="Handlers\SyncHerbsField\SyncHerbsFieldHandler.cs" />
     <Compile Include="Handlers\SyncInventory\SubHandler\GetInventorySubHandler.cs" />

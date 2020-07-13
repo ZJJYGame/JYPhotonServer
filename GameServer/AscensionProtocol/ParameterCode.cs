@@ -45,7 +45,6 @@
         /// RoleTransfrom为此集合的子集
         /// </summary>
         RoleTransfromSet = 37,
-        JobAlchemy=38,
         Task =39,
         RoleBottleneck=40,
         RoleMoveStatus =41,
@@ -80,5 +79,12 @@
         /// 一个全局ID下存储了当前这个全局ID的对象集合
         /// </summary>
         ResourcesUnitSet = 54,
+                
+
+        /// <summary>
+        /// 副职业占用码
+        /// </summary>
+        JobAlchemy = 55,
+        JobHerbsField=62
     }
 }
