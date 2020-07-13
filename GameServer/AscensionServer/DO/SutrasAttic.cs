@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Cosmos;
 namespace AscensionServer.Model
 {
     [Serializable]
@@ -13,7 +13,6 @@ namespace AscensionServer.Model
 
         public virtual String SutrasAmountDict { get; set; }
         public virtual String SutrasRedeemedDictl { get; set; }
-
 
         public override void Clear()
         {

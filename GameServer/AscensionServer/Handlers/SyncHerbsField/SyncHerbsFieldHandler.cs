@@ -4,24 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol;
+using AscensionProtocol.DTO;
 using Photon.SocketServer;
 using AscensionServer.Model;
-using AscensionProtocol.DTO;
 using Cosmos;
-namespace AscensionServer
+
+
+namespace AscensionServer.Handlers
 {
-    public class GetTreasureatticHandler : SyncTreasureatticSubHandler
+   public  class SyncHerbsFieldHandler:Handler
     {
         public override void OnInitialization()
         {
-            SubOpCode = SubOperationCode.Get;
+            OpCode = OperationCode.SyncHerbsField;
             base.OnInitialization();
-        }
-
-
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
-        {
-           
+            OnSubHandlerInitialization<SyncHerbsFieldSubHandler>();
         }
     }
 }

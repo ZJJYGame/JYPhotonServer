@@ -78,7 +78,7 @@ namespace AscensionServer
                     });
                 }
             }
-            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>..发送加入的宗门" + SubDict.Count);
+            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>..发送加入的宗门" + Utility.Json.ToJson(schoolDict));
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
 
         }

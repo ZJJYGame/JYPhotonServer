@@ -16,11 +16,12 @@ namespace AscensionServer
             Map(x => x.RankingListID).Column("ranking_list_id");
             Map(x => x.SchoolID).Column("school_id");
             Map(x => x.SchoolJob).Column("school_job");
-            Map(x => x.SchoolMember).Column("school_member");
             Map(x => x.SutrasAtticID).Column("sutras_attic_id");
             Map(x => x.TreasureAtticID).Column("treasure_attic_id");
             Map(x => x.Hatred).Column("hatred");
-            Map(x => x.Contribution).Column("contribution");
+            Map(x => x.ContributionNow).Column("contribution_now");
+            Map(x => x.ContributionHistory).Column("contribution_history");
+            Map(x => x.SchoolAward).Column("school_award");
             Table("school");
         }
     }
