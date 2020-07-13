@@ -27,7 +27,6 @@ namespace AscensionServer
             var treasureatticObj = Utility.Json.ToObject<TreasureatticDTO>(treasureatticJson);
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
             NHCriteria nHCriteriaTreasureattic = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", treasureatticObj.ID);
-            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>" + Utility.Json.ToJson(schoolObj.TreasureAtticID) + "更新2藏宝阁" + Utility.Json.ToJson(treasureatticObj.ItemRedeemedDict));
             NHCriteria nHCriteriaschool = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
             var treasureatticTemp = Singleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
             var schoolTemp = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaschool);
@@ -48,10 +47,8 @@ namespace AscensionServer
                         {
 
                             itemDict = Utility.Json.ToObject<Dictionary<int, int>>(treasureatticTemp.ItemRedeemedDict);
-                            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>更新藏宝阁key" + Utility.Json.ToJson(itemDict));
                             foreach (var item in treasureatticObj.ItemRedeemedDict)
                             {
-                                AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>更新藏宝阁key" + item.Key);
                                 if (itemDict.ContainsKey(item.Key))
                                 {
                                     itemDict[item.Key] += treasureatticObj.ItemRedeemedDict[item.Key];
@@ -80,7 +77,6 @@ namespace AscensionServer
                 {
                     SetResponseData(() =>
                     {
-                        AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>传回到的藏宝阁s失败");
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
                     });
                 }
@@ -90,14 +86,12 @@ namespace AscensionServer
             {
                 SetResponseData(() =>
                 {
-                    AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>传回到的藏宝阁s失败");
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaTreasureattic, nHCriteriaschool);
-            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>传回到的藏宝阁" + Utility.Json.ToJson(DOdict));
         }
 
     }
