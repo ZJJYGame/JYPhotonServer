@@ -55,6 +55,8 @@
     <Compile Include="DTO\BottleneckDTO.cs" />
     <Compile Include="DTO\CultivationMethodDTO.cs" />
     <Compile Include="DTO\HerbsFieldDTO.cs" />
+    <Compile Include="DTO\Monster\MonsterTransformDTO.cs" />
+    <Compile Include="DTO\Monster\MonsterTransformQueueDTO.cs" />
     <Compile Include="DTO\OffLineTimeDTO.cs" />
     <Compile Include="DTO\PetDTO.cs" />
     <Compile Include="DTO\PetStatusDTO.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="SubCode.cs" />
     <Compile Include="SubOperationCode.cs" />
     <Compile Include="VO\Base\ViewObject.cs" />
+    <Compile Include="VO\MonsterDataVO.cs" />
     <Compile Include="VO\RoleDataVO.cs" />
   </ItemGroup>
   <ItemGroup>
