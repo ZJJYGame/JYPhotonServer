@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AscensionProtocol;
 using Photon.SocketServer;
 using AscensionServer.Model;
+using AscensionProtocol.DTO;
 using Cosmos;
 namespace AscensionServer
 {
@@ -20,7 +21,7 @@ namespace AscensionServer
 
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            
+           
         }
     }
 }

@@ -27,42 +27,63 @@ namespace AscensionServer
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
             NHCriteria nHCriteriaSchool = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
             var schoolTemp = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
-            List<DataObject> DTOList = new List<DataObject>(); ;
+            AscensionServer._Log.Info("收到請求宗門所有信息的請求"+ schoolJson);
+            List<string > DTOList = new List<string>(); ;
             if (schoolTemp!=null)
             {
-                DTOList.Add(schoolTemp);
+                DTOList.Clear();
+                DTOList.Add(Utility.Json.ToJson( schoolTemp));
                 NHCriteria nHCriteriaTreasureattic = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolTemp.TreasureAtticID);
                 var TreasureatticTemp = Singleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
                 if (TreasureatticTemp!=null)
                 {
-                    DTOList.Add(TreasureatticTemp);
+                    DTOList.Add(Utility.Json.ToJson(new TreasureatticDTO() { ID = TreasureatticTemp.ID, ItemAmountDict = Utility.Json.ToObject<Dictionary<int, int>>(TreasureatticTemp.ItemAmountDict), ItemRedeemedDict = Utility.Json.ToObject<Dictionary<int, int>>(TreasureatticTemp.ItemRedeemedDict) }));
+                    AscensionServer._Log.Info("2收到請求宗門所有信息的請求" + DTOList.Count);
                 }
                 NHCriteria nHCriteriaSutrasAttic = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolTemp.SutrasAtticID);
                 var SutrasAtticTemp = Singleton<NHManager>.Instance.CriteriaSelect<SutrasAttic>(nHCriteriaSutrasAttic);
+
                 if (SutrasAtticTemp != null)
                 {
-                    DTOList.Add(SutrasAtticTemp);
+                    AscensionServer._Log.Info("3收到請求宗門所有信息的請求" + SutrasAtticTemp.ID);
+                    DTOList.Add(Utility.Json.ToJson(new SutrasAtticDTO() { ID = SutrasAtticTemp.ID, SutrasAmountDict = Utility.Json.ToObject<Dictionary<int, int>>(SutrasAtticTemp.SutrasAmountDict), SutrasRedeemedDictl = Utility.Json.ToObject<Dictionary<int, int>>(SutrasAtticTemp.SutrasRedeemedDictl) }));
+
+                    //if (!string.IsNullOrEmpty(SutrasAtticTemp.SutrasRedeemedDictl))
+                    //{
+                    //    AscensionServer._Log.Info("3收到請求宗門所有信息的請求" + SutrasAtticTemp.ID);
+                    //    DTOList.Add(Utility.Json.ToJson(new SutrasAtticDTO() { ID = SutrasAtticTemp.ID, SutrasAmountDict = Utility.Json.ToObject<Dictionary<int, int>>(SutrasAtticTemp.SutrasAmountDict), SutrasRedeemedDictl = Utility.Json.ToObject<Dictionary<int, int>>(SutrasAtticTemp.SutrasRedeemedDictl) }));
+                    //}
+                    //else
+                    //{
+                    //    AscensionServer._Log.Info("3收到請求宗門所有信息的請求" + SutrasAtticTemp.SutrasAmountDict);
+                    //    DTOList.Add(Utility.Json.ToJson(new SutrasAtticDTO() { ID = SutrasAtticTemp.ID, SutrasAmountDict = Utility.Json.ToObject<Dictionary<int, int>>(SutrasAtticTemp.SutrasAmountDict)}));
+                    //}
                 }
                 Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaTreasureattic, nHCriteriaSutrasAttic);
             }
             else     
                 SetResponseData(() => {Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail; });
 
-            if (DTOList.Count < 3)
-            {
-                SetResponseData(() => { Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail; });
-            }
-            else
+            if (DTOList.Count >0)
             {
                 SetResponseData(() =>
                 {
-
+                    AscensionServer._Log.Info("5收到請求宗門所有信息的請求" + Utility.Json.ToJson(DTOList));
                     SubDict.Add((byte)ParameterCode.School, Utility.Json.ToJson(DTOList));
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+
                 });
+
             }
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaSchool);
+            else
+            {
+
+                AscensionServer._Log.Info("4收到請求宗門所有信息的請求");
+
+                SetResponseData(() => { Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail; });
+            }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaSchool);
 
         }
     }
