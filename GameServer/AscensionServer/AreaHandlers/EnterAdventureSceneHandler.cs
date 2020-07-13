@@ -45,7 +45,7 @@ namespace AscensionServer
             var roleSetJson = Utility.Json.ToJson(roleSet);
             var roleMoveStatusSetJson = Utility.Json.ToJson(roleMoveStatusSet);
             var roleTransformQueueSetJson = Utility.Json.ToJson(roleTransformQueueSet);
-            var resSetDictJson = Utility.Json.ToJson(AscensionServer.Instance.ResSetDict);
+            var resSetDictJson = Utility.Json.ToJson(AscensionServer.Instance.ResSetDict.Values.ToList());
             ResponseData.Clear();
             OpResponse.OperationCode = operationRequest.OperationCode;
             OpResponse.ReturnCode = (byte)ReturnCode.Success;
