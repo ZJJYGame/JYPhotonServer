@@ -28,8 +28,8 @@ namespace AscensionServer
             var schoolTemp = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
             if (schoolTemp!=null)
             {
-                AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>数据库贡献点" + schoolTemp.Contribution+"传过来的贡献点" + schoolObj.Contribution);
-                if (schoolTemp.Contribution> schoolObj.Contribution)
+                AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>数据库贡献点" + schoolTemp.ContributionNow + "传过来的贡献点" + schoolObj.ContributionNow);
+                if (schoolTemp.ContributionNow > schoolObj.ContributionNow)
                 {
                     //NHCriteria nHCriteriaTreasureAttic = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolTemp.TreasureAtticID);
                     //var TreasureAtticTemp = Singleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureAttic);

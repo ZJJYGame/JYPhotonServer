@@ -29,6 +29,7 @@ namespace AscensionServer.Model
             RoleShenHunResistance = 10;
             RoleCrit = 0;
             RoleCritResistance = 0;
+            RoleDormant = 10;
         }
         public virtual int RoleID { get; set; }
         public virtual int RoleMaxHP { get; set; }
@@ -47,6 +48,7 @@ namespace AscensionServer.Model
         public virtual int RoleShenHunResistance { get; set; }
         public virtual short RoleCrit { get; set; }
         public virtual short RoleCritResistance { get; set; }
+        public virtual int RoleDormant { get; set; }
         public override void Clear()
         {
             RoleID = -1;
@@ -66,6 +68,7 @@ namespace AscensionServer.Model
             RoleShenHunResistance = 0;
             RoleCrit = 0;
             RoleCritResistance = 0;
+            RoleDormant = 0;
         }
     }
 }

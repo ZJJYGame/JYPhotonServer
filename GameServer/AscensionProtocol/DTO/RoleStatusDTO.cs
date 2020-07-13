@@ -24,6 +24,7 @@ namespace AscensionProtocol.DTO
         public virtual int RoleShenHunResistance { get; set; }
         public virtual byte RoleCrit { get; set; }
         public virtual byte RoleCritResistance { get; set; }
+        public virtual int RoleDormant { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -34,7 +35,7 @@ namespace AscensionProtocol.DTO
                 this.RoleResistanceDamage == other.RoleResistanceDamage && this.RoleAttackPower == other.RoleAttackPower &&
                 this.RoleResistancePower == other.RoleResistancePower && this.RoleSpeedAttack == other.RoleSpeedAttack &&
                 this.RoleShenHunDamage == other.RoleShenHunDamage && this.RoleShenHunResistance == other.RoleShenHunResistance &&
-                this.RoleCrit == other.RoleCrit && this.RoleCritResistance == other.RoleCritResistance)
+                this.RoleCrit == other.RoleCrit && this.RoleCritResistance == other.RoleCritResistance&&this.RoleDormant==other.RoleDormant)
                 return true;
             else return false;
         }
@@ -63,6 +64,7 @@ namespace AscensionProtocol.DTO
             RoleShenHunResistance = 0;
             RoleCrit = 0;
             RoleCritResistance = 0;
+            RoleDormant = 0;
         }
     }
 }

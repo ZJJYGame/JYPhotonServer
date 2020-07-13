@@ -39,10 +39,10 @@ namespace AscensionServer
             Dictionary<string, string> DOdict = new Dictionary<string, string>();
             if (schoolTemp != null)
             {
-                if (schoolTemp.Contribution > schoolObj.Contribution)
+                if (schoolTemp.ContributionNow > schoolObj.ContributionNow)
                 {
-                    contribution = schoolTemp.Contribution - schoolObj.Contribution;
-                    Singleton<NHManager>.Instance.Update<School>(new School() { ID = schoolTemp.ID, SchoolID = schoolTemp.SchoolID, SchoolJob = schoolTemp.SchoolJob, TreasureAtticID = schoolTemp.TreasureAtticID, SutrasAtticID = schoolTemp.SutrasAtticID, Contribution = contribution });
+                    contribution = schoolTemp.ContributionNow - schoolObj.ContributionNow;
+                    Singleton<NHManager>.Instance.Update<School>(new School() { ID = schoolTemp.ID, SchoolID = schoolTemp.SchoolID, SchoolJob = schoolTemp.SchoolJob, TreasureAtticID = schoolTemp.TreasureAtticID, SutrasAtticID = schoolTemp.SutrasAtticID, ContributionNow = contribution });
                     if (exit)
                     {
                         if (!string.IsNullOrEmpty(sutrasAtticTemp.SutrasRedeemedDictl))

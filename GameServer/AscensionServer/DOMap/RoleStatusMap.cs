@@ -28,6 +28,7 @@ namespace AscensionServer
             Map(x => x.RoleShenHunResistance).Column("role_shenhun_resistance");
             Map(x => x.RoleCrit).Column("role_crit");
             Map(x => x.RoleCritResistance).Column("role_crit_resistance");
+            Map(x => x.RoleDormant).Column("role_dormant");
             Table("role_status");
         }
     }
