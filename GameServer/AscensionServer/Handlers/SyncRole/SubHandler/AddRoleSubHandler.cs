@@ -108,9 +108,9 @@ namespace AscensionServer
                 AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>添加副职业成功");
                 #endregion
                 #region 初始化门派
-                Treasureattic treasureatti = new Treasureattic();
+                Treasureattic treasureatti = new Treasureattic() { ItemAmountDict=Utility.Json.ToJson(new Dictionary<int,int>()),ItemRedeemedDict= Utility.Json.ToJson(new Dictionary<int, int>()) };
                 treasureatti = Singleton<NHManager>.Instance.Insert(treasureatti);
-                SutrasAttic sutrasAttic = new SutrasAttic();
+                SutrasAttic sutrasAttic = new SutrasAttic() { SutrasAmountDict= Utility.Json.ToJson(new Dictionary<int, int>()) ,SutrasRedeemedDictl= Utility.Json.ToJson(new Dictionary<int, int>()) };
                 sutrasAttic = Singleton<NHManager>.Instance.Insert(sutrasAttic);
                 School school = new School();
                 school.TreasureAtticID = treasureatti.ID;
