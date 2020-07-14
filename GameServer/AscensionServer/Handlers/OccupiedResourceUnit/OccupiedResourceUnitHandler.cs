@@ -33,6 +33,15 @@ namespace AscensionServer
             if (result)
             {
                 OpResponse.ReturnCode = (short)ReturnCode.Success;
+
+                ResourceUnitSetDTO currentDictObj = null;
+                if (AscensionServer.Instance.ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID,out currentDictObj))
+                {
+
+                    ResourceUnitDTO resourceUnitDTO = null;
+                    if (currentDictObj.ResUnitDict.TryGetValue(occupiedUnitObj.ResID, out resourceUnitDTO))
+                        resourceUnitDTO.Occupied = result;
+                }
                 var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
                 //广播事件
                 threadEventParameter.Add((byte)ParameterCode.OccupiedUnit, occupiedUnitJson);
