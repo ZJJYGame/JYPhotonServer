@@ -104,7 +104,8 @@ namespace AscensionServer
 
                 #endregion
                 #region 副职业
-                Singleton<NHManager>.Instance.Insert<Alchemy>(new Alchemy() { RoleID= rolestatus.RoleID});
+                Singleton<NHManager>.Instance.Insert<Alchemy>(new Alchemy() { RoleID= rolestatus.RoleID,Recipe_Array=Utility.Json.ToJson(new List<int>()) });
+                Singleton<NHManager>.Instance.Insert<HerbsField>(new HerbsField() { RoleID = rolestatus.RoleID, jobLevel = 0, AllHerbs = Utility.Json.ToJson(new List<HerbFieldStatus>()) });
                 AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>添加副职业成功");
                 #endregion
                 #region 初始化门派

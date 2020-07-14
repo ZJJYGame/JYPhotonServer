@@ -11,9 +11,9 @@ namespace AscensionServer
     {
         public HerbsFieldMap()
         {
-            Id(x => x.RoleID).GeneratedBy.Assigned().Column("id");
+            Id(x => x.RoleID).GeneratedBy.Assigned().Column("roleid");
             Map(x => x.jobLevel).Column("job_level");
-            Map(x => x.AllHerbs).Column("all_herbs");
+            Map(x => x.AllHerbs).Column("allherbs");
             Table("herbsfield");
         }
     }
