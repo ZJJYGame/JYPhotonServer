@@ -2,14 +2,14 @@
     {
         "GlobalID":8001,
         "Level":1006,
-        "LevelOffset":4,
+        "LevelOffset":3,
         "Count":10,
         "CountOffset":0
     },
     {
         "GlobalID":8002,
         "Level":1006,
-        "LevelOffset":4,
+        "LevelOffset":2,
         "Count":10,
         "CountOffset":0
     },
@@ -23,7 +23,7 @@
     {
         "GlobalID":8004,
         "Level":1006,
-        "LevelOffset":4,
+        "LevelOffset":1,
         "Count":9,
         "CountOffset":0
     },
