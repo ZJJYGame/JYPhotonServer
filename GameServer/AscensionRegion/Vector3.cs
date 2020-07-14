@@ -27,6 +27,16 @@ namespace AscensionRegion
         {
             return a.Equals(b);
         }
+        public static double Distance(Vector3 a, Vector3 b)
+        {
+            float x = a.X - b.X;
+            var xSquare = Math.Pow(2, x);
+            float y = a.Y - b.Y;
+            var ySquare = Math.Pow(2, y);
+            float z = a.Z - b.Z;
+            var zSquare = Math.Pow(2, z);
+            return Math.Sqrt(x + y+z);
+        }
         public static bool operator !=(Vector3 a, Vector3 b)
         {
             return !(a == b);

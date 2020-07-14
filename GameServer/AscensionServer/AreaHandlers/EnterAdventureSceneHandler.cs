@@ -24,11 +24,12 @@ namespace AscensionServer
         HashSet<RoleTransformQueueDTO> roleTransformQueueSet = new HashSet<RoleTransformQueueDTO>();
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            var roleJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
+            //var roleJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
             var roleMoveStatusJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleMoveStatus));
             AscensionServer._Log.Info("EnterAdventureScene  :  " + peer.ToString());
             //这条，获取当前玩家未进入探索界面时候所有玩家的集合
             var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
+            var roleJson = Utility.Json.ToJson(peer.PeerCache.Role);
             AscensionServer.Instance.EnterAdventureScene(peer);
 
             peer.PeerCache.RoleMoveStatus = Utility.Json.ToObject<RoleMoveStatusDTO>(roleMoveStatusJson);

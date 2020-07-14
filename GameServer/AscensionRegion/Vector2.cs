@@ -21,6 +21,14 @@ namespace AscensionRegion
         public float Y { get; set; }
         static Vector2 zero = new Vector2(0, 0);
         public static Vector2 Zero { get { return zero; } }
+        public static double Distance(Vector2 a,Vector2 b)
+        {
+            float x = a.X - b.X;
+            var xSquare = Math.Pow(2, x);
+            float y = a.Y - b.Y;
+            var ySquare = Math.Pow(2, y);
+            return  Math.Sqrt(x + y);
+        }
         public static bool operator ==(Vector2 a, Vector2 b)
         {
             return a.Equals(b);
