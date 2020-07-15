@@ -70,9 +70,17 @@ namespace AscensionProtocol
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>
+        /// 加入战斗
+        /// </summary>
+        JoinBattle = 113,
+        /// <summary>
+        /// 离开战斗
+        /// </summary>
+        ExitBattle = 114,
+        /// <summary>
         /// 测试消息队列
         /// </summary>
-        MessageQueue=137,
+        MessageQueue =137,
         /// <summary>
         /// 心跳
         /// </summary>
