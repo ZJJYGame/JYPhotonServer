@@ -79,8 +79,6 @@
         /// 一个全局ID下存储了当前这个全局ID的对象集合
         /// </summary>
         ResourcesUnitSet = 55,
-                
-
         /// <summary>
         /// 副职业占用码
         /// </summary>

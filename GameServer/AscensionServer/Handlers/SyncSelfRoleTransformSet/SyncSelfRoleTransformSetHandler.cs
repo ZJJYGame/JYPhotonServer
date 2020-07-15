@@ -28,7 +28,6 @@ namespace AscensionServer
             OpResponse.OperationCode = operationRequest.OperationCode;
             OpResponse.ReturnCode = (short)ReturnCode.Success;
             peer.SendOperationResponse(OpResponse, sendParameters);
-
         }
     }
 }
