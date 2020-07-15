@@ -62,6 +62,11 @@ namespace AscensionProtocol
         /// 占用资源单位
         /// </summary>
         OccupiedResourceUnit = 34,
+        /// <summary>
+        /// 同步怪物位置
+        /// </summary>
+        SyncMonsterTransform = 35,
+
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>

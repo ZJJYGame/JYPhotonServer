@@ -73,18 +73,30 @@
         /// 占用的单元
         /// 全局ID+分配的ID
         /// </summary>
-        OccupiedUnit= 53,
+        OccupiedUnit= 54,
         /// <summary>
         /// 表示资源单位的集合；
         /// 一个全局ID下存储了当前这个全局ID的对象集合
         /// </summary>
-        ResourcesUnitSet = 54,
+        ResourcesUnitSet = 55,
                 
 
         /// <summary>
         /// 副职业占用码
         /// </summary>
-        JobAlchemy = 55,
-        JobHerbsField=62
+        JobAlchemy = 56,
+        /// <summary>
+        /// 位置信息的集合队列
+        /// 表示单位时间内记录的位置点队列集合
+        /// 集合元素为 RoleTransformQueue 
+        /// </summary>
+        MonsterTransformQueueSet = 57,
+        /// <summary>
+        /// 单个位置信息的队列
+        /// 表示单个角色在单位时间内所记录的位置点队列
+        /// </summary>
+        MonsterTransformQueue = 58,
+
+        JobHerbsField =62
     }
 }

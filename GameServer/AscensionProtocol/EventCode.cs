@@ -10,6 +10,7 @@
         /// <summary>
         /// 占用资源单位事件
         /// </summary>
-        OccupiedResourceUnit = 5
+        OccupiedResourceUnit = 5,
+        SyncMonsterTransform = 6,
     }
 }

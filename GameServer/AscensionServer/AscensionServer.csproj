@@ -135,6 +135,7 @@
     <Compile Include="Handlers\SyncHerbsField\SubHandler\SyncHerbsFieldSubHandler.cs" />
     <Compile Include="Handlers\SyncHerbsField\SyncHerbsFieldHandler.cs" />
     <Compile Include="Handlers\SyncInventory\SubHandler\GetInventorySubHandler.cs" />
+    <Compile Include="Handlers\SyncMonsterTransformSet\SyncMonsterTransformSetHandler.cs" />
     <Compile Include="Handlers\SyncMoveStatus\SyncMoveStatusHandler.cs" />
     <Compile Include="Handlers\SyncRoleSchool\SubHandler\GetRoleSchoolHandler.cs" />
     <Compile Include="Handlers\SyncRoleSchool\SubHandler\SyncRoleSchoolSubHandler.cs" />
