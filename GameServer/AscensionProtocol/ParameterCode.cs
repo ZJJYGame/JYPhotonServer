@@ -83,18 +83,19 @@
         /// 副职业占用码
         /// </summary>
         JobAlchemy = 56,
+        JobHerbsField = 62,
         /// <summary>
         /// 位置信息的集合队列
         /// 表示单位时间内记录的位置点队列集合
         /// 集合元素为 RoleTransformQueue 
         /// </summary>
-        MonsterTransformQueueSet = 57,
+        MonsterTransformQueueSet = 63,
         /// <summary>
         /// 单个位置信息的队列
         /// 表示单个角色在单位时间内所记录的位置点队列
         /// </summary>
-        MonsterTransformQueue = 58,
+        MonsterTransformQueue =64,
 
-        JobHerbsField =62
+
     }
 }
