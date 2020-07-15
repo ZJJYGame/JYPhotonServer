@@ -17,7 +17,7 @@ namespace AscensionServer
     {
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncSelfRoleTransformQueue;
+            OpCode = OperationCode.SyncMonsterTransform;
             base.OnInitialization();
         }
         /*
