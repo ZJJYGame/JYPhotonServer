@@ -66,7 +66,7 @@ namespace AscensionProtocol
         /// 同步怪物位置
         /// </summary>
         SyncMonsterTransform = 35,
-
+        SyncRoleAdventureSkill=36,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>

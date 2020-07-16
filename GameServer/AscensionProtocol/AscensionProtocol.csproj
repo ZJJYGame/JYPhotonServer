@@ -67,6 +67,7 @@
     <Compile Include="DTO\RingDTO.cs" />
     <Compile Include="DTO\MiShuDTO.cs" />
     <Compile Include="DTO\OnOffLineDTO.cs" />
+    <Compile Include="DTO\RoleAdventureSkillDTO.cs" />
     <Compile Include="DTO\RoleAssetsDTO.cs" />
     <Compile Include="DTO\RoleMoveStatusDTO.cs" />
     <Compile Include="DTO\RoleSchoolDTO.cs" />

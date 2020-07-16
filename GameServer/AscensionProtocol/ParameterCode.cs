@@ -96,6 +96,6 @@
         /// </summary>
         MonsterTransformQueue =64,
 
-
+        RoleAdventureSkill = 65,
     }
 }
