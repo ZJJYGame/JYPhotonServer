@@ -34,9 +34,9 @@ namespace AscensionData
             for (int i = 0; i < count; i++)
             {
                 var randonVector = GetRandomVector(Vector2.Zero, border);
-                int level = GetRandomNumber(resVariable.Level, (int)resVariable.LevelOffset);
+                int FlowValue = GetRandomNumber(resVariable.FlowValue, (int)resVariable.FlowValueOffset);
                 ResourceUnitDTO resUnit = new ResourceUnitDTO()
-                { ID = i, Level = level, Position = new Vector3DTO(randonVector.X, 0, randonVector.Y) };
+                { ID = i, FlowValue = FlowValue, Position = new Vector3DTO(randonVector.X, 0, randonVector.Y) };
                 resSetDTO.AddResUnit(resUnit);
             }
             return resSetDTO;

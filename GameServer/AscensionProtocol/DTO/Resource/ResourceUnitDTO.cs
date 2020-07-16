@@ -17,8 +17,9 @@ namespace AscensionProtocol.DTO
         /// 等级；
         /// 若对象为生物，则表示为生物的等级；
         /// 若对象为材料，则此表示为品级
+        /// 改为针对怪物浮动值
         /// </summary>
-        public int Level { get; set; }
+        public int FlowValue { get; set; }
         /// <summary>
         /// 位置信息
         /// </summary>
@@ -31,7 +32,7 @@ namespace AscensionProtocol.DTO
         public override void Clear()
         {
             ID = -1;
-            Level = 0;
+            FlowValue = 0;
             Position?.Clear();
             Occupied = false;
         }
