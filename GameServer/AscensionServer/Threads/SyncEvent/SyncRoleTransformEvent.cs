@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AscensionServer;
 using AscensionProtocol.DTO;
 using AscensionProtocol;
-using ExitGames.Client.Photon;
+//using ExitGames.Client.Photon;
 using System.Timers;
 using Photon.SocketServer;
 using EventData = Photon.SocketServer.EventData;
@@ -49,7 +49,10 @@ namespace AscensionServer.Threads
             }
             EventDataDict.Clear();
             EventData.Code = (byte)EventCode.SyncRoleTransform;
-            EventDataDict.Add((byte)ParameterCode.RoleTransformQueueSet, Utility.Json.ToJson(roleTransformSet));
+            if (!EventDataDict.ContainsKey((byte)ParameterCode.RoleTransformQueueSet))
+                EventDataDict.Add((byte)ParameterCode.RoleTransformQueueSet, Utility.Json.ToJson(roleTransformSet));
+            else
+                EventDataDict[(byte)ParameterCode.RoleTransformQueueSet]= Utility.Json.ToJson(roleTransformSet);
             for (int i = 0; i < loggedList.Count; i++)
             {
                 loggedList[i].SendEvent(EventData, SendParameter);
