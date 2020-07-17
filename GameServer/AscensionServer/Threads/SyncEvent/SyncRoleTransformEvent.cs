@@ -27,7 +27,8 @@ namespace AscensionServer.Threads
         public override void OnInitialization()
         {
             base.OnInitialization();
-            EventData.Parameters = EventDataDict;
+            //EventData.Parameters = EventDataDict;
+            EventData.Code = (byte)EventCode.SyncRoleTransform;
         }
         /// <summary>
         /// TODO 当前未使用瓦片算法进行分区域消息广播
@@ -47,15 +48,18 @@ namespace AscensionServer.Threads
                     loggedList[i].IsSendedTransform = true;
                 }
             }
-            EventDataDict.Clear();
-            EventData.Code = (byte)EventCode.SyncRoleTransform;
-            if (!EventDataDict.ContainsKey((byte)ParameterCode.RoleTransformQueueSet))
-                EventDataDict.Add((byte)ParameterCode.RoleTransformQueueSet, Utility.Json.ToJson(roleTransformSet));
-            else
-                EventDataDict[(byte)ParameterCode.RoleTransformQueueSet]= Utility.Json.ToJson(roleTransformSet);
+            //EventDataDict.Clear();
+            //ConcurrentEventDataDict.TryAdd((byte)ParameterCode.RoleTransformQueueSet, Utility.Json.ToJson(roleTransformSet));
+            var data = new Dictionary<byte, object>();
+            data.Add((byte)ParameterCode.RoleTransformQueueSet, Utility.Json.ToJson(roleTransformSet));
+            EventData.Parameters = data;
             for (int i = 0; i < loggedList.Count; i++)
             {
                 loggedList[i].SendEvent(EventData, SendParameter);
+            }
+            foreach (var p in loggedList)
+            {
+                p.SendEvent(EventData, SendParameter);
             }
         }
     }

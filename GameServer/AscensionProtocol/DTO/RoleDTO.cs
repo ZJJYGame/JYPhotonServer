@@ -22,5 +22,10 @@ namespace AscensionProtocol.DTO
             RoleRoot = null;
             RoleName = null;
         }
+        public override string ToString()
+        {
+            string str = "RoleID : "+ RoleID+ " ; RoleGender : "+ RoleGender+ " ; RoleName : "+ RoleName;
+            return str;
+        }
     }
 }

@@ -5,12 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Collections.Concurrent;
 namespace AscensionServer.Threads
 {
     public abstract class SyncEvent : ISyncEvent
     {
         #region Properties
+        /// <summary>
+        /// 线程安全字典
+        /// </summary>
+        public ConcurrentDictionary<byte, object> ConcurrentEventDataDict { get; protected set; }
         public Dictionary<byte, object> EventDataDict { get; protected set; }
         public SendParameters SendParameter { get; set; }
         protected IThreadEventData threadEventData;
@@ -38,6 +42,7 @@ namespace AscensionServer.Threads
         }
         public virtual void OnInitialization()
         {
+            ConcurrentEventDataDict = new ConcurrentDictionary<byte, object>();
             EventDataDict = new Dictionary<byte, object>();
             SendParameter = new SendParameters();
             EventData = new EventData();
