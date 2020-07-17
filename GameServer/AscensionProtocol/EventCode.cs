@@ -12,5 +12,6 @@
         /// </summary>
         OccupiedResourceUnit = 5,
         SyncMonsterTransform = 6,
+        RelieveOccupiedResourceUnit=7,
     }
 }

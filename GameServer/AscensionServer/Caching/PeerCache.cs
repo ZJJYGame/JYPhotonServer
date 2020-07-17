@@ -28,6 +28,7 @@ namespace AscensionServer
         public RoleDataVO RoleDataVO { get; set; }
         public RoleTransformQueueDTO RoleTransformQueue { get; set; }
         public RoleMoveStatusDTO RoleMoveStatus { get; set; }
+        public RoleAdventureSkillDTO RoleAdventureSkill { get; set; }
 
         public PeerCache()
         {

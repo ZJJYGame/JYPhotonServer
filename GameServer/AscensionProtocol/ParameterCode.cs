@@ -95,7 +95,11 @@
         /// 表示单个角色在单位时间内所记录的位置点队列
         /// </summary>
         MonsterTransformQueue =64,
-
-        RoleAdventureSkill = 65,
+        /// <summary>
+        /// 解除占用
+        /// 派发刷新资源
+        /// </summary>
+        RelieveUnit=66,
+        RoleAdventureSkill = 67,
     }
 }
