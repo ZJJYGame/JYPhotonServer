@@ -34,9 +34,10 @@ namespace AscensionData
             for (int i = 0; i < count; i++)
             {
                 var randonVector = GetRandomVector(Vector2.Zero, border);
+               var randonRotate =  GetRandomVector(Vector3.Zero, new Vector3(0, 360000, 0));
                 int FlowValue = GetRandomNumber(resVariable.FlowValue, (int)resVariable.FlowValueOffset);
                 ResourceUnitDTO resUnit = new ResourceUnitDTO()
-                { ID = i, FlowValue = FlowValue, Position = new Vector3DTO(randonVector.X, 0, randonVector.Y) };
+                { ID = i, FlowValue = FlowValue, Position = new TransformDTO() { PositionX= randonVector.X, PositionY = 0, PositionZ =  randonVector.Y, RotationX = 0, RotationY = randonRotate.Y, RotationZ = 0 } };
                 resSetDTO.AddResUnit(resUnit);
             }
             return resSetDTO;
@@ -60,6 +61,7 @@ namespace AscensionData
             var y = random.Next((int)Math.Ceiling(min.Y), (int)Math.Ceiling(max.Y)) * GetRandomSymbol();
             return new Vector2(x, y);
         }
+
         /// <summary>
         /// 随机获得正数或者负数符号
         /// </summary>

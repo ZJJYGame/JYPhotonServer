@@ -23,7 +23,7 @@ namespace AscensionProtocol.DTO
         /// <summary>
         /// 位置信息
         /// </summary>
-        public Vector3DTO Position { get; set; }
+        public TransformDTO Position { get; set; }
         public int Amount { get; set; }
         /// <summary>
         /// 表示这个资源已经被占用
