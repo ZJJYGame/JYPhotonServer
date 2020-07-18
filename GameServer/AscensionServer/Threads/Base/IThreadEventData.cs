@@ -21,7 +21,7 @@ namespace AscensionServer.Threads
         /// <summary>
         /// 序列化后的字典数据
         /// </summary>
-        Dictionary<byte, object> Parameters { get; }
+        Dictionary<byte, object> Parameters { get; set; }
         /// <summary>
         /// 设置对象的初始值
         /// </summary>

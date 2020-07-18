@@ -22,6 +22,8 @@ using Cosmos;
 using AscensionServer.Model;
 using AscensionData;
 using AscensionRegion;
+using System.Threading;
+
 namespace AscensionServer
 {
     public partial class AscensionServer : ApplicationBase
@@ -70,8 +72,9 @@ namespace AscensionServer
             _Fiber.Start();
             InitHandler();
             Utility.Json.SetJsonWarpper(new NewtonjsonWrapper());
-            ThreadPoolEvent.AddSyncEvent(new SyncRoleTransformEvent());
-            ThreadPoolEvent.ExecuteEvent();
+            var syncRoleTransEvent = new SyncRoleTransformEvent();
+            syncRoleTransEvent.OnInitialization();
+            ThreadPool.QueueUserWorkItem(syncRoleTransEvent.Handler);
             ResourcesLoad();
         }
         //TODO 服务器心跳检测

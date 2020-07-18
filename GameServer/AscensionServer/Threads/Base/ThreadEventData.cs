@@ -24,7 +24,7 @@ namespace AscensionServer.Threads
         /// <summary>
         /// 序列化后的字典数据
         /// </summary>
-        public Dictionary<byte, object> Parameters { get; private set; }
+        public Dictionary<byte, object> Parameters { get;  set; }
         public ThreadEventData()
         {
             PeerCollection = null;

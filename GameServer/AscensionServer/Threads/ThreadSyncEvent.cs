@@ -12,5 +12,10 @@ namespace AscensionServer.Threads
     /// </summary>
     public class ThreadSyncEvent:SyncEvent
     {
+        public override void Handler(object state)
+        {
+            base.Handler(state);
+            finishedHandler?.Invoke();
+        }
     }
 }

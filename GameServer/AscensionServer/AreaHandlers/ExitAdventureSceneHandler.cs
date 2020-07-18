@@ -10,7 +10,7 @@ using AscensionServer.Threads;
 
 namespace AscensionServer
 {
-    public class ExitAdventureSceneHandler:Handler
+    public class ExitAdventureSceneHandler : Handler
     {
         public override void OnInitialization()
         {
@@ -19,7 +19,7 @@ namespace AscensionServer
         }
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            AscensionServer._Log.Info( "ExitAdventureScene  : "+ peer.ToString());
+            AscensionServer._Log.Info("ExitAdventureScene  : " + peer.ToString());
             AscensionServer.Instance.ExitAdventureScene(peer);
             //这条，获取玩家已经离开探索界面时候所有玩家的集合
             var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
@@ -30,10 +30,10 @@ namespace AscensionServer
             peer.SendOperationResponse(OpResponse, sendParameters);
 
             var roleJson = Utility.Json.ToJson(peer.PeerCache.Role);
-
+            threadEventParameter.Clear();
             //广播事件
             threadEventParameter.Add((byte)ParameterCode.Role, roleJson);
-            ExecuteThreadEvent(peerSet, EventCode.DeletePlayer, threadEventParameter);
+            QueueThreadEvent(peerSet, EventCode.DeletePlayer, threadEventParameter);
         }
     }
 }

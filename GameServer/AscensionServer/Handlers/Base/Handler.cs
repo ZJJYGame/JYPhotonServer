@@ -10,6 +10,7 @@ using System;
 using System.Reflection;
 using Cosmos;
 using AscensionServer.Threads;
+using System.Threading;
 
 namespace AscensionServer
 {
@@ -50,6 +51,7 @@ namespace AscensionServer
             subHandlerDict = new Dictionary<byte, ISubHandler>();
             AscensionServer.Instance.RegisterHandler(this);
             threadEventParameter = new Dictionary<byte, object>();
+
         }
         public virtual void OnTermination()
         {
@@ -101,20 +103,20 @@ namespace AscensionServer
         /// <param name="peerCollection"></param>
         /// <param name="eventCode"></param>
         /// <param name="parameters"></param>
-        protected void ExecuteThreadEvent(ICollection<AscensionPeer> peerCollection,EventCode eventCode,Dictionary<byte,object>parameters)
+        protected void QueueThreadEvent(ICollection<AscensionPeer> peerCollection,EventCode eventCode,Dictionary<byte,object>parameters,string message=null)
         {
             //利用池生成线程池所需要使用的对象，并为其赋值，结束时回收
-            var threadEventData = Singleton<ReferencePoolManager>.Instance.Spawn<ThreadEventData>();
+            var threadEventData =  new ThreadEventData();
             threadEventData.SetValue(peerCollection, (byte)eventCode);
             threadEventData.SetData(parameters);
-            var threadSyncEvent = Singleton<ReferencePoolManager>.Instance.Spawn<ThreadSyncEvent>();
+            var threadSyncEvent =new ThreadSyncEvent();
+            threadSyncEvent.OnInitialization();
             threadSyncEvent.SetEventData(threadEventData);
             threadSyncEvent.AddFinishedHandler(() => {
-                Singleton<ReferencePoolManager>.Instance.Despawns(threadSyncEvent, threadEventData);
-                ThreadPoolEvent.RemoveSyncEvent(threadSyncEvent);
+                AscensionServer._Log.Info(message);
+                threadSyncEvent.Clear();
             });
-            ThreadPoolEvent.AddSyncEvent(threadSyncEvent);
-            ThreadPoolEvent.ExecuteEvent();
+            ThreadPool.QueueUserWorkItem(threadSyncEvent.Handler);
         }
         void RegisterSubHandler(ISubHandler handler)
         {

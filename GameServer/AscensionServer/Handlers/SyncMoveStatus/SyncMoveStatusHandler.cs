@@ -44,8 +44,9 @@ namespace AscensionServer
             OpResponse.Parameters = ResponseData;
             peer.SendOperationResponse(OpResponse, sendParameters);
             //广播事件
+            threadEventParameter.Clear();
             threadEventParameter.Add((byte)ParameterCode.RoleMoveStatus, roleMoveStatusJson);
-            ExecuteThreadEvent(peerSet, EventCode.SyncRoleMoveStatus, threadEventParameter);
+            QueueThreadEvent(peerSet, EventCode.SyncRoleMoveStatus, threadEventParameter);
         }
     }
 }

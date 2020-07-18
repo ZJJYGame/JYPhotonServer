@@ -324,7 +324,6 @@
     <Compile Include="Threads\SyncEvent\SyncRefreshResourcesEvent.cs" />
     <Compile Include="Threads\SyncEvent\SyncRoleTransformEvent.cs" />
     <Compile Include="Threads\Base\ThreadEventData.cs" />
-    <Compile Include="Threads\Base\ThreadPoolEvent.cs" />
     <Compile Include="Threads\ThreadSyncEvent.cs" />
   </ItemGroup>
   <ItemGroup>
