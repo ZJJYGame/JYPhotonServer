@@ -75,6 +75,9 @@ namespace AscensionServer
             var syncRoleTransEvent = new SyncRoleTransformEvent();
             syncRoleTransEvent.OnInitialization();
             ThreadPool.QueueUserWorkItem(syncRoleTransEvent.Handler);
+            var syncRefreshResourcesEvent = new SyncRefreshResourcesEvent();
+            syncRefreshResourcesEvent.OnInitialization();
+            ThreadPool.QueueUserWorkItem(syncRefreshResourcesEvent.Handler);
             ResourcesLoad();
         }
         //TODO 服务器心跳检测

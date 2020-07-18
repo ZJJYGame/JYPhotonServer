@@ -11,7 +11,7 @@ using ExitGames.Concurrency.Fibers;
 using AscensionRegion;
 using AscensionData;
 using Cosmos;
-
+using System.Collections.Concurrent;
 namespace AscensionServer
 {
     public partial class AscensionServer : ApplicationBase
@@ -31,7 +31,7 @@ namespace AscensionServer
         #endregion
 
         #region Methods
-		/// <summary>
+        /// <summary>
         /// 对资源进行占用；
         /// 若资源占用成功，则将参数类对象加入被占用的缓存集合中
         /// </summary>

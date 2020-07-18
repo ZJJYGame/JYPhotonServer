@@ -17,6 +17,6 @@ namespace AscensionServer
 
         public const int SyncRoleMoveStasus = 1000;
 
-        public const int SyncResourceInterval = 60000;
+        public const int SyncResourceInterval = 300000;
     }
 }

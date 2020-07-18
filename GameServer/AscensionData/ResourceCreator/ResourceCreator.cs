@@ -33,8 +33,8 @@ namespace AscensionData
             int count = GetRandomNumber(resVariable.Count, (int)resVariable.CountOffset);
             for (int i = 0; i < count; i++)
             {
-                var randonVector = GetRandomVector(Vector2.Zero, border);
-               var randonRotate =  GetRandomVector(Vector3.Zero, new Vector3(0, 360000, 0));
+                var randonVector = GetRandomVector2(Vector2.Zero, border);
+               var randonRotate =  GetRandomVector3(Vector3.Zero, new Vector3(0, 360000, 0));
                 int FlowValue = GetRandomNumber(resVariable.FlowValue, (int)resVariable.FlowValueOffset);
                 ResourceUnitDTO resUnit = new ResourceUnitDTO()
                 { ID = i, FlowValue = FlowValue, Position = new TransformDTO() { PositionX= randonVector.X, PositionY = 0, PositionZ =  randonVector.Y, RotationX = 0, RotationY = randonRotate.Y, RotationZ = 0 } };
@@ -48,14 +48,14 @@ namespace AscensionData
         /// <param name="min">最小范围</param>
         /// <param name="max">最大范围</param>
         /// <returns></returns>
-        Vector3 GetRandomVector(Vector3 min,Vector3 max)
+        public Vector3 GetRandomVector3(Vector3 min,Vector3 max)
         {
             var x = random.Next((int)Math.Ceiling( min.X),(int)Math.Ceiling( max.X))*GetRandomSymbol();
             var y = random.Next((int)Math.Ceiling( min.Y),(int)Math.Ceiling( max.Y))*GetRandomSymbol();
             var z = random.Next((int)Math.Ceiling( min.Z),(int)Math.Ceiling( max.Z))*GetRandomSymbol();
             return new Vector3(x, y, z);
         }
-        Vector2 GetRandomVector(Vector2 min, Vector2 max)
+       public  Vector2 GetRandomVector2(Vector2 min, Vector2 max)
         {
             var x = random.Next((int)Math.Ceiling(min.X), (int)Math.Ceiling(max.X)) * GetRandomSymbol();
             var y = random.Next((int)Math.Ceiling(min.Y), (int)Math.Ceiling(max.Y)) * GetRandomSymbol();

@@ -12,6 +12,8 @@ using Photon.SocketServer;
 using EventData = Photon.SocketServer.EventData;
 using System.Threading;
 using Cosmos;
+using AscensionRegion;
+using AscensionData;
 
 namespace AscensionServer.Threads
 {
@@ -19,14 +21,20 @@ namespace AscensionServer.Threads
     {
         public override void Handler(object state)
         {
-            Thread.Sleep(AscensionConst.SyncResourceInterval);
-            AdventureRefreshResources();
+            while (true)
+            {
+                Thread.Sleep(AscensionConst.SyncResourceInterval);
+                //AscensionServer._Log.Info("刷新通知 SyncRefreshResourcesEvent");
+                //if (AscensionServer.Instance.OccupiedUnitSetCache.Count <= 0)
+                //    return;
+                AdventureRefreshResources();
+            }
         }
 
         public override void OnInitialization()
         {
             base.OnInitialization();
-            EventData.Parameters = EventDataDict;
+            EventData.Code = (byte)EventCode.RelieveOccupiedResourceUnit;
         }
 
         /// <summary>
@@ -34,23 +42,38 @@ namespace AscensionServer.Threads
         /// </summary>
         void AdventureRefreshResources()
         {
-            HashSet<OccupiedUnitDTO> occupiedUnitDTOs = new HashSet<OccupiedUnitDTO>();
-
-            occupiedUnitDTOs = AscensionServer.Instance.OccupiedUnitSetCache;
+            //AscensionServer._Log.Info("刷新通知");
+            HashSet<OccupiedUnitDTO> occupiedUnitDTOs = AscensionServer.Instance.OccupiedUnitSetCache;
             var loggedList = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
             var loggedCount = loggedList.Count;
             if (loggedCount <= 0)
                 return;
-
-            EventDataDict.Clear();
-            EventData.Code = (byte)EventCode.RelieveOccupiedResourceUnit;
-            EventDataDict.Add((byte)ParameterCode.RelieveUnit, Utility.Json.ToJson(occupiedUnitDTOs));
-            for (int i = 0; i < loggedCount; i++)
+            Vector2 border = new Vector2(54000, 39000);
+            foreach (var occupiedUnitObj in occupiedUnitDTOs)
             {
-                loggedList[i].SendEvent(EventData, SendParameter);
+                ResourceUnitSetDTO currentDictObj = null;
+                if (AscensionServer.Instance.ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID, out currentDictObj))
+                {
+
+                    ResourceUnitDTO resourceUnitDTO = null;
+                    if (currentDictObj.ResUnitDict.TryGetValue(occupiedUnitObj.ResID, out resourceUnitDTO))
+                    {
+                        resourceUnitDTO.Occupied = false;
+                        var randonVector = Singleton<ResourceCreator>.Instance.GetRandomVector2(Vector2.Zero, border);
+                        var randonRotate = Singleton<ResourceCreator>.Instance.GetRandomVector3(Vector3.Zero, new Vector3(0, 360000, 0));
+                        resourceUnitDTO.Position = new TransformDTO() { PositionX = randonVector.X, PositionY = 0, PositionZ = randonVector.Y, RotationX = 0, RotationY = randonRotate.Y, RotationZ = 0 };
+                        occupiedUnitObj.Position = resourceUnitDTO.Position;
+                    }
+                }
             }
-
+            var data = new Dictionary<byte, object>();
+            data.Add((byte)ParameterCode.RelieveUnit, Utility.Json.ToJson(occupiedUnitDTOs));
+            EventData.Parameters = data;
+            AscensionServer.Instance.OccupiedUnitSetCache.Clear();
+            foreach (var p in loggedList)
+            {
+                p.SendEvent(EventData, SendParameter);
+            }
         }
-
     }
 }
