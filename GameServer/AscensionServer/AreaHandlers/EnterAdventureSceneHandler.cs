@@ -19,11 +19,12 @@ namespace AscensionServer
             OpCode = OperationCode.EnterAdventureScene;
             base.OnInitialization();
         }
-        HashSet<Role> roleSet = new HashSet<Role>();
-        HashSet<RoleMoveStatusDTO> roleMoveStatusSet = new HashSet<RoleMoveStatusDTO>();
-        HashSet<RoleTransformQueueDTO> roleTransformQueueSet = new HashSet<RoleTransformQueueDTO>();
+
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
+            HashSet<Role> roleSet = new HashSet<Role>();
+            HashSet<RoleMoveStatusDTO> roleMoveStatusSet = new HashSet<RoleMoveStatusDTO>();
+            HashSet<RoleTransformQueueDTO> roleTransformQueueSet = new HashSet<RoleTransformQueueDTO>();
             //var roleJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
             var roleMoveStatusJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleMoveStatus));
             AscensionServer._Log.Info("EnterAdventureScene  :  " + peer.ToString());

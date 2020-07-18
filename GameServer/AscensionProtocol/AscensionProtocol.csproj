@@ -105,6 +105,7 @@
     <ProjectReference Include="..\Framework\CFramework.csproj">
       <Project>{81a14e63-385f-4b83-b403-a6b7d6fc94d8}</Project>
       <Name>CFramework</Name>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

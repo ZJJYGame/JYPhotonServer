@@ -53,10 +53,10 @@ namespace AscensionServer.Threads
             var data = new Dictionary<byte, object>();
             data.Add((byte)ParameterCode.RoleTransformQueueSet, Utility.Json.ToJson(roleTransformSet));
             EventData.Parameters = data;
-            for (int i = 0; i < loggedList.Count; i++)
-            {
-                loggedList[i].SendEvent(EventData, SendParameter);
-            }
+            //for (int i = 0; i < loggedList.Count; i++)
+            //{
+            //    loggedList[i].SendEvent(EventData, SendParameter);
+            //}
             foreach (var p in loggedList)
             {
                 p.SendEvent(EventData, SendParameter);
