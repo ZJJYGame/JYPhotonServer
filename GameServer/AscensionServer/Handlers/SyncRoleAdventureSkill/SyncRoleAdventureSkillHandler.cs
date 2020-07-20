@@ -23,7 +23,7 @@ namespace AscensionServer
             ResponseData.Clear();
             var roleAdventureSkillJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleAdventureSkill));
             peer.PeerCache.RoleAdventureSkill = Utility.Json.ToObject<RoleAdventureSkillDTO>(roleAdventureSkillJson);
-
+            AscensionServer._Log.Info("历练技能使用成功");
             roleSet.Clear();
             var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
             int peerSetLength = peerSet.Count;
@@ -44,20 +44,60 @@ namespace AscensionServer
 
         }
 
-        async void MethodAsync()
+        //async void MethodAsync(RoleAdventureSkillDTO roleAdventureSkillDTO,int cd,int buffe)
+        //{
+        //    switch (roleAdventureSkillDTO.featureSkillTypeEnum)
+        //    {
+        //        case RoleAdventureSkillDTO.FeatureSkillTypeEnum.Zero:
+        //            break;
+        //        case RoleAdventureSkillDTO.FeatureSkillTypeEnum.Tp:
+        //            break;
+        //        case RoleAdventureSkillDTO.FeatureSkillTypeEnum.SpeetMove:
+        //            await CDIntervalMethod(cd);
+        //            await BuffeIntervalxMethod(buffe);
+        //            break;
+        //        case RoleAdventureSkillDTO.FeatureSkillTypeEnum.Stealth:
+        //            break;
+        //        case RoleAdventureSkillDTO.FeatureSkillTypeEnum.Visible:
+        //            break;
+        //        case RoleAdventureSkillDTO.FeatureSkillTypeEnum.Eradicate:
+        //            break;
+        //        case RoleAdventureSkillDTO.FeatureSkillTypeEnum.FlashBeforeOne:
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
+        void funtion(RoleAdventureSkillDTO roleAdventureSkillDTO)
         {
-
-
+            switch (roleAdventureSkillDTO.featureSkillTypeEnum)
+            {
+                case RoleAdventureSkillDTO.FeatureSkillTypeEnum.Zero:
+                    break;
+                case RoleAdventureSkillDTO.FeatureSkillTypeEnum.Tp:
+                    break;
+                case RoleAdventureSkillDTO.FeatureSkillTypeEnum.SpeetMove:
+                    break;
+                case RoleAdventureSkillDTO.FeatureSkillTypeEnum.Stealth:
+                    break;
+                case RoleAdventureSkillDTO.FeatureSkillTypeEnum.Visible:
+                    break;
+                case RoleAdventureSkillDTO.FeatureSkillTypeEnum.Eradicate:
+                    break;
+                case RoleAdventureSkillDTO.FeatureSkillTypeEnum.FlashBeforeOne:
+                    break;
+                default:
+                    break;
+            }
         }
+
+
 
         Task CDIntervalMethod(int cd)
         {
             return Task.Run(() =>
             {
-              
-                Thread.Sleep(5000);
-
-
+                Thread.Sleep(cd*1000);
             });
         }
 
@@ -65,10 +105,7 @@ namespace AscensionServer
         {
             return Task.Run(() =>
             {
-
                 Thread.Sleep(5000);
-
-
             });
         }
     }
