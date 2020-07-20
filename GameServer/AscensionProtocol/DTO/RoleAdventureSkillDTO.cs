@@ -11,11 +11,15 @@ namespace AscensionProtocol.DTO
         public int RoleID { get; set; }
         public bool IsInUse { get; set; }
         public int SkillID  { get; set; }
+        public int CDInterval { get; set; }
+        public int BuffeInterval { get; set; }
         public override void Clear()
         {
             RoleID = -1;
             IsInUse = false;
             SkillID = 0;
+            CDInterval = 0;
+            BuffeInterval = 0;
         }
     }
 }

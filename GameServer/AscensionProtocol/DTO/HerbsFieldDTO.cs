@@ -27,7 +27,7 @@ namespace AscensionProtocol.DTO
         public virtual bool IsPick { get; set; }
         public virtual int HerbsID { get; set; }
         public virtual int HerbsYear { get; set; }//生长年份
-        public virtual int FieldLecel { get; set; }
+        public virtual int FieldLevel { get; set; }
         public virtual string RemainingTime { get; set; }//记录灵草成熟剩余时间
     }
 

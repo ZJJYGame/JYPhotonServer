@@ -13,5 +13,8 @@
         OccupiedResourceUnit = 5,
         SyncMonsterTransform = 6,
         RelieveOccupiedResourceUnit=7,
+
+        //历练界面节能同步
+        RoleAdventureSkill=8,
     }
 }
