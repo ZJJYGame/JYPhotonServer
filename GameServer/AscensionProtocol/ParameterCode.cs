@@ -100,6 +100,11 @@
         /// 派发刷新资源
         /// </summary>
         RelieveUnit=66,
-        RoleAdventureSkill = 67,
+        /// <summary>
+        /// 历练技能cd
+        /// </summary>
+        RoleAdventureStartSkill = 67,
+        RoleAdventureEndSkill = 68,
+        RoleAdventureSkillCD = 69,
     }
 }
