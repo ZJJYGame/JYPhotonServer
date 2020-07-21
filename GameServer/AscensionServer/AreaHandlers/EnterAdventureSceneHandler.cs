@@ -34,6 +34,7 @@ namespace AscensionServer
             AscensionServer.Instance.EnterAdventureScene(peer);
 
             peer.PeerCache.RoleMoveStatus = Utility.Json.ToObject<RoleMoveStatusDTO>(roleMoveStatusJson);
+            peer.PeerCache.RoleMoveStatus.RoleID = peer.PeerCache.RoleID;
             int peerSetLength = peerSet.Count;
              roleSet.Clear();
             roleMoveStatusSet.Clear();

@@ -30,9 +30,11 @@ namespace AscensionServer
             peer.SendOperationResponse(OpResponse, sendParameters);
 
             var roleJson = Utility.Json.ToJson(peer.PeerCache.Role);
+            var roleMoveStatusJson = Utility.Json.ToJson(peer.PeerCache.RoleMoveStatus);
             threadEventParameter.Clear();
             //广播事件
             threadEventParameter.Add((byte)ParameterCode.Role, roleJson);
+            threadEventParameter.Add((byte)ParameterCode.RoleMoveStatus, roleMoveStatusJson);
             QueueThreadEvent(peerSet, EventCode.DeletePlayer, threadEventParameter);
         }
     }

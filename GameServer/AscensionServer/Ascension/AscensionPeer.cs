@@ -42,6 +42,8 @@ namespace AscensionServer
             EventData ed = new EventData((byte)EventCode.DeletePlayer);
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             data.Add((byte)ParameterCode.Role,Utility.Json.ToJson(peerCache.Role));
+            data.Add((byte)ParameterCode.RoleMoveStatus,  Utility.Json.ToJson(peerCache.RoleMoveStatus));
+
             ed.Parameters = data;
             if (peerCache.IsLogged)
             {
