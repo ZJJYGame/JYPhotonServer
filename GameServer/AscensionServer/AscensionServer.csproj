@@ -321,6 +321,7 @@
     <Compile Include="Threads\Base\ISyncEvent.cs" />
     <Compile Include="Threads\Base\IThreadEventData.cs" />
     <Compile Include="Threads\Base\SyncEvent.cs" />
+    <Compile Include="Threads\SyncEvent\SyncAdventureSkillEvent.cs" />
     <Compile Include="Threads\SyncEvent\SyncRefreshResourcesEvent.cs" />
     <Compile Include="Threads\SyncEvent\SyncRoleTransformEvent.cs" />
     <Compile Include="Threads\Base\ThreadEventData.cs" />

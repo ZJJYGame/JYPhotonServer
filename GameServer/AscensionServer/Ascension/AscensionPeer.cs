@@ -28,6 +28,10 @@ namespace AscensionServer
         /// 是否已经发送位置信息
         /// </summary>
         public bool IsSendedTransform { get; set; }
+        /// <summary>
+        /// 是否已经发送位置信息
+        /// </summary>
+        public bool IsUseSkill { get; set; }
         #endregion
 
         #region Methods

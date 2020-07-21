@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Cosmos;
 using AscensionProtocol.DTO;
 using AscensionServer.Threads;
+using EventData = Photon.SocketServer.EventData;
 using System.Collections;
 using System.Threading.Tasks;
 using System.Threading;
@@ -23,6 +24,7 @@ namespace AscensionServer
             ResponseData.Clear();
             var roleAdventureSkillJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleAdventureStartSkill));
             peer.PeerCache.RoleAdventureSkill = Utility.Json.ToObject<RoleAdventureSkillDTO>(roleAdventureSkillJson);
+            peer.IsUseSkill = false;
             AscensionServer._Log.Info("历练技能使用成功");
             roleSet.Clear();
             var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
@@ -42,49 +44,50 @@ namespace AscensionServer
             threadEventParameter.Add((byte)ParameterCode.RoleAdventureStartSkill, roleAdventureSkillJson);
             QueueThreadEvent(peerSet, EventCode.RoleAdventureStartSkill, threadEventParameter);
 
+            SkillBuffEnd(peer.PeerCache.RoleAdventureSkill.BuffeInterval, peer);
+            CDIntervalMethod(peer.PeerCache.RoleAdventureSkill.BuffeInterval, peer);
         }
 
         #region 删除
-        //    void funtion(RoleAdventureSkillDTO roleAdventureSkillDTO)
-        //    {
-        //        switch (roleAdventureSkillDTO.featureSkillTypeEnum)
-        //        {
-        //            case RoleAdventureSkillDTO.FeatureSkillTypeEnum.Zero:
-        //                break;
-        //            case RoleAdventureSkillDTO.FeatureSkillTypeEnum.Tp:
-        //                break;
-        //            case RoleAdventureSkillDTO.FeatureSkillTypeEnum.SpeetMove:
-        //                break;
-        //            case RoleAdventureSkillDTO.FeatureSkillTypeEnum.Stealth:
-        //                break;
-        //            case RoleAdventureSkillDTO.FeatureSkillTypeEnum.Visible:
-        //                break;
-        //            case RoleAdventureSkillDTO.FeatureSkillTypeEnum.Eradicate:
-        //                break;
-        //            case RoleAdventureSkillDTO.FeatureSkillTypeEnum.FlashBeforeOne:
-        //                break;
-        //            default:
-        //                break;
-        //        }
-        //    }
+        async void SkillCDEnd(int cd, AscensionPeer peer)
+        {
+            await CDIntervalMethod(cd, peer);
+        }
+        async void SkillBuffEnd(int cd, AscensionPeer peer)
+        {
+            await BuffIntervalMethod(cd, peer);
+        }
 
 
+        Task BuffIntervalMethod(int cd, AscensionPeer peer)
+        {
+            return Task.Run(() =>
+            {
+                //AscensionServer._Log.Info("进入技能buff线程》》》》》》》》》》》》》》》》》》》》"+ peer.PeerCache.RoleAdventureSkill.IsInUse);
+                Thread.Sleep(cd * 1000);
+                //AscensionServer._Log.Info("技能buff线程已经开始》》》》》》》》》》》》》》》》》》》》");
+                peer.PeerCache.RoleAdventureSkill.IsInUse =false ;
+                var syncAdventureSkillEvent = new SyncAdventureSkillEvent();
+                syncAdventureSkillEvent.OnInitialization();
+                ThreadPool.QueueUserWorkItem(syncAdventureSkillEvent.Handler);
+            });
+        }
+        Task CDIntervalMethod(int cd, AscensionPeer peer)
+        {
+            return Task.Run(() =>
+            {
+                AscensionServer._Log.Info("技能cd线程已经开始》》》》》》》》》》》》》》》》》》》》");
+                Thread.Sleep(cd * 1000);
+                AscensionServer._Log.Info("进入技能buff线程》》》》》》》》》》》》》》》》》》》》");
+                var data = new Dictionary<byte, object>();
+                data.Add((byte)ParameterCode.RoleAdventureSkillCD, Utility.Json.ToJson(false));
+                EventData eventData = new EventData();
+                eventData.Code= (byte)EventCode.RoleAdventureSkillCD;
+                eventData.Parameters = data;
+                peer.SendEvent(eventData, new SendParameters());
+            });
 
-        //    Task CDIntervalMethod(int cd)
-        //    {
-        //        return Task.Run(() =>
-        //        {
-        //            Thread.Sleep(cd*1000);
-        //        });
-        //    }
-
-        //    Task BuffeIntervalxMethod(int cd)
-        //    {
-        //        return Task.Run(() =>
-        //        {
-        //            Thread.Sleep(5000);
-        //        });
-        //    }
+            }
         #endregion
     }
     }

@@ -21,7 +21,7 @@ namespace AscensionServer
             OpCode = OperationCode.SyncMoveStatus;
             base.OnInitialization();
         }
-        //获取客户端玩家移动状态请求的处理的代码
+        //获取历练技能cd请求的处理的代码
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             ResponseData.Clear();
@@ -48,5 +48,6 @@ namespace AscensionServer
             threadEventParameter.Add((byte)ParameterCode.RoleMoveStatus, roleMoveStatusJson);
             QueueThreadEvent(peerSet, EventCode.SyncRoleMoveStatus, threadEventParameter);
         }
+
     }
 }
