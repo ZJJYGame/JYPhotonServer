@@ -34,7 +34,7 @@ namespace AscensionServer
                 roleSet.Add(peerSet[i].PeerCache.RoleAdventureSkill);
             }
             var roleSetJson = Utility.Json.ToJson(roleSet);
-            ResponseData.Add((byte)ParameterCode.RoleAdventureStartSkill, roleSetJson);
+            ResponseData.Add((byte)ParameterCode.RoleAdventureStartSkill, roleAdventureSkillJson);
             OpResponse.OperationCode = operationRequest.OperationCode;
             OpResponse.ReturnCode = (short)ReturnCode.Success;
             OpResponse.Parameters = ResponseData;
@@ -45,13 +45,13 @@ namespace AscensionServer
             QueueThreadEvent(peerSet, EventCode.RoleAdventureStartSkill, threadEventParameter);
 
             SkillBuffEnd(peer.PeerCache.RoleAdventureSkill.BuffeInterval, peer);
-            CDIntervalMethod(peer.PeerCache.RoleAdventureSkill.BuffeInterval, peer);
+            CDIntervalMethod(peer.PeerCache.RoleAdventureSkill.CDInterval, peer, peer.PeerCache.RoleAdventureSkill.SkillID);
         }
 
         #region 删除
-        async void SkillCDEnd(int cd, AscensionPeer peer)
+        async void SkillCDEnd(int cd, AscensionPeer peer, int skillid)
         {
-            await CDIntervalMethod(cd, peer);
+            await CDIntervalMethod(cd, peer, skillid);
         }
         async void SkillBuffEnd(int cd, AscensionPeer peer)
         {
@@ -72,7 +72,7 @@ namespace AscensionServer
                 ThreadPool.QueueUserWorkItem(syncAdventureSkillEvent.Handler);
             });
         }
-        Task CDIntervalMethod(int cd, AscensionPeer peer)
+        Task CDIntervalMethod(int cd, AscensionPeer peer,int skillid)
         {
             return Task.Run(() =>
             {
@@ -80,7 +80,7 @@ namespace AscensionServer
                 Thread.Sleep(cd * 1000);
                 AscensionServer._Log.Info("进入技能buff线程》》》》》》》》》》》》》》》》》》》》");
                 var data = new Dictionary<byte, object>();
-                data.Add((byte)ParameterCode.RoleAdventureSkillCD, Utility.Json.ToJson(false));
+                data.Add((byte)ParameterCode.RoleAdventureSkillCD, Utility.Json.ToJson(skillid));
                 EventData eventData = new EventData();
                 eventData.Code= (byte)EventCode.RoleAdventureSkillCD;
                 eventData.Parameters = data;
