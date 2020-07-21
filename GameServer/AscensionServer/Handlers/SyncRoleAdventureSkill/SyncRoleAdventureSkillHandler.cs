@@ -40,7 +40,7 @@ namespace AscensionServer
             //广播事件
             threadEventParameter.Clear();
             threadEventParameter.Add((byte)ParameterCode.RoleAdventureStartSkill, roleAdventureSkillJson);
-            QueueThreadEvent(peerSet, EventCode.RoleAdventureSkill, threadEventParameter);
+            QueueThreadEvent(peerSet, EventCode.RoleAdventureStartSkill, threadEventParameter);
 
         }
 

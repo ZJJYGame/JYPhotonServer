@@ -15,6 +15,8 @@
         RelieveOccupiedResourceUnit=7,
 
         //历练界面节能同步
-        RoleAdventureSkill=8,
+        RoleAdventureStartSkill=8,
+        RoleAdventureEndtSkill = 9,
+        RoleAdventureSkillCD = 10,
     }
 }
