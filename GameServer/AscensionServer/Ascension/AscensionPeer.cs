@@ -54,6 +54,7 @@ namespace AscensionServer
                 tmpPeer.SendEvent(ed, sendParameter);                      
             }
             Logoff();
+            AscensionServer.Instance.ConnectedPeerHashSet.Remove(this);
             AscensionServer. _Log.Info("***********************  Client Disconnect    ***********************");
         }
         //处理客户端的请求

@@ -68,8 +68,6 @@ namespace AscensionServer
                 XmlConfigurator.ConfigureAndWatch(configFileInfo);//让log4net读取配置文件
                 _Log.Info("进行初始化");
             }
-            _Fiber = new PoolFiber();
-            _Fiber.Start();
             InitHandler();
             Utility.Json.SetJsonWarpper(new NewtonjsonWrapper());
             var syncRoleTransEvent = new SyncRoleTransformEvent();

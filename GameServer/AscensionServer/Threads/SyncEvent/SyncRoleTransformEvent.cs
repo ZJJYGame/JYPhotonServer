@@ -21,7 +21,7 @@ namespace AscensionServer.Threads
             while (true)
             {
                 Thread.Sleep(AscensionConst.SyncLoggedRolesPositionInterval);
-                BroadcastLoggedRolesPosition();
+                BroadcastTransform();
             }
         }
         public override void OnInitialization()
@@ -33,8 +33,9 @@ namespace AscensionServer.Threads
         /// <summary>
         /// TODO 当前未使用瓦片算法进行分区域消息广播
         /// </summary>
-        void BroadcastLoggedRolesPosition()
+        void BroadcastTransform()
         {
+            //AscensionServer._Log.Info("BroadcastLoggedRolesPosition 同步位置");
             HashSet<RoleTransformQueueDTO> roleTransformSet = new HashSet<RoleTransformQueueDTO>();
             var loggedList = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
             var loggedCount = loggedList.Count;
