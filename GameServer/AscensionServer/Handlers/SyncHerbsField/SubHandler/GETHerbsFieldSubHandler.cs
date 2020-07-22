@@ -22,8 +22,28 @@ namespace AscensionServer.Handlers
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
-            string treasureatticJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.TreasureAttic));
-            var hfObj = Utility.Json.ToObject<HerbsField>(treasureatticJson);
+            string herbsfieldJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobHerbsField));
+            var hfObj = Utility.Json.ToObject<HerbsField>(herbsfieldJson);
+
+            NHCriteria nHCriteriahf = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", hfObj.RoleID);
+            AscensionServer._Log.Info("接收到的霛田信息"+ herbsfieldJson);
+            var hfTemp = Singleton<NHManager>.Instance.CriteriaSelect<HerbsField>(nHCriteriahf);
+            if (hfTemp!=null)
+            {
+                SetResponseData(() =>
+                {
+                    AscensionServer._Log.Info("發送的霛田信息" + herbsfieldJson);
+                    HerbsFieldDTO herbsFieldDTO = new HerbsFieldDTO() { RoleID= hfTemp .RoleID,jobLevel= hfTemp .jobLevel};
+                    herbsFieldDTO.AllHerbs = Utility.Json.ToObject<List<HerbFieldStatus>>(hfTemp.AllHerbs);
+                    SubDict.Add((byte)ParameterCode.JobHerbsField, Utility.Json.ToJson(herbsFieldDTO));
+                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                });
+            }
+            else
+                Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
+            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriahf);
+
         }
     }
 }

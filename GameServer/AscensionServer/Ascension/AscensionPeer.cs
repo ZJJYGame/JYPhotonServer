@@ -28,6 +28,10 @@ namespace AscensionServer
         /// 是否已经发送位置信息
         /// </summary>
         public bool IsSendedTransform { get; set; }
+        /// <summary>
+        /// 是否已经发送位置信息
+        /// </summary>
+        public bool IsUseSkill { get; set; }
         #endregion
 
         #region Methods
@@ -38,6 +42,8 @@ namespace AscensionServer
             EventData ed = new EventData((byte)EventCode.DeletePlayer);
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             data.Add((byte)ParameterCode.Role,Utility.Json.ToJson(peerCache.Role));
+            data.Add((byte)ParameterCode.RoleMoveStatus,  Utility.Json.ToJson(peerCache.RoleMoveStatus));
+
             ed.Parameters = data;
             if (peerCache.IsLogged)
             {
