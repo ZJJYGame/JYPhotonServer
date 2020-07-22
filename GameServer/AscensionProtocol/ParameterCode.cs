@@ -83,6 +83,7 @@
         /// 副职业占用码
         /// </summary>
         JobAlchemy = 56,
+        JobForge=57,
         JobHerbsField = 62,
         /// <summary>
         /// 位置信息的集合队列

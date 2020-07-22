@@ -31,6 +31,26 @@ namespace AscensionServer.Model
             RoleCritResistance = 0;
             RoleDormant = 10;
         }
+        /// <summary>
+        /// 角色id
+        /// 角色最大血量
+        /// 角色血量
+        /// 角色最大灵力
+        /// 角色灵力
+        /// 角色精血
+        /// 角色物理伤害
+        /// 角色物理防御
+        /// 角色攻击力
+        /// 角色防御力
+        /// 角色攻击速度
+        /// 角色神魂
+        /// 角色最大神魂
+        /// 角色神魂攻击
+        /// 角色神魂防御
+        /// 角色暴击
+        /// 角色暴击防御
+        /// 角色隐匿值
+        /// </summary>
         public virtual int RoleID { get; set; }
         public virtual int RoleMaxHP { get; set; }
         public virtual int RoleHP { get; set; }

@@ -54,6 +54,7 @@
     <Compile Include="DTO\Base\DataTransferObject.cs" />
     <Compile Include="DTO\BottleneckDTO.cs" />
     <Compile Include="DTO\CultivationMethodDTO.cs" />
+    <Compile Include="DTO\FrogeDTO.cs" />
     <Compile Include="DTO\HerbsFieldDTO.cs" />
     <Compile Include="DTO\Monster\MonsterTransformDTO.cs" />
     <Compile Include="DTO\Monster\MonsterTransformQueueDTO.cs" />
