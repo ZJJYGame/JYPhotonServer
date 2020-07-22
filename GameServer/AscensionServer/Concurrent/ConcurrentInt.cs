@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace AscensionServer
 {
@@ -12,7 +13,6 @@ namespace AscensionServer
     public  class ConcurrentInt
     {
         private int roomId;
-
         public ConcurrentInt(int roomId)
         {
             this.roomId = roomId;
