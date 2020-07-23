@@ -22,12 +22,12 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string roleMSJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.MiShu));
             var roleMiShuObj = Utility.Json.ToObject<RoleMiShu>(roleMSJson);
-            NHCriteria nHCriteriamishu = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleMiShuObj.RoleID);
-            RoleMiShu roleMiShu = Singleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriamishu);
+            NHCriteria nHCriteriamishu = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleMiShuObj.RoleID);
+            RoleMiShu roleMiShu = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriamishu);
             AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收到获取秘术的数组" + roleMiShu.MiShuIDArray);
             if ( !string.IsNullOrEmpty(roleMiShu.MiShuIDArray))
             {
-                var rMiShuObj = Singleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriamishu);
+                var rMiShuObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriamishu);
                 string rolemishuJson = rMiShuObj.MiShuIDArray;
                 Dictionary<int, int> roleIDict;
                 List<MiShu> miShuIdList = new List<MiShu>();
@@ -38,8 +38,8 @@ namespace AscensionServer
                     roleIDict = Utility.Json.ToObject<Dictionary<int, int>>(rolemishuJson);
                     foreach (var roleid in roleIDict)
                     {
-                        NHCriteria tmpcriteria = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", roleid.Key);
-                        MiShu miShu = Singleton<NHManager>.Instance.CriteriaSelect<MiShu>(tmpcriteria);
+                        NHCriteria tmpcriteria = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", roleid.Key);
+                        MiShu miShu = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<MiShu>(tmpcriteria);
                         miShuIdList.Add(miShu);
                         nHCriteriaslist.Add(tmpcriteria);
                     }
@@ -49,7 +49,7 @@ namespace AscensionServer
                     SubDict.Add((byte)ParameterCode.MiShu, Utility.Json.ToJson(miShuIdList));
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
-                Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaslist);
+                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaslist);
             }
             else
             {
@@ -62,7 +62,7 @@ namespace AscensionServer
             }
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriamishu);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriamishu);
         }
     }
 }

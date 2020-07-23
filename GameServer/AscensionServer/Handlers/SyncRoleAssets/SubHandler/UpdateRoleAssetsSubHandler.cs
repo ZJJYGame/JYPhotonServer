@@ -22,16 +22,16 @@ namespace AscensionServer
             string roleAssetsJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleAssets));
             AscensionServer._Log.Info(">>>>>>>>>>>>>更新财产相关信息：" + roleAssetsJson + ">>>>>>>>>>>>>>>>>>>>>>");
             var roleAssetsObj = Utility.Json.ToObject<RoleAssets>(roleAssetsJson);
-            NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleAssetsObj.RoleID);
-            bool roleExist = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID);
-            bool roleAssetsExist = Singleton<NHManager>.Instance.Verify<RoleAssets>(nHCriteriaRoleID);
+            NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleAssetsObj.RoleID);
+            bool roleExist = ConcurrentSingleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID);
+            bool roleAssetsExist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleAssets>(nHCriteriaRoleID);
             long SpiritStonesLow = 0;
             long SpiritStonesHigh = 0;
             long SpiritStonesMedium = 0;
             long XianYu = 0;
             if (roleExist && roleAssetsExist)
             {
-                var assetsServer = Singleton<NHManager>.Instance.CriteriaSelect<RoleAssets>(nHCriteriaRoleID);
+                var assetsServer = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAssets>(nHCriteriaRoleID);
                 SpiritStonesLow = assetsServer.SpiritStonesLow;
                 if (roleAssetsObj.SpiritStonesLow > 0)
                     SpiritStonesLow = roleAssetsObj.SpiritStonesLow + assetsServer.SpiritStonesLow;
@@ -44,13 +44,13 @@ namespace AscensionServer
                 XianYu = roleAssetsObj.XianYu + assetsServer.XianYu;
                 if (roleAssetsObj.XianYu > 0)
                     XianYu = roleAssetsObj.XianYu + assetsServer.XianYu;
-                Singleton<NHManager>.Instance.Update<RoleAssets>(new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesHigh = SpiritStonesHigh, SpiritStonesLow = SpiritStonesLow, SpiritStonesMedium = SpiritStonesMedium, XianYu = XianYu });
+                ConcurrentSingleton<NHManager>.Instance.Update<RoleAssets>(new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesHigh = SpiritStonesHigh, SpiritStonesLow = SpiritStonesLow, SpiritStonesMedium = SpiritStonesMedium, XianYu = XianYu });
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
             }
             else
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
         }
     }
 }

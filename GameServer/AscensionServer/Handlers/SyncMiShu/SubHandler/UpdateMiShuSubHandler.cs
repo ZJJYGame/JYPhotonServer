@@ -25,18 +25,18 @@ namespace AscensionServer
             AscensionServer._Log.Info(">>>>>>>>>>>>接收秘术数据：" + receivedData + ">>>>>>>>>>>>>>>>>>>>>>");
             var receivedRoleObj = Utility.Json.ToObject<RoleMiShu>(receivedRoleData);
             var receivedObj = Utility.Json.ToObject<MiShu>(receivedData);
-            NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
-            bool exist = Singleton<NHManager>.Instance.Verify<RoleMiShu>(nHCriteriaRoleID);
+            NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
+            bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleMiShu>(nHCriteriaRoleID);
             int intInfoObj = 0;
             int intLevel = 0;
             if (exist)
             {
-                RoleMiShu MishuInfo = Singleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriaRoleID);
-                NHCriteria nHCriteriaMiShuID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", receivedObj.ID);
-                bool existMiShu = Singleton<NHManager>.Instance.Verify<MiShu>(nHCriteriaMiShuID);
+                RoleMiShu MishuInfo = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriaRoleID);
+                NHCriteria nHCriteriaMiShuID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", receivedObj.ID);
+                bool existMiShu = ConcurrentSingleton<NHManager>.Instance.Verify<MiShu>(nHCriteriaMiShuID);
                 if (existMiShu)
                 {
-                    MiShu MishuInfoExp = Singleton<NHManager>.Instance.CriteriaSelect<MiShu>(nHCriteriaMiShuID);
+                    MiShu MishuInfoExp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<MiShu>(nHCriteriaMiShuID);
                     foreach (var item in Utility.Json.ToObject<Dictionary<int,int>>(MishuInfo.MiShuIDArray))
                     {
                         if (item.Key == receivedObj.ID)
@@ -46,12 +46,12 @@ namespace AscensionServer
                                 MishuInfoExp.MiShuExp = 0;
                                 intInfoObj = MishuInfoExp.MiShuExp + receivedObj.MiShuExp;
                                 intLevel = MishuInfoExp.MiShuLevel + receivedObj.MiShuLevel;
-                                Singleton<NHManager>.Instance.Update(new MiShu() { ID = MishuInfoExp.ID, MiShuID = MishuInfoExp.MiShuID, MiShuLevel = (short)intLevel, MiShuSkillArry = MishuInfoExp.MiShuSkillArry, MiShuExp = intInfoObj });
+                                ConcurrentSingleton<NHManager>.Instance.Update(new MiShu() { ID = MishuInfoExp.ID, MiShuID = MishuInfoExp.MiShuID, MiShuLevel = (short)intLevel, MiShuSkillArry = MishuInfoExp.MiShuSkillArry, MiShuExp = intInfoObj });
                             }
                             else
                             {
                                 intInfoObj = MishuInfoExp.MiShuExp + receivedObj.MiShuExp;
-                                Singleton<NHManager>.Instance.Update(new MiShu() { ID = MishuInfoExp.ID, MiShuID = MishuInfoExp.MiShuID, MiShuLevel = MishuInfoExp.MiShuLevel, MiShuSkillArry = MishuInfoExp.MiShuSkillArry, MiShuExp = intInfoObj });
+                                ConcurrentSingleton<NHManager>.Instance.Update(new MiShu() { ID = MishuInfoExp.ID, MiShuID = MishuInfoExp.MiShuID, MiShuLevel = MishuInfoExp.MiShuLevel, MiShuSkillArry = MishuInfoExp.MiShuSkillArry, MiShuExp = intInfoObj });
 
                             }
                         }
@@ -66,7 +66,7 @@ namespace AscensionServer
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleID);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleID);
         }
     }
 }

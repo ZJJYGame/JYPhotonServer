@@ -26,11 +26,11 @@ namespace AscensionServer
 
             var treasureatticObj = Utility.Json.ToObject<TreasureatticDTO>(treasureatticJson);
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
-            NHCriteria nHCriteriaTreasureattic = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", treasureatticObj.ID);
-            NHCriteria nHCriteriaschool = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
-            var treasureatticTemp = Singleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
-            var schoolTemp = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaschool);
-            var exit = Singleton<NHManager>.Instance.Verify<Treasureattic>(nHCriteriaTreasureattic);
+            NHCriteria nHCriteriaTreasureattic = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", treasureatticObj.ID);
+            NHCriteria nHCriteriaschool = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
+            var treasureatticTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
+            var schoolTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaschool);
+            var exit = ConcurrentSingleton<NHManager>.Instance.Verify<Treasureattic>(nHCriteriaTreasureattic);
             int contribution = 0;
 
             Dictionary<int, int> itemDict = new Dictionary<int, int>();
@@ -40,7 +40,7 @@ namespace AscensionServer
                 if (schoolTemp.ContributionNow > schoolObj.ContributionNow)
                 {
                     contribution = schoolTemp.ContributionNow - schoolObj.ContributionNow;
-                    Singleton<NHManager>.Instance.Update<School>(new School() { ID = schoolTemp.ID, SchoolID = schoolTemp.SchoolID, SchoolJob = schoolTemp.SchoolJob, TreasureAtticID = schoolTemp.TreasureAtticID, SutrasAtticID= schoolTemp.SutrasAtticID, ContributionNow = contribution });
+                    ConcurrentSingleton<NHManager>.Instance.Update<School>(new School() { ID = schoolTemp.ID, SchoolID = schoolTemp.SchoolID, SchoolJob = schoolTemp.SchoolJob, TreasureAtticID = schoolTemp.TreasureAtticID, SutrasAtticID= schoolTemp.SutrasAtticID, ContributionNow = contribution });
                     if (exit)
                     {
                         if (!string.IsNullOrEmpty(treasureatticTemp.ItemRedeemedDict))
@@ -60,10 +60,10 @@ namespace AscensionServer
                         }
                         else
                             itemDict = treasureatticObj.ItemRedeemedDict;
-                        Singleton<NHManager>.Instance.Update<Treasureattic>(new Treasureattic() { ID = treasureatticTemp.ID, ItemAmountDict = treasureatticTemp.ItemAmountDict, ItemRedeemedDict = Utility.Json.ToJson(itemDict) });
+                        ConcurrentSingleton<NHManager>.Instance.Update<Treasureattic>(new Treasureattic() { ID = treasureatticTemp.ID, ItemAmountDict = treasureatticTemp.ItemAmountDict, ItemRedeemedDict = Utility.Json.ToJson(itemDict) });
                     }
-                    var taSendObj = Singleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
-                    var sSendObj = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaschool);
+                    var taSendObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
+                    var sSendObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaschool);
                     DOdict.Add("Treasureattic", Utility.Json.ToJson(new TreasureatticDTO() { ID = taSendObj.ID, ItemRedeemedDict = Utility.Json.ToObject<Dictionary<int, int>>(taSendObj.ItemRedeemedDict) }));
                     DOdict.Add("School", Utility.Json.ToJson(sSendObj));
                     SetResponseData(() =>
@@ -91,7 +91,7 @@ namespace AscensionServer
             }
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaTreasureattic, nHCriteriaschool);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaTreasureattic, nHCriteriaschool);
         }
 
     }

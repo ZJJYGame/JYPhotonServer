@@ -22,8 +22,8 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string alchemyJson = Convert.ToString(Utility.GetValue(dict,(byte)ParameterCode.JobAlchemy));
             var alchemyObj = Utility.Json.ToObject<Alchemy>(alchemyJson);
-            NHCriteria nHCriteriaalchemy = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", alchemyObj.RoleID);
-            var alchemytemp = Singleton<NHManager>.Instance.CriteriaSelect<Alchemy>(nHCriteriaalchemy);
+            NHCriteria nHCriteriaalchemy = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", alchemyObj.RoleID);
+            var alchemytemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Alchemy>(nHCriteriaalchemy);
             if (alchemytemp!=null)
             {
                 if (!string.IsNullOrEmpty(alchemytemp.Recipe_Array))
@@ -41,7 +41,7 @@ namespace AscensionServer
                 SubDict.Add((byte)ParameterCode.JobAlchemy, Utility.Json.ToJson(new List<string>()));
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaalchemy);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaalchemy);
         }
 
        

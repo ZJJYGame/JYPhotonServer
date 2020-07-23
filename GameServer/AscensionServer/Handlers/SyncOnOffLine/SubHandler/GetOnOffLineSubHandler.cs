@@ -29,17 +29,17 @@ namespace AscensionServer
             string subDataJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.OnOffLine));
             var onofflinetemp = Utility.Json.ToObject<OnOffLine>(subDataJson);
             Bottleneck bottleneck = new Bottleneck() {RoleID= onofflinetemp.RoleID };
-            NHCriteria nHCriteriabottleneck = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", bottleneck.RoleID);
-            NHCriteria nHCriteriaRole = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
-            var bottleneckObj= Singleton<NHManager>.Instance.CriteriaSelect<Bottleneck>(nHCriteriabottleneck);
+            NHCriteria nHCriteriabottleneck = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", bottleneck.RoleID);
+            NHCriteria nHCriteriaRole = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
+            var bottleneckObj= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Bottleneck>(nHCriteriabottleneck);
             ///获取的时间秒
             OffLineTimeDTO offLineTime = new OffLineTimeDTO() { RoleID = onofflinetemp.RoleID };
-            var obj = Singleton<NHManager>.Instance.CriteriaSelect<OffLineTime>(nHCriteriaRole);
+            var obj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<OffLineTime>(nHCriteriaRole);
             TimeSpan interval = (DateTime.Now).Subtract(Convert.ToDateTime(obj.OffTime));
 
             if (obj != null)
             {
-                var Exptypeobj = Singleton<NHManager>.Instance.CriteriaSelect<OnOffLine>(nHCriteriaRole);
+                var Exptypeobj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<OnOffLine>(nHCriteriaRole);
                 if (Exptypeobj.ExpType==1)
 
                 {
@@ -97,7 +97,7 @@ namespace AscensionServer
                 });
                 }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRole);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRole);
         }
     }
     }

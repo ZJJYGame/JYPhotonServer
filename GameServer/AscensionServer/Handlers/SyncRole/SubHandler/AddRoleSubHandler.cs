@@ -30,14 +30,14 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string roleJsonTmp = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role));
             Role roleTmp = Utility.Json.ToObject<Role>(roleJsonTmp);
-            NHCriteria nHCriteriaRoleName = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleName", roleTmp.RoleName);
-            var isExisted = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleName);
+            NHCriteria nHCriteriaRoleName = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleName", roleTmp.RoleName);
+            var isExisted = ConcurrentSingleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleName);
             if (isExisted)
                 AscensionServer._Log.Info("----------------------------  Role >>Role name:+" + roleTmp.RoleName + " already exist !!!  ---------------------------------");
-            Role role = Singleton<NHManager>.Instance.CriteriaSelect<Role>(nHCriteriaRoleName);//根据username查询数据
+            Role role = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Role>(nHCriteriaRoleName);//根据username查询数据
             string str_uuid = peer.PeerCache.UUID;
-            NHCriteria nHCriteriaUUID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("UUID", str_uuid);
-            var userRole = Singleton<NHManager>.Instance.CriteriaSelect<UserRole>(nHCriteriaUUID);
+            NHCriteria nHCriteriaUUID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("UUID", str_uuid);
+            var userRole = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<UserRole>(nHCriteriaUUID);
             string roleJson = userRole.RoleIDArray;
             string roleStatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleStatus));
             Dictionary<int, int> idRing = new Dictionary<int, int>();
@@ -53,75 +53,75 @@ namespace AscensionServer
                 //添加输入的用户进数据库
                 role = roleTmp;
                 var rolestatus = Utility.Json.ToObject<RoleStatus>(roleStatusJson);
-                role = Singleton<NHManager>.Instance.Insert<Role>(role);
+                role = ConcurrentSingleton<NHManager>.Instance.Insert<Role>(role);
                 string roleId = role.RoleID.ToString();
                 if (!string.IsNullOrEmpty(roleJson))
                     roleList.Add(roleId);
                 else
                     roleList.Add(roleId);
                 rolestatus.RoleID = int.Parse(roleId);
-                Singleton<NHManager>.Instance.Insert(rolestatus);
-                Singleton<NHManager>.Instance.Insert(new RoleAssets() { RoleID = rolestatus.RoleID });
-                Singleton<NHManager>.Instance.Insert(new OnOffLine() { RoleID = rolestatus.RoleID });
+                ConcurrentSingleton<NHManager>.Instance.Insert(rolestatus);
+                ConcurrentSingleton<NHManager>.Instance.Insert(new RoleAssets() { RoleID = rolestatus.RoleID });
+                ConcurrentSingleton<NHManager>.Instance.Insert(new OnOffLine() { RoleID = rolestatus.RoleID });
                 #region 任务
                 roleTaskDic.Clear();
                 roleTaskDic.Add(0001, new RoleTaskItemDTO() { RoleTaskType = "DialogSystem", RoleTaskAchieveState = "NoAchieveTask", RoleTaskAcceptState = "NoAcceptAbleTask", RoleTaskAbandonState = "NoAbandonTask" , RoleTaskKind = "MainTask" });
-                Singleton<NHManager>.Instance.Insert(new RoleTaskProgress() { RoleID = rolestatus.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(roleTaskDic)});
+                ConcurrentSingleton<NHManager>.Instance.Insert(new RoleTaskProgress() { RoleID = rolestatus.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(roleTaskDic)});
                 #endregion
                 Dictionary<string, string> DOdict = new Dictionary<string, string>();
                 #region 测试待修改
                 RoleGFDict.Clear();
                 CultivationMethod gongFa = new CultivationMethod();
-                gongFa = Singleton<NHManager>.Instance.Insert(gongFa);
+                gongFa = ConcurrentSingleton<NHManager>.Instance.Insert(gongFa);
                 RoleGFDict.Add(gongFa.ID, gongFa.CultivationMethodID);
-                Singleton<NHManager>.Instance.Insert(new RoleGongFa() { RoleID = rolestatus.RoleID, GongFaIDArray = Utility.Json.ToJson(RoleGFDict) });
+                ConcurrentSingleton<NHManager>.Instance.Insert(new RoleGongFa() { RoleID = rolestatus.RoleID, GongFaIDArray = Utility.Json.ToJson(RoleGFDict) });
 
 
                 RoleMiShuDict.Clear();
                 MiShu miShu = new MiShu();
-                miShu = Singleton<NHManager>.Instance.Insert(miShu);
+                miShu = ConcurrentSingleton<NHManager>.Instance.Insert(miShu);
                 RoleMiShuDict.Add(miShu.ID, miShu.MiShuID);
-                Singleton<NHManager>.Instance.Insert(new RoleMiShu() { RoleID = rolestatus.RoleID, MiShuIDArray = Utility.Json.ToJson(RoleMiShuDict) });
+                ConcurrentSingleton<NHManager>.Instance.Insert(new RoleMiShu() { RoleID = rolestatus.RoleID, MiShuIDArray = Utility.Json.ToJson(RoleMiShuDict) });
 
                 RolePetDict.Clear();
                 Pet pet = new Pet();
-                pet = Singleton<NHManager>.Instance.Insert(pet);
+                pet = ConcurrentSingleton<NHManager>.Instance.Insert(pet);
                 PetStatus petStatus = new PetStatus() { PetID = pet.ID };
-                petStatus = Singleton<NHManager>.Instance.Insert(petStatus);
+                petStatus = ConcurrentSingleton<NHManager>.Instance.Insert(petStatus);
                 RolePetDict.Add(pet.ID, pet.PetID);
-                Singleton<NHManager>.Instance.Insert(new RolePet() { RoleID = rolestatus.RoleID, PetIDDict = Utility.Json.ToJson(RolePetDict) });
+                ConcurrentSingleton<NHManager>.Instance.Insert(new RolePet() { RoleID = rolestatus.RoleID, PetIDDict = Utility.Json.ToJson(RolePetDict) });
                 #endregion
                 #region 背包
-                Singleton<NHManager>.Instance.Insert(new RoleRing() { RoleID = rolestatus.RoleID });
-                NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolestatus.RoleID);
-                var ringArray = Singleton<NHManager>.Instance.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
+                ConcurrentSingleton<NHManager>.Instance.Insert(new RoleRing() { RoleID = rolestatus.RoleID });
+                NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolestatus.RoleID);
+                var ringArray = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
                 if (string.IsNullOrEmpty(ringArray.RingIdArray))
                {
-                   ring = Singleton<NHManager>.Instance.Insert<Ring>(new Ring() { RingId = 11110, RingItems = Utility.Json.ToJson(new Dictionary<int, RingItemsDTO>()) });
+                   ring = ConcurrentSingleton<NHManager>.Instance.Insert<Ring>(new Ring() { RingId = 11110, RingItems = Utility.Json.ToJson(new Dictionary<int, RingItemsDTO>()) });
                    idRing.Add(ring.ID, ring.RingAdorn);
-                   Singleton<NHManager>.Instance.Update<RoleRing>(new RoleRing() { RoleID = rolestatus.RoleID, RingIdArray = Utility.Json.ToJson(idRing) });
+                   ConcurrentSingleton<NHManager>.Instance.Update<RoleRing>(new RoleRing() { RoleID = rolestatus.RoleID, RingIdArray = Utility.Json.ToJson(idRing) });
                }
 
                 #endregion
                 #region 副职业
-                Singleton<NHManager>.Instance.Insert<Alchemy>(new Alchemy() { RoleID= rolestatus.RoleID,Recipe_Array=Utility.Json.ToJson(new List<int>()) });
-                Singleton<NHManager>.Instance.Insert<HerbsField>(new HerbsField() { RoleID = rolestatus.RoleID, jobLevel = 0, AllHerbs = Utility.Json.ToJson(new List<HerbFieldStatus>()) });
+                ConcurrentSingleton<NHManager>.Instance.Insert<Alchemy>(new Alchemy() { RoleID= rolestatus.RoleID,Recipe_Array=Utility.Json.ToJson(new List<int>()) });
+                ConcurrentSingleton<NHManager>.Instance.Insert<HerbsField>(new HerbsField() { RoleID = rolestatus.RoleID, jobLevel = 0, AllHerbs = Utility.Json.ToJson(new List<HerbFieldStatus>()) });
                 AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>添加副职业成功");
                 #endregion
                 #region 初始化门派
                 Treasureattic treasureatti = new Treasureattic() { ItemAmountDict=Utility.Json.ToJson(new Dictionary<int,int>()),ItemRedeemedDict= Utility.Json.ToJson(new Dictionary<int, int>()) };
-                treasureatti = Singleton<NHManager>.Instance.Insert(treasureatti);
+                treasureatti = ConcurrentSingleton<NHManager>.Instance.Insert(treasureatti);
                 SutrasAttic sutrasAttic = new SutrasAttic() { SutrasAmountDict= Utility.Json.ToJson(new Dictionary<int, int>()) ,SutrasRedeemedDictl= Utility.Json.ToJson(new Dictionary<int, int>()) };
-                sutrasAttic = Singleton<NHManager>.Instance.Insert(sutrasAttic);
+                sutrasAttic = ConcurrentSingleton<NHManager>.Instance.Insert(sutrasAttic);
                 School school = new School();
                 school.TreasureAtticID = treasureatti.ID;
                 school.SutrasAtticID = sutrasAttic.ID;
-                school = Singleton<NHManager>.Instance.Insert(school);
-                Singleton<NHManager>.Instance.Insert(new RoleSchool() { RoleID = rolestatus.RoleID, RoleJoiningSchool = school.ID, RoleJoinedSchool = 0 });
+                school = ConcurrentSingleton<NHManager>.Instance.Insert(school);
+                ConcurrentSingleton<NHManager>.Instance.Insert(new RoleSchool() { RoleID = rolestatus.RoleID, RoleJoiningSchool = school.ID, RoleJoinedSchool = 0 });
                 #endregion
 
                 var userRoleJson = Utility.Json.ToJson(roleList);
-                Singleton<NHManager>.Instance.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });
+                ConcurrentSingleton<NHManager>.Instance.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 DOdict.Add("Role", Utility.Json.ToJson(role));
                 DOdict.Add("RoleStatus", Utility.Json.ToJson(rolestatus));
@@ -136,7 +136,7 @@ namespace AscensionServer
             }
             //把上面的回应给客户端
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaUUID, nHCriteriaRoleName);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaUUID, nHCriteriaRoleName);
         }
 
 

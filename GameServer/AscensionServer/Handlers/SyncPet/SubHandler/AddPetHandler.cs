@@ -23,11 +23,11 @@ namespace AscensionServer
             string petJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Pet));
 
             var petObj = Utility.Json.ToObject<Pet>(petJson);
-            NHCriteria nHCriteriaPet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("PetID", petObj.PetID);
-            var PetObj = Singleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriaPet);
+            NHCriteria nHCriteriaPet = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("PetID", petObj.PetID);
+            var PetObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriaPet);
             if (!string.IsNullOrEmpty(petJson))
             {
-                petObj = Singleton<NHManager>.Instance.Insert(petObj);
+                petObj = ConcurrentSingleton<NHManager>.Instance.Insert(petObj);
                 AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>添加宠物进来了》》》》》》》》》》》》》》》");
                 SetResponseData(() =>
                 {

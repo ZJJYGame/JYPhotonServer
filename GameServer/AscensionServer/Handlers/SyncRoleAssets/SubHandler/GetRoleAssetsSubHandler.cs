@@ -22,15 +22,15 @@ namespace AscensionServer
             string roleJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role));
             AscensionServer._Log.Info(">>>>>>>>>>>>>GetRoleAssetsSubHandler\n" + roleJson + "\n GetRoleAssetsSubHandler >>>>>>>>>>>>>>>>>>>>>>");
             var roleObj = Utility.Json.ToObject<Role>(roleJson);
-            NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
-            var obj =Singleton<NHManager>.Instance.CriteriaSelect<Role>(nHCriteriaRoleID);
+            NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
+            var obj =ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Role>(nHCriteriaRoleID);
             if (obj != null)
             {
-                var result = Singleton<NHManager>.Instance.CriteriaSelect<RoleAssets>(nHCriteriaRoleID);
+                var result = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAssets>(nHCriteriaRoleID);
                 if (result == null)
                 {
                     AscensionServer._Log.Info(">>>>>>>>>>>>>\n GetRoleAssetsSubHandler  " + roleObj.RoleID + "  GetRoleAssetsSubHandler  \n >>>>>>>>>>>>>>>>>>>>>>");
-                    result = Singleton<NHManager>.Instance.Insert(new RoleAssets() { RoleID = roleObj.RoleID });
+                    result = ConcurrentSingleton<NHManager>.Instance.Insert(new RoleAssets() { RoleID = roleObj.RoleID });
                 }
                 string roleAssetsJson = Utility.Json.ToJson(result);
                 SetResponseData(() =>
@@ -44,7 +44,7 @@ namespace AscensionServer
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
         }
     }
 }

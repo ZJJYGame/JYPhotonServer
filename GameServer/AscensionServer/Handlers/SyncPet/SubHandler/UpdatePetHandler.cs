@@ -27,10 +27,10 @@ namespace AscensionServer
             string petJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Pet));
 
             var petObj = Utility.Json.ToObject<Pet>(petJson);
-            NHCriteria nHCriteriaPet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", petObj.ID);
+            NHCriteria nHCriteriaPet = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", petObj.ID);
             int level;
             int exp;
-            var pet = Singleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriaPet);
+            var pet = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriaPet);
             if (pet != null)
             {
                 if (petObj.PetLevel!=0)
@@ -39,7 +39,7 @@ namespace AscensionServer
                     pet.PetExp = 0;
                     level = pet.PetLevel + petObj.PetLevel;
                     exp = pet.PetExp + petObj.PetExp;
-                    Singleton<NHManager>.Instance.Update(new Pet()
+                    ConcurrentSingleton<NHManager>.Instance.Update(new Pet()
                     {
                         ID= petObj.ID,PetID=petObj.PetID,PetExp= exp,PetLevel=(byte)level,PetIsBattle=petObj.PetIsBattle,PetSkillArray=petObj.PetSkillArray,PetName=petObj.PetName
                     });
@@ -47,7 +47,7 @@ namespace AscensionServer
                 else
                 {
                     exp = pet.PetExp + petObj.PetExp;
-                    Singleton<NHManager>.Instance.Update(new Pet()
+                    ConcurrentSingleton<NHManager>.Instance.Update(new Pet()
                     {
                         ID = petObj.ID,
                         PetID = petObj.PetID,
@@ -61,7 +61,7 @@ namespace AscensionServer
                 }
                 SetResponseData(() =>
                 {
-                    var sendPet = Singleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriaPet);
+                    var sendPet = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriaPet);
                     SubDict.Add((byte)ParameterCode.Pet, Utility.Json.ToJson(sendPet));
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
@@ -74,7 +74,7 @@ namespace AscensionServer
             }
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaPet);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaPet);
         }
     }
 }

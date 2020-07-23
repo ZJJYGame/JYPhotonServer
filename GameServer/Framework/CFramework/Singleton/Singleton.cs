@@ -11,11 +11,12 @@ using System.Threading.Tasks;
 namespace Cosmos
 {
     /// <summary>
-    /// 单例的基类new()约束
+    /// 普通单例；线程不安全;
+    /// 若派生类实现了IBehaviour，则初始化时候自动调用IBehaviour的方法；
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class Singleton<T> : IDisposable
-        where T : class, IBehaviour,new()
+        where T : class,new()
     {
         protected static T instance;
         public static T Instance
@@ -25,7 +26,8 @@ namespace Cosmos
                 if (instance == null)
                 {
                     instance = new T();
-                    instance.OnInitialization();
+                    if (instance is IBehaviour)
+                        (instance as IBehaviour).OnInitialization();
                 }
                 return instance;
             }
@@ -33,14 +35,18 @@ namespace Cosmos
         /// <summary>
         /// 非空虚方法，IDispose接口
         /// </summary>
-        public virtual void Dispose() { instance.OnTermination(); instance = default(T); }
+        public virtual void Dispose() {
+            if (instance is IBehaviour)
+                (instance as IBehaviour).OnTermination();
+            instance = default(T); }
     }
     /// <summary>
-    /// 多线程单例基类，内部包含线程锁
-    /// </summary>
+    /// 线程安全并发单例；
+    /// 若派生类实现了IBehaviour，则初始化时候自动调用IBehaviour的方法；
+    /// </summary>     
     /// <typeparam name="T"></typeparam>
-    public abstract class MultiThreadSingleton<T> : IDisposable
-        where T : class, IBehaviour, new()
+    public abstract class ConcurrentSingleton<T> : IDisposable
+        where T : class, new()
     {
         protected static T instance;
         static readonly object locker = new object();
@@ -55,7 +61,8 @@ namespace Cosmos
                         if (instance == null)
                         {
                             instance = new T();
-                            instance.OnInitialization();
+                            if (instance is IBehaviour)
+                                (instance as IBehaviour).OnInitialization();
                         }
                     }
                 }
@@ -65,6 +72,10 @@ namespace Cosmos
         /// <summary>
         ///非空虚方法，IDispose接口
         /// </summary>
-        public virtual void Dispose() { instance.OnTermination(); instance = default(T); }
+        public virtual void Dispose()
+        {
+            if (instance is IBehaviour)
+                (instance as IBehaviour).OnTermination();
+            instance = default(T); }
     }
 }

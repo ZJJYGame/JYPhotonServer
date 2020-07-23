@@ -28,7 +28,7 @@ namespace AscensionData
         public ResourceUnitSetDTO CreateRandomResourceSet(ResVariable resVariable, Vector2 border)
         {
 
-            var resSetDTO =Singleton<ReferencePoolManager>.Instance.Spawn<ResourceUnitSetDTO>();
+            var resSetDTO =ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<ResourceUnitSetDTO>();
             resSetDTO.GlobalID = resVariable.GlobalID;
             int count = GetRandomNumber(resVariable.Count, (int)resVariable.CountOffset);
             for (int i = 0; i < count; i++)
