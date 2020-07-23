@@ -23,7 +23,7 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string forgeJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobHerbsField));
             var hfObj = Utility.Json.ToObject<FrogeDTO>(forgeJson);
-            NHCriteria nHCriteriaFroge = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", hfObj.RoleID);
+            NHCriteria nHCriteriaFroge = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", hfObj.RoleID);
             if (nHCriteriaFroge!=null)
             {
 

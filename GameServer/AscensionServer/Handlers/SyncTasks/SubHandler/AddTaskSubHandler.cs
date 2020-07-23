@@ -23,12 +23,12 @@ namespace AscensionServer
             string roletask = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Task));
             AscensionServer._Log.Info(">>>>>>>>>>>>>添加任务相关信息：" + roletask + ">>>>>>>>>>>>>>>>>>>>>>");
             var roletaskobj = Utility.Json.ToObject<RoleTaskProgressDTO>(roletask);
-            NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roletaskobj.RoleID);
-            bool exist = Singleton<NHManager>.Instance.Verify<RoleTaskProgress>(nHCriteriaRoleID);
+            NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roletaskobj.RoleID);
+            bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleTaskProgress>(nHCriteriaRoleID);
             Dictionary<int, RoleTaskItemDTO> Dic;
             if (exist)
             {
-                var roleTaskInfo = Singleton<NHManager>.Instance.CriteriaSelect<RoleTaskProgress>(nHCriteriaRoleID);
+                var roleTaskInfo = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleTaskProgress>(nHCriteriaRoleID);
                 Dic = Utility.Json.ToObject<Dictionary<int, RoleTaskItemDTO>>(roleTaskInfo.RoleTaskInfoDic);
                 if (roleTaskInfo.RoleTaskInfoDic !=null )
                 {
@@ -37,7 +37,7 @@ namespace AscensionServer
                         if (!Dic.ContainsKey(client_n.Key))
                         {
                             Dic.Add(client_n.Key, client_n.Value);
-                            Singleton<NHManager>.Instance.Update(new RoleTaskProgress() { RoleID = roletaskobj.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(Dic) });
+                            ConcurrentSingleton<NHManager>.Instance.Update(new RoleTaskProgress() { RoleID = roletaskobj.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(Dic) });
                         }
                     }
                     #region 弃用
@@ -75,7 +75,7 @@ namespace AscensionServer
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             }*/
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleID);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleID);
         }
     }
 }

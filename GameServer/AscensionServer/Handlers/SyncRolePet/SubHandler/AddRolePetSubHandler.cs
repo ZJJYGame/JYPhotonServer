@@ -26,8 +26,8 @@ namespace AscensionServer
             var rolepetObj = Utility.Json.ToObject<RolePet>(rpJson);
             var petObj = Utility.Json.ToObject<Pet>(pJson);
             var petstatusObj = Utility.Json.ToObject<PetStatus>(psJson);
-            NHCriteria nHCriteriaroleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
-            var rolepet = Singleton<NHManager>.Instance.CriteriaSelect<RolePet>(nHCriteriaroleID);
+            NHCriteria nHCriteriaroleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
+            var rolepet = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RolePet>(nHCriteriaroleID);
             Dictionary<int, int> petDict;
             if (rolepet!=null)
             {
@@ -36,11 +36,11 @@ namespace AscensionServer
                     petDict = new Dictionary<int, int>();
                     petDict = Utility.Json.ToObject<Dictionary<int, int>>(rolepet.PetIDDict);
 
-                    petObj = Singleton<NHManager>.Instance.Insert<Pet>(petObj);
+                    petObj = ConcurrentSingleton<NHManager>.Instance.Insert<Pet>(petObj);
                     petstatusObj.PetID = petObj.ID;
-                    petstatusObj = Singleton<NHManager>.Instance.Insert<PetStatus>(petstatusObj);
+                    petstatusObj = ConcurrentSingleton<NHManager>.Instance.Insert<PetStatus>(petstatusObj);
                     petDict.Add(petObj.ID, petObj.PetID);
-                    Singleton<NHManager>.Instance.Update(new RolePet() {RoleID = rolepet.RoleID,  PetIDDict = Utility.Json.ToJson(petDict) });
+                    ConcurrentSingleton<NHManager>.Instance.Update(new RolePet() {RoleID = rolepet.RoleID,  PetIDDict = Utility.Json.ToJson(petDict) });
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
                 else
@@ -48,12 +48,12 @@ namespace AscensionServer
                     petDict = new Dictionary<int, int>();
                     petDict = Utility.Json.ToObject<Dictionary<int, int>>(rolepet.PetIDDict);
 
-                    petObj = Singleton<NHManager>.Instance.Insert<Pet>(petObj);
+                    petObj = ConcurrentSingleton<NHManager>.Instance.Insert<Pet>(petObj);
                     petstatusObj.PetID = petObj.ID;
-                    petstatusObj = Singleton<NHManager>.Instance.Insert<PetStatus>(petstatusObj);
+                    petstatusObj = ConcurrentSingleton<NHManager>.Instance.Insert<PetStatus>(petstatusObj);
                     petDict.Add(petObj.ID, petObj.PetID);
 
-                    Singleton<NHManager>.Instance.Update(new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
+                    ConcurrentSingleton<NHManager>.Instance.Update(new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
             }
@@ -62,15 +62,15 @@ namespace AscensionServer
                     petDict = new Dictionary<int, int>();
                     petDict = Utility.Json.ToObject<Dictionary<int, int>>(rolepet.PetIDDict);
 
-                    petObj = Singleton<NHManager>.Instance.Insert<Pet>(petObj);
+                    petObj = ConcurrentSingleton<NHManager>.Instance.Insert<Pet>(petObj);
                     petstatusObj.PetID = petObj.ID;
-                    petstatusObj = Singleton<NHManager>.Instance.Insert<PetStatus>(petstatusObj);
+                    petstatusObj = ConcurrentSingleton<NHManager>.Instance.Insert<PetStatus>(petstatusObj);
                     petDict.Add(petObj.ID, petObj.PetID);
-                    Singleton<NHManager>.Instance.Insert(new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
+                    ConcurrentSingleton<NHManager>.Instance.Insert(new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaroleID);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaroleID);
         }
     }
 }

@@ -25,18 +25,18 @@ namespace AscensionServer
             AscensionServer._Log.Info(">>>>>>>>>>>>接收功法数据：" + receivedData + ">>>>>>>>>>>>>>>>>>>>>>");
             var receivedRoleObj = Utility.Json.ToObject<RoleGongFa>(receivedRoleData);
             var receivedObj = Utility.Json.ToObject<CultivationMethod>(receivedData);
-            NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
-            bool exist = Singleton<NHManager>.Instance.Verify<RoleGongFa>(nHCriteriaRoleID);
+            NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
+            bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleGongFa>(nHCriteriaRoleID);
             int intInfoObj = 0;
             int intLevel = 0; 
             if (exist)
             {
-                RoleGongFa GongfaInfo = Singleton<NHManager>.Instance.CriteriaSelect<RoleGongFa>(nHCriteriaRoleID);
-                NHCriteria nHCriteriaGongFaID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", receivedObj.ID);
-                bool existGongFa = Singleton<NHManager>.Instance.Verify<CultivationMethod>(nHCriteriaGongFaID);
+                RoleGongFa GongfaInfo = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleGongFa>(nHCriteriaRoleID);
+                NHCriteria nHCriteriaGongFaID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", receivedObj.ID);
+                bool existGongFa = ConcurrentSingleton<NHManager>.Instance.Verify<CultivationMethod>(nHCriteriaGongFaID);
                 if (existGongFa)
                 {
-                    CultivationMethod GongfaInfoExp = Singleton<NHManager>.Instance.CriteriaSelect<CultivationMethod>(nHCriteriaGongFaID);
+                    CultivationMethod GongfaInfoExp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<CultivationMethod>(nHCriteriaGongFaID);
                    var dicGongFaId =   Utility.Json.ToObject<Dictionary<int,int>>(GongfaInfo.GongFaIDArray);
 
                     if (dicGongFaId.ContainsKey(receivedObj.ID))
@@ -46,12 +46,12 @@ namespace AscensionServer
                             GongfaInfoExp.CultivationMethodExp = 0;
                             intInfoObj = GongfaInfoExp.CultivationMethodExp + receivedObj.CultivationMethodExp;
                             intLevel = GongfaInfoExp.CultivationMethodLevel + receivedObj.CultivationMethodLevel;
-                            Singleton<NHManager>.Instance.Update(new CultivationMethod() { ID = GongfaInfoExp.ID, CultivationMethodID = GongfaInfoExp.CultivationMethodID, CultivationMethodLevel = (short)intLevel, CultivationMethodLevelSkillArray = GongfaInfoExp.CultivationMethodLevelSkillArray, CultivationMethodExp = intInfoObj });
+                            ConcurrentSingleton<NHManager>.Instance.Update(new CultivationMethod() { ID = GongfaInfoExp.ID, CultivationMethodID = GongfaInfoExp.CultivationMethodID, CultivationMethodLevel = (short)intLevel, CultivationMethodLevelSkillArray = GongfaInfoExp.CultivationMethodLevelSkillArray, CultivationMethodExp = intInfoObj });
                         }
                         else
                         {
                             intInfoObj = GongfaInfoExp.CultivationMethodExp + receivedObj.CultivationMethodExp;
-                            Singleton<NHManager>.Instance.Update(new CultivationMethod() { ID = GongfaInfoExp.ID, CultivationMethodID = GongfaInfoExp.CultivationMethodID, CultivationMethodLevel = GongfaInfoExp.CultivationMethodLevel, CultivationMethodLevelSkillArray = GongfaInfoExp.CultivationMethodLevelSkillArray, CultivationMethodExp = intInfoObj });
+                            ConcurrentSingleton<NHManager>.Instance.Update(new CultivationMethod() { ID = GongfaInfoExp.ID, CultivationMethodID = GongfaInfoExp.CultivationMethodID, CultivationMethodLevel = GongfaInfoExp.CultivationMethodLevel, CultivationMethodLevelSkillArray = GongfaInfoExp.CultivationMethodLevelSkillArray, CultivationMethodExp = intInfoObj });
 
                         }
                     }
@@ -65,7 +65,7 @@ namespace AscensionServer
                 Owner. OpResponse.ReturnCode = (short)ReturnCode.Fail;
             }
             peer.SendOperationResponse(Owner. OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleID);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleID);
         }
     }
 }

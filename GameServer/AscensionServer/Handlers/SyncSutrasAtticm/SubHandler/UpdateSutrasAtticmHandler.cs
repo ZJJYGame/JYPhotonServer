@@ -27,12 +27,12 @@ namespace AscensionServer
 
             var sutrasAtticObj = Utility.Json.ToObject<SutrasAtticDTO>(sutrasAtticJson);
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
-            NHCriteria nHCriteriasutrasAttic = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", sutrasAtticObj.ID);
+            NHCriteria nHCriteriasutrasAttic = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", sutrasAtticObj.ID);
             AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>" + Utility.Json.ToJson(schoolObj.SutrasAtticID) + "更新2藏宝阁" + Utility.Json.ToJson(sutrasAtticObj.SutrasRedeemedDictl));
-            NHCriteria nHCriteriaschool = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
-            var sutrasAtticTemp = Singleton<NHManager>.Instance.CriteriaSelect<SutrasAttic>(nHCriteriasutrasAttic);
-            var schoolTemp = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaschool);
-            var exit = Singleton<NHManager>.Instance.Verify<SutrasAttic>(nHCriteriasutrasAttic);
+            NHCriteria nHCriteriaschool = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
+            var sutrasAtticTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SutrasAttic>(nHCriteriasutrasAttic);
+            var schoolTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaschool);
+            var exit = ConcurrentSingleton<NHManager>.Instance.Verify<SutrasAttic>(nHCriteriasutrasAttic);
             int contribution = 0;
 
             Dictionary<int, int> itemDict = new Dictionary<int, int>();
@@ -42,7 +42,7 @@ namespace AscensionServer
                 if (schoolTemp.ContributionNow > schoolObj.ContributionNow)
                 {
                     contribution = schoolTemp.ContributionNow - schoolObj.ContributionNow;
-                    Singleton<NHManager>.Instance.Update<School>(new School() { ID = schoolTemp.ID, SchoolID = schoolTemp.SchoolID, SchoolJob = schoolTemp.SchoolJob, TreasureAtticID = schoolTemp.TreasureAtticID, SutrasAtticID = schoolTemp.SutrasAtticID, ContributionNow = contribution });
+                    ConcurrentSingleton<NHManager>.Instance.Update<School>(new School() { ID = schoolTemp.ID, SchoolID = schoolTemp.SchoolID, SchoolJob = schoolTemp.SchoolJob, TreasureAtticID = schoolTemp.TreasureAtticID, SutrasAtticID = schoolTemp.SutrasAtticID, ContributionNow = contribution });
                     if (exit)
                     {
                         if (!string.IsNullOrEmpty(sutrasAtticTemp.SutrasRedeemedDictl))
@@ -64,10 +64,10 @@ namespace AscensionServer
                         }
                         else
                             itemDict = sutrasAtticObj.SutrasRedeemedDictl;
-                        Singleton<NHManager>.Instance.Update<SutrasAttic>(new SutrasAttic() { ID = sutrasAtticTemp.ID, SutrasAmountDict= sutrasAtticTemp.SutrasAmountDict, SutrasRedeemedDictl = Utility.Json.ToJson(itemDict) });
+                        ConcurrentSingleton<NHManager>.Instance.Update<SutrasAttic>(new SutrasAttic() { ID = sutrasAtticTemp.ID, SutrasAmountDict= sutrasAtticTemp.SutrasAmountDict, SutrasRedeemedDictl = Utility.Json.ToJson(itemDict) });
                     }
-                    var saSendObj = Singleton<NHManager>.Instance.CriteriaSelect<SutrasAttic>(nHCriteriasutrasAttic);
-                    var sSendObj = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaschool);
+                    var saSendObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SutrasAttic>(nHCriteriasutrasAttic);
+                    var sSendObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaschool);
                     DOdict.Add("SutrasAttic", Utility.Json.ToJson(new SutrasAtticDTO() { ID = saSendObj.ID, SutrasRedeemedDictl = Utility.Json.ToObject<Dictionary<int, int>>(saSendObj.SutrasRedeemedDictl) }));
                     DOdict.Add("School", Utility.Json.ToJson(sSendObj));
                     SetResponseData(() =>
@@ -97,7 +97,7 @@ namespace AscensionServer
             }
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriasutrasAttic, nHCriteriaschool);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriasutrasAttic, nHCriteriaschool);
             AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>传回到的藏宝阁" + Utility.Json.ToJson(DOdict));
         }
     }

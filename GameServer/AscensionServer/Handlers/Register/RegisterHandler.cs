@@ -21,8 +21,8 @@ namespace AscensionServer
         {
             var userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.User));
             var userObj = Utility.Json.ToObject<User>(userJson);
-            NHCriteria nHCriteriaAccount = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
-            bool isExist = Singleton<NHManager>.Instance.Verify<User>(nHCriteriaAccount);
+            NHCriteria nHCriteriaAccount = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
+            bool isExist = ConcurrentSingleton<NHManager>.Instance.Verify<User>(nHCriteriaAccount);
             ResponseData.Clear();
             OpResponse.OperationCode = operationRequest.OperationCode;
             if (!isExist)
@@ -30,17 +30,17 @@ namespace AscensionServer
                 AscensionServer._Log.Info("==========\n  before add UUID ：" +userJson +"\n"+ userObj.UUID + "\n================");
 
                 //添加输入的用户和密码进数据库
-                userObj =  Singleton<NHManager>.Instance.Insert(userObj);
+                userObj =  ConcurrentSingleton<NHManager>.Instance.Insert(userObj);
                 AscensionServer._Log.Info("==========\n after add UUID ：" + userJson + "\n" + userObj.UUID+"\n================");
-                NHCriteria nHCriteriaUUID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("UUID", userObj.UUID);
-                bool userRoleExist = Singleton<NHManager>.Instance.Verify<UserRole>(nHCriteriaUUID);
+                NHCriteria nHCriteriaUUID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("UUID", userObj.UUID);
+                bool userRoleExist = ConcurrentSingleton<NHManager>.Instance.Verify<UserRole>(nHCriteriaUUID);
                 if (!userRoleExist)
                 {
                     var userRole = new UserRole() { UUID = userObj.UUID };
-                    Singleton<NHManager>.Instance.Insert(userRole);
+                    ConcurrentSingleton<NHManager>.Instance.Insert(userRole);
                 }
             OpResponse.ReturnCode = (short)ReturnCode.Success;//返回成功
-                Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaUUID);
+                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaUUID);
             }
             else//否者这个用户被注册了
             {
@@ -48,7 +48,7 @@ namespace AscensionServer
             }
             // 把上面的结果给客户端
             peer.SendOperationResponse(OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaAccount);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaAccount);
         }
     }
 }

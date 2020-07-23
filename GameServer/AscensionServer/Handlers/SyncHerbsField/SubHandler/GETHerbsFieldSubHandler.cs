@@ -25,9 +25,9 @@ namespace AscensionServer.Handlers
             string herbsfieldJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobHerbsField));
             var hfObj = Utility.Json.ToObject<HerbsField>(herbsfieldJson);
 
-            NHCriteria nHCriteriahf = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", hfObj.RoleID);
+            NHCriteria nHCriteriahf = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", hfObj.RoleID);
             AscensionServer._Log.Info("接收到的霛田信息"+ herbsfieldJson);
-            var hfTemp = Singleton<NHManager>.Instance.CriteriaSelect<HerbsField>(nHCriteriahf);
+            var hfTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<HerbsField>(nHCriteriahf);
             if (hfTemp!=null)
             {
                 SetResponseData(() =>
@@ -42,7 +42,7 @@ namespace AscensionServer.Handlers
             else
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriahf);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriahf);
 
         }
     }

@@ -28,13 +28,13 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string subDataJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.OnOffLine));
             var onofflinetemp = Utility.Json.ToObject<OnOffLine>(subDataJson);
-            NHCriteria nHCriteriaOnoff = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
-            var obj = Singleton<NHManager>.Instance.CriteriaSelect<OnOffLine>(nHCriteriaOnoff);
+            NHCriteria nHCriteriaOnoff = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
+            var obj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<OnOffLine>(nHCriteriaOnoff);
             if (obj != null)
             {
                 obj.MsGfID = onofflinetemp.MsGfID;
                 obj.ExpType = onofflinetemp.ExpType;
-                Singleton<NHManager>.Instance.Update(obj);
+                ConcurrentSingleton<NHManager>.Instance.Update(obj);
                 SetResponseData(() =>
                 {
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
@@ -42,10 +42,10 @@ namespace AscensionServer
             }
             else
             {
-                Singleton<NHManager>.Instance.Insert(onofflinetemp);
+                ConcurrentSingleton<NHManager>.Instance.Insert(onofflinetemp);
             }
             //peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaOnoff);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaOnoff);
         }
     }
 }

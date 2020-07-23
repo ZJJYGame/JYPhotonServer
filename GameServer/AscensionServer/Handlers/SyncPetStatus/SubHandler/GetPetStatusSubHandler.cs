@@ -22,8 +22,8 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string petstatus = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.PetStatus));
             var rolepetObj = Utility.Json.ToObject<RolePet>(petstatus);
-            NHCriteria nHCriteriarolepet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
-            var petArray = Singleton<NHManager>.Instance.CriteriaSelect<RolePet>(nHCriteriarolepet);
+            NHCriteria nHCriteriarolepet = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
+            var petArray = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RolePet>(nHCriteriarolepet);
             if (petArray != null)
             {
                 string petdict = petArray.PetIDDict;
@@ -36,8 +36,8 @@ namespace AscensionServer
                     petIDList = Utility.Json.ToObject<Dictionary<int, int>>(petdict);
                     foreach (var petid in petIDList)
                     {
-                        NHCriteria nHCriteriapet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("PetID", petid.Key);
-                        var petstatusObj = Singleton<NHManager>.Instance.CriteriaSelect<PetStatus>(nHCriteriapet);
+                        NHCriteria nHCriteriapet = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("PetID", petid.Key);
+                        var petstatusObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<PetStatus>(nHCriteriapet);
                         petList.Add(petstatusObj);
                         nHCriteriasList.Add(nHCriteriapet);
                     }
@@ -47,7 +47,7 @@ namespace AscensionServer
                     SubDict.Add((byte)ParameterCode.PetStatus, Utility.Json.ToJson(petList));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
-                Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriasList);
+                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriasList);
             }
             else
             {
@@ -59,7 +59,7 @@ namespace AscensionServer
                 });
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriarolepet);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriarolepet);
         }
     }
 }

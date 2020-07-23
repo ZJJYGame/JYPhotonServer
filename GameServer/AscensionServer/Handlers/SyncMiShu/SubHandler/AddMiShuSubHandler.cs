@@ -30,8 +30,8 @@ namespace AscensionServer
 
 
 
-            NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolemishuObj.RoleID);
-            var roleMiShuObj = Singleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriaRoleID);
+            NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolemishuObj.RoleID);
+            var roleMiShuObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriaRoleID);
             Dictionary<int, int> mishuDict;
             Dictionary<int, string> DOdict = new Dictionary<int, string>();
             if (roleMiShuObj != null)
@@ -51,10 +51,10 @@ namespace AscensionServer
                     }
                     else
                     {
-                        mishuObj = Singleton<NHManager>.Instance.Insert(mishuObj);
+                        mishuObj = ConcurrentSingleton<NHManager>.Instance.Insert(mishuObj);
                         mishuDict.Add(mishuObj.ID, mishuObj.MiShuID);
 
-                        Singleton<NHManager>.Instance.Update(new RoleMiShu() { RoleID = rolemishuObj.RoleID, MiShuIDArray = Utility.Json.ToJson(mishuDict) });
+                        ConcurrentSingleton<NHManager>.Instance.Update(new RoleMiShu() { RoleID = rolemishuObj.RoleID, MiShuIDArray = Utility.Json.ToJson(mishuDict) });
                         DOdict.Add(1,Utility.Json.ToJson(mishuObj));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     }
@@ -63,10 +63,10 @@ namespace AscensionServer
                 {
                     mishuDict = new Dictionary<int, int>();
                     mishuDict = Utility.Json.ToObject<Dictionary<int, int>>(roleMiShuObj.MiShuIDArray);
-                    mishuObj = Singleton<NHManager>.Instance.Insert(mishuObj);
+                    mishuObj = ConcurrentSingleton<NHManager>.Instance.Insert(mishuObj);
                     mishuDict.Add(mishuObj.ID, mishuObj.MiShuID);
 
-                    Singleton<NHManager>.Instance.Update(new RoleMiShu() { RoleID = rolemishuObj.RoleID, MiShuIDArray = Utility.Json.ToJson(mishuDict) });
+                    ConcurrentSingleton<NHManager>.Instance.Update(new RoleMiShu() { RoleID = rolemishuObj.RoleID, MiShuIDArray = Utility.Json.ToJson(mishuDict) });
                     DOdict.Add(1, Utility.Json.ToJson(mishuObj));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
@@ -75,19 +75,19 @@ namespace AscensionServer
             {
                 mishuDict = new Dictionary<int, int>();
                 mishuDict = Utility.Json.ToObject<Dictionary<int, int>>(roleMiShuObj.MiShuIDArray);
-                mishuObj = Singleton<NHManager>.Instance.Insert(mishuObj);
+                mishuObj = ConcurrentSingleton<NHManager>.Instance.Insert(mishuObj);
                 mishuDict.Add(mishuObj.ID, mishuObj.MiShuID);
 
-                Singleton<NHManager>.Instance.Update(new RoleMiShu() { RoleID = rolemishuObj.RoleID, MiShuIDArray = Utility.Json.ToJson(mishuDict) });
+                ConcurrentSingleton<NHManager>.Instance.Update(new RoleMiShu() { RoleID = rolemishuObj.RoleID, MiShuIDArray = Utility.Json.ToJson(mishuDict) });
                 DOdict.Add(1, Utility.Json.ToJson(mishuObj));
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             }
-            var roleMiShuSendObj = Singleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriaRoleID);
+            var roleMiShuSendObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriaRoleID);
             DOdict.Add(2,Utility.Json.ToJson(roleMiShuSendObj));
             Owner.OpResponse.Parameters = Owner.ResponseData;
             Owner.ResponseData.Add((byte)ParameterCode.RoleMiShu,Utility.Json.ToJson(DOdict));
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
 
         }
 

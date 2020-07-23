@@ -24,8 +24,8 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string schoolJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.TreasureAttic));
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
-            NHCriteria nHCriteriaSchool = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
-            var schoolTemp = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
+            NHCriteria nHCriteriaSchool = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
+            var schoolTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
             if (schoolTemp!=null)
             {
                 AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>数据库贡献点" + schoolTemp.ContributionNow + "传过来的贡献点" + schoolObj.ContributionNow);
@@ -52,7 +52,7 @@ namespace AscensionServer
             }
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaSchool);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaSchool);
         }
     }
 }

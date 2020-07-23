@@ -109,23 +109,23 @@ namespace AscensionServer
                 AscensionServer._Log.Info("============AscensionPeer.RecordOnOffLine() : Can't RecordOnOffLine ============");
                 return;
             }
-            NHCriteria nHCriteriaOnOff = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleID);
-            var obj = Singleton<NHManager>.Instance.CriteriaSelect<OffLineTime>(nHCriteriaOnOff);
+            NHCriteria nHCriteriaOnOff = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleID);
+            var obj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<OffLineTime>(nHCriteriaOnOff);
             if (obj != null)
             {
                 obj.OffTime = DateTime.Now.ToString();
                 obj.RoleID = roleID;
-                Singleton<NHManager>.Instance.Update(obj);
+                ConcurrentSingleton<NHManager>.Instance.Update(obj);
             }
             else
             {
-                var offLineTimeTmp = Singleton<ReferencePoolManager>.Instance.Spawn<OffLineTime>();
+                var offLineTimeTmp = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<OffLineTime>();
                 offLineTimeTmp.RoleID = roleID;
                 offLineTimeTmp.OffTime = DateTime.Now.ToString();
-                Singleton<NHManager>.Instance.Insert(offLineTimeTmp);
-                Singleton<ReferencePoolManager>.Instance.Despawn(offLineTimeTmp);
+                ConcurrentSingleton<NHManager>.Instance.Insert(offLineTimeTmp);
+                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawn(offLineTimeTmp);
             }
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaOnOff);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaOnOff);
             AscensionServer._Log.Info("同步离线时间成功");
         }
     }

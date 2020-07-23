@@ -24,11 +24,11 @@ namespace AscensionServer
             string roletask = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Task));
             AscensionServer._Log.Info(">>>>>>>>>>>>>获得任务相关信息：" + roletask + ">>>>>>>>>>>>>>>>>>>>>>");
             var roletaskobj = Utility.Json.ToObject<RoleTaskProgressDTO>(roletask);
-            NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roletaskobj.RoleID);
-            bool exist = Singleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID);
+            NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roletaskobj.RoleID);
+            bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID);
             if (exist)
             {
-                var roleTaskInfo = Singleton<NHManager>.Instance.CriteriaSelect<RoleTaskProgress>(nHCriteriaRoleID);
+                var roleTaskInfo = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleTaskProgress>(nHCriteriaRoleID);
                 if (roleTaskInfo.RoleTaskInfoDic != null)
                     Owner.ResponseData.Add((byte)ParameterCode.Task, roleTaskInfo.RoleTaskInfoDic);
                 Owner.OpResponse.Parameters = Owner.ResponseData;
@@ -37,7 +37,7 @@ namespace AscensionServer
             else
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleID);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleID);
         }
     }
 }

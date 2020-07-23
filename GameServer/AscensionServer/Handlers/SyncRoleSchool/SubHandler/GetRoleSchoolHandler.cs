@@ -30,18 +30,18 @@ namespace AscensionServer
             {          
                 foreach (var roleId in roleobj)
                 {
-                    NHCriteria nHCriteriarole = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleId);
-                    var roleschoolObj = Singleton<NHManager>.Instance.CriteriaSelect<RoleSchool>(nHCriteriarole);
-                    var verify= Singleton<NHManager>.Instance.Verify<RoleSchool>(nHCriteriarole);
+                    NHCriteria nHCriteriarole = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleId);
+                    var roleschoolObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleSchool>(nHCriteriarole);
+                    var verify= ConcurrentSingleton<NHManager>.Instance.Verify<RoleSchool>(nHCriteriarole);
                     if (verify)
                     {
                         if (roleschoolObj.RoleJoiningSchool!=null)
                         {
-                            NHCriteria nHCriteriaSchool = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", roleschoolObj.RoleJoiningSchool);
-                            var schoolObj = Singleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
+                            NHCriteria nHCriteriaSchool = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", roleschoolObj.RoleJoiningSchool);
+                            var schoolObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
                             schoolDict.Add(roleId, schoolObj);
 
-                            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaSchool);
+                            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaSchool);
                         }else
                             schoolDict.Clear();
 
@@ -56,7 +56,7 @@ namespace AscensionServer
                         peer.SendOperationResponse(Owner.OpResponse, sendParameters);
                         return;
                     }
-                    Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriarole);
+                    ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriarole);
                     
                 }
              

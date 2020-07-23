@@ -27,8 +27,8 @@ namespace AscensionServer
             var rpObj = Utility.Json.ToObject<RolePet>(rpJson);
             var pObj = Utility.Json.ToObject<Pet>(pJson);
 
-            NHCriteria nHCriteriarolepet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rpObj.RoleID);
-            var rolepet = Singleton<NHManager>.Instance.CriteriaSelect<RolePet>(nHCriteriarolepet);
+            NHCriteria nHCriteriarolepet = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rpObj.RoleID);
+            var rolepet = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RolePet>(nHCriteriarolepet);
             Dictionary<int, int> rolepetList;
             if (rolepet!=null)
             {
@@ -39,32 +39,32 @@ namespace AscensionServer
                     //AscensionServer._Log.Info("删除宠物进来了》》》》》》》》》》》》》》》》》》》》》》"+ rolepetList.Count);
                     if (rolepetList.ContainsKey(pObj.ID))
                     {
-                        NHCriteria nHCriteriapet = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", pObj.ID);
-                        var pet = Singleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriapet);
+                        NHCriteria nHCriteriapet = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", pObj.ID);
+                        var pet = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriapet);
 
                         if (pet!=null)
                         {
-                            Singleton<NHManager>.Instance.Delete<Pet>(pet);
+                            ConcurrentSingleton<NHManager>.Instance.Delete<Pet>(pet);
                             //AscensionServer._Log.Info("删除宠物成功》》》》》》》》》》》》》》》》》》》》》》" + pet);
                         }
 
-                        NHCriteria nHCriteriapetstatus = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("PetID", pObj.ID);
-                        var petstatus = Singleton<NHManager>.Instance.CriteriaSelect<PetStatus>(nHCriteriapetstatus);
+                        NHCriteria nHCriteriapetstatus = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("PetID", pObj.ID);
+                        var petstatus = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<PetStatus>(nHCriteriapetstatus);
                         if (petstatus!=null)
                         {
-                            Singleton<NHManager>.Instance.Delete<PetStatus>(petstatus);
+                            ConcurrentSingleton<NHManager>.Instance.Delete<PetStatus>(petstatus);
                             //AscensionServer._Log.Info("删除宠物数据成功》》》》》》》》》》》》》》》》》》》》》》");
                         }
                         rolepetList.Remove(pObj.ID);
-                        Singleton<NHManager>.Instance.Update<RolePet>(new RolePet() { RoleID= rpObj.RoleID, PetIDDict=Utility.Json.ToJson(rolepetList) });
+                        ConcurrentSingleton<NHManager>.Instance.Update<RolePet>(new RolePet() { RoleID= rpObj.RoleID, PetIDDict=Utility.Json.ToJson(rolepetList) });
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
-                        Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriapet, nHCriteriapetstatus);
+                        ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriapet, nHCriteriapetstatus);
                     }
                 }else
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
 
                 peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-                Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriarolepet);
+                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriarolepet);
             }
         }
     }

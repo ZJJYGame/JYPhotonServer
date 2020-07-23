@@ -22,7 +22,7 @@ namespace AscensionData
             switch (region)
             {
                 case Region.Adventure:
-                    json = Singleton<AdventureJsonCache>.Instance.GetRegionJsonData(tileID);
+                    json = ConcurrentSingleton<AdventureJsonCache>.Instance.GetRegionJsonData(tileID);
                     break;
             }
             return json;
@@ -33,7 +33,7 @@ namespace AscensionData
             switch ((Region)regionID)
             {
                 case Region.Adventure:
-                    json = Singleton<AdventureJsonCache>.Instance.GetRegionJsonData(tileID);
+                    json = ConcurrentSingleton<AdventureJsonCache>.Instance.GetRegionJsonData(tileID);
                     break;
             }
             return json;

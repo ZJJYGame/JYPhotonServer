@@ -59,8 +59,8 @@ namespace AscensionServer.Threads
                     if (currentDictObj.ResUnitDict.TryGetValue(occupiedUnitObj.ResID, out resourceUnitDTO))
                     {
                         resourceUnitDTO.Occupied = false;
-                        var randonVector = Singleton<ResourceCreator>.Instance.GetRandomVector2(Vector2.Zero, border);
-                        var randonRotate = Singleton<ResourceCreator>.Instance.GetRandomVector3(Vector3.Zero, new Vector3(0, 360000, 0));
+                        var randonVector = ConcurrentSingleton<ResourceCreator>.Instance.GetRandomVector2(Vector2.Zero, border);
+                        var randonRotate = ConcurrentSingleton<ResourceCreator>.Instance.GetRandomVector3(Vector3.Zero, new Vector3(0, 360000, 0));
                         resourceUnitDTO.Position = new TransformDTO() { PositionX = randonVector.X, PositionY = 0, PositionZ = randonVector.Y, RotationX = 0, RotationY = randonRotate.Y, RotationZ = 0 };
                         occupiedUnitObj.Position = resourceUnitDTO.Position;
                     }

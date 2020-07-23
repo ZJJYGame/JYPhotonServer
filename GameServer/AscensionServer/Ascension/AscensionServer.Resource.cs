@@ -66,7 +66,7 @@ namespace AscensionServer
             HashSet<ResVariable> resVarSet = Utility.Json.ToObject<HashSet<ResVariable>>(str);
             foreach (var res in resVarSet)
             {
-                var resSetDto = Singleton<ResourceCreator>.Instance.CreateRandomResourceSet(res, border);
+                var resSetDto = ConcurrentSingleton<ResourceCreator>.Instance.CreateRandomResourceSet(res, border);
                 resUnitSetDict.Add(resSetDto.GlobalID,resSetDto);
             }
             _Log.Info(Utility.Json.ToJson(resUnitSetDict));

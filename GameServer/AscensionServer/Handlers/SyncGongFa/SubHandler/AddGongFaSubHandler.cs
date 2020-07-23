@@ -29,8 +29,8 @@ namespace AscensionServer
             var gongfaObj = Utility.Json.ToObject<CultivationMethod>(gfJson);
 
            
-            NHCriteria nHCriteriaRoleID = Singleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolegongfaObj.RoleID);
-            var roleGongFaObj = Singleton<NHManager>.Instance.CriteriaSelect<RoleGongFa>(nHCriteriaRoleID);
+            NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolegongfaObj.RoleID);
+            var roleGongFaObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleGongFa>(nHCriteriaRoleID);
             Dictionary<int, int> gongfaDict;
             Dictionary<int, string> DOdict=new Dictionary<int, string>();
             if (roleGongFaObj != null)
@@ -50,10 +50,10 @@ namespace AscensionServer
                     }
                     else
                     {
-                        gongfaObj = Singleton<NHManager>.Instance.Insert(gongfaObj);
+                        gongfaObj = ConcurrentSingleton<NHManager>.Instance.Insert(gongfaObj);
                         gongfaDict.Add(gongfaObj.ID, gongfaObj.CultivationMethodID);
                         
-                        Singleton<NHManager>.Instance.Update(new RoleGongFa() { RoleID = rolegongfaObj.RoleID, GongFaIDArray = Utility.Json.ToJson(gongfaDict) });
+                        ConcurrentSingleton<NHManager>.Instance.Update(new RoleGongFa() { RoleID = rolegongfaObj.RoleID, GongFaIDArray = Utility.Json.ToJson(gongfaDict) });
 
                         DOdict.Add(1, Utility.Json.ToJson(gongfaObj));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
@@ -63,34 +63,34 @@ namespace AscensionServer
                 {
                     gongfaDict = new Dictionary<int, int>();
 
-                    gongfaObj = Singleton<NHManager>.Instance.Insert<CultivationMethod>(gongfaObj);
+                    gongfaObj = ConcurrentSingleton<NHManager>.Instance.Insert<CultivationMethod>(gongfaObj);
                     gongfaDict.Add(gongfaObj.ID, gongfaObj.CultivationMethodID);
   
                     DOdict.Add(1, Utility.Json.ToJson(gongfaObj));
-                    Singleton<NHManager>.Instance.Update(new RoleGongFa() { RoleID = rolegongfaObj.RoleID, GongFaIDArray = Utility.Json.ToJson(gongfaDict) });
+                    ConcurrentSingleton<NHManager>.Instance.Update(new RoleGongFa() { RoleID = rolegongfaObj.RoleID, GongFaIDArray = Utility.Json.ToJson(gongfaDict) });
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
             }
             else
             {
-                rolegongfaObj= Singleton<NHManager>.Instance.Insert(new RoleGongFa() { RoleID = rolegongfaObj.RoleID });
+                rolegongfaObj= ConcurrentSingleton<NHManager>.Instance.Insert(new RoleGongFa() { RoleID = rolegongfaObj.RoleID });
                 gongfaDict = new Dictionary<int, int>();
 
-                gongfaObj = Singleton<NHManager>.Instance.Insert<CultivationMethod>(gongfaObj);
+                gongfaObj = ConcurrentSingleton<NHManager>.Instance.Insert<CultivationMethod>(gongfaObj);
                 gongfaDict.Add(gongfaObj.ID, gongfaObj.CultivationMethodID);
 
                 DOdict.Add(1, Utility.Json.ToJson(gongfaObj));
-                Singleton<NHManager>.Instance.Update(new RoleGongFa() { RoleID = rolegongfaObj.RoleID, GongFaIDArray = Utility.Json.ToJson(gongfaDict) });
+                ConcurrentSingleton<NHManager>.Instance.Update(new RoleGongFa() { RoleID = rolegongfaObj.RoleID, GongFaIDArray = Utility.Json.ToJson(gongfaDict) });
                 
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             }
-            var roleGongFaSendObj = Singleton<NHManager>.Instance.CriteriaSelect<RoleGongFa>(nHCriteriaRoleID);
+            var roleGongFaSendObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleGongFa>(nHCriteriaRoleID);
             DOdict.Add(2, Utility.Json.ToJson(roleGongFaSendObj) );
             Owner.OpResponse.Parameters = Owner.ResponseData;
 
             Owner.ResponseData.Add((byte)ParameterCode.RoleGongFa, Utility.Json.ToJson(DOdict));
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            Singleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
         }
         
     }
