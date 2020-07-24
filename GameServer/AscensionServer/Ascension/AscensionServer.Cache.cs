@@ -156,33 +156,24 @@ namespace AscensionServer
             return result;
         }
         #endregion
-
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-        //    System.Timers.Timer timer = new System.Timers.Timer();
-        //    timer.Enabled = true;
-        //    timer.Interval = 4000;//4秒执行间隔时间,单位为毫秒   
-        //    timer.Start();
-        //    timer.Elapsed += new System.Timers.ElapsedEventHandler(Timer1_Elapsed);
-        //}
-
-
-
-
-        //private void Timer1_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        //{
-
-        //    // 得到intHour,intMinute,intSecond，是当前系统时间   
-        //    int intHour = e.SignalTime.Hour;
-        //    int intMinute = e.SignalTime.Minute;
-        //    int intSecond = e.SignalTime.Second;
-        //    // System.Windows.Forms.MessageBox.Show(intSecond.ToString());
-        //    //自己设置hour,minuter,second,到设定的时间就开始执行程序   
-        //    //if (intHour == hour && intMinute == minutes && intSecond == second)
-        //    //{
-        //    //    //System.Windows.Forms.MessageBox.Show("时间到了！");                       
-        //    //}
-
-        //}
+        #region 刷新机制
+        public void RefreshData()
+        {
+            System.Timers.Timer t = new System.Timers.Timer(1000);//实例化Timer类，设置时间间隔
+            t.AutoReset = true;//设置是执行一次（false）还是一直执行(true)
+            t.Enabled = true;//是否执行System.Timers.Timer.Elapsed事件
+            t.Elapsed += new System.Timers.ElapsedEventHandler(Method2);//到达时间的时候执行事件
+        }
+        void Method2(object source, System.Timers.ElapsedEventArgs e)
+        {
+            int intHour = e.SignalTime.Hour;
+            int intMinute = e.SignalTime.Minute;
+            int intSecond = e.SignalTime.Second;
+            if (intHour == 17 && intMinute == 9 && intSecond == 0)
+            {
+                _Log.Info("醒醒到点了该刷新了");
+            }
+        }
+        #endregion
     }
 }

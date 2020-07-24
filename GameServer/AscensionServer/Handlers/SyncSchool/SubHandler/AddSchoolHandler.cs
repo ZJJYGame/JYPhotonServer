@@ -52,39 +52,28 @@ namespace AscensionServer
                     treasureatticTemp.ID = treasureatticObj.ID;
                     treasureatticTemp.ItemAmountDict = Utility.Json.ToJson(treasureatticObj.ItemAmountDict);
                     ConcurrentSingleton<NHManager>.Instance.Update(treasureatticTemp);
-                    var treasureatticSendObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
-                    DTOdict.Add("1", Utility.Json.ToJson(treasureatticSendObj));
                 }
-
                 if (sutrasAtticTemp != null)
                     {
                     sutrasAtticTemp.ID = sutrasAtticObj.ID;
                     sutrasAtticTemp.SutrasAmountDict = Utility.Json.ToJson(sutrasAtticObj.SutrasAmountDict);
                         ConcurrentSingleton<NHManager>.Instance.Update(sutrasAtticTemp);
-                    var sutrasAtticSendObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SutrasAttic>(nHCriteriasutrasAttic);
-                    DTOdict.Add("2", Utility.Json.ToJson(sutrasAtticSendObj));
                 }
-
                     schoolTemp.SchoolID = schoolObj.SchoolID;
                 schoolTemp.SchoolJob = schoolObj.SchoolJob;
                 ConcurrentSingleton<NHManager>.Instance.Update(schoolTemp);
                 var schoolSendObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
-                DTOdict.Add("School", Utility.Json.ToJson(schoolSendObj));
-               
+                SetResponseData(() =>
+                {
+                    AscensionServer._Log.Info(">>>>>>>返回加入宗门的数据" + Utility.Json.ToJson(schoolSendObj));
+                    SubDict.Add((byte)ParameterCode.School, Utility.Json.ToJson(schoolSendObj));
+                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                });
             }
             else
                 SetResponseData(() =>{Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail; });
+            AscensionServer._Log.Info(">>>>>>>加入宗门的请求收到了2" + schoolTemp.SchoolID);
 
-            if (DTOdict.Count==3)
-            {
-                SetResponseData(() =>
-                {
-
-                    SubDict.Add((byte)ParameterCode.School, Utility.Json.ToJson(DTOdict));
-                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
-                });
-            }else
-                SetResponseData(() => { Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail; });
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaSchool, nHCriteriaTreasureattic, nHCriteriasutrasAttic);
         }

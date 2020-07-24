@@ -27,7 +27,7 @@ namespace AscensionServer.Handlers
 
 
             NHCriteria nHCriteriahf = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", hfObj.RoleID);
-            AscensionServer._Log.Info("接收到的霛田信息" + herbsfieldJson);
+            AscensionServer._Log.Info("接收到添加的霛田信息" + herbsfieldJson);
             var hfTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<HerbsField>(nHCriteriahf);
             List<HerbFieldStatus> hfList = new List<HerbFieldStatus>();
             if (hfTemp!=null)
@@ -46,13 +46,17 @@ namespace AscensionServer.Handlers
                     else
                     {
                         hfList = hfObj.AllHerbs;
+                        hfTemp.AllHerbs = Utility.Json.ToJson(hfList);
                     }
+                    ConcurrentSingleton<NHManager>.Instance.Update(hfTemp);
                     SetResponseData(() =>
                     {
+                        SubDict.Add((byte)ParameterCode.JobHerbsField, Utility.Json.ToJson(new HerbsFieldDTO() {AllHerbs= hfList,jobLevel= hfTemp.jobLevel,RoleID= hfTemp.RoleID }));
                         Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
                     });
                 }
             }
+            AscensionServer._Log.Info("接收到添加的霛田信息" + Utility.Json.ToJson(hfTemp));
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriahf);
         }
