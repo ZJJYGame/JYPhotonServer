@@ -43,6 +43,7 @@ namespace AscensionProtocol
         SyncAlchemy=21,
         SyncForge=22,
         SyncHerbsField=23,
+        SpiritualRunes=24,
         /// <summary>
         /// 同步自身位置的集合，参考消息队列
         /// </summary>
