@@ -17,7 +17,7 @@ namespace AscensionProtocol.DTO
         public virtual int SutrasAtticID { get; set; }
         public virtual int RankingListID { get; set; }
         public virtual int SchoolJob { get; set; }
-        public virtual SchoolAward GetAwards { get; set; }
+        public virtual int  GetContributions { get; set; }
         public virtual int ContributionHistory { get; set; }
         public virtual bool IsSignin { get; set; }
         public override void Clear()
@@ -30,16 +30,11 @@ namespace AscensionProtocol.DTO
             SutrasAtticID = 0;
             RankingListID = 0;
             SchoolJob = 0;
-            GetAwards = null;
+            GetContributions = 0;
             ContributionHistory = 0;
             IsSignin = false;
         }
-        [Serializable]
-        public class SchoolAward
-        {
-            public virtual int SpiritStones { get; set; }
-            public virtual int Contribution { get; set; }
-        }
+       
 
     }
 }

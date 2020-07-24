@@ -17,7 +17,7 @@ namespace AscensionServer.Model
         public virtual int SutrasAtticID { get; set; }
         public virtual int RankingListID { get; set; }
         public virtual int SchoolJob { get; set; }
-        public virtual string GetAwards { get; set; }
+        public virtual int GetContributions { get; set; }
         public virtual int ContributionHistory { get; set; }
         public virtual bool IsSignin { get; set; }
         public School()
@@ -29,7 +29,7 @@ namespace AscensionServer.Model
             SutrasAtticID = 0;
             RankingListID = 0;
             SchoolJob = 0;
-            GetAwards = null;
+            GetContributions = 0;
             ContributionHistory = 0;
             IsSignin = false;
         }
@@ -44,7 +44,7 @@ namespace AscensionServer.Model
             SutrasAtticID = 0;
             RankingListID = 0;
             SchoolJob = 0;
-            GetAwards = null;
+            GetContributions = 0;
             ContributionHistory = 0;
             IsSignin = false;
         }
