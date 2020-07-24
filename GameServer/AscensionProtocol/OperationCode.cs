@@ -79,6 +79,10 @@ namespace AscensionProtocol
         /// </summary>
         ExitBattle = 114,
         /// <summary>
+        /// 战斗匹配
+        /// </summary>
+        SyncRoleBattleMatch=115,
+        /// <summary>
         /// 测试消息队列
         /// </summary>
         MessageQueue =137,
