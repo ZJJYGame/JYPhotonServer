@@ -156,5 +156,33 @@ namespace AscensionServer
             return result;
         }
         #endregion
+
+        //private void button1_Click(object sender, EventArgs e)
+        //{
+        //    System.Timers.Timer timer = new System.Timers.Timer();
+        //    timer.Enabled = true;
+        //    timer.Interval = 4000;//4秒执行间隔时间,单位为毫秒   
+        //    timer.Start();
+        //    timer.Elapsed += new System.Timers.ElapsedEventHandler(Timer1_Elapsed);
+        //}
+
+
+
+
+        //private void Timer1_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        //{
+
+        //    // 得到intHour,intMinute,intSecond，是当前系统时间   
+        //    int intHour = e.SignalTime.Hour;
+        //    int intMinute = e.SignalTime.Minute;
+        //    int intSecond = e.SignalTime.Second;
+        //    // System.Windows.Forms.MessageBox.Show(intSecond.ToString());
+        //    //自己设置hour,minuter,second,到设定的时间就开始执行程序   
+        //    //if (intHour == hour && intMinute == minutes && intSecond == second)
+        //    //{
+        //    //    //System.Windows.Forms.MessageBox.Show("时间到了！");                       
+        //    //}
+
+        //}
     }
 }

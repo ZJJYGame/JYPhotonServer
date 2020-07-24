@@ -13,7 +13,7 @@ namespace AscensionServer
         public SpiritualRunesMap()
         {
             Id(x => x.RoleID).GeneratedBy.Assigned().Column("roleid");
-            Map(x => x.JobLevel).Column("joblevel");
+            Map(x => x.JobLevel).Column("job_level");
             Map(x => x.Recipe_Array).Column("recipe_array");
             Table("spiritualrunes");
         }
