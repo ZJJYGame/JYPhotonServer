@@ -25,11 +25,11 @@ namespace AscensionProtocol.DTO
     public class HerbFieldStatus
     {
         public virtual int ArrayID { get; set; }//list下标记录
-        public virtual bool IsPick { get; set; }
+        public virtual bool IsStratPlant { get; set; }//用於判斷開始種植記錄種植時間
         public virtual int HerbsID { get; set; }
         public virtual int HerbsGrowthValue { get; set; }//成长值
         public virtual int FieldLevel { get; set; }
-        public virtual int RemainingTime { get; set; }//记录灵草成熟剩余时间
+        public virtual int plantingTime { get; set; }//记录灵草成熟剩余时间
     }
 
 }

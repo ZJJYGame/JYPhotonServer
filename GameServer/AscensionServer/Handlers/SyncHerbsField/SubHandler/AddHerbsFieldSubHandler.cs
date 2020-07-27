@@ -56,7 +56,7 @@ namespace AscensionServer.Handlers
                     });
                 }
             }
-            AscensionServer._Log.Info("接收到添加的霛田信息" + Utility.Json.ToJson(hfTemp));
+            
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriahf);
         }

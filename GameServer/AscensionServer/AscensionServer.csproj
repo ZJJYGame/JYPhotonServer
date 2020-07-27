@@ -128,6 +128,8 @@
     <Compile Include="DO\SpiritualRunes.cs" />
     <Compile Include="DO\SutrasAttic.cs" />
     <Compile Include="DO\Treasureattic.cs" />
+    <Compile Include="Handlers\SchoolSchoolRefresh\SyncSchoolRefreshHandler.cs" />
+    <Compile Include="Handlers\SyncRoleAssets\SubHandler\RemoveRoleAssetsSubHandler.cs" />
     <Compile Include="Handlers\SyncSchool\SubHandler\UpdateSchoolHandler.cs" />
     <Compile Include="Handlers\SyncSpiritualRunes\SpiritualRunesHandler.cs" />
     <Compile Include="Handlers\SyncSpiritualRunes\SubHandler\SpiritualRunesSubHandler.cs" />

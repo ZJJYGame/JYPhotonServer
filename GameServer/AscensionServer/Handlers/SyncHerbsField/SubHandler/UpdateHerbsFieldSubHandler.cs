@@ -44,7 +44,24 @@ namespace AscensionServer.Handlers
                 {
                     for (int i = 0; i < hfObj.AllHerbs.Count; i++)
                     {
-                        hfList[hfObj.AllHerbs[i].ArrayID] = hfObj.AllHerbs[i];
+                        hfList[hfObj.AllHerbs[i].ArrayID].FieldLevel+= hfObj.AllHerbs[i].FieldLevel;
+                        hfList[hfObj.AllHerbs[i].ArrayID].HerbsID= hfObj.AllHerbs[i].HerbsID;
+                        hfList[hfObj.AllHerbs[i].ArrayID].HerbsGrowthValue = hfObj.AllHerbs[i].HerbsGrowthValue;
+                        if (hfObj.AllHerbs[i].IsStratPlant)
+                        {
+                            hfList[hfObj.AllHerbs[i].ArrayID].plantingTime = hfObj.AllHerbs[i].plantingTime;
+                        }
+                        ConcurrentSingleton<NHManager>.Instance.Update<HerbsField>(new HerbsField() {RoleID= hfTemp.RoleID,jobLevel= hfTemp.jobLevel,AllHerbs= Utility.Json.ToJson(hfList) });
+                        for (int j = 0; j < hfObj.AllHerbs.Count; j++)
+                        {
+                            hfObj.AllHerbs[j].IsStratPlant = false;
+                        }
+                        SetResponseData(() =>
+                        {                     
+                            SubDict.Add((byte)ParameterCode.RoleSchool, Utility.Json.ToJson(hfObj));
+                            AscensionServer._Log.Info("的霛田信息" + Utility.Json.ToJson(hfObj));
+                            Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                        });
                     }            
                 }
             }

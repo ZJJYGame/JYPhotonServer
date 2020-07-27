@@ -68,6 +68,10 @@ namespace AscensionProtocol
         /// </summary>
         SyncMonsterTransform = 35,
         SyncRoleAdventureSkill=36,
+        /// <summary>
+        /// 刷新宗門藏寶閣藏經閣
+        /// </summary>
+        SyncSchoolRefresh=37,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>

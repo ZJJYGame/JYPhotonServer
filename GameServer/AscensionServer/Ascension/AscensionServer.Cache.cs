@@ -34,6 +34,9 @@ namespace AscensionServer
         // TODO 需要添加大厅功能
         Cache<AscensionPeer> lobby = new Cache<AscensionPeer>();
         public Cache<AscensionPeer> Lobby { get { return lobby; } }
+
+        Cache<AscensionPeer> refreshpool = new Cache<AscensionPeer>();
+        public Cache<AscensionPeer> RefreshPool { get { return refreshpool; } }
         #endregion
 
         #region Methods
@@ -171,7 +174,7 @@ namespace AscensionServer
             int intSecond = e.SignalTime.Second;
             if (intHour == 17 && intMinute == 9 && intSecond == 0)
             {
-                _Log.Info("醒醒到点了该刷新了");
+                RefreshPool.Clear();
             }
         }
         #endregion
