@@ -16,7 +16,7 @@ namespace AscensionServer.Model
     {
         public MiShu()
         {
-            MiShuID = 13001;
+            MiShuID = 19001;
             MiShuExp = 0;
             MiShuLevel = 1;
             MiShuSkillArry = "";

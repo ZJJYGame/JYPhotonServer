@@ -59,6 +59,7 @@ namespace AscensionServer
         }
         protected override void Setup()
         {
+            RefreshData();
             Instance = this;
             log4net.GlobalContext.Properties["Photon:ApplicationLogPath"] = Path.Combine(this.ApplicationRootPath, "log");//配置log的输出位置
             FileInfo configFileInfo = new FileInfo(Path.Combine(this.BinaryPath, "log4net.config"));

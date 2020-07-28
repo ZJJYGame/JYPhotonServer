@@ -15,7 +15,7 @@ namespace AscensionServer.Model
             PetID = 8001;
             PetExp = 0;
             PetName = "皮卡丘";
-            PetSkillArray = "7001";
+            PetSkillArray = "21001";
             PetIsBattle = false;
         }
         public virtual int ID { get; set; }

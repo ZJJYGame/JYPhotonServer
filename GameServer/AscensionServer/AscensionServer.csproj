@@ -17,7 +17,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
-    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -81,7 +81,7 @@
       <HintPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\Photon3Unity3D.dll</HintPath>
     </Reference>
     <Reference Include="PhotonHostRuntimeInterfaces">
-      <HintPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\PhotonHostRuntimeInterfaces.dll</HintPath>
+      <HintPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\PhotonHostRuntimeInterfaces.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
@@ -112,18 +112,28 @@
     <Compile Include="Concurrent\ConcurrentInt.cs" />
     <Compile Include="DOMap\AlchemyMap.cs" />
     <Compile Include="DOMap\BottleneckMap.cs" />
+    <Compile Include="DOMap\FrogeMap.cs" />
     <Compile Include="DOMap\HerbsFieldMap.cs" />
     <Compile Include="DOMap\RoleSchoolMap.cs" />
     <Compile Include="DOMap\SchoolMap.cs" />
+    <Compile Include="DOMap\SpiritualRunesMap.cs" />
     <Compile Include="DOMap\SutrasAtticmMap.cs" />
     <Compile Include="DOMap\TreasureatticMap.cs" />
     <Compile Include="DO\Alchemy.cs" />
     <Compile Include="DO\Bottleneck.cs" />
+    <Compile Include="DO\Froge.cs" />
     <Compile Include="DO\HerbsField.cs" />
     <Compile Include="DO\RoleSchool.cs" />
     <Compile Include="DO\School.cs" />
+    <Compile Include="DO\SpiritualRunes.cs" />
     <Compile Include="DO\SutrasAttic.cs" />
     <Compile Include="DO\Treasureattic.cs" />
+    <Compile Include="Handlers\SchoolSchoolRefresh\SyncSchoolRefreshHandler.cs" />
+    <Compile Include="Handlers\SyncRoleAssets\SubHandler\RemoveRoleAssetsSubHandler.cs" />
+    <Compile Include="Handlers\SyncSchool\SubHandler\UpdateSchoolHandler.cs" />
+    <Compile Include="Handlers\SyncSpiritualRunes\SpiritualRunesHandler.cs" />
+    <Compile Include="Handlers\SyncSpiritualRunes\SubHandler\SpiritualRunesSubHandler.cs" />
+    <Compile Include="Handlers\SyncHerbsField\SubHandler\UpdateHerbsFieldSubHandler.cs" />
     <Compile Include="Lite\FightRoom\FightCache.cs" />
     <Compile Include="Lite\FightRoom\FightRoom.cs" />
     <Compile Include="Handlers\OccupiedResourceUnit\OccupiedResourceUnitHandler.cs" />
@@ -148,7 +158,7 @@
     <Compile Include="Handlers\SyncRoleSchool\SubHandler\UpdateRoleSchoolHandler.cs" />
     <Compile Include="Handlers\SyncRoleSchool\SyncRoleSchoolHandler.cs" />
     <Compile Include="Handlers\SyncSchool\SubHandler\GetSchoolSubHandler.cs" />
-    <Compile Include="Handlers\SyncSchool\SubHandler\UpdateSchoolHandler.cs" />
+    <Compile Include="Handlers\SyncSchool\SubHandler\AddSchoolHandler.cs" />
     <Compile Include="Handlers\SyncSchool\SyncSchoolHandler.cs" />
     <Compile Include="Handlers\SyncSchool\SubHandler\SyncSchoolSubHandler.cs" />
     <Compile Include="Handlers\SyncSelfRoleTransformSet\SyncSelfRoleTransformSetHandler.cs" />

@@ -2,21 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AscensionProtocol;
+using System.Threading.Tasks;
 
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-   public class RoleAssetsDTO: DataTransferObject
+    public class SpiritualRunesDTO : DataTransferObject
     {
         public virtual int RoleID { get; set; }
-        public virtual long SpiritStonesLow { get; set; }
-        public virtual long XianYu { get; set; }
+        public virtual int JobLevel { get; set; }
+        public virtual HashSet<int> Recipe_Array { get; set; }
+
+
         public override void Clear()
         {
             RoleID = -1;
-            SpiritStonesLow = 0;
-            XianYu = 0;
+            JobLevel = 0;
+            Recipe_Array = null;
         }
     }
 }

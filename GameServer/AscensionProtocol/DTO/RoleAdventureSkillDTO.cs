@@ -10,9 +10,10 @@ namespace AscensionProtocol.DTO
     {
         public int RoleID { get; set; }
         public bool IsInUse { get; set; }
-        public int SkillID  { get; set; }
+        public int SkillID { get; set; }
         public int CDInterval { get; set; }
         public int BuffeInterval { get; set; }
+        public short featureSkillTypeEnum { get; set; }
 
         public override void Clear()
         {
@@ -21,8 +22,8 @@ namespace AscensionProtocol.DTO
             SkillID = 0;
             CDInterval = 0;
             BuffeInterval = 0;
-
+            featureSkillTypeEnum = 0;
         }
-       
+
     }
 }

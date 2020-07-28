@@ -54,9 +54,7 @@ namespace AscensionServer
                 {
                     SubDict.Add((byte)ParameterCode.School, Utility.Json.ToJson(DTOList));
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
-
                 });
-
             }
             else
             {

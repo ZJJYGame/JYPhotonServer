@@ -107,5 +107,9 @@
         RoleAdventureStartSkill = 67,
         RoleAdventureEndSkill = 68,
         RoleAdventureSkillCD = 69,
+        /// <summary>
+        /// 宗門藏寶閣藏經閣簽到刷新
+        /// </summary>
+        SchoolRefresh=70
     }
 }

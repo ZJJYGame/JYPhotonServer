@@ -19,74 +19,37 @@ namespace AscensionServer
             base.OnInitialization();
         }
 
-
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-
             var dict = ParseSubDict(operationRequest);
             string schoolJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.School));
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
-
-            AscensionServer._Log.Info(">>>>>>>加入1宗门的请求收到了"+ schoolJson);
-            string treasureatticJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.TreasureAttic));
-            var treasureatticObj = Utility.Json.ToObject<TreasureatticDTO>(treasureatticJson);
-
-            string sutrasAtticJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.SutrasAtticm));
-            var sutrasAtticObj = Utility.Json.ToObject<SutrasAtticDTO>(sutrasAtticJson);
-
-            AscensionServer._Log.Info(">>>>>>>加入2宗门的请求收到了"+ treasureatticJson);
-            NHCriteria nHCriteriaSchool = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
-            NHCriteria nHCriteriaTreasureattic = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", treasureatticObj.ID);
-            NHCriteria nHCriteriasutrasAttic = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", sutrasAtticObj.ID);
-
-            var schoolTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
-            var treasureatticTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
-            var sutrasAtticTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SutrasAttic>(nHCriteriasutrasAttic);
-            Dictionary<string, string> DTOdict = new Dictionary<string, string>();
-            if (schoolTemp != null)
+            NHCriteria  nHCriteriaschool= ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
+            var schooltemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaschool);
+            if (schooltemp!=null)
             {
-
-                AscensionServer._Log.Info(">>>>>>>加入宗门的请求收到了"+ schoolTemp.SchoolID);
-                if (treasureatticTemp != null)
+                if (schoolObj.GetContributions>0)
                 {
-                    treasureatticTemp.ID = treasureatticObj.ID;
-                    treasureatticTemp.ItemAmountDict = Utility.Json.ToJson(treasureatticObj.ItemAmountDict);
-                    ConcurrentSingleton<NHManager>.Instance.Update(treasureatticTemp);
-                    var treasureatticSendObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
-                    DTOdict.Add("1", Utility.Json.ToJson(treasureatticSendObj));
-                }
-
-                if (sutrasAtticTemp != null)
+                    schooltemp.ContributionNow += schoolObj.GetContributions;
+                    schooltemp.IsSignin= schoolObj.IsSignin;
+                    ConcurrentSingleton<NHManager>.Instance.Update<School>(schooltemp);
+                    SetResponseData(() =>
                     {
-                    sutrasAtticTemp.ID = sutrasAtticObj.ID;
-                    sutrasAtticTemp.SutrasAmountDict = Utility.Json.ToJson(sutrasAtticObj.SutrasAmountDict);
-                        ConcurrentSingleton<NHManager>.Instance.Update(sutrasAtticTemp);
-                    var sutrasAtticSendObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SutrasAttic>(nHCriteriasutrasAttic);
-                    DTOdict.Add("2", Utility.Json.ToJson(sutrasAtticSendObj));
+                        SubDict.Add((byte)ParameterCode.School, Utility.Json.ToJson(schooltemp));
+                        Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                    });
                 }
-
-                    schoolTemp.SchoolID = schoolObj.SchoolID;
-                schoolTemp.SchoolJob = schoolObj.SchoolJob;
-                ConcurrentSingleton<NHManager>.Instance.Update(schoolTemp);
-                var schoolSendObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
-                DTOdict.Add("School", Utility.Json.ToJson(schoolSendObj));
-               
-            }
-            else
-                SetResponseData(() =>{Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail; });
-
-            if (DTOdict.Count==3)
-            {
-                SetResponseData(() =>
+                else
                 {
-
-                    SubDict.Add((byte)ParameterCode.School, Utility.Json.ToJson(DTOdict));
-                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
-                });
-            }else
-                SetResponseData(() => { Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail; });
+                    SetResponseData(() =>
+                    {
+                        Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
+                    });
+                }
+            }
+            AscensionServer._Log.Info("更新后的宗门信息" + Utility.Json.ToJson(schooltemp));
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaSchool, nHCriteriaTreasureattic, nHCriteriasutrasAttic);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaschool);
         }
     }
 }

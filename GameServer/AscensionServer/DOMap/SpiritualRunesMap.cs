@@ -8,14 +8,14 @@ using FluentNHibernate.Mapping;
 
 namespace AscensionServer
 {
-    public class AlchemyMap:ClassMap<Alchemy>
+    public  class SpiritualRunesMap:ClassMap<SpiritualRunes>
     {
-        public AlchemyMap()
+        public SpiritualRunesMap()
         {
             Id(x => x.RoleID).GeneratedBy.Assigned().Column("roleid");
             Map(x => x.JobLevel).Column("job_level");
             Map(x => x.Recipe_Array).Column("recipe_array");
-            Table("alchemy");
+            Table("spiritualrunes");
         }
     }
 }

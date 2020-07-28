@@ -18,5 +18,7 @@
         RoleAdventureStartSkill=8,
         RoleAdventureEndtSkill = 9,
         RoleAdventureSkillCD = 10,
+        //宗门藏宝阁藏经阁签到刷新
+        SchoolRefresh=11,
     }
 }

@@ -43,6 +43,7 @@ namespace AscensionProtocol
         SyncAlchemy=21,
         SyncForge=22,
         SyncHerbsField=23,
+        SpiritualRunes=24,
         /// <summary>
         /// 同步自身位置的集合，参考消息队列
         /// </summary>
@@ -67,6 +68,10 @@ namespace AscensionProtocol
         /// </summary>
         SyncMonsterTransform = 35,
         SyncRoleAdventureSkill=36,
+        /// <summary>
+        /// 刷新宗門藏寶閣藏經閣
+        /// </summary>
+        SyncSchoolRefresh=37,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>
@@ -77,6 +82,10 @@ namespace AscensionProtocol
         /// 离开战斗
         /// </summary>
         ExitBattle = 114,
+        /// <summary>
+        /// 战斗匹配
+        /// </summary>
+        SyncRoleBattleMatch=115,
         /// <summary>
         /// 测试消息队列
         /// </summary>

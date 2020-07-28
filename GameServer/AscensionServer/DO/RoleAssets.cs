@@ -12,8 +12,6 @@ namespace AscensionServer.Model
         public RoleAssets()
         {
             this.SpiritStonesLow = 0;
-            this.SpiritStonesHigh = 0;
-            this.SpiritStonesMedium = 0;
             this.XianYu = 0;
         }
         public virtual int RoleID { get; set; }
@@ -24,14 +22,12 @@ namespace AscensionServer.Model
         public override string ToString()
         {
             return Utility.Text.Format("{ RoleID : " + RoleID + " ; " + " SpiritStonesLow : " + SpiritStonesLow 
-                + ";SpiritStonesMedium" + SpiritStonesMedium+ ";SpiritStonesHigh"+ SpiritStonesHigh+ " ; XianYu"+ XianYu+"}");
+                +  " ; XianYu"+ XianYu+"}");
         }
         public override void Clear()
         {
             RoleID = -1;
             SpiritStonesLow = 0;
-            SpiritStonesMedium = 0;
-            SpiritStonesHigh = 0;
             XianYu = 0;
         }
     }

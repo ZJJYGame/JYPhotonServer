@@ -33,6 +33,7 @@ namespace AscensionServer
                     result = ConcurrentSingleton<NHManager>.Instance.Insert(new RoleAssets() { RoleID = roleObj.RoleID });
                 }
                 string roleAssetsJson = Utility.Json.ToJson(result);
+                AscensionServer._Log.Info(">>>>>>>>>>>>>出納過去的數據為  " + Utility.Json.ToJson(result) + "   >>>>>>>>>>>>>>>>>>>>>>");
                 SetResponseData(() =>
                 {
                     SubDict.Add((byte)ParameterCode.RoleAssets, roleAssetsJson);

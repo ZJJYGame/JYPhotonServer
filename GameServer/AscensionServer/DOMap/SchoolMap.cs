@@ -21,7 +21,8 @@ namespace AscensionServer
             Map(x => x.Hatred).Column("hatred");
             Map(x => x.ContributionNow).Column("contribution_now");
             Map(x => x.ContributionHistory).Column("contribution_history");
-            Map(x => x.SchoolAward).Column("school_award");
+            Map(x => x.GetContributions).Column("getcontributions");
+            Map(x => x.IsSignin).Column("issignin");      
             Table("school");
         }
     }

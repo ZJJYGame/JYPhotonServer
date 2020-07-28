@@ -14,8 +14,6 @@ namespace AscensionServer
         {
             Id(x => x.RoleID).GeneratedBy.Assigned().Column("role_id");
             Map(x => x.SpiritStonesLow).Column("spirit_stones_low");
-            Map(x => x.SpiritStonesMedium).Column("spirit_stones_medium");
-            Map(x => x.SpiritStonesHigh).Column("spirit_stones_high");
             Map(x => x.XianYu).Column("xianyu");
             Table("role_assets");
         }

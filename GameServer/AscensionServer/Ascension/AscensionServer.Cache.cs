@@ -34,6 +34,9 @@ namespace AscensionServer
         // TODO 需要添加大厅功能
         Cache<AscensionPeer> lobby = new Cache<AscensionPeer>();
         public Cache<AscensionPeer> Lobby { get { return lobby; } }
+
+        Cache<AscensionPeer> refreshpool = new Cache<AscensionPeer>();
+        public Cache<AscensionPeer> RefreshPool { get { return refreshpool; } }
         #endregion
 
         #region Methods
@@ -154,6 +157,25 @@ namespace AscensionServer
         {
             var result = addventureScenePeerCache.IsExists(peer.PeerCache.Account);
             return result;
+        }
+        #endregion
+        #region 刷新机制
+        public void RefreshData()
+        {
+            System.Timers.Timer t = new System.Timers.Timer(1000);//实例化Timer类，设置时间间隔
+            t.AutoReset = true;//设置是执行一次（false）还是一直执行(true)
+            t.Enabled = true;//是否执行System.Timers.Timer.Elapsed事件
+            t.Elapsed += new System.Timers.ElapsedEventHandler(Method2);//到达时间的时候执行事件
+        }
+        void Method2(object source, System.Timers.ElapsedEventArgs e)
+        {
+            int intHour = e.SignalTime.Hour;
+            int intMinute = e.SignalTime.Minute;
+            int intSecond = e.SignalTime.Second;
+            if (intHour == 17 && intMinute == 9 && intSecond == 0)
+            {
+                RefreshPool.Clear();
+            }
         }
         #endregion
     }
