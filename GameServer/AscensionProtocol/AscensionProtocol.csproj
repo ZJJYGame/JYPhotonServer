@@ -92,7 +92,6 @@
     <Compile Include="ParameterCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReturnCode.cs" />
-    <Compile Include="SubCode.cs" />
     <Compile Include="SubOperationCode.cs" />
     <Compile Include="VO\Base\ViewObject.cs" />
     <Compile Include="VO\MonsterDataVO.cs" />
