@@ -72,6 +72,7 @@ namespace AscensionProtocol
         /// 刷新宗門藏寶閣藏經閣
         /// </summary>
         SyncSchoolRefresh=37,
+        UpdateSchoolRefresh = 38,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>

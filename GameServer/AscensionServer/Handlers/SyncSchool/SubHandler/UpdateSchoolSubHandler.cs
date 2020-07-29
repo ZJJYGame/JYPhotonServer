@@ -11,7 +11,7 @@ using Cosmos;
 
 namespace AscensionServer
 {
-    public class UpdateSchoolHandler : SyncSchoolSubHandler
+    public class UpdateSchoolSubHandler : SyncSchoolSubHandler
     {
         public override void OnInitialization()
         {
@@ -28,7 +28,7 @@ namespace AscensionServer
             var schooltemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaschool);
             if (schooltemp!=null)
             {
-                if (schoolObj.GetContributions>0)
+                if (schoolObj.GetContributions>=0)
                 {
                     schooltemp.ContributionNow += schoolObj.GetContributions;
                     schooltemp.IsSignin= schoolObj.IsSignin;

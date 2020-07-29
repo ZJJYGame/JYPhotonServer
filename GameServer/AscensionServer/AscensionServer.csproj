@@ -112,7 +112,7 @@
     <Compile Include="Concurrent\ConcurrentInt.cs" />
     <Compile Include="DOMap\AlchemyMap.cs" />
     <Compile Include="DOMap\BottleneckMap.cs" />
-    <Compile Include="DOMap\FrogeMap.cs" />
+    <Compile Include="DOMap\ForgeMap.cs" />
     <Compile Include="DOMap\HerbsFieldMap.cs" />
     <Compile Include="DOMap\RoleSchoolMap.cs" />
     <Compile Include="DOMap\SchoolMap.cs" />
@@ -121,7 +121,7 @@
     <Compile Include="DOMap\TreasureatticMap.cs" />
     <Compile Include="DO\Alchemy.cs" />
     <Compile Include="DO\Bottleneck.cs" />
-    <Compile Include="DO\Froge.cs" />
+    <Compile Include="DO\Forge.cs" />
     <Compile Include="DO\HerbsField.cs" />
     <Compile Include="DO\RoleSchool.cs" />
     <Compile Include="DO\School.cs" />
@@ -129,8 +129,12 @@
     <Compile Include="DO\SutrasAttic.cs" />
     <Compile Include="DO\Treasureattic.cs" />
     <Compile Include="Handlers\SchoolSchoolRefresh\SyncSchoolRefreshHandler.cs" />
+    <Compile Include="Handlers\SchoolSchoolRefresh\SyncUpdatSchoolRefreshHandler.cs" />
+    <Compile Include="Handlers\SyncAlchemy\SubHandler\UpdateAlchemySubHandler.cs" />
+    <Compile Include="Handlers\SyncForge\SubHandler\AddForgeSubHandler.cs" />
+    <Compile Include="Handlers\SyncForge\SubHandler\UpdateForgeSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAssets\SubHandler\RemoveRoleAssetsSubHandler.cs" />
-    <Compile Include="Handlers\SyncSchool\SubHandler\UpdateSchoolHandler.cs" />
+    <Compile Include="Handlers\SyncSchool\SubHandler\UpdateSchoolSubHandler.cs" />
     <Compile Include="Handlers\SyncSpiritualRunes\SpiritualRunesHandler.cs" />
     <Compile Include="Handlers\SyncSpiritualRunes\SubHandler\SpiritualRunesSubHandler.cs" />
     <Compile Include="Handlers\SyncHerbsField\SubHandler\UpdateHerbsFieldSubHandler.cs" />

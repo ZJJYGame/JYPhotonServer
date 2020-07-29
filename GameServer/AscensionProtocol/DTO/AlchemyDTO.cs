@@ -11,6 +11,7 @@ namespace AscensionProtocol.DTO
     {
         public virtual int RoleID { get; set; }
         public virtual int JobLevel { get; set; }
+        public virtual int JobLevelExp { get; set; }
         public virtual HashSet<int> Recipe_Array { get; set; }
 
 
@@ -19,6 +20,7 @@ namespace AscensionProtocol.DTO
             RoleID = -1;
             JobLevel = 0;
             Recipe_Array = null;
+            JobLevelExp = 0;
         }
     }
 

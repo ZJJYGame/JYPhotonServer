@@ -162,7 +162,7 @@ namespace AscensionServer
         #region 刷新机制
         public void RefreshData()
         {
-            System.Timers.Timer t = new System.Timers.Timer(1000);//实例化Timer类，设置时间间隔
+            System.Timers.Timer t = new System.Timers.Timer(10000);//实例化Timer类，设置时间间隔
             t.AutoReset = true;//设置是执行一次（false）还是一直执行(true)
             t.Enabled = true;//是否执行System.Timers.Timer.Elapsed事件
             t.Elapsed += new System.Timers.ElapsedEventHandler(Method2);//到达时间的时候执行事件
@@ -172,7 +172,7 @@ namespace AscensionServer
             int intHour = e.SignalTime.Hour;
             int intMinute = e.SignalTime.Minute;
             int intSecond = e.SignalTime.Second;
-            if (intHour == 17 && intMinute == 9 && intSecond == 0)
+            if (intHour == 4&& intMinute ==0&& intSecond == 0)
             {
                 RefreshPool.Clear();
             }
