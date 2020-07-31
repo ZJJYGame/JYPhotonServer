@@ -11,28 +11,29 @@ using Cosmos;
 
 namespace AscensionServer
 {
-    public class GetForgeSubHandler : SyncForgeSubHandler
+    public class GetSpiritualRunesSubHandler : SyncSpiritualRuneSubHandler
     {
         public override void OnInitialization()
         {
             SubOpCode = SubOperationCode.Get;
             base.OnInitialization();
         }
+
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
-            string forgeJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobForge));
-            var forgeObj = Utility.Json.ToObject<ForgeDTO>(forgeJson);
-            NHCriteria nHCriteriaFroge = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", forgeObj.RoleID);
-            //AscensionServer._Log.Info("得到的锻造配方" );
-            var Frogetemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Forge>(nHCriteriaFroge);
-            if (Frogetemp != null)
+            string spiritualrunesJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobSpiritualRunes));
+            var spiritualrunesObj = Utility.Json.ToObject<SpiritualRunesDTO>(spiritualrunesJson);
+            NHCriteria nHCriteriaspiritualrunes = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", spiritualrunesObj.RoleID);
+            AscensionServer._Log.Info("得到的制符配方");
+            var spiritualrunestemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SpiritualRunes>(nHCriteriaspiritualrunes);
+            if (spiritualrunestemp != null)
             {
-                if (!string.IsNullOrEmpty(Frogetemp.Recipe_Array))
+                if (!string.IsNullOrEmpty(spiritualrunestemp.Recipe_Array))
                 {
                     SetResponseData(() =>
                     {
-                        SubDict.Add((byte)ParameterCode.JobForge, Utility.Json.ToJson(Frogetemp));
+                        SubDict.Add((byte)ParameterCode.JobSpiritualRunes, Utility.Json.ToJson(spiritualrunestemp));
 
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
@@ -42,10 +43,10 @@ namespace AscensionServer
             else
             {
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-                SubDict.Add((byte)ParameterCode.JobForge, Utility.Json.ToJson(new List<string>()));
+                SubDict.Add((byte)ParameterCode.JobSpiritualRunes, Utility.Json.ToJson(new List<string>()));
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaFroge);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaspiritualrunes);
         }
     }
 }

@@ -11,7 +11,7 @@ using Cosmos;
 
 namespace AscensionServer
 {
-    public class AddSchoolHandler : SyncSchoolSubHandler
+    public class AddSchoolSubHandler : SyncSchoolSubHandler
     {
         public override void OnInitialization()
         {

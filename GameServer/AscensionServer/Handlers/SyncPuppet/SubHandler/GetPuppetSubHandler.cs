@@ -9,30 +9,31 @@ using Photon.SocketServer;
 using AscensionServer.Model;
 using Cosmos;
 
-namespace AscensionServer
+namespace AscensionServer.Handlers.SyncPuppet.SubHandler
 {
-    public class GetForgeSubHandler : SyncForgeSubHandler
+    public class GetPuppetSubHandler : SyncPuppetSubHandler
     {
         public override void OnInitialization()
         {
             SubOpCode = SubOperationCode.Get;
             base.OnInitialization();
         }
+
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
-            string forgeJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobForge));
-            var forgeObj = Utility.Json.ToObject<ForgeDTO>(forgeJson);
-            NHCriteria nHCriteriaFroge = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", forgeObj.RoleID);
+            string puppetJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobPuppet));
+            var puppetObj = Utility.Json.ToObject<PuppetDTO>(puppetJson);
+            NHCriteria nHCriteriapuppetObj = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", puppetObj.RoleID);
             //AscensionServer._Log.Info("得到的锻造配方" );
-            var Frogetemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Forge>(nHCriteriaFroge);
-            if (Frogetemp != null)
+            var puppettemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Forge>(nHCriteriapuppetObj);
+            if (puppettemp != null)
             {
-                if (!string.IsNullOrEmpty(Frogetemp.Recipe_Array))
+                if (!string.IsNullOrEmpty(puppettemp.Recipe_Array))
                 {
                     SetResponseData(() =>
                     {
-                        SubDict.Add((byte)ParameterCode.JobForge, Utility.Json.ToJson(Frogetemp));
+                        SubDict.Add((byte)ParameterCode.JobPuppet, Utility.Json.ToJson(puppettemp));
 
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
@@ -42,10 +43,10 @@ namespace AscensionServer
             else
             {
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-                SubDict.Add((byte)ParameterCode.JobForge, Utility.Json.ToJson(new List<string>()));
+                SubDict.Add((byte)ParameterCode.JobPuppet, Utility.Json.ToJson(new List<string>()));
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaFroge);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriapuppetObj);
         }
     }
 }

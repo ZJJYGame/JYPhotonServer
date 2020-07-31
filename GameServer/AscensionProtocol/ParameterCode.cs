@@ -84,6 +84,9 @@
         /// </summary>
         JobAlchemy = 56,
         JobForge=57,
+        JobSpiritualRunes=58,
+        JobTacticFormation=59,
+        JobPuppet=60,
         JobHerbsField = 62,
         /// <summary>
         /// 位置信息的集合队列
