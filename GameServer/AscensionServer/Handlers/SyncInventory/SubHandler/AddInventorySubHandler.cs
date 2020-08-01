@@ -48,7 +48,6 @@ namespace AscensionServer
                         if (!ServerDic.ContainsKey(client_p.Key))
                         {
                             ServerDic.Add(client_p.Key, client_p.Value);
-                            continue;
                         }
                         var severValue = ServerDic[client_p.Key];
                         if (client_p.Value.RingItemCount > 0)
