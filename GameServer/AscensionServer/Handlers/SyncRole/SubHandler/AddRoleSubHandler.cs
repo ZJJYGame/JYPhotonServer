@@ -20,6 +20,7 @@ namespace AscensionServer
         Dictionary<int, int> RoleMiShuDict = new Dictionary<int, int>();
         Dictionary<int, int> RolePetDict = new Dictionary<int, int>();
         Dictionary<int, RoleTaskItemDTO> roleTaskDic = new Dictionary<int, RoleTaskItemDTO>();
+        Dictionary<int, RingItemsDTO> ringDict = new Dictionary<int, RingItemsDTO>();
         public override void OnInitialization()
         {
             SubOpCode = SubOperationCode.Add;
@@ -97,7 +98,13 @@ namespace AscensionServer
                 var ringArray = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
                 if (string.IsNullOrEmpty(ringArray.RingIdArray))
                {
-                   ring = ConcurrentSingleton<NHManager>.Instance.Insert<Ring>(new Ring() { RingId = 11110, RingItems = Utility.Json.ToJson(new Dictionary<int, RingItemsDTO>()) });
+                    ringDict.Clear();
+                    ringDict.Add(17701, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss") });
+                    ringDict.Add(17711, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss") });
+                    ringDict.Add(17716, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss") });
+                    ringDict.Add(17721, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss") });
+                    ringDict.Add(17952, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss") });
+                   ring = ConcurrentSingleton<NHManager>.Instance.Insert<Ring>(new Ring() { RingId = 11110, RingItems = Utility.Json.ToJson(ringDict) });
                    idRing.Add(ring.ID, ring.RingAdorn);
                    ConcurrentSingleton<NHManager>.Instance.Update<RoleRing>(new RoleRing() { RoleID = rolestatus.RoleID, RingIdArray = Utility.Json.ToJson(idRing) });
                }
