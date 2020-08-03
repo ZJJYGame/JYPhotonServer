@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-  public abstract  class SpiritualRunesSubHandler:SubHandler
+   public abstract class SyncTacticFormationSubHandler:SubHandler
     {
     }
 }

@@ -5,18 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using AscensionServer.Model;
 using FluentNHibernate.Mapping;
-
 namespace AscensionServer
 {
-    public  class SpiritualRunesMap:ClassMap<SpiritualRunes>
+   public class TacticFormationMap : ClassMap<TacticFormation>
     {
-        public SpiritualRunesMap()
+        public TacticFormationMap()
         {
             Id(x => x.RoleID).GeneratedBy.Assigned().Column("roleid");
             Map(x => x.JobLevel).Column("job_level");
-            Map(x => x.JobLevelExp).Column("job_level_exp");
             Map(x => x.Recipe_Array).Column("recipe_array");
-            Table("spiritualrunes");
+            Map(x => x.JobLevelExp).Column("job_level_exp");
+            Table("tacticformation");
         }
     }
 }

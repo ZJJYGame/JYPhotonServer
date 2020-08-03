@@ -7,14 +7,12 @@ using System.Threading.Tasks;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class SpiritualRunesDTO : DataTransferObject
+    public class TacticFormationDTO : DataTransferObject
     {
         public virtual int RoleID { get; set; }
         public virtual int JobLevel { get; set; }
         public virtual int JobLevelExp { get; set; }
         public virtual HashSet<int> Recipe_Array { get; set; }
-
-
         public override void Clear()
         {
             RoleID = -1;
@@ -22,5 +20,6 @@ namespace AscensionProtocol.DTO
             JobLevelExp = 0;
             Recipe_Array = null;
         }
+
     }
 }

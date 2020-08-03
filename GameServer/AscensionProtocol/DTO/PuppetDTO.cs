@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class SpiritualRunesDTO : DataTransferObject
+    public class PuppetDTO : DataTransferObject
     {
         public virtual int RoleID { get; set; }
         public virtual int JobLevel { get; set; }

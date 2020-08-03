@@ -14,13 +14,13 @@ using Photon.SocketServer;
 
 namespace AscensionServer
 {
-   public class SpiritualRunesHandler:Handler
+   public class SyncSpiritualRunesHandler : Handler
     {
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SpiritualRunes;
+            OpCode = OperationCode.SyncSpiritualRunes;
             base.OnInitialization();
-            OnSubHandlerInitialization<SpiritualRunesSubHandler>();
+            OnSubHandlerInitialization<SyncSpiritualRuneSubHandler>();
         }
     }
 }
