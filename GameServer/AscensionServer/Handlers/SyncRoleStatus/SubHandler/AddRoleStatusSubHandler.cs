@@ -56,8 +56,6 @@ namespace AscensionServer
                     if ((roleStatusSever.RoleHP + roleObj.RoleHP) < 0)
                         roleStatusSever.RoleHP = 0;
                 }
-                AscensionServer._Log.Info("HP" + roleStatusSever.RoleHP);
-                AscensionServer._Log.Info("HP" + roleStatusSever.RoleMP);
 
                 if (roleObj.RoleMP != 0 && roleStatusSever.RoleMP > 0)
                 {
@@ -65,7 +63,6 @@ namespace AscensionServer
                     if ((roleStatusSever.RoleMP + roleObj.RoleMP) <0)
                         roleStatusSever.RoleMP = 0;
                 }
-                AscensionServer._Log.Info("HP" + roleStatusSever.RoleMP);
 
                 if (roleObj.RoleAttackDamage != 0 && roleStatusSever.RoleAttackDamage > 0)
                 {
@@ -96,6 +93,14 @@ namespace AscensionServer
                         roleStatusSever.RoleResistancePower = 0;
                 }
 
+                if (roleObj.RoleSpeedAttack != 0 && roleStatusSever.RoleSpeedAttack > 0)
+                {
+                    roleStatusSever.RoleSpeedAttack += roleObj.RoleSpeedAttack;
+                    if ((roleStatusSever.RoleSpeedAttack + roleObj.RoleSpeedAttack) < 0)
+                        roleStatusSever.RoleSpeedAttack = 0;
+                }
+
+
                 ConcurrentSingleton<NHManager>.Instance.Update(new RoleStatus()
                 {
                     RoleID = roleObj.RoleID,
@@ -104,7 +109,8 @@ namespace AscensionServer
                     RoleAttackDamage = roleStatusSever.RoleAttackDamage,
                     RoleResistanceDamage = roleStatusSever.RoleResistanceDamage,
                     RoleAttackPower = roleStatusSever.RoleAttackPower,
-                    RoleResistancePower = roleStatusSever.RoleResistancePower
+                    RoleResistancePower = roleStatusSever.RoleResistancePower,
+                     RoleSpeedAttack  = roleStatusSever.RoleSpeedAttack,
                 });
                 Owner.OpResponse.Parameters = Owner.ResponseData;
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
