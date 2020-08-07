@@ -22,27 +22,35 @@ namespace AscensionServer
         {
             var dict = ParseSubDict(operationRequest);
             string alchemyJson = Convert.ToString(Utility.GetValue(dict,(byte)ParameterCode.JobAlchemy));
-            var alchemyObj = Utility.Json.ToObject<Alchemy>(alchemyJson);
+            var alchemyObj = Utility.Json.ToObject<AlchemyDTO>(alchemyJson);
             NHCriteria nHCriteriaAlchemy = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", alchemyObj.RoleID);
             var alchemyTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Alchemy>(nHCriteriaAlchemy);
+            HashSet<int> alchemyHash=new HashSet<int>();
             if (alchemyTemp!=null)
-            {
+            {             
                 if (string.IsNullOrEmpty(alchemyTemp.Recipe_Array))
-                {
-                    var alchemyHash = Utility.Json.ToObject<HashSet<int>>(alchemyTemp.Recipe_Array);
-                    alchemyHash.Add(Convert.ToInt16(alchemyObj.Recipe_Array));
-                    alchemyTemp.Recipe_Array = Utility.Json.ToJson(alchemyHash);
+                {                 
+                    alchemyTemp.Recipe_Array = Utility.Json.ToJson(alchemyObj.Recipe_Array);
                     ConcurrentSingleton<NHManager>.Instance.Update(alchemyTemp);
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
                 else
                 {
-                    alchemyTemp.Recipe_Array = Utility.Json.ToJson(alchemyObj.Recipe_Array);
+                    alchemyHash = Utility.Json.ToObject<HashSet<int>>(alchemyTemp.Recipe_Array);
+                    alchemyHash.Add(alchemyObj.Recipe_Array.First());
+                    alchemyTemp.Recipe_Array = Utility.Json.ToJson(alchemyHash);
                     ConcurrentSingleton<NHManager>.Instance.Update(alchemyTemp);
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                SetResponseData(() =>
+                {
+                    alchemyObj = new AlchemyDTO() {RoleID= alchemyTemp.RoleID,JobLevel= alchemyTemp.JobLevel,JobLevelExp= alchemyTemp.JobLevelExp, Recipe_Array = alchemyHash };
+
+                    SubDict.Add((byte)ParameterCode.JobAlchemy, alchemyObj);
+                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+
+                });
             }
+            else
+                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaAlchemy);
         }
