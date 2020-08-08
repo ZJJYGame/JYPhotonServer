@@ -46,17 +46,18 @@ namespace AscensionServer
                     foreach (var client_p in InventoryObj.RingItems)
                     {
                         if (!ServerDic.ContainsKey(client_p.Key))
-                        {
                             ServerDic.Add(client_p.Key, client_p.Value);
+                        else
+                        {
+                            var severValue = ServerDic[client_p.Key];
+                            if (client_p.Value.RingItemCount > 0)
+                                severValue.RingItemCount += client_p.Value.RingItemCount;
+                            if (severValue.RingItemAdorn != client_p.Value.RingItemAdorn)
+                                severValue.RingItemAdorn = client_p.Value.RingItemAdorn;
+                            if (severValue.RingItemTime != client_p.Value.RingItemTime)
+                                severValue.RingItemTime = client_p.Value.RingItemTime;
                         }
-                        var severValue = ServerDic[client_p.Key];
-                        if (client_p.Value.RingItemCount > 0)
-                            severValue.RingItemCount += client_p.Value.RingItemCount;
-                        if (severValue.RingItemAdorn != client_p.Value.RingItemAdorn)
-                            severValue.RingItemAdorn = client_p.Value.RingItemAdorn;
-                        if (severValue.RingItemTime != client_p.Value.RingItemTime)
-                            severValue.RingItemTime = client_p.Value.RingItemTime;
-                        ConcurrentSingleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDic),  RingMagicDictServer = Utility.Json.ToJson(ringServerArray.RingMagicDictServer) });
+                        ConcurrentSingleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDic),  RingMagicDictServer = ringServerArray.RingMagicDictServer });
                     }
                     Owner.OpResponse.Parameters = Owner.ResponseData;
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
