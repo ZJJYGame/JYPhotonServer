@@ -86,7 +86,7 @@ namespace AscensionServer
                 ConcurrentSingleton<NHManager>.Instance.Insert(new RoleMiShu() { RoleID = rolestatus.RoleID, MiShuIDArray = Utility.Json.ToJson(RoleMiShuDict) });
 
                 RolePetDict.Clear();
-                Pet pet = new Pet();
+                Pet pet = new Pet() {};
                 pet = ConcurrentSingleton<NHManager>.Instance.Insert(pet);
                 PetStatus petStatus = new PetStatus() { PetID = pet.ID };
                 petStatus = ConcurrentSingleton<NHManager>.Instance.Insert(petStatus);

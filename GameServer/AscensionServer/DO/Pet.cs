@@ -11,10 +11,10 @@ namespace AscensionServer.Model
     {
         public Pet()
         {
-            PetLevel = 0;
+            PetLevel = 1;
             PetID = 8001;
             PetExp = 0;
-            PetName = "皮卡丘";
+            PetName = "蒜头王八";
             PetSkillArray = "21001";
             PetIsBattle = false;
         }

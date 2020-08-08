@@ -15,7 +15,7 @@ namespace AscensionServer.Model
         public virtual string Recipe_Array { get; set; }
         public Alchemy()
         {
-            JobLevel = 5;
+            JobLevel = 4;
             Recipe_Array = "15001";
             JobLevelExp = 0;
         }

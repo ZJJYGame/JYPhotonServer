@@ -13,6 +13,13 @@ namespace AscensionServer.Model
         public virtual int JobLevel { get; set; }
         public virtual int JobLevelExp { get; set; }
         public virtual string Recipe_Array { get; set; }
+
+        public Forge()
+        {
+            JobLevel = 4;
+            Recipe_Array = null;
+            JobLevelExp = 0;
+        }
         public override void Clear()
         {
             RoleID = -1;
