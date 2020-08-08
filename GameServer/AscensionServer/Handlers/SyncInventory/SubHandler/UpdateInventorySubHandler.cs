@@ -56,10 +56,19 @@ namespace AscensionServer
                             serverData.RingItemAdorn = client_p.Value.RingItemAdorn;
                             if (ServerMagicDic.Count != 0)
                             {
-                                foreach (var magic_p in ServerMagicDic)
+
+                                for (int i = 0; i < ServerMagicDic.Count; i++)
                                 {
-                                    if (ServerMagicDic[magic_p.Key] == 0 && client_p.Value.RingItemAdorn.Contains("2"))
-                                        ServerMagicDic[magic_p.Key] = client_p.Key;
+                                    if (ServerMagicDic.Values.ToList()[i] == -1 && client_p.Value.RingItemAdorn == "2")
+                                    {
+                                        ServerMagicDic[i] = client_p.Key;
+                                        break;
+                                    }
+                                    else if (ServerMagicDic.Values.ToList()[i] == client_p.Key && client_p.Value.RingItemAdorn == "0")
+                                    {
+                                        ServerMagicDic[i] = -1;
+                                        break;
+                                    }
                                 }
                             }
                         }
