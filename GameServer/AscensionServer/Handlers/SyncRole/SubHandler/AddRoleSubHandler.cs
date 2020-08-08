@@ -21,6 +21,7 @@ namespace AscensionServer
         Dictionary<int, int> RolePetDict = new Dictionary<int, int>();
         Dictionary<int, RoleTaskItemDTO> roleTaskDic = new Dictionary<int, RoleTaskItemDTO>();
         Dictionary<int, RingItemsDTO> ringDict = new Dictionary<int, RingItemsDTO>();
+        Dictionary<int, int> magicRingDict = new Dictionary<int, int>();
         public override void OnInitialization()
         {
             SubOpCode = SubOperationCode.Add;
@@ -66,8 +67,8 @@ namespace AscensionServer
                 ConcurrentSingleton<NHManager>.Instance.Insert(new OnOffLine() { RoleID = rolestatus.RoleID });
                 #region 任务
                 roleTaskDic.Clear();
-                roleTaskDic.Add(0001, new RoleTaskItemDTO() { RoleTaskType = "DialogSystem", RoleTaskAchieveState = "NoAchieveTask", RoleTaskAcceptState = "NoAcceptAbleTask", RoleTaskAbandonState = "NoAbandonTask" , RoleTaskKind = "MainTask" });
-                ConcurrentSingleton<NHManager>.Instance.Insert(new RoleTaskProgress() { RoleID = rolestatus.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(roleTaskDic)});
+                roleTaskDic.Add(0001, new RoleTaskItemDTO() { RoleTaskType = "DialogSystem", RoleTaskAchieveState = "NoAchieveTask", RoleTaskAcceptState = "NoAcceptAbleTask", RoleTaskAbandonState = "NoAbandonTask", RoleTaskKind = "MainTask" });
+                ConcurrentSingleton<NHManager>.Instance.Insert(new RoleTaskProgress() { RoleID = rolestatus.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(roleTaskDic) });
                 #endregion
                 Dictionary<string, string> DOdict = new Dictionary<string, string>();
                 #region 测试待修改
@@ -97,21 +98,25 @@ namespace AscensionServer
                 NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolestatus.RoleID);
                 var ringArray = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
                 if (string.IsNullOrEmpty(ringArray.RingIdArray))
-               {
+                {
                     ringDict.Clear();
+                    magicRingDict.Clear();
                     ringDict.Add(17701, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss") });
                     ringDict.Add(17711, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss") });
                     ringDict.Add(17716, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss") });
                     ringDict.Add(17721, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss") });
                     ringDict.Add(17952, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss") });
-                   ring = ConcurrentSingleton<NHManager>.Instance.Insert<Ring>(new Ring() { RingId = 11110, RingItems = Utility.Json.ToJson(ringDict) });
-                   idRing.Add(ring.ID, ring.RingAdorn);
-                   ConcurrentSingleton<NHManager>.Instance.Update<RoleRing>(new RoleRing() { RoleID = rolestatus.RoleID, RingIdArray = Utility.Json.ToJson(idRing) });
-               }
+                    for (int i = 0; i < 6; i++)
+                    { magicRingDict.Add(i, -1); }
+                    ring = ConcurrentSingleton<NHManager>.Instance.Insert<Ring>(new Ring() { RingId = 11110, RingItems = Utility.Json.ToJson(ringDict), RingMagicDictServer = Utility.Json.ToJson(magicRingDict) });
+                    idRing.Add(ring.ID, ring.RingAdorn);
+
+                    ConcurrentSingleton<NHManager>.Instance.Update<RoleRing>(new RoleRing() { RoleID = rolestatus.RoleID, RingIdArray = Utility.Json.ToJson(idRing) });
+                }
 
                 #endregion
                 #region 副职业
-                ConcurrentSingleton<NHManager>.Instance.Insert<Alchemy>(new Alchemy() { RoleID= rolestatus.RoleID,Recipe_Array=Utility.Json.ToJson(new List<int>()) });
+                ConcurrentSingleton<NHManager>.Instance.Insert<Alchemy>(new Alchemy() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
                 ConcurrentSingleton<NHManager>.Instance.Insert<HerbsField>(new HerbsField() { RoleID = rolestatus.RoleID, jobLevel = 0, AllHerbs = Utility.Json.ToJson(new List<HerbFieldStatus>()) });
                 ConcurrentSingleton<NHManager>.Instance.Insert<Forge>(new Forge() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
                 ConcurrentSingleton<NHManager>.Instance.Insert<SpiritualRunes>(new SpiritualRunes() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
@@ -121,9 +126,9 @@ namespace AscensionServer
                 AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>添加副职业成功");
                 #endregion
                 #region 初始化门派
-                Treasureattic treasureatti = new Treasureattic() { ItemAmountDict=Utility.Json.ToJson(new Dictionary<int,int>()),ItemRedeemedDict= Utility.Json.ToJson(new Dictionary<int, int>()) };
+                Treasureattic treasureatti = new Treasureattic() { ItemAmountDict = Utility.Json.ToJson(new Dictionary<int, int>()), ItemRedeemedDict = Utility.Json.ToJson(new Dictionary<int, int>()) };
                 treasureatti = ConcurrentSingleton<NHManager>.Instance.Insert(treasureatti);
-                SutrasAttic sutrasAttic = new SutrasAttic() { SutrasAmountDict= Utility.Json.ToJson(new Dictionary<int, int>()) ,SutrasRedeemedDictl= Utility.Json.ToJson(new Dictionary<int, int>()) };
+                SutrasAttic sutrasAttic = new SutrasAttic() { SutrasAmountDict = Utility.Json.ToJson(new Dictionary<int, int>()), SutrasRedeemedDictl = Utility.Json.ToJson(new Dictionary<int, int>()) };
                 sutrasAttic = ConcurrentSingleton<NHManager>.Instance.Insert(sutrasAttic);
                 School school = new School();
                 school.TreasureAtticID = treasureatti.ID;

@@ -56,7 +56,7 @@ namespace AscensionServer
                             severValue.RingItemAdorn = client_p.Value.RingItemAdorn;
                         if (severValue.RingItemTime != client_p.Value.RingItemTime)
                             severValue.RingItemTime = client_p.Value.RingItemTime;
-                        ConcurrentSingleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDic) });
+                        ConcurrentSingleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDic),  RingMagicDictServer = Utility.Json.ToJson(ringServerArray.RingMagicDictServer) });
                     }
                     Owner.OpResponse.Parameters = Owner.ResponseData;
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;

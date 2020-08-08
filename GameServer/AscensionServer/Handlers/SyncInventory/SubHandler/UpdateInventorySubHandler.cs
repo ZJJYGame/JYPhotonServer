@@ -40,7 +40,7 @@ namespace AscensionServer
                 if (InventoryObj.ID == ringServerArray.ID)
                 {
                     var ServerDic = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingItems);
-
+                    var ServerMagicDic = Utility.Json.ToObject<Dictionary<int, int>>(ringServerArray.RingMagicDictServer);
                     foreach (var client_p in InventoryObj.RingItems)
                     {
                         if (!ServerDic.ContainsKey(client_p.Key ))
@@ -52,12 +52,21 @@ namespace AscensionServer
                         if (serverData.RingItemCount > client_p.Value.RingItemCount)
                         {
                             serverData.RingItemCount -= client_p.Value.RingItemCount;
-                            serverData.RingItemAdorn = client_p.Value.RingItemAdorn;
                             serverData.RingItemTime = serverData.RingItemTime;
+                            serverData.RingItemAdorn = client_p.Value.RingItemAdorn;
+                            if (ServerMagicDic.Count != 0)
+                            {
+                                foreach (var magic_p in ServerMagicDic)
+                                {
+                                    if (ServerMagicDic[magic_p.Key] == 0 && client_p.Value.RingItemAdorn.Contains("2"))
+                                        ServerMagicDic[magic_p.Key] = client_p.Key;
+                                }
+                            }
                         }
                         else ServerDic.Remove(client_p.Key);
-                        ConcurrentSingleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDic) });
+                        ConcurrentSingleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDic),RingMagicDictServer = Utility.Json.ToJson(ServerMagicDic) });
                     }
+                    //Owner.ResponseData.Add((byte)ParameterCode.Inventory, ServerMagicDic);
                     Owner.OpResponse.Parameters = Owner.ResponseData;
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
