@@ -11,40 +11,18 @@ namespace AscensionServer.Model
     {
         public Weapon()
         {
-            WeaponID = 0;
-            WeaponPart = 0;
-            WeaponLevel = 0;
-            WeaponHP = 0;
-            WeaponSpeed = 0;
-            WeaponAttackDamage = 0;
-            WeaponResistanceDamage = 0;
-            WeaponAttackPower = 0;
-            WeaponResistancePower = 0;
+            WeaponStatusDict = null;
+            Weaponindex = null;
         }
 
-
-        public virtual int ID { get; set; }
-        public virtual int WeaponID { get; set; }
-        public virtual int WeaponPart { get; set; }
-        public virtual int WeaponLevel { get; set; }
-        public virtual int WeaponHP { get; set; }
-        public virtual int WeaponSpeed { get; set; }
-        public virtual int WeaponAttackDamage { get; set; }
-        public virtual int WeaponResistanceDamage { get; set; }
-        public virtual int WeaponAttackPower { get; set; }
-        public virtual int WeaponResistancePower { get; set; }
+        public virtual int RoleID { set; get; }
+        public virtual string WeaponStatusDict { set; get; }
+        public virtual string Weaponindex { set; get; }//武器全局id为key,新增id下标为value
         public override void Clear()
         {
-            ID = -1;
-            WeaponID = 0;
-            WeaponPart = 0;
-            WeaponLevel = 0;
-            WeaponHP = 0;
-            WeaponSpeed = 0;
-            WeaponAttackDamage = 0;
-            WeaponResistanceDamage = 0;
-            WeaponAttackPower = 0;
-            WeaponResistancePower = 0;
+            RoleID = -1;
+            WeaponStatusDict = null;
+            Weaponindex = null;
         }
     }
 }
