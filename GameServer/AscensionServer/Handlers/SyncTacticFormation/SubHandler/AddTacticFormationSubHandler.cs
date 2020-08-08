@@ -28,11 +28,33 @@ namespace AscensionServer
             NHCriteria nHCriteriatacticFormation = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", tacticFormationObj.RoleID);
             var tacticFormatioTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<TacticFormation>(nHCriteriatacticFormation);
             HashSet<int> tacticFormationHash = new HashSet<int>();
-            if (true)
+            if (tacticFormatioTemp!=null)
             {
+                if (string .IsNullOrEmpty(tacticFormatioTemp.Recipe_Array))
+                {
+                    tacticFormatioTemp.Recipe_Array = Utility.Json.ToJson(tacticFormationObj.Recipe_Array);
+                    ConcurrentSingleton<NHManager>.Instance.Update(tacticFormatioTemp);
+                }
+                else
+                {
+                    tacticFormationHash = Utility.Json.ToObject<HashSet<int>>(tacticFormatioTemp.Recipe_Array);
+                    tacticFormationHash.Add(tacticFormationObj.Recipe_Array.First());
+                    tacticFormatioTemp.Recipe_Array = Utility.Json.ToJson(tacticFormationHash);
+                    ConcurrentSingleton<NHManager>.Instance.Update(tacticFormatioTemp);
+                }
+                SetResponseData(() =>
+                {
+                    tacticFormationObj = new TacticFormationDTO() { RoleID = tacticFormatioTemp.RoleID, JobLevel = tacticFormatioTemp.JobLevel, JobLevelExp = tacticFormatioTemp.JobLevelExp, Recipe_Array = tacticFormationHash };
 
+                    SubDict.Add((byte)ParameterCode.JobTacticFormation, tacticFormationObj);
+                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+
+                });
             }
-
+            else
+                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriatacticFormation);
 
 
 

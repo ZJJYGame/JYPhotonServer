@@ -144,6 +144,7 @@ namespace AscensionServer
                 DOdict.Add("RoleStatus", Utility.Json.ToJson(rolestatus));
                 DOdict.Add("GongFa", Utility.Json.ToJson(gongFa));
                 DOdict.Add("School", Utility.Json.ToJson(school));
+                DOdict.Add("MiShu", Utility.Json.ToJson(miShu));
                 Owner.ResponseData.Add((byte)ParameterCode.Role, Utility.Json.ToJson(DOdict));
                 Owner.OpResponse.Parameters = Owner.ResponseData;
             }
