@@ -75,6 +75,8 @@ namespace AscensionProtocol
         /// </summary>
         SyncSchoolRefresh=37,
         UpdateSchoolRefresh = 38,
+        SyncWeapon=39,
+        SyncShoppingMall=40,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>
