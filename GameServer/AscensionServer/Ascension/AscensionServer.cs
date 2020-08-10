@@ -77,6 +77,7 @@ namespace AscensionServer
             syncRefreshResourcesEvent.OnInitialization();
             ThreadPool.QueueUserWorkItem(syncRefreshResourcesEvent.Handler);
             ResourcesLoad();
+            RedisDotNet.RedisManager.Instance.OnInitialization();
         }
         //TODO 服务器心跳检测
         protected override void TearDown()
