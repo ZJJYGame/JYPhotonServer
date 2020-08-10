@@ -6,22 +6,31 @@ using System.Threading.Tasks;
 
 namespace AscensionProtocol.DTO
 {
-
+    [Serializable]
     public class ShoppingMallDTO : DataTransferObject
     {
-        public virtual int RoleID { get; set; }
-        public virtual int Discount { get; set; }//折扣
-        public virtual int SelfLimitQuantity { get; set; }//个人限量
-        public virtual int Price { get; set; }//价格
-        public virtual int GoodsID { get; set; }//物品id
+        public virtual int ID { get; set; }
+        public virtual List<ShoppingGoods> Materials { get; set; }
+        public virtual List<ShoppingGoods> NewArrival { get; set; }
+        public virtual List<ShoppingGoods> QualifiedToBuy { get; set; }
+
+ 
         public override void Clear()
         {
-            RoleID = -1;
-            Discount = 0;
-            SelfLimitQuantity = 0;
-            Price = 0;
-            GoodsID = 0;
-            
+            ID = -1;
+            Materials = null;
+            NewArrival = null;
+            QualifiedToBuy = null;
         }
+    }
+
+    [Serializable]
+    public class ShoppingGoods
+    {
+        public virtual int Price { get; set; }//价格
+        public virtual int GoodsID { get; set; }//物品id
+        public virtual float Discount { get; set; }//折扣
+        public virtual bool IsRecommend { get; set; }
+        public virtual int SelfLimitQuantity { get; set; }//个人限量
     }
 }

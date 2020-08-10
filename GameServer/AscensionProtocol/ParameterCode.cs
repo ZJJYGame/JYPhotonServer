@@ -113,6 +113,8 @@
         /// <summary>
         /// 宗門藏寶閣藏經閣簽到刷新
         /// </summary>
-        SchoolRefresh=70
+        SchoolRefresh=70,
+        GetWeapon=71,
+        ShoppingMall=72,
     }
 }
