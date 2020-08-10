@@ -14,7 +14,7 @@ namespace Cosmos
                 if (!dir.Exists)
                 {
                     dir.Create();
-                    Utility.DebugLog("Path:" + path + "Folder Crated ");
+                    Utility.Debug.LogInfo("Path:" + path + "Folder Crated ");
                 }
             }
             /// <summary>

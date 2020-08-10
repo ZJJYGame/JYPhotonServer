@@ -23,7 +23,6 @@ using AscensionServer.Model;
 using AscensionData;
 using AscensionRegion;
 using System.Threading;
-
 namespace AscensionServer
 {
     public partial class AscensionServer : ApplicationBase
@@ -70,7 +69,7 @@ namespace AscensionServer
                 _Log.Info("进行初始化");
             }
             InitHandler();
-            Utility.Json.SetJsonWarpper(new NewtonjsonWrapper());
+            Utility.Json.SetHelper(new NewtonjsonWrapper());
             var syncRoleTransEvent = new SyncRoleTransformEvent();
             syncRoleTransEvent.OnInitialization();
             ThreadPool.QueueUserWorkItem(syncRoleTransEvent.Handler);

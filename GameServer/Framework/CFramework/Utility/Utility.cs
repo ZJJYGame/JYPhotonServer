@@ -63,59 +63,6 @@ namespace Cosmos
     /// </summary>
     public sealed partial class Utility
     {
-        public static void DebugLog(object o, Object context = null)
-        {
-#if UNITY_EDITOR
-            if (!ApplicationConst.Editor.EnableDebugLog)
-                return;
-            if (context == null)
-                Debug.Log("<b>-->><color="+MessageColor.BLUE+">" + o + "</color></b>");
-            else
-                Debug.Log("<b>-->><color=" + MessageColor.BLUE + ">" + o + "</color></b>", context);
-#endif
-        }
-        public static void DebugLog(object o, string messageColor, Object context = null)
-        {
-#if UNITY_EDITOR
-            if (!ApplicationConst.Editor.EnableDebugLog)
-                return;
-            if (context == null)
-                Debug.Log("<b>-->><color=" + messageColor + ">"+ o + "</color></b>");
-            else
-                Debug.Log("<b>-->><color=" + messageColor+ ">" + o + "</color></b>", context);
-#endif
-        }
-        public static void DebugWarning(object o, Object context = null)
-        {
-#if UNITY_EDITOR
-            if (!ApplicationConst.Editor.EnableDebugLog)
-                return;
-            if (context == null)
-                Debug.LogWarning("<b>-->><color=#FF5E00>" + o + "</color></b>");
-            else
-                Debug.LogWarning("<b>-->><color=#FF5E00>" + o + "</color></b>", context);
-#endif
-        }
-        public static void DebugError(object o, Object context = null)
-        {
-#if UNITY_EDITOR
-            if (!ApplicationConst.Editor.EnableDebugLog)
-                return;
-            if (context == null)
-                Debug.LogError("<b>-->><color=#FF0000>" + o + "</color></b>");
-            else
-                Debug.LogError("<b>-->><color=#FF0000>" + o + "</color></b>", context);
-#endif
-        }
-        /// <summary>
-        ///谨慎使用这个方法
-        /// </summary>
-        public static void ClearMemory()
-        {
-#if UNITY_EDITOR
-            GC.Collect(); Resources.UnloadUnusedAssets();
-#endif
-        }
         /// <summary>
         ///字典工具 
         /// </summary>

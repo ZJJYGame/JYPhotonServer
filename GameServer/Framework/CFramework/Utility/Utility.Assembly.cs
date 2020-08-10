@@ -26,7 +26,7 @@ namespace Cosmos
             {
                 if (type == null)
                 {
-                    DebugError("Type is invalid.无效类");
+                    Debug.LogError("Type is invalid.无效类");
                     return null;
                 }
                 string typeName = type.FullName;
