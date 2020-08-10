@@ -27,10 +27,10 @@ namespace AscensionProtocol.DTO
     [Serializable]
     public class ShoppingGoods
     {
-        public virtual int Discount { get; set; }//折扣
-        public virtual int SelfLimitQuantity { get; set; }//个人限量
         public virtual int Price { get; set; }//价格
         public virtual int GoodsID { get; set; }//物品id
+        public virtual float Discount { get; set; }//折扣
         public virtual bool IsRecommend { get; set; }
+        public virtual int SelfLimitQuantity { get; set; }//个人限量
     }
 }
