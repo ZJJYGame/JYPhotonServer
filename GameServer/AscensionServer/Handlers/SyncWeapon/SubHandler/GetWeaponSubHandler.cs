@@ -31,7 +31,7 @@ namespace AscensionServer
                 var WeaponDict = Utility.Json.ToObject<Dictionary<int, WeaponStatusDTO>>(weapontemp.WeaponStatusDict);
                 SetResponseData(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.ShoppingMall, Utility.Json.ToJson(WeaponDict));
+                    SubDict.Add((byte)ParameterCode.GetWeapon, Utility.Json.ToJson(WeaponDict));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
