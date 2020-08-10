@@ -11,7 +11,7 @@ namespace AscensionServer
     {
         public WeaponMap()
         {
-            Id(x => x.RoleID).Column("id").GeneratedBy.Assigned();
+            Id(x => x.RoleID).Column("roleid").GeneratedBy.Assigned();
             Map(x => x.Weaponindex).Column("weapon_index");
             Map(x => x.WeaponStatusDict).Column("weapon_status_dict");
             Table("weapon");

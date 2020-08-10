@@ -29,21 +29,60 @@ namespace AscensionServer
             var weaponObj = Utility.Json.ToObject<WeaponDTO>(weaponJson);
             NHCriteria nHCriteriaweapon = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", weaponObj.RoleID);
             var weaponTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Weapon>(nHCriteriaweapon);
-            int index;
+
+            int index=1;
             Dictionary<int, int> indexDict = new Dictionary<int, int>();
             Dictionary<int, WeaponStatusDTO> WeaponDict = new Dictionary<int, WeaponStatusDTO>();
             if (weaponTemp != null)
             {
-                indexDict = Utility.Json.ToObject<Dictionary<int, int>>(weaponTemp.Weaponindex);
-                if (indexDict.TryGetValue(weaponObj.WeaponID, out index))
+                if (!string.IsNullOrEmpty(weaponTemp.Weaponindex)&& !weaponTemp.Weaponindex.Equals("[]"))
                 {
-                    WeaponDict.Add(Convert.ToInt32(weaponObj.WeaponID + "" + index), weaponObj.WeaponStatusDict[weaponObj.WeaponID]);
+
+                    AscensionServer._Log.Info("添加后的武器数值为" + weaponTemp.Weaponindex);
+                    indexDict = Utility.Json.ToObject<Dictionary<int, int>>(weaponTemp.Weaponindex);
+                    WeaponDict= Utility.Json.ToObject<Dictionary<int, WeaponStatusDTO>>(weaponTemp.WeaponStatusDict);
+                    AscensionServer._Log.Info("添加后的武器数值为" + indexDict.Count);
+                    if (indexDict.TryGetValue(weaponObj.WeaponID, out index))
+                    {
+                        AscensionServer._Log.Info("1添加后的武器数值为" + index);
+                        WeaponDict.Add(Convert.ToInt32(weaponObj.WeaponID + "" + (index+1)), weaponObj.WeaponStatusDict[weaponObj.WeaponID]);
+                        index = Convert.ToInt32(weaponObj.WeaponID + "" + (index + 1));
+                        weaponTemp.WeaponStatusDict = Utility.Json.ToJson(WeaponDict);
+                        indexDict[weaponObj.WeaponID] += 1;
+                        weaponTemp.Weaponindex = Utility.Json.ToJson(indexDict);
+                        ConcurrentSingleton<NHManager>.Instance.Update(weaponTemp);
+                    }
+                    else
+                    {
+                        AscensionServer._Log.Info("2添加后的武器数值为" + weaponTemp.RoleID);
+                        WeaponDict.Add(Convert.ToInt32(weaponObj.WeaponID + "" + 1), weaponObj.WeaponStatusDict[weaponObj.WeaponID]);
+                        index = Convert.ToInt32(weaponObj.WeaponID + "" + 1);
+                        weaponTemp.WeaponStatusDict = Utility.Json.ToJson(WeaponDict);
+                        indexDict.Add(weaponObj.WeaponID, 1);
+                        weaponTemp.Weaponindex = Utility.Json.ToJson(indexDict);
+                        ConcurrentSingleton<NHManager>.Instance.Update(weaponTemp);
+                    }
+                }
+                else
+                {
+                    AscensionServer._Log.Info("3添加后的武器数值为" + weaponTemp.RoleID);
+                    WeaponDict.Add(Convert.ToInt32(weaponObj.WeaponID + "" + 1), weaponObj.WeaponStatusDict[weaponObj.WeaponID]);
+                    index = Convert.ToInt32(weaponObj.WeaponID + "" + 1);
                     weaponTemp.WeaponStatusDict = Utility.Json.ToJson(WeaponDict);
-                    indexDict[weaponObj.WeaponID] += 1;
+                    indexDict.Add(weaponObj.WeaponID, 1);
                     weaponTemp.Weaponindex = Utility.Json.ToJson(indexDict);
                     ConcurrentSingleton<NHManager>.Instance.Update(weaponTemp);
-                }
             }
+            SetResponseData(() =>
+                {
+                    SubDict.Add((byte)ParameterCode.GetWeapon, Utility.Json.ToJson(index));
+                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                });
+            }
+            else
+                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaweapon);
         }
     }
 }
