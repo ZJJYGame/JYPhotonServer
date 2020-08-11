@@ -13,6 +13,7 @@ namespace AscensionServer.Model
         public virtual string Materials { get; set; }
         public virtual string NewArrival { get; set; }
         public virtual string QualifiedToBuy { get; set; }
+        public virtual string RechargeStore { get; set; }
 
         public override void Clear()
         {

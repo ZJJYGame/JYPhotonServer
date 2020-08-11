@@ -116,5 +116,6 @@
         SchoolRefresh=70,
         GetWeapon=71,
         ShoppingMall=72,
+        RolePurchase=73,
     }
 }
