@@ -225,6 +225,7 @@
     <Compile Include="Handlers\SyncTacticFormation\SubHandler\SyncTacticFormationSubHandler.cs" />
     <Compile Include="Handlers\SyncTacticFormation\SubHandler\UpdateTacticFormationSubHandler.cs" />
     <Compile Include="Handlers\SyncTacticFormation\SyncTacticFormationHandler.cs" />
+    <Compile Include="Handlers\SyncTemporaryRing\SubHandler\GetTemoraryRingSubHandler.cs" />
     <Compile Include="Handlers\SyncTemporaryRing\SubHandler\SyncTemporarySubHandler.cs" />
     <Compile Include="Handlers\SyncTemporaryRing\SyncTemporaryRingHandler.cs" />
     <Compile Include="Handlers\SyncWeapon\SubHandler\AddWeaponSubHandler.cs" />

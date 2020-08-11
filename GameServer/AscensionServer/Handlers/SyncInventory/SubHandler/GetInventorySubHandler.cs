@@ -49,9 +49,7 @@ namespace AscensionServer
                 }
             }
             else
-            {
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-            }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             ConcurrentSingleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleID);
         }
