@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System;
 namespace Cosmos
 {
@@ -11,7 +12,7 @@ namespace Cosmos
         /// 单个引用池上线
         /// </summary>
         public static readonly short _ReferencePoolCapcity= 20000;
-        Dictionary<Type, ReferenceSpawnPool> referencePool = new Dictionary<Type, ReferenceSpawnPool>();
+       ConcurrentDictionary<Type, ReferenceSpawnPool> referencePool = new ConcurrentDictionary<Type, ReferenceSpawnPool>();
         public int GetPoolCount<T>() 
             where T : class, IReference, new()
         {
@@ -30,7 +31,7 @@ namespace Cosmos
             Type type = typeof(T);
             if (!referencePool.ContainsKey(type))
             {
-                referencePool.Add(type, new ReferenceSpawnPool());
+                referencePool.TryAdd(type, new ReferenceSpawnPool());
             }
             return referencePool[type].Spawn<T>() as T;
         }
@@ -38,7 +39,7 @@ namespace Cosmos
         {
             if (!referencePool.ContainsKey(type))
             {
-                referencePool.Add(type, new ReferenceSpawnPool());
+                referencePool.TryAdd(type, new ReferenceSpawnPool());
             }
             return referencePool[type].Spawn(type);
         }
@@ -46,7 +47,7 @@ namespace Cosmos
         {
             Type type = refer.GetType();
             if (!referencePool.ContainsKey(type))
-                referencePool.Add(type, new ReferenceSpawnPool());
+                referencePool.TryAdd(type, new ReferenceSpawnPool());
             referencePool[type].Despawn(refer);
         }
         public void Despawns(params IReference[] refers)
@@ -55,7 +56,7 @@ namespace Cosmos
             {
                 Type type = refers[i].GetType();
                 if (!referencePool.ContainsKey(type))
-                    referencePool.Add(type, new ReferenceSpawnPool());
+                    referencePool.TryAdd(type, new ReferenceSpawnPool());
                 referencePool[type].Despawn(refers[i]);
             }
         }
@@ -65,7 +66,7 @@ namespace Cosmos
             Type type = typeof(T);
             if (!referencePool.ContainsKey(type))
             {
-                referencePool.Add(type, new ReferenceSpawnPool());
+                referencePool.TryAdd(type, new ReferenceSpawnPool());
             }
             if (refers.Count > 0)
             {
@@ -82,7 +83,7 @@ namespace Cosmos
             Type type = typeof(T);
             if (!referencePool.ContainsKey(type))
             {
-                referencePool.Add(type, new ReferenceSpawnPool());
+                referencePool.TryAdd(type, new ReferenceSpawnPool());
             }
             for (int i = 0; i < refers.Length; i++)
             {

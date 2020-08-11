@@ -5,6 +5,7 @@
 */
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,12 +18,12 @@ namespace AscensionServer
     /// </summary>
     public class ClientPeerContainer 
     {
-        Dictionary<string, AscensionPeer> peerDict = new Dictionary<string, AscensionPeer>();
+        ConcurrentDictionary<string, AscensionPeer> peerDict = new ConcurrentDictionary<string, AscensionPeer>();
         public void Add(AscensionPeer data)
         {
             try
             {
-                peerDict.Add(data.PeerCache. Account, data);
+                peerDict.TryAdd(data.PeerCache. Account, data);
             }
             catch (Exception)
             {
@@ -31,7 +32,7 @@ namespace AscensionServer
         }
         void AddData<T>(T data)
         {
-            peerDict.Add(typeof(T).ToString(), data as AscensionPeer);
+            peerDict.TryAdd(typeof(T).ToString(), data as AscensionPeer);
         }
         public AscensionPeer Get<K>(K dataKey) where K : IComparable
         {
@@ -50,14 +51,14 @@ namespace AscensionServer
         {
             try
             {
-                peerDict.Remove(data.PeerCache. Account);
+                AscensionPeer peer;
+                peerDict.TryRemove(data.PeerCache. Account,out peer);
             }
             catch (Exception)
             {
                 throw new Exception("Data not  exist>>" + data.ToString());
             }
         }
-
         public void Update(AscensionPeer data)
         {
             try
