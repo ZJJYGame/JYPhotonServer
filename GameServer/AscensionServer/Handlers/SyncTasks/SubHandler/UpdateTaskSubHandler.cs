@@ -24,35 +24,26 @@ namespace AscensionServer
             var roletaskobj = Utility.Json.ToObject<RoleTaskProgressDTO>(roletask);
             NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roletaskobj.RoleID);
             bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleTaskProgress>(nHCriteriaRoleID);
-            Dictionary<int, RoleTaskItemDTO> Dic;
             if (exist)
             {
                 var roleTaskInfo = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleTaskProgress>(nHCriteriaRoleID);
-                Dic = Utility.Json.ToObject<Dictionary<int, RoleTaskItemDTO>>(roleTaskInfo.RoleTaskInfoDic);
+                var serverDict = Utility.Json.ToObject<Dictionary<int, RoleTaskItemDTO>>(roleTaskInfo.RoleTaskInfoDic);
                 if (roleTaskInfo.RoleTaskInfoDic != null)
                 {
                     foreach (var client_p in roletaskobj.RoleTaskInfoDic)
                     {
-                        if (Dic.ContainsKey(client_p.Key) )
+                        if (serverDict.ContainsKey(client_p.Key))
                         {
-                            foreach (var server_p in Dic)
-                            {
-                                if (server_p.Value.RoleTaskAcceptState != client_p.Value.RoleTaskAcceptState)
-                                {
-                                    server_p.Value.RoleTaskAcceptState = client_p.Value.RoleTaskAcceptState;
-                                }
-                                if (server_p.Value.RoleTaskAbandonState !=client_p.Value.RoleTaskAbandonState)
-                                {
-                                    server_p.Value.RoleTaskAbandonState = client_p.Value.RoleTaskAbandonState;
-                                }
-                                if (server_p.Value.RoleTaskAchieveState != client_p.Value.RoleTaskAchieveState)
-                                {
-                                    server_p.Value.RoleTaskAchieveState = client_p.Value.RoleTaskAchieveState;
-                                }
-                            }
-                            ConcurrentSingleton<NHManager>.Instance.Update(new RoleTaskProgress() { RoleID = roletaskobj.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(Dic) });
-
-                        }
+                            var serverDictValue = serverDict[client_p.Key];
+                            if (serverDictValue.RoleTaskAcceptState != client_p.Value.RoleTaskAcceptState)
+                                serverDictValue.RoleTaskAcceptState = client_p.Value.RoleTaskAcceptState;
+                            if (serverDictValue.RoleTaskAbandonState != client_p.Value.RoleTaskAbandonState)
+                                serverDictValue.RoleTaskAbandonState = client_p.Value.RoleTaskAbandonState;
+                            if (serverDictValue.RoleTaskAchieveState != client_p.Value.RoleTaskAchieveState)
+                                serverDictValue.RoleTaskAchieveState = client_p.Value.RoleTaskAchieveState;
+                            ConcurrentSingleton<NHManager>.Instance.Update(new RoleTaskProgress() { RoleID = roletaskobj.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(serverDict) });
+                        }else
+                            Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
                     }
                     Owner.OpResponse.Parameters = Owner.ResponseData;
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
