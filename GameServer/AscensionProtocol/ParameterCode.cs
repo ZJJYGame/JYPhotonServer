@@ -117,5 +117,6 @@
         GetWeapon=71,
         ShoppingMall=72,
         RoleTemInventory =73,
+        RolePurchase=74,
     }
 }
