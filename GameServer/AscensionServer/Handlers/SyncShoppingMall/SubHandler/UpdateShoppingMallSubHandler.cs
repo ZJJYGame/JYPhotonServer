@@ -41,12 +41,24 @@ namespace AscensionServer
                     {
                         if (rolepurchaseDict.ContainsKey(item.Key))
                         {
-
+                            rolepurchaseDict[item.Key] += item.Value;
                         }
+                        else
+                            rolepurchaseDict.Add(item.Key, item.Value);
                     }
+                    rolepurchasetemp.GoodsPurchasedCount = Utility.Json.ToJson(rolepurchaseDict);
                 }
+                RolePurchaseRecordDTO rolePurchaseRecordDTO = new RolePurchaseRecordDTO() { RoleID = rolepurchasetemp.RoleID, GoodsPurchasedCount = Utility.Json.ToObject<Dictionary<int, int>>(rolepurchasetemp.GoodsPurchasedCount) };
+                SetResponseData(() =>
+                {
+                    SubDict.Add((byte)ParameterCode.ShoppingMall, Utility.Json.ToJson(rolePurchaseRecordDTO));
+                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                });
             }
-
+            else
+                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriarolepurchase);
         }
 
     }

@@ -19,7 +19,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
-    <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -213,6 +213,7 @@
     <Compile Include="Handlers\SyncSchool\SubHandler\UpdateSchoolSubHandler.cs" />
     <Compile Include="Handlers\SyncShoppingMall\SubHandler\GetShoppingMallSubHandler.cs" />
     <Compile Include="Handlers\SyncShoppingMall\SubHandler\SyncShoppingMallSubHandler.cs" />
+    <Compile Include="Handlers\SyncShoppingMall\SubHandler\UpdateShoppingMallSubHandler.cs" />
     <Compile Include="Handlers\SyncShoppingMall\SyncShoppingMallHandler.cs" />
     <Compile Include="Handlers\SyncSpiritualRunes\SubHandler\AddSpiritualRunesSubHandler.cs" />
     <Compile Include="Handlers\SyncSpiritualRunes\SubHandler\GetSpiritualRunesSubHandler.cs" />
