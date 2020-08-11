@@ -38,42 +38,15 @@ namespace AscensionServer
                         {
                             Dic.Add(client_n.Key, client_n.Value);
                             ConcurrentSingleton<NHManager>.Instance.Update(new RoleTaskProgress() { RoleID = roletaskobj.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(Dic) });
-                        }
+                        }else
+                            Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
                     }
-                    #region 弃用
-                    /*
-             // var ServerDic = Utility.Json.ToObject<Dictionary<int, RoleTaskItemDTO>>(roleTaskInfo.RoleTaskInfoDic);
-                  * 
-                 foreach (var server_n in ServerDic)
-                 {
-                     if (roletaskobj.RoleTaskInfoDic.ContainsKey(server_n.Key))
-                         continue;
-                     Dic.Add(server_n.Key,server_n.Value);
-                 }
-
-                 foreach (var client_n in roletaskobj.RoleTaskInfoDic)
-                 {
-                     if (!ServerDic.ContainsKey(client_n.Key))
-                     {
-                         Dic.Add(client_n.Key, client_n.Value);
-                         Singleton<NHManager>.Instance.Update(new RoleTaskProgress() { RoleID = roletaskobj.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(Dic) });
-                     }
-                 }*/
-
-                    #endregion
                     Owner.OpResponse.Parameters = Owner.ResponseData;
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
                 else
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             }
-            /*
-            else 
-            {
-                Singleton<NHManager>.Instance.Insert(new RoleTaskProgress() { RoleID = roletaskobj.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(roletaskobj.RoleTaskInfoDic) });
-                Owner.OpResponse.Parameters = Owner.ResponseData;
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
-            }*/
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             ConcurrentSingleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleID);
         }

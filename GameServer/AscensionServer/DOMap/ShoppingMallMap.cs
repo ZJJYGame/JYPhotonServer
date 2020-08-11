@@ -16,6 +16,7 @@ namespace AscensionServer.DOMap
             Map(x => x.Materials).Column("materials");
             Map(x => x.NewArrival).Column("newarrival");
             Map(x => x.QualifiedToBuy).Column("qualifiedtobuy");
+            Map(x => x.RechargeStore).Column("rechargestore");
             Table("shoppingmall");
         }
     }

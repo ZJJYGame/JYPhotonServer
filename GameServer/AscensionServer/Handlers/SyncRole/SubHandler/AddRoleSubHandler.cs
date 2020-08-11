@@ -115,6 +115,9 @@ namespace AscensionServer
                 }
 
                 #endregion
+                #region 临时背包
+                ConcurrentSingleton<NHManager>.Instance.Insert(new TemporaryRing() { RoleID = rolestatus.RoleID ,  RingItems = Utility.Json.ToJson(new Dictionary<int,RingItemsDTO>())});
+                #endregion
                 #region 副职业
                 ConcurrentSingleton<NHManager>.Instance.Insert<Alchemy>(new Alchemy() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
                 ConcurrentSingleton<NHManager>.Instance.Insert<HerbsField>(new HerbsField() { RoleID = rolestatus.RoleID, jobLevel = 0, AllHerbs = Utility.Json.ToJson(new List<HerbFieldStatus>()) });

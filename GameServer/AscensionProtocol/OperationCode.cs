@@ -77,6 +77,10 @@ namespace AscensionProtocol
         UpdateSchoolRefresh = 38,
         SyncWeapon=39,
         SyncShoppingMall=40,
+        /// <summary>
+        /// 临时背包
+        /// </summary>
+        SyncTemInventory = 41,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>

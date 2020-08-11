@@ -23,29 +23,45 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string shoppingmallJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ShoppingMall));
             var shoppingmallObj = Utility.Json.ToObject<ShoppingMallDTO>(shoppingmallJson);
+            string rolepurchaseJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RolePurchase));
+            var rolepurchaseObj = Utility.Json.ToObject<RolePurchaseRecordDTO>(rolepurchaseJson);
+            AscensionServer._Log.Info("得到的商店數據"+ rolepurchaseObj.RoleID);
+
+            NHCriteria nHCriteriarolepurchase= ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolepurchaseObj.RoleID);
             NHCriteria nHCriteriashoppingmall = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", shoppingmallObj.ID);
 
+            var rolepurchasetemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RolePurchaseRecord>(nHCriteriarolepurchase);
             var shoppingmalltemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<ShoppingMall>(nHCriteriashoppingmall);
-
+            //记录传输的总商店物品及已经兑换的商店物品
+            Dictionary<string, string> shopDIct = new Dictionary<string, string>();
             if (shoppingmalltemp!=null)
             {
-                //AscensionServer._Log.Info("得到的商城數據" + shoppingmalltemp.Materials);
                 var  MaterialsList = Utility.Json.ToObject<List<ShoppingGoods>>(shoppingmalltemp.Materials);
-                //AscensionServer._Log.Info("得到的商城數據" + MaterialsList.Count);
                 var NewArrivalList = Utility.Json.ToObject<List<ShoppingGoods>>(shoppingmalltemp.NewArrival);
-                //AscensionServer._Log.Info("2發送回去的商城數據" + shoppingmalltemp.Materials);
                 var QualifiedToBuyList = Utility.Json.ToObject<List<ShoppingGoods>>(shoppingmalltemp.QualifiedToBuy);
+                var RechargeStoreList = Utility.Json.ToObject<List<ShoppingGoods>>(shoppingmalltemp.RechargeStore);
+                ShoppingMallDTO shoppingMallDTO = new ShoppingMallDTO() { ID = shoppingmalltemp.ID, Materials = MaterialsList, NewArrival = NewArrivalList, QualifiedToBuy = QualifiedToBuyList };
+                shopDIct.Add("ShoppingMall", Utility.Json.ToJson(shoppingMallDTO));
 
-                ShoppingMallDTO shoppingMallDTO = new ShoppingMallDTO() {ID= shoppingmalltemp.ID,Materials= MaterialsList,NewArrival= NewArrivalList,QualifiedToBuy= QualifiedToBuyList };
+                if (rolepurchasetemp!=null&& !rolepurchasetemp.GoodsPurchasedCount.Equals("[]"))
+                {
+                    RolePurchaseRecordDTO rolePurchaseRecordDTO = new RolePurchaseRecordDTO() { GoodsPurchasedCount= Utility.Json.ToObject<Dictionary<int,int>>(rolepurchasetemp.GoodsPurchasedCount),RoleID= rolepurchasetemp .RoleID};
+                    shopDIct.Add("RolePurchaseRecord", Utility.Json.ToJson(rolePurchaseRecordDTO));
+                }
+                else
+                {
+                    RolePurchaseRecordDTO rolePurchaseRecordDTO = new RolePurchaseRecordDTO() { RoleID = rolepurchasetemp.RoleID };
+                    shopDIct.Add("RolePurchaseRecord", Utility.Json.ToJson(rolePurchaseRecordDTO));
+                }
                 SetResponseData(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.ShoppingMall, Utility.Json.ToJson(shoppingMallDTO));
-                    //AscensionServer._Log.Info("發送回去的商城數據"+Utility.Json.ToJson(shoppingMallDTO));
+                    SubDict.Add((byte)ParameterCode.ShoppingMall, Utility.Json.ToJson(shopDIct));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
             else
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriashoppingmall);
         }
