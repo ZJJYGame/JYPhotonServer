@@ -69,7 +69,7 @@ namespace AscensionServer
                 _Log.Info("进行初始化");
             }
             InitHandler();
-            Utility.Json.SetHelper(new NewtonjsonWrapper());
+            Utility.Json.SetHelper(new NewtonjsonHelper());
             var syncRoleTransEvent = new SyncRoleTransformEvent();
             syncRoleTransEvent.OnInitialization();
             ThreadPool.QueueUserWorkItem(syncRoleTransEvent.Handler);

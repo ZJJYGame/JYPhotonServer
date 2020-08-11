@@ -68,6 +68,7 @@
     <Compile Include="CFramework\Utility\Utility.IO.cs" />
     <Compile Include="CFramework\Utility\Utility.Json.cs" />
     <Compile Include="CFramework\Utility\Utility.Text.cs" />
+    <Compile Include="CFramework\Utility\Utility.Time.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
