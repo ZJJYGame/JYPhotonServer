@@ -25,26 +25,31 @@ namespace AscensionServer
             NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleAssetsObj.RoleID);
             bool roleExist = ConcurrentSingleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID);
             bool roleAssetsExist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleAssets>(nHCriteriaRoleID);
-            long SpiritStonesLow = 0;
-            long SpiritStonesHigh = 0;
-            long SpiritStonesMedium = 0;
-            long XianYu = 0;
+
             if (roleExist && roleAssetsExist)
             {
                 var assetsServer = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAssets>(nHCriteriaRoleID);
-                SpiritStonesLow = assetsServer.SpiritStonesLow;
-                if (roleAssetsObj.SpiritStonesLow > 0)
-                    SpiritStonesLow = roleAssetsObj.SpiritStonesLow + assetsServer.SpiritStonesLow;
-                SpiritStonesHigh = assetsServer.SpiritStonesHigh;
-                if (roleAssetsObj.SpiritStonesHigh > 0)
-                    SpiritStonesHigh = roleAssetsObj.SpiritStonesHigh + assetsServer.SpiritStonesHigh;
-                SpiritStonesMedium = roleAssetsObj.SpiritStonesMedium;
-                if (roleAssetsObj.SpiritStonesMedium > 0)
-                    SpiritStonesMedium = roleAssetsObj.SpiritStonesMedium + assetsServer.SpiritStonesMedium;
-                XianYu = roleAssetsObj.XianYu + assetsServer.XianYu;
-                if (roleAssetsObj.XianYu > 0)
-                    XianYu = roleAssetsObj.XianYu + assetsServer.XianYu;
-                ConcurrentSingleton<NHManager>.Instance.Update<RoleAssets>(new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesHigh = SpiritStonesHigh, SpiritStonesLow = SpiritStonesLow, SpiritStonesMedium = SpiritStonesMedium, XianYu = XianYu });
+
+                if (roleAssetsObj.XianYu != 0 && assetsServer.XianYu > 0)
+                {
+                    assetsServer.XianYu += roleAssetsObj.XianYu;
+                    if ((assetsServer.XianYu + roleAssetsObj.XianYu < 0))
+                        assetsServer.XianYu = 0;
+                } 
+                //SpiritStonesLow = assetsServer.SpiritStonesLow;
+                //if (roleAssetsObj.SpiritStonesLow > 0)
+                //    SpiritStonesLow = roleAssetsObj.SpiritStonesLow + assetsServer.SpiritStonesLow;
+                //SpiritStonesHigh = assetsServer.SpiritStonesHigh;
+                //if (roleAssetsObj.SpiritStonesHigh > 0)
+                //    SpiritStonesHigh = roleAssetsObj.SpiritStonesHigh + assetsServer.SpiritStonesHigh;
+                //SpiritStonesMedium = roleAssetsObj.SpiritStonesMedium;
+                //if (roleAssetsObj.SpiritStonesMedium > 0)
+                //    SpiritStonesMedium = roleAssetsObj.SpiritStonesMedium + assetsServer.SpiritStonesMedium;
+                //XianYu = roleAssetsObj.XianYu + assetsServer.XianYu;
+                //if (roleAssetsObj.XianYu > 0)
+                //    XianYu = roleAssetsObj.XianYu + assetsServer.XianYu;
+
+                ConcurrentSingleton<NHManager>.Instance.Update<RoleAssets>(new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesHigh = assetsServer.SpiritStonesHigh, SpiritStonesLow = assetsServer.SpiritStonesLow, SpiritStonesMedium = assetsServer.SpiritStonesMedium, XianYu = assetsServer.XianYu });
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
             }
             else
