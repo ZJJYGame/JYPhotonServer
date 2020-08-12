@@ -11,13 +11,18 @@ namespace AscensionServer
     {
         ConcurrentDictionary<int, RoomCache> roomDict = new ConcurrentDictionary<int, RoomCache>();
 
-        public void Add()
+        public void CreateRoom()
         {
-
+            var rc= ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<RoomCache>();
         }
-        public void Remove()
+        /// <summary>
+        /// 释放并回收战斗房间
+        /// </summary>
+        public void Release(int roomID)
         {
-
+            RoomCache rc;
+            roomDict.TryRemove(roomID, out rc);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawn(rc);
         }
         public RoomCache Get(int roomID)
         {

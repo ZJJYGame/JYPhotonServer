@@ -7,19 +7,22 @@ using System.Threading.Tasks;
 using Cosmos;
 namespace AscensionServer
 {
+    /// <summary>
+    /// 房间管理器，用于处理战斗相关
+    /// </summary>
     public class RoomManager:ConcurrentSingleton<RoomManager>
     {
         ConcurrentDictionary<int, RoomCache> roomDict = new ConcurrentDictionary<int, RoomCache>();
-        public bool Add(RoomCache roomCache)
+        public bool AddRoom(RoomCache roomCache)
         {
             return roomDict.TryAdd(roomCache.RoomID, roomCache);
         }
-        public bool Remove(int roomID)
+        public bool RemoveRoom(int roomID)
         {
             RoomCache rc;
             return roomDict.TryRemove(roomID, out rc);
         }
-        public RoomCache Get(int roomID)
+        public RoomCache GetRoom(int roomID)
         {
             RoomCache rc;
             roomDict.TryGetValue(roomID, out rc);

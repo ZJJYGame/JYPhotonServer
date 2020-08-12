@@ -16,7 +16,7 @@ using AscensionServer.Threads;
 namespace AscensionServer
 {
     //管理跟客户端的链接的
-    public class AscensionPeer : ClientPeer
+    public class AscensionPeer : ClientPeer,IBehaviour
     {
         #region Properties
         /// <summary>
@@ -127,6 +127,14 @@ namespace AscensionServer
             }
             ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaOnOff);
             AscensionServer._Log.Info("同步离线时间成功");
+        }
+
+        public void OnInitialization()
+        {
+        }
+
+        public void OnTermination()
+        {
         }
     }
     #endregion

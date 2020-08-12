@@ -169,6 +169,7 @@
   <ItemGroup>
     <Compile Include="AreaHandlers\EnterAdventureSceneHandler.cs" />
     <Compile Include="AreaHandlers\ExitAdventureSceneHandler.cs" />
+    <Compile Include="Caching\Team\TeamCache.cs" />
     <Compile Include="Caching\Room\BattleInputC2S.cs" />
     <Compile Include="Caching\Room\RoomCache.cs" />
     <Compile Include="Concurrent\ConcurrentInt.cs" />
@@ -176,7 +177,6 @@
     <Compile Include="DOMap\BottleneckMap.cs" />
     <Compile Include="DOMap\ForgeMap.cs" />
     <Compile Include="DOMap\HerbsFieldMap.cs" />
-    <Compile Include="DOMap\PetaPtitudeMap.cs" />
     <Compile Include="DOMap\PuppetMap.cs" />
     <Compile Include="DOMap\RolePurchaseRecordMap.cs" />
     <Compile Include="DOMap\RoleSchoolMap.cs" />
@@ -191,7 +191,6 @@
     <Compile Include="DO\Bottleneck.cs" />
     <Compile Include="DO\Forge.cs" />
     <Compile Include="DO\HerbsField.cs" />
-    <Compile Include="DO\PetaPtitude.cs" />
     <Compile Include="DO\Puppet.cs" />
     <Compile Include="DO\RolePurchaseRecord.cs" />
     <Compile Include="DO\RoleSchool.cs" />
@@ -202,10 +201,11 @@
     <Compile Include="DO\TacticFormation.cs" />
     <Compile Include="DO\TemporaryRing.cs" />
     <Compile Include="DO\Treasureattic.cs" />
-    <Compile Include="GameModule\BattleManager.cs" />
-    <Compile Include="GameModule\LobbyManager.cs" />
-    <Compile Include="GameModule\RoleManager.cs" />
-    <Compile Include="GameModule\RoomManager.cs" />
+    <Compile Include="GameManagers\BattleManager.cs" />
+    <Compile Include="GameManagers\TeamManager.cs" />
+    <Compile Include="GameManagers\LobbyManager.cs" />
+    <Compile Include="GameManagers\RoleManager.cs" />
+    <Compile Include="GameManagers\RoomManager.cs" />
     <Compile Include="Handlers\SchoolSchoolRefresh\SyncSchoolRefreshHandler.cs" />
     <Compile Include="Handlers\SchoolSchoolRefresh\SyncUpdatSchoolRefreshHandler.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\UpdateAlchemySubHandler.cs" />

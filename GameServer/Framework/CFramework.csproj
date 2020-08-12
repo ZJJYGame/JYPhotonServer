@@ -45,6 +45,11 @@
     <Compile Include="CFramework\Base\Behaviour\IBehaviour.cs" />
     <Compile Include="CFramework\Base\Behaviour\IControllable.cs" />
     <Compile Include="CFramework\Base\Behaviour\IControllableBehaviour.cs" />
+    <Compile Include="CFramework\Base\DataStructure\BinaryTree.cs" />
+    <Compile Include="CFramework\Base\DataStructure\ConcurrentVariable.cs" />
+    <Compile Include="CFramework\Base\DataStructure\LRUCache.cs" />
+    <Compile Include="CFramework\Base\DataStructure\LRUCacheIEnumerator.cs" />
+    <Compile Include="CFramework\Base\DataStructure\TinyLinkedList.cs" />
     <Compile Include="CFramework\Base\EventArg\CFEventArgs.cs" />
     <Compile Include="CFramework\Base\EventArg\IEventArgs.cs" />
     <Compile Include="CFramework\Event\EventActions.cs" />
