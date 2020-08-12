@@ -29,6 +29,7 @@ namespace AscensionServer
                 string petdict = petArray.PetIDDict;
                 Dictionary<int, int> petIDList;
                 List<PetStatus> petList = new List<PetStatus>();
+                List<PetaPtitude> petaptitudeList = new List<PetaPtitude>();
                 List<NHCriteria> nHCriteriasList = new List<NHCriteria>();
                 if (petdict != null)
                 {
@@ -38,6 +39,8 @@ namespace AscensionServer
                     {
                         NHCriteria nHCriteriapet = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("PetID", petid.Key);
                         var petstatusObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<PetStatus>(nHCriteriapet);
+                        var petaptitudeObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<PetaPtitude>(nHCriteriapet);
+                        petaptitudeList.Add(petaptitudeObj);
                         petList.Add(petstatusObj);
                         nHCriteriasList.Add(nHCriteriapet);
                     }
@@ -45,6 +48,7 @@ namespace AscensionServer
                 SetResponseData(() =>
                 {
                     SubDict.Add((byte)ParameterCode.PetStatus, Utility.Json.ToJson(petList));
+                    SubDict.Add((byte)ParameterCode.PetPtitude, Utility.Json.ToJson(petList));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
                 ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriasList);
