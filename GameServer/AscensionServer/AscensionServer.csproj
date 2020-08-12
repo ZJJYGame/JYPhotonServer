@@ -176,6 +176,7 @@
     <Compile Include="DOMap\BottleneckMap.cs" />
     <Compile Include="DOMap\ForgeMap.cs" />
     <Compile Include="DOMap\HerbsFieldMap.cs" />
+    <Compile Include="DOMap\PetaPtitudeMap.cs" />
     <Compile Include="DOMap\PuppetMap.cs" />
     <Compile Include="DOMap\RolePurchaseRecordMap.cs" />
     <Compile Include="DOMap\RoleSchoolMap.cs" />
@@ -190,6 +191,7 @@
     <Compile Include="DO\Bottleneck.cs" />
     <Compile Include="DO\Forge.cs" />
     <Compile Include="DO\HerbsField.cs" />
+    <Compile Include="DO\PetaPtitude.cs" />
     <Compile Include="DO\Puppet.cs" />
     <Compile Include="DO\RolePurchaseRecord.cs" />
     <Compile Include="DO\RoleSchool.cs" />

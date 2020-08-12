@@ -25,7 +25,7 @@ namespace AscensionServer
             string rolepurchaseJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RolePurchase));
             var rolepurchaseObj = Utility.Json.ToObject<RolePurchaseRecordDTO>(rolepurchaseJson);
             NHCriteria nHCriteriarolepurchase = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolepurchaseObj.RoleID);
-
+            AscensionServer._Log.Info("传过来的购买数据" + rolepurchaseJson);
             var rolepurchasetemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RolePurchaseRecord>(nHCriteriarolepurchase);
             if (rolepurchasetemp != null)
             {
@@ -45,13 +45,14 @@ namespace AscensionServer
                         }
                         else
                             rolepurchaseDict.Add(item.Key, item.Value);
-                    }
+                    }                 
                     rolepurchasetemp.GoodsPurchasedCount = Utility.Json.ToJson(rolepurchaseDict);
+                    ConcurrentSingleton<NHManager>.Instance.Update(rolepurchasetemp);
                 }
                 RolePurchaseRecordDTO rolePurchaseRecordDTO = new RolePurchaseRecordDTO() { RoleID = rolepurchasetemp.RoleID, GoodsPurchasedCount = Utility.Json.ToObject<Dictionary<int, int>>(rolepurchasetemp.GoodsPurchasedCount) };
                 SetResponseData(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.ShoppingMall, Utility.Json.ToJson(rolePurchaseRecordDTO));
+                    SubDict.Add((byte)ParameterCode.RolePurchase, Utility.Json.ToJson(rolePurchaseRecordDTO));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
