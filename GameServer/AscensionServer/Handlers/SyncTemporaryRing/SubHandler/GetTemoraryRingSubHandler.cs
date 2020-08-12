@@ -23,7 +23,7 @@ namespace AscensionServer
         {
             ResetResponseData(operationRequest);
             var TemRingRoleData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleTemInventory) as string;
-            AscensionServer._Log.Info(">>>>>接收roleId" + TemRingRoleData + ">>>>>>>>>>>>>");
+            AscensionServer._Log.Info(">>>>>Get 临时背包 " + TemRingRoleData + ">>>>>>>>>>>>>");
             var TemRingRoleObj = Utility.Json.ToObject<TemporaryRingDTO>(TemRingRoleData);
             NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", TemRingRoleObj.RoleID);
             bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleRing>(nHCriteriaRoleID);
