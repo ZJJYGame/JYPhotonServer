@@ -29,7 +29,7 @@ namespace AscensionServer
             var rolepurchasetemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RolePurchaseRecord>(nHCriteriarolepurchase);
             if (rolepurchasetemp != null)
             {
-                if (rolepurchasetemp.GoodsPurchasedCount.Equals("[]"))
+                if (rolepurchasetemp.GoodsPurchasedCount.Equals("{}"))
                 {
                     rolepurchasetemp.GoodsPurchasedCount = Utility.Json.ToJson(rolepurchaseObj.GoodsPurchasedCount);
                     ConcurrentSingleton<NHManager>.Instance.Update(rolepurchasetemp);

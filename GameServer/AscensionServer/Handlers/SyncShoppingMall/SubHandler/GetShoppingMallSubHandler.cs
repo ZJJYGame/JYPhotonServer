@@ -39,8 +39,8 @@ namespace AscensionServer
                 var  MaterialsList = Utility.Json.ToObject<List<ShoppingGoods>>(shoppingmalltemp.Materials);
                 var NewArrivalList = Utility.Json.ToObject<List<ShoppingGoods>>(shoppingmalltemp.NewArrival);
                 var QualifiedToBuyList = Utility.Json.ToObject<List<ShoppingGoods>>(shoppingmalltemp.QualifiedToBuy);
-                var RechargeStoreList = Utility.Json.ToObject<List<ShoppingGoods>>(shoppingmalltemp.RechargeStore);
-                ShoppingMallDTO shoppingMallDTO = new ShoppingMallDTO() { ID = shoppingmalltemp.ID, Materials = MaterialsList, NewArrival = NewArrivalList, QualifiedToBuy = QualifiedToBuyList };
+                var RechargeStoreList = Utility.Json.ToObject<List<RechargeGoods>>(shoppingmalltemp.RechargeStore);
+                ShoppingMallDTO shoppingMallDTO = new ShoppingMallDTO() { ID = shoppingmalltemp.ID, Materials = MaterialsList, NewArrival = NewArrivalList, QualifiedToBuy = QualifiedToBuyList,RechargeStore= RechargeStoreList };
                 shopDIct.Add("ShoppingMall", Utility.Json.ToJson(shoppingMallDTO));
 
                 if (rolepurchasetemp!=null&& !rolepurchasetemp.GoodsPurchasedCount.Equals("[]"))

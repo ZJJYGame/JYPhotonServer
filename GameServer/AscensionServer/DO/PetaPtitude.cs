@@ -24,6 +24,7 @@ namespace AscensionServer.Model
 
         public PetaPtitude()
         {
+            PetID = 0;
             HPAptitude = 0;
             MPAptitude = 0;
             SoulAptitude = 0;
