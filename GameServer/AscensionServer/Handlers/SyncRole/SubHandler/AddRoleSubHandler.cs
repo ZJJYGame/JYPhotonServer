@@ -89,10 +89,13 @@ namespace AscensionServer
                 Pet pet = new Pet() {};
                 pet = ConcurrentSingleton<NHManager>.Instance.Insert(pet);
                 PetStatus petStatus = new PetStatus() { PetID = pet.ID };
-                petStatus = ConcurrentSingleton<NHManager>.Instance.Insert(petStatus);
+                ConcurrentSingleton<NHManager>.Instance.Insert(petStatus);
                 PetaPtitude petaPtitude=new PetaPtitude() { PetID = pet.ID };
+                petaPtitude = ConcurrentSingleton<NHManager>.Instance.Insert(petaPtitude);
                 RolePetDict.Add(pet.ID, pet.PetID);
                 ConcurrentSingleton<NHManager>.Instance.Insert(new RolePet() { RoleID = rolestatus.RoleID, PetIDDict = Utility.Json.ToJson(RolePetDict) });
+                RolePurchaseRecord rolePurchaseRecord = new RolePurchaseRecord() { RoleID = rolestatus.RoleID ,GoodsPurchasedCount=Utility.Json.ToJson(new Dictionary<int, int>()) };
+                ConcurrentSingleton<NHManager>.Instance.Insert(rolePurchaseRecord);
                 #endregion
                 #region 背包
                 ConcurrentSingleton<NHManager>.Instance.Insert(new RoleRing() { RoleID = rolestatus.RoleID });

@@ -12,6 +12,12 @@ namespace AscensionServer.Model
 
         public virtual int RoleID { get; set; }
         public virtual string GoodsPurchasedCount { get; set; }//goodsID为key,count为value
+
+        public RolePurchaseRecord()
+        {
+            RoleID = -1;
+            GoodsPurchasedCount = null;
+        }
         public override void Clear()
         {
             RoleID = -1;
