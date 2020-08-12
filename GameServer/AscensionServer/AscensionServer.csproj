@@ -19,7 +19,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
-    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -234,8 +234,11 @@
     <Compile Include="Handlers\SyncTacticFormation\SubHandler\SyncTacticFormationSubHandler.cs" />
     <Compile Include="Handlers\SyncTacticFormation\SubHandler\UpdateTacticFormationSubHandler.cs" />
     <Compile Include="Handlers\SyncTacticFormation\SyncTacticFormationHandler.cs" />
+    <Compile Include="Handlers\SyncTemporaryRing\SubHandler\AddTemoraryRingSubHandler.cs" />
     <Compile Include="Handlers\SyncTemporaryRing\SubHandler\GetTemoraryRingSubHandler.cs" />
+    <Compile Include="Handlers\SyncTemporaryRing\SubHandler\RemoveTemoraryRingSubHandler.cs" />
     <Compile Include="Handlers\SyncTemporaryRing\SubHandler\SyncTemporarySubHandler.cs" />
+    <Compile Include="Handlers\SyncTemporaryRing\SubHandler\UpdateTemoraryRingSubHandler.cs" />
     <Compile Include="Handlers\SyncTemporaryRing\SyncTemporaryRingHandler.cs" />
     <Compile Include="Handlers\SyncWeapon\SubHandler\AddWeaponSubHandler.cs" />
     <Compile Include="Handlers\SyncWeapon\SubHandler\GetWeaponSubHandler.cs" />
