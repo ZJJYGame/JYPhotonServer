@@ -34,7 +34,7 @@
         Pet=32,
         PetSet=33,
         PetStatus=34,
-        PetStatusSet=35,
+        PetPtitude= 35,
         /// <summary>
         /// 单个的位置信息
         /// 表示一个角色的单个位置点

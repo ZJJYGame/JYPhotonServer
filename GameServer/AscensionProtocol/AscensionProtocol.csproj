@@ -59,6 +59,7 @@
     <Compile Include="DTO\Monster\MonsterTransformDTO.cs" />
     <Compile Include="DTO\Monster\MonsterTransformQueueDTO.cs" />
     <Compile Include="DTO\OffLineTimeDTO.cs" />
+    <Compile Include="DTO\PetaPtitudeDTO.cs" />
     <Compile Include="DTO\PetDTO.cs" />
     <Compile Include="DTO\PetStatusDTO.cs" />
     <Compile Include="DTO\PuppetDTO.cs" />
