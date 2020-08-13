@@ -28,7 +28,7 @@ namespace AscensionServer
 
             if (weapontemp!=null)
             {
-                var WeaponDict = Utility.Json.ToObject<Dictionary<int, WeaponStatusDTO>>(weapontemp.WeaponStatusDict);
+                var WeaponDict = Utility.Json.ToObject<Dictionary<int, List<int>>>(weapontemp.WeaponStatusDict);
                 SetResponseData(() =>
                 {
                     SubDict.Add((byte)ParameterCode.GetWeapon, Utility.Json.ToJson(WeaponDict));

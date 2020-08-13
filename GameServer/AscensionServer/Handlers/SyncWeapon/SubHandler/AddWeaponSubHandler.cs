@@ -32,15 +32,15 @@ namespace AscensionServer
 
             int index=1;
             Dictionary<int, int> indexDict = new Dictionary<int, int>();
-            Dictionary<int, WeaponStatusDTO> WeaponDict = new Dictionary<int, WeaponStatusDTO>();
+            Dictionary<int, List<int>> WeaponDict = new Dictionary<int, List<int>>();
             if (weaponTemp != null)
             {
-                if (!string.IsNullOrEmpty(weaponTemp.Weaponindex)&& !weaponTemp.Weaponindex.Equals("[]"))
+                if (!string.IsNullOrEmpty(weaponTemp.Weaponindex)&& !weaponTemp.Weaponindex.Equals("{}"))
                 {
 
                     AscensionServer._Log.Info("添加后的武器数值为" + weaponTemp.Weaponindex);
                     indexDict = Utility.Json.ToObject<Dictionary<int, int>>(weaponTemp.Weaponindex);
-                    WeaponDict= Utility.Json.ToObject<Dictionary<int, WeaponStatusDTO>>(weaponTemp.WeaponStatusDict);
+                    WeaponDict= Utility.Json.ToObject<Dictionary<int, List<int>>>(weaponTemp.WeaponStatusDict);
                     AscensionServer._Log.Info("添加后的武器数值为" + indexDict.Count);
                     if (indexDict.TryGetValue(weaponObj.WeaponID, out index))
                     {
