@@ -27,14 +27,6 @@ namespace AscensionServer
             string rolepurchaseJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RolePurchase));
             var rolepurchaseObj = Utility.Json.ToObject<RolePurchaseRecordDTO>(rolepurchaseJson);
             AscensionServer._Log.Info("得到的商店數據"+ rolepurchaseObj.RoleID);
-            #region 删除
-            RedisManager.Instance.OnInitialization();
-            RedisHelper.String.StringSet("FQU-ALL", "", new TimeSpan(0, 0, 0, 60));
-            #endregion
-
-
-
-
             NHCriteria nHCriteriarolepurchase = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolepurchaseObj.RoleID);
             NHCriteria nHCriteriashoppingmall = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", shoppingmallObj.ID);
 
