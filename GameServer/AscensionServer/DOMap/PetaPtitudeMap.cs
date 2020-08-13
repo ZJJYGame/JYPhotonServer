@@ -24,6 +24,7 @@ namespace AscensionServer
             Map(x => x.AttackpowerAptitude).Column("attackpower_aptitude");
             Map(x => x.AttackphysicalAptitude).Column("attackphysical_aptitude");
             Map(x => x.DefendsoulAptitude).Column("defendsoul_aptitude");
+            Map(x => x.PetaptitudeDrug).Column("pet_aptitude_drug");
             Table("petaptitude");
         }
     }
