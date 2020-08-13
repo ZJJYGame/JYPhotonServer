@@ -43,39 +43,41 @@ namespace AscensionServer
                     var ServerMagicDic = Utility.Json.ToObject<Dictionary<int, int>>(ringServerArray.RingMagicDictServer);
                     foreach (var client_p in InventoryObj.RingItems)
                     {
-                        if (!ServerDic.ContainsKey(client_p.Key ))
+                        if (!ServerDic.ContainsKey(client_p.Key))
                         {
                             Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
                             continue;
                         }
-                        var serverData = ServerDic[client_p.Key];
-                        if (serverData.RingItemCount > client_p.Value.RingItemCount)
+                        else
                         {
-                            serverData.RingItemCount -= client_p.Value.RingItemCount;
-                            serverData.RingItemTime = serverData.RingItemTime;
-                            serverData.RingItemAdorn = client_p.Value.RingItemAdorn;
-                            if (ServerMagicDic.Count != 0)
+                            var serverData = ServerDic[client_p.Key];
+                            if (serverData.RingItemCount > client_p.Value.RingItemCount)
                             {
-
-                                for (int i = 0; i < ServerMagicDic.Count; i++)
+                                serverData.RingItemCount -= client_p.Value.RingItemCount;
+                                serverData.RingItemTime = serverData.RingItemTime;
+                                serverData.RingItemAdorn = client_p.Value.RingItemAdorn;
+                                if (ServerMagicDic.Count != 0)
                                 {
-                                    if (ServerMagicDic.Values.ToList()[i] == -1 && client_p.Value.RingItemAdorn == "2")
+
+                                    for (int i = 0; i < ServerMagicDic.Count; i++)
                                     {
-                                        ServerMagicDic[i] = client_p.Key;
-                                        break;
-                                    }
-                                    else if (ServerMagicDic.Values.ToList()[i] == client_p.Key && client_p.Value.RingItemAdorn == "0")
-                                    {
-                                        ServerMagicDic[i] = -1;
-                                        break;
+                                        if (ServerMagicDic.Values.ToList()[i] == -1 && client_p.Value.RingItemAdorn == "2")
+                                        {
+                                            ServerMagicDic[i] = client_p.Key;
+                                            break;
+                                        }
+                                        else if (ServerMagicDic.Values.ToList()[i] == client_p.Key && client_p.Value.RingItemAdorn == "0")
+                                        {
+                                            ServerMagicDic[i] = -1;
+                                            break;
+                                        }
                                     }
                                 }
                             }
+                            else ServerDic.Remove(client_p.Key);
                         }
-                        else ServerDic.Remove(client_p.Key);
                         ConcurrentSingleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDic),RingMagicDictServer = Utility.Json.ToJson(ServerMagicDic) });
                     }
-                    //Owner.ResponseData.Add((byte)ParameterCode.Inventory, ServerMagicDic);
                     Owner.OpResponse.Parameters = Owner.ResponseData;
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
