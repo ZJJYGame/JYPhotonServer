@@ -7,9 +7,14 @@ using System.Collections.Concurrent;
 using Cosmos;
 namespace AscensionServer
 {
-    public class RoomCache:IReference
+    public class RoomCache : IReference
     {
-        public int RoomID { get; set; }
+        #region Properties
+        public int RoomID { get; private set; }
+        /// <summary>
+        /// 当前房间是否被释放
+        /// </summary>
+        public bool IsReleased { get; private set; }
         int countDownSec = 15;
         /// <summary>
         /// 是否今儿收集指令
@@ -24,6 +29,19 @@ namespace AscensionServer
         /// </summary>
         ConcurrentDictionary<int, AscensionPeer> peerDict = new ConcurrentDictionary<int, AscensionPeer>();
         ConcurrentBag<BattleInputC2S> inputCmdQueue = new ConcurrentBag<BattleInputC2S>();
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// 初始化房间；
+        /// 分配ID给当前房间
+        /// </summary>
+        /// <param name="roomID">分配的房间ID</param>
+        public void InitRoom(int roomID)
+        {
+            IsReleased = false;
+            this.RoomID = roomID;
+        }
         public void Clear()
         {
             peerDict.Clear();
@@ -31,15 +49,20 @@ namespace AscensionServer
             do
             {
                 inputCmdQueue.TryTake(out biC2S);
-            } while (inputCmdQueue.Count>0);
+            } while (inputCmdQueue.Count > 0);
             canCollectCmd = true;
+            IsReleased = true;
         }
         /// <summary>
         ///进入房间 
         /// </summary>
-        public bool EnterRoom(int peerID, AscensionPeer peer)
+        public bool EnterRoom(int peerID)
         {
-            return peerDict.TryAdd(peerID, peer);
+            var peer = RoleManager.Instance.GetPeer(peerID);
+            if (peer != null)
+                return peerDict.TryAdd(peerID, peer);
+            else
+                return false;
         }
         /// <summary>
         ///离开房间 
@@ -66,12 +89,14 @@ namespace AscensionServer
         {
             roundCount++;
             canCollectCmd = true;
-            //TODO 广播消息给当前房间内的玩家，表示开始新回合
-
-            //服务器开始倒计时
+            foreach (var peer in peerDict.Values)
+            {
+                //TODO 广播消息给当前房间内的玩家，表示开始新回合
+                //服务器开始倒计时
+            }
             CountDown();
         }
-       public async void CountDown()
+        public async void CountDown()
         {
             await Task.Delay(new TimeSpan(0, 0, 15));
             Broadcast();
@@ -84,13 +109,6 @@ namespace AscensionServer
                 //TODO peer.SendEvent()
             }
         }
-        public void OnInitialization()
-        {
-            //TODO 初始化房间，分配ID
-        }
-        public void OnTermination()
-        {
-            //todo 广播清退玩家的消息，并回收此房间
-        }
+        #endregion
     }
 }

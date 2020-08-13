@@ -7,13 +7,13 @@
 //   The values are partly taken from Exit Games Photon, which contains many more keys.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-namespace AscensionServer { 
+namespace AscensionServer.Lite
+{
     /// <summary>
     ///   Parameter keys are used as event-keys, operation-parameter keys and operation-return keys alike.
     ///   The values are partly taken from Exit Games Photon, which contains many more keys.
     /// </summary>
-public enum ParameterKey : byte
+    public enum ParameterKey : byte
     {
         /// <summary>
         ///   The game id.

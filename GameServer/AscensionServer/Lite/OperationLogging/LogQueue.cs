@@ -6,7 +6,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AscensionServer
+namespace AscensionServer.Lite
+
 {
     using System.Collections.Generic;
     using System.Text;

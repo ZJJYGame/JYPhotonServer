@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AscensionServer
+namespace AscensionServer.Lite
+
 {
     public class ActorGroup : ActorCollection
     {

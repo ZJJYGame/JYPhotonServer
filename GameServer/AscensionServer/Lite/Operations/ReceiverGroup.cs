@@ -7,7 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AscensionServer
+namespace AscensionServer.Lite
+
 {
     /// <summary>
     ///   Possible groups of receivers for events.

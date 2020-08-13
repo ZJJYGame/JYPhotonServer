@@ -1,4 +1,5 @@
-﻿namespace AscensionServer
+﻿namespace AscensionServer.Lite
+
 {
     #region
 

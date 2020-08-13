@@ -10,7 +10,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AscensionServer
+namespace AscensionServer.Lite
+
 {
     #region using directives
 

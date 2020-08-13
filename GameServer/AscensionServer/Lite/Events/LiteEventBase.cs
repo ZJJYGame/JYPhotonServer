@@ -7,7 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AscensionServer
+namespace AscensionServer.Lite
+
 {
     using System;
     using Photon.SocketServer.Rpc;

@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol.DTO;
-namespace AscensionServer
+namespace AscensionServer.Lite
+
 {
     /// <summary>
     /// 战斗房间

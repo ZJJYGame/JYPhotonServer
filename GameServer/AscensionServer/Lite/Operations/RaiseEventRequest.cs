@@ -7,7 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AscensionServer
+namespace AscensionServer.Lite
+
 {
     //using Lite.Caching;
     using Photon.SocketServer;

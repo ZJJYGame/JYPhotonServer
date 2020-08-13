@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AscensionServer
+namespace AscensionServer.Lite
+
 {
     /// <summary>
     /// GameMessagCodes define the type of a "LiteGame" Message, the meaning and its content.

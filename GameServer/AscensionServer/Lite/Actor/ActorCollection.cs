@@ -1,4 +1,4 @@
-﻿namespace AscensionServer
+﻿ namespace AscensionServer.Lite
 {
     using System;
     using System.Collections.Generic;

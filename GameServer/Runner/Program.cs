@@ -21,9 +21,10 @@ namespace Runner
             //RedisHelper.List.ListLeftPush<string>("Aaa", lset);
             //Console.WriteLine("Hello World!");
             Guid guid = Guid.NewGuid();
-            Console.WriteLine($"GUID : {guid.ToString("N")}");
+            Console.ReadKey();
+            var b = Utility.Algorithm.CreateRandomInt(8, 10000, 99999999);
+            Console.WriteLine($"Convert.ToInt32 : {b}");
             Console.ReadLine();
-
         }
     }
 }

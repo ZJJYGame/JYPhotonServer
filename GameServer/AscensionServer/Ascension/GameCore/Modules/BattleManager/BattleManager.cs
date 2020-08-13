@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using Cosmos;
 namespace AscensionServer
 {
-    public class BattleManager:ConcurrentSingleton<BattleManager>
+    public class BattleManager:ModuleBase<BattleManager>
     {
         ConcurrentDictionary<int, RoomCache> roomDict = new ConcurrentDictionary<int, RoomCache>();
 
-        public void CreateRoom()
+        public void StartBattle()
         {
             var rc= ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<RoomCache>();
         }

@@ -1,4 +1,4 @@
-﻿namespace AscensionServer
+﻿namespace AscensionServer.Lite
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +7,6 @@
     using ExitGames.Concurrency.Fibers;
     using ExitGames.Logging;
     using Photon.SocketServer;
-    //using Caching;
     public class Room : IDisposable
     {
         #region Constants and Fields

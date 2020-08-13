@@ -1,4 +1,5 @@
-﻿namespace AscensionServer
+﻿namespace AscensionServer.Lite
+
 {
     /// <summary>
     ///   Defines the operation codes used by the Lite application.

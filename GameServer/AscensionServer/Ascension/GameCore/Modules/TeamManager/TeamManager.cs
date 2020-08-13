@@ -8,8 +8,20 @@ using System.Threading;
 using Cosmos;
 namespace AscensionServer
 {
-    public class TeamManager : ConcurrentSingleton<TeamManager>
+    public class TeamManager : ModuleBase<TeamManager>
     {
+        /// <summary>
+        /// 房间ID长度
+        /// </summary>
+        readonly int _IDLenth = 6;
+        /// <summary>
+        /// 生成房间时最小取值范围
+        /// </summary>
+        readonly int _MinValue = 1000000;
+        /// <summary>
+        /// 成功房间时最大取值范围
+        /// </summary>
+        readonly int _MaxValue = 99999999;
         CancellationToken cancelToken = new CancellationToken();
         ConcurrentDictionary<int, TeamCache> teamDict = new ConcurrentDictionary<int, TeamCache>();
         ConcurrentVariable<HashSet<int>> matchingQueue = new ConcurrentVariable<HashSet<int>>();
@@ -18,7 +30,7 @@ namespace AscensionServer
             if (teamDict.ContainsKey(createrID))
                 return null;
             var tc = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<TeamCache>();
-            //tc.InitTeam(createrID,);
+            tc.InitTeam(createrID,CreateTeamID());
             return tc;
         }
         public bool LeaveMatchQueue(int peerID)
@@ -85,11 +97,18 @@ namespace AscensionServer
             else
                 return gc.JoinTeam(peerID);
         }
-
         /// <summary>
-        /// 异步获取留有空位的小队ID；
-        /// 若无空余，则返回-1；
+        /// 生成队伍ID；
+        /// 尾递归检测是否生成了同样的key
         /// </summary>
-        /// <returns>空虚小队的ID</returns>
+        /// <returns>生成后的ID</returns>
+        int CreateTeamID()
+        {
+            int id=Utility.Algorithm.CreateRandomInt( _MinValue, _MaxValue);
+            if (!teamDict.ContainsKey(id))
+                return id;
+            else
+                return CreateTeamID();
+        }
     }
 }

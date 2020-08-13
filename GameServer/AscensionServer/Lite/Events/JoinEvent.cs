@@ -1,4 +1,5 @@
-namespace AscensionServer
+namespace AscensionServer.Lite
+
 {
     using System.Collections;
     using Photon.SocketServer.Rpc;

@@ -10,7 +10,7 @@ namespace AscensionServer
     /// <summary>
     /// 大厅管理器
     /// </summary>
-    public class LobbyManager:ConcurrentSingleton<LobbyManager>
+    public class LobbyManager:ModuleBase<LobbyManager>
     {
         ConcurrentDictionary<int, AscensionPeer> peerDict = new ConcurrentDictionary<int, AscensionPeer>();
         /// <summary>
@@ -35,6 +35,26 @@ namespace AscensionServer
         {
             AscensionPeer peer;
             return peerDict.TryRemove(peerID, out peer);
+        }
+        /// <summary>
+        /// 是否在大厅中
+        /// </summary>
+        /// <param name="peerID">id</param>
+        /// <returns>是否存在</returns>
+        public bool IsInLobby(int peerID)
+        {
+            return peerDict.ContainsKey(peerID);
+        }
+        /// <summary>
+        /// 在大厅中通过ID查找Peer
+        /// </summary>
+        /// <param name="peerID">id</param>
+        /// <returns>查找到的对象</returns>
+        public AscensionPeer GetPeerInLobby(int peerID)
+        {
+            AscensionPeer peer;
+             peerDict.TryGetValue(peerID, out peer);
+            return peer;
         }
     }
 }

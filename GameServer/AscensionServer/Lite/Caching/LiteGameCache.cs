@@ -7,7 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AscensionServer
+namespace AscensionServer.Lite
+
 {
     /// <summary>
     /// The cache for <see cref="LiteGame"/>s.
