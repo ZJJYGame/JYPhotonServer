@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol;
+using AscensionProtocol.DTO;
 using Photon.SocketServer;
+using RedisDotNet;
 using AscensionServer.Model;
 using Cosmos;
 namespace AscensionServer
