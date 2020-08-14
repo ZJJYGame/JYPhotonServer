@@ -75,7 +75,8 @@ namespace AscensionServer
             }
             SetResponseData(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.GetWeapon, Utility.Json.ToJson(index));
+                    SubDict.Add((byte)ParameterCode.GetWeapon, Utility.Json.ToJson(weaponTemp));
+                    SubDict.Add((byte)ParameterCode.GetWeaponindex, Utility.Json.ToJson(index));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }

@@ -96,6 +96,8 @@ namespace AscensionServer
                 ConcurrentSingleton<NHManager>.Instance.Insert(new RolePet() { RoleID = rolestatus.RoleID, PetIDDict = Utility.Json.ToJson(RolePetDict) });
                 RolePurchaseRecord rolePurchaseRecord = new RolePurchaseRecord() { RoleID = rolestatus.RoleID ,GoodsPurchasedCount=Utility.Json.ToJson(new Dictionary<int, int>()) };
                 ConcurrentSingleton<NHManager>.Instance.Insert(rolePurchaseRecord);
+                Weapon weapon = new Weapon() { RoleID= rolestatus.RoleID, Weaponindex = Utility.Json.ToJson(new Dictionary<int, int>()), WeaponStatusDict=Utility.Json.ToJson(new Dictionary<int, int>()) };
+
                 #endregion
                 #region 背包
                 ConcurrentSingleton<NHManager>.Instance.Insert(new RoleRing() { RoleID = rolestatus.RoleID });

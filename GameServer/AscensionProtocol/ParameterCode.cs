@@ -115,8 +115,9 @@
         /// </summary>
         SchoolRefresh=70,
         GetWeapon=71,
-        ShoppingMall=72,
-        RoleTemInventory =73,
-        RolePurchase=74,
+        GetWeaponindex=72,
+        ShoppingMall =73,
+        RoleTemInventory =74,
+        RolePurchase=75,
     }
 }
