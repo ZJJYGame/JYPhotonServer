@@ -50,54 +50,54 @@ namespace AscensionServer
             {
                 var  roleStatusSever =  ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleStatus>(nHCriteriaRoleId);
                 
-                if (roleObj.RoleHP != 0 && roleStatusSever.RoleHP > 0)
+                if (roleObj.RoleHP != 0 )
                 {
                     roleStatusSever.RoleHP += roleObj.RoleHP;
-                    if ((roleStatusSever.RoleHP + roleObj.RoleHP) < 0)
-                        roleStatusSever.RoleHP = 0;
+                    //if ((roleStatusSever.RoleHP + roleObj.RoleHP) < 0)
+                    //    roleStatusSever.RoleHP = 0;
                 }
 
-                if (roleObj.RoleMP != 0 && roleStatusSever.RoleMP > 0)
+                if (roleObj.RoleMP != 0)
                 {
                     roleStatusSever.RoleMP += roleObj.RoleMP;
-                    if ((roleStatusSever.RoleMP + roleObj.RoleMP) <0)
-                        roleStatusSever.RoleMP = 0;
+                    //if ((roleStatusSever.RoleMP + roleObj.RoleMP) <0)
+                    //    roleStatusSever.RoleMP = 0;
                 }
 
-                if (roleObj.RoleAttackDamage != 0 && roleStatusSever.RoleAttackDamage > 0)
+                if (roleObj.RoleAttackDamage != 0 )
                 {
                     roleStatusSever.RoleAttackDamage += roleObj.RoleAttackDamage;
-                    if ((roleStatusSever.RoleAttackDamage + roleObj.RoleAttackDamage) < 0)
-                        roleStatusSever.RoleAttackDamage = 0;
+                    //if ((roleStatusSever.RoleAttackDamage + roleObj.RoleAttackDamage) < 0)
+                    //    roleStatusSever.RoleAttackDamage = 0;
                 }
 
 
-                if (roleObj.RoleResistanceDamage != 0 && roleStatusSever.RoleResistanceDamage > 0)
+                if (roleObj.RoleResistanceDamage != 0)
                 {
                     roleStatusSever.RoleResistanceDamage += roleObj.RoleResistanceDamage;
-                    if ((roleStatusSever.RoleResistanceDamage + roleObj.RoleResistanceDamage) < 0)
-                        roleStatusSever.RoleResistanceDamage = 0;
+                    //if ((roleStatusSever.RoleResistanceDamage + roleObj.RoleResistanceDamage) < 0)
+                    //    roleStatusSever.RoleResistanceDamage = 0;
                 }
 
-                if (roleObj.RoleAttackPower != 0 && roleStatusSever.RoleAttackPower > 0)
+                if (roleObj.RoleAttackPower != 0)
                 {
                     roleStatusSever.RoleAttackPower += roleObj.RoleAttackPower;
-                    if ((roleStatusSever.RoleAttackPower + roleObj.RoleAttackPower) < 0)
-                        roleStatusSever.RoleAttackPower = 0;
+                    //if ((roleStatusSever.RoleAttackPower + roleObj.RoleAttackPower) < 0)
+                    //    roleStatusSever.RoleAttackPower = 0;
                 }
 
-                if (roleObj.RoleResistancePower != 0 && roleStatusSever.RoleResistancePower > 0)
+                if (roleObj.RoleResistancePower != 0 )
                 {
                     roleStatusSever.RoleResistancePower += roleObj.RoleResistancePower;
-                    if ((roleStatusSever.RoleResistancePower + roleObj.RoleResistancePower) < 0)
-                        roleStatusSever.RoleResistancePower = 0;
+                    //if ((roleStatusSever.RoleResistancePower + roleObj.RoleResistancePower) < 0)
+                    //    roleStatusSever.RoleResistancePower = 0;
                 }
 
-                if (roleObj.RoleSpeedAttack != 0 && roleStatusSever.RoleSpeedAttack > 0)
+                if (roleObj.RoleSpeedAttack != 0)
                 {
                     roleStatusSever.RoleSpeedAttack += roleObj.RoleSpeedAttack;
-                    if ((roleStatusSever.RoleSpeedAttack + roleObj.RoleSpeedAttack) < 0)
-                        roleStatusSever.RoleSpeedAttack = 0;
+                    //if ((roleStatusSever.RoleSpeedAttack + roleObj.RoleSpeedAttack) < 0)
+                    //    roleStatusSever.RoleSpeedAttack = 0;
                 }
 
 
