@@ -81,6 +81,10 @@ namespace AscensionProtocol
         /// 临时背包
         /// </summary>
         SyncTemInventory = 41,
+        /// <summary>
+        /// 宠物资质
+        /// </summary>
+        SyncPetaPtitude= 42,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>

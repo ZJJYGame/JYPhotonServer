@@ -19,7 +19,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
-    <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -182,6 +182,7 @@
     <Compile Include="DOMap\BottleneckMap.cs" />
     <Compile Include="DOMap\ForgeMap.cs" />
     <Compile Include="DOMap\HerbsFieldMap.cs" />
+    <Compile Include="DOMap\PetaPtitudeMap.cs" />
     <Compile Include="DOMap\PuppetMap.cs" />
     <Compile Include="DOMap\RolePurchaseRecordMap.cs" />
     <Compile Include="DOMap\RoleSchoolMap.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="DO\Bottleneck.cs" />
     <Compile Include="DO\Forge.cs" />
     <Compile Include="DO\HerbsField.cs" />
+    <Compile Include="DO\PetaPtitude.cs" />
     <Compile Include="DO\Puppet.cs" />
     <Compile Include="DO\RolePurchaseRecord.cs" />
     <Compile Include="DO\RoleSchool.cs" />
@@ -217,6 +219,11 @@
     <Compile Include="Handlers\SyncAlchemy\SubHandler\UpdateAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncForge\SubHandler\AddForgeSubHandler.cs" />
     <Compile Include="Handlers\SyncForge\SubHandler\UpdateForgeSubHandler.cs" />
+    <Compile Include="Handlers\SyncPetaPtitude\SubHandler\SyncPetaPtitudeSubHandler.cs" />
+    <Compile Include="Handlers\SyncPetaPtitude\SubHandler\UpdatePetaPtitudeSubHandler.cs" />
+    <Compile Include="Handlers\SyncPetaPtitude\SyncPetaPtitudeHandler.cs" />
+    <Compile Include="Handlers\SyncPetStatus\SubHandler\RemovePetStatusSubHandler.cs" />
+    <Compile Include="Handlers\SyncPetStatus\SubHandler\UpdatePetaStatusSubHandler.cs" />
     <Compile Include="Handlers\SyncPuppet\SubHandler\AddPuppetSubHandler.cs" />
     <Compile Include="Handlers\SyncPuppet\SubHandler\GetPuppetSubHandler.cs" />
     <Compile Include="Handlers\SyncPuppet\SubHandler\SyncPuppetSubHandler.cs" />
@@ -327,7 +334,6 @@
     <Compile Include="Handlers\SyncOnOffLine\SyncOnOffLineHandler.cs" />
     <Compile Include="Handlers\SyncPetStatus\SubHandler\GetPetStatusSubHandler.cs" />
     <Compile Include="Handlers\SyncPetStatus\SubHandler\SyncPetStatusSubHandler.cs" />
-    <Compile Include="Handlers\SyncPetStatus\SubHandler\UpdatePetStatusSubHandler.cs" />
     <Compile Include="Handlers\SyncPetStatus\SyncPetStatusHandler.cs" />
     <Compile Include="Handlers\SyncPet\SubHandler\AddPetHandler.cs" />
     <Compile Include="Handlers\SyncPet\SubHandler\GetPetHandler.cs" />

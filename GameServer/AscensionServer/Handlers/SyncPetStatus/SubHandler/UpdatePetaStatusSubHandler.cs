@@ -31,19 +31,15 @@ namespace AscensionServer
 
             NHCriteria nHCriteriapetaptitude = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("PetID", petaptitudeObj.PetID);
             var petstatusTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<PetStatus>(nHCriteriapetstatus);
-            var petaptitudeTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<PetaPtitude>(nHCriteriapetaptitude);
+
             if (petstatusTemp!=null)
             {
                 petstatusTemp= petstatusObj;
             }
-            if (petaptitudeTemp != null)
-            {
-                petaptitudeTemp= AddaPtitude(petaptitudeObj, petaptitudeTemp);
-            }
+         
             SetResponseData(() =>
             {
                 SubDict.Add((byte)ParameterCode.PetStatus, Utility.Json.ToJson(petstatusTemp));
-                SubDict.Add((byte)ParameterCode.PetPtitude, Utility.Json.ToJson(petaptitudeTemp));
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             });
 
@@ -71,35 +67,7 @@ namespace AscensionServer
             return petStatusserver;
         }
 
-        PetaPtitude AddaPtitude(PetaPtitudeDTO petStatusclient, PetaPtitude petStatusserver)
-        {
-           
-            foreach (var drugitem in petStatusclient.PetaptitudeDrug)
-            {
-                var drugDict = Utility.Json.ToObject<Dictionary<int,int>>(petStatusserver.PetaptitudeDrug);
-                if (drugitem.Value>=10)
-                {
-                    return petStatusserver;
-                }
-                else
-                {
-                    petStatusserver.AttackphysicalAptitude += petStatusclient.AttackphysicalAptitude;
-                    petStatusserver.AttackpowerAptitude += petStatusclient.AttackpowerAptitude;
-                    petStatusserver.AttacksoulAptitude += petStatusclient.AttacksoulAptitude;
-                    petStatusserver.AttackspeedAptitude += petStatusclient.AttackspeedAptitude;
-                    petStatusserver.DefendphysicalAptitude += petStatusclient.DefendphysicalAptitude;
-                    petStatusserver.DefendpowerAptitude += petStatusclient.DefendpowerAptitude;
-                    petStatusserver.DefendsoulAptitude += petStatusclient.DefendsoulAptitude;
-                    petStatusserver.HPAptitude += petStatusclient.HPAptitude;
-                    petStatusserver.MPAptitude += petStatusclient.MPAptitude;
-                    petStatusserver.SoulAptitude += petStatusclient.SoulAptitude;
-                    petStatusserver.Petaptitudecol += petStatusclient.Petaptitudecol;
-                    drugDict[drugitem.Key] += drugDict[drugitem.Key];
-                }
-            }
-
-            return petStatusserver;
-        }
+      
         #endregion
     }
 }

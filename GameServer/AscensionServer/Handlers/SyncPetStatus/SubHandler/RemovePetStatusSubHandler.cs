@@ -20,8 +20,7 @@ namespace AscensionServer.Handlers.SyncPetStatus.SubHandler
         }
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-        var dict = ParseSubDict(operationRequest);
-            string petstatus = Convert.ToString(Utility.GetValue(dict,(byte)ObjectParameterCode.PetStatus));
+   
         }
     }
 }
