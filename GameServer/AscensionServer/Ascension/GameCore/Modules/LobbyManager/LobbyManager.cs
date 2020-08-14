@@ -8,9 +8,9 @@ using Cosmos;
 namespace AscensionServer
 {
     /// <summary>
-    /// 大厅管理器
+    /// 玩家的大厅管理器
     /// </summary>
-    public class LobbyManager:ModuleBase<LobbyManager>
+    public sealed class LobbyManager:ModuleBase<LobbyManager>
     {
         ConcurrentDictionary<int, AscensionPeer> peerDict = new ConcurrentDictionary<int, AscensionPeer>();
         /// <summary>

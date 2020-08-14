@@ -17,8 +17,6 @@ namespace AscensionServer
         //TODO 需要修改嵌套
         // 测试阶段
         public bool IsLogged { get; set; }
-        public string PreviousScene { get; set; }
-        public string CurrentScene { get; set; }
         public string Account { get { return User.Account; } set { User.Account = value; } }
         public string Password{ get { return User.Password; } set { User.Password = value; } }
         public string UUID { get { return User.UUID; }set { User.UUID = value; } }
@@ -29,7 +27,6 @@ namespace AscensionServer
         public RoleTransformQueueDTO RoleTransformQueue { get; set; }
         public RoleMoveStatusDTO RoleMoveStatus { get; set; }
         public RoleAdventureSkillDTO RoleAdventureSkill { get; set; }
-
         public PeerCache()
         {
             User = new User();
@@ -42,8 +39,6 @@ namespace AscensionServer
             Password = null;
             UUID = null;
             RoleID = -1;
-            PreviousScene = null;
-            CurrentScene = null;
         }
         public bool EqualUser(object obj)
         {

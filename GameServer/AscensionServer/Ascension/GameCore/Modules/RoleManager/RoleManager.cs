@@ -10,7 +10,7 @@ namespace AscensionServer
     /// <summary>
     /// 登录管理，缓存所有登录玩家的peer信息
     /// </summary>
-    public class RoleManager:ModuleBase<RoleManager>
+    public sealed class RoleManager:ModuleBase<RoleManager>
     {
         ConcurrentDictionary<int, AscensionPeer> loggedPeerDict = new ConcurrentDictionary<int, AscensionPeer>();
         /// <summary>

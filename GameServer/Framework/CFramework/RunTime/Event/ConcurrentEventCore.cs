@@ -4,20 +4,21 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Cosmos
 {
     /// <summary>
-    /// 网络事件模块；
+    /// 线程安全事件Core；
+    /// 此类型的事件可以与EventManager并行使用；
+    /// EventManager为全局事件，当前此类事件可以是区域事件；
     /// </summary>
     /// <typeparam name="TKey">key的类型</typeparam>
     /// <typeparam name="TValue">value的类型</typeparam>
     /// <typeparam name="TDerived">派生类的类型</typeparam>
-    public class EventBase<TKey, TValue,TDerived>:ConcurrentSingleton<TDerived>
-        where TDerived:EventBase<TKey,TValue,TDerived>,new()
+    public class ConcurrentEventCore<TKey, TValue, TDerived> : ConcurrentSingleton<TDerived>
+        where TDerived : ConcurrentEventCore<TKey, TValue, TDerived>, new()
         where TValue : class
     {
-        ConcurrentDictionary<TKey, List<Action<TValue>>> eventDict = new ConcurrentDictionary<TKey, List<Action<TValue>>>();
+        Dictionary<TKey, List<Action<TValue>>> eventDict = new Dictionary<TKey, List<Action<TValue>>>();
         public virtual void AddEventListener(TKey key, Action<TValue> handler)
         {
             if (eventDict.ContainsKey(key))
@@ -26,7 +27,7 @@ namespace Cosmos
             {
                 List<Action<TValue>> handlerSet = new List<Action<TValue>>();
                 handlerSet.Add(handler);
-                eventDict.TryAdd(key, handlerSet);
+                eventDict.Add(key, handlerSet);
             }
         }
         public virtual void RemoveEventListener(TKey key, Action<TValue> handler)
@@ -35,14 +36,11 @@ namespace Cosmos
             {
                 var handlerSet = eventDict[key];
                 handlerSet.Remove(handler);
-                if(handlerSet.Count <= 0)
-                {
-                    List<Action<TValue>> removeHandlerSet;
-                    eventDict.TryRemove(key, out removeHandlerSet);
-                }
+                if (handlerSet.Count <= 0)
+                    eventDict.Remove(key);
             }
         }
-        public  bool HasEventListened(TKey key)
+        public bool HasEventListened(TKey key)
         {
             return eventDict.ContainsKey(key);
         }
