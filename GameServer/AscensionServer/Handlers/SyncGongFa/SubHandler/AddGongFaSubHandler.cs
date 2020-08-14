@@ -47,7 +47,7 @@ namespace AscensionServer
                     }
                     else
                     {
-                        CultivationMethod cultivationMethod=new CultivationMethod() { CultivationMethodID = gongfaObj.CultivationMethodID };
+                        CultivationMethod cultivationMethod=new CultivationMethod() { CultivationMethodID = gongfaObj.CultivationMethodID,  };
                         cultivationMethod=ConcurrentSingleton<NHManager>.Instance.Insert(cultivationMethod);
                         gongfaDict.Add(cultivationMethod.ID, cultivationMethod.CultivationMethodID);
                         roleGongFaObj.GongFaIDArray = Utility.Json.ToJson(gongfaDict);
@@ -60,7 +60,6 @@ namespace AscensionServer
                             SubDict.Add((byte)ParameterCode.RoleGongFa, Utility.Json.ToJson(DOdict));
                             Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                         });
-
                     }
                 }
             }
