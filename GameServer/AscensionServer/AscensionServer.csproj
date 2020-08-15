@@ -169,10 +169,7 @@
   <ItemGroup>
     <Compile Include="AreaHandlers\EnterAdventureSceneHandler.cs" />
     <Compile Include="AreaHandlers\ExitAdventureSceneHandler.cs" />
-    <Compile Include="Ascension\GameCore\Core\Actor\Actor.cs" />
-    <Compile Include="Ascension\GameCore\Core\Actor\ActorBase.cs" />
     <Compile Include="Ascension\GameCore\Core\Actor\ActorTypeEnum.cs" />
-    <Compile Include="Ascension\GameCore\Core\Actor\IActor.cs" />
     <Compile Include="Ascension\GameCore\Core\Input\IInputCmd.cs" />
     <Compile Include="Ascension\GameCore\Core\NetEvent\NetworkEventEnum.cs" />
     <Compile Include="Ascension\GameCore\Core\NetEvent\NetworkEventCore.cs" />

@@ -13,7 +13,7 @@ namespace Cosmos
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class Actor<T> : ActorBase,IActor<T>,IReference
-        where T : class,new()
+        where T : class
     {
         public override Type OwnerType { get { return (typeof(T)); } }
         /// <summary>
@@ -75,7 +75,7 @@ namespace Cosmos
         /// <returns>生成后的Actor</returns>
         public static Actor<T>Create(byte actorType,int actorID,T owner)
         {
-            Actor<T> actor = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<Actor<T>>();
+            Actor<T> actor = Facade.SpawnReference<Actor<T>>();
             actor.Owner = owner;
             actor.ActorID = actorID;
             actor.ActorType = actorType;

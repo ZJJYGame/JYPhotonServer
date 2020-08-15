@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Cosmos
 {
     public interface IActor<T>
-        where T:class,new()
+        where T:class
     {
         /// <summary>
         /// Actor的拥有者

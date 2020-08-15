@@ -23,7 +23,7 @@ namespace AscensionServer
         /// 保存当前用户登录的信息与状态
         /// </summary>
         PeerCache peerCache =new PeerCache();
-        public PeerCac7he PeerCache { get { return peerCache; } set { peerCache = value; } }
+        public PeerCache PeerCache { get { return peerCache; } set { peerCache = value; } }
         /// <summary>
         /// 是否已经发送位置信息
         /// </summary>
@@ -36,6 +36,7 @@ namespace AscensionServer
 
         #region Methods
         public AscensionPeer(InitRequest initRequest) : base(initRequest){}
+
         //处理客户端断开连接的后续工作
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
