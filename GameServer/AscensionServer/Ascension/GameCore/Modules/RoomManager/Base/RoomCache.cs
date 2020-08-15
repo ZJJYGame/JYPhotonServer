@@ -15,20 +15,20 @@ namespace AscensionServer
         /// 当前房间是否被释放
         /// </summary>
         public bool IsReleased { get; private set; }
-        int countDownSec = 15;
+
+        protected int countDownSec = 15;
         /// <summary>
         /// 是否今儿收集指令
         /// </summary>
-        bool canCollectCmd = false;
+        protected bool canCollectCmd = false;
         /// <summary>
         /// 当前房间内战斗的回合数
         /// </summary>
-        int roundCount = 0;
+        protected int roundCount = 0;
         /// <summary>
         /// peerID ,peer
         /// </summary>
-        ConcurrentDictionary<int, AscensionPeer> peerDict = new ConcurrentDictionary<int, AscensionPeer>();
-        ConcurrentBag<BattleInputC2S> inputCmdQueue = new ConcurrentBag<BattleInputC2S>();
+        protected ConcurrentDictionary<int, ActorBase> peerDict = new ConcurrentDictionary<int, ActorBase>();
         #endregion
 
         #region Methods
@@ -37,19 +37,14 @@ namespace AscensionServer
         /// 分配ID给当前房间
         /// </summary>
         /// <param name="roomID">分配的房间ID</param>
-        public void InitRoom(int roomID)
+        public virtual void InitRoom(int roomID)
         {
             IsReleased = false;
             this.RoomID = roomID;
         }
-        public void Clear()
+        public virtual void Clear()
         {
             peerDict.Clear();
-            BattleInputC2S biC2S;
-            do
-            {
-                inputCmdQueue.TryTake(out biC2S);
-            } while (inputCmdQueue.Count > 0);
             canCollectCmd = true;
             IsReleased = true;
         }
@@ -58,7 +53,7 @@ namespace AscensionServer
         /// </summary>
         public bool EnterRoom(int peerID)
         {
-            var peer = RoleManager.Instance.GetPeer(peerID);
+            var peer = ActorManager.Instance.GetActor(peerID);
             if (peer != null)
                 return peerDict.TryAdd(peerID, peer);
             else
@@ -69,23 +64,22 @@ namespace AscensionServer
         /// </summary>
         public bool ExitRoom(int peerID)
         {
-            AscensionPeer peer;
+            ActorBase peer;
             return peerDict.TryRemove(peerID, out peer);
         }
         /// <summary>
         /// 缓存从客户端传来的指令
         /// </summary>
-        public void HandleBattleInputCmdC2S(BattleInputC2S msgC2S)
+        public virtual void CacheInputCmdC2S(IInputCmd msgC2S)
         {
             if (!canCollectCmd)
                 return;
-            inputCmdQueue.Add(msgC2S);
         }
         /// <summary>
         /// 开始回合；
         /// 收集指令；
         /// </summary>
-        void StartRound()
+        protected void StartRound()
         {
             roundCount++;
             canCollectCmd = true;
@@ -102,7 +96,7 @@ namespace AscensionServer
             Broadcast();
             AscensionServer._Log.Info("15秒倒计时结束");
         }
-        void Broadcast()
+        protected void Broadcast()
         {
             foreach (var peer in peerDict.Values)
             {

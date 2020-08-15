@@ -6,8 +6,27 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-    public class BattleInputC2S
+    /// <summary>
+    /// 战斗输入指令对象
+    /// </summary>
+    [Serializable]
+    public class BattleInputC2S:IInputCmd
     {
+        /// <summary>
+        /// 指令输入的类型
+        /// 移动、使用道具、攻击、技能、添加好友等
+        /// 参考 OperationCode的类型;
+        /// </summary>
+        public ushort InputCmdType { get; set; }
+        /// <summary>
+        /// 指令输入者类型;
+        /// 0：玩家；
+        /// 1：宠物；
+        /// 2：AI类型01
+        /// 3：AI类型02
+        ///      etc . . . 
+        /// </summary>
+        public byte CmdInputterType { get; set; }
         /// <summary>
         /// 指令输入者ID
         /// </summary>
@@ -26,5 +45,6 @@ namespace AscensionServer
         /// 目标ID
         /// </summary>
         public int TargetID { get; set; }
+
     }
 }

@@ -10,7 +10,7 @@ namespace AscensionServer
     /// <summary>
     /// 房间管理器，用于处理战斗相关
     /// </summary>
-    public class RoomManager:ModuleBase<RoomManager>
+    public sealed class RoomManager:ModuleBase<RoomManager>
     {
         /// <summary>
         /// 房间ID长度

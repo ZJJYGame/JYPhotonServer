@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Cosmos;
+
 namespace AscensionServer
 {
-    public class NetworkEvent:EventBase<int,string,NetworkEvent>
+    public enum ActorTypeEnum:byte
     {
-        
+        Player=0,
+        Pet=1,
+        AI_TypeA=3,
+        AI_TypeB=4
     }
 }

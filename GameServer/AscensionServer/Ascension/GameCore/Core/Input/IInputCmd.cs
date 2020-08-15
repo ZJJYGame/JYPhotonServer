@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-    /// <summary>
-    /// Actor集合
-    /// </summary>
-    public class ActorSet:List<IActor>
+    public interface IInputCmd
     {
-
+        ushort InputCmdType { get; }
     }
 }

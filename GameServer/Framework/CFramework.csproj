@@ -45,6 +45,9 @@
     <Compile Include="CFramework\Core\Base\Behaviour\IBehaviour.cs" />
     <Compile Include="CFramework\Core\Base\Behaviour\IControllable.cs" />
     <Compile Include="CFramework\Core\Base\Behaviour\IControllableBehaviour.cs" />
+    <Compile Include="CFramework\Core\Base\Behaviour\IOperable.cs" />
+    <Compile Include="CFramework\Core\Base\Behaviour\IRefreshable.cs" />
+    <Compile Include="CFramework\Core\Base\Behaviour\IRenewable.cs" />
     <Compile Include="CFramework\Core\Base\DataStructure\BinaryTree.cs" />
     <Compile Include="CFramework\Core\Base\DataStructure\ConcurrentVariable.cs" />
     <Compile Include="CFramework\Core\Base\DataStructure\LRUCache.cs" />
@@ -52,6 +55,7 @@
     <Compile Include="CFramework\Core\Base\DataStructure\TinyLinkedList.cs" />
     <Compile Include="CFramework\Core\Base\EventArg\CFEventArgs.cs" />
     <Compile Include="CFramework\Core\Base\EventArg\IEventArgs.cs" />
+    <Compile Include="CFramework\Core\Base\Variable\Variable.cs" />
     <Compile Include="CFramework\Core\Event\EventActions.cs" />
     <Compile Include="CFramework\Core\Exception\CFrameworkException.cs" />
     <Compile Include="CFramework\Core\ReferencePool\IReference.cs" />
@@ -75,7 +79,8 @@
     <Compile Include="CFramework\Core\Utility\Utility.Json.cs" />
     <Compile Include="CFramework\Core\Utility\Utility.Text.cs" />
     <Compile Include="CFramework\Core\Utility\Utility.Time.cs" />
-    <Compile Include="CFramework\RunTime\Event\EventBase.cs" />
+    <Compile Include="CFramework\RunTime\Event\ConcurrentEventCore.cs" />
+    <Compile Include="CFramework\RunTime\Event\EventCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
