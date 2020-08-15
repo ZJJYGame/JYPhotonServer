@@ -30,7 +30,7 @@ namespace AscensionServer
             {
                 var assetsServer = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAssets>(nHCriteriaRoleID);
 
-                if (roleAssetsObj.XianYu != 0 && assetsServer.XianYu > 0)
+                if (roleAssetsObj.XianYu != 0 && assetsServer.XianYu >= 0)
                 {
                     assetsServer.XianYu += roleAssetsObj.XianYu;
                     if ((assetsServer.XianYu + roleAssetsObj.XianYu < 0))
