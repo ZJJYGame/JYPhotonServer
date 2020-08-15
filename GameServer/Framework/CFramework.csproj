@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="CFramework\Core\Base\Actor\Actor.cs" />
     <Compile Include="CFramework\Core\Base\Actor\ActorBase.cs" />
+    <Compile Include="CFramework\Core\Base\Actor\ActorPool.cs" />
     <Compile Include="CFramework\Core\Base\Actor\IActor.cs" />
     <Compile Include="CFramework\Core\Base\Behaviour\IBehaviour.cs" />
     <Compile Include="CFramework\Core\Base\Behaviour\IControllable.cs" />

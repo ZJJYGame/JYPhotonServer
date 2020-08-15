@@ -75,7 +75,7 @@ namespace Cosmos
         /// <returns>生成后的Actor</returns>
         public static Actor<T>Create(byte actorType,int actorID,T owner)
         {
-            Actor<T> actor = Facade.SpawnReference<Actor<T>>();
+            Actor<T> actor = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<Actor<T>>();
             actor.Owner = owner;
             actor.ActorID = actorID;
             actor.ActorType = actorType;

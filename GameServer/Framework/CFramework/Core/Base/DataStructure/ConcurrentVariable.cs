@@ -11,7 +11,7 @@ namespace Cosmos
     /// 并发变量容器
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ConcurrentVariable<T> 
+    public class ConcurrentVariable<T> :Variable
         where T : new()
     {
         static readonly object locker = new object();
@@ -33,5 +33,7 @@ namespace Cosmos
                 }
             }
         }
+        Type dataType = typeof(T);
+        public override Type Type { get { return dataType; } }
     }
 }

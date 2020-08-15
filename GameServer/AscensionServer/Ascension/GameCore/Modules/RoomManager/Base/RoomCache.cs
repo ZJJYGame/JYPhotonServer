@@ -51,14 +51,14 @@ namespace AscensionServer
         /// <summary>
         ///进入房间 
         /// </summary>
-        public bool EnterRoom(int peerID)
-        {
-            var peer = ActorManager.Instance.GetActor(peerID);
-            if (peer != null)
-                return peerDict.TryAdd(peerID, peer);
-            else
-                return false;
-        }
+        //public bool EnterRoom(int peerID)
+        //{
+        //    var peer = ActorManager.Instance.TryGetValue(peerID);
+        //    if (peer != null)
+        //        return peerDict.TryAdd(peerID, peer);
+        //    else
+        //        return false;
+        //}
         /// <summary>
         ///离开房间 
         /// </summary>

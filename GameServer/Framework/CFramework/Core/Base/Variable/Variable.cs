@@ -26,9 +26,10 @@ namespace Cosmos
         /// </summary>
         public virtual void OnRenewal() { }
         /// <summary>
+        /// 空虚函数;
         /// 初始化
         /// </summary>
-        public abstract void OnInitialization();
+        public virtual void OnInitialization() { }
         /// <summary>
         /// 空虚函数;
         /// 终结释放变量;
