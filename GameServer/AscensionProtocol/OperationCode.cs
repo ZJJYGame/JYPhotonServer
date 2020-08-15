@@ -85,6 +85,10 @@ namespace AscensionProtocol
         /// 宠物资质
         /// </summary>
         SyncPetaPtitude= 42,
+        /// <summary>
+        /// 杂货铺
+        /// </summary>
+        SyncVareityShop=43,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>

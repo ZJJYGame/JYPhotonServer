@@ -19,7 +19,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
-    <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -199,6 +199,7 @@
     <Compile Include="DOMap\TacticFormationMap.cs" />
     <Compile Include="DOMap\TemporaryRingMap.cs" />
     <Compile Include="DOMap\TreasureatticMap.cs" />
+    <Compile Include="DOMap\VareityShopMap.cs" />
     <Compile Include="DO\Alchemy.cs" />
     <Compile Include="DO\Bottleneck.cs" />
     <Compile Include="DO\Forge.cs" />
@@ -220,6 +221,7 @@
     <Compile Include="Ascension\GameCore\Modules\LobbyManager\LobbyManager.cs" />
     <Compile Include="Ascension\GameCore\Modules\RoleManager\RoleManager.cs" />
     <Compile Include="Ascension\GameCore\Modules\RoomManager\RoomManager.cs" />
+    <Compile Include="DO\VareityShop.cs" />
     <Compile Include="Handlers\SchoolSchoolRefresh\SyncSchoolRefreshHandler.cs" />
     <Compile Include="Handlers\SchoolSchoolRefresh\SyncUpdatSchoolRefreshHandler.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\UpdateAlchemySubHandler.cs" />
@@ -259,6 +261,9 @@
     <Compile Include="Handlers\SyncTemporaryRing\SubHandler\SyncTemporarySubHandler.cs" />
     <Compile Include="Handlers\SyncTemporaryRing\SubHandler\UpdateTemoraryRingSubHandler.cs" />
     <Compile Include="Handlers\SyncTemporaryRing\SyncTemporaryRingHandler.cs" />
+    <Compile Include="Handlers\SyncVareityShop\SubHandler\GetVareityShopSubHandler.cs" />
+    <Compile Include="Handlers\SyncVareityShop\SubHandler\SyncVareityShopSubHandler.cs" />
+    <Compile Include="Handlers\SyncVareityShop\SyncVareityShopHandler.cs" />
     <Compile Include="Handlers\SyncWeapon\SubHandler\AddWeaponSubHandler.cs" />
     <Compile Include="Handlers\SyncWeapon\SubHandler\GetWeaponSubHandler.cs" />
     <Compile Include="Handlers\SyncWeapon\SubHandler\SyncWeaponSubHandler.cs" />
