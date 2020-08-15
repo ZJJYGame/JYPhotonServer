@@ -4,32 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AscensionServer
+namespace Cosmos
 {
     public abstract class ActorBase
     {
-        public abstract Type ActorType { get; }
+        /// <summary>
+        /// 被持有的Actor的Type类型
+        /// </summary>
+        public abstract Type OwnerType { get; }
         /// <summary>
         /// 当前Actor是否被激活
         /// </summary>
-        public abstract bool IsActive { get; }
+        public abstract bool IsActivated { get; }
         /// <summary>
-        /// Actor类型;
-        /// 0：玩家；
-        /// 1：宠物；
-        /// 2：AI类型01
-        /// 3：AI类型02
-        ///      etc . . . 
-        /// 查看 ：ActorTypeEnum
+        /// Actor枚举约束的类型;
         /// </summary>
-        /// </summary>
-        public abstract byte ConcreteActorType { get; set; }
+        public abstract byte ActorType { get;protected set; }
         /// <summary>
-        /// 系统生成的持久化ID
-        /// 可以是Peer的 role id;
-        /// 也可以是pet id;
-        /// 亦可是80001这类AI怪物
+        ///系统分配的ID
         /// </summary>
-        public abstract int ConcreteActorID { get; set; }
+        public abstract int ActorID { get; protected set; }
     }
 }
