@@ -47,7 +47,6 @@ namespace AscensionServer
 
                     SubDict.Add((byte)ParameterCode.JobPuppet, puppetObj);
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
-
                 });
             }
             else

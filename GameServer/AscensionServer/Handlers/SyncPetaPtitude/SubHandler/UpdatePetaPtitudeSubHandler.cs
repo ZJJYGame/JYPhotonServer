@@ -17,7 +17,7 @@ namespace AscensionServer
     {
         public override void OnInitialization()
         {
-            SubOpCode = SubOperationCode.Add;
+            SubOpCode = SubOperationCode.Update;
             base.OnInitialization();
         }
 
@@ -25,19 +25,24 @@ namespace AscensionServer
         {
             var dict = ParseSubDict(operationRequest);
             string petptitudeJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.PetPtitude));
+            AscensionServer._Log.Info("收到的增加资质的请求"+ petptitudeJson);
             var petaptitudeObj = Utility.Json.ToObject<PetaPtitudeDTO>(petptitudeJson);
-            NHCriteria nHCriteriaweapon = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", petaptitudeObj.PetID);
-            var petaptitudeTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<PetaPtitude>(nHCriteriaweapon);
+            NHCriteria nHCriteriapetaptitude = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", petaptitudeObj.PetID);
+            var petaptitudeTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<PetaPtitude>(nHCriteriapetaptitude);
 
             if (petaptitudeTemp != null)
             {
                 petaptitudeTemp = AddaPtitude(petaptitudeObj, petaptitudeTemp);
-            }
-            SetResponseData(() =>
-            {
-                SubDict.Add((byte)ParameterCode.PetPtitude, Utility.Json.ToJson(petaptitudeTemp));
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
-            });
+                SetResponseData(() =>
+                {
+                    AscensionServer._Log.Info("发送回去的增加资质的" + Utility.Json.ToJson(petaptitudeTemp));
+                    SubDict.Add((byte)ParameterCode.PetPtitude, Utility.Json.ToJson(petaptitudeTemp));
+                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                });
+            }else
+                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriapetaptitude);
         }
 
         PetaPtitude AddaPtitude(PetaPtitudeDTO petStatusclient, PetaPtitude petStatusserver)
