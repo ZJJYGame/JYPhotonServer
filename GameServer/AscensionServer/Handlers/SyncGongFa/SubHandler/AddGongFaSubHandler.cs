@@ -47,7 +47,7 @@ namespace AscensionServer
                     }
                     else
                     {
-                        CultivationMethod cultivationMethod=new CultivationMethod() { CultivationMethodID = gongfaObj.CultivationMethodID,  };
+                        CultivationMethod cultivationMethod=new CultivationMethod() { CultivationMethodID = gongfaObj.CultivationMethodID, CultivationMethodLevel = gongfaObj .CultivationMethodLevel};
                         cultivationMethod=ConcurrentSingleton<NHManager>.Instance.Insert(cultivationMethod);
                         gongfaDict.Add(cultivationMethod.ID, cultivationMethod.CultivationMethodID);
                         roleGongFaObj.GongFaIDArray = Utility.Json.ToJson(gongfaDict);
