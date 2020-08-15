@@ -119,5 +119,9 @@
         ShoppingMall =73,
         RoleTemInventory =74,
         RolePurchase=75,
+        /// <summary>
+        /// 杂货铺
+        /// </summary>
+        VareityShop=76,
     }
 }
