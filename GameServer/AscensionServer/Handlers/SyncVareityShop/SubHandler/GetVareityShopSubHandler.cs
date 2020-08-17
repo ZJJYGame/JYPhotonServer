@@ -27,7 +27,7 @@ namespace AscensionServer
             var vareityObj = Utility.Json.ToObject<VareityShopDTO>(vareityJson);
             NHCriteria nHCriteriavareity = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("VareityshopID", vareityObj.VareityshopID);
             var vareityTemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<VareityShop>(nHCriteriavareity);
-            Dictionary<int, Dictionary<int, GoodsStatus>> AllGoods = new Dictionary<int, Dictionary<int, GoodsStatus>>();
+            Dictionary<int, Dictionary<int, GoodsStatus>> AllGoodsDict = new Dictionary<int, Dictionary<int, GoodsStatus>>();
             if (vareityTemp!=null)
             {
                 if (string.IsNullOrEmpty(vareityTemp.AllGoods))
@@ -36,11 +36,12 @@ namespace AscensionServer
                     foreach (var item in allgoodsDict)
                     {
                         var goodsDict = Utility.Json.ToObject<Dictionary<int, GoodsStatus>>(item.Value);
-                        AllGoods.Add(item.Key, goodsDict);
+                        AllGoodsDict.Add(item.Key, goodsDict);
                     }
                     SetResponseData(() =>
                     {
-                        SubDict.Add((byte)ParameterCode.VareityShop, Utility.Json.ToJson(AllGoods));
+                        VareityShopDTO vareityShopDTO = new VareityShopDTO() { VareityshopID= vareityTemp .VareityshopID,AllGoods= AllGoodsDict };
+                        SubDict.Add((byte)ParameterCode.VareityShop, Utility.Json.ToJson(vareityShopDTO));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
