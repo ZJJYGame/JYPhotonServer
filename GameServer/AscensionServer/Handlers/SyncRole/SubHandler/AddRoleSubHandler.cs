@@ -19,7 +19,7 @@ namespace AscensionServer
         Dictionary<int, int> RoleGFDict = new Dictionary<int, int>();
         Dictionary<int, int> RoleMiShuDict = new Dictionary<int, int>();
         Dictionary<int, int> RolePetDict = new Dictionary<int, int>();
-        Dictionary<int, RoleTaskItemDTO> roleTaskDic = new Dictionary<int, RoleTaskItemDTO>();
+        Dictionary<string, RoleTaskItemDTO> roleTaskDic = new Dictionary<string, RoleTaskItemDTO>();
         Dictionary<int, RingItemsDTO> ringDict = new Dictionary<int, RingItemsDTO>();
         Dictionary<int, int> magicRingDict = new Dictionary<int, int>();
         public override void OnInitialization()
@@ -67,7 +67,7 @@ namespace AscensionServer
                 ConcurrentSingleton<NHManager>.Instance.Insert(new OnOffLine() { RoleID = rolestatus.RoleID });
                 #region 任务
                 roleTaskDic.Clear();
-                roleTaskDic.Add(0001, new RoleTaskItemDTO() { RoleTaskType = "DialogSystem", RoleTaskAchieveState = "NoAchieveTask", RoleTaskAcceptState = "NoAcceptAbleTask", RoleTaskAbandonState = "NoAbandonTask", RoleTaskKind = "MainTask" });
+                roleTaskDic.Add("1001001", new RoleTaskItemDTO() { RoleTaskType = "DialogSystem", RoleTaskAchieveState = "NoAchieveTask", RoleTaskAcceptState = "NoAcceptAbleTask", RoleTaskAbandonState = "NoAbandonTask", RoleTaskKind = "MainTask" });
                 ConcurrentSingleton<NHManager>.Instance.Insert(new RoleTaskProgress() { RoleID = rolestatus.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(roleTaskDic) });
                 #endregion
                 Dictionary<string, string> DOdict = new Dictionary<string, string>();

@@ -25,11 +25,11 @@ namespace AscensionServer
             var roletaskobj = Utility.Json.ToObject<RoleTaskProgressDTO>(roletask);
             NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roletaskobj.RoleID);
             bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleTaskProgress>(nHCriteriaRoleID);
-            Dictionary<int, RoleTaskItemDTO> Dic;
+            Dictionary<string, RoleTaskItemDTO> Dic;
             if (exist)
             {
                 var roleTaskInfo = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleTaskProgress>(nHCriteriaRoleID);
-                Dic = Utility.Json.ToObject<Dictionary<int, RoleTaskItemDTO>>(roleTaskInfo.RoleTaskInfoDic);
+                Dic = Utility.Json.ToObject<Dictionary<string, RoleTaskItemDTO>>(roleTaskInfo.RoleTaskInfoDic);
                 if (roleTaskInfo.RoleTaskInfoDic !=null )
                 {
                     foreach (var client_n in roletaskobj.RoleTaskInfoDic)

@@ -6,7 +6,7 @@ namespace AscensionProtocol.DTO
     public class RoleTaskProgressDTO : DataTransferObject
     {
         public virtual int RoleID { get; set; }
-        public virtual Dictionary<int,RoleTaskItemDTO> RoleTaskInfoDic { get; set; }
+        public virtual Dictionary<string,RoleTaskItemDTO> RoleTaskInfoDic { get; set; }
         public override void Clear()
         {
             RoleID = -1;
