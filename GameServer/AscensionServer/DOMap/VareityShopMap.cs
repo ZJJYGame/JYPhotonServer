@@ -12,8 +12,8 @@ namespace AscensionServer.DOMap
     {
         public VareityShopMap()
         {
-            Id(x => x.VareityshopID).GeneratedBy.Increment().Column("id");
-            Map(x => x.AllGoods).Column("ranking_list_id");
+            Id(x => x.VareityshopID).GeneratedBy.Increment().Column("vareityshopid");
+            Map(x => x.AllGoods).Column("allgoods");
         }
     }
 }

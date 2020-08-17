@@ -20,21 +20,21 @@ namespace AscensionServer
         }
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            AscensionServer._Log.Info("更新宠物数据的请求进来了》》》》》》》》》》》》》》》》》");
             var dict = ParseSubDict(operationRequest);
             string petstatusJson = Convert.ToString(Utility.GetValue(dict,(byte)ParameterCode.PetStatus));
-            string petaptitudeJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.PetPtitude));
+
 
             var petstatusObj = Utility.Json.ToObject<PetStatus>(petstatusJson);
-            var petaptitudeObj = Utility.Json.ToObject<PetaPtitudeDTO>(petstatusJson);
             NHCriteria nHCriteriapetstatus = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("PetID", petstatusObj.PetID);
 
-            NHCriteria nHCriteriapetaptitude = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("PetID", petaptitudeObj.PetID);
+
             var petstatusTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<PetStatus>(nHCriteriapetstatus);
 
             if (petstatusTemp!=null)
             {
-                petstatusTemp= petstatusObj;
+
+                petstatusTemp = petstatusObj;
+                ConcurrentSingleton<NHManager>.Instance.Update<PetStatus>(petstatusTemp);
             }
          
             SetResponseData(() =>
@@ -44,7 +44,7 @@ namespace AscensionServer
             });
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriapetstatus, nHCriteriapetaptitude);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriapetstatus);
         }
 
         #region 待删

@@ -26,7 +26,7 @@ namespace AscensionServer
             AscensionServer._Log.Info("得到的傀儡为" + puppetJson);
             var puppetObj = Utility.Json.ToObject<PuppetDTO>(puppetJson);
             NHCriteria nHCriteriaPuppet = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", puppetObj.RoleID);
-            var puppetTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Alchemy>(nHCriteriaPuppet);
+            var puppetTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Puppet>(nHCriteriaPuppet);
             HashSet<int> puppetHash = new HashSet<int>();
             if (puppetTemp!=null)
             {

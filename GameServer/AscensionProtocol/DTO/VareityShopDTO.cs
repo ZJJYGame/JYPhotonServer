@@ -10,7 +10,7 @@ namespace AscensionProtocol.DTO
     public  class VareityShopDTO: DataTransferObject
     {
         public virtual byte VareityshopID { get; set; }
-        public virtual Dictionary<int, Dictionary<int, GoodsStatus>> AllGoods { get; set; }
+        public virtual Dictionary<int, List<GoodsStatus>> AllGoods { get; set; }
         public override void Clear()
         {
             AllGoods = null;
@@ -19,6 +19,7 @@ namespace AscensionProtocol.DTO
     [Serializable]
     public class GoodsStatus
     {
+        public virtual int Goods_ID { get; set; }
         public virtual int Price { get;set; }//价格
         public virtual int Limitquantity { get; set; }//限定数量
     }
