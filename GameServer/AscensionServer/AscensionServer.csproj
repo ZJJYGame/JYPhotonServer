@@ -87,9 +87,8 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate, Version=4.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHibernate.4.1.2.4000\lib\net40\NHibernate.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="NHibernate, Version=5.1.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernate.5.1.2\lib\net461\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Photon.SocketServer, Version=4.0.28.11245, Culture=neutral, PublicKeyToken=48c2fa3b6988090e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -177,6 +176,7 @@
     <Compile Include="Ascension\GameCore\Modules\ActorManager\ActorManager.cs" />
     <Compile Include="Ascension\GameCore\Modules\RoomManager\Base\BattleRoomCache.cs" />
     <Compile Include="Ascension\GameCore\Modules\RoomManager\Base\RoomBattleInputC2S.cs" />
+    <Compile Include="Ascension\GameCore\Modules\SceneManager\SceneManager.cs" />
     <Compile Include="Ascension\GameCore\Modules\TeamManager\Base\TeamCache.cs" />
     <Compile Include="Ascension\GameCore\Modules\RoomManager\Base\BattleInputC2S.cs" />
     <Compile Include="Ascension\GameCore\Modules\RoomManager\Base\RoomCache.cs" />
