@@ -13,7 +13,7 @@ namespace AscensionServer
         {
             OpCode = OperationCode.SyncVareityShop;
             base.OnInitialization();
-            OnSubHandlerInitialization<SyncWeaponSubHandler>();
+            OnSubHandlerInitialization<SyncVareityShopSubHandler>();
         }
     }
 }
