@@ -64,7 +64,6 @@ namespace AscensionServer
             var result = loggedPeerCache.Remove(peer.PeerCache.Account);
             if (result)
             {
-                //peer.PeerCache.IsLogged = false;
                 _Log.Info("---------------------------- AscensionServer.Cache.Logoff() :remove peer logoff success : " + peer.ToString() + "------------------------------------");
             }
             else

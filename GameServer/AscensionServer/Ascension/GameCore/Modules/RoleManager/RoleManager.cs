@@ -21,6 +21,7 @@ namespace AscensionServer
         /// <returns>是否登录成功</returns>
         public bool Loggin(int peerID, AscensionPeer peer)
         {
+            //这里缓存使用redis进行存储，区域分块
             return loggedPeerDict.TryAdd(peerID, peer);
         }
         /// <summary>

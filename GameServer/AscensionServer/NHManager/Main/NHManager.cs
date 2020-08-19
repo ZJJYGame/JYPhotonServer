@@ -9,24 +9,17 @@ using NHibernate.Criterion;
 using Cosmos;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 namespace AscensionServer
 {
     /// <summary>
     /// 泛型单例基类
     /// </summary>
     /// <typeparam name="E">泛型约束为当前类的子类</typeparam>
-    public class NHManager : INHManager, IBehaviour
+    public class NHManager : INHManager
     {
+        #region Sync
         /// <summary>
-        ///空的虚方法，在当前单例对象为空初始化时执行一次
-        /// </summary>
-        public virtual void OnInitialization() { }
-        /// <summary>
-        /// 空的虚方法，在当前单例对象被销毁时执行一次
-        /// </summary>
-        public virtual void OnTermination() { }
-        /// <summary>
-        ///         /// <summary>
         /// 可覆写非空虚函数;
         /// 添加数据
         /// </summary>
@@ -94,7 +87,7 @@ namespace AscensionServer
         /// <typeparam name="T"></typeparam>
         /// <param name="columns"></param>
         /// <returns></returns>
-        public virtual IList<T>  CriteriaSelectList<T>(params NHCriteria[] columns)
+        public virtual IList<T> CriteriaSelectList<T>(params NHCriteria[] columns)
         {
             using (ISession session = NHibernateHelper.OpenSession())
             {
@@ -122,7 +115,7 @@ namespace AscensionServer
                     criteria.Add(Restrictions.Eq(columns[i].PropertyName, columns[i].Value));
                 }
                 T data = criteria.UniqueResult<T>();
-                return data!=null;
+                return data != null;
             }
         }
         /// <summary>
@@ -141,7 +134,7 @@ namespace AscensionServer
                 {
                     criteria.Add(Restrictions.Eq(columns[i].PropertyName, columns[i].Value));
                 }
-               return criteria.List<T>().Count;
+                return criteria.List<T>().Count;
             }
         }
         /// <summary>
@@ -178,6 +171,195 @@ namespace AscensionServer
                 }
             }
         }
+        /// <summary>
+        /// 保存或更新数据
+        /// </summary>
+        /// <typeparam name="T">无参构造的数据类型</typeparam>
+        /// <param name="data">数据对象</param>
+        public virtual void SaveOrUpdate<T>(T data) where T : new()
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    session.SaveOrUpdate(data);
+                    transaction.Commit();
+                }
+            }
+        }
+        #endregion
+
+        #region Async
+        /// <summary>
+        /// 可覆写非空虚函数;
+        /// 添加数据
+        /// </summary>
+        /// <typeparam name="T">数据类型</typeparam>
+        /// <param name="data">具体数据</param>
+        /// <returns>返回一个完整带有主键ID的对象</returns>
+        public async virtual Task<T> InsertAsync<T>(T data) where T : class, new()
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    await session.SaveAsync(data);
+                    transaction.Commit();
+                    return data;
+                }
+            }
+        }
+        /// <summary>
+        /// 可覆写非空虚函数;
+        /// 获取数据
+        /// </summary>
+        /// <typeparam name="T">返回值类型</typeparam>
+        /// <typeparam name="K">查找类型</typeparam>
+        /// <param name="key">查找索引字段</param>
+        /// <returns></returns>
+        public async virtual Task<T> GetAsync<T>(object key)
+            where T : new()
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    Task<T> data = session.GetAsync<T>(key);
+                    transaction.Commit();
+                    return await data;
+                }
+            }
+        }
+        /// <summary>
+        /// 可覆写非空虚函数;
+        /// 条件获得数据
+        /// </summary>
+        /// <typeparam name="T">返回值类型</typeparam>
+        /// <typeparam name="columnName">表字段的名称</typeparam>
+        /// <typeparam name="K">查找类型</typeparam>
+        /// <param name="key">查找索引字段</param>
+        /// <param name="key"></param>
+        public async virtual Task<T> CriteriaSelectAsync<T>(params NHCriteria[] columns)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                ICriteria criteria = session.CreateCriteria(typeof(T));
+                for (int i = 0; i < columns.Length; i++)
+                {
+                    criteria.Add(Restrictions.Eq(columns[i].PropertyName, columns[i].Value));
+                }
+                Task<T> data = criteria.UniqueResultAsync<T>();
+                return await data;
+            }
+        }
+        /// <summary>
+        /// 条件查找符合的集合
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="columns"></param>
+        /// <returns></returns>
+        public async virtual Task<IList<T>> CriteriaSelectListAsync<T>(params NHCriteria[] columns)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                ICriteria criteria = session.CreateCriteria(typeof(T));
+                for (int i = 0; i < columns.Length; i++)
+                {
+                    criteria.Add(Restrictions.Eq(columns[i].PropertyName, columns[i].Value));
+                }
+                return await criteria.ListAsync<T>();
+            }
+        }
+        /// <summary>
+        /// 多条件验证，SQL语句为Equal
+        /// </summary>
+        /// <typeparam name="T">需要验证的类型</typeparam>
+        /// <param name="columns">column类对象</param>
+        /// <returns>验证是否成功</returns>
+        public async virtual Task<bool> VerifyAsync<T>(params NHCriteria[] columns)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                ICriteria criteria = session.CreateCriteria(typeof(T));
+                for (int i = 0; i < columns.Length; i++)
+                {
+                    criteria.Add(Restrictions.Eq(columns[i].PropertyName, columns[i].Value));
+                }
+                Task<T> data = criteria.UniqueResultAsync<T>();
+                return await data != null;
+            }
+        }
+        /// <summary>
+        /// 查找并返回所有条件对象的总数
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="columns"></param>
+        /// <returns></returns>
+        public async virtual Task<int> CountAsync<T>(params NHCriteria[] columns)
+            where T : class
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                ICriteria criteria = session.CreateCriteria<T>();
+                for (int i = 0; i < columns.Length; i++)
+                {
+                    criteria.Add(Restrictions.Eq(columns[i].PropertyName, columns[i].Value));
+                }
+                var resultList = await criteria.ListAsync<T>();
+                return resultList.Count;
+            }
+        }
+        /// <summary>
+        /// 可覆写非空虚函数;
+        /// 移除数据
+        /// </summary>
+        /// <typeparam name="T">数据类型</typeparam>
+        /// <param name="data">具体数据</param>
+        public async virtual Task DeleteAsync<T>(T data) where T : new()
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    await session.DeleteAsync(data);
+                    transaction.Commit();
+                }
+            }
+        }
+        /// <summary>
+        /// 可覆写非空虚函数;
+        /// 更新数据
+        /// </summary>
+        /// <typeparam name="T">数据类型</typeparam>
+        /// <param name="data">具体数据</param>
+        public async virtual Task UpdateAsync<T>(T data) where T : new()
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    await session.UpdateAsync(data);
+                    transaction.Commit();
+                }
+            }
+        }
+        /// <summary>
+        /// 异步保存或更新数据
+        /// </summary>
+        /// <typeparam name="T">无参构造的数据类型</typeparam>
+        /// <param name="data">数据对象</param>
+        public async virtual Task SaveOrUpdateAsync<T>(T data) where T : new()
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    await session.SaveOrUpdateAsync(data);
+                    transaction.Commit();
+                }
+            }
+        }
+        #endregion
     }
 
 }

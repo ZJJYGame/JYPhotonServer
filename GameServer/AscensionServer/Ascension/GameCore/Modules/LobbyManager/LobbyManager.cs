@@ -12,7 +12,7 @@ namespace AscensionServer
     /// </summary>
     public sealed class LobbyManager:ModuleBase<LobbyManager>
     {
-        ConcurrentDictionary<int, AscensionPeer> peerDict = new ConcurrentDictionary<int, AscensionPeer>();
+        Dictionary<int, AscensionPeer> peerDict = new Dictionary<int, AscensionPeer>();
         /// <summary>
         /// 进入大厅
         /// </summary>
@@ -23,7 +23,11 @@ namespace AscensionServer
         {
             if (peerDict.ContainsKey(peerID))
                 return false;
-            return peerDict.TryAdd(peerID, peer);
+            else
+            {
+                peerDict.Add(peerID, peer);
+                return true;
+            }
         }
         /// <summary>
         /// 离开大厅；
@@ -33,8 +37,9 @@ namespace AscensionServer
         /// <returns>是否离开成功</returns>
         public bool LeaveLobby(int peerID)
         {
-            AscensionPeer peer;
-            return peerDict.TryRemove(peerID, out peer);
+            //AscensionPeer peer;
+            //return peerDict.Remove(peerID, out peer);
+            return peerDict.Remove(peerID);
         }
         /// <summary>
         /// 是否在大厅中
