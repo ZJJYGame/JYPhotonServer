@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace AscensionProtocol.DTO
 {
+    [Serializable]
     public class ImmortalsAllianceDTO : DataTransferObject
     {
         public virtual int ID { get; set; }

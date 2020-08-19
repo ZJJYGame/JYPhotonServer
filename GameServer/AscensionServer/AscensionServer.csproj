@@ -87,8 +87,8 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate, Version=5.1.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHibernate.5.1.2\lib\net461\NHibernate.dll</HintPath>
+    <Reference Include="NHibernate, Version=5.3.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernate.5.3.2\lib\net461\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Photon.SocketServer, Version=4.0.28.11245, Culture=neutral, PublicKeyToken=48c2fa3b6988090e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -176,7 +176,6 @@
     <Compile Include="Ascension\GameCore\Modules\ActorManager\ActorManager.cs" />
     <Compile Include="Ascension\GameCore\Modules\RoomManager\Base\BattleRoomCache.cs" />
     <Compile Include="Ascension\GameCore\Modules\RoomManager\Base\RoomBattleInputC2S.cs" />
-    <Compile Include="Ascension\GameCore\Modules\SceneManager\SceneManager.cs" />
     <Compile Include="Ascension\GameCore\Modules\TeamManager\Base\TeamCache.cs" />
     <Compile Include="Ascension\GameCore\Modules\RoomManager\Base\BattleInputC2S.cs" />
     <Compile Include="Ascension\GameCore\Modules\RoomManager\Base\RoomCache.cs" />
@@ -228,6 +227,9 @@
     <Compile Include="Handlers\SyncAlchemy\SubHandler\UpdateAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncForge\SubHandler\AddForgeSubHandler.cs" />
     <Compile Include="Handlers\SyncForge\SubHandler\UpdateForgeSubHandler.cs" />
+    <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\GetImmortalsAllianceSubHandler.cs" />
+    <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\SyncImmortalsAllianceSubHandler.cs" />
+    <Compile Include="Handlers\SyncImmortalsAlliance\SyncImmortalsAllianceHandler.cs" />
     <Compile Include="Handlers\SyncPetaPtitude\SubHandler\SyncPetaPtitudeSubHandler.cs" />
     <Compile Include="Handlers\SyncPetaPtitude\SubHandler\UpdatePetaPtitudeSubHandler.cs" />
     <Compile Include="Handlers\SyncPetaPtitude\SyncPetaPtitudeHandler.cs" />
