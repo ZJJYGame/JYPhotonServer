@@ -56,6 +56,7 @@
     <Compile Include="DTO\CultivationMethodDTO.cs" />
     <Compile Include="DTO\ForgeDTO.cs" />
     <Compile Include="DTO\HerbsFieldDTO.cs" />
+    <Compile Include="DTO\ImmortalsAllianceDTO.cs" />
     <Compile Include="DTO\Monster\MonsterTransformDTO.cs" />
     <Compile Include="DTO\Monster\MonsterTransformQueueDTO.cs" />
     <Compile Include="DTO\OffLineTimeDTO.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="DTO\TransformDTO.cs" />
     <Compile Include="DTO\TreasureatticDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
+    <Compile Include="DTO\VareityPurchaseRecordDTO.cs" />
     <Compile Include="DTO\VareityShopDTO.cs" />
     <Compile Include="DTO\WeaponDTO.cs" />
     <Compile Include="ErrorCode.cs" />

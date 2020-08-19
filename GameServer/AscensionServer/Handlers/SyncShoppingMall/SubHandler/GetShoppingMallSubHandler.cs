@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using AscensionProtocol;
 using AscensionProtocol.DTO;
 using Photon.SocketServer;
-using RedisDotNet;
 using AscensionServer.Model;
 using Cosmos;
 namespace AscensionServer
@@ -30,20 +29,21 @@ namespace AscensionServer
             NHCriteria nHCriteriarolepurchase = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolepurchaseObj.RoleID);
             NHCriteria nHCriteriashoppingmall = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", shoppingmallObj.ID);
 
+
             var rolepurchasetemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RolePurchaseRecord>(nHCriteriarolepurchase);
             var shoppingmalltemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<ShoppingMall>(nHCriteriashoppingmall);
             //记录传输的总商店物品及已经兑换的商店物品
             Dictionary<string, string> shopDIct = new Dictionary<string, string>();
             if (shoppingmalltemp!=null)
             {
-                var  MaterialsList = Utility.Json.ToObject<List<ShoppingGoods>>(shoppingmalltemp.Materials);
+                var MaterialsList = Utility.Json.ToObject<List<ShoppingGoods>>(shoppingmalltemp.Materials);
                 var NewArrivalList = Utility.Json.ToObject<List<ShoppingGoods>>(shoppingmalltemp.NewArrival);
                 var QualifiedToBuyList = Utility.Json.ToObject<List<ShoppingGoods>>(shoppingmalltemp.QualifiedToBuy);
                 var RechargeStoreList = Utility.Json.ToObject<List<RechargeGoods>>(shoppingmalltemp.RechargeStore);
                 ShoppingMallDTO shoppingMallDTO = new ShoppingMallDTO() { ID = shoppingmalltemp.ID, Materials = MaterialsList, NewArrival = NewArrivalList, QualifiedToBuy = QualifiedToBuyList,RechargeStore= RechargeStoreList };
                 shopDIct.Add("ShoppingMall", Utility.Json.ToJson(shoppingMallDTO));
 
-                if (rolepurchasetemp!=null&& !rolepurchasetemp.GoodsPurchasedCount.Equals("[]"))
+                if (rolepurchasetemp!=null&& !rolepurchasetemp.GoodsPurchasedCount.Equals("{}"))
                 {
                     RolePurchaseRecordDTO rolePurchaseRecordDTO = new RolePurchaseRecordDTO() { GoodsPurchasedCount= Utility.Json.ToObject<Dictionary<int,int>>(rolepurchasetemp.GoodsPurchasedCount),RoleID= rolepurchasetemp .RoleID};
                     shopDIct.Add("RolePurchaseRecord", Utility.Json.ToJson(rolePurchaseRecordDTO));

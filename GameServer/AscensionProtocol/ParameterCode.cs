@@ -123,5 +123,6 @@
         /// 杂货铺
         /// </summary>
         VareityShop=76,
+        VareityPurchase=77,
     }
 }
