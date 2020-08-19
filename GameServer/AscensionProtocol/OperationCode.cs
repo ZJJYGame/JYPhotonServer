@@ -89,6 +89,10 @@ namespace AscensionProtocol
         /// 杂货铺
         /// </summary>
         SyncVareityShop=43,
+        /// <summary>
+        /// 仙盟列表
+        /// </summary>
+        SyncImmortalsAlliance=44,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>
@@ -116,5 +120,6 @@ namespace AscensionProtocol
         /// </summary>
         SubOpCodeData = 254,
         SubOperationCode = 255
+         
     }
 }

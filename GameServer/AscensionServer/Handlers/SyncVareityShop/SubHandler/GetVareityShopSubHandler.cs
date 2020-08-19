@@ -30,9 +30,9 @@ namespace AscensionServer
             string vareitypurchaseJson= Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.VareityPurchase));
             var vareitypurchaseObj=Utility.Json.ToObject<VareityPurchaseRecordDTO>(vareitypurchaseJson);
 
-            var name = RedisData.Initialize.JointName("VAREITY_SHOP", vareityObj.VareityshopID);
+            var name = RedisData.Initialize.InsertName("VAREITY_SHOP", vareityObj.VareityshopID);
             var content = RedisData.Initialize.GetData(name);
-            var vareityname = RedisData.Initialize.JointName("VAREITY_BUY_COUNT", vareitypurchaseObj.RoleID);
+            var vareityname = RedisData.Initialize.InsertName("VAREITY_BUY_COUNT", vareitypurchaseObj.RoleID);
             var vareitycontent = RedisData.Initialize.GetData(vareityname);
 
             Dictionary<int, List<GoodsStatus>> AllGoodsList = new Dictionary<int, List<GoodsStatus>>();

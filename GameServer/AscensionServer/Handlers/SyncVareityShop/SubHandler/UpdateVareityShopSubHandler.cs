@@ -8,7 +8,7 @@ using AscensionProtocol.DTO;
 using Photon.SocketServer;
 using AscensionServer.Model;
 using Cosmos;
-
+using RedisDotNet;
 namespace AscensionServer
 {
     public class UpdateVareityShopSubHandler : SyncVareityShopSubHandler
@@ -25,6 +25,11 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string rolepurchaseJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.VareityPurchase));
             var rolepurchaseObj = Utility.Json.ToObject<VareityPurchaseRecordDTO>(rolepurchaseJson);
+            #region Redis模块
+            var vareityname = RedisData.Initialize.InsertName("VAREITY_BUY_COUNT", rolepurchaseObj.RoleID);
+            var vareitycontent = RedisData.Initialize.GetData(vareityname);
+
+            #endregion
             NHCriteria nHCriteriarolepurchase = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolepurchaseObj.RoleID);
             AscensionServer._Log.Info("传过来的杂货铺购买数据" + rolepurchaseJson);
             var rolepurchasetemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<VareityPurchaseRecord>(nHCriteriarolepurchase);
@@ -50,7 +55,16 @@ namespace AscensionServer
                     rolepurchasetemp.VareityPurchasedCount = Utility.Json.ToJson(rolepurchaseDict);
                     ConcurrentSingleton<NHManager>.Instance.Update(rolepurchasetemp);
                 }
+
                 VareityPurchaseRecordDTO vareityPurchaseRecordDTO = new VareityPurchaseRecordDTO() { RoleID = rolepurchasetemp.RoleID, VareityPurchasedCount = Utility.Json.ToObject<Dictionary<int, int>>(rolepurchasetemp.VareityPurchasedCount) };
+                if (!string.IsNullOrEmpty(vareitycontent))
+                {
+                    RedisHelper.String.StringGetSetAsync(vareityname, Utility.Json.ToJson(vareityPurchaseRecordDTO));
+                }
+                else
+                {
+                    RedisHelper.String.StringGetAsync(vareityname, Utility.Json.ToJson(vareityPurchaseRecordDTO));
+                }
                 SetResponseData(() =>
                 {
                     SubDict.Add((byte)ParameterCode.VareityPurchase, Utility.Json.ToJson(vareityPurchaseRecordDTO));

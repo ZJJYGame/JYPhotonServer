@@ -124,5 +124,6 @@
         /// </summary>
         VareityShop=76,
         VareityPurchase=77,
+        ImmortalsAlliance=78,
     }
 }

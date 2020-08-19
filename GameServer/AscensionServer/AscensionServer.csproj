@@ -176,7 +176,6 @@
     <Compile Include="Ascension\GameCore\Modules\ActorManager\ActorManager.cs" />
     <Compile Include="Ascension\GameCore\Modules\RoomManager\Base\BattleRoomCache.cs" />
     <Compile Include="Ascension\GameCore\Modules\RoomManager\Base\RoomBattleInputC2S.cs" />
-    <Compile Include="Ascension\GameCore\Modules\SceneManager\SceneManager.cs" />
     <Compile Include="Ascension\GameCore\Modules\TeamManager\Base\TeamCache.cs" />
     <Compile Include="Ascension\GameCore\Modules\RoomManager\Base\BattleInputC2S.cs" />
     <Compile Include="Ascension\GameCore\Modules\RoomManager\Base\RoomCache.cs" />
@@ -228,6 +227,9 @@
     <Compile Include="Handlers\SyncAlchemy\SubHandler\UpdateAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncForge\SubHandler\AddForgeSubHandler.cs" />
     <Compile Include="Handlers\SyncForge\SubHandler\UpdateForgeSubHandler.cs" />
+    <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\GetImmortalsAllianceSubHandler.cs" />
+    <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\SyncImmortalsAllianceSubHandler.cs" />
+    <Compile Include="Handlers\SyncImmortalsAlliance\SyncImmortalsAllianceHandler.cs" />
     <Compile Include="Handlers\SyncPetaPtitude\SubHandler\SyncPetaPtitudeSubHandler.cs" />
     <Compile Include="Handlers\SyncPetaPtitude\SubHandler\UpdatePetaPtitudeSubHandler.cs" />
     <Compile Include="Handlers\SyncPetaPtitude\SyncPetaPtitudeHandler.cs" />

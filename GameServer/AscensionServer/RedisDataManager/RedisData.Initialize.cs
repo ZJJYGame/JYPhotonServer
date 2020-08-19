@@ -26,7 +26,7 @@ namespace AscensionServer
                 }
             }
 
-            public static string JointName(string header,int id)
+            public static string InsertName(string header,int id)
             {
                 var name = header + id;
                 return name;

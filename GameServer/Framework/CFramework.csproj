@@ -59,6 +59,7 @@
     <Compile Include="CFramework\Core\Base\DataStructure\TinyLinkedList.cs" />
     <Compile Include="CFramework\Core\Base\EventArg\CFEventArgs.cs" />
     <Compile Include="CFramework\Core\Base\EventArg\IEventArgs.cs" />
+    <Compile Include="CFramework\Core\Base\Variable\ConcurrentVariable.cs" />
     <Compile Include="CFramework\Core\Base\Variable\Variable.cs" />
     <Compile Include="CFramework\Core\Event\EventActions.cs" />
     <Compile Include="CFramework\Core\Exception\CFrameworkException.cs" />
