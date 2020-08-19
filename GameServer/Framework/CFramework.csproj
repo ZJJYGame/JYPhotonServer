@@ -53,7 +53,7 @@
     <Compile Include="CFramework\Core\Base\Behaviour\IRefreshable.cs" />
     <Compile Include="CFramework\Core\Base\Behaviour\IRenewable.cs" />
     <Compile Include="CFramework\Core\Base\DataStructure\BinaryTree.cs" />
-    <Compile Include="CFramework\Core\Base\DataStructure\ConcurrentVariable.cs" />
+    <Compile Include="CFramework\Core\Base\Variable\ConcurrentVariable.cs" />
     <Compile Include="CFramework\Core\Base\DataStructure\LRUCache.cs" />
     <Compile Include="CFramework\Core\Base\DataStructure\LRUCacheIEnumerator.cs" />
     <Compile Include="CFramework\Core\Base\DataStructure\TinyLinkedList.cs" />
