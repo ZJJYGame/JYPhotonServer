@@ -13,7 +13,6 @@ namespace AscensionServer.DOMap
         public ImmortalsAllianceMap()
         {
             Id(x => x.ID).Column("id").GeneratedBy.Assigned();
-            Map(x => x.ImmortalsallianceID).Column("immortalsalliance_id");
             Map(x => x.ImmortalsallianceLevel).Column("immortalsalliance_level");
             Map(x => x.ImmortalsallianceMaster).Column("immortalsalliance_master");
             Map(x => x.ImmortalsallianceName).Column("immortalsalliance_name");

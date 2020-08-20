@@ -28,6 +28,8 @@ namespace AscensionServer
                 (immortalsAllianceJson);
             var name = RedisData.Initialize.InsertName("(ALLIANCE_LIST", immortalsAllianceObj.ID);
             var content = RedisData.Initialize.GetData(name);
+            AscensionServer._Log.Info("获得的仙盟数据"+ immortalsAllianceJson);
+
 
             List<int> alliances = new List<int>();
             List<NHCriteria> nhcriteriaList = new List<NHCriteria>();
@@ -67,6 +69,9 @@ namespace AscensionServer
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
+
+            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nhcriteriaList);
         }
     }
 }

@@ -15,7 +15,6 @@ namespace AscensionProtocol.DTO
         public virtual int ImmortalsalliancePeopleMax { get; set; }
         public virtual string  ImmortalsallianceMaster { get; set; }
         public virtual string  ImmortalsallianceName { get; set; }
-        public virtual int ImmortalsallianceID{ get; set; }
         public virtual bool IsApplyfor { get; set; }
         
         public override void Clear()
@@ -26,7 +25,6 @@ namespace AscensionProtocol.DTO
             ImmortalsalliancePeopleMax = 0;
             ImmortalsallianceMaster = null;
             ImmortalsallianceName = null;
-            ImmortalsallianceID = 0;
             IsApplyfor = false;
         }
     }

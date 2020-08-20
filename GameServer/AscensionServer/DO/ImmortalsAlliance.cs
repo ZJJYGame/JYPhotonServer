@@ -15,7 +15,6 @@ namespace AscensionServer.Model
         public virtual int ImmortalsalliancePeopleMax { get; set; }
         public virtual string ImmortalsallianceMaster { get; set; }
         public virtual string ImmortalsallianceName { get; set; }
-        public virtual int ImmortalsallianceID { get; set; }
         public virtual bool IsApplyfor { get; set; }
 
         public override void Clear()
@@ -26,7 +25,6 @@ namespace AscensionServer.Model
             ImmortalsalliancePeopleMax = 0;
             ImmortalsallianceMaster = null;
             ImmortalsallianceName = null;
-            ImmortalsallianceID = 0;
             IsApplyfor = false;
         }
         public ImmortalsAlliance()
@@ -36,7 +34,6 @@ namespace AscensionServer.Model
             ImmortalsalliancePeopleMax =100;
             ImmortalsallianceMaster = null;
             ImmortalsallianceName = null;
-            ImmortalsallianceID = 0;
             IsApplyfor = false;
 
         }
