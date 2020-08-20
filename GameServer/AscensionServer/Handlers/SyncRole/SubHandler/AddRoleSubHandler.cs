@@ -73,10 +73,10 @@ namespace AscensionServer
                 Dictionary<string, string> DOdict = new Dictionary<string, string>();
                 #region 测试待修改
                 RoleGFDict.Clear();
-                CultivationMethod gongFa = new CultivationMethod();
-                gongFa = ConcurrentSingleton<NHManager>.Instance.Insert(gongFa);
-                RoleGFDict.Add(gongFa.ID, gongFa.CultivationMethodID);
-                ConcurrentSingleton<NHManager>.Instance.Insert(new RoleGongFa() { RoleID = rolestatus.RoleID, GongFaIDArray = Utility.Json.ToJson(RoleGFDict) });
+                //CultivationMethod gongFa = new CultivationMethod();
+                //gongFa = ConcurrentSingleton<NHManager>.Instance.Insert(gongFa);
+                //RoleGFDict.Add(gongFa.ID, gongFa.CultivationMethodID);
+                ConcurrentSingleton<NHManager>.Instance.Insert(new RoleGongFa() { RoleID = rolestatus.RoleID, GongFaIDArray = Utility.Json.ToJson(new Dictionary<string, string>()) });
 
 
                 RoleMiShuDict.Clear();
@@ -199,7 +199,7 @@ namespace AscensionServer
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 DOdict.Add("Role", Utility.Json.ToJson(role));
                 DOdict.Add("RoleStatus", Utility.Json.ToJson(rolestatus));
-                DOdict.Add("GongFa", Utility.Json.ToJson(gongFa));
+                //DOdict.Add("GongFa", Utility.Json.ToJson(gongFa));
                 DOdict.Add("School", Utility.Json.ToJson(school));
                 DOdict.Add("MiShu", Utility.Json.ToJson(miShu));
                 Owner.ResponseData.Add((byte)ParameterCode.Role, Utility.Json.ToJson(DOdict));

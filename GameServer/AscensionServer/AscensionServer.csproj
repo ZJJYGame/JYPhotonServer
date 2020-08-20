@@ -181,6 +181,7 @@
     <Compile Include="Ascension\GameCore\Modules\RoomManager\Base\RoomCache.cs" />
     <Compile Include="Concurrent\ConcurrentInt.cs" />
     <Compile Include="DOMap\AlchemyMap.cs" />
+    <Compile Include="DOMap\AlliancesMap.cs" />
     <Compile Include="DOMap\BottleneckMap.cs" />
     <Compile Include="DOMap\ForgeMap.cs" />
     <Compile Include="DOMap\HerbsFieldMap.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="DOMap\VareityPurchaseRecordMap.cs" />
     <Compile Include="DOMap\VareityShopMap.cs" />
     <Compile Include="DO\Alchemy.cs" />
+    <Compile Include="DO\Alliances.cs" />
     <Compile Include="DO\Bottleneck.cs" />
     <Compile Include="DO\Forge.cs" />
     <Compile Include="DO\HerbsField.cs" />

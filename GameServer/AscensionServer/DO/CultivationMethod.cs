@@ -16,7 +16,7 @@ namespace AscensionServer.Model
     {
         public CultivationMethod()
         {
-            CultivationMethodID = 18001;
+            CultivationMethodID = 0;
             CultivationMethodExp = 0;
             CultivationMethodLevel = 1;
             CultivationMethodLevelSkillArray = "";
