@@ -12,7 +12,7 @@ namespace AscensionServer
     {
         public AuctionGoodsMap()
         {
-            Id(x => x.RedisKey).GeneratedBy.Assigned().Column("redisKey");
+            Id(x => x.GUID).GeneratedBy.Assigned().Column("guid");
             Map(x => x.RoleID).Column("roleID");
             Map(x => x.GlobalID).Column("globalID");
             Map(x => x.Price).Column("price");

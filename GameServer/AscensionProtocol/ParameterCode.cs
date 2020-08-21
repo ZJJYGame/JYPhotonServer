@@ -130,5 +130,6 @@
         /// 拍卖行
         /// </summary>
         Auction=79,
+        AddAuctionGoods=80,
     }
 }

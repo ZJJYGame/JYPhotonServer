@@ -9,7 +9,7 @@ namespace AscensionProtocol.DTO
     [Serializable]
     public class AuctionGoodsDTO : DataTransferObject
     {
-        public virtual int RedisKey { get; set; }
+        public virtual string GUID { get; set; }
         public virtual int RoleID { get; set; }
         public virtual int GlobalID { get; set; }
         public virtual int Price { get; set; }
@@ -18,7 +18,7 @@ namespace AscensionProtocol.DTO
 
         public override void Clear()
         {
-            RedisKey = 0;
+            GUID = null;
             RoleID = 0;
             GlobalID = 0;
             Price = 0;
