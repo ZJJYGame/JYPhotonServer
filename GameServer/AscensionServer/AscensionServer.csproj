@@ -184,6 +184,7 @@
     <Compile Include="DOMap\AlliancesMap.cs" />
     <Compile Include="DOMap\AllianceStatusMap.cs" />
     <Compile Include="DOMap\AuctionGoodsMap.cs" />
+    <Compile Include="DOMap\AuctionIndexMap.cs" />
     <Compile Include="DOMap\BottleneckMap.cs" />
     <Compile Include="DOMap\ForgeMap.cs" />
     <Compile Include="DOMap\HerbsFieldMap.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="DO\Alliances.cs" />
     <Compile Include="DO\AllianceStatus.cs" />
     <Compile Include="DO\AuctionGoods.cs" />
+    <Compile Include="DO\AuctionIndex.cs" />
     <Compile Include="DO\Bottleneck.cs" />
     <Compile Include="DO\Forge.cs" />
     <Compile Include="DO\HerbsField.cs" />
@@ -231,6 +233,7 @@
     <Compile Include="Handlers\SchoolSchoolRefresh\SyncSchoolRefreshHandler.cs" />
     <Compile Include="Handlers\SchoolSchoolRefresh\SyncUpdatSchoolRefreshHandler.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\UpdateAlchemySubHandler.cs" />
+    <Compile Include="Handlers\SyncAuction\SubHandler\AddAuctionSubHandler.cs" />
     <Compile Include="Handlers\SyncAuction\SubHandler\GetAuctionSubHandler.cs" />
     <Compile Include="Handlers\SyncAuction\SubHandler\SyncAuctionSubHandler.cs" />
     <Compile Include="Handlers\SyncAuction\SyncAuctionHandler.cs" />
