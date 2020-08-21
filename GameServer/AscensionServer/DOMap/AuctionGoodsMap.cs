@@ -18,6 +18,7 @@ namespace AscensionServer
             Map(x => x.Price).Column("price");
             Map(x => x.ItemData).Column("itemData");
             Map(x => x.Count).Column("count");
+            Table("auctiongoods");
         }
     }
 }

@@ -24,8 +24,9 @@ namespace AscensionServer
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
-            string auctionJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Auction));
-            AscensionServer._Log.Info("收到的拍卖行"+ auctionJson);
+            int auctionJson = Convert.ToInt32(Utility.GetValue(dict, (byte)ParameterCode.Auction));
+            AscensionServer._Log.Info("收到的拍卖行"+ auctionJson+"daddad");
+            //var auctionGoodsID=
         }
     }
 }
