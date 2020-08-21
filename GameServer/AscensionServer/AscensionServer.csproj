@@ -19,7 +19,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
-    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\..\localproject\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -182,6 +182,7 @@
     <Compile Include="Concurrent\ConcurrentInt.cs" />
     <Compile Include="DOMap\AlchemyMap.cs" />
     <Compile Include="DOMap\AlliancesMap.cs" />
+    <Compile Include="DOMap\AuctionGoodsMap.cs" />
     <Compile Include="DOMap\BottleneckMap.cs" />
     <Compile Include="DOMap\ForgeMap.cs" />
     <Compile Include="DOMap\HerbsFieldMap.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="DOMap\VareityShopMap.cs" />
     <Compile Include="DO\Alchemy.cs" />
     <Compile Include="DO\Alliances.cs" />
+    <Compile Include="DO\AuctionGoods.cs" />
     <Compile Include="DO\Bottleneck.cs" />
     <Compile Include="DO\Forge.cs" />
     <Compile Include="DO\HerbsField.cs" />
@@ -227,6 +229,9 @@
     <Compile Include="Handlers\SchoolSchoolRefresh\SyncSchoolRefreshHandler.cs" />
     <Compile Include="Handlers\SchoolSchoolRefresh\SyncUpdatSchoolRefreshHandler.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\UpdateAlchemySubHandler.cs" />
+    <Compile Include="Handlers\SyncAuction\SubHandler\GetAuctionSubHandler.cs" />
+    <Compile Include="Handlers\SyncAuction\SubHandler\SyncAuctionSubHandler.cs" />
+    <Compile Include="Handlers\SyncAuction\SyncAuctionHandler.cs" />
     <Compile Include="Handlers\SyncForge\SubHandler\AddForgeSubHandler.cs" />
     <Compile Include="Handlers\SyncForge\SubHandler\UpdateForgeSubHandler.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\AddImmortalsAllianceSubHandler.cs" />
