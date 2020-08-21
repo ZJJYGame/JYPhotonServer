@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AscensionProtocol.DTO
+{
+    [Serializable]
+    public class AllianceStatusDTO : DataTransferObject
+    {
+        public virtual int ID { get; set; }
+        public virtual int AllianceLevel { get; set; }
+        public virtual int AllianceNumberPeople { get; set; }
+        public virtual int AlliancePeopleMax { get; set; }
+        public virtual string AllianceMaster { get; set; }
+        public virtual string AllianceName { get; set; }
+        public virtual int Popularity { get; set; }
+        public virtual string Manifesto { get; set; }
+        public override void Clear()
+        {
+            ID = -1;
+            AllianceLevel = 0;
+            AlliancePeopleMax = 0;
+            AllianceMaster = null;
+            AllianceNumberPeople = 0;
+            AllianceName = null;
+            Popularity = 0;
+        }
+    }
+}
