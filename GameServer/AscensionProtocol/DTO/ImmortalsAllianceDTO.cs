@@ -16,7 +16,17 @@ namespace AscensionProtocol.DTO
         public virtual string  ImmortalsallianceMaster { get; set; }
         public virtual string  ImmortalsallianceName { get; set; }
         public virtual bool IsApplyfor { get; set; }
-        
+
+        [Serializable]
+        public class AllianceStatusDTO
+        {
+            public virtual int ImmortalsallianceLevel { get; set; }
+            public virtual int immortalsallianceNumberPeople { get; set; }
+            public virtual int ImmortalsalliancePeopleMax { get; set; }
+            public virtual string ImmortalsallianceMaster { get; set; }
+            public virtual string ImmortalsallianceName { get; set; }
+            public virtual bool IsApplyfor { get; set; }
+        }
         public override void Clear()
         {
             ID = -1;

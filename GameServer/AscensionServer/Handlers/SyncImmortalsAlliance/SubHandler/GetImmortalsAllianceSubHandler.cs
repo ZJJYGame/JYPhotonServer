@@ -42,32 +42,37 @@ namespace AscensionServer
                 var immortalsAllianceslistTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Alliances>(nHCriteriaimmortalsAllianceslist);
 
                 alliances = Utility.Json.ToObject<List<int>>(immortalsAllianceslistTemp.AllianceList);
-                if (immortalsAllianceObj.AllIndex< alliances.Count)
-                {
-                    for (int i = immortalsAllianceObj.Index; i < immortalsAllianceObj.AllIndex; i++)
-                    {
-                        NHCriteria nHCriteriaimmortalsAlliance = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", i);
-                        var immortalsAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<ImmortalsAlliance>(nHCriteriaimmortalsAlliance);
-                        ImmortalsAllianceList.Add(immortalsAllianceTemp);
-                        nhcriteriaList.Add(nHCriteriaimmortalsAlliance);
-                    }
-                }
-                else
-                {
-                    for (int i = immortalsAllianceObj.Index; i < alliances.Count; i++)
-                    {
-                        NHCriteria nHCriteriaimmortalsAlliance = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", i);
-                        var immortalsAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<ImmortalsAlliance>(nHCriteriaimmortalsAlliance);
-                        ImmortalsAllianceList.Add(immortalsAllianceTemp);
-                        nhcriteriaList.Add(nHCriteriaimmortalsAlliance);
-                    }
-                }
 
-                SetResponseData(() =>
+                if (immortalsAllianceObj.Index< alliances.Count)
                 {
-                    SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(ImmortalsAllianceList));
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
-                });
+                    if (immortalsAllianceObj.AllIndex < alliances.Count)
+                    {
+                        AscensionServer._Log.Info("1开始的下标" + immortalsAllianceObj.Index + "获得的仙盟列表数据" + immortalsAllianceObj.AllIndex+ "数据库的总数"+ alliances.Count);
+                        for (int i = immortalsAllianceObj.Index; i <=immortalsAllianceObj.AllIndex; i++)
+                        {
+                            NHCriteria nHCriteriaimmortalsAlliance = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", i);
+                            var immortalsAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<ImmortalsAlliance>(nHCriteriaimmortalsAlliance);
+                            ImmortalsAllianceList.Add(immortalsAllianceTemp);
+                            nhcriteriaList.Add(nHCriteriaimmortalsAlliance);
+                        }
+                    }
+                    else
+                    {
+                        AscensionServer._Log.Info("2开始的下标" + immortalsAllianceObj.Index + "获得的仙盟列表数据" + immortalsAllianceObj.AllIndex + "数据库的总数" + alliances.Count);
+                        for (int i = immortalsAllianceObj.Index; i <= alliances.Count; i++)
+                        {
+                            NHCriteria nHCriteriaimmortalsAlliance = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", i);
+                            var immortalsAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<ImmortalsAlliance>(nHCriteriaimmortalsAlliance);
+                            ImmortalsAllianceList.Add(immortalsAllianceTemp);
+                            nhcriteriaList.Add(nHCriteriaimmortalsAlliance);
+                        }
+                    }
+                }
+                    SetResponseData(() =>
+                    {
+                        SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(ImmortalsAllianceList));
+                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    });
             }
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);

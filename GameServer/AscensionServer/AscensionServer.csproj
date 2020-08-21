@@ -229,6 +229,7 @@
     <Compile Include="Handlers\SyncAlchemy\SubHandler\UpdateAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncForge\SubHandler\AddForgeSubHandler.cs" />
     <Compile Include="Handlers\SyncForge\SubHandler\UpdateForgeSubHandler.cs" />
+    <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\AddImmortalsAllianceSubHandler.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\GetImmortalsAllianceSubHandler.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\SyncImmortalsAllianceSubHandler.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SyncImmortalsAllianceHandler.cs" />
