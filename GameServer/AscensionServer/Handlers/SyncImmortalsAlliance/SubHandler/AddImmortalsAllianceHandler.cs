@@ -26,10 +26,10 @@ namespace AscensionServer
         {
             var dict = ParseSubDict(operationRequest);
             string immortalsAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ImmortalsAlliance));
-            var immortalsAllianceObj = Utility.Json.ToObject<ImmortalsAllianceDTO>
+            var alliancestatusObj = Utility.Json.ToObject<AllianceStatusDTO>
                 (immortalsAllianceJson);
 
-            NHCriteria nHCriteriaAllianceName = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleName", immortalsAllianceObj.allianceStatus.AllianceName);
+            NHCriteria nHCriteriaAllianceName = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleName", alliancestatusObj.AllianceName);
             var alliance = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<ImmortalsAlliance>(nHCriteriaAllianceName);
             if (alliance==null)
             {

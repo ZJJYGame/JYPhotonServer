@@ -50,9 +50,9 @@ namespace AscensionServer
                         for (int i = immortalsAllianceObj.Index; i <=immortalsAllianceObj.AllIndex; i++)
                         {
                             NHCriteria nHCriteriaimmortalsAlliance = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", i);
-                            var immortalsAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<ImmortalsAlliance>(nHCriteriaimmortalsAlliance);
-                            AscensionServer._Log.Info("1获得的仙盟数据" + immortalsAllianceTemp.allianceStatus);
-                            ImmortalsAllianceList.Add(Utility.Json.ToObject<AllianceStatusDTO>(immortalsAllianceTemp.allianceStatus));
+                            var alliancestatusTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceStatus>(nHCriteriaimmortalsAlliance);
+                            AllianceStatusDTO allianceStatusDTO = new AllianceStatusDTO() { ID= alliancestatusTemp .ID,AllianceLevel= alliancestatusTemp .AllianceLevel,AllianceMaster= alliancestatusTemp .AllianceMaster,AllianceName= alliancestatusTemp .AllianceName,AllianceNumberPeople= alliancestatusTemp .AllianceNumberPeople,AlliancePeopleMax= alliancestatusTemp.AlliancePeopleMax ,Manifesto= alliancestatusTemp .Manifesto,Popularity= alliancestatusTemp .Popularity};
+                            ImmortalsAllianceList.Add(allianceStatusDTO);
                             nhcriteriaList.Add(nHCriteriaimmortalsAlliance);
                         }
                     }
@@ -62,9 +62,11 @@ namespace AscensionServer
                         for (int i = immortalsAllianceObj.Index; i <= alliances.Count; i++)
                         {
                             NHCriteria nHCriteriaimmortalsAlliance = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", i);
-                            var immortalsAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<ImmortalsAlliance>(nHCriteriaimmortalsAlliance);
-                            AscensionServer._Log.Info("2获得的仙盟数据" + immortalsAllianceTemp.allianceStatus);
-                            ImmortalsAllianceList.Add(Utility.Json.ToObject<AllianceStatusDTO>(immortalsAllianceTemp.allianceStatus));
+                            var alliancestatusTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceStatusDTO>(nHCriteriaimmortalsAlliance);
+                            AllianceStatusDTO allianceStatusDTO = new AllianceStatusDTO() { ID = alliancestatusTemp.ID, AllianceLevel = alliancestatusTemp.AllianceLevel, AllianceMaster = alliancestatusTemp.AllianceMaster, AllianceName = alliancestatusTemp.AllianceName, AllianceNumberPeople = alliancestatusTemp.AllianceNumberPeople, AlliancePeopleMax = alliancestatusTemp.AlliancePeopleMax, Manifesto = alliancestatusTemp.Manifesto, Popularity = alliancestatusTemp.Popularity };
+                            ImmortalsAllianceList.Add(allianceStatusDTO);
+                            AscensionServer._Log.Info("2获得的仙盟数据" + Utility.Json.ToJson(alliancestatusTemp));
+                            ImmortalsAllianceList.Add(allianceStatusDTO);
                             nhcriteriaList.Add(nHCriteriaimmortalsAlliance);
                         }
                     }
