@@ -9,33 +9,18 @@ namespace AscensionProtocol.DTO
     [Serializable]
     public class ImmortalsAllianceDTO : DataTransferObject
     {
-        public virtual int ID { get; set; }
-        public virtual int ImmortalsallianceLevel { get; set; }
-        public virtual int immortalsallianceNumberPeople { get; set; }
-        public virtual int ImmortalsalliancePeopleMax { get; set; }
-        public virtual string  ImmortalsallianceMaster { get; set; }
-        public virtual string  ImmortalsallianceName { get; set; }
-        public virtual bool IsApplyfor { get; set; }
+        public virtual int RoleID { get; set; }
+        public virtual int  AllianceID { get; set; }
+        public virtual byte AllianceJob { get; set; }
+        public virtual int Reputation { get; set; }
 
-        [Serializable]
-        public class AllianceStatusDTO
-        {
-            public virtual int ImmortalsallianceLevel { get; set; }
-            public virtual int immortalsallianceNumberPeople { get; set; }
-            public virtual int ImmortalsalliancePeopleMax { get; set; }
-            public virtual string ImmortalsallianceMaster { get; set; }
-            public virtual string ImmortalsallianceName { get; set; }
-            public virtual bool IsApplyfor { get; set; }
-        }
+
         public override void Clear()
         {
-            ID = -1;
-            ImmortalsallianceLevel = 0;
-            immortalsallianceNumberPeople = 0;
-            ImmortalsalliancePeopleMax = 0;
-            ImmortalsallianceMaster = null;
-            ImmortalsallianceName = null;
-            IsApplyfor = false;
+            RoleID = -1;
+            AllianceID = 0;
+            AllianceJob = 0;
+            Reputation = 0; 
         }
     }
 }

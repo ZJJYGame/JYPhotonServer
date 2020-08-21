@@ -11,7 +11,7 @@ using Cosmos;
 
 namespace AscensionServer
 {
-    public class GetImmortalsAllianceSubHandler : SyncImmortalsAllianceSubHandler
+    public class GetImmortalsAllianceHandler : SyncImmortalsAllianceSubHandler
     {
         public override void OnInitialization()
         {
@@ -28,12 +28,11 @@ namespace AscensionServer
                 (immortalsAllianceJson);
             var name = RedisData.Initialize.InsertName("(ALLIANCE_LIST", immortalsAllianceObj.ID);
             var content = RedisData.Initialize.GetData(name);
-            AscensionServer._Log.Info("获得的仙盟数据"+ immortalsAllianceJson);
 
 
             List<int> alliances = new List<int>();
             List<NHCriteria> nhcriteriaList = new List<NHCriteria>();
-            List<ImmortalsAlliance> ImmortalsAllianceList = new List<ImmortalsAlliance>();
+            List<AllianceStatusDTO> ImmortalsAllianceList = new List<AllianceStatusDTO>();
             if (string.IsNullOrEmpty(content))
             {
 
@@ -43,7 +42,7 @@ namespace AscensionServer
 
                 alliances = Utility.Json.ToObject<List<int>>(immortalsAllianceslistTemp.AllianceList);
 
-                if (immortalsAllianceObj.Index< alliances.Count)
+                if (immortalsAllianceObj.Index<= alliances.Count)
                 {
                     if (immortalsAllianceObj.AllIndex < alliances.Count)
                     {
@@ -52,7 +51,8 @@ namespace AscensionServer
                         {
                             NHCriteria nHCriteriaimmortalsAlliance = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", i);
                             var immortalsAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<ImmortalsAlliance>(nHCriteriaimmortalsAlliance);
-                            ImmortalsAllianceList.Add(immortalsAllianceTemp);
+                            AscensionServer._Log.Info("1获得的仙盟数据" + immortalsAllianceTemp.allianceStatus);
+                            ImmortalsAllianceList.Add(Utility.Json.ToObject<AllianceStatusDTO>(immortalsAllianceTemp.allianceStatus));
                             nhcriteriaList.Add(nHCriteriaimmortalsAlliance);
                         }
                     }
@@ -63,7 +63,8 @@ namespace AscensionServer
                         {
                             NHCriteria nHCriteriaimmortalsAlliance = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", i);
                             var immortalsAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<ImmortalsAlliance>(nHCriteriaimmortalsAlliance);
-                            ImmortalsAllianceList.Add(immortalsAllianceTemp);
+                            AscensionServer._Log.Info("2获得的仙盟数据" + immortalsAllianceTemp.allianceStatus);
+                            ImmortalsAllianceList.Add(Utility.Json.ToObject<AllianceStatusDTO>(immortalsAllianceTemp.allianceStatus));
                             nhcriteriaList.Add(nHCriteriaimmortalsAlliance);
                         }
                     }
