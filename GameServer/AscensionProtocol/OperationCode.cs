@@ -93,6 +93,10 @@ namespace AscensionProtocol
         /// 仙盟列表
         /// </summary>
         SyncImmortalsAlliance=44,
+        /// <summary>
+        /// 拍卖行
+        /// </summary>
+        SyncAuction=45,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>

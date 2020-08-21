@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="DTO\AlchemyDTO.cs" />
     <Compile Include="DTO\AlliancesDTO.cs" />
+    <Compile Include="DTO\AuctionGoodsDTO.cs" />
     <Compile Include="DTO\BattleDataDTO.cs" />
     <Compile Include="DTO\Base\DataTransferObject.cs" />
     <Compile Include="DTO\BottleneckDTO.cs" />

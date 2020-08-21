@@ -125,5 +125,10 @@
         VareityShop=76,
         VareityPurchase=77,
         ImmortalsAlliance=78,
+
+        /// <summary>
+        /// 拍卖行
+        /// </summary>
+        Auction=79,
     }
 }
