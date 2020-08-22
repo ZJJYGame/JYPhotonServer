@@ -10,24 +10,22 @@ namespace AscensionServer.Model
     public class ImmortalsAlliance : DataObject
     {
         public virtual int RoleID { get; set; }
-        public virtual string allianceStatus { get; set; }
-        public virtual bool IsMaster { get; set; }
-        public virtual string AllianceManifesto { get; set; }
-        public virtual string AllianceName { get; set; }
+        public virtual int AllianceID { get; set; }
+        public virtual byte AllianceJob { get; set; }
+        public virtual int Reputation { get; set; }
         public override void Clear()
         {
             RoleID = -1;
-            allianceStatus = null;
-            IsMaster = false;
-            AllianceManifesto = null;
-            AllianceName = null;
+            AllianceID = 0;
+            AllianceJob = 0;
+            Reputation = 0;
         }
         public ImmortalsAlliance()
         {
-            allianceStatus = null;
-            IsMaster = false;
-            AllianceManifesto = null;
-            AllianceName = null;
+            RoleID = -1;
+            AllianceID = 0;
+            AllianceJob = 0;
+            Reputation = 0;
         }
 
     }
