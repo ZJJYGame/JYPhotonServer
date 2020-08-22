@@ -28,6 +28,7 @@ namespace AscensionServer
             AscensionServer._Log.Info("收到的拍卖行"+ auctionGoodsID);
 
             List<AuctionGoodsIndex> result=null;
+            List<AuctionGoodsDTO> auctionGoodsDTOList = new List<AuctionGoodsDTO>();
             var isHasValue = RedisHelper.Hash.HashExistAsync("AuctionIndex", auctionGoodsID.ToString()).Result;
             if (!isHasValue)
             {
@@ -37,11 +38,23 @@ namespace AscensionServer
             {
                 AscensionServer._Log.Info("redis拍卖行索引表存在该ID");
                 result = RedisHelper.Hash.HashGet<List<AuctionGoodsIndex>>("AuctionIndex", auctionGoodsID.ToString());
+               
+                for (int i = 0; i < result.Count; i++)
+                {
+                    AscensionServer._Log.Info("1");
+                    string auctionGoodsJson = RedisHelper.String.StringGetAsync("AuctionGoods"+result[i].RedisKey).Result;
+                    AscensionServer._Log.Info(auctionGoodsJson);
+                    auctionGoodsDTOList.Add(Utility.Json.ToObject<AuctionGoodsDTO>(auctionGoodsJson));
+                    AscensionServer._Log.Info("3");
+                }
+                
             }
             SetResponseData(() =>
             {
-                SubDict.Add((byte)ParameterCode.Auction, Utility.Json.ToJson(result));
+                AscensionServer._Log.Info("发送数据");
+                SubDict.Add((byte)ParameterCode.Auction, Utility.Json.ToJson(auctionGoodsDTOList));
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                AscensionServer._Log.Info("发送数据完成");
             });
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
         }
