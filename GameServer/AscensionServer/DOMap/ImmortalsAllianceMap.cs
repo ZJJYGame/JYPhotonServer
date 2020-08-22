@@ -12,12 +12,11 @@ namespace AscensionServer.DOMap
     {
         public ImmortalsAllianceMap()
         {
-            Id(x => x.RoleID).Column("id").GeneratedBy.Assigned();
-            Map(x => x.allianceStatus).Column("alliancestatus");
-            Map(x => x.AllianceManifesto).Column("alliancemanifesto");
-            Map(x => x.IsMaster).Column("ismaster");
-            Map(x => x.AllianceName).Column("ismaster");
-            Table("immortalsalliance");
+            Id(x => x.RoleID).Column("roleid").GeneratedBy.Assigned();
+            Map(x => x.AllianceID).Column("alliance_id");
+            Map(x => x.AllianceJob).Column("alliance_job");
+            Map(x => x.Reputation).Column("reputation");
+            Table("role_alliance");
         }
     }
 }
