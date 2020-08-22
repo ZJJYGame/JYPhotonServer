@@ -29,11 +29,29 @@ namespace AscensionServer
 
             NHCriteria nHCriteriaroleAlliances = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleallianceObj.RoleID);
             var roleallianceTemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriaroleAlliances);
-
+            List<string> Alliancelist = new List<string>();
             if (roleallianceTemp!=null)
             {
                 NHCriteria nHCriteriaAlliances = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", roleallianceTemp.AllianceID);
                 var allianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceStatus>(nHCriteriaAlliances);
+                Alliancelist.Add(Utility.Json.ToJson(roleallianceTemp));
+                Alliancelist.Add(Utility.Json.ToJson(allianceTemp));
+                if (allianceTemp!=null)
+                {
+                    SetResponseData(() =>
+                    {
+                        SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(Alliancelist));
+                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    });
+                    ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaroleAlliances, nHCriteriaAlliances);
+                }
+            }
+            else
+            {
+                SetResponseData(() =>
+                {
+                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                });
             }
         }
     }

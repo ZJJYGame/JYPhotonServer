@@ -81,7 +81,7 @@ namespace AscensionServer
                     SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(Alliancelist));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
-
+                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaAllianceList, nHCriteriaAllianceName);
             }
             else
             {
