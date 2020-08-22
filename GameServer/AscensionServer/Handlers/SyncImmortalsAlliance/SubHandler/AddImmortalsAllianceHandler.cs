@@ -28,38 +28,60 @@ namespace AscensionServer
             string alliancestatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAlliance));
             var alliancestatusObj = Utility.Json.ToObject<AllianceStatus>
                 (alliancestatusJson);
-            string immortalsAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ImmortalsAlliance));
-            var immortalsAllianceObj = Utility.Json.ToObject<RoleAllianceDTO> 
-                (immortalsAllianceJson);
+            string roleAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ImmortalsAlliance));
+            var roleAllianceObj = Utility.Json.ToObject<RoleAlliance> 
+                (roleAllianceJson);
 
-            AscensionServer._Log.Info("1获得的仙盟数据" + alliancestatusObj);
+            AscensionServer._Log.Info("获得的发过来的仙盟数据" + alliancestatusJson+"及盟主信息"+ roleAllianceJson);
             NHCriteria nHCriteriaAllianceName = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("AllianceName", alliancestatusObj.AllianceName);
             var alliance = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceStatus>(nHCriteriaAllianceName);
-            List<DataObject> Alliancelist = new List<DataObject>();
-            if (alliance==null)
+
+
+            List<string> Alliancelist = new List<string>();
+            NHCriteria nHCriteriaroleAlliance = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleAllianceObj.RoleID);
+            var roleAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriaroleAlliance);
+
+            if (alliance == null)
             {
-
                 List<int> gangslist = new List<int>();
-                NHCriteria nHCriteriaAlliance = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", 1);
-                var allianceslIstObj= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Alliances>(nHCriteriaAlliance);
-                AscensionServer._Log.Info("2获得的仙盟数据" + alliancestatusObj.AllianceName);
-                gangslist = Utility.Json.ToObject<List<int>>(allianceslIstObj.AllianceList);
-                var AllianceStatusObj= ConcurrentSingleton<NHManager>.Instance.Insert(alliancestatusObj);
-                gangslist.Add(AllianceStatusObj.ID);
+                NHCriteria nHCriteriaAllianceList = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", 1);
+                var allianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Alliances>(nHCriteriaAllianceList);
+                gangslist = Utility.Json.ToObject<List<int>>(allianceTemp.AllianceList);
 
-                RoleAlliance immortalsAlliance = new RoleAlliance() { RoleID= immortalsAllianceObj .RoleID,AllianceID= AllianceStatusObj.ID,AllianceJob= immortalsAllianceObj.AllianceJob,Reputation=0};
-                Alliances alliances = new Alliances() {ID=1,AllianceList=Utility.Json.ToJson(gangslist) };
-                ConcurrentSingleton<NHManager>.Instance.Update(alliances);
-                ConcurrentSingleton<NHManager>.Instance.Update(immortalsAlliance);
-                Alliancelist.Add(immortalsAlliance);
-                Alliancelist.Add(AllianceStatusObj);
-                AscensionServer._Log.Info("发送的仙盟数据为" + Utility.Json.ToJson(Alliancelist));
+                var allianceslIstObj = ConcurrentSingleton<NHManager>.Instance.Insert(alliancestatusObj);
+                AscensionServer._Log.Info("添加的仙盟id为" + allianceslIstObj.ID);
+                gangslist.Add(allianceslIstObj.ID);
+                allianceTemp.AllianceList = Utility.Json.ToJson(gangslist);
+                ConcurrentSingleton<NHManager>.Instance.Update(allianceTemp);
+
+                Alliancelist.Add(Utility.Json.ToJson(allianceslIstObj));
+                if (roleAllianceTemp != null)
+                {
+                    roleAllianceTemp.RoleID = roleAllianceObj.RoleID;
+                    roleAllianceTemp.AllianceID = allianceslIstObj.ID;
+                    roleAllianceTemp.AllianceJob = roleAllianceObj.AllianceJob;
+                    roleAllianceTemp.Reputation = roleAllianceObj.Reputation;
+                    ConcurrentSingleton<NHManager>.Instance.Update(roleAllianceTemp);
+                }
+                else
+                {
+                    roleAllianceTemp = new RoleAlliance()
+                    {
+                        RoleID = roleAllianceObj.RoleID,
+                        AllianceID = allianceslIstObj.ID,
+                        AllianceJob = roleAllianceObj.AllianceJob,
+                        Reputation = roleAllianceObj.Reputation,
+                    };
+                    ConcurrentSingleton<NHManager>.Instance.Insert(roleAllianceTemp);
+                }
+
+                Alliancelist.Add(Utility.Json.ToJson(roleAllianceTemp));
                 SetResponseData(() =>
                 {
                     SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(Alliancelist));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
-                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaAllianceName, nHCriteriaAlliance);
+
             }
             else
             {
@@ -68,8 +90,7 @@ namespace AscensionServer
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
-
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+                peer.SendOperationResponse(Owner.OpResponse, sendParameters);
 
         }
     }
