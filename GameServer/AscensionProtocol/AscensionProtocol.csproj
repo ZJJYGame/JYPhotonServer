@@ -60,7 +60,7 @@
     <Compile Include="DTO\CultivationMethodDTO.cs" />
     <Compile Include="DTO\ForgeDTO.cs" />
     <Compile Include="DTO\HerbsFieldDTO.cs" />
-    <Compile Include="DTO\ImmortalsAllianceDTO.cs" />
+    <Compile Include="DTO\RoleAllianceDTO.cs" />
     <Compile Include="DTO\Monster\MonsterTransformDTO.cs" />
     <Compile Include="DTO\Monster\MonsterTransformQueueDTO.cs" />
     <Compile Include="DTO\OffLineTimeDTO.cs" />

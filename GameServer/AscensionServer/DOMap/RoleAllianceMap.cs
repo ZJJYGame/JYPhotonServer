@@ -8,9 +8,10 @@ using FluentNHibernate.Mapping;
 
 namespace AscensionServer.DOMap
 {
-    public class ImmortalsAllianceMap: ClassMap<ImmortalsAlliance>
+    public class RoleAllianceMap: ClassMap<RoleAlliance>
     {
-        public ImmortalsAllianceMap()
+        
+        public RoleAllianceMap()
         {
             Id(x => x.RoleID).Column("roleid").GeneratedBy.Assigned();
             Map(x => x.AllianceID).Column("alliance_id");

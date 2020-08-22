@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class ImmortalsAllianceDTO : DataTransferObject
+    public class RoleAllianceDTO : DataTransferObject
     {
         public virtual int RoleID { get; set; }
         public virtual int  AllianceID { get; set; }

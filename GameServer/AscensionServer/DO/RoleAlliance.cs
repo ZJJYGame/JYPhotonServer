@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class ImmortalsAlliance : DataObject
+    public class RoleAlliance : DataObject
     {
         public virtual int RoleID { get; set; }
         public virtual int AllianceID { get; set; }
@@ -20,7 +20,7 @@ namespace AscensionServer.Model
             AllianceJob = 0;
             Reputation = 0;
         }
-        public ImmortalsAlliance()
+        public RoleAlliance()
         {
             RoleID = -1;
             AllianceID = 0;

@@ -25,16 +25,16 @@ namespace AscensionServer
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
-            string alliancestatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ImmortalsAlliance));
+            string alliancestatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAlliance));
             var alliancestatusObj = Utility.Json.ToObject<AllianceStatusDTO>
                 (alliancestatusJson);
             string immortalsAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ImmortalsAlliance));
-            var immortalsAllianceObj = Utility.Json.ToObject<ImmortalsAllianceDTO>
+            var immortalsAllianceObj = Utility.Json.ToObject<RoleAllianceDTO> 
                 (immortalsAllianceJson);
 
 
             NHCriteria nHCriteriaAllianceName = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("AllianceName", alliancestatusObj.AllianceName);
-            var alliance = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<ImmortalsAlliance>(nHCriteriaAllianceName);
+            var alliance = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriaAllianceName);
             if (alliance==null)
             {
                 List<int> gangslist = new List<int>();
@@ -44,7 +44,7 @@ namespace AscensionServer
                 var AllianceStatusObj= ConcurrentSingleton<NHManager>.Instance.Insert(alliancestatusObj);
                 gangslist.Add(AllianceStatusObj.ID);
 
-                ImmortalsAlliance immortalsAlliance = new ImmortalsAlliance() { RoleID= immortalsAllianceObj .RoleID,AllianceID= AllianceStatusObj.ID,AllianceJob= immortalsAllianceObj.AllianceJob,Reputation=0};
+                RoleAlliance immortalsAlliance = new RoleAlliance() { RoleID= immortalsAllianceObj .RoleID,AllianceID= AllianceStatusObj.ID,AllianceJob= immortalsAllianceObj.AllianceJob,Reputation=0};
                 Alliances alliances = new Alliances() {ID=1,AllianceList=Utility.Json.ToJson(gangslist) };
                 ConcurrentSingleton<NHManager>.Instance.Update(alliances);
                 ConcurrentSingleton<NHManager>.Instance.Update(immortalsAlliance);

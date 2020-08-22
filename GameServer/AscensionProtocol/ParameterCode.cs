@@ -124,12 +124,17 @@
         /// </summary>
         VareityShop=76,
         VareityPurchase=77,
-        ImmortalsAlliance=78,
+
 
         /// <summary>
         /// 拍卖行
         /// </summary>
         Auction=79,
         AddAuctionGoods=80,
+        /// <summary>
+        /// 仙盟
+        /// </summary>
+        ImmortalsAlliance = 78,
+        RoleAlliance=81,
     }
 }
