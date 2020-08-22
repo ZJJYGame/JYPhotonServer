@@ -34,7 +34,33 @@ namespace AscensionServer
             }
             else//获得数据，继续判断
             {
+                var auctionGoodsObj = Utility.Json.ToObject<AuctionGoodsDTO>(auctionGoodsJson);
+                if (buyAuctionGoodsObj.Count <= auctionGoodsObj.Count)//购买数量足够
+                {
+                    auctionGoodsObj.Count -= buyAuctionGoodsObj.Count;
+                    if (auctionGoodsObj.Count == 0)//买完了
+                    {
+                        RedisHelper.KeyDeleteAsync("AuctionGoods" + auctionGoodsObj.GUID);
 
+                        List<AuctionGoodsIndex> tempAuctionGoodIndexs = RedisHelper.Hash.HashGetAsync<List<AuctionGoodsIndex>>("AuctionIndex", auctionGoodsObj.GlobalID.ToString()).Result;
+                        AuctionGoodsIndex auctionGoodsIndex = tempAuctionGoodIndexs.Find((p) => p.RedisKey == auctionGoodsObj.GUID);
+                        tempAuctionGoodIndexs.Remove(auctionGoodsIndex);
+                        RedisHelper.Hash.HashSetAsync("AuctionIndex", auctionGoodsObj.GlobalID.ToString(), tempAuctionGoodIndexs);
+                    }
+                    else
+                    {
+                        RedisHelper.String.StringSetAsync("AuctionGoods" + auctionGoodsObj.GUID, Utility.Json.ToJson(auctionGoodsObj));
+                    }
+                    SetResponseData(() =>
+                    {
+                        SubDict.Add((byte)ParameterCode.AddAuctionGoods, "");
+                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    });
+                }
+                else//购买数量不足
+                {
+
+                }
             }
         }
     }
