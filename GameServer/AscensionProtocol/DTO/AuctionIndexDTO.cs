@@ -20,9 +20,14 @@ namespace AscensionProtocol.DTO
     }
 
     [Serializable]
-    public class AuctionGoodsIndex
+    public class AuctionGoodsIndex:IComparable
     {
         public string RedisKey { get; set; }//redis当中存储的key
         public int Price { get; set; }//价格，用于排序
+
+        public int CompareTo(object obj)
+        {
+            return Price;
+        }
     }
 }
