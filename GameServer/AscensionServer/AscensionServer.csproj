@@ -254,6 +254,9 @@
     <Compile Include="Handlers\SyncPuppet\SubHandler\SyncPuppetSubHandler.cs" />
     <Compile Include="Handlers\SyncPuppet\SubHandler\UpdatePuppetSubHandler.cs" />
     <Compile Include="Handlers\SyncPuppet\SyncPuppetHandler.cs" />
+    <Compile Include="Handlers\SyncRoleAlliance\SubHandler\GetRoleAllianceSubHandler.cs" />
+    <Compile Include="Handlers\SyncRoleAlliance\SubHandler\SyncRoleAllianceSubHandler.cs" />
+    <Compile Include="Handlers\SyncRoleAlliance\SyncRoleAllianceHandler.cs" />
     <Compile Include="Handlers\SyncRoleAssets\SubHandler\RemoveRoleAssetsSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleStatus\SubHandler\AddRoleStatusSubHandler.cs" />
     <Compile Include="Handlers\SyncSchool\SubHandler\UpdateSchoolSubHandler.cs" />

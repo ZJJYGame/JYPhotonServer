@@ -9,7 +9,7 @@ namespace AscensionServer.DOMap
     {
         public AllianceStatusMap()
         {
-            Id(x => x.ID).Column("id").GeneratedBy.Assigned();
+            Id(x => x.ID).Column("id").GeneratedBy.Increment();
             Map(x => x.AlliancePeopleMax).Column("alliance_people_max");
             Map(x => x.AllianceLevel).Column("alliance_level");
             Map(x => x.AllianceMaster).Column("alliance_master");
