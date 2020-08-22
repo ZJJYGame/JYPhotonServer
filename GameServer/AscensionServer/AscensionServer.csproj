@@ -236,6 +236,7 @@
     <Compile Include="Handlers\SyncAuction\SubHandler\AddAuctionSubHandler.cs" />
     <Compile Include="Handlers\SyncAuction\SubHandler\GetAuctionSubHandler.cs" />
     <Compile Include="Handlers\SyncAuction\SubHandler\SyncAuctionSubHandler.cs" />
+    <Compile Include="Handlers\SyncAuction\SubHandler\UpdateAuctionSubHandler.cs" />
     <Compile Include="Handlers\SyncAuction\SyncAuctionHandler.cs" />
     <Compile Include="Handlers\SyncForge\SubHandler\AddForgeSubHandler.cs" />
     <Compile Include="Handlers\SyncForge\SubHandler\UpdateForgeSubHandler.cs" />

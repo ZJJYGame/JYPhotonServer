@@ -136,5 +136,6 @@
         /// </summary>
         ImmortalsAlliance = 78,
         RoleAlliance=81,
+
     }
 }

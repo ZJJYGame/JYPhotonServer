@@ -96,7 +96,7 @@ namespace AscensionProtocol
         /// <summary>
         /// 拍卖行
         /// </summary>
-        SyncAuction=45,
+        SyncAuction=47,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>
