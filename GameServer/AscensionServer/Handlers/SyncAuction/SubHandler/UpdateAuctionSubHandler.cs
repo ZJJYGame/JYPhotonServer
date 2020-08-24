@@ -23,14 +23,22 @@ namespace AscensionServer
 
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
+            AscensionServer._Log.Info("进入更新拍卖品事件");
             var dict = ParseSubDict(operationRequest);
             string buyAuctionGoodsJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AddAuctionGoods)); ;
             var buyAuctionGoodsObj = Utility.Json.ToObject<AuctionGoodsDTO>(buyAuctionGoodsJson);
 
             var auctionGoodsJson = RedisHelper.String.StringGetAsync("AuctionGoods" + buyAuctionGoodsObj.GUID).Result;
+            AscensionServer._Log.Info("AuctionGoods" + buyAuctionGoodsObj.GUID);
+            AscensionServer._Log.Info(auctionGoodsJson);
             if (string.IsNullOrEmpty(auctionGoodsJson))//没有数据。失败
             {
-
+                SetResponseData(() =>
+                {
+                    AscensionServer._Log.Info("找不到该商品");
+                    SubDict.Add((byte)ParameterCode.AddAuctionGoods, "");
+                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                });
             }
             else//获得数据，继续判断
             {
@@ -45,7 +53,14 @@ namespace AscensionServer
                         List<AuctionGoodsIndex> tempAuctionGoodIndexs = RedisHelper.Hash.HashGetAsync<List<AuctionGoodsIndex>>("AuctionIndex", auctionGoodsObj.GlobalID.ToString()).Result;
                         AuctionGoodsIndex auctionGoodsIndex = tempAuctionGoodIndexs.Find((p) => p.RedisKey == auctionGoodsObj.GUID);
                         tempAuctionGoodIndexs.Remove(auctionGoodsIndex);
-                        RedisHelper.Hash.HashSetAsync("AuctionIndex", auctionGoodsObj.GlobalID.ToString(), tempAuctionGoodIndexs);
+                        if (tempAuctionGoodIndexs.Count != 0)//购买后当前种物品索引数量 不为0
+                        {
+                            RedisHelper.Hash.HashSetAsync("AuctionIndex", auctionGoodsObj.GlobalID.ToString(), tempAuctionGoodIndexs);
+                        }
+                        else
+                        {
+                            RedisHelper.Hash.HashDeleteAsync("AuctionIndex", auctionGoodsObj.GlobalID.ToString());
+                        }
                     }
                     else
                     {
@@ -53,13 +68,19 @@ namespace AscensionServer
                     }
                     SetResponseData(() =>
                     {
+                        AscensionServer._Log.Info("购买物品成功");
                         SubDict.Add((byte)ParameterCode.AddAuctionGoods, "");
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
                 else//购买数量不足
                 {
-
+                    SetResponseData(() =>
+                    {
+                        AscensionServer._Log.Info("物品数量不足");
+                        SubDict.Add((byte)ParameterCode.AddAuctionGoods, "");
+                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                    });
                 }
             }
         }
