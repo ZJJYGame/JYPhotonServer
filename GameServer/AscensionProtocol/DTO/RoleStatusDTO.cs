@@ -25,6 +25,9 @@ namespace AscensionProtocol.DTO
         public virtual byte RoleCrit { get; set; }
         public virtual byte RoleCritResistance { get; set; }
         public virtual int RoleDormant { get; set; }
+        public virtual int RoleVileSpawn { get; set; }//人物业障
+        public virtual int RoleVitality { get; set; }//人物活力
+        public virtual int RoleKillingIntent  { get; set; }//人物煞气
 
         public override bool Equals(object obj)
         {
@@ -35,7 +38,7 @@ namespace AscensionProtocol.DTO
                 this.RoleResistanceDamage == other.RoleResistanceDamage && this.RoleAttackPower == other.RoleAttackPower &&
                 this.RoleResistancePower == other.RoleResistancePower && this.RoleSpeedAttack == other.RoleSpeedAttack &&
                 this.RoleShenHunDamage == other.RoleShenHunDamage && this.RoleShenHunResistance == other.RoleShenHunResistance &&
-                this.RoleCrit == other.RoleCrit && this.RoleCritResistance == other.RoleCritResistance&&this.RoleDormant==other.RoleDormant)
+                this.RoleCrit == other.RoleCrit && this.RoleCritResistance == other.RoleCritResistance&&this.RoleDormant==other.RoleDormant&&this.RoleVileSpawn==other.RoleVileSpawn&&this.RoleVitality==other.RoleVitality&&this.RoleKillingIntent==other.RoleKillingIntent)
                 return true;
             else return false;
         }
@@ -65,6 +68,9 @@ namespace AscensionProtocol.DTO
             RoleCrit = 0;
             RoleCritResistance = 0;
             RoleDormant = 0;
+            RoleKillingIntent = 0;
+            RoleVitality = 0;
+            RoleVileSpawn = 0;
         }
     }
 }

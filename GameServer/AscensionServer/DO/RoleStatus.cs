@@ -30,6 +30,10 @@ namespace AscensionServer.Model
             RoleCrit = 0;
             RoleCritResistance = 0;
             RoleDormant = 10;
+            RoleKillingIntent = 0;
+            RoleVitality = 0;
+            RoleVileSpawn = 0;
+
         }
         /// <summary>
         /// 角色id
@@ -69,6 +73,9 @@ namespace AscensionServer.Model
         public virtual short RoleCrit { get; set; }
         public virtual short RoleCritResistance { get; set; }
         public virtual int RoleDormant { get; set; }
+        public virtual int RoleVileSpawn { get; set; }//人物业障
+        public virtual int RoleVitality { get; set; }//人物活力
+        public virtual int RoleKillingIntent { get; set; }//人物煞气
         public override void Clear()
         {
             RoleID = -1;
@@ -89,6 +96,9 @@ namespace AscensionServer.Model
             RoleCrit = 0;
             RoleCritResistance = 0;
             RoleDormant = 0;
+            RoleKillingIntent = 0;
+            RoleVitality = 0;
+            RoleVileSpawn = 0;
         }
     }
 }

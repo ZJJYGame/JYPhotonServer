@@ -53,6 +53,7 @@ namespace AscensionServer
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
+            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
         }
     }
 }
