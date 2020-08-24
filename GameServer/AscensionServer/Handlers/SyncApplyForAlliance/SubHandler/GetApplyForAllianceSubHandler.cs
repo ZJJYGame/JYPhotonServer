@@ -22,7 +22,12 @@ namespace AscensionServer
 
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-          
+            var dict = ParseSubDict(operationRequest);
+            string alliancememberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
+            var alliancememberObj = Utility.Json.ToObject<AllianceMemberDTO>(alliancememberJson);
+            
+
+         
         }
     }
 }
