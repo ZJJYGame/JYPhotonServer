@@ -33,7 +33,7 @@ namespace AscensionServer.Model
             RoleKillingIntent = 0;
             RoleVitality = 0;
             RoleVileSpawn = 0;
-
+            RoleMaxJingXue = 0;
         }
         /// <summary>
         /// 角色id
@@ -61,6 +61,7 @@ namespace AscensionServer.Model
         public virtual int RoleMaxMP { get; set; }
         public virtual int RoleMP { get; set; }
         public virtual short RoleJingXue { get; set; }
+        public virtual int RoleMaxJingXue { get; set; }
         public virtual int RoleAttackDamage { get; set; }
         public virtual int RoleResistanceDamage { get; set; }
         public virtual int RoleAttackPower { get; set; }
@@ -76,6 +77,7 @@ namespace AscensionServer.Model
         public virtual int RoleVileSpawn { get; set; }//人物业障
         public virtual int RoleVitality { get; set; }//人物活力
         public virtual int RoleKillingIntent { get; set; }//人物煞气
+
         public override void Clear()
         {
             RoleID = -1;

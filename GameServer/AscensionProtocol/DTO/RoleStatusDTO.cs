@@ -12,7 +12,8 @@ namespace AscensionProtocol.DTO
         public virtual int RoleHP { get; set; }
         public virtual int RoleMaxMP { get; set; }
         public virtual int RoleMP { get; set; }
-        public virtual byte RoleJingXue { get; set; }
+        public virtual int RoleJingXue { get; set; }
+        public virtual int RoleMaxJingXue { get; set; }
         public virtual int RoleAttackDamage { get; set; }
         public virtual int RoleResistanceDamage { get; set; }
         public virtual int RoleAttackPower { get; set; }
@@ -56,6 +57,7 @@ namespace AscensionProtocol.DTO
             RoleMaxMP = 0;
             RoleMP = 0;
             RoleJingXue = 0;
+            RoleMaxJingXue = 0;
             RoleAttackDamage = 0;
             RoleResistanceDamage = 0;
             RoleAttackPower = 0;
