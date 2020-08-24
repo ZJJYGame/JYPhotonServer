@@ -234,6 +234,9 @@
     <Compile Include="Handlers\SchoolSchoolRefresh\SyncSchoolRefreshHandler.cs" />
     <Compile Include="Handlers\SchoolSchoolRefresh\SyncUpdatSchoolRefreshHandler.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\UpdateAlchemySubHandler.cs" />
+    <Compile Include="Handlers\SyncApplyForAlliance\SubHandler\GetApplyForAllianceSubHandler.cs" />
+    <Compile Include="Handlers\SyncApplyForAlliance\SubHandler\SyncApplyForAllianceSubHandler.cs" />
+    <Compile Include="Handlers\SyncApplyForAlliance\SyncApplyForAllianceHandler.cs" />
     <Compile Include="Handlers\SyncAuction\SubHandler\AddAuctionSubHandler.cs" />
     <Compile Include="Handlers\SyncAuction\SubHandler\GetAuctionSubHandler.cs" />
     <Compile Include="Handlers\SyncAuction\SubHandler\SyncAuctionSubHandler.cs" />
