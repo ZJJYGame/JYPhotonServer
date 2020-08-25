@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cosmos;
-using AscensionProtocol;
+using AscensionProtocol.DTO;
 using AscensionServer.Model;
 
 namespace AscensionServer
@@ -90,10 +90,20 @@ namespace AscensionServer
             NHCriteria nHCriteria  = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue(keyname, key);
             
             var dataObjectTemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<T>(nHCriteria);
-
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteria);
             return dataObjectTemp.Result;
         }
-
+        /// <summary>
+        /// 仙盟的申请整合方法
+        /// </summary>
+        /// <param name="role"></param>
+        /// <param name="schoolDTO"></param>
+        /// <returns></returns>
+        public ApplyForAllianceDTO JointDate( Role role  , RoleSchool schoolDTO)
+        {
+            ApplyForAllianceDTO applyForAllianceDTO = new ApplyForAllianceDTO() { RoleID = role.RoleID,School= schoolDTO .RoleJoinedSchool,MemberName=role.RoleName};
+            return applyForAllianceDTO;
+        }
 
     }
 }
