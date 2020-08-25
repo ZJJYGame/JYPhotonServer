@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cosmos;
-using EventData = Photon.SocketServer.EventData;
+using AscensionProtocol;
+using AscensionServer.Model;
 
-namespace AscensionServer.AlliancelogicManager
+namespace AscensionServer
 {
     public  class AlliancelogicManager:ConcurrentSingleton<AlliancelogicManager>
     {
@@ -14,7 +15,12 @@ namespace AscensionServer.AlliancelogicManager
         /// 储存登录盟主的字典，用于派发申请消息
         /// </summary>
         Dictionary<int, AscensionPeer> alliancePoolDict = new Dictionary<int, AscensionPeer>();
-
+        /// <summary>
+        /// 获得储存的仙盟盟主
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="peer"></param>
+        /// <returns></returns>
         public bool TryGetValue(int id, out AscensionPeer peer)
         {
             peer = null;
@@ -26,7 +32,12 @@ namespace AscensionServer.AlliancelogicManager
                 return true;
             }
         }
-
+        /// <summary>
+        /// 添加新增的仙盟盟主
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="peer"></param>
+        /// <returns></returns>
         public bool TryAdd(int id , AscensionPeer peer)
         {
 
@@ -38,7 +49,11 @@ namespace AscensionServer.AlliancelogicManager
                 return true;
             }
         }
-
+        /// <summary>
+        /// 移除已有的仙盟盟主
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public bool TryRemove(int id)
         {
             if (!alliancePoolDict.ContainsKey(id))
@@ -63,6 +78,22 @@ namespace AscensionServer.AlliancelogicManager
             //eventData.Parameters = date;
             //peer.SendEvent(eventData,);
         }
+        /// <summary>
+        /// 用于查询数据库数据的整合的函数
+        /// </summary>
+        /// <typeparam name="T">所需查询的类型</typeparam>
+        /// <param name="keyname">映射的变量名</param>
+        /// <param name="key">对应的id</param>
+        /// <returns></returns>
+        public T GetNHCriteria<T>(  string  keyname,int key)
+        {
+            NHCriteria nHCriteria  = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue(keyname, key);
+            
+            var dataObjectTemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<T>(nHCriteria);
+
+            return dataObjectTemp.Result;
+        }
+
 
     }
 }

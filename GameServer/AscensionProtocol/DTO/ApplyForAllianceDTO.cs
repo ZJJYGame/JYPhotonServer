@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AscensionProtocol.DTO
 {
     /// <summary>
-    /// 用于传输仙盟申请列表的
+    /// 用于传输仙盟申请列表的数据类型
     /// </summary>
     [Serializable]
     public class ApplyForAllianceDTO : DataTransferObject
@@ -19,7 +19,10 @@ namespace AscensionProtocol.DTO
 
         public override void Clear()
         {
-            
+            MemberName = null;
+            Level = 0;
+            School = 0;
+            RoleID = 0;
         }
     }
 }
