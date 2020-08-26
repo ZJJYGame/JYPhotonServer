@@ -37,11 +37,11 @@ namespace AscensionServer
             {
 
                 NHCriteria nHCriteriaimmortalsAllianceslist= ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", 1);
-
+                nhcriteriaList.Add(nHCriteriaimmortalsAllianceslist);
                 var immortalsAllianceslistTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Alliances>(nHCriteriaimmortalsAllianceslist);
 
                 alliances = Utility.Json.ToObject<List<int>>(immortalsAllianceslistTemp.AllianceList);
-
+                AscensionServer._Log.Info("获取到的仙盟数量为"+ alliances.Count);
                 if (immortalsAllianceObj.Index<= alliances.Count)
                 {
                     if (immortalsAllianceObj.AllIndex < alliances.Count)
@@ -75,10 +75,11 @@ namespace AscensionServer
                         SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(ImmortalsAllianceList));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
+                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nhcriteriaList);
             }
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nhcriteriaList);
+            
         }
     }
 }

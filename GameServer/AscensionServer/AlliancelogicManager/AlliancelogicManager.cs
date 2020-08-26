@@ -16,6 +16,12 @@ namespace AscensionServer
         /// </summary>
         Dictionary<int, AscensionPeer> alliancePoolDict = new Dictionary<int, AscensionPeer>();
         /// <summary>
+        /// 储存申请仙盟的玩家的字典，用于派发消息
+        /// </summary>
+        Dictionary<int, AscensionPeer> applyPoolDict = new Dictionary<int, AscensionPeer>();
+
+        #region 仙盟用于同意的逻辑
+        /// <summary>
         /// 获得储存的仙盟盟主
         /// </summary>
         /// <param name="id"></param>
@@ -64,9 +70,6 @@ namespace AscensionServer
                 return true;
 
             }
-
-
-
         }
         /// <summary>
         /// 仙盟申请消息派发
@@ -78,6 +81,70 @@ namespace AscensionServer
             //eventData.Parameters = date;
             //peer.SendEvent(eventData,);
         }
+        #endregion
+        #region 仙盟用于请求的逻辑
+        /// <summary>
+        /// 获得储存的申请玩家
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="peer"></param>
+        /// <returns></returns>
+        public bool TryGetValueApply(int id, out AscensionPeer peer)
+        {
+            peer = null;
+            if (!applyPoolDict.ContainsKey(id))
+                return false;
+            else
+            {
+                peer = applyPoolDict[id];
+                return true;
+            }
+        }
+        /// <summary>
+        /// 添加新增的申请玩家
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="peer"></param>
+        /// <returns></returns>
+        public bool TryAddApply(int id, AscensionPeer peer)
+        {
+
+            if (applyPoolDict.ContainsKey(id))
+                return false;
+            else
+            {
+                applyPoolDict.Add(id, peer);
+                return true;
+            }
+        }
+        /// <summary>
+        /// 移除已加入仙盟的玩家
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool TryRemoveApply(int id)
+        {
+            if (!applyPoolDict.ContainsKey(id))
+                return false;
+            else
+            {
+                applyPoolDict.Remove(id);
+                return true;
+
+            }
+        }
+        /// <summary>
+        /// 仙盟申请同意的消息派发
+        /// </summary>
+        /// <param name="peer"></param>
+        public void SendJoinSuccesMessage(AscensionPeer peer, Dictionary<byte, object> date)
+        {
+            //EventData eventData = new EventData();
+            //eventData.Parameters = date;
+            //peer.SendEvent(eventData,);
+        }
+        #endregion
+
         /// <summary>
         /// 用于查询数据库数据的整合的函数
         /// </summary>
