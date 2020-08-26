@@ -28,11 +28,14 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string allianceApplyJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
             var allianceApplyObj = Utility.Json.ToObject<ApplyForAllianceDTO>(allianceApplyJson);
+            string allianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
+            var allianceObj = Utility.Json.ToObject<AllianceMember>(allianceJson);
+
 
             NHCriteria nHCriteriallianceApplyFor = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", allianceApplyObj.RoleID);
             var allianceApplyForTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriallianceApplyFor);
 
-            NHCriteria nHCriterialliancemember= ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", allianceApplyObj.RoleID);
+            NHCriteria nHCriterialliancemember= ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", allianceObj.AllianceID);
             var alliancememberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceMember>(nHCriterialliancemember);
 
 
