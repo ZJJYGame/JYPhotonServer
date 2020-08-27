@@ -193,15 +193,20 @@ namespace AscensionServer
                 school = ConcurrentSingleton<NHManager>.Instance.Insert(school);
                 ConcurrentSingleton<NHManager>.Instance.Insert(new RoleSchool() { RoleID = rolestatus.RoleID, RoleJoiningSchool = school.ID, RoleJoinedSchool = 0 });
                 #endregion
-
+                #region 仙盟
+                RoleAlliance roleAlliance = new RoleAlliance() { RoleID = rolestatus.RoleID, RoleName = role.RoleName,ApplyForAlliance=Utility.Json.ToJson(new List<int>()) };
+                ConcurrentSingleton<NHManager>.Instance.Insert(roleAlliance);
+                #endregion
                 var userRoleJson = Utility.Json.ToJson(roleList);
                 ConcurrentSingleton<NHManager>.Instance.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { RoleID = rolestatus.RoleID, RoleName = role.RoleName, ApplyForAlliance = new List<int>() };
                 DOdict.Add("Role", Utility.Json.ToJson(role));
                 DOdict.Add("RoleStatus", Utility.Json.ToJson(rolestatus));
                 //DOdict.Add("GongFa", Utility.Json.ToJson(gongFa));
                 DOdict.Add("School", Utility.Json.ToJson(school));
                 DOdict.Add("MiShu", Utility.Json.ToJson(miShu));
+                DOdict.Add("RoleAlliance", Utility.Json.ToJson(roleAllianceDTO));
                 Owner.ResponseData.Add((byte)ParameterCode.Role, Utility.Json.ToJson(DOdict));
                 Owner.OpResponse.Parameters = Owner.ResponseData;
             }

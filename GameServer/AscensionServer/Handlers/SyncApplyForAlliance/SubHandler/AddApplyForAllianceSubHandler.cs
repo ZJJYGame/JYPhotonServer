@@ -41,13 +41,17 @@ namespace AscensionServer
                     ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAllianceTemp);
                     NHCriteria nHCriteriaroleAllianceMember = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("AllianceID", roleAllianceObj.ApplyForAlliance[i]);
                     var allianceMemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceMember>(nHCriteriaroleAllianceMember);
+                var applyer=    Utility.Json.ToObject<List<int>>(allianceMemberTemp.ApplyforMember);
+                    applyer.Add(roleAllianceObj.ApplyForAlliance[i]);
+                    allianceMemberTemp.ApplyforMember = Utility.Json.ToJson(applyer);
+                    ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceMemberTemp);
                 }
 
 
                  SetResponseData(() =>
                 {
                     roleAllianceObj.ApplyForAlliance = applyList;
-                    SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(roleAllianceObj));
+                    SubDict.Add((byte)ParameterCode.ApplyForAlliance, Utility.Json.ToJson(roleAllianceObj));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
