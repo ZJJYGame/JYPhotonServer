@@ -99,6 +99,7 @@ namespace AscensionProtocol
         /// </summary>
         SyncAuction =48,
         SyncApplyForAlliance=49,
+        SyncAllianceMember = 50,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>

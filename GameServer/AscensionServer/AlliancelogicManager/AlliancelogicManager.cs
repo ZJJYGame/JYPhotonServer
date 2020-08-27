@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using EventData = Photon.SocketServer.EventData;
 using Cosmos;
 using AscensionProtocol.DTO;
 using AscensionServer.Model;
@@ -141,7 +141,7 @@ namespace AscensionServer
         {
             //EventData eventData = new EventData();
             //eventData.Parameters = date;
-            //peer.SendEvent(eventData,);
+            //peer.SendEvent(eventData, new SendParameter);
         }
         #endregion
 

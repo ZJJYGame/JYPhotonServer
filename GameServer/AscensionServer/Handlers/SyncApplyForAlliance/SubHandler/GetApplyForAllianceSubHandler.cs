@@ -23,7 +23,7 @@ namespace AscensionServer
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
-            string alliancememberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
+            string alliancememberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ApplyForAlliance));
             var alliancememberObj = Utility.Json.ToObject<AllianceMemberDTO>(alliancememberJson);
 
             List<ApplyForAllianceDTO> applyForAllianceList = new List<ApplyForAllianceDTO>();
@@ -37,8 +37,9 @@ namespace AscensionServer
                 var schoolObj = AlliancelogicManager.Instance.GetNHCriteria<RoleSchool>("RoleID", applyForList[i]);
                 var gongfaObj = AlliancelogicManager.Instance.GetNHCriteria<RoleGongFa>("RoleID", applyForList[i]);
                 applyForAllianceList.Add(AlliancelogicManager.Instance.JointDate(roleObj, schoolObj));
-
             }
+
+
 
             SetResponseData(() =>
             {
