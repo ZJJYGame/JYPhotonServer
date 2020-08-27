@@ -8,6 +8,7 @@ using AscensionProtocol;
 using AscensionServer.Model;
 using Cosmos;
 using AscensionProtocol.DTO;
+using NHibernate.Criterion;
 
 namespace AscensionServer
 {
@@ -31,7 +32,7 @@ namespace AscensionServer
             bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleRing>(nHCriteriaRoleID);
             NHCriteria nHCriteriaRingID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", InventoryObj.ID);
             bool existRing = ConcurrentSingleton<NHManager>.Instance.Verify<Ring>(nHCriteriaRingID);
-
+            Dictionary<int, RingItemsDTO> posDict ;
 
             if (exist && existRing)
             {
@@ -43,6 +44,8 @@ namespace AscensionServer
                     var ServerMagicDic = Utility.Json.ToObject<Dictionary<int, int>>(ringServerArray.RingMagicDictServer);
                     foreach (var client_p in InventoryObj.RingItems)
                     {
+                        var firstKey = 0;
+                        posDict = new Dictionary<int, RingItemsDTO>();
                         if (!ServerDic.ContainsKey(client_p.Key))
                         {
                             Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
@@ -51,6 +54,7 @@ namespace AscensionServer
                         else
                         {
                             var serverData = ServerDic[client_p.Key];
+                            firstKey = ServerDic.FirstOrDefault(q => q.Value.RingItemAdorn  == "1"|| q.Value.RingItemAdorn == "2").Key;
                             if (serverData.RingItemCount > client_p.Value.RingItemCount)
                             {
                                 serverData.RingItemCount -= client_p.Value.RingItemCount;
@@ -73,9 +77,43 @@ namespace AscensionServer
                                         }
                                     }
                                 }
+                                if (firstKey != 0)
+                                {
+                                    AscensionServer._Log.Info("<>" + firstKey);
+                                    //posDict.Clear();
+                                    var tempDict = ServerDic;
+                                    var indexOne = ServerDic.ToList().FindIndex(s => s.Key == client_p.Key);
+                                    //AscensionServer._Log.Info("<>" + indexOne);
+                                    var indexTwo = ServerDic.ToList().FindIndex(s => s.Key == firstKey);
+                                    //AscensionServer._Log.Info("<>" + indexTwo);
+                                    for (int i = 0; i < ServerDic.Count; i++)
+                                    {
+                                        int numb = i;
+                                        if (indexOne == numb)
+                                        {
+                                            posDict.Add(firstKey, tempDict[firstKey]);
+                                            //AscensionServer._Log.Info("<>" + firstKey);
+                                            continue;
+                                        }
+                                        if (indexTwo == numb)
+                                        {
+                                            posDict.Add(client_p.Key, tempDict[client_p.Key]);
+                                            //AscensionServer._Log.Info("<>" + client_p.Key);
+                                            continue;
+                                        }
+                                        posDict.Add(ServerDic.ToList()[numb].Key, ServerDic.ToList()[numb].Value);
+                                    }
+                                }
                             }
-                            else ServerDic.Remove(client_p.Key);
+                            else
+                            {
+                                ServerDic.Remove(client_p.Key);
+                            }
                         }
+                        AscensionServer._Log.Info("<>" + posDict.Count);
+                        AscensionServer._Log.Info("<>" + ServerDic.Count);
+                        ServerDic = posDict.Count == 0 ? ServerDic : posDict;
+                        //var serverJsonDict = firstKey != 0 ? posDict : ServerDic;
                         ConcurrentSingleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDic),RingMagicDictServer = Utility.Json.ToJson(ServerMagicDic) });
                     }
                     Owner.OpResponse.Parameters = Owner.ResponseData;
