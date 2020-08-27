@@ -236,9 +236,14 @@
     <Compile Include="Handlers\SchoolSchoolRefresh\SyncSchoolRefreshHandler.cs" />
     <Compile Include="Handlers\SchoolSchoolRefresh\SyncUpdatSchoolRefreshHandler.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\UpdateAlchemySubHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceMember\SubHandler\GetAllianceMemberSubHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceMember\SubHandler\SyncAllianceMemberSubHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceMember\SyncAllianceMemberHandler.cs" />
     <Compile Include="Handlers\SyncApplyForAlliance\SubHandler\AddApplyForAllianceSubHandler.cs" />
     <Compile Include="Handlers\SyncApplyForAlliance\SubHandler\GetApplyForAllianceSubHandler.cs" />
+    <Compile Include="Handlers\SyncApplyForAlliance\SubHandler\RemoveApplyForAllianceSubHandler.cs" />
     <Compile Include="Handlers\SyncApplyForAlliance\SubHandler\SyncApplyForAllianceSubHandler.cs" />
+    <Compile Include="Handlers\SyncApplyForAlliance\SubHandler\UpdateApplyForAllianceSubHandler.cs" />
     <Compile Include="Handlers\SyncApplyForAlliance\SyncApplyForAllianceHandler.cs" />
     <Compile Include="Handlers\SyncAuction\SubHandler\AddAuctionSubHandler.cs" />
     <Compile Include="Handlers\SyncAuction\SubHandler\GetAuctionSubHandler.cs" />
@@ -249,6 +254,7 @@
     <Compile Include="Handlers\SyncForge\SubHandler\UpdateForgeSubHandler.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\AddImmortalsAllianceHandler.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\GetImmortalsAllianceHandler.cs" />
+    <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\RemoveImmortalsAllianceHandler.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\SyncImmortalsAllianceSubHandler.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SyncImmortalsAllianceHandler.cs" />
     <Compile Include="Handlers\SyncPetaPtitude\SubHandler\SyncPetaPtitudeSubHandler.cs" />

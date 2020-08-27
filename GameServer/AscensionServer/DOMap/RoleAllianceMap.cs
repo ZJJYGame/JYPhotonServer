@@ -17,6 +17,12 @@ namespace AscensionServer.DOMap
             Map(x => x.AllianceID).Column("alliance_id");
             Map(x => x.AllianceJob).Column("alliance_job");
             Map(x => x.Reputation).Column("reputation");
+            Map(x => x.ReputationMonth).Column("reputation_month");
+            Map(x => x.ReputationHistroy).Column("reputation_history");
+            Map(x => x.JoinTime).Column("jointime");
+            Map(x => x.JoinOffline).Column("joinoffline");
+            Map(x => x.RoleName).Column("role_name");
+            Map(x => x.ApplyForAlliance).Column("apply_for_alliance_list");
             Table("role_alliance");
         }
     }

@@ -25,26 +25,29 @@ namespace AscensionServer
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
-            string alliancememberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
-            var alliancememberObj = Utility.Json.ToObject<AllianceMemberDTO>(alliancememberJson);
+            string roleAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ApplyForAlliance));
+            var roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(roleAllianceJson);
 
-            string roleJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role));
-            var roleObj = Utility.Json.ToObject<RoleDTO>(roleJson);
-
-            NHCriteria nHCriteriaallianceApplyFor = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("AllianceID", alliancememberObj.AllianceID);
-            var allianceApplyForTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceMember>(nHCriteriaallianceApplyFor);
+            NHCriteria nHCriteriaroleAlliance = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleAllianceObj.RoleID);
+            var roleAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriaroleAlliance);
             List<int> applyList = new List<int>();
-            if (!string.IsNullOrEmpty(allianceApplyForTemp.ApplyforMember))
+            if (!string.IsNullOrEmpty(roleAllianceTemp.ApplyForAlliance))
             {
-                applyList = Utility.Json.ToObject<List<int>>(allianceApplyForTemp.ApplyforMember);
-                applyList.Add(roleObj.RoleID);
-                var roleTemp = AlliancelogicManager.Instance.GetNHCriteria<Role>("RoleID", roleObj.RoleID);
-                var schoolTempj = AlliancelogicManager.Instance.GetNHCriteria<RoleSchool>("RoleID", roleObj.RoleID);
-                var gongfaTemp = AlliancelogicManager.Instance.GetNHCriteria<RoleGongFa>("RoleID", roleObj.RoleID);
-                ApplyForAllianceDTO applyForAllianceDTO = AlliancelogicManager.Instance.JointDate(roleTemp, schoolTempj);
-                SetResponseData(() =>
+                applyList = Utility.Json.ToObject<List<int>>(roleAllianceTemp.ApplyForAlliance);
+                for (int i = 0; i < roleAllianceObj.ApplyForAlliance.Count; i++)
                 {
-                    SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(applyForAllianceDTO));
+                    applyList.Add(roleAllianceObj.ApplyForAlliance[i]);
+                    roleAllianceTemp.ApplyForAlliance = Utility.Json.ToJson(applyList);
+                    ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAllianceTemp);
+                    NHCriteria nHCriteriaroleAllianceMember = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("AllianceID", roleAllianceObj.ApplyForAlliance[i]);
+                    var allianceMemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceMember>(nHCriteriaroleAllianceMember);
+                }
+
+
+                 SetResponseData(() =>
+                {
+                    roleAllianceObj.ApplyForAlliance = applyList;
+                    SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(roleAllianceObj));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
