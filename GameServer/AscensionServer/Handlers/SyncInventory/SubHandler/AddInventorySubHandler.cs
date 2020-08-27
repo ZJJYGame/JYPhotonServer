@@ -42,11 +42,41 @@ namespace AscensionServer
                 {
                     //AscensionServer._Log.Info("ringarray" + ringServerArray.RingItems);
                     var ServerDic = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingItems);
-
+                    Dictionary<int, RingItemsDTO> posDict ;
                     foreach (var client_p in InventoryObj.RingItems)
                     {
+                        var firstKey = 0;
+                        posDict = new Dictionary<int, RingItemsDTO>();
+                        firstKey = ServerDic.FirstOrDefault(q => q.Value.RingItemAdorn == "1" || q.Value.RingItemAdorn == "2").Key;
                         if (!ServerDic.ContainsKey(client_p.Key))
+                        {
+                            
                             ServerDic.Add(client_p.Key, client_p.Value);
+                            if (firstKey != 0)
+                            {
+                                //AscensionServer._Log.Info("<>" + firstKey);
+                                var tempDict = ServerDic;
+                                var indexOne = ServerDic.ToList().FindIndex(s => s.Key == client_p.Key);
+                                var indexTwo = ServerDic.ToList().FindIndex(s => s.Key == firstKey);
+                                //AscensionServer._Log.Info("<>" + indexOne);//-1
+                                //AscensionServer._Log.Info("<>" + indexTwo);
+                                for (int i = 0; i < ServerDic.Count; i++)
+                                {
+                                    int numb = i;
+                                    if (indexOne == numb)
+                                    {
+                                        posDict.Add(firstKey, tempDict[firstKey]);
+                                        continue;
+                                    }
+                                    if (indexTwo == numb)
+                                    {
+                                        posDict.Add(client_p.Key, tempDict[client_p.Key]);
+                                        continue;
+                                    }
+                                    posDict.Add(ServerDic.ToList()[numb].Key, ServerDic.ToList()[numb].Value);
+                                }
+                            }
+                        }
                         else
                         {
                             var severValue = ServerDic[client_p.Key];
@@ -57,6 +87,7 @@ namespace AscensionServer
                             if (severValue.RingItemTime != client_p.Value.RingItemTime)
                                 severValue.RingItemTime = client_p.Value.RingItemTime;
                         }
+                        ServerDic = posDict.Count == 0 ? ServerDic : posDict;
                         ConcurrentSingleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDic),  RingMagicDictServer = ringServerArray.RingMagicDictServer });
                     }
                     Owner.OpResponse.Parameters = Owner.ResponseData;
