@@ -36,16 +36,17 @@ namespace AscensionServer
                 RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { AllianceID = roleallianceTemp.AllianceID, AllianceJob = roleallianceTemp.AllianceJob, JoinTime = roleallianceTemp.JoinTime, ApplyForAlliance = Utility.Json.ToObject<List<int>>(roleallianceTemp.ApplyForAlliance), JoinOffline = roleallianceTemp.JoinOffline, Reputation = roleallianceTemp.Reputation, ReputationHistroy = roleallianceTemp.ReputationHistroy, ReputationMonth = roleallianceTemp.ReputationMonth, RoleID = roleallianceTemp.RoleID, RoleName = roleallianceTemp.RoleName };
                 var allianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceStatus>(nHCriteriaAlliances);
                 Alliancelist.Add(Utility.Json.ToJson(roleAllianceDTO));
-                Alliancelist.Add(Utility.Json.ToJson(allianceTemp));
+
                 if (allianceTemp!=null)
                 {
-                    SetResponseData(() =>
-                    {
-                        SubDict.Add((byte)ParameterCode.RoleAlliance, Utility.Json.ToJson(Alliancelist));
-                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
-                    });
-                    ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaroleAlliances, nHCriteriaAlliances);
+                    Alliancelist.Add(Utility.Json.ToJson(allianceTemp));
                 }
+                SetResponseData(() =>
+                {
+                    SubDict.Add((byte)ParameterCode.RoleAlliance, Utility.Json.ToJson(Alliancelist));
+                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                });
+                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaroleAlliances, nHCriteriaAlliances);
             }
             else
             {

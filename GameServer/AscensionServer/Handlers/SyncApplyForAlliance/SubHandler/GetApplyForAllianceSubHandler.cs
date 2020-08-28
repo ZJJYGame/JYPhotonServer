@@ -40,10 +40,9 @@ namespace AscensionServer
             }
 
 
-
             SetResponseData(() =>
             {
-                SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(applyForList));
+                SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(applyForAllianceList));
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             });
 

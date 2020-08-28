@@ -19,7 +19,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
-    <OutputPath>..\..\..\..\..\..\..\localproject\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -236,8 +236,14 @@
     <Compile Include="Handlers\SchoolSchoolRefresh\SyncSchoolRefreshHandler.cs" />
     <Compile Include="Handlers\SchoolSchoolRefresh\SyncUpdatSchoolRefreshHandler.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\UpdateAlchemySubHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceMember\SubHandler\GetAllianceMemberSubHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceMember\SubHandler\SyncAllianceMemberSubHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceMember\SyncAllianceMemberHandler.cs" />
+    <Compile Include="Handlers\SyncApplyForAlliance\SubHandler\AddApplyForAllianceSubHandler.cs" />
     <Compile Include="Handlers\SyncApplyForAlliance\SubHandler\GetApplyForAllianceSubHandler.cs" />
+    <Compile Include="Handlers\SyncApplyForAlliance\SubHandler\RemoveApplyForAllianceSubHandler.cs" />
     <Compile Include="Handlers\SyncApplyForAlliance\SubHandler\SyncApplyForAllianceSubHandler.cs" />
+    <Compile Include="Handlers\SyncApplyForAlliance\SubHandler\UpdateApplyForAllianceSubHandler.cs" />
     <Compile Include="Handlers\SyncApplyForAlliance\SyncApplyForAllianceHandler.cs" />
     <Compile Include="Handlers\SyncAuction\SubHandler\AddAuctionSubHandler.cs" />
     <Compile Include="Handlers\SyncAuction\SubHandler\GetAuctionSubHandler.cs" />
