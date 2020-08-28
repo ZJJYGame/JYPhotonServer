@@ -33,10 +33,11 @@ namespace AscensionServer
 
 
             NHCriteria nHCriteriallianceApplyFor = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", allianceApplyObj.RoleID);
-            var allianceApplyForTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriallianceApplyFor);
+            var allianceApplyForTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriallianceApplyFor).Result;
 
-            NHCriteria nHCriterialliancemember= ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", allianceObj.AllianceID);
-            var alliancememberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceMember>(nHCriterialliancemember);
+            NHCriteria nHCriterialliancemember= ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("AllianceID", allianceObj.AllianceID);
+            var alliancememberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceMember>(nHCriterialliancemember).Result;
+
 
 
             List<int> applyList = new List<int>();
@@ -47,16 +48,23 @@ namespace AscensionServer
                 {
                     if (alliancememberTemp!=null)
                     {
+                        allianceApplyForTemp.AllianceID = alliancememberTemp.AllianceID;
+                        allianceApplyForTemp.ApplyForAlliance = Utility.Json.ToJson(new List<int>());
                         applyList = Utility.Json.ToObject<List<int>>(alliancememberTemp.ApplyforMember);
                         applyList.Remove(allianceApplyObj.RoleID);
                         memberList = Utility.Json.ToObject<List<int>>(alliancememberTemp.Member);
                         memberList.Add(allianceApplyObj.RoleID);
 
+
                         AllianceMember allianceMember = new AllianceMember() { AllianceID= alliancememberTemp .AllianceID,ApplyforMember=Utility.Json.ToJson(applyList),Member= Utility.Json.ToJson(memberList) };
+                        AscensionServer._Log.Info("修改后仙盟成员数据" + Utility.Json.ToJson(allianceMember));
                         ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceMember);
+                        ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceApplyForTemp);
+
                     }
                     SetResponseData(() =>
                     {
+                        SubDict.Add((byte)ParameterCode.ApplyForAlliance, Utility.Json.ToJson(allianceApplyObj));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }

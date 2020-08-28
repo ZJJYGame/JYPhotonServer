@@ -47,7 +47,7 @@ namespace AscensionServer
             });
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-
+            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaalliancemember);
         }
     }
 }
