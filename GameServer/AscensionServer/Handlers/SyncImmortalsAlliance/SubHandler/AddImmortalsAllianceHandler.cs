@@ -50,6 +50,9 @@ namespace AscensionServer
 
                 var allianceslIstObj = ConcurrentSingleton<NHManager>.Instance.Insert(alliancestatusObj);
                 AscensionServer._Log.Info("添加的仙盟id为" + allianceslIstObj.ID);
+
+                AllianceMember allianceMember = new AllianceMember() { AllianceID = allianceslIstObj.ID, ApplyforMember = Utility.Json.ToJson(new List<int>() { }) ,Member = Utility.Json.ToJson(new List<int>() { roleAllianceObj .RoleID}) };
+                ConcurrentSingleton<NHManager>.Instance.Insert(allianceMember);
                 gangslist.Add(allianceslIstObj.ID);
                 allianceTemp.AllianceList = Utility.Json.ToJson(gangslist);
                 ConcurrentSingleton<NHManager>.Instance.Update(allianceTemp);

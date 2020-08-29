@@ -43,7 +43,23 @@ namespace AscensionServer
                 roleallianceTemp.ReputationHistroy = 0;
                 roleallianceTemp.ReputationMonth = 0;
                 ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleallianceTemp);
+
+                RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { AllianceID = roleallianceTemp.AllianceID, AllianceJob = roleallianceTemp.AllianceJob, JoinTime = roleallianceTemp.JoinTime, ApplyForAlliance = Utility.Json.ToObject<List<int>>(roleallianceTemp.ApplyForAlliance), JoinOffline = roleallianceTemp.JoinOffline, Reputation = roleallianceTemp.Reputation, ReputationHistroy = roleallianceTemp.ReputationHistroy, ReputationMonth = roleallianceTemp.ReputationMonth, RoleID = roleallianceTemp.RoleID, RoleName = roleallianceTemp.RoleName };
+                SetResponseData(() =>
+                {
+                    SubDict.Add((byte)ParameterCode.RoleAlliance, Utility.Json.ToJson(roleAllianceDTO));
+                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                });
+                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaAlliances);
             }
+            else
+            {
+                SetResponseData(() =>
+                {
+                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                });
+            }
+            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
         }
     }
 }

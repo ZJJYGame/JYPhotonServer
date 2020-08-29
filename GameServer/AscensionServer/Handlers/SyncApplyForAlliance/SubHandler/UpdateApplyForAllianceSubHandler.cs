@@ -30,7 +30,7 @@ namespace AscensionServer
             var allianceApplyObj = Utility.Json.ToObject<ApplyForAllianceDTO>(allianceApplyJson);
             string allianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
             var allianceObj = Utility.Json.ToObject<AllianceMember>(allianceJson);
-
+            AscensionServer._Log.Info("收到的同意的仙盟成员数据" + allianceApplyJson+"lianmeng数据位 "+ allianceJson);
 
             NHCriteria nHCriteriallianceApplyFor = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", allianceApplyObj.RoleID);
             var allianceApplyForTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriallianceApplyFor).Result;
@@ -54,6 +54,7 @@ namespace AscensionServer
                         applyList.Remove(allianceApplyObj.RoleID);
                         memberList = Utility.Json.ToObject<List<int>>(alliancememberTemp.Member);
                         memberList.Add(allianceApplyObj.RoleID);
+
 
 
                         AllianceMember allianceMember = new AllianceMember() { AllianceID= alliancememberTemp .AllianceID,ApplyforMember=Utility.Json.ToJson(applyList),Member= Utility.Json.ToJson(memberList) };
