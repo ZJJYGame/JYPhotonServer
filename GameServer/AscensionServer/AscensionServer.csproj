@@ -237,6 +237,7 @@
     <Compile Include="Handlers\SchoolSchoolRefresh\SyncUpdatSchoolRefreshHandler.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\UpdateAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceMember\SubHandler\GetAllianceMemberSubHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceMember\SubHandler\RemoveAllianceMemberSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceMember\SubHandler\SyncAllianceMemberSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceMember\SyncAllianceMemberHandler.cs" />
     <Compile Include="Handlers\SyncApplyForAlliance\SubHandler\AddApplyForAllianceSubHandler.cs" />
@@ -267,7 +268,6 @@
     <Compile Include="Handlers\SyncPuppet\SubHandler\UpdatePuppetSubHandler.cs" />
     <Compile Include="Handlers\SyncPuppet\SyncPuppetHandler.cs" />
     <Compile Include="Handlers\SyncRoleAlliance\SubHandler\GetRoleAllianceSubHandler.cs" />
-    <Compile Include="Handlers\SyncRoleAlliance\SubHandler\RemoveRoleAllianceSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAlliance\SubHandler\SyncRoleAllianceSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAlliance\SyncRoleAllianceHandler.cs" />
     <Compile Include="Handlers\SyncRoleAssets\SubHandler\RemoveRoleAssetsSubHandler.cs" />
