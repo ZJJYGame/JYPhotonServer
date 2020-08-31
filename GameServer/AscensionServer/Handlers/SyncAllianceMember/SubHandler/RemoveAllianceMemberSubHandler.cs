@@ -28,7 +28,7 @@ namespace AscensionServer
             string allianceMemberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
             var allianceMemberObj = Utility.Json.ToObject<AllianceMemberDTO>(allianceMemberJson);
 
-            NHCriteria nHCriteriallianceMember = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("AllianceID", allianceMemberObj.AllianceID);
+            NHCriteria nHCriteriallianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceMemberObj.AllianceID);
             var allianceMemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceMember>(nHCriteriallianceMember);
 
             List<NHCriteria> nHCriterias = new List<NHCriteria>();
@@ -40,7 +40,7 @@ namespace AscensionServer
                 {
                     for (int i = 0; i < allianceMemberObj.Member.Count; i++)
                     {
-                        NHCriteria nHCriteriMember = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", allianceMemberObj.Member[i]);
+                        NHCriteria nHCriteriMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", allianceMemberObj.Member[i]);
                         nHCriterias.Add(nHCriteriMember);
                         var MemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriMember);
                         MemberTemp.AllianceID = 0;
@@ -65,7 +65,7 @@ namespace AscensionServer
                 }
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriterias);
+            GameManager.ReferencePoolManager.Despawns(nHCriterias);
         }
     }
 }
