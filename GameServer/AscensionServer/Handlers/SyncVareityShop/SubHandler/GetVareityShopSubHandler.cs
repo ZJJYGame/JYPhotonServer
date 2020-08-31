@@ -40,7 +40,7 @@ namespace AscensionServer
             if (string.IsNullOrEmpty(vareitycontent))
             {
                 AscensionServer._Log.Info("储存进Redis成功了杂货铺名字是" + vareityname + "内容是" + vareitycontent);
-                NHCriteria nHCriteriavareitycontent = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", vareitypurchaseObj.RoleID);
+                NHCriteria nHCriteriavareitycontent = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", vareitypurchaseObj.RoleID);
                 var vareitycontentTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<VareityPurchaseRecord>(nHCriteriavareitycontent);
                 if (vareitycontentTemp != null)
                 {
@@ -70,7 +70,7 @@ namespace AscensionServer
 
             if (string.IsNullOrEmpty(content))
             {
-                NHCriteria nHCriteriavareity = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("VareityshopID", vareityObj.VareityshopID);
+                NHCriteria nHCriteriavareity = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("VareityshopID", vareityObj.VareityshopID);
                 var vareityTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<VareityShop>(nHCriteriavareity);
 
                 if (vareityTemp != null)
@@ -81,7 +81,7 @@ namespace AscensionServer
                         AllGoodsList = Utility.Json.ToObject<Dictionary<int, List<GoodsStatus>>>(vareityTemp.AllGoods);
                         VareityShopDTO vareityShopDTO = new VareityShopDTO() { VareityshopID = vareityObj.VareityshopID, AllGoods = AllGoodsList };
                         shopDIct.Add("VareityShop", Utility.Json.ToJson(vareityShopDTO));
-                        ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriavareity);
+                        GameManager.ReferencePoolManager.Despawns(nHCriteriavareity);
                     }
                 }
             }

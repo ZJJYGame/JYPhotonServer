@@ -25,14 +25,14 @@ namespace AscensionServer
             AscensionServer._Log.Info(">>>>>>>>>>>>接收秘术数据：" + receivedData + ">>>>>>>>>>>>>>>>>>>>>>");
             var receivedRoleObj = Utility.Json.ToObject<RoleMiShu>(receivedRoleData);
             var receivedObj = Utility.Json.ToObject<MiShu>(receivedData);
-            NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
+            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
             bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleMiShu>(nHCriteriaRoleID);
             int intInfoObj = 0;
             int intLevel = 0;
             if (exist)
             {
                 RoleMiShu MishuInfo = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriaRoleID);
-                NHCriteria nHCriteriaMiShuID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", receivedObj.ID);
+                NHCriteria nHCriteriaMiShuID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", receivedObj.ID);
                 bool existMiShu = ConcurrentSingleton<NHManager>.Instance.Verify<MiShu>(nHCriteriaMiShuID);
                 if (existMiShu)
                 {
@@ -66,7 +66,7 @@ namespace AscensionServer
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleID);
+            GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
         }
     }
 }

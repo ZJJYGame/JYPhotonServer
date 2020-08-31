@@ -26,7 +26,7 @@ namespace AscensionServer
             var rolepetObj = Utility.Json.ToObject<RolePet>(rpJson);
             var petObj = Utility.Json.ToObject<Pet>(pJson);
             var petstatusObj = Utility.Json.ToObject<PetStatus>(psJson);
-            NHCriteria nHCriteriaroleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
+            NHCriteria nHCriteriaroleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
             var rolepet = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RolePet>(nHCriteriaroleID);
             Dictionary<int, int> petDict;
             if (rolepet!=null)
@@ -70,7 +70,7 @@ namespace AscensionServer
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaroleID);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaroleID);
         }
     }
 }

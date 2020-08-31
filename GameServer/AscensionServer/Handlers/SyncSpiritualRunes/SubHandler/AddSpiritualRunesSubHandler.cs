@@ -23,7 +23,7 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string spiritualRuneJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobSpiritualRunes));
             var spiritualRuneObj = Utility.Json.ToObject<SpiritualRunesDTO>(spiritualRuneJson);
-            NHCriteria nHCriteriaspiritualRune = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", spiritualRuneObj.RoleID);
+            NHCriteria nHCriteriaspiritualRune = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", spiritualRuneObj.RoleID);
             var spiritualRuneTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SpiritualRunes>(nHCriteriaspiritualRune);
             HashSet<int> spiritualRuneHash = new HashSet<int>();
             if (spiritualRuneTemp != null)
@@ -51,7 +51,7 @@ namespace AscensionServer
             else
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaspiritualRune);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaspiritualRune);
         }
     }
 }

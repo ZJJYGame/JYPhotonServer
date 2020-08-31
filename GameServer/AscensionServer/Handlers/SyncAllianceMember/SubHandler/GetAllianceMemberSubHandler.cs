@@ -27,7 +27,7 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string allianceMemberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
             var allianceMemberObj = Utility.Json.ToObject<AllianceMemberDTO>(allianceMemberJson);
-            NHCriteria nHCriteriallianceMember = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("AllianceID", allianceMemberObj.AllianceID);
+            NHCriteria nHCriteriallianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceMemberObj.AllianceID);
             var allianceMemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceMember>(nHCriteriallianceMember);
             AscensionServer._Log.Info("发送的仙盟的所有成员" + allianceMemberTemp.Member);
             List<int> memberList = new List<int>();
@@ -40,7 +40,7 @@ namespace AscensionServer
                     memberList = Utility.Json.ToObject<List<int>>(allianceMemberTemp.Member);
                     for (int i = 0; i < memberList.Count; i++)
                     {
-                        NHCriteria nHCriteriMember = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", memberList[i]);
+                        NHCriteria nHCriteriMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", memberList[i]);
                         nHCriterias.Add(nHCriteriMember);
                         var MemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriMember);
                         RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { AllianceID = MemberTemp.AllianceID, AllianceJob = MemberTemp.AllianceJob, JoinTime = MemberTemp.JoinTime, ApplyForAlliance = Utility.Json.ToObject<List<int>>(MemberTemp.ApplyForAlliance), JoinOffline = MemberTemp.JoinOffline, Reputation = MemberTemp.Reputation, ReputationHistroy = MemberTemp.ReputationHistroy, ReputationMonth = MemberTemp.ReputationMonth, RoleID = MemberTemp.RoleID, RoleName = MemberTemp.RoleName };
@@ -63,7 +63,7 @@ namespace AscensionServer
                 }
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriterias);
+            GameManager.ReferencePoolManager.Despawns(nHCriterias);
         }
     }
 }

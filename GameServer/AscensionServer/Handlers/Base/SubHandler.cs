@@ -40,7 +40,7 @@ namespace AscensionServer
         }
         public Dictionary<byte, object> SubDict { get; protected set; }
 
-        protected void SetResponseData(CFAction callBack)
+        protected void SetResponseData(Action callBack)
         {
             SubDict.Clear();
             callBack?.Invoke();

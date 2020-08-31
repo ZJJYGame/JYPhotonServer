@@ -22,7 +22,7 @@ namespace AscensionServer
             string roleJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role));
             AscensionServer._Log.Info(">>>>>>>>>>>>>GetRoleAssetsSubHandler\n" + roleJson + "\n GetRoleAssetsSubHandler >>>>>>>>>>>>>>>>>>>>>>");
             var roleObj = Utility.Json.ToObject<Role>(roleJson);
-            NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
+            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
             var obj =ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Role>(nHCriteriaRoleID);
             if (obj != null)
             {
@@ -45,7 +45,7 @@ namespace AscensionServer
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
         }
     }
 }

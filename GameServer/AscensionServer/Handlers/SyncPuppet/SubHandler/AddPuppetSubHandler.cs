@@ -25,7 +25,7 @@ namespace AscensionServer
             string puppetJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobPuppet));
             AscensionServer._Log.Info("得到的傀儡为" + puppetJson);
             var puppetObj = Utility.Json.ToObject<PuppetDTO>(puppetJson);
-            NHCriteria nHCriteriaPuppet = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", puppetObj.RoleID);
+            NHCriteria nHCriteriaPuppet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", puppetObj.RoleID);
             var puppetTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Puppet>(nHCriteriaPuppet);
             HashSet<int> puppetHash = new HashSet<int>();
             if (puppetTemp!=null)
@@ -53,7 +53,7 @@ namespace AscensionServer
             else
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaPuppet);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaPuppet);
         }
     }
 }

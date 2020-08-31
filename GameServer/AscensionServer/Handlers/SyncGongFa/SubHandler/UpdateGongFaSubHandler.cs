@@ -25,14 +25,14 @@ namespace AscensionServer
             AscensionServer._Log.Info(">>>>>>>>>>>>接收功法数据：" + receivedData + ">>>>>>>>>>>>>>>>>>>>>>");
             var receivedRoleObj = Utility.Json.ToObject<RoleGongFa>(receivedRoleData);
             var receivedObj = Utility.Json.ToObject<CultivationMethod>(receivedData);
-            NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
+            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
             bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleGongFa>(nHCriteriaRoleID);
             int intInfoObj = 0;
             int intLevel = 0; 
             if (exist)
             {
                 RoleGongFa GongfaInfo = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleGongFa>(nHCriteriaRoleID);
-                NHCriteria nHCriteriaGongFaID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", receivedObj.ID);
+                NHCriteria nHCriteriaGongFaID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", receivedObj.ID);
                 bool existGongFa = ConcurrentSingleton<NHManager>.Instance.Verify<CultivationMethod>(nHCriteriaGongFaID);
                 if (existGongFa)
                 {
@@ -65,7 +65,7 @@ namespace AscensionServer
                 Owner. OpResponse.ReturnCode = (short)ReturnCode.Fail;
             }
             peer.SendOperationResponse(Owner. OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleID);
+            GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
         }
     }
 }

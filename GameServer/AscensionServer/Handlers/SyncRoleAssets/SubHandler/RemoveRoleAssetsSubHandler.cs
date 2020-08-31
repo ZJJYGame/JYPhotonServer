@@ -24,7 +24,7 @@ namespace AscensionServer
             string roleAssetsJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleAssets));
 
             var roleAssetsObj = Utility.Json.ToObject<RoleAssets>(roleAssetsJson);
-            NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleAssetsObj.RoleID);
+            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleAssetsObj.RoleID);
             bool roleExist = ConcurrentSingleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID);
             bool roleAssetsExist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleAssets>(nHCriteriaRoleID);
             long SpiritStonesLow = 0;
@@ -48,7 +48,7 @@ namespace AscensionServer
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
             AscensionServer._Log.Info(">>>>>>>>>>>>>發送囘u去：" + roleAssetsJson + ">>>>>>>>>>>>>>>>>>>>>>");
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
         }
     }
 }

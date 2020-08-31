@@ -28,7 +28,7 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string subDataJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.OnOffLine));
             var onofflinetemp = Utility.Json.ToObject<OnOffLine>(subDataJson);
-            NHCriteria nHCriteriaOnoff = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
+            NHCriteria nHCriteriaOnoff = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
             var obj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<OnOffLine>(nHCriteriaOnoff);
             if (obj != null)
             {
@@ -45,7 +45,7 @@ namespace AscensionServer
                 ConcurrentSingleton<NHManager>.Instance.Insert(onofflinetemp);
             }
             //peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaOnoff);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaOnoff);
         }
     }
 }

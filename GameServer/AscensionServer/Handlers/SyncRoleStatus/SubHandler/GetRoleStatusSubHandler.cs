@@ -23,7 +23,7 @@ namespace AscensionServer
             string roleJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role));
             
             var roleObj = Utility.Json.ToObject<Role>(roleJson);
-            NHCriteria nHCriteriaRoleId = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
+            NHCriteria nHCriteriaRoleId = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
             bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleId);
             if (exist)
             {
@@ -39,7 +39,7 @@ namespace AscensionServer
             else
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleId);
+            GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleId);
         }
     }
 }

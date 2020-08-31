@@ -29,8 +29,8 @@ namespace AscensionServer
             string subDataJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.OnOffLine));
             var onofflinetemp = Utility.Json.ToObject<OnOffLine>(subDataJson);
             Bottleneck bottleneck = new Bottleneck() {RoleID= onofflinetemp.RoleID };
-            NHCriteria nHCriteriabottleneck = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", bottleneck.RoleID);
-            NHCriteria nHCriteriaRole = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
+            NHCriteria nHCriteriabottleneck = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", bottleneck.RoleID);
+            NHCriteria nHCriteriaRole = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
             var bottleneckObj= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Bottleneck>(nHCriteriabottleneck);
             ///获取的时间秒
             OffLineTimeDTO offLineTime = new OffLineTimeDTO() { RoleID = onofflinetemp.RoleID };
@@ -97,7 +97,7 @@ namespace AscensionServer
                 });
                 }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRole);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaRole);
         }
     }
     }

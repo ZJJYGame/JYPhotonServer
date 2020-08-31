@@ -31,7 +31,7 @@ namespace AscensionServer
         }
         public RoomCache CreateRoom()
         {
-            var room= ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<RoomCache>();
+            var room= GameManager.ReferencePoolManager.Spawn<RoomCache>();
             int roomID = CreateRoomID();
             if (roomDict.ContainsKey(roomID))
             {
@@ -54,7 +54,7 @@ namespace AscensionServer
         {
             foreach (var  room in roomDict.Values)
             {
-                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawn(room);
+                GameManager.ReferencePoolManager.Despawn(room);
             }
             roomDict.Clear();
         }

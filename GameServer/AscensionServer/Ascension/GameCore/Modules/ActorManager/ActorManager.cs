@@ -68,7 +68,7 @@ namespace AscensionServer
                 if (result)
                 {
                     Actor<AscensionPeer> oldAct=actB as Actor<AscensionPeer>;
-                    ConcurrentSingleton<ReferencePoolManager>.Instance.Despawn(oldAct);
+                    GameManager.ReferencePoolManager.Despawn(oldAct);
                 }
                 var act = Actor<AscensionPeer>.Create((byte)ActorTypeEnum.Player, id, peer);
                 actorPoolDict[typeID].AddOrUpdate(id, act);

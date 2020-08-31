@@ -27,7 +27,7 @@ namespace AscensionServer
             string petptitudeJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.PetPtitude));
 
             var petaptitudeObj = Utility.Json.ToObject<PetaPtitudeDTO>(petptitudeJson);
-            NHCriteria nHCriteriapetaptitude = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("PetID", petaptitudeObj.PetID);
+            NHCriteria nHCriteriapetaptitude = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petaptitudeObj.PetID);
             var petaptitudeTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<PetaPtitude>(nHCriteriapetaptitude);
 
             if (petaptitudeTemp != null)
@@ -43,7 +43,7 @@ namespace AscensionServer
             }else
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriapetaptitude);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriapetaptitude);
         }
 
         PetaPtitude AddaPtitude(PetaPtitudeDTO petStatusclient, PetaPtitude petStatusserver)

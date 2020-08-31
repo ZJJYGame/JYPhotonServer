@@ -27,8 +27,8 @@ namespace AscensionServer
             //根据发送过来的请求获得用户名和密码
             string userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.User));
             var userObj = Utility.Json.ToObject<User>(userJson);
-            NHCriteria nHCriteriaAccount = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
-            NHCriteria nHCriteriaPassword = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Password", userObj.Password);
+            NHCriteria nHCriteriaAccount = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
+            NHCriteria nHCriteriaPassword = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("Password", userObj.Password);
             bool verified = ConcurrentSingleton<NHManager>.Instance.Verify<User>(nHCriteriaAccount, nHCriteriaPassword);
             ResponseData.Clear();
             //如果验证成功，把成功的结果利用response.ReturnCode返回成功给客户端
@@ -49,7 +49,7 @@ namespace AscensionServer
                 OpResponse.ReturnCode = (short)ReturnCode.Fail;
             }
             peer.SendOperationResponse(OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaAccount, nHCriteriaPassword);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaAccount, nHCriteriaPassword);
         }
     }
 }

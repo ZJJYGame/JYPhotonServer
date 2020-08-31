@@ -25,7 +25,7 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string tacticformationJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobTacticFormation));
             var tacticformationObj = Utility.Json.ToObject<TacticFormationDTO>(tacticformationJson);
-            NHCriteria  nHCriteriatacticformation =ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", tacticformationObj.RoleID);
+            NHCriteria  nHCriteriatacticformation = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", tacticformationObj.RoleID);
             var tacticformationTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<TacticFormation>(nHCriteriatacticformation);
             int Level = 0;
             int Exp = 0;
@@ -57,7 +57,7 @@ namespace AscensionServer
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriatacticformation);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriatacticformation);
         }
     }
 }

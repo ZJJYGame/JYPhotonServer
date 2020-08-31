@@ -110,7 +110,7 @@ namespace AscensionServer
                 AscensionServer._Log.Info("============AscensionPeer.RecordOnOffLine() : Can't RecordOnOffLine ============");
                 return;
             }
-            NHCriteria nHCriteriaOnOff = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleID);
+            NHCriteria nHCriteriaOnOff = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
             var obj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<OffLineTime>(nHCriteriaOnOff);
             if (obj != null)
             {
@@ -120,13 +120,13 @@ namespace AscensionServer
             }
             else
             {
-                var offLineTimeTmp = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<OffLineTime>();
+                var offLineTimeTmp = GameManager.ReferencePoolManager.Spawn<OffLineTime>();
                 offLineTimeTmp.RoleID = roleID;
                 offLineTimeTmp.OffTime = DateTime.Now.ToString();
                 ConcurrentSingleton<NHManager>.Instance.Insert(offLineTimeTmp);
-                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawn(offLineTimeTmp);
+                GameManager.ReferencePoolManager.Despawn(offLineTimeTmp);
             }
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaOnOff);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaOnOff);
             AscensionServer._Log.Info("同步离线时间成功");
         }
 

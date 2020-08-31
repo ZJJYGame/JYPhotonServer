@@ -30,18 +30,18 @@ namespace AscensionServer
             {          
                 foreach (var roleId in roleobj)
                 {
-                    NHCriteria nHCriteriarole = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleId);
+                    NHCriteria nHCriteriarole = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
                     var roleschoolObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleSchool>(nHCriteriarole);
                     var verify= ConcurrentSingleton<NHManager>.Instance.Verify<RoleSchool>(nHCriteriarole);
                     if (verify)
                     {
                         if (roleschoolObj.RoleJoiningSchool!=null)
                         {
-                            NHCriteria nHCriteriaSchool = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", roleschoolObj.RoleJoiningSchool);
+                            NHCriteria nHCriteriaSchool = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleschoolObj.RoleJoiningSchool);
                             var schoolObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
                             schoolDict.Add(roleId, schoolObj);
 
-                            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaSchool);
+                            GameManager.ReferencePoolManager.Despawns(nHCriteriaSchool);
                         }else
                             schoolDict.Clear();
 
@@ -56,7 +56,7 @@ namespace AscensionServer
                         peer.SendOperationResponse(Owner.OpResponse, sendParameters);
                         return;
                     }
-                    ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriarole);
+                    GameManager.ReferencePoolManager.Despawns(nHCriteriarole);
                     
                 }
              

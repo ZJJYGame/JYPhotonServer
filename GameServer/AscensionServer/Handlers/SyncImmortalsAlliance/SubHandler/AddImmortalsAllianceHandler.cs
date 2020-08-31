@@ -33,18 +33,18 @@ namespace AscensionServer
                 (roleAllianceJson);
 
             AscensionServer._Log.Info("获得的发过来的仙盟数据" + alliancestatusJson+"及盟主信息"+ roleAllianceJson);
-            NHCriteria nHCriteriaAllianceName = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("AllianceName", alliancestatusObj.AllianceName);
+            NHCriteria nHCriteriaAllianceName = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceName", alliancestatusObj.AllianceName);
             var alliance = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceStatus>(nHCriteriaAllianceName);
 
 
             List<string> Alliancelist = new List<string>();
-            NHCriteria nHCriteriaroleAlliance = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleAllianceObj.RoleID);
+            NHCriteria nHCriteriaroleAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleAllianceObj.RoleID);
             var roleAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriaroleAlliance);
 
             if (alliance == null)
             {
                 List<int> gangslist = new List<int>();
-                NHCriteria nHCriteriaAllianceList = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", 1);
+                NHCriteria nHCriteriaAllianceList = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", 1);
                 var allianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Alliances>(nHCriteriaAllianceList);
                 gangslist = Utility.Json.ToObject<List<int>>(allianceTemp.AllianceList);
 
@@ -84,7 +84,7 @@ namespace AscensionServer
                     SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(Alliancelist));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
-                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaAllianceList, nHCriteriaAllianceName);
+                GameManager.ReferencePoolManager.Despawns(nHCriteriaAllianceList, nHCriteriaAllianceName);
             }
             else
             {

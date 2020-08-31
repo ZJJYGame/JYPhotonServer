@@ -24,7 +24,7 @@ namespace AscensionServer
             string rolepet = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RolePet));
 
             var rolepetObj = Utility.Json.ToObject<RolePet>(rolepet);
-            NHCriteria nHCriteriaRolePet = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
+            NHCriteria nHCriteriaRolePet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
 
             var rolepets = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RolePet>(nHCriteriaRolePet);
             if (rolepets != null)
@@ -40,7 +40,7 @@ namespace AscensionServer
                     petIDList = Utility.Json.ToObject<Dictionary<int, int>>(RolePetList);
                     foreach (var petid in petIDList)
                     {
-                        NHCriteria nHCriteriapet = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", petid.Key);
+                        NHCriteria nHCriteriapet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petid.Key);
                         Pet petObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriapet);
                         petlist.Add(petObj);
                         nHCriteriasList.Add(nHCriteriapet);
@@ -51,7 +51,7 @@ namespace AscensionServer
                              SubDict.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(petlist));
                              Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                          });
-                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriasList);
+                GameManager.ReferencePoolManager.Despawns(nHCriteriasList);
             }
             else
             {
@@ -62,7 +62,7 @@ namespace AscensionServer
                 });
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRolePet);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaRolePet);
         }
     }
 }

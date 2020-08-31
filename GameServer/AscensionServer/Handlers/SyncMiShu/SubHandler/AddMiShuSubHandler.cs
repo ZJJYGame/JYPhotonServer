@@ -25,7 +25,7 @@ namespace AscensionServer
 
             var roleObj = Utility.Json.ToObject<Role>(roleJson);
             var mishuObj = Utility.Json.ToObject<MiShu>(msJson);
-            NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
+            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
             var roleMiShuObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriaRoleID);
             Dictionary<int, int> mishuDict;
             Dictionary<int, string> DOdict = new Dictionary<int, string>();
@@ -62,7 +62,7 @@ namespace AscensionServer
                 }
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
 
         }
 

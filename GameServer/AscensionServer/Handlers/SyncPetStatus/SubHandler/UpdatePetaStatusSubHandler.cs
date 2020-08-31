@@ -25,7 +25,7 @@ namespace AscensionServer
 
 
             var petstatusObj = Utility.Json.ToObject<PetStatus>(petstatusJson);
-            NHCriteria nHCriteriapetstatus = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("PetID", petstatusObj.PetID);
+            NHCriteria nHCriteriapetstatus = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petstatusObj.PetID);
 
 
             var petstatusTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<PetStatus>(nHCriteriapetstatus);
@@ -44,7 +44,7 @@ namespace AscensionServer
             });
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriapetstatus);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriapetstatus);
         }
 
         #region 待删

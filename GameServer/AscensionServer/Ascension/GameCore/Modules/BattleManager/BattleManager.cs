@@ -18,7 +18,7 @@ namespace AscensionServer
 
         public void StartBattle()
         {
-            var rc = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<RoomCache>();
+            var rc = GameManager.ReferencePoolManager.Spawn<RoomCache>();
         }
         /// <summary>
         /// 转发战斗消息
@@ -42,7 +42,7 @@ namespace AscensionServer
         {
             RoomCache rc;
             roomDict.TryRemove(roomID, out rc);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawn(rc);
+            GameManager.ReferencePoolManager.Despawn(rc);
         }
         public RoomCache GetBattleRoom(int roomID)
         {

@@ -32,10 +32,10 @@ namespace AscensionServer
             var allianceObj = Utility.Json.ToObject<AllianceMember>(allianceJson);
             AscensionServer._Log.Info("收到的同意的仙盟成员数据" + allianceApplyJson+"lianmeng数据位 "+ allianceJson);
 
-            NHCriteria nHCriteriallianceApplyFor = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", allianceApplyObj.RoleID);
+            NHCriteria nHCriteriallianceApplyFor = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", allianceApplyObj.RoleID);
             var allianceApplyForTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriallianceApplyFor).Result;
 
-            NHCriteria nHCriterialliancemember= ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("AllianceID", allianceObj.AllianceID);
+            NHCriteria nHCriterialliancemember= GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceObj.AllianceID);
             var alliancememberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceMember>(nHCriterialliancemember).Result;
 
 

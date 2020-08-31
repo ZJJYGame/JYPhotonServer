@@ -21,7 +21,7 @@ namespace AscensionServer
         {
             var userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.User));
             var userObj = Utility.Json.ToObject<User>(userJson);
-            NHCriteria nHCriteriaAccount = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
+            NHCriteria nHCriteriaAccount = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
             bool isExist = ConcurrentSingleton<NHManager>.Instance.Verify<User>(nHCriteriaAccount);
             ResponseData.Clear();
             OpResponse.OperationCode = operationRequest.OperationCode;
@@ -32,7 +32,7 @@ namespace AscensionServer
                 //添加输入的用户和密码进数据库
                 userObj =  ConcurrentSingleton<NHManager>.Instance.Insert(userObj);
                 AscensionServer._Log.Info("==========\n after add UUID ：" + userJson + "\n" + userObj.UUID+"\n================");
-                NHCriteria nHCriteriaUUID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("UUID", userObj.UUID);
+                NHCriteria nHCriteriaUUID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("UUID", userObj.UUID);
                 bool userRoleExist = ConcurrentSingleton<NHManager>.Instance.Verify<UserRole>(nHCriteriaUUID);
                 if (!userRoleExist)
                 {
@@ -40,7 +40,7 @@ namespace AscensionServer
                     ConcurrentSingleton<NHManager>.Instance.Insert(userRole);
                 }
             OpResponse.ReturnCode = (short)ReturnCode.Success;//返回成功
-                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaUUID);
+                GameManager.ReferencePoolManager.Despawns(nHCriteriaUUID);
             }
             else//否者这个用户被注册了
             {
@@ -48,7 +48,7 @@ namespace AscensionServer
             }
             // 把上面的结果给客户端
             peer.SendOperationResponse(OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaAccount);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaAccount);
         }
     }
 }

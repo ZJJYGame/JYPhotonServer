@@ -36,7 +36,7 @@ namespace AscensionServer
             if (string.IsNullOrEmpty(content))
             {
 
-                NHCriteria nHCriteriaimmortalsAllianceslist= ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", 1);
+                NHCriteria nHCriteriaimmortalsAllianceslist= GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", 1);
                 nhcriteriaList.Add(nHCriteriaimmortalsAllianceslist);
                 var immortalsAllianceslistTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Alliances>(nHCriteriaimmortalsAllianceslist);
 
@@ -49,7 +49,7 @@ namespace AscensionServer
 
                         for (int i = immortalsAllianceObj.Index; i <=immortalsAllianceObj.AllIndex; i++)
                         {
-                            NHCriteria nHCriteriaimmortalsAlliance = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", alliances[i]);
+                            NHCriteria nHCriteriaimmortalsAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", alliances[i]);
                             var alliancestatusTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceStatus>(nHCriteriaimmortalsAlliance);
                             AllianceStatusDTO allianceStatusDTO = new AllianceStatusDTO() { ID= alliancestatusTemp .ID,AllianceLevel= alliancestatusTemp .AllianceLevel,AllianceMaster= alliancestatusTemp .AllianceMaster,AllianceName= alliancestatusTemp .AllianceName,AllianceNumberPeople= alliancestatusTemp .AllianceNumberPeople,AlliancePeopleMax= alliancestatusTemp.AlliancePeopleMax ,Manifesto= alliancestatusTemp .Manifesto,Popularity= alliancestatusTemp .Popularity};
                             ImmortalsAllianceList.Add(allianceStatusDTO);
@@ -63,7 +63,7 @@ namespace AscensionServer
                         {
 
                             AscensionServer._Log.Info("发送的所有仙盟列表" + alliances[i]);
-                            NHCriteria nHCriteriaimmortalsAlliance = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", alliances[i]);
+                            NHCriteria nHCriteriaimmortalsAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", alliances[i]);
                             var alliancestatusTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceStatus>(nHCriteriaimmortalsAlliance);
                             AllianceStatusDTO allianceStatusDTO = new AllianceStatusDTO() { ID = alliancestatusTemp.ID, AllianceLevel = alliancestatusTemp.AllianceLevel, AllianceMaster = alliancestatusTemp.AllianceMaster, AllianceName = alliancestatusTemp.AllianceName, AllianceNumberPeople = alliancestatusTemp.AllianceNumberPeople, AlliancePeopleMax = alliancestatusTemp.AlliancePeopleMax, Manifesto = alliancestatusTemp.Manifesto, Popularity = alliancestatusTemp.Popularity };
 
@@ -78,7 +78,7 @@ namespace AscensionServer
                         SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(ImmortalsAllianceList));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
-                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nhcriteriaList);
+                GameManager.ReferencePoolManager.Despawns(nhcriteriaList);
             }
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);

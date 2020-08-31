@@ -24,7 +24,7 @@ namespace AscensionServer.Handlers
             var dict = ParseSubDict(operationRequest);
             string herbsfieldJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobHerbsField));
             var hfObj = Utility.Json.ToObject<HerbsFieldDTO>(herbsfieldJson);
-            NHCriteria nHCriteriahf = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", hfObj.RoleID);
+            NHCriteria nHCriteriahf = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", hfObj.RoleID);
             AscensionServer._Log.Info("接收到的霛田信息" + herbsfieldJson);
             var hfTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<HerbsField>(nHCriteriahf);
             List<HerbFieldStatus> hfList = new List<HerbFieldStatus>();
@@ -37,7 +37,7 @@ namespace AscensionServer.Handlers
                     {
                         Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
                         peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-                        ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriahf);
+                        GameManager.ReferencePoolManager.Despawns(nHCriteriahf);
                         return;
                     });                  
                 }else
@@ -66,7 +66,7 @@ namespace AscensionServer.Handlers
                 }
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriahf);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriahf);
         }
     }
 }

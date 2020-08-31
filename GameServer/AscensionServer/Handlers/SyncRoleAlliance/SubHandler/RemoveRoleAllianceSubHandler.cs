@@ -26,12 +26,12 @@ namespace AscensionServer
             string roleallianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAlliance));
             var roleallianceObj = Utility.Json.ToObject<RoleAllianceDTO>
   (roleallianceJson);
-            NHCriteria nHCriteriaroleAlliances = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleallianceObj.RoleID);
+            NHCriteria nHCriteriaroleAlliances = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceObj.RoleID);
             var roleallianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriaroleAlliances).Result;
             List<int> memberlist = new List<int>();
             if (roleallianceTemp!=null)
             {
-                NHCriteria nHCriteriaAlliances = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("AllianceID", roleallianceTemp.AllianceID);
+                NHCriteria nHCriteriaAlliances = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", roleallianceTemp.AllianceID);
                 var allianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceMember>(nHCriteriaAlliances).Result;
                 memberlist = Utility.Json.ToObject<List<int>>(allianceTemp.Member);
                 memberlist.Remove(roleallianceObj.RoleID);
@@ -50,7 +50,7 @@ namespace AscensionServer
                     SubDict.Add((byte)ParameterCode.RoleAlliance, Utility.Json.ToJson(roleAllianceDTO));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
-                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaAlliances);
+                GameManager.ReferencePoolManager.Despawns(nHCriteriaAlliances);
             }
             else
             {

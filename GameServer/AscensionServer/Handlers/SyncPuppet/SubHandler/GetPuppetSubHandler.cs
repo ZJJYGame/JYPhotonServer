@@ -24,7 +24,7 @@ namespace AscensionServer.Handlers.SyncPuppet.SubHandler
             var dict = ParseSubDict(operationRequest);
             string puppetJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobPuppet));
             var puppetObj = Utility.Json.ToObject<PuppetDTO>(puppetJson);
-            NHCriteria nHCriteriapuppetObj = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", puppetObj.RoleID);
+            NHCriteria nHCriteriapuppetObj = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", puppetObj.RoleID);
             //AscensionServer._Log.Info("得到的锻造配方" );
             var puppettemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Puppet>(nHCriteriapuppetObj);
             if (puppettemp != null)
@@ -46,7 +46,7 @@ namespace AscensionServer.Handlers.SyncPuppet.SubHandler
                 SubDict.Add((byte)ParameterCode.JobPuppet, Utility.Json.ToJson(new List<string>()));
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriapuppetObj);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriapuppetObj);
         }
     }
 }

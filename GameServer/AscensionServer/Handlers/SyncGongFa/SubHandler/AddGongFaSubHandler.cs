@@ -28,7 +28,7 @@ namespace AscensionServer
             var gongfaObj = Utility.Json.ToObject<CultivationMethod>(gfJson);
             AscensionServer._Log.Info("添加的新的功法为"+ roleJson);
 
-            NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
+            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
             var roleGongFaObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleGongFa>(nHCriteriaRoleID);
             Dictionary<int, int> gongfaDict;
             Dictionary<int, string> DOdict=new Dictionary<int, string>();
@@ -64,7 +64,7 @@ namespace AscensionServer
                 }
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
         }
         
     }

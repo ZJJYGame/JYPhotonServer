@@ -154,10 +154,10 @@ namespace AscensionServer
         /// <returns></returns>
         public T GetNHCriteria<T>(  string  keyname,int key)
         {
-            NHCriteria nHCriteria  = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue(keyname, key);
+            NHCriteria nHCriteria  = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue(keyname, key);
             
             var dataObjectTemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<T>(nHCriteria);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteria);
+            GameManager.ReferencePoolManager.Despawns(nHCriteria);
             return dataObjectTemp.Result;
         }
         /// <summary>
