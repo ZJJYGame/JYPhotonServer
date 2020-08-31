@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Cosmos;
 namespace AscensionServer
 {
-    public  class ModuleBase<TDerived>:ConcurrentSingleton<TDerived>
-        where TDerived:ModuleBase<TDerived>,new()
+    public class NetEventKey
     {
+        public const ushort  TEAM_CMD= 0;
     }
 }

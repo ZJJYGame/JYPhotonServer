@@ -12,23 +12,23 @@ namespace AscensionServer
         /// <summary>
         /// 队长ID
         /// </summary>
-        public int CaptainID{ get; set; }
+        public uint CaptainID{ get; set; }
         /// <summary>
         /// 系统分配的队伍ID
         /// </summary>
-        public int TeamID { get; set; }
+        public uint TeamID { get; set; }
         /// <summary>
         /// 是否队伍满员
         /// </summary>
         public bool IsFull { get { return peerDict.Count >=_TeamCapacity; } }
         readonly short _TeamCapacity = 5;
-        ConcurrentDictionary<int, AscensionPeer> peerDict = new ConcurrentDictionary<int, AscensionPeer>();
+        ConcurrentDictionary<uint, AscensionPeer> peerDict = new ConcurrentDictionary<uint, AscensionPeer>();
         AscensionPeer captain;
         /// <summary>
         /// 初始化队伍
         /// </summary>
         /// <param name="createrID">创建者的ID</param>
-        public void InitTeam(int createrID,int teamID)
+        public void InitTeam(uint createrID,uint teamID)
         {
             TeamID = teamID;
             CaptainID = createrID;
@@ -40,7 +40,7 @@ namespace AscensionServer
         /// <param name="peerID">peerID</param>
         /// <param name="peer">peer对象</param>
         /// <returns>是否加入成功</returns>
-        public bool JoinTeam(int peerID)
+        public bool JoinTeam(uint peerID)
         {
             var peer = RoleManager.Instance.GetPeer(peerID);
             return peerDict.TryAdd(peerID,peer);
@@ -50,7 +50,7 @@ namespace AscensionServer
         /// </summary>
         /// <param name="peerID"></param>
         /// <returns>是否离队成功</returns>
-        public bool LeaveTeam(int peerID)
+        public bool LeaveTeam(uint peerID)
         {
             AscensionPeer peer;
             return peerDict.TryRemove(peerID, out peer);
@@ -60,7 +60,7 @@ namespace AscensionServer
         /// 值一队长有权限
         /// </summary>
         /// <param name="peerID"></param>
-        public bool KickOutOfTeam(int cmdInputterID,int peerID)
+        public bool KickOutOfTeam(uint cmdInputterID,uint peerID)
         {
             if (cmdInputterID != CaptainID)
                 return false;
@@ -82,7 +82,7 @@ namespace AscensionServer
         /// 只有前队长才进行的命令;
         /// </summary>
         /// <param name=""></param>
-        public void PreferredToCaptain(int cmdInputterID,int peerID)
+        public void PreferredToCaptain(uint cmdInputterID,uint peerID)
         {
             if (cmdInputterID != CaptainID)
                 return;
@@ -92,7 +92,7 @@ namespace AscensionServer
         public void Clear()
         {
             peerDict.Clear();
-            CaptainID = -1;
+            CaptainID = 0;
             captain = null;
         }
     }

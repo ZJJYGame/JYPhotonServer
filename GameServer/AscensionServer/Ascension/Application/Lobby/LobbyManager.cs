@@ -10,7 +10,7 @@ namespace AscensionServer
     /// <summary>
     /// 玩家的大厅管理器
     /// </summary>
-    public sealed class LobbyManager:ModuleBase<LobbyManager>
+    public sealed class LobbyManager:Module<LobbyManager>
     {
         Dictionary<int, AscensionPeer> peerDict = new Dictionary<int, AscensionPeer>();
         /// <summary>

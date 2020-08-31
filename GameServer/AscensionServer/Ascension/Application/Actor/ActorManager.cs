@@ -11,7 +11,7 @@ namespace AscensionServer
     /// <summary>
     /// Actor类型为Peer类型
     /// </summary>
-    public sealed class ActorManager : ModuleBase<ActorManager>
+    public sealed class ActorManager : Module<ActorManager>
     {
         /// <summary>
         /// Peer类型的Actor

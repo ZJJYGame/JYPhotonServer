@@ -40,7 +40,7 @@ namespace AscensionServer
                 }
                 catch
                 {
-                    AscensionServer._Log.Info(">>>>>\n" +(OperationCode)operationRequest.OperationCode+" ; " + (SubOperationCode)subCode + " :  has no subHandler \n<<<<<");
+                    Utility.Debug.LogInfo($"{(OperationCode)operationRequest.OperationCode} ;{ (SubOperationCode)subCode }  has no subHandler ");
                 }
             }
         }
@@ -75,7 +75,7 @@ namespace AscensionServer
                     subHandlerResult.Owner = this;
                     subHandlerResult.OnInitialization();
                     RegisterSubHandler(subHandlerResult);
-                    AscensionServer._Log.Info(">>>>> \n " + subHandlerResult.GetType().FullName + " :  OnSubHandlerInitialization \n<<<<<");
+                   Utility.Debug.LogInfo($" {subHandlerResult.GetType().FullName } :  OnSubHandlerInitialization ");
                 }
             }
         }

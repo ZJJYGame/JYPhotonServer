@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cosmos;
 namespace AscensionServer
 {
-    public enum NetworkEventEnum: ushort
+    public class SceneManager:Module<SceneManager>
     {
-        SyncTeamMateCmd=0,
+
     }
 }

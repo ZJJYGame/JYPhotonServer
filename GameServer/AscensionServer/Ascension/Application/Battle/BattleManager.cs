@@ -12,7 +12,7 @@ namespace AscensionServer
     /// 此模块用于转发客户端发送过来的消息到具体战斗容器中；
     /// 此模块非逻辑层，若处理逻辑，则在具体的战斗容器中处理；
     /// </summary>
-    public sealed class BattleManager : ModuleBase<BattleManager>
+    public sealed class BattleManager : Module<BattleManager>
     {
         ConcurrentDictionary<int, RoomCache> roomDict = new ConcurrentDictionary<int, RoomCache>();
 

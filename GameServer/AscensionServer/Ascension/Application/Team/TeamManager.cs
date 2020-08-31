@@ -8,7 +8,7 @@
 //using Cosmos;
 //namespace AscensionServer
 //{
-//    public class TeamManager : ModuleBase<TeamManager>
+//    public class TeamManager : Module<TeamManager>
 //    {
 //        /// <summary>
 //        /// 房间ID长度
@@ -23,26 +23,31 @@
 //        /// </summary>
 //        readonly int _MaxValue = 99999999;
 //        CancellationToken cancelToken = new CancellationToken();
-//        ConcurrentDictionary<int, TeamCache> teamDict = new ConcurrentDictionary<int, TeamCache>();
+//        ConcurrentDictionary<uint, TeamCache> teamDict = new ConcurrentDictionary<uint, TeamCache>();
 //        //ConcurrentVariable<HashSet<int>> matchingQueue = new ConcurrentVariable<HashSet<int>>();
-//        public TeamCache CreateTeam(int createrID)
+//        public TeamCache CreateTeam(uint createrID)
 //        {
 //            if (teamDict.ContainsKey(createrID))
 //                return null;
-//            var tc = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<TeamCache>();
-//            tc.InitTeam(createrID,CreateTeamID());
+//            var tc = GameManager.ReferencePoolManager. Spawn<TeamCache>();
+//            tc.InitTeam(createrID, CreateTeamID());
 //            return tc;
 //        }
-//        public bool LeaveMatchQueue(int peerID)
+//        public bool LeaveMatchQueue(uint peerID)
 //        {
-//            return matchingQueue.Data.Remove(peerID);
+//            //return matchingQueue.Data.Remove(peerID);
 //        }
 //        /// <summary>
 //        ///加入随机匹配队列
 //        /// </summary>
-//        public bool JoinMatchQueue(int peerID)
+//        public bool JoinMatchQueue(uint peerID)
 //        {
 //            return matchingQueue.Data.Add(peerID);
+//        }
+//        public override void OnRefresh()
+//        {
+//            if (IsPause)
+//                return;
 //        }
 //        /// <summary>
 //        /// 服务端会一直运行；
@@ -62,7 +67,7 @@
 //                    foreach (var team in teamDict.Values)
 //                    {
 //                        if (!team.IsFull)
-//                            teamID=team.TeamID;
+//                            teamID = team.TeamID;
 //                    }
 //                    await Task.Run(() =>
 //                    {
@@ -89,7 +94,7 @@
 //        /// <param name="teamID">小队ID</param>
 //        /// <param name="peerID">peerID</param>
 //        /// <returns>是否加入成功</returns>
-//        public bool JoinTeam(int teamID, int peerID)
+//        public bool JoinTeam(uint teamID, uint peerID)
 //        {
 //            TeamCache gc;
 //            if (!teamDict.TryGetValue(teamID, out gc))
@@ -104,7 +109,7 @@
 //        /// <returns>生成后的ID</returns>
 //        int CreateTeamID()
 //        {
-//            int id=Utility.Algorithm.CreateRandomInt( _MinValue, _MaxValue);
+//            uint id = Utility.Algorithm.CreateRandomInt(_MinValue, _MaxValue);
 //            if (!teamDict.ContainsKey(id))
 //                return id;
 //            else

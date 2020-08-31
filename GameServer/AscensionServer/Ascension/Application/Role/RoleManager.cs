@@ -10,16 +10,16 @@ namespace AscensionServer
     /// <summary>
     /// 登录管理，缓存所有登录玩家的peer信息
     /// </summary>
-    public sealed class RoleManager:ModuleBase<RoleManager>
+    public sealed class RoleManager:Module<RoleManager>
     {
-        ConcurrentDictionary<int, AscensionPeer> loggedPeerDict = new ConcurrentDictionary<int, AscensionPeer>();
+        ConcurrentDictionary<uint, AscensionPeer> loggedPeerDict = new ConcurrentDictionary<uint, AscensionPeer>();
         /// <summary>
         /// 将登录成功的Peer进行缓存
         /// </summary>
         /// <param name="peerID">id</param>
         /// <param name="peer">peer</param>
         /// <returns>是否登录成功</returns>
-        public bool Loggin(int peerID, AscensionPeer peer)
+        public bool Loggin(uint peerID, AscensionPeer peer)
         {
             //这里缓存使用redis进行存储，区域分块
             return loggedPeerDict.TryAdd(peerID, peer);
@@ -29,7 +29,7 @@ namespace AscensionServer
         /// </summary>
         /// <param name="peerID">id</param>
         /// <returns>下线成功否</returns>
-        public bool Logoff(int peerID)
+        public bool Logoff(uint peerID)
         {
             AscensionPeer peer;
             return loggedPeerDict.TryRemove(peerID, out peer);
@@ -40,7 +40,7 @@ namespace AscensionServer
         /// </summary>
         /// <param name="peerID"></param>
         /// <param name="peer"></param>
-        public void ExclusionCheck(int peerID, AscensionPeer peer)
+        public void ExclusionCheck(uint peerID, AscensionPeer peer)
         {
             if (loggedPeerDict.ContainsKey(peerID))
             {
@@ -54,7 +54,7 @@ namespace AscensionServer
         /// </summary>
         /// <param name="peerID">id</param>
         /// <returns>peer对象</returns>
-        public AscensionPeer GetPeer(int peerID)
+        public AscensionPeer GetPeer(uint peerID)
         {
             AscensionPeer peer;
             loggedPeerDict.TryGetValue(peerID, out peer);

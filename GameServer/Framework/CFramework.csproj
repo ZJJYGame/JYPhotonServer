@@ -93,6 +93,7 @@
     <Compile Include="CosmosFramework\RunTime\Logger\ILogHelper.cs" />
     <Compile Include="CosmosFramework\RunTime\Logger\LogManager.cs" />
     <Compile Include="CosmosFramework\RunTime\Main\GameManager.cs" />
+    <Compile Include="CosmosFramework\RunTime\Main\GameManager.External.cs" />
     <Compile Include="CosmosFramework\RunTime\Main\GameManagerAgent.cs" />
     <Compile Include="CosmosFramework\RunTime\Main\IModule.cs" />
     <Compile Include="CosmosFramework\RunTime\Main\Module.cs" />
