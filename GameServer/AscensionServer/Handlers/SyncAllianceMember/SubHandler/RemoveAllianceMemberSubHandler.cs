@@ -31,10 +31,11 @@ namespace AscensionServer
             NHCriteria nHCriteriallianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceMemberObj.AllianceID);
             var allianceMemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceMember>(nHCriteriallianceMember);
 
+            #region 待删
             List<NHCriteria> nHCriterias = new List<NHCriteria>();
             nHCriterias.Add(nHCriteriallianceMember);
             List<int> memberlist = new List<int>();
-            if (allianceMemberTemp!=null)
+            if (allianceMemberTemp != null)
             {
                 if (!string.IsNullOrEmpty(allianceMemberTemp.Member))
                 {
@@ -64,6 +65,7 @@ namespace AscensionServer
                     });
                 }
             }
+            #endregion
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriterias);
         }
