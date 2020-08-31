@@ -184,7 +184,7 @@
     <Compile Include="Ascension\Application\Room\Base\BattleInputC2S.cs" />
     <Compile Include="Ascension\Application\Room\Base\RoomCache.cs" />
     <Compile Include="Concurrent\ConcurrentInt.cs" />
-    <Compile Include="DebugHelper\Log4NetDebugHelper.cs" />
+    <Compile Include="Helpers\DebugHelper\Log4NetDebugHelper.cs" />
     <Compile Include="DOMap\AlchemyMap.cs" />
     <Compile Include="DOMap\AllianceMemberMap.cs" />
     <Compile Include="DOMap\AlliancesMap.cs" />
@@ -358,7 +358,6 @@
     <Compile Include="Ascension\AscensionServer.cs" />
     <Compile Include="Caching\ConcurrencyCache.cs" />
     <Compile Include="Caching\PeerCache.cs" />
-    <Compile Include="Container\ClientPeerContainer.cs" />
     <Compile Include="Handlers\Base\Handler.cs" />
     <Compile Include="Handlers\Base\IHandler.cs" />
     <Compile Include="Handlers\Base\ISubHandler.cs" />
@@ -417,7 +416,7 @@
     <Compile Include="Handlers\SyncTasks\SubHandler\SyncTaskSubHandler.cs" />
     <Compile Include="Handlers\SyncTasks\SubHandler\UpdateTaskSubHandler.cs" />
     <Compile Include="Handlers\SyncTasks\SyncTaskHandler.cs" />
-    <Compile Include="JsonHelper\NewtonjsonHelper.cs" />
+    <Compile Include="Helpers\JsonHelper\NewtonjsonHelper.cs" />
     <Compile Include="DOMap\GongFaMap.cs" />
     <Compile Include="DOMap\MiShuMap.cs" />
     <Compile Include="DOMap\OffLineTimeMap.cs" />

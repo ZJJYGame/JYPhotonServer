@@ -28,8 +28,6 @@ namespace AscensionServer
     public partial class AscensionServer : ApplicationBase
     {
         #region Properties
-        //public static IFiber _Fiber { get; private set; }
-        //public static readonly ILogger _Log = LogManager.GetCurrentClassLogger();
         new public static AscensionServer Instance { get; private set; }
         Dictionary<OperationCode, Handler> handlerDict = new Dictionary<OperationCode, Handler>();
         public Dictionary<OperationCode, Handler> HandlerDict { get { return handlerDict; } }
@@ -51,15 +49,13 @@ namespace AscensionServer
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
             var peer = new AscensionPeer(initRequest);
-            Utility.Debug.LogWarning("***********************  Client connected   ***********************");
+            Utility.Debug.LogInfo("Peer connect");
             connectedPeerHashSet.Add(peer);
             return peer;
         }
         protected override void Setup()
         {
             Utility.Debug.SetHelper(new Log4NetDebugHelper());
- 
-
             RefreshData();
             Instance = this;
             log4net.GlobalContext.Properties["Photon:ApplicationLogPath"] = Path.Combine(this.ApplicationRootPath, "log");//配置log的输出位置
@@ -68,7 +64,7 @@ namespace AscensionServer
             {
                 LogManager.SetLoggerFactory(Log4NetLoggerFactory.Instance);
                 XmlConfigurator.ConfigureAndWatch(configFileInfo);//让log4net读取配置文件
-                Utility.Debug.LogInfo("进行初始化");
+                Utility.Debug.LogInfo("Server Start Running");
             }
             InitHandler();
             Utility.Json.SetHelper(new NewtonjsonHelper());
@@ -80,14 +76,10 @@ namespace AscensionServer
             ThreadPool.QueueUserWorkItem(syncRefreshResourcesEvent.Handler);
             ResourcesLoad();
             RedisDotNet.RedisManager.Instance.OnInitialization();
-            Utility.Debug.LogInfo("进行初始化");
-            Utility.Debug.LogError("进行初始化");
-            Utility.Debug.LogWarning("进行初始化");
         }
-        //TODO 服务器心跳检测
         protected override void TearDown()
         {
-            Utility.Debug.LogWarning("***********************  Server Shotdown !!! ***********************");
+            Utility.Debug.LogInfo("Server Shutdown");
             handlerDict.Clear();
         }
         void InitHandler()
@@ -102,7 +94,6 @@ namespace AscensionServer
                     {
                         var handler = Utility.Assembly.GetTypeInstance(types[i]) as Handler;
                         handler.OnInitialization();
-                        //Utility.Debug.LogInfo($"Handler start initialization : { handler.GetType().FullName }+ Initialization Done !");
                     }
                 }
             }
