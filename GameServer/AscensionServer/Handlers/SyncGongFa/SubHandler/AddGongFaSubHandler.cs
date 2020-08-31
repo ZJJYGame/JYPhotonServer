@@ -26,7 +26,7 @@ namespace AscensionServer
 
             var roleObj = Utility.Json.ToObject<Role>(roleJson);
             var gongfaObj = Utility.Json.ToObject<CultivationMethod>(gfJson);
-            AscensionServer._Log.Info("添加的新的功法为"+ roleJson);
+            Utility.Debug.LogInfo("添加的新的功法为"+ roleJson);
 
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
             var roleGongFaObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleGongFa>(nHCriteriaRoleID);
@@ -39,8 +39,8 @@ namespace AscensionServer
                     gongfaDict= Utility.Json.ToObject<Dictionary<int, int>>(roleGongFaObj.GongFaIDArray);
                     if (gongfaDict.Values.ToList().Contains(gongfaObj.CultivationMethodID))
                     {
-                        AscensionServer._Log.Info("人物已经学会的功法" + roleGongFaObj.GongFaIDArray);
-                        AscensionServer._Log.Info("人物已经学会此功法无法添加新的功法"+ gongfaObj.CultivationMethodID);
+                        Utility.Debug.LogInfo("人物已经学会的功法" + roleGongFaObj.GongFaIDArray);
+                        Utility.Debug.LogInfo("人物已经学会此功法无法添加新的功法"+ gongfaObj.CultivationMethodID);
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
 
                         Owner.ResponseData.Add((byte)ParameterCode.RoleGongFa, null);

@@ -24,7 +24,7 @@ namespace AscensionServer
         {
             var dict = ParseSubDict(operationRequest);
             string tacticFormationJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobTacticFormation));
-            AscensionServer._Log.Info("得到的阵法为"+tacticFormationJson);
+            Utility.Debug.LogInfo("得到的阵法为"+tacticFormationJson);
             var tacticFormationObj = Utility.Json.ToObject<TacticFormationDTO>(tacticFormationJson);
             NHCriteria nHCriteriatacticFormation = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", tacticFormationObj.RoleID);
             var tacticFormatioTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<TacticFormation>(nHCriteriatacticFormation);

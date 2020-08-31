@@ -28,8 +28,8 @@ namespace AscensionServer
     public partial class AscensionServer : ApplicationBase
     {
         #region Properties
-        public static IFiber _Fiber { get; private set; }
-        public static readonly ILogger _Log = LogManager.GetCurrentClassLogger();
+        //public static IFiber _Fiber { get; private set; }
+        //public static readonly ILogger _Log = LogManager.GetCurrentClassLogger();
         new public static AscensionServer Instance { get; private set; }
         Dictionary<OperationCode, Handler> handlerDict = new Dictionary<OperationCode, Handler>();
         public Dictionary<OperationCode, Handler> HandlerDict { get { return handlerDict; } }
@@ -58,6 +58,8 @@ namespace AscensionServer
         protected override void Setup()
         {
             Utility.Debug.SetHelper(new Log4NetDebugHelper());
+ 
+
             RefreshData();
             Instance = this;
             log4net.GlobalContext.Properties["Photon:ApplicationLogPath"] = Path.Combine(this.ApplicationRootPath, "log");//配置log的输出位置
@@ -78,6 +80,9 @@ namespace AscensionServer
             ThreadPool.QueueUserWorkItem(syncRefreshResourcesEvent.Handler);
             ResourcesLoad();
             RedisDotNet.RedisManager.Instance.OnInitialization();
+            Utility.Debug.LogInfo("进行初始化");
+            Utility.Debug.LogError("进行初始化");
+            Utility.Debug.LogWarning("进行初始化");
         }
         //TODO 服务器心跳检测
         protected override void TearDown()
@@ -97,7 +102,7 @@ namespace AscensionServer
                     {
                         var handler = Utility.Assembly.GetTypeInstance(types[i]) as Handler;
                         handler.OnInitialization();
-                        Utility.Debug.LogInfo($"Handler start initialization : { handler.GetType().FullName }+ Initialization Done !");
+                        //Utility.Debug.LogInfo($"Handler start initialization : { handler.GetType().FullName }+ Initialization Done !");
                     }
                 }
             }

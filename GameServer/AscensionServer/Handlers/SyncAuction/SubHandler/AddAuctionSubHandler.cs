@@ -42,16 +42,16 @@ namespace AscensionServer
                     RedisKey = auctionGoodsObj.GUID,
                     Price = auctionGoodsObj.Price
                 });
-                AscensionServer._Log.Info("存在key");
-                AscensionServer._Log.Info(Utility.Json.ToJson(tempAuctionGoods));
+                Utility.Debug.LogInfo("存在key");
+                Utility.Debug.LogInfo(Utility.Json.ToJson(tempAuctionGoods));
                 tempAuctionGoods.Sort();
-                AscensionServer._Log.Info(Utility.Json.ToJson(tempAuctionGoods));
+                Utility.Debug.LogInfo(Utility.Json.ToJson(tempAuctionGoods));
 
                 RedisHelper.Hash.HashSetAsync("AuctionIndex", auctionGoodsObj.GlobalID.ToString(), tempAuctionGoods);
             }
             else
             {
-                AscensionServer._Log.Info("不存在key");
+                Utility.Debug.LogInfo("不存在key");
                 List<AuctionGoodsIndex> tempAuctionGoods = new List<AuctionGoodsIndex>();
                 tempAuctionGoods.Add(new AuctionGoodsIndex()
                 {

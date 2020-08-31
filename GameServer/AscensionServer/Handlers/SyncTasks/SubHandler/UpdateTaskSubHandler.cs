@@ -20,7 +20,7 @@ namespace AscensionServer
         {
             ResetResponseData(operationRequest);
             string roletask = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Task));
-            AscensionServer._Log.Info(">>>>>>>>>>>>>更新任务相关信息：" + roletask + ">>>>>>>>>>>>>>>>>>>>>>");
+            Utility.Debug.LogInfo(">>>>>>>>>>>>>更新任务相关信息：" + roletask + ">>>>>>>>>>>>>>>>>>>>>>");
             var roletaskobj = Utility.Json.ToObject<RoleTaskProgressDTO>(roletask);
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roletaskobj.RoleID);
             bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleTaskProgress>(nHCriteriaRoleID);

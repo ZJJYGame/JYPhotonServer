@@ -55,7 +55,7 @@ namespace AscensionServer
                         applyList.Remove(allianceApplyObj.RoleID);
 
                         AllianceMember allianceMember = new AllianceMember() { AllianceID = alliancememberTemp.AllianceID, ApplyforMember = Utility.Json.ToJson(applyList), Member = alliancememberTemp.Member };
-                        AscensionServer._Log.Info("修改后仙盟成员数据" + Utility.Json.ToJson(allianceMember));
+                        Utility.Debug.LogInfo("修改后仙盟成员数据" + Utility.Json.ToJson(allianceMember));
                         ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceMember);
                         ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceApplyForTemp);
                     }

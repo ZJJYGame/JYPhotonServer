@@ -24,7 +24,7 @@ namespace AscensionServer
             var roleMiShuObj = Utility.Json.ToObject<RoleMiShu>(roleMSJson);
             NHCriteria nHCriteriamishu = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleMiShuObj.RoleID);
             RoleMiShu roleMiShu = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriamishu);
-            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收到获取秘术的数组" + roleMiShu.MiShuIDArray);
+            Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收到获取秘术的数组" + roleMiShu.MiShuIDArray);
             if ( !string.IsNullOrEmpty(roleMiShu.MiShuIDArray))
             {
                 var rMiShuObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriamishu);
@@ -55,7 +55,7 @@ namespace AscensionServer
             {
               SetResponseData(() =>
                 {
-                    AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收到获取秘术的id为空");
+                    Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收到获取秘术的id为空");
                     SubDict.Add((byte)ParameterCode.MiShu, Utility.Json.ToJson(new List<string>()));
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
                 });

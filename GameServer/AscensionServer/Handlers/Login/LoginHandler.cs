@@ -39,13 +39,13 @@ namespace AscensionServer
                 userObj.UUID= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<User>(nHCriteriaAccount).UUID;
                 peer.Login(userObj);
                 AscensionServer.Instance.AddIntoLoggedUserCache(peer);
-                AscensionServer._Log.Info("~~~~~~~~~~~~~~~~~~~~~~Login Success : " + userObj.Account + " ; UUID : " + peer.PeerCache.UUID + "~~~~~~~~~~~~~~~~~~~~~~");
+                Utility.Debug.LogInfo("~~~~~~~~~~~~~~~~~~~~~~Login Success : " + userObj.Account + " ; UUID : " + peer.PeerCache.UUID + "~~~~~~~~~~~~~~~~~~~~~~");
                 ResponseData.Add((byte)ParameterCode.Role, Utility.Json.ToJson(userObj));
                 OpResponse.Parameters = ResponseData;
             }
             else
             {
-                AscensionServer._Log.Info("Login fail:" + userObj.Account);
+                Utility.Debug.LogInfo("Login fail:" + userObj.Account);
                 OpResponse.ReturnCode = (short)ReturnCode.Fail;
             }
             peer.SendOperationResponse(OpResponse, sendParameters);

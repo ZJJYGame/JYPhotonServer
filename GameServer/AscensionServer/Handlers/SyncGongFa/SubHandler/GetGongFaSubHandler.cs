@@ -26,7 +26,7 @@ namespace AscensionServer
             var roleGongFaObj = Utility.Json.ToObject<List<int>>(roleGFJson);
             List<CultivationMethod> gongFaIdList;
             Dictionary<int, List<CultivationMethod>> gongFaDic;
-            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>同步功法进来了>>>>>>>>>" + roleGongFaObj.Count);
+            Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>同步功法进来了>>>>>>>>>" + roleGongFaObj.Count);
             if (roleGongFaObj.Count != 0)
             {
                 gongFaDic = new Dictionary<int, List<CultivationMethod>>();

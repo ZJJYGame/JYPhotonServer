@@ -38,7 +38,7 @@ namespace AscensionServer
                 SpiritStonesLow = assetsServer.SpiritStonesLow;
                 if (roleAssetsObj.SpiritStonesLow > 0&& roleAssetsObj.SpiritStonesLow <=assetsServer.SpiritStonesLow)
                     SpiritStonesLow = assetsServer.SpiritStonesLow- roleAssetsObj.SpiritStonesLow ;
-                AscensionServer._Log.Info(">>>>>>>>>>>>>減少的資產：" + SpiritStonesLow + ">>>>>>>>>>>>>>>>>>>>>>");
+                Utility.Debug.LogInfo(">>>>>>>>>>>>>減少的資產：" + SpiritStonesLow + ">>>>>>>>>>>>>>>>>>>>>>");
                 if (roleAssetsObj.XianYu > 0&& roleAssetsObj.XianYu <= assetsServer.XianYu)
                     XianYu = assetsServer.XianYu- roleAssetsObj.XianYu ;
                 ConcurrentSingleton<NHManager>.Instance.Update<RoleAssets>(new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesLow = SpiritStonesLow, XianYu = XianYu });
@@ -46,7 +46,7 @@ namespace AscensionServer
             }
             else
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
-            AscensionServer._Log.Info(">>>>>>>>>>>>>發送囘u去：" + roleAssetsJson + ">>>>>>>>>>>>>>>>>>>>>>");
+            Utility.Debug.LogInfo(">>>>>>>>>>>>>發送囘u去：" + roleAssetsJson + ">>>>>>>>>>>>>>>>>>>>>>");
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
         }

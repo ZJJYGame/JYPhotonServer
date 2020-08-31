@@ -31,7 +31,7 @@ namespace AscensionServer
 
             #endregion
             NHCriteria nHCriteriarolepurchase = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepurchaseObj.RoleID);
-            AscensionServer._Log.Info("传过来的杂货铺购买数据" + rolepurchaseJson);
+            Utility.Debug.LogInfo("传过来的杂货铺购买数据" + rolepurchaseJson);
             var rolepurchasetemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<VareityPurchaseRecord>(nHCriteriarolepurchase);
             if (rolepurchasetemp != null)
             {

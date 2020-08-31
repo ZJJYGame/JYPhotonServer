@@ -25,7 +25,7 @@ namespace AscensionServer
             string spiritualrunesJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobSpiritualRunes));
             var spiritualrunesObj = Utility.Json.ToObject<SpiritualRunesDTO>(spiritualrunesJson);
             NHCriteria nHCriteriaspiritualrunes = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", spiritualrunesObj.RoleID);
-            AscensionServer._Log.Info("得到的制符配方");
+            Utility.Debug.LogInfo("得到的制符配方");
             var spiritualrunestemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SpiritualRunes>(nHCriteriaspiritualrunes);
             if (spiritualrunestemp != null)
             {

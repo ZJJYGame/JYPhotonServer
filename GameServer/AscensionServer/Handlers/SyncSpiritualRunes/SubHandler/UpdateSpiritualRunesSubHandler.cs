@@ -28,20 +28,20 @@ namespace AscensionServer
             var spiritualrunesTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SpiritualRunes>(nHCriteriaspiritualrunes);
             int Level = 0;
             int Exp = 0;
-            AscensionServer._Log.Info("传输回去的制符数据" + spiritualrunesObj);
+            Utility.Debug.LogInfo("传输回去的制符数据" + spiritualrunesObj);
             if (spiritualrunesTemp != null)
             {
                 if (spiritualrunesObj.JobLevel != 0)
                 {
                     Level = spiritualrunesTemp.JobLevel + spiritualrunesObj.JobLevel;
                     ConcurrentSingleton<NHManager>.Instance.Update(new SpiritualRunes() { RoleID = spiritualrunesTemp.RoleID, JobLevel = Level, JobLevelExp = spiritualrunesObj.JobLevelExp, Recipe_Array = spiritualrunesTemp.Recipe_Array });
-                    AscensionServer._Log.Info("传输回去的制符数据1" + Utility.Json.ToJson(ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SpiritualRunes>(nHCriteriaspiritualrunes)));
+                    Utility.Debug.LogInfo("传输回去的制符数据1" + Utility.Json.ToJson(ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SpiritualRunes>(nHCriteriaspiritualrunes)));
                 }
                 else
                 {
                     Exp = spiritualrunesTemp.JobLevelExp + spiritualrunesObj.JobLevelExp;
                     ConcurrentSingleton<NHManager>.Instance.Update(new SpiritualRunes() { RoleID = spiritualrunesTemp.RoleID, JobLevel = spiritualrunesTemp.JobLevel, JobLevelExp = Exp, Recipe_Array = spiritualrunesTemp.Recipe_Array });
-                    AscensionServer._Log.Info("传输回去的制符数据2" + Utility.Json.ToJson(ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SpiritualRunes>(nHCriteriaspiritualrunes)));
+                    Utility.Debug.LogInfo("传输回去的制符数据2" + Utility.Json.ToJson(ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SpiritualRunes>(nHCriteriaspiritualrunes)));
                 }
                 SetResponseData(() =>
                 {

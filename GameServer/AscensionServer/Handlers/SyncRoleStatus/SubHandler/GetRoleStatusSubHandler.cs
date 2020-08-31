@@ -27,10 +27,10 @@ namespace AscensionServer
             bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleId);
             if (exist)
             {
-                AscensionServer._Log.Info("------------------------------------" + "获取人物数据  : " + roleJson + "---------------------------------------");
+                Utility.Debug.LogInfo("------------------------------------" + "获取人物数据  : " + roleJson + "---------------------------------------");
                 AscensionServer.Instance.Online(peer, roleObj);
                 RoleStatus roleStatus = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleStatus>(nHCriteriaRoleId);
-                AscensionServer._Log.Info("------------------------------------GetRoleStatusSubHandler\n" + "RoleStatus  : " + roleStatus + "\nGetRoleStatusSubHandler---------------------------------------");
+                Utility.Debug.LogInfo("------------------------------------GetRoleStatusSubHandler\n" + "RoleStatus  : " + roleStatus + "\nGetRoleStatusSubHandler---------------------------------------");
                 string roleStatusJson = Utility.Json.ToJson(roleStatus);
                 RoleRing roleRing =  ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleRing>(nHCriteriaRoleId);
                 SetResponseData(() => {SubDict.Add((byte)ParameterCode.RoleStatus, roleStatusJson); SubDict.Add((byte)ParameterCode.Inventory, Utility.Json.ToObject<Dictionary<int,int>>(roleRing.RingIdArray)); });

@@ -23,7 +23,7 @@ namespace AscensionServer
             ResponseData.Clear();
             string schoolJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)
                 ParameterCode.School));
-            AscensionServer._Log.Info("更新前的宗门信息");
+            Utility.Debug.LogInfo("更新前的宗门信息");
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
             NHCriteria nHCriteriaschool = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
             var schooltemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaschool);
@@ -44,7 +44,7 @@ namespace AscensionServer
                    OpResponse.ReturnCode = (byte)ReturnCode.Fail;
                 }
             }
-            AscensionServer._Log.Info("更新后的宗门信息" + Utility.Json.ToJson(schooltemp));
+            Utility.Debug.LogInfo("更新后的宗门信息" + Utility.Json.ToJson(schooltemp));
             peer.SendOperationResponse(OpResponse, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaschool);
         }

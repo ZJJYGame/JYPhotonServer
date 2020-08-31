@@ -41,7 +41,7 @@ namespace AscensionServer
                 var immortalsAllianceslistTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Alliances>(nHCriteriaimmortalsAllianceslist);
 
                 alliances = Utility.Json.ToObject<List<int>>(immortalsAllianceslistTemp.AllianceList);
-                AscensionServer._Log.Info("获取到的仙盟数量为"+ alliances.Count);
+                Utility.Debug.LogInfo("获取到的仙盟数量为"+ alliances.Count);
                 if (immortalsAllianceObj.Index<= alliances.Count)
                 {
                     if (immortalsAllianceObj.AllIndex < alliances.Count)
@@ -58,11 +58,11 @@ namespace AscensionServer
                     }
                     else
                     {
-                        AscensionServer._Log.Info("2开始的下标" + immortalsAllianceObj.Index + "获得的仙盟列表数据" + immortalsAllianceObj.AllIndex + "数据库的总数" + alliances.Count);
+                        Utility.Debug.LogInfo("2开始的下标" + immortalsAllianceObj.Index + "获得的仙盟列表数据" + immortalsAllianceObj.AllIndex + "数据库的总数" + alliances.Count);
                         for (int i = immortalsAllianceObj.Index; i <= alliances.Count-1; i++)
                         {
 
-                            AscensionServer._Log.Info("发送的所有仙盟列表" + alliances[i]);
+                            Utility.Debug.LogInfo("发送的所有仙盟列表" + alliances[i]);
                             NHCriteria nHCriteriaimmortalsAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", alliances[i]);
                             var alliancestatusTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceStatus>(nHCriteriaimmortalsAlliance);
                             AllianceStatusDTO allianceStatusDTO = new AllianceStatusDTO() { ID = alliancestatusTemp.ID, AllianceLevel = alliancestatusTemp.AllianceLevel, AllianceMaster = alliancestatusTemp.AllianceMaster, AllianceName = alliancestatusTemp.AllianceName, AllianceNumberPeople = alliancestatusTemp.AllianceNumberPeople, AlliancePeopleMax = alliancestatusTemp.AlliancePeopleMax, Manifesto = alliancestatusTemp.Manifesto, Popularity = alliancestatusTemp.Popularity };
@@ -74,7 +74,7 @@ namespace AscensionServer
                 }
                     SetResponseData(() =>
                     {
-                        AscensionServer._Log.Info("发送的所有仙盟列表" + Utility.Json.ToJson(ImmortalsAllianceList));
+                        Utility.Debug.LogInfo("发送的所有仙盟列表" + Utility.Json.ToJson(ImmortalsAllianceList));
                         SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(ImmortalsAllianceList));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });

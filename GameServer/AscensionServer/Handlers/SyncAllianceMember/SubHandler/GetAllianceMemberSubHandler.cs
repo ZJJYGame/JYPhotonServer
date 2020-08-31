@@ -29,7 +29,7 @@ namespace AscensionServer
             var allianceMemberObj = Utility.Json.ToObject<AllianceMemberDTO>(allianceMemberJson);
             NHCriteria nHCriteriallianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceMemberObj.AllianceID);
             var allianceMemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceMember>(nHCriteriallianceMember);
-            AscensionServer._Log.Info("发送的仙盟的所有成员" + allianceMemberTemp.Member);
+            Utility.Debug.LogInfo("发送的仙盟的所有成员" + allianceMemberTemp.Member);
             List<int> memberList = new List<int>();
             List<RoleAllianceDTO> allianceMembers = new List<RoleAllianceDTO>();
             List<NHCriteria > nHCriterias= new List<NHCriteria>();
@@ -49,7 +49,7 @@ namespace AscensionServer
 
                     SetResponseData(() =>
                     {
-                        AscensionServer._Log.Info("发送的仙盟的所有成员"+ Utility.Json.ToJson(allianceMembers));
+                        Utility.Debug.LogInfo("发送的仙盟的所有成员"+ Utility.Json.ToJson(allianceMembers));
                         SubDict.Add((byte)ParameterCode.AllianceMember, Utility.Json.ToJson(allianceMembers));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });

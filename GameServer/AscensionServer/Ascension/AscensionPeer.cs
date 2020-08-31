@@ -62,7 +62,7 @@ namespace AscensionServer
             }
             Logoff();
             AscensionServer.Instance.ConnectedPeerHashSet.Remove(this);
-            AscensionServer. _Log.Info("***********************  Client Disconnect    ***********************");
+            Utility.Debug.LogInfo("***********************  Client Disconnect    ***********************");
         }
         //处理客户端的请求
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
@@ -107,7 +107,7 @@ namespace AscensionServer
         {
             if (roleID == -1)
             {
-                AscensionServer._Log.Info("============AscensionPeer.RecordOnOffLine() : Can't RecordOnOffLine ============");
+                Utility.Debug.LogInfo("============AscensionPeer.RecordOnOffLine() : Can't RecordOnOffLine ============");
                 return;
             }
             NHCriteria nHCriteriaOnOff = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
@@ -127,7 +127,7 @@ namespace AscensionServer
                 GameManager.ReferencePoolManager.Despawn(offLineTimeTmp);
             }
             GameManager.ReferencePoolManager.Despawns(nHCriteriaOnOff);
-            AscensionServer._Log.Info("同步离线时间成功");
+            Utility.Debug.LogInfo("同步离线时间成功");
         }
 
         public void OnInitialization()

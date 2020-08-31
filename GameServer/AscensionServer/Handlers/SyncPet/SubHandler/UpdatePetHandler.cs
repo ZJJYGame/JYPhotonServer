@@ -68,7 +68,7 @@ namespace AscensionServer
             }
             else
             {
-                AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>传过来的宠物状态为空" + petJson);
+                Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>传过来的宠物状态为空" + petJson);
                 //pet = Singleton<NHManager>.Instance.Insert<Pet>(pet);
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
             }

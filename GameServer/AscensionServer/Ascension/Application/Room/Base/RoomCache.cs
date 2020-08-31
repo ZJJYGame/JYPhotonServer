@@ -94,7 +94,7 @@ namespace AscensionServer
         {
             await Task.Delay(new TimeSpan(0, 0, 15));
             Broadcast();
-            AscensionServer._Log.Info("15秒倒计时结束");
+            Utility.Debug.LogInfo("15秒倒计时结束");
         }
         protected void Broadcast()
         {

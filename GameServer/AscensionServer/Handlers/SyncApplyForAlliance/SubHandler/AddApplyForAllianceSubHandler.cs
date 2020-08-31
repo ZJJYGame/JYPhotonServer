@@ -27,7 +27,7 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string roleAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ApplyForAlliance));
             var roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(roleAllianceJson);
-            AscensionServer._Log.Info("收到的加入仙盟的请求"+ roleAllianceJson);
+            Utility.Debug.LogInfo("收到的加入仙盟的请求"+ roleAllianceJson);
             NHCriteria nHCriteriaroleAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleAllianceObj.RoleID);
             var roleAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriaroleAlliance);
             List<int> applyList = new List<int>();

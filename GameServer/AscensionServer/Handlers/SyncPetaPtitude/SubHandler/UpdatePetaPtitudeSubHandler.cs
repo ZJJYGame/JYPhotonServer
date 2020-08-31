@@ -52,12 +52,12 @@ namespace AscensionServer
             int index;
             foreach (var drugitem in petStatusclient.PetaptitudeDrug)
             {
-                AscensionServer._Log.Info("收到的增加资质的请求" + drugitem.Key);
+                Utility.Debug.LogInfo("收到的增加资质的请求" + drugitem.Key);
                 if (drugDict.Count > 0)
                 {
                     if (drugDict.TryGetValue(drugitem.Key, out index))
                     {
-                        AscensionServer._Log.Info("1收到的增加资质的请求");
+                        Utility.Debug.LogInfo("1收到的增加资质的请求");
                         petStatusserver.AttackphysicalAptitude += petStatusclient.AttackphysicalAptitude;
                         petStatusserver.AttackpowerAptitude += petStatusclient.AttackpowerAptitude;
                         petStatusserver.AttacksoulAptitude += petStatusclient.AttacksoulAptitude;
@@ -73,7 +73,7 @@ namespace AscensionServer
                     }
                     else
                     {
-                        AscensionServer._Log.Info("1收到的增加资质的请求");
+                        Utility.Debug.LogInfo("1收到的增加资质的请求");
                         petStatusserver.AttackphysicalAptitude += petStatusclient.AttackphysicalAptitude;
                         petStatusserver.AttackpowerAptitude += petStatusclient.AttackpowerAptitude;
                         petStatusserver.AttacksoulAptitude += petStatusclient.AttacksoulAptitude;
@@ -86,12 +86,12 @@ namespace AscensionServer
                         petStatusserver.SoulAptitude += petStatusclient.SoulAptitude;
                         petStatusserver.Petaptitudecol += petStatusclient.Petaptitudecol;
                         drugDict.Add(drugitem.Key, drugitem.Value);
-                        AscensionServer._Log.Info("2收到的增加资质的请求");
+                        Utility.Debug.LogInfo("2收到的增加资质的请求");
                     }
                 }
                 else
                 {
-                    AscensionServer._Log.Info("2收到的增加资质的请求");
+                    Utility.Debug.LogInfo("2收到的增加资质的请求");
                     petStatusserver.AttackphysicalAptitude += petStatusclient.AttackphysicalAptitude;
                     petStatusserver.AttackpowerAptitude += petStatusclient.AttackpowerAptitude;
                     petStatusserver.AttacksoulAptitude += petStatusclient.AttacksoulAptitude;

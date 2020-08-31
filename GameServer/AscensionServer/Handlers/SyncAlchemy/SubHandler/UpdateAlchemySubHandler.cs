@@ -23,7 +23,7 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string alchemyJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobAlchemy));
             var alchemyObj = Utility.Json.ToObject<AlchemyDTO>(alchemyJson);
-            AscensionServer._Log.Info("传输回去的炼丹数据" + alchemyJson);
+            Utility.Debug.LogInfo("传输回去的炼丹数据" + alchemyJson);
             NHCriteria nHCriteriaAlchemy = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", alchemyObj.RoleID);
             var alchemyTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Alchemy>(nHCriteriaAlchemy);
             int Level = 0;
@@ -35,13 +35,13 @@ namespace AscensionServer
                 {
                     Level = alchemyTemp.JobLevel + alchemyObj.JobLevel;
                     ConcurrentSingleton<NHManager>.Instance.Update(new Alchemy() {RoleID= alchemyTemp.RoleID,JobLevel= Level,JobLevelExp= alchemyObj.JobLevelExp,Recipe_Array= alchemyTemp.Recipe_Array });
-                    AscensionServer._Log.Info("传输回去的炼丹数据1" + Utility.Json.ToJson(alchemyTemp));
+                    Utility.Debug.LogInfo("传输回去的炼丹数据1" + Utility.Json.ToJson(alchemyTemp));
                 }
                 else
                 {
                     Exp= alchemyTemp.JobLevelExp + alchemyObj.JobLevelExp;
                     ConcurrentSingleton<NHManager>.Instance.Update(new Alchemy() { RoleID = alchemyTemp.RoleID, JobLevel = alchemyTemp.JobLevel, JobLevelExp = Exp, Recipe_Array = alchemyTemp.Recipe_Array });
-                    AscensionServer._Log.Info("传输回去的炼丹数据2" + Utility.Json.ToJson(alchemyTemp));
+                    Utility.Debug.LogInfo("传输回去的炼丹数据2" + Utility.Json.ToJson(alchemyTemp));
                 }
 
                 SetResponseData(() =>

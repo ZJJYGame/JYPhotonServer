@@ -27,7 +27,7 @@ namespace AscensionServer.Handlers
 
 
             NHCriteria nHCriteriahf = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", hfObj.RoleID);
-            AscensionServer._Log.Info("接收到添加的霛田信息" + herbsfieldJson);
+            Utility.Debug.LogInfo("接收到添加的霛田信息" + herbsfieldJson);
             var hfTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<HerbsField>(nHCriteriahf);
             List<HerbFieldStatus> hfList = new List<HerbFieldStatus>();
             if (hfTemp!=null)

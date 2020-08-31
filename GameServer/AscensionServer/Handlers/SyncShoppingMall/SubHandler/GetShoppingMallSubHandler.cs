@@ -25,7 +25,7 @@ namespace AscensionServer
             var shoppingmallObj = Utility.Json.ToObject<ShoppingMallDTO>(shoppingmallJson);
             string rolepurchaseJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RolePurchase));
             var rolepurchaseObj = Utility.Json.ToObject<RolePurchaseRecordDTO>(rolepurchaseJson);
-            AscensionServer._Log.Info("得到的商店數據"+ rolepurchaseObj.RoleID);
+            Utility.Debug.LogInfo("得到的商店數據"+ rolepurchaseObj.RoleID);
             NHCriteria nHCriteriarolepurchase = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepurchaseObj.RoleID);
             NHCriteria nHCriteriashoppingmall = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", shoppingmallObj.ID);
 

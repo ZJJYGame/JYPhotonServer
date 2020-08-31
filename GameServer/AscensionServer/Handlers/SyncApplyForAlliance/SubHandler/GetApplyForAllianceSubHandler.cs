@@ -42,7 +42,7 @@ namespace AscensionServer
 
             SetResponseData(() =>
             {
-                AscensionServer._Log.Info("获得申请加仙盟的列表" + Utility.Json.ToJson(applyForAllianceList));
+                Utility.Debug.LogInfo("获得申请加仙盟的列表" + Utility.Json.ToJson(applyForAllianceList));
                 SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(applyForAllianceList));
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             });

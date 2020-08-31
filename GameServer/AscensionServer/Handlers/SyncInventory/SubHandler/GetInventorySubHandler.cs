@@ -25,8 +25,8 @@ namespace AscensionServer
             ResetResponseData(operationRequest);
             var InventoryRoleData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role) as string;
             var InventoryData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Inventory) as string;
-            AscensionServer._Log.Info(">>>>>接收roleId" + InventoryRoleData + ">>>>>>>>>>>>>");
-            AscensionServer._Log.Info(">>>>>接收背包的数据" + InventoryData + ">>>>>>>>>>>>>");
+            Utility.Debug.LogInfo(">>>>>接收roleId" + InventoryRoleData + ">>>>>>>>>>>>>");
+            Utility.Debug.LogInfo(">>>>>接收背包的数据" + InventoryData + ">>>>>>>>>>>>>");
             var InventoryRoleObj = Utility.Json.ToObject<RoleRing>(InventoryRoleData);
             var InventoryObj = Utility.Json.ToObject<RingDTO>(InventoryData);
 

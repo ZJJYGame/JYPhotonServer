@@ -28,7 +28,7 @@ namespace AscensionServer
             if (!string.IsNullOrEmpty(petJson))
             {
                 petObj = ConcurrentSingleton<NHManager>.Instance.Insert(petObj);
-                AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>添加宠物进来了》》》》》》》》》》》》》》》");
+                Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>添加宠物进来了》》》》》》》》》》》》》》》");
                 SetResponseData(() =>
                 {
                     SubDict.Add((byte)ParameterCode.Pet, petObj);

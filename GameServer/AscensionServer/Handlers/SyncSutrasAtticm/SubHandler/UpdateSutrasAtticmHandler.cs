@@ -28,7 +28,7 @@ namespace AscensionServer
             var sutrasAtticObj = Utility.Json.ToObject<SutrasAtticDTO>(sutrasAtticJson);
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
             NHCriteria nHCriteriasutrasAttic = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", sutrasAtticObj.ID);
-            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>" + Utility.Json.ToJson(schoolObj.SutrasAtticID) + "更新2藏宝阁" + Utility.Json.ToJson(sutrasAtticObj.SutrasRedeemedDictl));
+            Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>" + Utility.Json.ToJson(schoolObj.SutrasAtticID) + "更新2藏宝阁" + Utility.Json.ToJson(sutrasAtticObj.SutrasRedeemedDictl));
             NHCriteria nHCriteriaschool = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
             var sutrasAtticTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SutrasAttic>(nHCriteriasutrasAttic);
             var schoolTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaschool);
@@ -49,10 +49,10 @@ namespace AscensionServer
                         {
 
                             itemDict = Utility.Json.ToObject<Dictionary<int, int>>(sutrasAtticTemp.SutrasRedeemedDictl);
-                            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>更新藏宝阁key" + Utility.Json.ToJson(itemDict));
+                            Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>更新藏宝阁key" + Utility.Json.ToJson(itemDict));
                             foreach (var item in sutrasAtticObj.SutrasRedeemedDictl)
                             {
-                                AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>更新藏宝阁key" + item.Key);
+                                Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>更新藏宝阁key" + item.Key);
                                 if (itemDict.ContainsKey(item.Key))
                                 {
                                     itemDict[item.Key] += sutrasAtticObj.SutrasRedeemedDictl[item.Key];
@@ -81,7 +81,7 @@ namespace AscensionServer
                 {
                     SetResponseData(() =>
                     {
-                        AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>传回到的藏宝阁s失败");
+                        Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>传回到的藏宝阁s失败");
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
                     });
                 }
@@ -91,14 +91,14 @@ namespace AscensionServer
             {
                 SetResponseData(() =>
                 {
-                    AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>传回到的藏宝阁s失败");
+                    Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>传回到的藏宝阁s失败");
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriasutrasAttic, nHCriteriaschool);
-            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>传回到的藏宝阁" + Utility.Json.ToJson(DOdict));
+            Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>传回到的藏宝阁" + Utility.Json.ToJson(DOdict));
         }
     }
 }

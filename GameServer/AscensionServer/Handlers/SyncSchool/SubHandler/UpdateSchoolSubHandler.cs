@@ -47,7 +47,7 @@ namespace AscensionServer
                     });
                 }
             }
-            AscensionServer._Log.Info("更新后的宗门信息" + Utility.Json.ToJson(schooltemp));
+            Utility.Debug.LogInfo("更新后的宗门信息" + Utility.Json.ToJson(schooltemp));
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaschool);
         }

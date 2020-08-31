@@ -23,7 +23,7 @@ namespace AscensionServer
         {
             var dict = ParseSubDict(operationRequest);
             string puppetJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobPuppet));
-            AscensionServer._Log.Info("得到的傀儡为" + puppetJson);
+            Utility.Debug.LogInfo("得到的傀儡为" + puppetJson);
             var puppetObj = Utility.Json.ToObject<PuppetDTO>(puppetJson);
             NHCriteria nHCriteriaPuppet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", puppetObj.RoleID);
             var puppetTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Puppet>(nHCriteriaPuppet);

@@ -23,8 +23,8 @@ namespace AscensionServer
             ResetResponseData(operationRequest);
             var InventoryRoleData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role) as string;
             var InventoryData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Inventory) as string;
-            AscensionServer._Log.Info(">>>>>更新roleId" + InventoryRoleData + ">>>>>>>>>>>>>");
-            AscensionServer._Log.Info(">>>>>更新背包的数据" + InventoryData + ">>>>>>>>>>>>>");
+            Utility.Debug.LogInfo(">>>>>更新roleId" + InventoryRoleData + ">>>>>>>>>>>>>");
+            Utility.Debug.LogInfo(">>>>>更新背包的数据" + InventoryData + ">>>>>>>>>>>>>");
             var InventoryRoleObj = Utility.Json.ToObject<RoleRing>(InventoryRoleData);
             var InventoryObj = Utility.Json.ToObject<RingDTO>(InventoryData);
 
@@ -79,7 +79,7 @@ namespace AscensionServer
                                 }
                                 if (firstKey != 0)
                                 {
-                                    AscensionServer._Log.Info("<>" + firstKey);
+                                    Utility.Debug.LogInfo("<>" + firstKey);
                                     //posDict.Clear();
                                     var tempDict = ServerDic;
                                     var indexOne = ServerDic.ToList().FindIndex(s => s.Key == client_p.Key);
@@ -110,8 +110,8 @@ namespace AscensionServer
                                 ServerDic.Remove(client_p.Key);
                             }
                         }
-                        AscensionServer._Log.Info("<>" + posDict.Count);
-                        AscensionServer._Log.Info("<>" + ServerDic.Count);
+                        Utility.Debug.LogInfo("<>" + posDict.Count);
+                        Utility.Debug.LogInfo("<>" + ServerDic.Count);
                         ServerDic = posDict.Count == 0 ? ServerDic : posDict;
                         //var serverJsonDict = firstKey != 0 ? posDict : ServerDic;
                         ConcurrentSingleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDic),RingMagicDictServer = Utility.Json.ToJson(ServerMagicDic) });

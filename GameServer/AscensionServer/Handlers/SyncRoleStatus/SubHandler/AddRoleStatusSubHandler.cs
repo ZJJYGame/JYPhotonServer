@@ -42,7 +42,7 @@ namespace AscensionServer
         {
             ResetResponseData(operationRequest);
             var RoleStatusData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleStatus) as string;
-            AscensionServer._Log.Info(">>>>>添加自己的一些属性" + RoleStatusData + ">>>>>>>>>>>>>");
+            Utility.Debug.LogInfo(">>>>>添加自己的一些属性" + RoleStatusData + ">>>>>>>>>>>>>");
             var roleObj = Utility.Json.ToObject<RoleStatus>(RoleStatusData);
             NHCriteria nHCriteriaRoleId = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
             bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleStatus>(nHCriteriaRoleId);

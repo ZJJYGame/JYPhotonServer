@@ -39,7 +39,7 @@ namespace AscensionServer
             Dictionary<string, string> shopDIct = new Dictionary<string, string>();
             if (string.IsNullOrEmpty(vareitycontent))
             {
-                AscensionServer._Log.Info("储存进Redis成功了杂货铺名字是" + vareityname + "内容是" + vareitycontent);
+                Utility.Debug.LogInfo("储存进Redis成功了杂货铺名字是" + vareityname + "内容是" + vareitycontent);
                 NHCriteria nHCriteriavareitycontent = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", vareitypurchaseObj.RoleID);
                 var vareitycontentTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<VareityPurchaseRecord>(nHCriteriavareitycontent);
                 if (vareitycontentTemp != null)
@@ -47,7 +47,7 @@ namespace AscensionServer
                    
                     if (!string.IsNullOrEmpty(vareitycontentTemp.VareityPurchasedCount))
                     {
-                        AscensionServer._Log.Info("储存进数据库成功了杂货铺" + vareityname + "内容是" + vareitycontentTemp.VareityPurchasedCount);
+                        Utility.Debug.LogInfo("储存进数据库成功了杂货铺" + vareityname + "内容是" + vareitycontentTemp.VareityPurchasedCount);
                         RedisHelper.String.StringSetAsync(vareityname, vareitycontentTemp.VareityPurchasedCount);
                         VareityPurchaseRecordDTO vareityPurchaseRecordDTO = new VareityPurchaseRecordDTO()
                         {
@@ -87,7 +87,7 @@ namespace AscensionServer
             }
             else
             {
-                AscensionServer._Log.Info("储存进Redis成功了");
+                Utility.Debug.LogInfo("储存进Redis成功了");
                 AllGoodsList = Utility.Json.ToObject<Dictionary<int, List<GoodsStatus>>>(content);
                 VareityShopDTO vareityShopDTO = new VareityShopDTO() { VareityshopID = vareityObj.VareityshopID, AllGoods = AllGoodsList };
                 shopDIct.Add("VareityShop", Utility.Json.ToJson(vareityShopDTO));

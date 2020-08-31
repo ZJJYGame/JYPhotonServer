@@ -53,7 +53,7 @@ namespace AscensionServer
                         date.Add(Convert.ToByte(bottleneckObj.IsBottleneck));
                     }else
                         date.Add(0);
-                    AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>得到的离线时间1" + Exptypeobj.MsGfID+"id"+ Exptypeobj.ExpType);
+                    Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>得到的离线时间1" + Exptypeobj.MsGfID+"id"+ Exptypeobj.ExpType);
                     SetResponseData(() =>
                     {
                         SubDict.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
@@ -74,7 +74,7 @@ namespace AscensionServer
                     }
                     else
                         date.Add(0);
-                    AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>得到的离线时间2" + Exptypeobj.MsGfID + "id" + Exptypeobj.ExpType);
+                    Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>得到的离线时间2" + Exptypeobj.MsGfID + "id" + Exptypeobj.ExpType);
                     SetResponseData(() =>
                     {
                         SubDict.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
