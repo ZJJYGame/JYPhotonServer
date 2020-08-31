@@ -24,8 +24,8 @@ namespace AscensionServer
         {
             var dict = ParseSubDict(operationRequest);
             string roleallianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAlliance));
-            var roleallianceObj = Utility.Json.ToObject<RoleAllianceDTO>
-  (roleallianceJson);
+            var roleallianceObj = Utility.Json.ToObject<RoleAllianceDTO>(roleallianceJson);
+            Utility.Debug.LogError("储存的成员" + roleallianceJson);
             NHCriteria nHCriteriaroleAlliances = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceObj.RoleID);
             var roleallianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriaroleAlliances).Result;
             List<int> memberlist = new List<int>();
