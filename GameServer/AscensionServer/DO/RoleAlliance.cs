@@ -19,6 +19,7 @@ namespace AscensionServer.Model
         public virtual string JoinOffline { get; set; }
         public virtual string RoleName { get; set; }
         public virtual string ApplyForAlliance { get; set; }
+        public virtual int RoleSchool { get; set; }
         public override void Clear()
         {
             RoleID = -1;
@@ -30,6 +31,7 @@ namespace AscensionServer.Model
             JoinTime = null;
             JoinOffline = null;
             ApplyForAlliance = null;
+            RoleSchool = 0;
         }
         public RoleAlliance()
         {
@@ -42,6 +44,7 @@ namespace AscensionServer.Model
             JoinTime = null;
             JoinOffline = null;
             ApplyForAlliance = null;
+            RoleSchool = 0;
         }
 
     }

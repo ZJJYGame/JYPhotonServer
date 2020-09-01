@@ -187,6 +187,7 @@
     <Compile Include="Ascension\Application\Room\Base\BattleInputC2S.cs" />
     <Compile Include="Ascension\Application\Room\Base\RoomCache.cs" />
     <Compile Include="Concurrent\ConcurrentInt.cs" />
+    <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\RemoveImmortalsAllianceHandler.cs" />
     <Compile Include="Helpers\DebugHelper\Log4NetDebugHelper.cs" />
     <Compile Include="DOMap\AlchemyMap.cs" />
     <Compile Include="DOMap\AllianceMemberMap.cs" />
