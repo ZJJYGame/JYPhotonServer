@@ -177,7 +177,7 @@
     <Compile Include="Ascension\Application\Base\NetEvent\NetEventKey.cs" />
     <Compile Include="Ascension\Application\Base\NetEvent\NetworkEventCore.cs" />
     <Compile Include="Ascension\Application\Base\Variable\IKeyValue.cs" />
-    <Compile Include="Ascension\Application\Base\Variable\PeerVariable.cs" />
+    <Compile Include="Ascension\Application\Base\Variable\PeerComponent.cs" />
     <Compile Include="Ascension\Application\Actor\ActorManager.cs" />
     <Compile Include="Ascension\Application\Peer\PeerManager.cs" />
     <Compile Include="Ascension\Application\Room\Base\BattleRoomCache.cs" />
@@ -187,7 +187,6 @@
     <Compile Include="Ascension\Application\Room\Base\BattleInputC2S.cs" />
     <Compile Include="Ascension\Application\Room\Base\RoomCache.cs" />
     <Compile Include="Concurrent\ConcurrentInt.cs" />
-    <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\RemoveImmortalsAllianceHandler.cs" />
     <Compile Include="Helpers\DebugHelper\Log4NetDebugHelper.cs" />
     <Compile Include="DOMap\AlchemyMap.cs" />
     <Compile Include="DOMap\AllianceMemberMap.cs" />
