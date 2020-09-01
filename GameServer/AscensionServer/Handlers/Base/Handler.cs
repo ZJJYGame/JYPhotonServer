@@ -128,8 +128,6 @@ namespace AscensionServer
         {
             subHandlerDict.Remove((byte)handler.SubOpCode);
         }
-
-
         #endregion
     }
 }

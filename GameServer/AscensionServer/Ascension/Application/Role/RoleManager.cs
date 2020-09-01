@@ -46,7 +46,7 @@ namespace AscensionServer
             {
                 AscensionPeer latestPeer;
                 loggedPeerDict.TryRemove(peerID, out latestPeer);
-                latestPeer.OnTermination();
+                latestPeer.Clear();
             }
         }
         /// <summary>

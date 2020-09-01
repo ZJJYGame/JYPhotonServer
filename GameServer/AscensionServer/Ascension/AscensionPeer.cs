@@ -16,14 +16,13 @@ using AscensionServer.Threads;
 namespace AscensionServer
 {
     //管理跟客户端的链接的
-    public class AscensionPeer : ClientPeer,IBehaviour
+    public class AscensionPeer : ClientPeer,IPeer
     {
         #region Properties
         /// <summary>
         /// 保存当前用户登录的信息与状态
         /// </summary>
-        PeerCache peerCache =new PeerCache();
-        public PeerCache PeerCache { get { return peerCache; } set { peerCache = value; } }
+        public PeerCache PeerCache { get; set; } = new PeerCache();
         /// <summary>
         /// 是否已经发送位置信息
         /// </summary>
@@ -32,6 +31,10 @@ namespace AscensionServer
         /// 是否已经发送位置信息
         /// </summary>
         public bool IsUseSkill { get; set; }
+
+        public uint Conv { get; private set; }
+
+        public bool Available { get; private set; }
         #endregion
 
         #region Methods
@@ -42,13 +45,12 @@ namespace AscensionServer
         {
             EventData ed = new EventData((byte)EventCode.DeletePlayer);
             Dictionary<byte, object> data = new Dictionary<byte, object>();
-            data.Add((byte)ParameterCode.Role,Utility.Json.ToJson(peerCache.Role));
-            data.Add((byte)ParameterCode.RoleMoveStatus,  Utility.Json.ToJson(peerCache.RoleMoveStatus));
-
+            data.Add((byte)ParameterCode.Role,Utility.Json.ToJson(PeerCache.Role));
+            data.Add((byte)ParameterCode.RoleMoveStatus,  Utility.Json.ToJson(PeerCache.RoleMoveStatus));
             ed.Parameters = data;
-            if (peerCache.IsLogged)
+            if (PeerCache.IsLogged)
             {
-                RecordOnOffLine(peerCache.RoleID);
+                RecordOnOffLine(PeerCache.RoleID);
             }
             var loggedPeerHashSet = AscensionServer.Instance.LoggedPeerCache.GetValuesHashSet();
             loggedPeerHashSet.Remove(this);
@@ -86,13 +88,13 @@ namespace AscensionServer
             this.PeerCache.Account = user.Account;
             this.PeerCache.UUID= user.UUID;
             this.PeerCache.Password= user.Password;
-            this.peerCache.IsLogged = true;
+            this.PeerCache.IsLogged = true;
         }
         public void Logoff()
         {
-            if (!peerCache.IsLogged)
+            if (!PeerCache.IsLogged)
                 return;
-            this.peerCache.IsLogged = false;
+            this.PeerCache.IsLogged = false;
             this.PeerCache.Account =null;
             this.PeerCache.UUID = null;
             this.PeerCache.Password =null;
@@ -100,7 +102,7 @@ namespace AscensionServer
         }
         public override string ToString()
         {
-            return "######Account : " + PeerCache.Account + " ; Password : " + PeerCache.Password + "; UUID : " + PeerCache.UUID+"######";
+            return $"######Account :{PeerCache.Account }; Password : {PeerCache.Password }; UUID : {PeerCache.UUID}######";
         }
         //记录客户端离线时间
         protected void RecordOnOffLine(int roleID)
@@ -129,12 +131,12 @@ namespace AscensionServer
             GameManager.ReferencePoolManager.Despawns(nHCriteriaOnOff);
             Utility.Debug.LogInfo("同步离线时间成功");
         }
-
-        public void OnInitialization()
+        
+        public void SendMessage(INetMessage netMsg)
         {
-        }
 
-        public void OnTermination()
+        }
+        public void Clear()
         {
         }
     }

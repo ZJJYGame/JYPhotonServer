@@ -21,7 +21,7 @@ namespace AscensionServer
         /// 是否队伍满员
         /// </summary>
         public bool IsFull { get { return peerDict.Count >=_TeamCapacity; } }
-        readonly short _TeamCapacity = 5;
+        readonly ushort _TeamCapacity = 5;
         ConcurrentDictionary<uint, AscensionPeer> peerDict = new ConcurrentDictionary<uint, AscensionPeer>();
         AscensionPeer captain;
         /// <summary>
