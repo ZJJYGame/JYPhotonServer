@@ -15,9 +15,24 @@ namespace AscensionServer
 {
     public class RemoveImmortalsAllianceHandler : SyncImmortalsAllianceSubHandler
     {
+        public override void OnInitialization()
+        {
+            SubOpCode = SubOperationCode.Remove;
+            base.OnInitialization();
+        }
+
+
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            
+            var dict = ParseSubDict(operationRequest);
+            string allianceMemberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
+            var allianceMemberObj = Utility.Json.ToObject<AllianceMemberDTO>(allianceMemberJson);
+
+
+
+
+
+
         }
     }
 }

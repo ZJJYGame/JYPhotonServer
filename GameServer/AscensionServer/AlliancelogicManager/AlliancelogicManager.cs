@@ -6,6 +6,7 @@ using EventData = Photon.SocketServer.EventData;
 using Cosmos;
 using AscensionProtocol.DTO;
 using AscensionServer.Model;
+using Cosmos;
 
 namespace AscensionServer
 {
@@ -155,10 +156,11 @@ namespace AscensionServer
         public T GetNHCriteria<T>(  string  keyname,int key)
         {
             NHCriteria nHCriteria  = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue(keyname, key);
-            
-            var dataObjectTemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<T>(nHCriteria);
-            GameManager.ReferencePoolManager.Despawns(nHCriteria);
-            return dataObjectTemp.Result;
+            var dataObjectTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<T>(nHCriteria);
+
+                GameManager.ReferencePoolManager.Despawns(nHCriteria);
+                return dataObjectTemp.Result;
+
         }
         /// <summary>
         /// 仙盟的申请整合方法
@@ -170,7 +172,14 @@ namespace AscensionServer
         {
             ApplyForAllianceDTO applyForAllianceDTO = new ApplyForAllianceDTO() { RoleID = role.RoleID,School= schoolDTO .RoleJoinedSchool,MemberName=role.RoleName};
             return applyForAllianceDTO;
+
         }
 
+
+
+        public void HandlerAlliance(int roleid)
+        {
+
+        }
     }
 }
