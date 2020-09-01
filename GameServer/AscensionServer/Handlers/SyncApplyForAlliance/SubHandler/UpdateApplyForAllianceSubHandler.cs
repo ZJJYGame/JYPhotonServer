@@ -36,36 +36,45 @@ namespace AscensionServer
 
             NHCriteria nHCriteriallianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceObj.AllianceID);
             var allianceMemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceMember>(nHCriteriallianceMember).Result;
+            var allianceStatusTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceStatus>(nHCriteriallianceMember).Result;
             List<int> applyList = new List<int>();
             List<int> memberList = new List<int>();
             List<RoleAllianceDTO> roleAllianceDTOs = new List<RoleAllianceDTO>();
             applyList = Utility.Json.ToObject<List<int>>(allianceMemberTemp.ApplyforMember);
             memberList = Utility.Json.ToObject<List<int>>(allianceMemberTemp.Member);
-            for (int i = 0; i < roleidList.Count; i++)
+            //判断帮派人数是否已满
+            if (allianceStatusTemp.AlliancePeopleMax> allianceStatusTemp.AllianceNumberPeople)
             {
-
-
-                NHCriteria nHCriteriRoleAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleidList[i]);
-                NHCriterias.Add(nHCriteriRoleAlliance);
-                var roleAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriRoleAlliance).Result;
-                if (roleAllianceTemp.AllianceID == 0)
+                for (int i = 0; i < roleidList.Count; i++)
                 {
-                    roleAllianceTemp.AllianceID = allianceMemberTemp.AllianceID;
-                    roleAllianceTemp.JoinOffline =
-                    roleAllianceTemp.ApplyForAlliance = "[]";
-                    ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAllianceTemp);
 
-                    RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { RoleID = roleAllianceTemp.RoleID, ApplyForAlliance = new List<int>(), AllianceID = roleAllianceTemp.AllianceID, ReputationHistroy = roleAllianceTemp.ReputationHistroy, AllianceJob = roleAllianceTemp.AllianceJob, JoinOffline = roleAllianceTemp.JoinOffline, JoinTime = roleAllianceTemp.JoinTime, Reputation = roleAllianceTemp.Reputation, ReputationMonth = roleAllianceTemp.ReputationMonth, RoleName = roleAllianceTemp.RoleName };
-                    roleAllianceDTOs.Add(roleAllianceDTO);
 
-                    applyList.Remove(roleidList[i]);
-                    memberList.Add(roleidList[i]);
+                    NHCriteria nHCriteriRoleAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleidList[i]);
+                    NHCriterias.Add(nHCriteriRoleAlliance);
+                    var roleAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriRoleAlliance).Result;
+                    if (roleAllianceTemp.AllianceID == 0)
+                    {
+                        roleAllianceTemp.AllianceID = allianceMemberTemp.AllianceID;
+                        roleAllianceTemp.JoinOffline =
+                        roleAllianceTemp.ApplyForAlliance = "[]";
+                        ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAllianceTemp);
 
+                        RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { RoleID = roleAllianceTemp.RoleID, ApplyForAlliance = new List<int>(), AllianceID = roleAllianceTemp.AllianceID, ReputationHistroy = roleAllianceTemp.ReputationHistroy, AllianceJob = roleAllianceTemp.AllianceJob, JoinOffline = roleAllianceTemp.JoinOffline, JoinTime = roleAllianceTemp.JoinTime, Reputation = roleAllianceTemp.Reputation, ReputationMonth = roleAllianceTemp.ReputationMonth, RoleName = roleAllianceTemp.RoleName };
+                        roleAllianceDTOs.Add(roleAllianceDTO);
+
+                        allianceStatusTemp.AllianceNumberPeople++;
+
+                        applyList.Remove(roleidList[i]);
+
+                        memberList.Add(roleidList[i]);
+
+                    }
                 }
+                allianceMemberTemp.ApplyforMember = Utility.Json.ToJson(applyList);
+                allianceMemberTemp.Member = Utility.Json.ToJson(memberList);
+                ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceMemberTemp);
+                ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceStatusTemp);
             }
-            allianceMemberTemp.ApplyforMember = Utility.Json.ToJson(applyList);
-            allianceMemberTemp.Member = Utility.Json.ToJson(memberList);
-            ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceMemberTemp);
             if (roleAllianceDTOs.Count>0)
             {
                 SetResponseData(() =>

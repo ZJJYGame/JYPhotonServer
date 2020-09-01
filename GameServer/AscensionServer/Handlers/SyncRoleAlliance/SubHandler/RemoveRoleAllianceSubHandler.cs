@@ -31,26 +31,37 @@ namespace AscensionServer
             List<int> memberlist = new List<int>();
             if (roleallianceTemp!=null)
             {
-                NHCriteria nHCriteriaAlliances = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", roleallianceTemp.AllianceID);
-                var allianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceMember>(nHCriteriaAlliances).Result;
-                memberlist = Utility.Json.ToObject<List<int>>(allianceTemp.Member);
-                memberlist.Remove(roleallianceObj.RoleID);
-                allianceTemp.Member = Utility.Json.ToJson(memberlist);
-                ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceTemp);
-
-                roleallianceTemp.AllianceID = 0;
-                roleallianceTemp.Reputation = 0;
-                roleallianceTemp.ReputationHistroy = 0;
-                roleallianceTemp.ReputationMonth = 0;
-                ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleallianceTemp);
-
-                RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { AllianceID = roleallianceTemp.AllianceID, AllianceJob = roleallianceTemp.AllianceJob, JoinTime = roleallianceTemp.JoinTime, ApplyForAlliance = Utility.Json.ToObject<List<int>>(roleallianceTemp.ApplyForAlliance), JoinOffline = roleallianceTemp.JoinOffline, Reputation = roleallianceTemp.Reputation, ReputationHistroy = roleallianceTemp.ReputationHistroy, ReputationMonth = roleallianceTemp.ReputationMonth, RoleID = roleallianceTemp.RoleID, RoleName = roleallianceTemp.RoleName };
-                SetResponseData(() =>
+                if (roleallianceTemp.AllianceJob!=1)
                 {
-                    SubDict.Add((byte)ParameterCode.RoleAlliance, Utility.Json.ToJson(roleAllianceDTO));
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
-                });
-                GameManager.ReferencePoolManager.Despawns(nHCriteriaAlliances);
+                    NHCriteria nHCriteriaAlliances = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", roleallianceTemp.AllianceID);
+                    var allianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceMember>(nHCriteriaAlliances).Result;
+                    memberlist = Utility.Json.ToObject<List<int>>(allianceTemp.Member);
+                    memberlist.Remove(roleallianceObj.RoleID);
+                    allianceTemp.Member = Utility.Json.ToJson(memberlist);
+                    ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceTemp);
+
+                    roleallianceTemp.AllianceID = 0;
+                    roleallianceTemp.Reputation = 0;
+                    roleallianceTemp.ReputationHistroy = 0;
+                    roleallianceTemp.ReputationMonth = 0;
+                    ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleallianceTemp);
+
+                    RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { AllianceID = roleallianceTemp.AllianceID, AllianceJob = roleallianceTemp.AllianceJob, JoinTime = roleallianceTemp.JoinTime, ApplyForAlliance = Utility.Json.ToObject<List<int>>(roleallianceTemp.ApplyForAlliance), JoinOffline = roleallianceTemp.JoinOffline, Reputation = roleallianceTemp.Reputation, ReputationHistroy = roleallianceTemp.ReputationHistroy, ReputationMonth = roleallianceTemp.ReputationMonth, RoleID = roleallianceTemp.RoleID, RoleName = roleallianceTemp.RoleName };
+                    SetResponseData(() =>
+                    {
+                        SubDict.Add((byte)ParameterCode.RoleAlliance, Utility.Json.ToJson(roleAllianceDTO));
+                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    });
+                    GameManager.ReferencePoolManager.Despawns(nHCriteriaAlliances, nHCriteriaroleAlliances);
+                }
+                else
+                {
+                    SetResponseData(() =>
+                    {
+                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                    });
+                }
+
             }
             else
             {
