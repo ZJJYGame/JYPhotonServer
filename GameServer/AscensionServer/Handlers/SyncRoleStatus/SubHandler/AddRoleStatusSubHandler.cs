@@ -42,9 +42,9 @@ namespace AscensionServer
         {
             ResetResponseData(operationRequest);
             var RoleStatusData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleStatus) as string;
-            AscensionServer._Log.Info(">>>>>添加自己的一些属性" + RoleStatusData + ">>>>>>>>>>>>>");
+            Utility.Debug.LogInfo(">>>>>添加自己的一些属性" + RoleStatusData + ">>>>>>>>>>>>>");
             var roleObj = Utility.Json.ToObject<RoleStatus>(RoleStatusData);
-            NHCriteria nHCriteriaRoleId = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
+            NHCriteria nHCriteriaRoleId = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
             bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleStatus>(nHCriteriaRoleId);
             if (exist)
             {
@@ -116,7 +116,7 @@ namespace AscensionServer
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             }else Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleId);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleId);
         }
 
         #region     计算数据

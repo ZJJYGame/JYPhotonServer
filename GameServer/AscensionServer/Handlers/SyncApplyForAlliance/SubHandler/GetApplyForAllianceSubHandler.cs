@@ -28,7 +28,7 @@ namespace AscensionServer
 
             List<ApplyForAllianceDTO> applyForAllianceList = new List<ApplyForAllianceDTO>();
             List<int> applyForList = new List<int>();
-            NHCriteria nHCriteriaalliancemember = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("AllianceID", alliancememberObj.AllianceID);
+            NHCriteria nHCriteriaalliancemember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", alliancememberObj.AllianceID);
             var alliancememberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceMember>(nHCriteriaalliancemember);
             applyForList = Utility.Json.ToObject<List<int>>(alliancememberTemp.ApplyforMember);
             for (int i = 0; i < applyForList.Count; i++)
@@ -42,12 +42,13 @@ namespace AscensionServer
 
             SetResponseData(() =>
             {
+                Utility.Debug.LogInfo("获得申请加仙盟的列表" + Utility.Json.ToJson(applyForAllianceList));
                 SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(applyForAllianceList));
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             });
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaalliancemember);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaalliancemember);
         }
     }
 }

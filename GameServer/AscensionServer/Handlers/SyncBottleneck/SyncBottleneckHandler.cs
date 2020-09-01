@@ -21,7 +21,7 @@ namespace AscensionServer
             string roleJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleBottleneck));
            // AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>传过来的瓶颈状态" + roleJson);
             var bottleneckObj = Utility.Json.ToObject<Bottleneck>(roleJson);
-            NHCriteria nHCriteriaBottleneck = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", bottleneckObj.RoleID);
+            NHCriteria nHCriteriaBottleneck = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", bottleneckObj.RoleID);
 
 
             Bottleneck bottleneck = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Bottleneck>(nHCriteriaBottleneck);
@@ -36,7 +36,7 @@ namespace AscensionServer
                 OpResponse.ReturnCode = (short)ReturnCode.Success;
             }
             peer.SendOperationResponse(OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaBottleneck);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaBottleneck);
         }
     }
 }

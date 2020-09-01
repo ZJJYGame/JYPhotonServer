@@ -26,8 +26,8 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string tacticformationJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobTacticFormation));
             var tacticformationObj = Utility.Json.ToObject<TacticFormationDTO>(tacticformationJson);
-            NHCriteria nHCriteriatacticformation = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", tacticformationObj.RoleID);
-            AscensionServer._Log.Info("得到的阵法配方" + tacticformationJson);
+            NHCriteria nHCriteriatacticformation = GameManager.ReferencePoolManager. Spawn<NHCriteria>().SetValue("RoleID", tacticformationObj.RoleID);
+            Utility.Debug.LogInfo("得到的阵法配方" + tacticformationJson);
             var tacticformationtemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<TacticFormation>(nHCriteriatacticformation);
             if (tacticformationtemp != null)
             {
@@ -39,7 +39,7 @@ namespace AscensionServer
 
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
-                    AscensionServer._Log.Info("得到的阵法配方" + Utility.Json.ToJson(tacticformationtemp));
+                    Utility.Debug.LogInfo("得到的阵法配方" + Utility.Json.ToJson(tacticformationtemp));
                 }
             }
             else
@@ -48,7 +48,7 @@ namespace AscensionServer
                 SubDict.Add((byte)ParameterCode.JobTacticFormation, Utility.Json.ToJson(new List<string>()));
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriatacticformation);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriatacticformation);
         }
     }
 }

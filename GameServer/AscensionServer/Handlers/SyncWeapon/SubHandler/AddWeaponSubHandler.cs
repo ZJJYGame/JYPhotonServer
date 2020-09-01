@@ -27,7 +27,7 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string weaponJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.GetWeapon));
             var weaponObj = Utility.Json.ToObject<WeaponDTO>(weaponJson);
-            NHCriteria nHCriteriaweapon = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", weaponObj.RoleID);
+            NHCriteria nHCriteriaweapon = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", weaponObj.RoleID);
             var weaponTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Weapon>(nHCriteriaweapon);
 
             int index=1;
@@ -38,13 +38,13 @@ namespace AscensionServer
                 if (!string.IsNullOrEmpty(weaponTemp.Weaponindex)&& !weaponTemp.Weaponindex.Equals("{}"))
                 {
 
-                    AscensionServer._Log.Info("添加后的武器数值为" + weaponTemp.Weaponindex);
+                    Utility.Debug.LogInfo("添加后的武器数值为" + weaponTemp.Weaponindex);
                     indexDict = Utility.Json.ToObject<Dictionary<int, int>>(weaponTemp.Weaponindex);
                     WeaponDict= Utility.Json.ToObject<Dictionary<int, List<int>>>(weaponTemp.WeaponStatusDict);
-                    AscensionServer._Log.Info("添加后的武器数值为" + indexDict.Count);
+                    Utility.Debug.LogInfo("添加后的武器数值为" + indexDict.Count);
                     if (indexDict.TryGetValue(weaponObj.WeaponID, out index))
                     {
-                        AscensionServer._Log.Info("1添加后的武器数值为" + index);
+                        Utility.Debug.LogInfo("1添加后的武器数值为" + index);
                         WeaponDict.Add(Convert.ToInt32(weaponObj.WeaponID + "" + (index+1)), weaponObj.WeaponStatusDict[weaponObj.WeaponID]);
                         index = Convert.ToInt32(weaponObj.WeaponID + "" + (index + 1));
                         weaponTemp.WeaponStatusDict = Utility.Json.ToJson(WeaponDict);
@@ -54,7 +54,7 @@ namespace AscensionServer
                     }
                     else
                     {
-                        AscensionServer._Log.Info("2添加后的武器数值为" + weaponTemp.RoleID);
+                        Utility.Debug.LogInfo("2添加后的武器数值为" + weaponTemp.RoleID);
                         WeaponDict.Add(Convert.ToInt32(weaponObj.WeaponID + "" + 1), weaponObj.WeaponStatusDict[weaponObj.WeaponID]);
                         index = Convert.ToInt32(weaponObj.WeaponID + "" + 1);
                         weaponTemp.WeaponStatusDict = Utility.Json.ToJson(WeaponDict);
@@ -65,7 +65,7 @@ namespace AscensionServer
                 }
                 else
                 {
-                    AscensionServer._Log.Info("3添加后的武器数值为" + weaponTemp.RoleID);
+                    Utility.Debug.LogInfo("3添加后的武器数值为" + weaponTemp.RoleID);
                     WeaponDict.Add(Convert.ToInt32(weaponObj.WeaponID + "" + 1), weaponObj.WeaponStatusDict[weaponObj.WeaponID]);
                     index = Convert.ToInt32(weaponObj.WeaponID + "" + 1);
                     weaponTemp.WeaponStatusDict = Utility.Json.ToJson(WeaponDict);
@@ -83,7 +83,7 @@ namespace AscensionServer
             else
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaweapon);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaweapon);
         }
     }
 }

@@ -40,7 +40,7 @@ namespace AscensionServer
                 }
                 catch
                 {
-                    AscensionServer._Log.Info(">>>>>\n" +(OperationCode)operationRequest.OperationCode+" ; " + (SubOperationCode)subCode + " :  has no subHandler \n<<<<<");
+                    Utility.Debug.LogInfo($"{(OperationCode)operationRequest.OperationCode} ;{ (SubOperationCode)subCode }  has no subHandler ");
                 }
             }
         }
@@ -75,7 +75,7 @@ namespace AscensionServer
                     subHandlerResult.Owner = this;
                     subHandlerResult.OnInitialization();
                     RegisterSubHandler(subHandlerResult);
-                    AscensionServer._Log.Info(">>>>> \n " + subHandlerResult.GetType().FullName + " :  OnSubHandlerInitialization \n<<<<<");
+                   //Utility.Debug.LogInfo($" {subHandlerResult.GetType().FullName } :  OnSubHandlerInitialization ");
                 }
             }
         }
@@ -113,7 +113,7 @@ namespace AscensionServer
             threadSyncEvent.OnInitialization();
             threadSyncEvent.SetEventData(threadEventData);
             threadSyncEvent.AddFinishedHandler(() => {
-                AscensionServer._Log.Info(message);
+                Utility.Debug.LogInfo(message);
                 threadSyncEvent.Clear();
             });
             ThreadPool.QueueUserWorkItem(threadSyncEvent.Handler);
@@ -121,7 +121,7 @@ namespace AscensionServer
         void RegisterSubHandler(ISubHandler handler)
         {
             if (subHandlerDict.ContainsKey((byte)handler.SubOpCode))
-                AscensionServer._Log.Info("重复键值：\n" + handler.ToString() + "\n:" + handler.SubOpCode.ToString() + "\n结束");
+                Utility.Debug.LogError("重复键值：\n" + handler.ToString() + "\n:" + handler.SubOpCode.ToString() + "\n结束");
             subHandlerDict.Add((byte)handler.SubOpCode, handler);
         }
         void DeregisterSubHandler(ISubHandler handler)

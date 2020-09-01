@@ -24,8 +24,8 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string spiritualrunesJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobSpiritualRunes));
             var spiritualrunesObj = Utility.Json.ToObject<SpiritualRunesDTO>(spiritualrunesJson);
-            NHCriteria nHCriteriaspiritualrunes = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", spiritualrunesObj.RoleID);
-            AscensionServer._Log.Info("得到的制符配方");
+            NHCriteria nHCriteriaspiritualrunes = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", spiritualrunesObj.RoleID);
+            Utility.Debug.LogInfo("得到的制符配方");
             var spiritualrunestemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SpiritualRunes>(nHCriteriaspiritualrunes);
             if (spiritualrunestemp != null)
             {
@@ -46,7 +46,7 @@ namespace AscensionServer
                 SubDict.Add((byte)ParameterCode.JobSpiritualRunes, Utility.Json.ToJson(new List<string>()));
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaspiritualrunes);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaspiritualrunes);
         }
     }
 }

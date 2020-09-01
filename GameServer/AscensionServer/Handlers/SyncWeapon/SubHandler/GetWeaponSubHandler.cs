@@ -23,7 +23,7 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string weaponJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.GetWeapon));
             var weaponObj = Utility.Json.ToObject<WeaponDTO>(weaponJson);
-            NHCriteria nHCriteriaweapon= ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", weaponObj.RoleID);
+            NHCriteria nHCriteriaweapon= GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", weaponObj.RoleID);
             var weapontemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Weapon>(nHCriteriaweapon);
 
             if (weapontemp!=null)
@@ -38,7 +38,7 @@ namespace AscensionServer
             else
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaweapon);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaweapon);
         }
     }
 }

@@ -43,14 +43,16 @@ namespace AscensionServer
             ResetResponseData(operationRequest);
             var InventoryRoleData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role) as string;
             var InventoryData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Inventory) as string;
-            AscensionServer._Log.Info(">>>>>背包添加roleId" + InventoryRoleData + ">>>>>>>>>>>>>");
-            AscensionServer._Log.Info(">>>>>背包添加的数据" + InventoryData + ">>>>>>>>>>>>>");
+			
+            Utility.Debug.LogInfo(">>>>>背包添加roleId" + InventoryRoleData + ">>>>>>>>>>>>>");
+            Utility.Debug.LogInfo(">>>>>背包添加的数据" + InventoryData + ">>>>>>>>>>>>>");
+
             var InventoryRoleObj = Utility.Json.ToObject<RoleRing>(InventoryRoleData);
             var InventoryObj = Utility.Json.ToObject<RingDTO>(InventoryData);
 
-            NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", InventoryRoleObj.RoleID);
+            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", InventoryRoleObj.RoleID);
             bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleRing>(nHCriteriaRoleID);
-            NHCriteria nHCriteriaRingID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", InventoryObj.ID);
+            NHCriteria nHCriteriaRingID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", InventoryObj.ID);
             bool existRing = ConcurrentSingleton<NHManager>.Instance.Verify<Ring>(nHCriteriaRingID);
 
             if (exist && existRing)
@@ -237,7 +239,7 @@ namespace AscensionServer
             else
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID, nHCriteriaRingID);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID, nHCriteriaRingID);
         }
     }
 }

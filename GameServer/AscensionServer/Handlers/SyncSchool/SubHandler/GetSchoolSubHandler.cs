@@ -23,27 +23,27 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string schoolJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.School));
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
-            NHCriteria nHCriteriaSchool = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
+            NHCriteria nHCriteriaSchool = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
             var schoolTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
             List<string > DTOList = new List<string>(); ;
             if (schoolTemp!=null)
             {
                 DTOList.Clear();
                 DTOList.Add(Utility.Json.ToJson( schoolTemp));
-                NHCriteria nHCriteriaTreasureattic = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolTemp.TreasureAtticID);
+                NHCriteria nHCriteriaTreasureattic = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolTemp.TreasureAtticID);
                 var TreasureatticTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
                 if (TreasureatticTemp!=null)
                 {
                     DTOList.Add(Utility.Json.ToJson(new TreasureatticDTO() { ID = TreasureatticTemp.ID, ItemAmountDict = Utility.Json.ToObject<Dictionary<int, int>>(TreasureatticTemp.ItemAmountDict), ItemRedeemedDict = Utility.Json.ToObject<Dictionary<int, int>>(TreasureatticTemp.ItemRedeemedDict) }));
                 }
-                NHCriteria nHCriteriaSutrasAttic = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolTemp.SutrasAtticID);
+                NHCriteria nHCriteriaSutrasAttic = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolTemp.SutrasAtticID);
                 var SutrasAtticTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SutrasAttic>(nHCriteriaSutrasAttic);
 
                 if (SutrasAtticTemp != null)
                 {
                     DTOList.Add(Utility.Json.ToJson(new SutrasAtticDTO() { ID = SutrasAtticTemp.ID, SutrasAmountDict = Utility.Json.ToObject<Dictionary<int, int>>(SutrasAtticTemp.SutrasAmountDict), SutrasRedeemedDictl = Utility.Json.ToObject<Dictionary<int, int>>(SutrasAtticTemp.SutrasRedeemedDictl) }));
                 }
-                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaTreasureattic, nHCriteriaSutrasAttic);
+                GameManager.ReferencePoolManager.Despawns(nHCriteriaTreasureattic, nHCriteriaSutrasAttic);
             }
             else     
                 SetResponseData(() => {Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail; });
@@ -61,7 +61,7 @@ namespace AscensionServer
                 SetResponseData(() => { Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail; });
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaSchool);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaSchool);
 
         }
     }

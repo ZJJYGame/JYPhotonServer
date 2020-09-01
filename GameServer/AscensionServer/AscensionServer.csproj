@@ -27,6 +27,7 @@
     <DocumentationFile>
     </DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,6 +37,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>AscensionServer</RootNamespace>
@@ -169,18 +171,20 @@
     <Compile Include="AlliancelogicManager\AlliancelogicManager.cs" />
     <Compile Include="AreaHandlers\EnterAdventureSceneHandler.cs" />
     <Compile Include="AreaHandlers\ExitAdventureSceneHandler.cs" />
-    <Compile Include="Ascension\GameCore\Core\Actor\ActorTypeEnum.cs" />
-    <Compile Include="Ascension\GameCore\Core\Input\IInputCmd.cs" />
-    <Compile Include="Ascension\GameCore\Core\NetEvent\NetworkEventEnum.cs" />
-    <Compile Include="Ascension\GameCore\Core\NetEvent\NetworkEventCore.cs" />
-    <Compile Include="Ascension\GameCore\Core\Variable\PeerVariable.cs" />
-    <Compile Include="Ascension\GameCore\Modules\ActorManager\ActorManager.cs" />
-    <Compile Include="Ascension\GameCore\Modules\RoomManager\Base\BattleRoomCache.cs" />
-    <Compile Include="Ascension\GameCore\Modules\RoomManager\Base\RoomBattleInputC2S.cs" />
-    <Compile Include="Ascension\GameCore\Modules\TeamManager\Base\TeamCache.cs" />
-    <Compile Include="Ascension\GameCore\Modules\RoomManager\Base\BattleInputC2S.cs" />
-    <Compile Include="Ascension\GameCore\Modules\RoomManager\Base\RoomCache.cs" />
+    <Compile Include="Ascension\Application\Base\Actor\ActorTypeEnum.cs" />
+    <Compile Include="Ascension\Application\Base\Input\IInputCmd.cs" />
+    <Compile Include="Ascension\Application\Base\NetEvent\NetEventKey.cs" />
+    <Compile Include="Ascension\Application\Base\NetEvent\NetworkEventCore.cs" />
+    <Compile Include="Ascension\Application\Base\Variable\PeerVariable.cs" />
+    <Compile Include="Ascension\Application\Actor\ActorManager.cs" />
+    <Compile Include="Ascension\Application\Room\Base\BattleRoomCache.cs" />
+    <Compile Include="Ascension\Application\Room\Base\RoomBattleInputC2S.cs" />
+    <Compile Include="Ascension\Application\Scene\Scene.cs" />
+    <Compile Include="Ascension\Application\Team\Base\TeamCache.cs" />
+    <Compile Include="Ascension\Application\Room\Base\BattleInputC2S.cs" />
+    <Compile Include="Ascension\Application\Room\Base\RoomCache.cs" />
     <Compile Include="Concurrent\ConcurrentInt.cs" />
+    <Compile Include="Helpers\DebugHelper\Log4NetDebugHelper.cs" />
     <Compile Include="DOMap\AlchemyMap.cs" />
     <Compile Include="DOMap\AllianceMemberMap.cs" />
     <Compile Include="DOMap\AlliancesMap.cs" />
@@ -225,18 +229,18 @@
     <Compile Include="DO\TacticFormation.cs" />
     <Compile Include="DO\TemporaryRing.cs" />
     <Compile Include="DO\Treasureattic.cs" />
-    <Compile Include="Ascension\GameCore\Modules\Base\ModuleBase.cs" />
-    <Compile Include="Ascension\GameCore\Modules\BattleManager\BattleManager.cs" />
-    <Compile Include="Ascension\GameCore\Modules\TeamManager\TeamManager.cs" />
-    <Compile Include="Ascension\GameCore\Modules\LobbyManager\LobbyManager.cs" />
-    <Compile Include="Ascension\GameCore\Modules\RoleManager\RoleManager.cs" />
-    <Compile Include="Ascension\GameCore\Modules\RoomManager\RoomManager.cs" />
+    <Compile Include="Ascension\Application\Battle\BattleManager.cs" />
+    <Compile Include="Ascension\Application\Team\TeamManager.cs" />
+    <Compile Include="Ascension\Application\Lobby\LobbyManager.cs" />
+    <Compile Include="Ascension\Application\Role\RoleManager.cs" />
+    <Compile Include="Ascension\Application\Room\RoomManager.cs" />
     <Compile Include="DO\VareityPurchaseRecord.cs" />
     <Compile Include="DO\VareityShop.cs" />
     <Compile Include="Handlers\SchoolSchoolRefresh\SyncSchoolRefreshHandler.cs" />
     <Compile Include="Handlers\SchoolSchoolRefresh\SyncUpdatSchoolRefreshHandler.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\UpdateAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceMember\SubHandler\GetAllianceMemberSubHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceMember\SubHandler\RemoveAllianceMemberSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceMember\SubHandler\SyncAllianceMemberSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceMember\SyncAllianceMemberHandler.cs" />
     <Compile Include="Handlers\SyncApplyForAlliance\SubHandler\AddApplyForAllianceSubHandler.cs" />
@@ -267,6 +271,7 @@
     <Compile Include="Handlers\SyncPuppet\SubHandler\UpdatePuppetSubHandler.cs" />
     <Compile Include="Handlers\SyncPuppet\SyncPuppetHandler.cs" />
     <Compile Include="Handlers\SyncRoleAlliance\SubHandler\GetRoleAllianceSubHandler.cs" />
+    <Compile Include="Handlers\SyncRoleAlliance\SubHandler\RemoveRoleAllianceSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAlliance\SubHandler\SyncRoleAllianceSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAlliance\SyncRoleAllianceHandler.cs" />
     <Compile Include="Handlers\SyncRoleAssets\SubHandler\RemoveRoleAssetsSubHandler.cs" />
@@ -353,7 +358,6 @@
     <Compile Include="Ascension\AscensionServer.cs" />
     <Compile Include="Caching\ConcurrencyCache.cs" />
     <Compile Include="Caching\PeerCache.cs" />
-    <Compile Include="Container\ClientPeerContainer.cs" />
     <Compile Include="Handlers\Base\Handler.cs" />
     <Compile Include="Handlers\Base\IHandler.cs" />
     <Compile Include="Handlers\Base\ISubHandler.cs" />
@@ -412,7 +416,7 @@
     <Compile Include="Handlers\SyncTasks\SubHandler\SyncTaskSubHandler.cs" />
     <Compile Include="Handlers\SyncTasks\SubHandler\UpdateTaskSubHandler.cs" />
     <Compile Include="Handlers\SyncTasks\SyncTaskHandler.cs" />
-    <Compile Include="JsonHelper\NewtonjsonHelper.cs" />
+    <Compile Include="Helpers\JsonHelper\NewtonjsonHelper.cs" />
     <Compile Include="DOMap\GongFaMap.cs" />
     <Compile Include="DOMap\MiShuMap.cs" />
     <Compile Include="DOMap\OffLineTimeMap.cs" />

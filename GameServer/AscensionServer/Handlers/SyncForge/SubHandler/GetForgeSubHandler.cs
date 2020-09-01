@@ -23,7 +23,7 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string forgeJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobForge));
             var forgeObj = Utility.Json.ToObject<ForgeDTO>(forgeJson);
-            NHCriteria nHCriteriaFroge = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", forgeObj.RoleID);
+            NHCriteria nHCriteriaFroge = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", forgeObj.RoleID);
             //AscensionServer._Log.Info("得到的锻造配方" );
             var Frogetemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Forge>(nHCriteriaFroge);
             if (Frogetemp != null)
@@ -45,7 +45,7 @@ namespace AscensionServer
                 SubDict.Add((byte)ParameterCode.JobForge, Utility.Json.ToJson(new List<string>()));
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaFroge);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaFroge);
         }
     }
 }

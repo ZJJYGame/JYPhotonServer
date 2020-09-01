@@ -31,7 +31,7 @@ namespace AscensionServer
            // AscensionServer._Log.Info("LogoffHandler \n 登出的账号" + userJson + ">>>>>>>>>>>>>>>>>>");
             ResponseData.Clear();
             bool verified = peer.PeerCache.EqualUser(userObj)&&peer.PeerCache.IsLogged==true;
-            AscensionServer._Log.Info("LogoffHandler \n 登出的账号" + peer.PeerCache.EqualUser(userObj) + ">>>>>>>>>>>>>>>>>>"+ peer.PeerCache.IsLogged);
+            Utility.Debug.LogInfo("LogoffHandler \n 登出的账号" + peer.PeerCache.EqualUser(userObj) + ">>>>>>>>>>>>>>>>>>"+ peer.PeerCache.IsLogged);
             OpResponse.OperationCode = operationRequest.OperationCode;
             if (verified)
             {

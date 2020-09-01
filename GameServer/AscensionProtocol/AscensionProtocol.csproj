@@ -20,6 +20,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\AscensionProtocol.xml</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>AscensionProtocol</RootNamespace>
@@ -50,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTO\AlchemyDTO.cs" />
+    <Compile Include="DTO\AllianceConstructionDTO.cs" />
     <Compile Include="DTO\AllianceMemberDTO.cs" />
     <Compile Include="DTO\AlliancesDTO.cs" />
     <Compile Include="DTO\AllianceStatusDTO.cs" />

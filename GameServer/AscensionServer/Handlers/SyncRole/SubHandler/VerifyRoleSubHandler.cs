@@ -20,9 +20,9 @@ namespace AscensionServer
         {
             var dict = ParseSubDict(operationRequest);
             string rolestatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleStatus));
-            AscensionServer._Log.Info(">>>>>>>>>>>>VerifyRoleStatusHandler\n传输过来更新的战斗数据:" + rolestatusJson + "VerifyRoleStatusHandler\n<<<<<<<<<<<");
+            Utility.Debug.LogInfo(">>>>>>>>>>>>VerifyRoleStatusHandler\n传输过来更新的战斗数据:" + rolestatusJson + "VerifyRoleStatusHandler\n<<<<<<<<<<<");
             var rolestatusObj = Utility.Json.ToObject<RoleStatus>(rolestatusJson);
-            NHCriteria nHCriteriaRoleStatue = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolestatusObj.RoleID);
+            NHCriteria nHCriteriaRoleStatue = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolestatusObj.RoleID);
             var result = ConcurrentSingleton<NHManager>.Instance.Verify<RoleStatus>(nHCriteriaRoleStatue);
             if (result)
             {

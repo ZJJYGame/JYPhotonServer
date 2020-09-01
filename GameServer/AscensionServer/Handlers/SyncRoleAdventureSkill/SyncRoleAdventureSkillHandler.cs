@@ -25,7 +25,7 @@ namespace AscensionServer
             var roleAdventureSkillJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleAdventureStartSkill));
             peer.PeerCache.RoleAdventureSkill = Utility.Json.ToObject<RoleAdventureSkillDTO>(roleAdventureSkillJson);
             peer.IsUseSkill = false;
-            AscensionServer._Log.Info("历练技能使用成功");
+            Utility.Debug.LogInfo("历练技能使用成功");
             roleSet.Clear();
             var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
             int peerSetLength = peerSet.Count;
@@ -76,9 +76,9 @@ namespace AscensionServer
         {
             return Task.Run(() =>
             {
-                AscensionServer._Log.Info("技能cd线程已经开始》》》》》》》》》》》》》》》》》》》》");
+                Utility.Debug.LogInfo("技能cd线程已经开始》》》》》》》》》》》》》》》》》》》》");
                 Thread.Sleep(cd * 1000);
-                AscensionServer._Log.Info("进入技能buff线程》》》》》》》》》》》》》》》》》》》》");
+                Utility.Debug.LogInfo("进入技能buff线程》》》》》》》》》》》》》》》》》》》》");
                 var data = new Dictionary<byte, object>();
                 data.Add((byte)ParameterCode.RoleAdventureSkillCD, Utility.Json.ToJson(skillid));
                 EventData eventData = new EventData();

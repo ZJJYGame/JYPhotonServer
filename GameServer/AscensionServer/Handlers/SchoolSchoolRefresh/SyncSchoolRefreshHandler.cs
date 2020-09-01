@@ -32,7 +32,7 @@ namespace AscensionServer
                 //EventData eventData = new EventData((byte)EventCode.SchoolRefresh);
                 //eventData.Parameters = data;
                 //peer.SendEvent(eventData, new SendParameters());
-                AscensionServer._Log.Info("派发刷新商店的事件给服务器");
+                Utility.Debug.LogInfo("派发刷新商店的事件给服务器");
                 OpResponse.Parameters = ResponseData;
                 OpResponse.OperationCode = operationRequest.OperationCode;
                 OpResponse.ReturnCode = (short)ReturnCode.Success;
@@ -40,8 +40,8 @@ namespace AscensionServer
             }
             else
             {
-                AscensionServer._Log.Info("派发刷新商店的事件给服务器1》》》》》》》》》》》》》》》》" + schoolJson);
-                AscensionServer._Log.Info("派发刷新商店的事件给服务器2》》》》》》》》》》》》》》》》" + roleJson);
+                Utility.Debug.LogInfo("派发刷新商店的事件给服务器1》》》》》》》》》》》》》》》》" + schoolJson);
+                Utility.Debug.LogInfo("派发刷新商店的事件给服务器2》》》》》》》》》》》》》》》》" + roleJson);
             }
         }
     }

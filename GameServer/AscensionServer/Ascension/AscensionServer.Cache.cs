@@ -13,6 +13,8 @@ using log4net.Config;
 using AscensionServer.Model;
 using System.Reflection;
 using ExitGames.Concurrency.Fibers;
+using Cosmos;
+
 namespace AscensionServer
 {
     public partial class AscensionServer:ApplicationBase
@@ -45,7 +47,7 @@ namespace AscensionServer
             var result = loggedPeerCache.Add(peer.PeerCache.Account, peer);
             if (result)
             {
-                _Log.Info("----------------------------  AscensionServer.Cache.Login() : Server management logged peer success : " + peer.ToString() + "------------------------------------");
+                Utility.Debug.LogInfo("----------------------------  AscensionServer.Cache.Login() : Server management logged peer success : " + peer.ToString() + "------------------------------------");
             }
             else
             {
@@ -64,11 +66,11 @@ namespace AscensionServer
             var result = loggedPeerCache.Remove(peer.PeerCache.Account);
             if (result)
             {
-                _Log.Info("---------------------------- AscensionServer.Cache.Logoff() :remove peer logoff success : " + peer.ToString() + "------------------------------------");
+                Utility.Debug.LogInfo("---------------------------- AscensionServer.Cache.Logoff() :remove peer logoff success : " + peer.ToString() + "------------------------------------");
             }
             else
             {
-                _Log.Info("---------------------------- AscensionServer.Cache.Logoff() : can't  remove from logged Dict  : " + peer.ToString() + "------------------------------------");
+                Utility.Debug.LogInfo("---------------------------- AscensionServer.Cache.Logoff() : can't  remove from logged Dict  : " + peer.ToString() + "------------------------------------");
             }
         }
         public int HasOnlineID(AscensionPeer peer)
@@ -90,7 +92,7 @@ namespace AscensionServer
             ed.Parameters = data;
             //loginPeerDict[peer.PeerCache.Account].SendEvent(ed, new SendParameters());
             loggedPeerCache[peer.PeerCache.Account].SendEvent(ed, new SendParameters());
-            _Log.Info("登录冲突检测》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》");
+            Utility.Debug.LogInfo("登录冲突检测》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》");
         }
         public void Online(AscensionPeer peer, Role role)
         {
@@ -100,10 +102,10 @@ namespace AscensionServer
                 peer.PeerCache.RoleID = role.RoleID;
                 peer.PeerCache.Role = role;
                 peer.PeerCache.IsLogged = true;
-                _Log.Info("----------------------------  AscensionServer.Offline() : online success : " + peer.PeerCache.Account.ToString() + "------------------------------------");
+                Utility.Debug.LogInfo("----------------------------  AscensionServer.Offline() : online success : " + peer.PeerCache.Account.ToString() + "------------------------------------");
             }
             else
-                _Log.Info("---------------------------- AscensionServer.Online()  :  can't set into  logged Dict : " + peer.PeerCache.Account.ToString() + "------------------------------------");
+                Utility.Debug.LogInfo("---------------------------- AscensionServer.Online()  :  can't set into  logged Dict : " + peer.PeerCache.Account.ToString() + "------------------------------------");
         }
         public void Offline(AscensionPeer peer)
         {
@@ -111,9 +113,9 @@ namespace AscensionServer
                 return;
             var result = loggedPeerCache.Remove(peer.PeerCache.Account);
             if (!result)
-                _Log.Info("----------------------------  AscensionServer.Offline() :can't  remove from logged Dict : " + peer.PeerCache.Account.ToString() + "------------------------------------");
+                Utility.Debug.LogInfo("----------------------------  AscensionServer.Offline() :can't  remove from logged Dict : " + peer.PeerCache.Account.ToString() + "------------------------------------");
             else
-                _Log.Info("----------------------------  AscensionServer.Offline() : offline success : " + peer.PeerCache.Account.ToString() + "------------------------------------");
+                Utility.Debug.LogInfo("----------------------------  AscensionServer.Offline() : offline success : " + peer.PeerCache.Account.ToString() + "------------------------------------");
         }
 
         /// <summary>
@@ -127,11 +129,11 @@ namespace AscensionServer
             if (result)
             {
                 callBack?.Invoke();
-                _Log.Info("---------------------------- AscensionServer.Cache.Logoff() :remove peer addventureScenePeerCache  success : " + peer.ToString() + "------------------------------------");
+                Utility.Debug.LogInfo("---------------------------- AscensionServer.Cache.Logoff() :remove peer addventureScenePeerCache  success : " + peer.ToString() + "------------------------------------");
             }
             else
             {
-                _Log.Info("---------------------------- AscensionServer.Cache.Logoff() : can't  remove from laddventureScenePeerCache  : " + peer.ToString() + "------------------------------------");
+                Utility.Debug.LogInfo("---------------------------- AscensionServer.Cache.Logoff() : can't  remove from laddventureScenePeerCache  : " + peer.ToString() + "------------------------------------");
             }
         }
         /// <summary>
@@ -145,11 +147,11 @@ namespace AscensionServer
             if (result)
             {
                 callBack?.Invoke();
-                _Log.Info("---------------------------- AscensionServer.Cache.Logoff() :remove peer addventureScenePeerCache success : " + peer.ToString() + "------------------------------------");
+                Utility.Debug.LogInfo("---------------------------- AscensionServer.Cache.Logoff() :remove peer addventureScenePeerCache success : " + peer.ToString() + "------------------------------------");
             }
             else
             {
-                _Log.Info("---------------------------- AscensionServer.Cache.Logoff() : can't  remove from laddventureScenePeerCache : " + peer.ToString() + "------------------------------------");
+                Utility.Debug.LogInfo("---------------------------- AscensionServer.Cache.Logoff() : can't  remove from laddventureScenePeerCache : " + peer.ToString() + "------------------------------------");
             }
         }
         public bool IsEnterAdventureScene(AscensionPeer peer)

@@ -27,17 +27,17 @@ namespace AscensionServer
             string schoolJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.School));
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
 
-            AscensionServer._Log.Info(">>>>>>>加入1宗门的请求收到了"+ schoolJson);
+            Utility.Debug.LogInfo(">>>>>>>加入1宗门的请求收到了"+ schoolJson);
             string treasureatticJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.TreasureAttic));
             var treasureatticObj = Utility.Json.ToObject<TreasureatticDTO>(treasureatticJson);
 
             string sutrasAtticJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.SutrasAtticm));
             var sutrasAtticObj = Utility.Json.ToObject<SutrasAtticDTO>(sutrasAtticJson);
 
-            AscensionServer._Log.Info(">>>>>>>加入2宗门的请求收到了"+ treasureatticJson);
-            NHCriteria nHCriteriaSchool = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
-            NHCriteria nHCriteriaTreasureattic = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", treasureatticObj.ID);
-            NHCriteria nHCriteriasutrasAttic = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", sutrasAtticObj.ID);
+            Utility.Debug.LogInfo(">>>>>>>加入2宗门的请求收到了"+ treasureatticJson);
+            NHCriteria nHCriteriaSchool = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
+            NHCriteria nHCriteriaTreasureattic = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", treasureatticObj.ID);
+            NHCriteria nHCriteriasutrasAttic = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", sutrasAtticObj.ID);
 
             var schoolTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
             var treasureatticTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
@@ -46,7 +46,7 @@ namespace AscensionServer
             if (schoolTemp != null)
             {
 
-                AscensionServer._Log.Info(">>>>>>>加入宗门的请求收到了"+ schoolTemp.SchoolID);
+                Utility.Debug.LogInfo(">>>>>>>加入宗门的请求收到了"+ schoolTemp.SchoolID);
                 if (treasureatticTemp != null)
                 {
                     treasureatticTemp.ID = treasureatticObj.ID;
@@ -65,17 +65,17 @@ namespace AscensionServer
                 var schoolSendObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
                 SetResponseData(() =>
                 {
-                    AscensionServer._Log.Info(">>>>>>>返回加入宗门的数据" + Utility.Json.ToJson(schoolSendObj));
+                    Utility.Debug.LogInfo(">>>>>>>返回加入宗门的数据" + Utility.Json.ToJson(schoolSendObj));
                     SubDict.Add((byte)ParameterCode.School, Utility.Json.ToJson(schoolSendObj));
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
             }
             else
                 SetResponseData(() =>{Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail; });
-            AscensionServer._Log.Info(">>>>>>>加入宗门的请求收到了2" + schoolTemp.SchoolID);
+            Utility.Debug.LogInfo(">>>>>>>加入宗门的请求收到了2" + schoolTemp.SchoolID);
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaSchool, nHCriteriaTreasureattic, nHCriteriasutrasAttic);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaSchool, nHCriteriaTreasureattic, nHCriteriasutrasAttic);
         }
     }
 }

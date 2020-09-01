@@ -23,7 +23,7 @@ namespace AscensionServer
 
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            AscensionServer._Log.Info("进入更新拍卖品事件");
+            Utility.Debug.LogInfo("进入更新拍卖品事件");
             var dict = ParseSubDict(operationRequest);
             string buyAuctionGoodsJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AddAuctionGoods));
             Dictionary<string, string> dataDict = Utility.Json.ToObject<Dictionary<string, string>>(buyAuctionGoodsJson);
@@ -33,8 +33,8 @@ namespace AscensionServer
             int allGoodsCount=0;
 
             var auctionGoodsJson = RedisHelper.String.StringGetAsync("AuctionGoods" + buyAuctionGoodsObj.GUID).Result;
-            AscensionServer._Log.Info("AuctionGoods" + buyAuctionGoodsObj.GUID);
-            AscensionServer._Log.Info(auctionGoodsJson);
+            Utility.Debug.LogInfo("AuctionGoods" + buyAuctionGoodsObj.GUID);
+            Utility.Debug.LogInfo(auctionGoodsJson);
 
             AuctionGoodsDTO resultAuctionGoodsDTO= new AuctionGoodsDTO();
 
@@ -42,7 +42,7 @@ namespace AscensionServer
             {
                 SetResponseData(() =>
                 {
-                    AscensionServer._Log.Info("找不到该商品");
+                    Utility.Debug.LogInfo("找不到该商品");
                     List<AuctionGoodsDTO> tempAuctionGoodsDTOs = GetReturnGoodsList(buyAuctionGoodsObj.GlobalID, ref startIndex, count,ref allGoodsCount);
                     Dictionary<string, string> resultDict = new Dictionary<string, string>();
                     resultDict.Add("Data",Utility.Json.ToJson(resultAuctionGoodsDTO));
@@ -51,7 +51,7 @@ namespace AscensionServer
                     resultDict.Add("Count",allGoodsCount.ToString());
                     SubDict.Add((byte)ParameterCode.AddAuctionGoods, Utility.Json.ToJson(resultDict));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-                    AscensionServer._Log.Info("找不到该商品");
+                    Utility.Debug.LogInfo("找不到该商品");
                 });
             }
             else//获得数据，继续判断
@@ -91,7 +91,7 @@ namespace AscensionServer
                     }
                     SetResponseData(() =>
                     {
-                        AscensionServer._Log.Info("购买物品成功");
+                        Utility.Debug.LogInfo("购买物品成功");
                         List<AuctionGoodsDTO> tempAuctionGoodsDTOs = GetReturnGoodsList(buyAuctionGoodsObj.GlobalID, ref startIndex, count, ref allGoodsCount);
                         Dictionary<string, string> resultDict = new Dictionary<string, string>();
                         resultDict.Add("Data", Utility.Json.ToJson(resultAuctionGoodsDTO));
@@ -99,7 +99,7 @@ namespace AscensionServer
                         resultDict.Add("StartIndex", startIndex.ToString());
                         resultDict.Add("Count", allGoodsCount.ToString());
                         SubDict.Add((byte)ParameterCode.AddAuctionGoods, resultDict);
-                        AscensionServer._Log.Info(Utility.Json.ToJson(resultDict));
+                        Utility.Debug.LogInfo(Utility.Json.ToJson(resultDict));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
@@ -107,7 +107,7 @@ namespace AscensionServer
                 {
                     SetResponseData(() =>
                     {
-                        AscensionServer._Log.Info("物品数量不足");
+                        Utility.Debug.LogInfo("物品数量不足");
                         List<AuctionGoodsDTO> tempAuctionGoodsDTOs = GetReturnGoodsList(buyAuctionGoodsObj.GlobalID, ref startIndex, count, ref allGoodsCount);
                         Dictionary<string, string> resultDict = new Dictionary<string, string>();
                         resultDict.Add("Data", Utility.Json.ToJson(resultAuctionGoodsDTO));
@@ -128,7 +128,7 @@ namespace AscensionServer
             List<AuctionGoodsDTO> auctionGoodsDTOList = new List<AuctionGoodsDTO>();
             if (!RedisHelper.Hash.HashExistAsync("AuctionIndex", id.ToString()).Result)
             {
-                AscensionServer._Log.Info("当前种类商品不存在");
+                Utility.Debug.LogInfo("当前种类商品不存在");
                 return auctionGoodsDTOList;
             }
                

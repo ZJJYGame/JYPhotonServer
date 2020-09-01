@@ -29,8 +29,8 @@ namespace AscensionServer
             string subDataJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.OnOffLine));
             var onofflinetemp = Utility.Json.ToObject<OnOffLine>(subDataJson);
             Bottleneck bottleneck = new Bottleneck() {RoleID= onofflinetemp.RoleID };
-            NHCriteria nHCriteriabottleneck = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", bottleneck.RoleID);
-            NHCriteria nHCriteriaRole = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
+            NHCriteria nHCriteriabottleneck = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", bottleneck.RoleID);
+            NHCriteria nHCriteriaRole = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
             var bottleneckObj= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Bottleneck>(nHCriteriabottleneck);
             ///获取的时间秒
             OffLineTimeDTO offLineTime = new OffLineTimeDTO() { RoleID = onofflinetemp.RoleID };
@@ -53,7 +53,7 @@ namespace AscensionServer
                         date.Add(Convert.ToByte(bottleneckObj.IsBottleneck));
                     }else
                         date.Add(0);
-                    AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>得到的离线时间1" + Exptypeobj.MsGfID+"id"+ Exptypeobj.ExpType);
+                    Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>得到的离线时间1" + Exptypeobj.MsGfID+"id"+ Exptypeobj.ExpType);
                     SetResponseData(() =>
                     {
                         SubDict.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
@@ -74,7 +74,7 @@ namespace AscensionServer
                     }
                     else
                         date.Add(0);
-                    AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>得到的离线时间2" + Exptypeobj.MsGfID + "id" + Exptypeobj.ExpType);
+                    Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>得到的离线时间2" + Exptypeobj.MsGfID + "id" + Exptypeobj.ExpType);
                     SetResponseData(() =>
                     {
                         SubDict.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
@@ -97,7 +97,7 @@ namespace AscensionServer
                 });
                 }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRole);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaRole);
         }
     }
     }

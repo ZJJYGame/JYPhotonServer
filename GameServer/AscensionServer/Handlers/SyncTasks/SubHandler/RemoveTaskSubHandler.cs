@@ -21,9 +21,9 @@ namespace AscensionServer
         {
             ResetResponseData(operationRequest);
             string roletask = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Task));
-            AscensionServer._Log.Info(">>>>>>>>>>>>>删除任务相关信息：" + roletask + ">>>>>>>>>>>>>>>>>>>>>>");
+            Utility.Debug.LogInfo(">>>>>>>>>>>>>删除任务相关信息：" + roletask + ">>>>>>>>>>>>>>>>>>>>>>");
             var roletaskobj = Utility.Json.ToObject<RoleTaskProgressDTO>(roletask);
-            NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roletaskobj.RoleID);
+            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roletaskobj.RoleID);
             bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleTaskProgress>(nHCriteriaRoleID);
             Dictionary<string, RoleTaskItemDTO> Dic;
             if (exist)
@@ -47,7 +47,7 @@ namespace AscensionServer
             else
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawn(nHCriteriaRoleID);
+            GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
         }
     }
 }

@@ -32,24 +32,27 @@ namespace AscensionServer
             var roleAllianceObj = Utility.Json.ToObject<RoleAlliance> 
                 (roleAllianceJson);
 
-            AscensionServer._Log.Info("获得的发过来的仙盟数据" + alliancestatusJson+"及盟主信息"+ roleAllianceJson);
-            NHCriteria nHCriteriaAllianceName = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("AllianceName", alliancestatusObj.AllianceName);
+            Utility.Debug.LogInfo("获得的发过来的仙盟数据" + alliancestatusJson+"及盟主信息"+ roleAllianceJson);
+            NHCriteria nHCriteriaAllianceName = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceName", alliancestatusObj.AllianceName);
             var alliance = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceStatus>(nHCriteriaAllianceName);
 
 
             List<string> Alliancelist = new List<string>();
-            NHCriteria nHCriteriaroleAlliance = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleAllianceObj.RoleID);
+            NHCriteria nHCriteriaroleAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleAllianceObj.RoleID);
             var roleAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriaroleAlliance);
 
             if (alliance == null)
             {
                 List<int> gangslist = new List<int>();
-                NHCriteria nHCriteriaAllianceList = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", 1);
+                NHCriteria nHCriteriaAllianceList = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", 1);
                 var allianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Alliances>(nHCriteriaAllianceList);
                 gangslist = Utility.Json.ToObject<List<int>>(allianceTemp.AllianceList);
 
                 var allianceslIstObj = ConcurrentSingleton<NHManager>.Instance.Insert(alliancestatusObj);
-                AscensionServer._Log.Info("添加的仙盟id为" + allianceslIstObj.ID);
+                Utility.Debug.LogInfo("添加的仙盟id为" + allianceslIstObj.ID);
+
+                AllianceMember allianceMember = new AllianceMember() { AllianceID = allianceslIstObj.ID, ApplyforMember = Utility.Json.ToJson(new List<int>() { }) ,Member = Utility.Json.ToJson(new List<int>() { roleAllianceObj .RoleID}) };
+                ConcurrentSingleton<NHManager>.Instance.Insert(allianceMember);
                 gangslist.Add(allianceslIstObj.ID);
                 allianceTemp.AllianceList = Utility.Json.ToJson(gangslist);
                 ConcurrentSingleton<NHManager>.Instance.Update(allianceTemp);
@@ -74,14 +77,14 @@ namespace AscensionServer
                     };
                     ConcurrentSingleton<NHManager>.Instance.Insert(roleAllianceTemp);
                 }
-
-                Alliancelist.Add(Utility.Json.ToJson(roleAllianceTemp));
+                RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { AllianceID = roleAllianceTemp.AllianceID, AllianceJob = roleAllianceTemp.AllianceJob, JoinTime = roleAllianceTemp.JoinTime, ApplyForAlliance = Utility.Json.ToObject<List<int>>(roleAllianceTemp.ApplyForAlliance), JoinOffline = roleAllianceTemp.JoinOffline, Reputation = roleAllianceTemp.Reputation, ReputationHistroy = roleAllianceTemp.ReputationHistroy, ReputationMonth = roleAllianceTemp.ReputationMonth, RoleID = roleAllianceTemp.RoleID, RoleName = roleAllianceTemp.RoleName };
+                Alliancelist.Add(Utility.Json.ToJson(roleAllianceDTO));
                 SetResponseData(() =>
                 {
                     SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(Alliancelist));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
-                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaAllianceList, nHCriteriaAllianceName);
+                GameManager.ReferencePoolManager.Despawns(nHCriteriaAllianceList, nHCriteriaAllianceName);
             }
             else
             {

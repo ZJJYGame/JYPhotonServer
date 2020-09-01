@@ -23,7 +23,7 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string forgeJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobForge));
             var forgeObj = Utility.Json.ToObject<ForgeDTO>(forgeJson);
-            NHCriteria nHCriteriaforge = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", forgeObj.RoleID);
+            NHCriteria nHCriteriaforge = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", forgeObj.RoleID);
             var forgeTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Forge>(nHCriteriaforge);
             int Level = 0;
             int Exp = 0;
@@ -54,7 +54,7 @@ namespace AscensionServer
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaforge);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaforge);
         }
     }
 }

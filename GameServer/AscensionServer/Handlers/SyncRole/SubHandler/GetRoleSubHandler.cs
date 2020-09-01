@@ -20,9 +20,9 @@ namespace AscensionServer
         {
             var dict = ParseSubDict(operationRequest);
             string account = Utility.Json.ToObject<User>(Convert.ToString (Utility.GetValue(dict, (byte)ParameterCode.User))).Account;
-            NHCriteria nHCriteriaAccount = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("Account", account);
+            NHCriteria nHCriteriaAccount = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("Account", account);
             string _uuid = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<User>(nHCriteriaAccount).UUID;
-            NHCriteria nHCriteriaUUID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("UUID", _uuid);
+            NHCriteria nHCriteriaUUID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("UUID", _uuid);
             UserRole userRole = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<UserRole>(nHCriteriaUUID);
             if (!string.IsNullOrEmpty(userRole.RoleIDArray))
             {
@@ -37,7 +37,7 @@ namespace AscensionServer
                     roleIDlist = Utility.Json.ToObject<List<string>>(roleIDListJson);
                     for (int i = 0; i < roleIDlist.Count; i++)
                     {
-                        NHCriteria tmpCriteria = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", int.Parse(roleIDlist[i]));
+                        NHCriteria tmpCriteria = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", int.Parse(roleIDlist[i]));
                         Role tmpRole = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Role>(tmpCriteria);
                         roleObjList.Add(tmpRole);
                         nHCriteriaList.Add(tmpCriteria);
@@ -48,7 +48,7 @@ namespace AscensionServer
                     SubDict.Add((byte)ParameterCode.RoleSet, Utility.Json.ToJson(roleObjList));
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
-                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaList);
+                GameManager.ReferencePoolManager.Despawns(nHCriteriaList);
             }
             else
             {
@@ -60,7 +60,7 @@ namespace AscensionServer
             }
             // 把上面的结果给客户端
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaUUID, nHCriteriaAccount);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaUUID, nHCriteriaAccount);
 
         }
     }

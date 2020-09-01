@@ -25,9 +25,9 @@ namespace AscensionServer
             var shoppingmallObj = Utility.Json.ToObject<ShoppingMallDTO>(shoppingmallJson);
             string rolepurchaseJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RolePurchase));
             var rolepurchaseObj = Utility.Json.ToObject<RolePurchaseRecordDTO>(rolepurchaseJson);
-            AscensionServer._Log.Info("得到的商店數據"+ rolepurchaseObj.RoleID);
-            NHCriteria nHCriteriarolepurchase = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", rolepurchaseObj.RoleID);
-            NHCriteria nHCriteriashoppingmall = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", shoppingmallObj.ID);
+            Utility.Debug.LogInfo("得到的商店數據"+ rolepurchaseObj.RoleID);
+            NHCriteria nHCriteriarolepurchase = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepurchaseObj.RoleID);
+            NHCriteria nHCriteriashoppingmall = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", shoppingmallObj.ID);
 
 
             var rolepurchasetemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RolePurchaseRecord>(nHCriteriarolepurchase);
@@ -63,7 +63,7 @@ namespace AscensionServer
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriashoppingmall);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriashoppingmall);
         }
     }
 }

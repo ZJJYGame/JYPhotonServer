@@ -23,7 +23,7 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string puppetJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobPuppet));
             var puppetObj = Utility.Json.ToObject<PuppetDTO>(puppetJson);
-            NHCriteria nHCriteriapuppet = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", puppetObj.RoleID);
+            NHCriteria nHCriteriapuppet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", puppetObj.RoleID);
             var puppetTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Puppet>(nHCriteriapuppet);
             int Level = 0;
             int Exp = 0;
@@ -54,7 +54,7 @@ namespace AscensionServer
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriapuppet);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriapuppet);
         }
     }
 }

@@ -32,10 +32,10 @@ namespace AscensionServer
 
 
 
-            NHCriteria nHCriteriallianceApplyFor = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", allianceApplyObj.RoleID);
+            NHCriteria nHCriteriallianceApplyFor = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", allianceApplyObj.RoleID);
             var allianceApplyForTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriallianceApplyFor);
 
-            NHCriteria nHCriterialliancemember = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("AllianceID", allianceObj.AllianceID);
+            NHCriteria nHCriterialliancemember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceObj.AllianceID);
             var alliancememberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceMember>(nHCriterialliancemember).Result;
 
 
@@ -55,7 +55,7 @@ namespace AscensionServer
                         applyList.Remove(allianceApplyObj.RoleID);
 
                         AllianceMember allianceMember = new AllianceMember() { AllianceID = alliancememberTemp.AllianceID, ApplyforMember = Utility.Json.ToJson(applyList), Member = alliancememberTemp.Member };
-                        AscensionServer._Log.Info("修改后仙盟成员数据" + Utility.Json.ToJson(allianceMember));
+                        Utility.Debug.LogInfo("修改后仙盟成员数据" + Utility.Json.ToJson(allianceMember));
                         ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceMember);
                         ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceApplyForTemp);
                     }
@@ -73,7 +73,7 @@ namespace AscensionServer
                     });
                 }
                 peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriallianceApplyFor, nHCriterialliancemember);
+                GameManager.ReferencePoolManager.Despawns(nHCriteriallianceApplyFor, nHCriterialliancemember);
             }
 
 

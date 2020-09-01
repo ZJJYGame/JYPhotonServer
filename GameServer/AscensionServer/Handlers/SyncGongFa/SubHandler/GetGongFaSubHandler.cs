@@ -26,13 +26,13 @@ namespace AscensionServer
             var roleGongFaObj = Utility.Json.ToObject<List<int>>(roleGFJson);
             List<CultivationMethod> gongFaIdList;
             Dictionary<int, List<CultivationMethod>> gongFaDic;
-            AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>同步功法进来了>>>>>>>>>" + roleGongFaObj.Count);
+            Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>同步功法进来了>>>>>>>>>" + roleGongFaObj.Count);
             if (roleGongFaObj.Count != 0)
             {
                 gongFaDic = new Dictionary<int, List<CultivationMethod>>();
                 foreach (var roleId in roleGongFaObj)
                 {
-                    NHCriteria nHCriteriaGongFa = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleId);
+                    NHCriteria nHCriteriaGongFa = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
                     bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleGongFa>(nHCriteriaGongFa);
                     gongFaIdList = new List<CultivationMethod>();
                     if (exist)
@@ -42,7 +42,7 @@ namespace AscensionServer
                         {
                             foreach (var gongFaId in Utility.Json.ToObject<Dictionary<int, int>>(roleIdArray.GongFaIDArray))
                             {
-                                NHCriteria nHCriteriaGongFaId = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("ID", gongFaId.Key);
+                                NHCriteria nHCriteriaGongFaId = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", gongFaId.Key);
                                 var gongFaIdArray = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<CultivationMethod>(nHCriteriaGongFaId);
                                 //AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>同步功法进来了>>>>>>>>>" + gongFaIdArray.GongFaID);
                                 gongFaIdList.Add(gongFaIdArray);
@@ -57,7 +57,7 @@ namespace AscensionServer
                         ConcurrentSingleton<NHManager>.Instance.Insert(new RoleGongFa() { RoleID = roleId });
                         gongFaDic.Add(roleId, new List<CultivationMethod>());
                     }
-                    ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaGongFa);
+                    GameManager.ReferencePoolManager.Despawns(nHCriteriaGongFa);
                 }
                 Owner.OpResponse.Parameters = Owner.ResponseData;
                 Owner.ResponseData.Add((byte)ParameterCode.GongFa, Utility.Json.ToJson(gongFaDic));

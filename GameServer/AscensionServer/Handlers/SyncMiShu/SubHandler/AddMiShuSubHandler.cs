@@ -25,20 +25,20 @@ namespace AscensionServer
 
             var roleObj = Utility.Json.ToObject<Role>(roleJson);
             var mishuObj = Utility.Json.ToObject<MiShu>(msJson);
-            NHCriteria nHCriteriaRoleID = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
+            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
             var roleMiShuObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriaRoleID);
             Dictionary<int, int> mishuDict;
             Dictionary<int, string> DOdict = new Dictionary<int, string>();
             if (roleMiShuObj!=null)
             {
-                AscensionServer._Log.Info("添加的学习的秘术为" + msJson);
+                Utility.Debug.LogInfo("添加的学习的秘术为" + msJson);
                 if (!string.IsNullOrEmpty(roleMiShuObj.MiShuIDArray))
                 {
                     mishuDict = Utility.Json.ToObject<Dictionary<int, int>>(roleMiShuObj.MiShuIDArray);
                     if (mishuDict.Values.ToList().Contains(mishuObj.MiShuID))
                     {
-                        AscensionServer._Log.Info("人物已经学会的秘术" + roleMiShuObj.MiShuIDArray);
-                        AscensionServer._Log.Info("人物已经学会此秘术无法添加新的功法" + roleMiShuObj.MiShuIDArray);
+                        Utility.Debug.LogInfo("人物已经学会的秘术" + roleMiShuObj.MiShuIDArray);
+                        Utility.Debug.LogInfo("人物已经学会此秘术无法添加新的功法" + roleMiShuObj.MiShuIDArray);
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
 
                         Owner.ResponseData.Add((byte)ParameterCode.RoleMiShu, null);
@@ -54,7 +54,7 @@ namespace AscensionServer
                         DOdict.Add(1, Utility.Json.ToJson(roleMiShuObj));
                         SetResponseData(() =>
                         {
-                            AscensionServer._Log.Info("添加的学习的秘术为" + Utility.Json.ToJson(DOdict));
+                            Utility.Debug.LogInfo("添加的学习的秘术为" + Utility.Json.ToJson(DOdict));
                             SubDict.Add((byte)ParameterCode.RoleMiShu, Utility.Json.ToJson(DOdict));
                             Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                         });
@@ -62,7 +62,7 @@ namespace AscensionServer
                 }
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaRoleID);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
 
         }
 

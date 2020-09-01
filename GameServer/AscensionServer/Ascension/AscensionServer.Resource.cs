@@ -69,7 +69,7 @@ namespace AscensionServer
                 var resSetDto = ConcurrentSingleton<ResourceCreator>.Instance.CreateRandomResourceSet(res, border);
                 resUnitSetDict.Add(resSetDto.GlobalID,resSetDto);
             }
-            _Log.Info(Utility.Json.ToJson(resUnitSetDict));
+           //Utility.Debug.LogInfo(Utility.Json.ToJson(resUnitSetDict));
         }
         #endregion
     }

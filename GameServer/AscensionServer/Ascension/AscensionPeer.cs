@@ -62,7 +62,7 @@ namespace AscensionServer
             }
             Logoff();
             AscensionServer.Instance.ConnectedPeerHashSet.Remove(this);
-            AscensionServer. _Log.Info("***********************  Client Disconnect    ***********************");
+            Utility.Debug.LogInfo("***********************  Client Disconnect    ***********************");
         }
         //处理客户端的请求
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
@@ -107,10 +107,10 @@ namespace AscensionServer
         {
             if (roleID == -1)
             {
-                AscensionServer._Log.Info("============AscensionPeer.RecordOnOffLine() : Can't RecordOnOffLine ============");
+                Utility.Debug.LogInfo("============AscensionPeer.RecordOnOffLine() : Can't RecordOnOffLine ============");
                 return;
             }
-            NHCriteria nHCriteriaOnOff = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<NHCriteria>().SetValue("RoleID", roleID);
+            NHCriteria nHCriteriaOnOff = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
             var obj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<OffLineTime>(nHCriteriaOnOff);
             if (obj != null)
             {
@@ -120,14 +120,14 @@ namespace AscensionServer
             }
             else
             {
-                var offLineTimeTmp = ConcurrentSingleton<ReferencePoolManager>.Instance.Spawn<OffLineTime>();
+                var offLineTimeTmp = GameManager.ReferencePoolManager.Spawn<OffLineTime>();
                 offLineTimeTmp.RoleID = roleID;
                 offLineTimeTmp.OffTime = DateTime.Now.ToString();
                 ConcurrentSingleton<NHManager>.Instance.Insert(offLineTimeTmp);
-                ConcurrentSingleton<ReferencePoolManager>.Instance.Despawn(offLineTimeTmp);
+                GameManager.ReferencePoolManager.Despawn(offLineTimeTmp);
             }
-            ConcurrentSingleton<ReferencePoolManager>.Instance.Despawns(nHCriteriaOnOff);
-            AscensionServer._Log.Info("同步离线时间成功");
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaOnOff);
+            Utility.Debug.LogInfo("同步离线时间成功");
         }
 
         public void OnInitialization()

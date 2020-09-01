@@ -27,7 +27,7 @@ namespace AscensionServer
         {
             ResponseData.Clear();
             var occupiedUnitJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.OccupiedUnit));
-            AscensionServer._Log.Info("请求资源数据  :  " + occupiedUnitJson);
+            Utility.Debug.LogInfo("请求资源数据  :  " + occupiedUnitJson);
             var occupiedUnitObj = Utility.Json.ToObject<OccupiedUnitDTO>(occupiedUnitJson);
             var result = AscensionServer.Instance.OccupiedResUnit(occupiedUnitObj);
             if (result)
