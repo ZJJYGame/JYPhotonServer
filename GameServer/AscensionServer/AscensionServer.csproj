@@ -19,7 +19,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
-    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -177,9 +177,11 @@
     <Compile Include="Ascension\Application\Base\NetEvent\NetEventKey.cs" />
     <Compile Include="Ascension\Application\Base\NetEvent\NetworkEventCore.cs" />
     <Compile Include="Ascension\Application\Base\Variable\IKeyValue.cs" />
-    <Compile Include="Ascension\Application\Base\Variable\PeerComponent.cs" />
+    <Compile Include="Ascension\Application\Base\Peer\PeerEntity.cs" />
     <Compile Include="Ascension\Application\Actor\ActorManager.cs" />
+    <Compile Include="Ascension\Application\Peer\Buff.cs" />
     <Compile Include="Ascension\Application\Peer\PeerManager.cs" />
+    <Compile Include="Ascension\Application\Peer\Token.cs" />
     <Compile Include="Ascension\Application\Room\Base\BattleRoomCache.cs" />
     <Compile Include="Ascension\Application\Room\Base\RoomBattleInputC2S.cs" />
     <Compile Include="Ascension\Application\Scene\SceneManager.cs" />
@@ -235,7 +237,6 @@
     <Compile Include="Ascension\Application\Battle\BattleManager.cs" />
     <Compile Include="Ascension\Application\Team\TeamManager.cs" />
     <Compile Include="Ascension\Application\Lobby\LobbyManager.cs" />
-    <Compile Include="Ascension\Application\Role\RoleManager.cs" />
     <Compile Include="Ascension\Application\Room\RoomManager.cs" />
     <Compile Include="DO\VareityPurchaseRecord.cs" />
     <Compile Include="DO\VareityShop.cs" />

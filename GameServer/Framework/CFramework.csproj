@@ -64,6 +64,10 @@
     <Compile Include="CosmosFramework\Core\Base\DataStructure\LRUCacheIEnumerator.cs" />
     <Compile Include="CosmosFramework\Core\Base\DataStructure\TinyLinkedList.cs" />
     <Compile Include="CosmosFramework\Core\Base\DataStructure\TypeNamePair.cs" />
+    <Compile Include="CosmosFramework\Core\Base\ECS\Component.cs" />
+    <Compile Include="CosmosFramework\Core\Base\ECS\ComponentWithId.cs" />
+    <Compile Include="CosmosFramework\Core\Base\ECS\Entity.cs" />
+    <Compile Include="CosmosFramework\Core\Base\ECS\Object.cs" />
     <Compile Include="CosmosFramework\Core\Base\Event\ConcurrentLogicEventArgs.cs" />
     <Compile Include="CosmosFramework\Core\Base\Event\EventActions.cs" />
     <Compile Include="CosmosFramework\Core\Base\Event\EventArg\Base\CFEventArgs.cs" />

@@ -6,18 +6,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Cosmos;
 using AscensionProtocol.DTO;
+using System.Security.Principal;
+
 namespace AscensionServer
 {
     /// <summary>
     /// peer的变量；可追加DTO；
     /// </summary>
-    public class PeerComponent : IKeyValue<byte,DataTransferObject>
+    public class PeerEntity : IKeyValue<byte,DataTransferObject>
     {
         public IPeer ClientPeer { get; private set; }
-        Dictionary<GenericValuePair<byte, byte>, Variable> variableDict;
-        public PeerComponent()
+        Dictionary<GenericValuePair<Type, byte>, Variable> variableDict;
+        public PeerEntity()
         {
-            variableDict = new Dictionary<GenericValuePair<byte, byte>, Variable>();
+            variableDict = new Dictionary<GenericValuePair<Type, byte>, Variable>();
         }
         public object GetValue(byte dataKey)
         {
