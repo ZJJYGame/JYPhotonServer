@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol;
+using AscensionProtocol.DTO;
 using Photon.SocketServer;
 using AscensionServer.Model;
 using Cosmos;
@@ -19,22 +20,34 @@ namespace AscensionServer
 
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            string rolestatusJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
-            Utility.Debug.LogInfo(">>>>>>>>>>>>VerifyRoleStatusHandler\n传输过来更新的战斗数据:" + rolestatusJson + "VerifyRoleStatusHandler\n<<<<<<<<<<<");
-            var rolestatusObj = Utility.Json.ToObject<RoleStatus>(rolestatusJson);
-            NHCriteria nHCriteriaRoleStatue = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolestatusObj.RoleID);
-            Owner.ResponseData.Clear();
-            Owner.OpResponse.OperationCode = operationRequest.OperationCode;
-            Owner.ResponseData.Add((byte)OperationCode.SubOperationCode, (byte)SubOpCode);
-            bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleStatus>(nHCriteriaRoleStatue);
-            Owner.OpResponse.OperationCode = operationRequest.OperationCode;
-            if (exist)
+            var dict = ParseSubDict(operationRequest);
+            string roleJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role));
+
+
+            var roleObj = Utility.Json.ToObject<RoleDTO>(roleJson);
+            NHCriteria nHCriteriaRole = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
+            var roleTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Role>(nHCriteriaRole);
+
+            if (roleTemp != null)
             {
-                ConcurrentSingleton<NHManager>.Instance.Update(rolestatusObj);
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                roleTemp.RoleLevel = roleObj.RoleLevel;
+                ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleTemp);
+                SetResponseData(() =>
+                {
+                    SubDict.Add((byte)ParameterCode.Role, Utility.Json.ToJson(roleTemp));
+                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                });
             }
             else
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+            {
+                SetResponseData(() =>
+                {
+                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                });
+            }
+
+
+
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
         }
     }

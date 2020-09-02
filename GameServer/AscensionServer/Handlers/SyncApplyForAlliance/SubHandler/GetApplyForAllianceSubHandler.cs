@@ -36,6 +36,7 @@ namespace AscensionServer
              var roleObj= AlliancelogicManager.Instance.GetNHCriteria<Role>("RoleID", applyForList[i]);
                 var schoolObj = AlliancelogicManager.Instance.GetNHCriteria<RoleSchool>("RoleID", applyForList[i]);
                 var gongfaObj = AlliancelogicManager.Instance.GetNHCriteria<RoleGongFa>("RoleID", applyForList[i]);
+
                 applyForAllianceList.Add(AlliancelogicManager.Instance.JointDate(roleObj, schoolObj));
             }
 

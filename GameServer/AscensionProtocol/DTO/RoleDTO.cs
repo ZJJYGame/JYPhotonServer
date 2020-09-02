@@ -14,6 +14,7 @@ namespace AscensionProtocol.DTO
         public virtual int RoleTalent { get; set; }
         public virtual string RoleRoot { get; set; }
         public virtual string RoleName { get; set; }
+        public virtual int RoleLevel { get; set; }
         public override void Clear()
         {
             RoleID = -1;
@@ -21,6 +22,7 @@ namespace AscensionProtocol.DTO
             RoleTalent = 0;
             RoleRoot = null;
             RoleName = null;
+            RoleLevel = 0;
         }
         public override string ToString()
         {

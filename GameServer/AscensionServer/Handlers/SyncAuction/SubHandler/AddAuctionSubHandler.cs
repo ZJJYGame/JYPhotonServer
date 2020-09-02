@@ -30,7 +30,7 @@ namespace AscensionServer
             string guid= Guid.NewGuid().ToString("N");
             auctionGoodsObj.GUID = guid;
 
-            string redisKey = "AuctionGoods" + guid;
+            string redisKey = "AuctionGoods_" + guid;
             RedisHelper.String.StringSetAsync(redisKey, Utility.Json.ToJson(auctionGoodsObj));
 
             //加入索引表
