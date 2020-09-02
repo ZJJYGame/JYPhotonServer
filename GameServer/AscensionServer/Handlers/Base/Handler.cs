@@ -49,13 +49,10 @@ namespace AscensionServer
             OpResponse = new OperationResponse();
             ResponseData = new Dictionary<byte, object>();
             subHandlerDict = new Dictionary<byte, ISubHandler>();
-            AscensionServer.Instance.RegisterHandler(this);
             threadEventParameter = new Dictionary<byte, object>();
-
         }
         public virtual void OnTermination()
         {
-            AscensionServer.Instance.DeregisterHandler(this);
             OnSubHandlerTermination();
         }
         public void ResetHandler()
@@ -75,7 +72,6 @@ namespace AscensionServer
                     subHandlerResult.Owner = this;
                     subHandlerResult.OnInitialization();
                     RegisterSubHandler(subHandlerResult);
-                   //Utility.Debug.LogInfo($" {subHandlerResult.GetType().FullName } :  OnSubHandlerInitialization ");
                 }
             }
         }

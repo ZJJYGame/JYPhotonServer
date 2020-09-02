@@ -22,8 +22,8 @@ namespace AscensionServer
         /// </summary>
         public bool IsFull { get { return peerDict.Count >=_TeamCapacity; } }
         readonly ushort _TeamCapacity = 5;
-        ConcurrentDictionary<uint, AscensionPeer> peerDict = new ConcurrentDictionary<uint, AscensionPeer>();
-        AscensionPeer captain;
+        ConcurrentDictionary<uint, PeerEntity> peerDict = new ConcurrentDictionary<uint, PeerEntity>();
+        PeerEntity captain;
         /// <summary>
         /// 初始化队伍
         /// </summary>
@@ -51,7 +51,7 @@ namespace AscensionServer
         /// <returns>是否离队成功</returns>
         public bool LeaveTeam(uint peerID)
         {
-            AscensionPeer peer;
+            PeerEntity peer;
             return peerDict.TryRemove(peerID, out peer);
         }
         /// <summary>

@@ -28,7 +28,7 @@ namespace AscensionServer
         /// <summary>
         /// peerID ,peer
         /// </summary>
-        protected ConcurrentDictionary<int, ActorBase> peerDict = new ConcurrentDictionary<int, ActorBase>();
+        protected ConcurrentDictionary<uint, PeerEntity> peerDict = new ConcurrentDictionary<uint, PeerEntity>();
         #endregion
 
         #region Methods
@@ -51,20 +51,21 @@ namespace AscensionServer
         /// <summary>
         ///进入房间 
         /// </summary>
-        //public bool EnterRoom(int peerID)
-        //{
-        //    var peer = ActorManager.Instance.TryGetValue(peerID);
-        //    if (peer != null)
-        //        return peerDict.TryAdd(peerID, peer);
-        //    else
-        //        return false;
-        //}
+        public bool EnterRoom(uint peerID)
+        {
+            PeerEntity peer;
+            PeerManager.Instance.TryGetValue(peerID, out peer);
+            if (peer != null)
+                return peerDict.TryAdd(peerID, peer);
+            else
+                return false;
+        }
         /// <summary>
         ///离开房间 
         /// </summary>
-        public bool ExitRoom(int peerID)
+        public bool ExitRoom(uint peerID)
         {
-            ActorBase peer;
+            PeerEntity peer;
             return peerDict.TryRemove(peerID, out peer);
         }
         /// <summary>

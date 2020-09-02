@@ -11,17 +11,18 @@ using System.Security.Principal;
 namespace AscensionServer
 {
     /// <summary>
-    /// peer的变量；可追加DTO；
+    /// Peer实体对象，保存了peer的具体引用
     /// </summary>
-    public class PeerEntity : IKeyValue<GenericValuePair<Type, byte>, DataTransferObject>
+    public class PeerEntity : IKeyValue<Type, NetVariable>, IReference
     {
         public IPeer ClientPeer { get; private set; }
-        Dictionary<GenericValuePair<Type, byte>, Variable> variableDict;
+        public ICollection<NetVariable> NetVariableCollection { get { return variableDict.Values; } }
+        ConcurrentDictionary<Type, NetVariable> variableDict;
         public PeerEntity()
         {
-            variableDict = new Dictionary<GenericValuePair<Type, byte>, Variable>();
+            variableDict = new ConcurrentDictionary<Type, NetVariable>();
         }
-        public PeerEntity(IPeer peer):this()
+        public PeerEntity(IPeer peer) : this()
         {
             this.ClientPeer = peer;
         }
@@ -29,30 +30,57 @@ namespace AscensionServer
         {
             this.ClientPeer = peer;
         }
-
-        public bool TryGetValue(GenericValuePair<Type, byte> key, out DataTransferObject value)
+        public bool TryGetValue(Type key, out NetVariable value)
         {
-            throw new NotImplementedException();
+            return variableDict.TryGetValue(key, out value);
         }
-
-        public bool ContainsKey(GenericValuePair<Type, byte> key)
+        public bool ContainsKey(Type key)
         {
-            throw new NotImplementedException();
+            return variableDict.ContainsKey(key);
         }
-
-        public bool TryRemove(GenericValuePair<Type, byte> Key)
+        public bool TryRemove(Type Key)
         {
-            throw new NotImplementedException();
+            NetVariable netVar;
+            return variableDict.TryRemove(Key, out netVar);
         }
-
-        public bool TryAdd(GenericValuePair<Type, byte> key, DataTransferObject Value)
+        public bool TryAdd(Type key, NetVariable Value)
         {
-            throw new NotImplementedException();
+            return variableDict.TryAdd(key, Value);
         }
-
-        public bool TryUpdate(GenericValuePair<Type, byte> key, DataTransferObject newValue, DataTransferObject comparsionValue)
+        public bool TryUpdate(Type key, NetVariable newValue, NetVariable comparsionValue)
         {
-            throw new NotImplementedException();
+            return variableDict.TryUpdate(key, newValue, comparsionValue);
+        }
+        public void Clear()
+        {
+            ClientPeer = null;
+            variableDict.Clear();
+        }
+        public static PeerEntity Create(IPeer peer, params NetVariable[] netVars)
+        {
+            if (peer == null)
+                throw new ArgumentNullException("Peer is invalid");
+            PeerEntity pe = GameManager.ReferencePoolManager.Spawn<PeerEntity>();
+            pe.SetPeer(peer);
+            ushort length = Convert.ToUInt16(netVars.Length);
+            for (int i = 0; i < length; i++)
+            {
+                pe.TryAdd(netVars.GetType(), netVars[i]);
+            }
+            return pe;
+        }
+        public static PeerEntity Create(IPeer peer, List<NetVariable> netVars)
+        {
+            if (peer == null)
+                throw new ArgumentNullException("Peer is invalid");
+            PeerEntity pe = GameManager.ReferencePoolManager.Spawn<PeerEntity>();
+            pe.SetPeer(peer);
+            ushort length = Convert.ToUInt16(netVars.Count);
+            for (int i = 0; i < length; i++)
+            {
+                pe.TryAdd(netVars.GetType(), netVars[i]);
+            }
+            return pe;
         }
     }
 }

@@ -42,8 +42,7 @@ namespace AscensionServer.Threads
         /// </summary>
         void AdventureRefreshResources()
         {
-            //AscensionServer._Log.Info("刷新通知");
-            HashSet<OccupiedUnitDTO> occupiedUnitDTOs = AscensionServer.Instance.OccupiedUnitSetCache;
+            HashSet<OccupiedUnitDTO> occupiedUnitDTOs = GameManager.External.GetModule<ResourceManager>().OccupiedUnitSetCache;
             var loggedList = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
             var loggedCount = loggedList.Count;
             if (loggedCount <= 0)
@@ -52,7 +51,7 @@ namespace AscensionServer.Threads
             foreach (var occupiedUnitObj in occupiedUnitDTOs)
             {
                 ResourceUnitSetDTO currentDictObj = null;
-                if (AscensionServer.Instance.ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID, out currentDictObj))
+                if (GameManager.External.GetModule<ResourceManager>().ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID, out currentDictObj))
                 {
 
                     ResourceUnitDTO resourceUnitDTO = null;
@@ -69,7 +68,7 @@ namespace AscensionServer.Threads
             var data = new Dictionary<byte, object>();
             data.Add((byte)ParameterCode.RelieveUnit, Utility.Json.ToJson(occupiedUnitDTOs));
             EventData.Parameters = data;
-            AscensionServer.Instance.OccupiedUnitSetCache.Clear();
+            GameManager.External.GetModule<ResourceManager>().OccupiedUnitSetCache.Clear();
             foreach (var p in loggedList)
             {
                 p.SendEvent(EventData, SendParameter);

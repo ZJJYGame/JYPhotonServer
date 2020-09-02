@@ -6,11 +6,19 @@ using System.Threading.Tasks;
 using Cosmos;
 namespace AscensionServer
 {
-    public interface IPeer:IRemotePeer
+    public interface IPeer: IReference
     {
         /// <summary>
-        /// peer对象
+        /// 会话ID
         /// </summary>
-        object PeerHandle { get; }
+        uint Conv { get; }
+        /// <summary>
+        /// 是否存活；
+        /// </summary>
+        bool Available { get; }
+        /// <summary>
+        /// peer对象Handle
+        /// </summary>
+        object Handle { get; }
     }
 }

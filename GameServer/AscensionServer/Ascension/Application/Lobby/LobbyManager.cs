@@ -45,7 +45,7 @@ namespace AscensionServer
         /// </summary>
         /// <param name="peerID">id</param>
         /// <returns>查找到的对象</returns>
-        public bool TryGetValue(uint conv,out IPeer peer)
+        public bool TryGetValue(uint conv,out PeerEntity peer)
         {
             peer = default;
             if (!Contains(conv))

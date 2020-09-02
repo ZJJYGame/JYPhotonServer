@@ -12,14 +12,14 @@ namespace AscensionServer
         /// <summary>
         /// string类型的token
         /// </summary>
-        object token;
+        string token;
         public override object GetValue()
         {
             return token;
         }
         public override void SetValue(object value)
         {
-            token = value;
+            token = Convert.ToString(value);
         }
     }
 }

@@ -16,7 +16,7 @@ using AscensionServer.Threads;
 namespace AscensionServer
 {
     //管理跟客户端的链接的
-    public class AscensionPeer : ClientPeer,IPeer
+    public class AscensionPeer : ClientPeer, IPeer
     {
         #region Properties
         /// <summary>
@@ -31,24 +31,21 @@ namespace AscensionServer
         /// 是否已经发送位置信息
         /// </summary>
         public bool IsUseSkill { get; set; }
-
         public uint Conv { get; private set; }
-
         public bool Available { get; private set; }
-
-        public object PeerHandle { get { return this; } }
+        public object Handle { get { return this; } }
         #endregion
 
         #region Methods
-        public AscensionPeer(InitRequest initRequest) : base(initRequest){}
+        public AscensionPeer(InitRequest initRequest) : base(initRequest) { }
 
         //处理客户端断开连接的后续工作
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
             EventData ed = new EventData((byte)EventCode.DeletePlayer);
             Dictionary<byte, object> data = new Dictionary<byte, object>();
-            data.Add((byte)ParameterCode.Role,Utility.Json.ToJson(PeerCache.Role));
-            data.Add((byte)ParameterCode.RoleMoveStatus,  Utility.Json.ToJson(PeerCache.RoleMoveStatus));
+            data.Add((byte)ParameterCode.Role, Utility.Json.ToJson(PeerCache.Role));
+            data.Add((byte)ParameterCode.RoleMoveStatus, Utility.Json.ToJson(PeerCache.RoleMoveStatus));
             ed.Parameters = data;
             if (PeerCache.IsLogged)
             {
@@ -60,9 +57,9 @@ namespace AscensionServer
             if (AscensionServer.Instance.IsEnterAdventureScene(this))
                 AscensionServer.Instance.ExitAdventureScene(this);
             AscensionServer.Instance.RemoveFromLoggedUserCache(this);
-            foreach (AscensionPeer tmpPeer in loggedPeerHashSet )
+            foreach (AscensionPeer tmpPeer in loggedPeerHashSet)
             {
-                tmpPeer.SendEvent(ed, sendParameter);                      
+                tmpPeer.SendEvent(ed, sendParameter);
             }
             Logoff();
             AscensionServer.Instance.ConnectedPeerHashSet.Remove(this);
@@ -88,8 +85,8 @@ namespace AscensionServer
         public void Login(User user)
         {
             this.PeerCache.Account = user.Account;
-            this.PeerCache.UUID= user.UUID;
-            this.PeerCache.Password= user.Password;
+            this.PeerCache.UUID = user.UUID;
+            this.PeerCache.Password = user.Password;
             this.PeerCache.IsLogged = true;
         }
         public void Logoff()
@@ -97,9 +94,9 @@ namespace AscensionServer
             if (!PeerCache.IsLogged)
                 return;
             this.PeerCache.IsLogged = false;
-            this.PeerCache.Account =null;
+            this.PeerCache.Account = null;
             this.PeerCache.UUID = null;
-            this.PeerCache.Password =null;
+            this.PeerCache.Password = null;
             this.PeerCache.RoleID = -1;
         }
         public override string ToString()
@@ -133,13 +130,10 @@ namespace AscensionServer
             GameManager.ReferencePoolManager.Despawns(nHCriteriaOnOff);
             Utility.Debug.LogInfo("同步离线时间成功");
         }
-        
-        public void SendMessage(INetworkMessage netMsg)
-        {
-
-        }
         public void Clear()
         {
+            Conv = 0;
+            Available = false;
         }
     }
     #endregion

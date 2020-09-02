@@ -29,23 +29,12 @@ namespace AscensionServer
     {
         #region Properties
         new public static AscensionServer Instance { get; private set; }
-        Dictionary<OperationCode, Handler> handlerDict = new Dictionary<OperationCode, Handler>();
-        public Dictionary<OperationCode, Handler> HandlerDict { get { return handlerDict; } }
-
-        Dictionary<string, AscensionPeer> loginPeerDict = new Dictionary<string, AscensionPeer>();
-        public Dictionary<string, AscensionPeer> LoginPeerDict { get { return loginPeerDict; } }
-
-        HashSet<AscensionPeer> loggedPeer = new HashSet<AscensionPeer>();
-        public HashSet<AscensionPeer> LoggedPeer { get { return loggedPeer; } }
+        public Dictionary<OperationCode, Handler> HandlerDict { get; private set; }
         #endregion
         /// <summary>
         /// 当一个客户端请求连接的时候，服务器就会调用这个方法
         /// 我们使用peerbase，表示和一个客户端的连接，然后photon就会把链接管理起来
         /// </summary>
-        /// <param name="initRequest"></param>
-        /// <returns></returns>
-        /// 
-
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
             var peer = new AscensionPeer(initRequest);
@@ -56,7 +45,7 @@ namespace AscensionServer
         protected override void Setup()
         {
             Utility.Debug.SetHelper(new Log4NetDebugHelper());
-            RefreshData();
+            HandlerDict = new Dictionary<OperationCode, Handler>();
             Instance = this;
             log4net.GlobalContext.Properties["Photon:ApplicationLogPath"] = Path.Combine(this.ApplicationRootPath, "log");//配置log的输出位置
             FileInfo configFileInfo = new FileInfo(Path.Combine(this.BinaryPath, "log4net.config"));
@@ -74,13 +63,13 @@ namespace AscensionServer
             var syncRefreshResourcesEvent = new SyncRefreshResourcesEvent();
             syncRefreshResourcesEvent.OnInitialization();
             ThreadPool.QueueUserWorkItem(syncRefreshResourcesEvent.Handler);
-            ResourcesLoad();
+            GameManager.External.GetModule<ResourceManager>().ResourcesLoad();
             RedisDotNet.RedisManager.Instance.OnInitialization();
         }
         protected override void TearDown()
         {
             Utility.Debug.LogInfo("Server Shutdown");
-            handlerDict.Clear();
+            HandlerDict.Clear();
         }
         void InitHandler()
         {
@@ -94,25 +83,10 @@ namespace AscensionServer
                     {
                         var handler = Utility.Assembly.GetTypeInstance(types[i]) as Handler;
                         handler.OnInitialization();
+                        HandlerDict.Add(handler.OpCode, handler);
                     }
                 }
             }
         }
-        public void RegisterHandler(Handler handler)
-        {
-            handlerDict.Add(handler.OpCode, handler);
-        }
-        public void DeregisterHandler(Handler handler)
-        {
-            handlerDict.Remove(handler.OpCode);
-        }
-        public bool IsLogin(AscensionPeer peer)
-        {
-            return loginPeerDict.ContainsKey(peer.PeerCache.Account);
-        }
-        /// <summary>
-        /// 初始化资源分布类
-        /// </summary>
-        partial void ResourcesLoad();
     }
 }
