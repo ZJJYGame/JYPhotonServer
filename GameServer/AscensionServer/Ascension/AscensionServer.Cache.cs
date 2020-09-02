@@ -47,7 +47,7 @@ namespace AscensionServer
             var result = loggedPeerCache.Add(peer.PeerCache.Account, peer);
             if (result)
             {
-                Utility.Debug.LogInfo("----------------------------  AscensionServer.Cache.Login() : Server management logged peer success : " + peer.ToString() + "------------------------------------");
+                Utility.Debug.LogInfo($"Server management logged peer success :{ peer.ToString()} ");
             }
             else
             {

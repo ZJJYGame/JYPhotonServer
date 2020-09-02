@@ -12,54 +12,45 @@ namespace AscensionServer
     /// </summary>
     public sealed class LobbyManager:Module<LobbyManager>
     {
-        Dictionary<int, AscensionPeer> peerDict = new Dictionary<int, AscensionPeer>();
-        /// <summary>
-        /// 进入大厅
-        /// </summary>
-        /// <param name="peerID">PeerID</param>
-        /// <param name="peer">peer对象</param>
-        /// <returns>是否进入成功</returns>
-        public bool EnterLobby(int peerID,AscensionPeer peer)
+        HashSet<uint> peerSet;
+        public override void OnInitialization()
         {
-            if (peerDict.ContainsKey(peerID))
-                return false;
-            else
-            {
-                peerDict.Add(peerID, peer);
-                return true;
-            }
+            peerSet = new HashSet<uint>();
+        }
+        public bool TryAdd(uint conv)
+        {
+            return peerSet.Add(conv);
         }
         /// <summary>
         /// 离开大厅；
         /// 这个离开可能玩家进行了进入探索界面，或者副本
         /// </summary>
-        /// <param name="peerID">peerID</param>
+        /// <param name="conv">peerID</param>
         /// <returns>是否离开成功</returns>
-        public bool LeaveLobby(int peerID)
+        public bool TryRemove(uint conv)
         {
-            //AscensionPeer peer;
-            //return peerDict.Remove(peerID, out peer);
-            return peerDict.Remove(peerID);
+            return peerSet.Remove(conv);
         }
         /// <summary>
         /// 是否在大厅中
         /// </summary>
-        /// <param name="peerID">id</param>
+        /// <param name="conv">id</param>
         /// <returns>是否存在</returns>
-        public bool IsInLobby(int peerID)
+        public bool Contains(uint conv)
         {
-            return peerDict.ContainsKey(peerID);
+            return peerSet.Contains(conv);
         }
         /// <summary>
         /// 在大厅中通过ID查找Peer
         /// </summary>
         /// <param name="peerID">id</param>
         /// <returns>查找到的对象</returns>
-        public AscensionPeer GetPeerInLobby(int peerID)
+        public bool TryGetValue(uint conv,out IPeer peer)
         {
-            AscensionPeer peer;
-             peerDict.TryGetValue(peerID, out peer);
-            return peer;
+            peer = default;
+            if (!Contains(conv))
+                return false;
+            return PeerManager.Instance.TryGetValue(conv, out peer);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace AscensionServer
         /// 是否队伍满员
         /// </summary>
         public bool IsFull { get { return peerDict.Count >=_TeamCapacity; } }
-        readonly short _TeamCapacity = 5;
+        readonly ushort _TeamCapacity = 5;
         ConcurrentDictionary<uint, AscensionPeer> peerDict = new ConcurrentDictionary<uint, AscensionPeer>();
         AscensionPeer captain;
         /// <summary>
@@ -32,7 +32,6 @@ namespace AscensionServer
         {
             TeamID = teamID;
             CaptainID = createrID;
-            captain = RoleManager.Instance.GetPeer(createrID);
         }
         /// <summary>
         /// 加入队伍
@@ -42,8 +41,8 @@ namespace AscensionServer
         /// <returns>是否加入成功</returns>
         public bool JoinTeam(uint peerID)
         {
-            var peer = RoleManager.Instance.GetPeer(peerID);
-            return peerDict.TryAdd(peerID,peer);
+            //var peer = RoleManager.Instance.GetPeer(peerID);
+            return peerDict.TryAdd(peerID,null);
         }
         /// <summary>
         /// 主动离队

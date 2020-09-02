@@ -28,7 +28,6 @@ namespace AscensionServer
         {
             string userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.User));
             var userObj = Utility.Json.ToObject<User>(userJson);
-           // AscensionServer._Log.Info("LogoffHandler \n 登出的账号" + userJson + ">>>>>>>>>>>>>>>>>>");
             ResponseData.Clear();
             bool verified = peer.PeerCache.EqualUser(userObj)&&peer.PeerCache.IsLogged==true;
             Utility.Debug.LogInfo("LogoffHandler \n 登出的账号" + peer.PeerCache.EqualUser(userObj) + ">>>>>>>>>>>>>>>>>>"+ peer.PeerCache.IsLogged);
@@ -37,8 +36,6 @@ namespace AscensionServer
             {
                 OpResponse.ReturnCode = (short)ReturnCode.Success;
                 AscensionServer.Instance.RemoveFromLoggedUserCache(peer);
-                //AscensionServer.Instance.Offline(peer);
-
                 peer.Logoff();
             }
             else

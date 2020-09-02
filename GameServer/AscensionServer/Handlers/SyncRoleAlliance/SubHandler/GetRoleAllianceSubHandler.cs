@@ -29,7 +29,11 @@ namespace AscensionServer
             NHCriteria nHCriteriaroleAlliances = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceObj.RoleID);
             var roleallianceTemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriaroleAlliances);
             List<string> Alliancelist = new List<string>();
+
+
             Utility.Debug.LogInfo("接受到的个人仙盟信息"+ roleallianceJson);
+
+
             if (roleallianceTemp!=null)
             {
                 NHCriteria nHCriteriaAlliances = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleallianceTemp.AllianceID);

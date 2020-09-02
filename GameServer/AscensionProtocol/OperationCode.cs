@@ -100,6 +100,10 @@ namespace AscensionProtocol
         SyncAuction =48,
         SyncApplyForAlliance=49,
         SyncAllianceMember = 50,
+        /// <summary>
+        /// 同步玩家个人拍卖物品
+        /// </summary>
+        SyncRoleAuctionItems=51,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>
