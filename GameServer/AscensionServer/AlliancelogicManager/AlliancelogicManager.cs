@@ -170,7 +170,7 @@ namespace AscensionServer
         /// <returns></returns>
         public ApplyForAllianceDTO JointDate( Role role  , RoleSchool schoolDTO)
         {
-            ApplyForAllianceDTO applyForAllianceDTO = new ApplyForAllianceDTO() { RoleID = role.RoleID,School= schoolDTO .RoleJoinedSchool,MemberName=role.RoleName};
+            ApplyForAllianceDTO applyForAllianceDTO = new ApplyForAllianceDTO() { RoleID = role.RoleID,School= schoolDTO .RoleJoinedSchool,MemberName=role.RoleName,Level= role .RoleLevel};
             return applyForAllianceDTO;
 
         }

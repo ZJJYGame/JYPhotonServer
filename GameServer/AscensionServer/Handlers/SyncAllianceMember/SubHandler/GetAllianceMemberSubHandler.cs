@@ -21,7 +21,6 @@ namespace AscensionServer
             base.OnInitialization();
         }
 
-
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -43,8 +42,9 @@ namespace AscensionServer
                         NHCriteria nHCriteriMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", memberList[i]);
                         nHCriterias.Add(nHCriteriMember);
                        var RoleSchol= AlliancelogicManager.Instance.GetNHCriteria<RoleSchool>("RoleID", memberList[i]);
+                        var School = AlliancelogicManager.Instance.GetNHCriteria<School>("ID", RoleSchol.RoleJoiningSchool);
                         var MemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriMember);
-                        RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { AllianceID = MemberTemp.AllianceID, AllianceJob = MemberTemp.AllianceJob, JoinTime = MemberTemp.JoinTime, ApplyForAlliance = Utility.Json.ToObject<List<int>>(MemberTemp.ApplyForAlliance), JoinOffline = MemberTemp.JoinOffline, Reputation = MemberTemp.Reputation, ReputationHistroy = MemberTemp.ReputationHistroy, ReputationMonth = MemberTemp.ReputationMonth, RoleID = MemberTemp.RoleID, RoleName = MemberTemp.RoleName,RoleSchool= RoleSchol.RoleJoiningSchool };
+                        RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { AllianceID = MemberTemp.AllianceID, AllianceJob = MemberTemp.AllianceJob, JoinTime = MemberTemp.JoinTime, ApplyForAlliance = Utility.Json.ToObject<List<int>>(MemberTemp.ApplyForAlliance), JoinOffline = MemberTemp.JoinOffline, Reputation = MemberTemp.Reputation, ReputationHistroy = MemberTemp.ReputationHistroy, ReputationMonth = MemberTemp.ReputationMonth, RoleID = MemberTemp.RoleID, RoleName = MemberTemp.RoleName,RoleSchool= School.SchoolID};
                         allianceMembers.Add(roleAllianceDTO);
                     }
 

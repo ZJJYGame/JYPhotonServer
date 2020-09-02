@@ -24,59 +24,54 @@ namespace AscensionServer
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
-            string allianceApplyJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ApplyForAlliance));
-            var allianceApplyObj = Utility.Json.ToObject<ApplyForAllianceDTO>(allianceApplyJson);
 
-            string allianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
-            var allianceObj = Utility.Json.ToObject<AllianceMember>(allianceJson);
+            string allianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ApplyForAlliance));
+            var allianceObj = Utility.Json.ToObject<AllianceMemberDTO>(allianceJson);
+            List<int> roleidList = new List<int>();
+            roleidList = allianceObj.ApplyforMember;
+            Utility.Debug.LogInfo("进来的查找所有成员的数据 ");
+
+            NHCriteria nHCriteriallianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceObj.AllianceID);
 
 
+            var alliancememberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceMember>(nHCriteriallianceMember).Result;
 
-            NHCriteria nHCriteriallianceApplyFor = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", allianceApplyObj.RoleID);
-            var allianceApplyForTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriallianceApplyFor);
-
-            NHCriteria nHCriterialliancemember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceObj.AllianceID);
-            var alliancememberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceMember>(nHCriterialliancemember).Result;
-
+            List<NHCriteria> NHCriterias = new List<NHCriteria>();
+            NHCriterias.Add(nHCriteriallianceMember);
 
             List<int> applyList = new List<int>();
-            List<int> roleapplyList = new List<int>();
-            if (allianceApplyForTemp!=null)
+            List<int> memberList = new List<int>();
+            for (int i = 0; i < roleidList.Count; i++)
             {
-                if (allianceApplyForTemp.AllianceID==0)
-                {
-                    if (alliancememberTemp != null)
-                    {
-                        roleapplyList = Utility.Json.ToObject<List<int>>(allianceApplyForTemp.ApplyForAlliance);
-                        roleapplyList.Remove(alliancememberTemp.AllianceID);
-                        allianceApplyForTemp.ApplyForAlliance = Utility.Json.ToJson(roleapplyList);
+                NHCriteria nHCriteriRoleAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleidList[i]);
 
-                        applyList = Utility.Json.ToObject<List<int>>(alliancememberTemp.ApplyforMember);
-                        applyList.Remove(allianceApplyObj.RoleID);
+                NHCriterias.Add(nHCriteriRoleAlliance);
+                var roleAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriRoleAlliance).Result;
 
-                        AllianceMember allianceMember = new AllianceMember() { AllianceID = alliancememberTemp.AllianceID, ApplyforMember = Utility.Json.ToJson(applyList), Member = alliancememberTemp.Member };
-                        Utility.Debug.LogInfo("修改后仙盟成员数据" + Utility.Json.ToJson(allianceMember));
-                        ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceMember);
-                        ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceApplyForTemp);
-                    }
-                    SetResponseData(() =>
-                    {
-                        SubDict.Add((byte)ParameterCode.ApplyForAlliance, Utility.Json.ToJson(allianceApplyObj));
-                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
-                    });
-                }
-                else
+                if (roleAllianceTemp.AllianceID == 0)
                 {
-                    SetResponseData(() =>
-                    {
-                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-                    });
+
+                    var roleApplyList = Utility.Json.ToObject<List<int>>(roleAllianceTemp.ApplyForAlliance);
+                    roleApplyList.Remove(roleAllianceTemp.AllianceID);
+                    roleAllianceTemp.ApplyForAlliance = Utility.Json.ToJson(roleApplyList);
+                    ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAllianceTemp);
+
+
+                    applyList = Utility.Json.ToObject<List<int>>(alliancememberTemp.ApplyforMember);
+
+                    applyList.Remove(roleidList[i]);
                 }
-                peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-                GameManager.ReferencePoolManager.Despawns(nHCriteriallianceApplyFor, nHCriterialliancemember);
+            }
+            alliancememberTemp.ApplyforMember=Utility.Json.ToJson(applyList);
+            ConcurrentSingleton<NHManager>.Instance.UpdateAsync(alliancememberTemp);
+            SetResponseData(() =>
+            {
+                Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+            });
+            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+                GameManager.ReferencePoolManager.Despawns(NHCriterias);
             }
 
 
         }
     }
-}
