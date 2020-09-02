@@ -52,10 +52,9 @@ namespace AscensionServer
                 {
 
                     var roleApplyList = Utility.Json.ToObject<List<int>>(roleAllianceTemp.ApplyForAlliance);
-                    roleApplyList.Remove(roleAllianceTemp.AllianceID);
+                    roleApplyList.Remove(allianceObj.AllianceID);
                     roleAllianceTemp.ApplyForAlliance = Utility.Json.ToJson(roleApplyList);
                     ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAllianceTemp);
-
 
                     applyList = Utility.Json.ToObject<List<int>>(alliancememberTemp.ApplyforMember);
 

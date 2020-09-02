@@ -33,6 +33,9 @@ namespace AscensionServer
             {
                 if (roleallianceTemp.AllianceJob!=1)
                 {
+                    var alliancestatus = AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", roleallianceTemp.AllianceID);
+                    alliancestatus.AllianceNumberPeople -= 1;
+                    ConcurrentSingleton<NHManager>.Instance.UpdateAsync(alliancestatus);
                     NHCriteria nHCriteriaAlliances = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", roleallianceTemp.AllianceID);
                     var allianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceMember>(nHCriteriaAlliances).Result;
                     memberlist = Utility.Json.ToObject<List<int>>(allianceTemp.Member);

@@ -43,6 +43,10 @@ namespace AscensionServer
                     {
                         NHCriteria nHCriteriMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", allianceMemberObj.Member[i]);
                         nHCriterias.Add(nHCriteriMember);
+
+                        var alliancestatus = AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", allianceMemberObj.AllianceID);
+                        alliancestatus.AllianceNumberPeople -=1;
+                        ConcurrentSingleton<NHManager>.Instance.UpdateAsync(alliancestatus);
                         var MemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriMember);
                         MemberTemp.AllianceID = 0;
                         ConcurrentSingleton<NHManager>.Instance.UpdateAsync(MemberTemp);
