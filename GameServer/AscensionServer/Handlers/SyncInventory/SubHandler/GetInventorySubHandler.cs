@@ -44,6 +44,7 @@ namespace AscensionServer
                     var ringServerArray = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Ring>(nHCriteriaRingID);
                     Owner.ResponseData.Add((byte)ParameterCode.Inventory, ringServerArray.RingItems);
                     Owner.ResponseData.Add((byte)ParameterCode.MessageQueue, ringServerArray.RingMagicDictServer);
+                    Owner.ResponseData.Add((byte)ParameterCode.RoleTemInventory, ringServerArray.RingAdorn);
                     Owner.OpResponse.Parameters = Owner.ResponseData;
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
