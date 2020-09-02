@@ -191,6 +191,9 @@
     <Compile Include="Ascension\Application\Room\Base\RoomCache.cs" />
     <Compile Include="Concurrent\ConcurrentInt.cs" />
     <Compile Include="DO\RoleAuctionItems.cs" />
+    <Compile Include="Handlers\SyncRoleAuctionItems\SubHandler\GetRoleAuctionItemsSubHandler.cs" />
+    <Compile Include="Handlers\SyncRoleAuctionItems\SubHandler\SyncRoleAuctionItemsSubHandler.cs" />
+    <Compile Include="Handlers\SyncRoleAuctionItems\SyncRoleAuctionItemsHandler.cs" />
     <Compile Include="Helpers\DebugHelper\Log4NetDebugHelper.cs" />
     <Compile Include="DOMap\AlchemyMap.cs" />
     <Compile Include="DOMap\AllianceMemberMap.cs" />
