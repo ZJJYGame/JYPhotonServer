@@ -162,9 +162,8 @@ namespace AscensionServer
                     //ringDict.Add(14005, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = 99 });
                     for (int i = 0; i < 6; i++)
                     { magicRingDict.Add(i, -1); }
-                    ring = ConcurrentSingleton<NHManager>.Instance.Insert<Ring>(new Ring() { RingId = 11110, RingItems = Utility.Json.ToJson(ringDict), RingMagicDictServer = Utility.Json.ToJson(magicRingDict) });
-                    idRing.Add(ring.ID, ring.RingAdorn);
-
+                    ring = ConcurrentSingleton<NHManager>.Instance.Insert<Ring>(new Ring() { RingId = 11110, RingItems = Utility.Json.ToJson(ringDict), RingMagicDictServer = Utility.Json.ToJson(magicRingDict), RingAdorn = Utility.Json.ToJson(new Dictionary<int, RingItemsDTO>()) });
+                    idRing.Add(ring.ID, 0);
                     ConcurrentSingleton<NHManager>.Instance.Update<RoleRing>(new RoleRing() { RoleID = rolestatus.RoleID, RingIdArray = Utility.Json.ToJson(idRing) });
                 }
 
