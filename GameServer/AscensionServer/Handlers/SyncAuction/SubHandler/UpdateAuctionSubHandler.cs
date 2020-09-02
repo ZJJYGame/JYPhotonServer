@@ -32,8 +32,8 @@ namespace AscensionServer
             int count = Convert.ToInt32(dataDict["Count"]);
             int allGoodsCount=0;
 
-            var auctionGoodsJson = RedisHelper.String.StringGetAsync("AuctionGoods" + buyAuctionGoodsObj.GUID).Result;
-            Utility.Debug.LogInfo("AuctionGoods" + buyAuctionGoodsObj.GUID);
+            var auctionGoodsJson = RedisHelper.String.StringGetAsync("AuctionGoods_" + buyAuctionGoodsObj.GUID).Result;
+            Utility.Debug.LogInfo("AuctionGoods_" + buyAuctionGoodsObj.GUID);
             Utility.Debug.LogInfo(auctionGoodsJson);
 
             AuctionGoodsDTO resultAuctionGoodsDTO= new AuctionGoodsDTO();
@@ -71,7 +71,7 @@ namespace AscensionServer
                     auctionGoodsObj.Count -= buyAuctionGoodsObj.Count;
                     if (auctionGoodsObj.Count == 0)//买完了
                     {
-                        RedisHelper.KeyDeleteAsync("AuctionGoods" + auctionGoodsObj.GUID);
+                        RedisHelper.KeyDeleteAsync("AuctionGoods_" + auctionGoodsObj.GUID);
 
                         List<AuctionGoodsIndex> tempAuctionGoodIndexs = RedisHelper.Hash.HashGetAsync<List<AuctionGoodsIndex>>("AuctionIndex", auctionGoodsObj.GlobalID.ToString()).Result;
                         AuctionGoodsIndex auctionGoodsIndex = tempAuctionGoodIndexs.Find((p) => p.RedisKey == auctionGoodsObj.GUID);
@@ -87,7 +87,7 @@ namespace AscensionServer
                     }
                     else
                     {
-                        RedisHelper.String.StringSetAsync("AuctionGoods" + auctionGoodsObj.GUID, Utility.Json.ToJson(auctionGoodsObj));
+                        RedisHelper.String.StringSetAsync("AuctionGoods_" + auctionGoodsObj.GUID, Utility.Json.ToJson(auctionGoodsObj));
                     }
                     SetResponseData(() =>
                     {
@@ -145,7 +145,7 @@ namespace AscensionServer
             }
             for (int i = 0; i < result.Count; i++)
             {
-                string auctionGoodsJson = RedisHelper.String.StringGetAsync("AuctionGoods" + result[i].RedisKey).Result;
+                string auctionGoodsJson = RedisHelper.String.StringGetAsync("AuctionGoods_" + result[i].RedisKey).Result;
                 auctionGoodsDTOList.Add(Utility.Json.ToObject<AuctionGoodsDTO>(auctionGoodsJson));
             }
             if (startIndex + count <= result.Count)

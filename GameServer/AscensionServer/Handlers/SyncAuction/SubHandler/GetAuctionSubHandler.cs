@@ -50,7 +50,7 @@ namespace AscensionServer
                     return;
                 for (int i = 0; i < result.Count; i++)
                 {
-                    string auctionGoodsJson = RedisHelper.String.StringGetAsync("AuctionGoods"+result[i].RedisKey).Result;
+                    string auctionGoodsJson = RedisHelper.String.StringGetAsync("AuctionGoods_"+result[i].RedisKey).Result;
                     auctionGoodsDTOList.Add(Utility.Json.ToObject<AuctionGoodsDTO>(auctionGoodsJson));
                 }
 
