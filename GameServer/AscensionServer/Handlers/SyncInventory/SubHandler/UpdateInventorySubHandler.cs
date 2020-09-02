@@ -46,14 +46,7 @@ namespace AscensionServer
 
                     foreach (var client_p in InventoryObj.RingItems)
                     {
-                        //if (!ServerDic.ContainsKey(client_p.Key))
-                        //{
-                        //    Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-                        //    continue;
-                        //}
-                        //else
-                        //{
-                        Utility.Debug.LogInfo("<>" + client_p.Key);
+                        Utility.Debug.LogInfo("<client_pkey>" + client_p.Key);
                         RingItemsDTO serverData = null;
                         if (ServerDic.TryGetValue(client_p.Key, out serverData) || ServerDictAdorn.TryGetValue(client_p.Key, out serverData))
                         {
@@ -85,7 +78,7 @@ namespace AscensionServer
                                         }
                                         else
                                         {
-                                            Utility.Debug.LogInfo("<>" + firstAdorn);
+                                            Utility.Debug.LogInfo("<firstAdorn>" + firstAdorn);
                                             ServerDictAdorn[firstAdorn].RingItemAdorn = "0";
                                             if (!ServerDictAdorn.ContainsKey(firstAdorn))
                                                 ServerDic.Add(firstAdorn, ServerDictAdorn[firstAdorn]);
@@ -194,7 +187,6 @@ namespace AscensionServer
 
                     #endregion
                     ConcurrentSingleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDic), RingMagicDictServer = Utility.Json.ToJson(ServerMagicDic), RingAdorn = Utility.Json.ToJson(ServerDictAdorn) });
-                    // }
                     Owner.OpResponse.Parameters = Owner.ResponseData;
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
