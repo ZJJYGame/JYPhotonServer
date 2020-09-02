@@ -24,15 +24,10 @@ namespace Cosmos
         /// 对当前的peer对象发送消息
         /// </summary>
         /// <param name="netMsg">消息体</param>
-        void SendMessage(INetMessage netMsg);
+        void SendMessage(INetworkMessage netMsg);
         /// <summary>
-        /// 接收网络消息；
+        /// 终断连接
         /// </summary>
-        /// <param name="netMsg">消息体</param>
-        //void OnReceiveMessage(INetworkMessage netMsg);
         void AbortConnection();
-        //void Disconnect();
-        //void Dispose();
-        //void Flush();
     }
 }

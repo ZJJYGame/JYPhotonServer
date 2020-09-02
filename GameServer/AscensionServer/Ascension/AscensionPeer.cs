@@ -35,6 +35,8 @@ namespace AscensionServer
         public uint Conv { get; private set; }
 
         public bool Available { get; private set; }
+
+        public object PeerHandle { get { return this; } }
         #endregion
 
         #region Methods
@@ -132,7 +134,7 @@ namespace AscensionServer
             Utility.Debug.LogInfo("同步离线时间成功");
         }
         
-        public void SendMessage(INetMessage netMsg)
+        public void SendMessage(INetworkMessage netMsg)
         {
 
         }

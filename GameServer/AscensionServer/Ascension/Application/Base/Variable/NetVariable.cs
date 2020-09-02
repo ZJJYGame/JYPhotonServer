@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 using Cosmos;
 namespace AscensionServer
 {
-    public interface IPeer:IRemotePeer
+    public abstract class NetVariable : Variable
     {
-        /// <summary>
-        /// peer对象
-        /// </summary>
-        object PeerHandle { get; }
     }
 }

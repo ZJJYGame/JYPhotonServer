@@ -179,6 +179,8 @@
     <Compile Include="Ascension\Application\Base\Variable\IKeyValue.cs" />
     <Compile Include="Ascension\Application\Base\Peer\PeerEntity.cs" />
     <Compile Include="Ascension\Application\Actor\ActorManager.cs" />
+    <Compile Include="Ascension\Application\Base\Variable\NetVariable.cs" />
+    <Compile Include="Ascension\Application\Base\Variable\TokenVar.cs" />
     <Compile Include="Ascension\Application\Peer\Buff.cs" />
     <Compile Include="Ascension\Application\Peer\PeerManager.cs" />
     <Compile Include="Ascension\Application\Peer\Token.cs" />

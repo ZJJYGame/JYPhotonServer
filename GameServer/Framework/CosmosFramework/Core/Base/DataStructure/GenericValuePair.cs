@@ -4,15 +4,21 @@ using System.Text;
 
 namespace Cosmos
 {
+    /// <summary>
+    /// 双泛型值组合；此组合并非Key-Value形式，而是Value-Value形式。
+    /// 比较时调用Equals方法；进行组合时注意覆写Equals；
+    /// </summary>
+    /// <typeparam name="TValue">泛型类型</typeparam>
+    /// <typeparam name="KValue">泛型类型</typeparam>
     public struct GenericValuePair<TValue, KValue> : IEquatable<GenericValuePair<TValue, KValue>>
     {
+        public TValue TVar { get; private set; }
+        public KValue KVar { get; private set; }
         public GenericValuePair(TValue tVar, KValue kVar)
         {
             TVar = tVar;
             KVar = kVar;
         }
-        public TValue TVar { get; private set; }
-        public KValue KVar { get; private set; }
         public bool Equals(GenericValuePair<TValue, KValue> other)
         {
             return TVar.Equals(other.TVar) && KVar.Equals(other.KVar);

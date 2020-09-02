@@ -13,7 +13,7 @@ namespace AscensionServer
     /// <summary>
     /// peer的变量；可追加DTO；
     /// </summary>
-    public class PeerEntity : IKeyValue<byte,DataTransferObject>
+    public class PeerEntity : IKeyValue<GenericValuePair<Type, byte>, DataTransferObject>
     {
         public IPeer ClientPeer { get; private set; }
         Dictionary<GenericValuePair<Type, byte>, Variable> variableDict;
@@ -21,43 +21,36 @@ namespace AscensionServer
         {
             variableDict = new Dictionary<GenericValuePair<Type, byte>, Variable>();
         }
-        public object GetValue(byte dataKey)
+        public PeerEntity(IPeer peer):this()
         {
-            DataTransferObject dto=null;
-            return dto;
+            this.ClientPeer = peer;
         }
-        /// <summary>
-        /// 设置值；
-        /// 若为空，则添加；
-        /// 若非空，则更新；
-        /// </summary>
-        /// <param name="dataKey"></param>
-        /// <param name="value"></param>
-        public void SetValue(byte dataKey, object value)
+        public void SetPeer(IPeer peer)
         {
-
+            this.ClientPeer = peer;
         }
 
-        public bool TryGetValue(byte key, out DataTransferObject value)
-        {
-            throw new NotImplementedException();
-        }
-        public bool ContainsKey(byte key)
+        public bool TryGetValue(GenericValuePair<Type, byte> key, out DataTransferObject value)
         {
             throw new NotImplementedException();
         }
 
-        public bool TryRemove(byte Key)
+        public bool ContainsKey(GenericValuePair<Type, byte> key)
         {
             throw new NotImplementedException();
         }
 
-        public bool TryAdd(byte key, DataTransferObject Value)
+        public bool TryRemove(GenericValuePair<Type, byte> Key)
         {
             throw new NotImplementedException();
         }
 
-        public bool TryUpdate(byte key, DataTransferObject newValue, DataTransferObject comparsionValue)
+        public bool TryAdd(GenericValuePair<Type, byte> key, DataTransferObject Value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryUpdate(GenericValuePair<Type, byte> key, DataTransferObject newValue, DataTransferObject comparsionValue)
         {
             throw new NotImplementedException();
         }
