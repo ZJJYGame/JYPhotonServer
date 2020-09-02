@@ -71,7 +71,6 @@ namespace AscensionServer
                         //    ///替换键值对
                         //    //ServerDict = ServerDict.ToDictionary(k => k.Key == client_p.Key ? 1 : k.Key, k => k.Value);
                         //    //dict = dict.ToDictionary(k => k.Key == "abc" ? "abce" : k.Key, k => k.Value);
-
                         //}
                         if (!ServerDict.ContainsKey(client_p.Key))
                         {
@@ -320,7 +319,6 @@ namespace AscensionServer
                     #endregion
 
                     ConcurrentSingleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDict), RingMagicDictServer = ringServerArray.RingMagicDictServer , RingAdorn =Utility.Json.ToJson(ServerDictAdorn) });
-                    //}
                     Owner.OpResponse.Parameters = Owner.ResponseData;
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }

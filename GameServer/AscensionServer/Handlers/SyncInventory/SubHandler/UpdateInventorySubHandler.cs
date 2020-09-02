@@ -32,12 +32,11 @@ namespace AscensionServer
             bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleRing>(nHCriteriaRoleID);
             NHCriteria nHCriteriaRingID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", InventoryObj.ID);
             bool existRing = ConcurrentSingleton<NHManager>.Instance.Verify<Ring>(nHCriteriaRingID);
-            Dictionary<int, RingItemsDTO> posDict;
+            //Dictionary<int, RingItemsDTO> posDict;
 
             if (exist && existRing)
             {
                 var ringServerArray = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Ring>(nHCriteriaRingID);
-
                 if (InventoryObj.ID == ringServerArray.ID)
                 {
                     var ServerDic = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingItems);
