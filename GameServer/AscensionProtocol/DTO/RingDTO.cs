@@ -29,5 +29,9 @@ namespace AscensionProtocol.DTO
         public virtual string RingItemAdorn { get; set; }
         public virtual string RingItemTime { get; set; }
         public virtual int RingItemMax { get; set; }
+        /// <summary>
+        /// 1-8  对应 八个格子
+        /// </summary>
+        public virtual short RingItemType { get; set; }
     }
 }

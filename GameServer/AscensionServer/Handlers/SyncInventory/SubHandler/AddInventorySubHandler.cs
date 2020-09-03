@@ -72,7 +72,7 @@ namespace AscensionServer
                         //    //ServerDict = ServerDict.ToDictionary(k => k.Key == client_p.Key ? 1 : k.Key, k => k.Value);
                         //    //dict = dict.ToDictionary(k => k.Key == "abc" ? "abce" : k.Key, k => k.Value);
                         //}
-                        if (!ServerDict.ContainsKey(client_p.Key))
+                        if (!ServerDict.ContainsKey(client_p.Key) && !ServerDictAdorn.ContainsKey(client_p.Key))
                         {
                             if (client_p.Value.RingItemCount > client_p.Value.RingItemMax)
                             {
@@ -84,9 +84,9 @@ namespace AscensionServer
                                     int NowID = 0;
                                     while (true)
                                     {
-                                        var randomNumer = new Random().Next(1000, 9999);
+                                        var randomNumer = new Random().Next(1000, 3000);
                                         NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
-                                        if (!ServerDict.ContainsKey(NowID))
+                                        if (!ServerDict.ContainsKey(NowID)&&!ServerDictAdorn.ContainsKey(NowID))
                                             break;
                                     }
                                     int numbCount = held > client_p.Value.RingItemMax ? client_p.Value.RingItemMax : remainder;
@@ -137,13 +137,13 @@ namespace AscensionServer
                                         int NowID = 0;
                                         while (true)
                                         {
-                                            var randomNumer = new Random().Next(1000, 9999);
+                                            var randomNumer = new Random().Next(1000, 3000);
                                             NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
-                                            if (!ServerDict.ContainsKey(NowID))
+                                            if (!ServerDict.ContainsKey(NowID)&&!ServerDictAdorn.ContainsKey(NowID))
                                                 break;
                                         }
                                         int numbCount = held > client_p.Value.RingItemMax ? client_p.Value.RingItemMax : remainder;
-                                        RingItemsDTO Items = new RingItemsDTO() { RingItemTime = client_p.Value.RingItemTime, RingItemCount = numbCount, RingItemMax = client_p.Value.RingItemMax, RingItemAdorn = client_p.Value.RingItemAdorn };
+                                        RingItemsDTO Items = new RingItemsDTO() { RingItemTime = client_p.Value.RingItemTime, RingItemCount = numbCount, RingItemMax = client_p.Value.RingItemMax, RingItemAdorn = client_p.Value.RingItemAdorn, RingItemType = client_p.Value.RingItemType };
                                         var firstKeyDefault = ServerDict.FirstOrDefault(q => q.Value.RingItemAdorn == "1" || q.Value.RingItemAdorn == "2" || q.Value.RingItemCount == 0).Key;
 
                                         if (firstKeyDefault != 0)
@@ -163,14 +163,14 @@ namespace AscensionServer
                                     int NowID = 0;
                                     while (true)
                                     {
-                                        var randomNumer = new Random().Next(1000, 9999);
+                                        var randomNumer = new Random().Next(1000, 3000);
                                         NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
-                                        if (!ServerDict.ContainsKey(NowID))
+                                        if (!ServerDict.ContainsKey(NowID)&& !ServerDictAdorn.ContainsKey(NowID))
                                             break;
                                     }
                                     Utility.Debug.LogInfo($"<NowID>{NowID}");
 
-                                    RingItemsDTO Items = new RingItemsDTO() { RingItemTime = client_p.Value.RingItemTime, RingItemCount = client_p.Value.RingItemCount, RingItemMax = client_p.Value.RingItemMax, RingItemAdorn = client_p.Value.RingItemAdorn };
+                                    RingItemsDTO Items = new RingItemsDTO() { RingItemTime = client_p.Value.RingItemTime, RingItemCount = client_p.Value.RingItemCount, RingItemMax = client_p.Value.RingItemMax, RingItemAdorn = client_p.Value.RingItemAdorn , RingItemType = client_p.Value.RingItemType };
                                     var firstKeyDefault = ServerDict.FirstOrDefault(q => q.Value.RingItemAdorn == "1" || q.Value.RingItemAdorn == "2" || q.Value.RingItemCount == 0).Key;
 
                                     if (firstKeyDefault != 0)
@@ -195,6 +195,8 @@ namespace AscensionServer
                                         severValue.RingItemTime = client_p.Value.RingItemTime;
                                     if (severValue.RingItemMax != client_p.Value.RingItemMax)
                                         severValue.RingItemMax = client_p.Value.RingItemMax;
+                                    if (severValue.RingItemType != client_p.Value.RingItemType)
+                                        severValue.RingItemType = client_p.Value.RingItemType;
                                 }
                                 else if (ServerDict[serverItemKey].RingItemCount + client_p.Value.RingItemCount > ServerDict[serverItemKey].RingItemMax)
                                 {
@@ -207,6 +209,8 @@ namespace AscensionServer
                                         severValue.RingItemTime = client_p.Value.RingItemTime;
                                     if (severValue.RingItemMax != client_p.Value.RingItemMax)
                                         severValue.RingItemMax = client_p.Value.RingItemMax;
+                                    if (severValue.RingItemType != client_p.Value.RingItemType)
+                                        severValue.RingItemType = client_p.Value.RingItemType;
                                     Utility.Debug.LogInfo("<Amount>" + Amount);
 
                                     if (Amount > client_p.Value.RingItemMax)
@@ -219,13 +223,13 @@ namespace AscensionServer
                                             int NowID = 0;
                                             while (true)
                                             {
-                                                var randomNumer = new Random().Next(1000, 9999);
+                                                var randomNumer = new Random().Next(1000, 3000);
                                                 NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
-                                                if (!ServerDict.ContainsKey(NowID))
+                                                if (!ServerDict.ContainsKey(NowID)&& !ServerDictAdorn.ContainsKey(NowID))
                                                     break;
                                             }
                                             int numbCount = held > client_p.Value.RingItemMax ? client_p.Value.RingItemMax : remainder;
-                                            RingItemsDTO Items = new RingItemsDTO() { RingItemTime = client_p.Value.RingItemTime, RingItemCount = numbCount, RingItemMax = client_p.Value.RingItemMax, RingItemAdorn = client_p.Value.RingItemAdorn };
+                                            RingItemsDTO Items = new RingItemsDTO() { RingItemTime = client_p.Value.RingItemTime, RingItemCount = numbCount, RingItemMax = client_p.Value.RingItemMax, RingItemAdorn = client_p.Value.RingItemAdorn, RingItemType = client_p.Value.RingItemType };
                                             var firstKeyDefault = ServerDict.FirstOrDefault(q => q.Value.RingItemAdorn == "1" || q.Value.RingItemAdorn == "2" || q.Value.RingItemCount == 0).Key;
 
                                             if (firstKeyDefault != 0)
@@ -245,14 +249,14 @@ namespace AscensionServer
                                         int NowID = 0;
                                         while (true)
                                         {
-                                            var randomNumer = new Random().Next(1000, 9999);
+                                            var randomNumer = new Random().Next(1000, 3000);
                                             NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
-                                            if (!ServerDict.ContainsKey(NowID))
+                                            if (!ServerDict.ContainsKey(NowID)&& !ServerDictAdorn.ContainsKey(NowID))
                                                 break;
                                         }
                                         Utility.Debug.LogInfo($"<NowID>{NowID}");
 
-                                        RingItemsDTO Items = new RingItemsDTO() { RingItemTime = client_p.Value.RingItemTime, RingItemCount = Amount, RingItemMax = client_p.Value.RingItemMax, RingItemAdorn = client_p.Value.RingItemAdorn };
+                                        RingItemsDTO Items = new RingItemsDTO() { RingItemTime = client_p.Value.RingItemTime, RingItemCount = Amount, RingItemMax = client_p.Value.RingItemMax, RingItemAdorn = client_p.Value.RingItemAdorn, RingItemType = client_p.Value.RingItemType };
                                         var firstKeyDefault = ServerDict.FirstOrDefault(q => q.Value.RingItemAdorn == "1" || q.Value.RingItemAdorn == "2" || q.Value.RingItemCount == 0).Key;
 
                                         if (firstKeyDefault != 0)
