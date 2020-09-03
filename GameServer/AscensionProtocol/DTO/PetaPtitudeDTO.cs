@@ -20,7 +20,7 @@ namespace AscensionProtocol.DTO
         public virtual int DefendpowerAptitude { get; set; }
         public virtual int AttacksoulAptitude { get; set; }
         public virtual int DefendsoulAptitude { get; set; }
-        public virtual int Petaptitudecol { get; set; }
+        public virtual float Petaptitudecol { get; set; }
         public virtual Dictionary<int, int> PetaptitudeDrug { get; set; }
         public override void Clear()
         {
