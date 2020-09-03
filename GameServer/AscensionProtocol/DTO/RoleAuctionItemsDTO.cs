@@ -10,11 +10,20 @@ namespace AscensionProtocol.DTO
     public class RoleAuctionItemsDTO : DataTransferObject
     {
         public int RoleID { get; set; }
-        public List<int> AuctionItemsGuidList { get; set; }
+        public List<RoleAuctionItem> AuctionItemsGuidList { get; set; }
         public override void Clear()
         {
             RoleID = 0;
             AuctionItemsGuidList = null;
         }
     }
+    [Serializable]
+    public class RoleAuctionItem
+    {
+        public AuctionGoodsDTO AuctionGoods { get; set; }
+        public bool IsPutAway { get; set; }
+    }
 }
+
+
+  
