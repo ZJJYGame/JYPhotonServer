@@ -6,12 +6,20 @@ using System.Threading.Tasks;
 using Cosmos;
 namespace AscensionServer
 {
+    /// <summary>
+    /// What is session and conversation?
+    /// Just as a session is a logical connection between the LUs, a conversation is a 
+    /// logical connection between two transaction programs. ... LU 6.2 treats a session as a 
+    /// reusable connection between two LUs. One session can support only one 
+    /// conversation at a time, but one session can support many conversations in 
+    /// sequence.
+    /// </summary>
     public interface IPeer: IReference
     {
         /// <summary>
         /// 会话ID
         /// </summary>
-        uint Conv { get; }
+        long SessionId { get; }
         /// <summary>
         /// 是否存活；
         /// </summary>
@@ -20,5 +28,11 @@ namespace AscensionServer
         /// peer对象Handle
         /// </summary>
         object Handle { get; }
+        /// <summary>
+        /// 发送消息事件
+        /// </summary>
+        /// <param name="userData">用户自定义数据</param>
+        /// <returns>发送后的返回码</returns>
+        void  SendEventMessage(object userData);
     }
 }

@@ -40,10 +40,11 @@ namespace AscensionServer
                OpResponse.ReturnCode = (short)ReturnCode.Success;
                 userObj.UUID= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<User>(nHCriteriaAccount).UUID;
                 peer.Login(userObj);
-                //AscensionServer.Instance.AddIntoLoggedUserCache(peer);
+
+                //GameManager.External.GetModule<PeerManager>().TryGetValue();
 
                 var pe= PeerEntity.Create(peer);
-                GameManager.External.GetModule<PeerManager>().TryAdd(pe.ClientPeer.Conv, pe);
+                GameManager.External.GetModule<PeerManager>().TryAdd(pe.ClientPeer.SessionId, pe);
 
                 Utility.Debug.LogInfo("Login Success : " + userObj.Account + " ; UUID : " + peer.PeerCache.UUID );
                 ResponseData.Add((byte)ParameterCode.Role, Utility.Json.ToJson(userObj));

@@ -31,7 +31,7 @@ namespace AscensionServer
         /// 是否已经发送位置信息
         /// </summary>
         public bool IsUseSkill { get; set; }
-        public uint Conv { get; private set; }
+        public long SessionId { get; private set; }
         public bool Available { get; private set; }
         public object Handle { get { return this; } }
         #endregion
@@ -54,9 +54,13 @@ namespace AscensionServer
             var loggedPeerHashSet = AscensionServer.Instance.LoggedPeerCache.GetValuesHashSet();
             loggedPeerHashSet.Remove(this);
             var sendParameter = new SendParameters();
+
+
             if (AscensionServer.Instance.IsEnterAdventureScene(this))
                 AscensionServer.Instance.ExitAdventureScene(this);
             AscensionServer.Instance.RemoveFromLoggedUserCache(this);
+
+
             foreach (AscensionPeer tmpPeer in loggedPeerHashSet)
             {
                 tmpPeer.SendEvent(ed, sendParameter);
@@ -99,6 +103,14 @@ namespace AscensionServer
             this.PeerCache.Password = null;
             this.PeerCache.RoleID = -1;
         }
+        /// <summary>
+        /// 外部接口的发送消息；
+        /// </summary>
+        /// <param name="userData">用户自定义数据</param>
+        public void SendEventMessage(object userData)
+        {
+            SendEvent(userData as IEventData, new SendParameters());
+        }
         public override string ToString()
         {
             return $"######Account :{PeerCache.Account }; Password : {PeerCache.Password }; UUID : {PeerCache.UUID}######";
@@ -132,9 +144,10 @@ namespace AscensionServer
         }
         public void Clear()
         {
-            Conv = 0;
+            SessionId = 0;
             Available = false;
         }
+
     }
     #endregion
 }

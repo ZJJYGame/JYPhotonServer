@@ -33,23 +33,6 @@ namespace AscensionServer
 
         #endregion
         #region Methods
-        public void AddIntoLoggedUserCache(AscensionPeer peer)
-        {
-            var result = loggedPeerCache.Add(peer.PeerCache.Account, peer);
-            if (result)
-            {
-                Utility.Debug.LogInfo($"Server management logged peer success :{ peer.ToString()} ");
-            }
-            else
-            {
-                if (loggedPeerCache.TryGetValue(peer.PeerCache.Account,out AscensionPeer oldpeer))
-                {
-                    ReplaceLogin(oldpeer);
-                    loggedPeerCache.Remove(oldpeer.PeerCache.Account);
-                }
-                loggedPeerCache.Add(peer.PeerCache.Account, peer);
-            }
-        }
         public void RemoveFromLoggedUserCache(AscensionPeer peer)
         {
             if (!peer.PeerCache.IsLogged)
