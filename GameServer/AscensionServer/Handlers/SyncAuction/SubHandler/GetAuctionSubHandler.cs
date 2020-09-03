@@ -34,6 +34,7 @@ namespace AscensionServer
             Utility.Debug.LogInfo("收到的拍卖行"+ auctionGoodsID+"起始"+startIndex+"数量"+count);
 
             List<AuctionGoodsIndex> result=null;
+            List<AuctionGoodsIndex> newResult = new List<AuctionGoodsIndex>();
             List<AuctionGoodsDTO> auctionGoodsDTOList = new List<AuctionGoodsDTO>();
             List<AuctionGoodsDTO> resultAuctionGoodsDTOList = new List<AuctionGoodsDTO>();
             var isHasValue = RedisHelper.Hash.HashExistAsync("AuctionIndex", auctionGoodsID.ToString()).Result;
@@ -45,14 +46,20 @@ namespace AscensionServer
             {
                 Utility.Debug.LogInfo("redis拍卖行索引表存在该ID");
                 result = RedisHelper.Hash.HashGet<List<AuctionGoodsIndex>>("AuctionIndex", auctionGoodsID.ToString());
-                goodsCount = result.Count;
+                
                 if (startIndex >= result.Count)
                     return;
                 for (int i = 0; i < result.Count; i++)
                 {
                     string auctionGoodsJson = RedisHelper.String.StringGetAsync("AuctionGoods_"+result[i].RedisKey).Result;
-                    auctionGoodsDTOList.Add(Utility.Json.ToObject<AuctionGoodsDTO>(auctionGoodsJson));
+                    if (auctionGoodsJson != null)
+                    {
+                        auctionGoodsDTOList.Add(RedisHelper.Hash.HashGetAsync<AuctionGoodsDTO>("AuctionGoodsData", result[i].RedisKey).Result);
+                        newResult.Add(result[i]);
+                    }
                 }
+                RedisHelper.Hash.HashSetAsync<List<AuctionGoodsIndex>>("AuctionIndex", auctionGoodsID.ToString(),newResult);
+                goodsCount = newResult.Count;
 
                 if (startIndex+count <= goodsCount)
                 {

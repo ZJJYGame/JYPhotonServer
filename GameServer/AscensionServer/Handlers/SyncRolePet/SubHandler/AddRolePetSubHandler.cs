@@ -8,6 +8,7 @@ using AscensionProtocol.DTO;
 using Photon.SocketServer;
 using AscensionServer.Model;
 using Cosmos;
+using RedisDotNet;
 namespace AscensionServer
 {
     public class AddRolePetSubHandler : SyncRolePetSubHandler
@@ -27,12 +28,14 @@ namespace AscensionServer
             string ppJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.PetPtitude));
             var rolepetObj = Utility.Json.ToObject<RolePet>(rpJson);
             var petObj = Utility.Json.ToObject<Pet>(pJson);
+            Utility.Debug.LogError("添加的角色宠物"+ pJson);
             var petstatusObj = Utility.Json.ToObject<PetStatus>(psJson);
             var petPtitudeObj = Utility.Json.ToObject<PetaPtitudeDTO>(ppJson);
             NHCriteria nHCriteriaroleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
             var rolepet = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RolePet>(nHCriteriaroleID);
             Dictionary<int, int> petDict;
             List<string> petDoList = new List<string>();
+
             if (rolepet!=null)
             {
                 if (!string.IsNullOrEmpty(rolepet.PetIDDict))
@@ -51,6 +54,17 @@ namespace AscensionServer
                     petDoList.Add(Utility.Json.ToJson(petstatusObj));
                     petPtitudeObj.PetID = petObj.ID;
                      petDoList.Add(Utility.Json.ToJson(petPtitudeObj));
+
+                    #region redis模块
+                    RedisHelper.Hash.HashSetAsync<PetStatus>("PetStatus", petObj.ID.ToString(), petstatusObj);
+                    RedisHelper.Hash.HashSetAsync<PetaPtitude>("PetaPtitude", petObj.ID.ToString(), petaPtitude);
+                    RedisHelper.Hash.HashSetAsync<Pet>("Pet", petObj.ID.ToString(), petObj);
+                    RedisHelper.Hash.HashSetAsync<RolePet>("RolePet", rolepetObj.RoleID.ToString(), new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
+
+
+                    Utility.Debug.LogError("添加宠物成功》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》");
+
+                    #endregion
                 }
                 else
                 {
@@ -68,6 +82,16 @@ namespace AscensionServer
                     petDoList.Add(Utility.Json.ToJson(petstatusObj));
                     petPtitudeObj.PetID = petObj.ID;
                     petDoList.Add(Utility.Json.ToJson(petPtitudeObj));
+                    #region redis模块
+                    RedisHelper.Hash.HashSetAsync<PetStatus>("PetStatus", petObj.ID.ToString(), petstatusObj);
+                    RedisHelper.Hash.HashSetAsync<PetaPtitude>("PetaPtitude", petObj.ID.ToString(), petaPtitude);
+                    RedisHelper.Hash.HashSetAsync<Pet>("Pet", petObj.ID.ToString(), petObj);
+                    RedisHelper.Hash.HashSetAsync<RolePet>("RolePet", rolepetObj.RoleID.ToString(), new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
+
+
+                    Utility.Debug.LogError("添加宠物成功》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》");
+
+                    #endregion
                 }
             }
             else
@@ -86,6 +110,16 @@ namespace AscensionServer
                 petDoList.Add(Utility.Json.ToJson(petstatusObj));
                 petPtitudeObj.PetID = petObj.ID;
                 petDoList.Add(Utility.Json.ToJson(petPtitudeObj));
+                #region redis模块
+                RedisHelper.Hash.HashSetAsync<PetStatus>("PetStatus", petObj.ID.ToString(), petstatusObj);
+                RedisHelper.Hash.HashSetAsync<PetaPtitude>("PetaPtitude", petObj.ID.ToString(), petaPtitude);
+                RedisHelper.Hash.HashSetAsync<Pet>("Pet", petObj.ID.ToString(), petObj);
+                RedisHelper.Hash.HashSetAsync<RolePet>("RolePet", rolepetObj.RoleID.ToString(), new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
+
+
+                Utility.Debug.LogError("添加宠物成功》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》");
+
+                #endregion
             }
             SetResponseData(() =>
             {
@@ -96,5 +130,8 @@ namespace AscensionServer
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaroleID);
         }
+
+
+      
     }
 }

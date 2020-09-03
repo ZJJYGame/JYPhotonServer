@@ -29,7 +29,7 @@ namespace AscensionServer
             var allianceObj = Utility.Json.ToObject<AllianceMemberDTO>(allianceJson);
             List<int> roleidList = new List<int>();
             roleidList = allianceObj.ApplyforMember;
-            Utility.Debug.LogInfo("进来的查找所有成员的数据 ");
+            Utility.Debug.LogError("进来的查找所有成员的数据 "+Utility.Json.ToJson(roleidList));
 
             NHCriteria nHCriteriallianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceObj.AllianceID);
 
@@ -43,11 +43,12 @@ namespace AscensionServer
             List<int> memberList = new List<int>();
             for (int i = 0; i < roleidList.Count; i++)
             {
+
                 NHCriteria nHCriteriRoleAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleidList[i]);
 
                 NHCriterias.Add(nHCriteriRoleAlliance);
                 var roleAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriRoleAlliance).Result;
-
+                Utility.Debug.LogError("进来的查找所有成员的数据 " + roleAllianceTemp.RoleID);
                 if (roleAllianceTemp.AllianceID == 0)
                 {
 

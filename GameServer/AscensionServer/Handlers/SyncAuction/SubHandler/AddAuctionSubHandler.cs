@@ -31,7 +31,7 @@ namespace AscensionServer
             auctionGoodsObj.GUID = guid;
 
             string redisKey = "AuctionGoods_" + guid;
-            RedisHelper.String.StringSetAsync(redisKey, Utility.Json.ToJson(auctionGoodsObj));
+            RedisHelper.String.StringSetAsync(redisKey, "");
 
             //加入索引表
             if (RedisHelper.Hash.HashExistAsync("AuctionIndex", auctionGoodsObj.GlobalID.ToString()).Result)
@@ -60,6 +60,26 @@ namespace AscensionServer
                 });
                 RedisHelper.Hash.HashSetAsync("AuctionIndex", auctionGoodsObj.GlobalID.ToString(), tempAuctionGoods);
             }
+            //加入数据表
+            if (!RedisHelper.Hash.HashExistAsync("AuctionGoodsData", auctionGoodsObj.GUID.ToString()).Result)
+                RedisHelper.Hash.HashSetAsync("AuctionGoodsData", auctionGoodsObj.GUID.ToString(), auctionGoodsObj);
+
+            List<string> roleAuctionItemList = new List<string>();
+            //更新玩家个人拍卖表数据
+            if(RedisHelper.Hash.HashExistAsync("RoleAuctionItems", auctionGoodsObj.RoleID.ToString()).Result)
+            {
+                roleAuctionItemList = RedisHelper.Hash.HashGetAsync<List<string>>("RoleAuctionItems", auctionGoodsObj.RoleID.ToString()).Result;
+                roleAuctionItemList.Add(auctionGoodsObj.GUID);
+                Utility.Debug.LogInfo("玩家拍卖列表存在key");
+                RedisHelper.Hash.HashSetAsync("RoleAuctionItems", auctionGoodsObj.RoleID.ToString(), roleAuctionItemList);
+            }
+            else
+            {
+                Utility.Debug.LogInfo("玩家拍卖列表不存在key!!!!");
+                roleAuctionItemList.Add(auctionGoodsObj.GUID);
+                RedisHelper.Hash.HashSetAsync("RoleAuctionItems", auctionGoodsObj.RoleID.ToString(), roleAuctionItemList);
+            }
+
            
             SetResponseData(() =>
             {

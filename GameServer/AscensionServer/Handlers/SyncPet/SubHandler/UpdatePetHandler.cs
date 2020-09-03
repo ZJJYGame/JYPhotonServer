@@ -10,7 +10,7 @@ using AscensionProtocol;
 using Photon.SocketServer;
 using AscensionServer.Model;
 using Cosmos;
-
+using RedisDotNet;
 namespace AscensionServer
 {
     public class UpdatePetHandler : SyncPetSubHandler
@@ -31,7 +31,7 @@ namespace AscensionServer
             int level;
             int exp;
             var pet = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriaPet);
-            if (pet != null)
+            if (pet != null && RedisHelper.Hash.HashExistAsync("Pet", petObj.ID.ToString()).Result)
             {
                 if (petObj.PetLevel!=0)
                 {
@@ -43,6 +43,8 @@ namespace AscensionServer
                     {
                         ID= petObj.ID,PetID=petObj.PetID,PetExp= exp,PetLevel=(byte)level,PetIsBattle=petObj.PetIsBattle,PetSkillArray=petObj.PetSkillArray,PetName=petObj.PetName
                     });
+                    RedisHelper.Hash.HashSetAsync<Pet>("Pet", pet.ID.ToString(), new Pet()
+                    {  ID = petObj.ID,PetID = petObj.PetID, PetExp = exp,PetLevel = (byte)level, PetIsBattle = petObj.PetIsBattle,PetSkillArray =petObj.PetSkillArray, PetName = petObj.PetName });
                 }
                 else
                 {
@@ -56,7 +58,16 @@ namespace AscensionServer
                         PetIsBattle = petObj.PetIsBattle,
                         PetSkillArray = petObj.PetSkillArray,
                         PetName = petObj.PetName
-
+                    });
+                    RedisHelper.Hash.HashSetAsync<Pet>("Pet", pet.ID.ToString(), new Pet()
+                    {
+                        ID = petObj.ID,
+                        PetID = petObj.PetID,
+                        PetExp = exp,
+                        PetLevel = pet.PetLevel,
+                        PetIsBattle = petObj.PetIsBattle,
+                        PetSkillArray = petObj.PetSkillArray,
+                        PetName = petObj.PetName
                     });
                 }
                 SetResponseData(() =>

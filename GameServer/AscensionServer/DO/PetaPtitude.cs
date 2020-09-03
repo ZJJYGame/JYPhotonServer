@@ -20,7 +20,7 @@ namespace AscensionServer.Model
         public virtual int DefendpowerAptitude { get; set; }
         public virtual int AttacksoulAptitude { get; set; }
         public virtual int DefendsoulAptitude { get; set; }
-        public virtual int Petaptitudecol { get; set; }
+        public virtual float Petaptitudecol { get; set; }
         public virtual string PetaptitudeDrug { get; set; }
         public PetaPtitude()
         {
