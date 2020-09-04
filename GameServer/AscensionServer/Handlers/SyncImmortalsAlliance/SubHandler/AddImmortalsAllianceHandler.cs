@@ -49,8 +49,9 @@ namespace AscensionServer
                 gangslist = Utility.Json.ToObject<List<int>>(allianceTemp.AllianceList);
 
                 var allianceslIstObj = ConcurrentSingleton<NHManager>.Instance.Insert(alliancestatusObj);
-               
 
+                AllianceConstruction allianceConstruction = new AllianceConstruction() { AllianceID = allianceslIstObj.ID};
+                ConcurrentSingleton<NHManager>.Instance.Insert(allianceConstruction);
                 AllianceMember allianceMember = new AllianceMember() { AllianceID = allianceslIstObj.ID, ApplyforMember = Utility.Json.ToJson(new List<int>() { }) ,Member = Utility.Json.ToJson(new List<int>() { roleAllianceObj .RoleID}) };
                 ConcurrentSingleton<NHManager>.Instance.Insert(allianceMember);
                 gangslist.Add(allianceslIstObj.ID);

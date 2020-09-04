@@ -73,6 +73,9 @@ namespace AscensionServer
              //   Utility.Debug.LogError("解散仙盟4" + allianceMemberTemp.AllianceID);
 
                 var allianceStatusObj = AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", allianceMemberObj.AllianceID);
+
+                var allianceConstructionObj = AlliancelogicManager.Instance.GetNHCriteria<AllianceConstruction>("AllianceID", allianceMemberObj.AllianceID);
+                ConcurrentSingleton<NHManager>.Instance.DeleteAsync(allianceConstructionObj);
                 ConcurrentSingleton<NHManager>.Instance.DeleteAsync(allianceStatusObj);
                 ConcurrentSingleton<NHManager>.Instance.DeleteAsync(allianceMemberTemp);
                 SetResponseData(() =>

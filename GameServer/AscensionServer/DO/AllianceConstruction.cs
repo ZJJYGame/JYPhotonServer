@@ -23,7 +23,7 @@ namespace AscensionServer.Model
             AllianceAlchemyStorage = 1;
             AllianceScripturesPlatform = 1;
             AllianceChamber = 1;
-            AllianceAssets = 0;
+            AllianceAssets = 1000000;
         }
         public override void Clear()
         {
@@ -32,7 +32,7 @@ namespace AscensionServer.Model
             AllianceAlchemyStorage = 0;
             AllianceScripturesPlatform = 0;
             AllianceChamber = 0;
-            AllianceAssets = 1000000;
+            AllianceAssets = 0;
         }
     }
 }
