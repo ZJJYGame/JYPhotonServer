@@ -7,7 +7,7 @@ using Photon.SocketServer;
 using AscensionProtocol;
 using AscensionServer.Model;
 using Cosmos;
-
+using RedisDotNet;
 namespace AscensionServer
 {
     public class RemoveRoleAssetsSubHandler : SyncRoleAssetsSubHandler
@@ -42,6 +42,7 @@ namespace AscensionServer
                 if (roleAssetsObj.XianYu > 0&& roleAssetsObj.XianYu <= assetsServer.XianYu)
                     XianYu = assetsServer.XianYu- roleAssetsObj.XianYu ;
                 ConcurrentSingleton<NHManager>.Instance.Update<RoleAssets>(new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesLow = SpiritStonesLow, XianYu = XianYu });
+                RedisHelper.Hash.HashSetAsync<RoleAssets>("RoleAssets", roleAssetsObj.RoleID.ToString(), new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesLow = SpiritStonesLow, XianYu = XianYu });
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
             }
             else

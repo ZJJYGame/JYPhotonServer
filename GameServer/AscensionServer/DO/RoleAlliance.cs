@@ -24,7 +24,7 @@ namespace AscensionServer.Model
         {
             RoleID = -1;
             AllianceID = 0;
-            AllianceJob = 0;
+            AllianceJob = 50;
             Reputation = 0;
             ReputationMonth = 0;
             ReputationHistroy = 0;

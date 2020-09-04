@@ -29,8 +29,6 @@ namespace AscensionServer
             var allianceObj = Utility.Json.ToObject<AllianceMemberDTO>(allianceJson);
             List<int> roleidList = new List<int>();
             roleidList = allianceObj.ApplyforMember;
-            Utility.Debug.LogError("进来的查找所有成员的数据 "+Utility.Json.ToJson(roleidList));
-
             NHCriteria nHCriteriallianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceObj.AllianceID);
 
 
@@ -39,8 +37,11 @@ namespace AscensionServer
             List<NHCriteria> NHCriterias = new List<NHCriteria>();
             NHCriterias.Add(nHCriteriallianceMember);
 
+
             List<int> applyList = new List<int>();
             List<int> memberList = new List<int>();
+            applyList = Utility.Json.ToObject<List<int>>(alliancememberTemp.ApplyforMember);
+            Utility.Debug.LogError("数据库储存的成员的数据 " + Utility.Json.ToJson(applyList));
             for (int i = 0; i < roleidList.Count; i++)
             {
 
@@ -48,7 +49,6 @@ namespace AscensionServer
 
                 NHCriterias.Add(nHCriteriRoleAlliance);
                 var roleAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriRoleAlliance).Result;
-                Utility.Debug.LogError("进来的查找所有成员的数据 " + roleAllianceTemp.RoleID);
                 if (roleAllianceTemp.AllianceID == 0)
                 {
 
@@ -57,8 +57,8 @@ namespace AscensionServer
                     roleAllianceTemp.ApplyForAlliance = Utility.Json.ToJson(roleApplyList);
                     ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAllianceTemp);
 
-                    applyList = Utility.Json.ToObject<List<int>>(alliancememberTemp.ApplyforMember);
 
+                    Utility.Debug.LogError("进来的查找所有成员的数据 " + roleidList[i]);
                     applyList.Remove(roleidList[i]);
                 }
             }

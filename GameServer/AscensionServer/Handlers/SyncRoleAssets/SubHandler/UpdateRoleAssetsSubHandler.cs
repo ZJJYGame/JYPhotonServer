@@ -7,6 +7,7 @@ using Photon.SocketServer;
 using AscensionProtocol;
 using AscensionServer.Model;
 using Cosmos;
+using RedisDotNet;
 namespace AscensionServer
 {
     public class UpdateRoleAssetsSubHandler : SyncRoleAssetsSubHandler
@@ -43,7 +44,10 @@ namespace AscensionServer
                         assetsServer.SpiritStonesLow = 0;
                 }
 
-                ConcurrentSingleton<NHManager>.Instance.Update<RoleAssets>(new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesHigh = assetsServer.SpiritStonesHigh, SpiritStonesLow = assetsServer.SpiritStonesLow, SpiritStonesMedium = assetsServer.SpiritStonesMedium, XianYu = assetsServer.XianYu });
+                ConcurrentSingleton<NHManager>.Instance.Update<RoleAssets>(new RoleAssets() { RoleID = roleAssetsObj.RoleID,  SpiritStonesLow = assetsServer.SpiritStonesLow,XianYu = assetsServer.XianYu });
+
+                RedisHelper.Hash.HashSetAsync<RoleAssets>("RoleAssets", roleAssetsObj.RoleID.ToString(), new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesLow = assetsServer.SpiritStonesLow, XianYu = assetsServer.XianYu });
+
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
             }
             else

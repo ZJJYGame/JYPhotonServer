@@ -16,8 +16,6 @@ namespace AscensionServer.Model
         }
         public virtual int RoleID { get; set; }
         public virtual long SpiritStonesLow { get; set; }
-        public virtual long SpiritStonesMedium { get; set; }
-        public virtual long SpiritStonesHigh { get; set; }
         public virtual long XianYu { get; set; }
         public override string ToString()
         {

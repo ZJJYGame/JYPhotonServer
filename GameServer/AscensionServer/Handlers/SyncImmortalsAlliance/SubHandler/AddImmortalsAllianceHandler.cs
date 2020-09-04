@@ -32,7 +32,7 @@ namespace AscensionServer
             var roleAllianceObj = Utility.Json.ToObject<RoleAlliance> 
                 (roleAllianceJson);
 
-            Utility.Debug.LogInfo("获得的发过来的仙盟数据" + alliancestatusJson+"及盟主信息"+ roleAllianceJson);
+          
             NHCriteria nHCriteriaAllianceName = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceName", alliancestatusObj.AllianceName);
             var alliance = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceStatus>(nHCriteriaAllianceName);
 
@@ -49,7 +49,7 @@ namespace AscensionServer
                 gangslist = Utility.Json.ToObject<List<int>>(allianceTemp.AllianceList);
 
                 var allianceslIstObj = ConcurrentSingleton<NHManager>.Instance.Insert(alliancestatusObj);
-                Utility.Debug.LogInfo("添加的仙盟id为" + allianceslIstObj.ID);
+               
 
                 AllianceMember allianceMember = new AllianceMember() { AllianceID = allianceslIstObj.ID, ApplyforMember = Utility.Json.ToJson(new List<int>() { }) ,Member = Utility.Json.ToJson(new List<int>() { roleAllianceObj .RoleID}) };
                 ConcurrentSingleton<NHManager>.Instance.Insert(allianceMember);

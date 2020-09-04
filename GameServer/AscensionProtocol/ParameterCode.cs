@@ -139,5 +139,6 @@
         AllianceMember=82,
         ApplyForAlliance=83,
         RoleAuctionItems=84,
+        AllianceConstruction=85,
     }
 }

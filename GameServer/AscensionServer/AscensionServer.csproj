@@ -19,7 +19,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
-    <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -192,11 +192,16 @@
     <Compile Include="Ascension\Application\Room\Base\BattleInputC2S.cs" />
     <Compile Include="Ascension\Application\Room\Base\RoomCache.cs" />
     <Compile Include="Concurrent\ConcurrentInt.cs" />
+    <Compile Include="DO\AllianceConstruction.cs" />
     <Compile Include="DO\RoleAuctionItems.cs" />
+    <Compile Include="Handlers\SyncAllianceConstruction\SubHandler\GetAllianceConstructionSubHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceConstruction\SubHandler\SyncAllianceConstructionSubHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceConstruction\SyncAllianceConstructionHandler.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\RemoveImmortalsAllianceHandler.cs" />
     <Compile Include="Handlers\SyncRoleAuctionItems\SubHandler\GetRoleAuctionItemsSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAuctionItems\SubHandler\SyncRoleAuctionItemsSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAuctionItems\SyncRoleAuctionItemsHandler.cs" />
+    <Compile Include="Handlers\SyncWeapon\SubHandler\RemoveWeaponSubHandler.cs" />
     <Compile Include="Helpers\DebugHelper\Log4NetDebugHelper.cs" />
     <Compile Include="DOMap\AlchemyMap.cs" />
     <Compile Include="DOMap\AllianceMemberMap.cs" />

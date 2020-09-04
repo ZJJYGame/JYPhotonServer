@@ -49,6 +49,7 @@ namespace AscensionServer
                         ConcurrentSingleton<NHManager>.Instance.UpdateAsync(alliancestatus);
                         var MemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriMember);
                         MemberTemp.AllianceID = 0;
+                        MemberTemp.AllianceJob = 50;
                         ConcurrentSingleton<NHManager>.Instance.UpdateAsync(MemberTemp);
 
                         memberlist = Utility.Json.ToObject<List<int>>(allianceMemberTemp.Member);
