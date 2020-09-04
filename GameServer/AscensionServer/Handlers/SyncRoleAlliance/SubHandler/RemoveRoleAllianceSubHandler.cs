@@ -42,7 +42,7 @@ namespace AscensionServer
                     memberlist.Remove(roleallianceObj.RoleID);
                     allianceTemp.Member = Utility.Json.ToJson(memberlist);
                     ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceTemp);
-
+                    roleallianceTemp.AllianceJob = 50;
                     roleallianceTemp.AllianceID = 0;
                     roleallianceTemp.Reputation = 0;
                     roleallianceTemp.ReputationHistroy = 0;

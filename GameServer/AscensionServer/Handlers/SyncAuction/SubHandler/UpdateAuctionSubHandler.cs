@@ -21,7 +21,7 @@ namespace AscensionServer
             base.OnInitialization();
         }
 
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             Utility.Debug.LogInfo("进入更新拍卖品事件");
             var dict = ParseSubDict(operationRequest);
@@ -38,7 +38,7 @@ namespace AscensionServer
 
             AuctionGoodsDTO resultAuctionGoodsDTO= new AuctionGoodsDTO();
 
-            if (auctionGoodsJson==null)//没有数据。失败
+            if (auctionGoodsJson == null)//没有数据。失败
             {
                 SetResponseData(() =>
                 {
@@ -56,9 +56,11 @@ namespace AscensionServer
             }
             else//获得数据，继续判断
             {
+                Utility.Debug.LogInfo("找到该商品");
                 var auctionGoodsObj = RedisHelper.Hash.HashGetAsync<AuctionGoodsDTO>("AuctionGoodsData", buyAuctionGoodsObj.GUID).Result;
                 if (buyAuctionGoodsObj.Count <= auctionGoodsObj.Count)//购买数量足够
                 {
+                    Utility.Debug.LogInfo("购买数量足够");
                     resultAuctionGoodsDTO = new AuctionGoodsDTO()
                     {
                         GUID = auctionGoodsObj.GUID,
@@ -71,19 +73,21 @@ namespace AscensionServer
                     auctionGoodsObj.Count -= buyAuctionGoodsObj.Count;
                     if (auctionGoodsObj.Count == 0)//买完了
                     {
-                        RedisHelper.KeyDeleteAsync("AuctionGoods_" + auctionGoodsObj.GUID);
-                        RedisHelper.Hash.HashDeleteAsync("AuctionGoodsData", buyAuctionGoodsObj.GUID);
+                        Utility.Debug.LogInfo("买完了");
+                        await RedisHelper.KeyDeleteAsync("AuctionGoods_" + auctionGoodsObj.GUID);
+
+                        await RedisHelper.Hash.HashDeleteAsync("AuctionGoodsData", buyAuctionGoodsObj.GUID);
 
                         List<string> roleAuctionGuidList = RedisHelper.Hash.HashGetAsync<List<string>>("RoleAuctionItems", auctionGoodsObj.RoleID.ToString()).Result;
                         string guidStr = roleAuctionGuidList.Find((p) => p == auctionGoodsObj.GUID);
                         roleAuctionGuidList.Remove(guidStr);
-                        if (roleAuctionGuidList.Count == 0)
+                        if (roleAuctionGuidList.Count != 0)
                         {
-                            RedisHelper.Hash.HashSetAsync("RoleAuctionItems", auctionGoodsObj.RoleID.ToString(), roleAuctionGuidList);
+                            await RedisHelper.Hash.HashSetAsync("RoleAuctionItems", auctionGoodsObj.RoleID.ToString(), roleAuctionGuidList);
                         }
                         else
                         {
-                            RedisHelper.Hash.HashDeleteAsync("RoleAuctionItems", auctionGoodsObj.RoleID.ToString());
+                            await RedisHelper.Hash.HashDeleteAsync("RoleAuctionItems", auctionGoodsObj.RoleID.ToString());
                         }
 
                         List<AuctionGoodsIndex> tempAuctionGoodIndexs = RedisHelper.Hash.HashGetAsync<List<AuctionGoodsIndex>>("AuctionIndex", auctionGoodsObj.GlobalID.ToString()).Result;
@@ -91,17 +95,18 @@ namespace AscensionServer
                         tempAuctionGoodIndexs.Remove(auctionGoodsIndex);
                         if (tempAuctionGoodIndexs.Count != 0)//购买后当前种物品索引数量 不为0
                         {
-                            RedisHelper.Hash.HashSetAsync("AuctionIndex", auctionGoodsObj.GlobalID.ToString(), tempAuctionGoodIndexs);
+                            await RedisHelper.Hash.HashSetAsync("AuctionIndex", auctionGoodsObj.GlobalID.ToString(), tempAuctionGoodIndexs);
                         }
                         else
                         {
-                            RedisHelper.Hash.HashDeleteAsync("AuctionIndex", auctionGoodsObj.GlobalID.ToString());
+                            await RedisHelper.Hash.HashDeleteAsync("AuctionIndex", auctionGoodsObj.GlobalID.ToString());
                         }
                     }
                     else
                     {
-                        RedisHelper.Hash.HashSetAsync("AuctionGoodsData", buyAuctionGoodsObj.GUID, auctionGoodsObj);
+                        await RedisHelper.Hash.HashSetAsync("AuctionGoodsData", buyAuctionGoodsObj.GUID, auctionGoodsObj);
                     }
+                    Utility.Debug.LogInfo("主备发送");
                     SetResponseData(() =>
                     {
                         Utility.Debug.LogInfo("购买物品成功");
@@ -111,7 +116,7 @@ namespace AscensionServer
                         resultDict.Add("List", Utility.Json.ToJson(tempAuctionGoodsDTOs));
                         resultDict.Add("StartIndex", startIndex.ToString());
                         resultDict.Add("Count", allGoodsCount.ToString());
-                        SubDict.Add((byte)ParameterCode.AddAuctionGoods,Utility.Json.ToJson(resultDict));
+                        SubDict.Add((byte)ParameterCode.AddAuctionGoods, Utility.Json.ToJson(resultDict));
                         Utility.Debug.LogInfo(Utility.Json.ToJson(resultDict));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
@@ -158,8 +163,7 @@ namespace AscensionServer
             }
             for (int i = 0; i < result.Count; i++)
             {
-                string auctionGoodsJson = RedisHelper.String.StringGetAsync("AuctionGoods_" + result[i].RedisKey).Result;
-                auctionGoodsDTOList.Add(Utility.Json.ToObject<AuctionGoodsDTO>(auctionGoodsJson));
+                auctionGoodsDTOList.Add(RedisHelper.Hash.HashGetAsync<AuctionGoodsDTO>("AuctionGoodsData", result[i].RedisKey).Result);
             }
             if (startIndex + count <= result.Count)
             {

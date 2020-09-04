@@ -77,7 +77,7 @@ namespace AscensionServer
                             if (client_p.Value.RingItemCount > client_p.Value.RingItemMax)
                             {
                                 int held = client_p.Value.RingItemCount;
-                                var remainder = NumberCountMethod(client_p.Value.RingItemCount, client_p.Value.RingItemMax);
+                                var remainder = HeldMethod(client_p.Value.RingItemCount, client_p.Value.RingItemMax);
                                 int numberCount = remainder == 0 || client_p.Value.RingItemMax == 1 ? NumberCountMethod(client_p.Value.RingItemCount, client_p.Value.RingItemMax) : NumberCountMethod(client_p.Value.RingItemCount, client_p.Value.RingItemMax) + 1;
                                 for (int o = 0; o < numberCount; o++)
                                 {
@@ -107,17 +107,114 @@ namespace AscensionServer
                             }
                             else
                             {
-                                var firstKeyDefault = ServerDict.FirstOrDefault(q => q.Value.RingItemAdorn == "1" || q.Value.RingItemAdorn == "2" || q.Value.RingItemCount == 0).Key;
+                                #region 重复
 
-                                if (firstKeyDefault !=0 )
+                                ///TODO
+                                int serverItemKey = ServerDict.Keys.ToList().Find(z => Int32.Parse(z.ToString().Substring(0, 5)) == client_p.Key && ServerDict[z].RingItemCount < ServerDict[z].RingItemMax);
+                                if (serverItemKey != 0)
                                 {
-                                    ServerDict[firstKeyDefault] = client_p.Value;
-                                    ServerDict = ServerDict.ToDictionary(k => k.Key == firstKeyDefault ? client_p.Key : k.Key, k => k.Value);
+                                    if(ServerDict[serverItemKey].RingItemCount + client_p.Value.RingItemCount <= ServerDict[serverItemKey].RingItemMax)
+                                    {
+                                        var severValue = ServerDict[serverItemKey];
+                                        if (client_p.Value.RingItemCount > 0)
+                                            severValue.RingItemCount += client_p.Value.RingItemCount;
+                                        if (severValue.RingItemAdorn != client_p.Value.RingItemAdorn)
+                                            severValue.RingItemAdorn = client_p.Value.RingItemAdorn;
+                                        if (severValue.RingItemTime != client_p.Value.RingItemTime)
+                                            severValue.RingItemTime = client_p.Value.RingItemTime;
+                                        if (severValue.RingItemMax != client_p.Value.RingItemMax)
+                                            severValue.RingItemMax = client_p.Value.RingItemMax;
+                                        if (severValue.RingItemType != client_p.Value.RingItemType)
+                                            severValue.RingItemType = client_p.Value.RingItemType;
+                                    }
+                                    else
+                                    {
+
+                                        var severValue = ServerDict[serverItemKey];
+                                        int Amount = (severValue.RingItemCount + client_p.Value.RingItemCount) - client_p.Value.RingItemMax;
+                                        severValue.RingItemCount = client_p.Value.RingItemMax;
+                                        if (severValue.RingItemAdorn != client_p.Value.RingItemAdorn)
+                                            severValue.RingItemAdorn = client_p.Value.RingItemAdorn;
+                                        if (severValue.RingItemTime != client_p.Value.RingItemTime)
+                                            severValue.RingItemTime = client_p.Value.RingItemTime;
+                                        if (severValue.RingItemMax != client_p.Value.RingItemMax)
+                                            severValue.RingItemMax = client_p.Value.RingItemMax;
+                                        if (severValue.RingItemType != client_p.Value.RingItemType)
+                                            severValue.RingItemType = client_p.Value.RingItemType;
+                                        Utility.Debug.LogInfo("<Amount>" + Amount);
+
+                                        if (Amount > client_p.Value.RingItemMax)
+                                        {
+                                            int held = Amount;
+                                            var remainder = HeldMethod(Amount, client_p.Value.RingItemMax);
+                                            int numberCount = remainder == 0 || client_p.Value.RingItemMax == 1 ? NumberCountMethod(Amount, client_p.Value.RingItemMax) : NumberCountMethod(Amount, client_p.Value.RingItemMax) + 1;
+                                            for (int o = 0; o < numberCount; o++)
+                                            {
+                                                int NowID = 0;
+                                                while (true)
+                                                {
+                                                    var randomNumer = new Random().Next(1000, 3000);
+                                                    NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
+                                                    if (!ServerDict.ContainsKey(NowID) && !ServerDictAdorn.ContainsKey(NowID))
+                                                        break;
+                                                }
+                                                int numbCount = held > client_p.Value.RingItemMax ? client_p.Value.RingItemMax : remainder;
+                                                RingItemsDTO Items = new RingItemsDTO() { RingItemTime = client_p.Value.RingItemTime, RingItemCount = numbCount, RingItemMax = client_p.Value.RingItemMax, RingItemAdorn = client_p.Value.RingItemAdorn, RingItemType = client_p.Value.RingItemType };
+                                                var firstKeyTrueDefault = ServerDict.FirstOrDefault(q => q.Value.RingItemAdorn == "1" || q.Value.RingItemAdorn == "2" || q.Value.RingItemCount == 0).Key;
+
+                                                if (firstKeyTrueDefault != 0)
+                                                {
+                                                    ServerDict[firstKeyTrueDefault] = Items;
+                                                    ServerDict = ServerDict.ToDictionary(k => k.Key == firstKeyTrueDefault ? NowID : k.Key, k => k.Value);
+                                                }
+                                                else
+                                                    ServerDict.Add(NowID, Items);
+                                                if (client_p.Value.RingItemMax == 1 || remainder == 0)
+                                                    continue;
+                                                held -= client_p.Value.RingItemMax;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            int NowID = 0;
+                                            while (true)
+                                            {
+                                                var randomNumer = new Random().Next(1000, 3000);
+                                                NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
+                                                if (!ServerDict.ContainsKey(NowID) && !ServerDictAdorn.ContainsKey(NowID))
+                                                    break;
+                                            }
+                                            Utility.Debug.LogInfo($"<NowID>{NowID}");
+
+                                            RingItemsDTO Items = new RingItemsDTO() { RingItemTime = client_p.Value.RingItemTime, RingItemCount = Amount, RingItemMax = client_p.Value.RingItemMax, RingItemAdorn = client_p.Value.RingItemAdorn, RingItemType = client_p.Value.RingItemType };
+                                            var firstKeyDefault = ServerDict.FirstOrDefault(q => q.Value.RingItemAdorn == "1" || q.Value.RingItemAdorn == "2" || q.Value.RingItemCount == 0).Key;
+
+                                            if (firstKeyDefault != 0)
+                                            {
+                                                ServerDict[firstKeyDefault] = Items;
+                                                ServerDict = ServerDict.ToDictionary(k => k.Key == firstKeyDefault ? NowID : k.Key, k => k.Value);
+                                            }
+                                            else
+                                                ServerDict.Add(NowID, Items);
+                                        }
+
+                                    }
+
                                 }
                                 else
-                                    ServerDict.Add(client_p.Key, client_p.Value);
+                                {
+                                    var firstKeyDefault = ServerDict.FirstOrDefault(q => q.Value.RingItemAdorn == "1" || q.Value.RingItemAdorn == "2" || q.Value.RingItemCount == 0).Key;
+                                    if (firstKeyDefault != 0)
+                                    {
+                                        ServerDict[firstKeyDefault] = client_p.Value;
+                                        ServerDict = ServerDict.ToDictionary(k => k.Key == firstKeyDefault ? client_p.Key : k.Key, k => k.Value);
+                                    }
+                                    else
+                                        ServerDict.Add(client_p.Key, client_p.Value);
+                                }
                             }
-                                
+                            #endregion
+
                         }
                         else
                         {
@@ -130,7 +227,7 @@ namespace AscensionServer
                                 if (client_p.Value.RingItemCount > client_p.Value.RingItemMax)
                                 {
                                     int held = client_p.Value.RingItemCount;
-                                    var remainder = NumberCountMethod(client_p.Value.RingItemCount, client_p.Value.RingItemMax);
+                                    var remainder = HeldMethod(client_p.Value.RingItemCount, client_p.Value.RingItemMax);
                                     int numberCount = remainder == 0 || client_p.Value.RingItemMax == 1 ? NumberCountMethod(client_p.Value.RingItemCount, client_p.Value.RingItemMax) : NumberCountMethod(client_p.Value.RingItemCount, client_p.Value.RingItemMax) + 1;
                                     for (int o = 0; o < numberCount; o++)
                                     {
@@ -216,7 +313,7 @@ namespace AscensionServer
                                     if (Amount > client_p.Value.RingItemMax)
                                     {
                                         int held = Amount;
-                                        var remainder = NumberCountMethod(Amount, client_p.Value.RingItemMax);
+                                        var remainder = HeldMethod(Amount, client_p.Value.RingItemMax);
                                         int numberCount = remainder == 0 || client_p.Value.RingItemMax == 1 ? NumberCountMethod(Amount, client_p.Value.RingItemMax) : NumberCountMethod(Amount, client_p.Value.RingItemMax) + 1;
                                         for (int o = 0; o < numberCount; o++)
                                         {

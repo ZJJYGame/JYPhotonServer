@@ -23,14 +23,13 @@ namespace AscensionServer
 
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            Utility.Debug.LogInfo("收到个人拍卖信息请求");
+            Utility.Debug.LogInfo("我进来了");
             var dict = ParseSubDict(operationRequest);
             int roleID = Convert.ToInt32(Utility.GetValue(dict, (byte)ParameterCode.RoleAuctionItems));
             List<RoleAuctionItem> roleAuctionItemList = new List<RoleAuctionItem>();
             if (RedisHelper.Hash.HashExistAsync("RoleAuctionItems", roleID.ToString()).Result)
             {
                 List<string> tempGuidList = RedisHelper.Hash.HashGetAsync<List<string>>("RoleAuctionItems", roleID.ToString()).Result;
-                Utility.Debug.LogInfo("1");
                 for (int i = 0; i < tempGuidList.Count; i++)
                 {
                     if (RedisHelper.String.StringGetAsync("AuctionGoods_" + tempGuidList[i]).Result != null)
@@ -50,11 +49,11 @@ namespace AscensionServer
                         });
                     }
                 }
-                Utility.Debug.LogInfo("1");
             }
+            Utility.Debug.LogInfo("21313");
             SetResponseData(() =>
             {
-                Utility.Debug.LogInfo(Utility.Json.ToJson(roleAuctionItemList));
+                Utility.Debug.LogInfo("我的上架数据" + Utility.Json.ToJson(roleAuctionItemList));
                 SubDict.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(roleAuctionItemList));
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             });

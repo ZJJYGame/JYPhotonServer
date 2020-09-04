@@ -78,9 +78,10 @@ namespace AscensionServer
             SetResponseData(() =>
             {
                 Utility.Debug.LogInfo("发送数据");
-                SubDict.Add((byte)ParameterCode.Auction, Utility.Json.ToJson(resultDict));
+                string resultJson = Utility.Json.ToJson(resultDict);
+                SubDict.Add((byte)ParameterCode.Auction, resultJson);
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
-                Utility.Debug.LogInfo("发送数据完成"+ Utility.Json.ToJson(resultDict));
+                Utility.Debug.LogInfo("发送数据完成"+ resultJson);
             });
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
         }

@@ -164,8 +164,18 @@ namespace AscensionServer
                             }
                             else
                             {
-                                //当前这个物品不存在两个字典中
-                                Utility.Debug.LogInfo("<服务器的数量小于客户端传过来的数量>");
+                                //if (serverData.RingItemCount < client_p.Value.RingItemCount)
+                                //{
+                                //    serverData.RingItemCount -= client_p.Value.RingItemCount;
+                                //    //serverData.RingItemTime = serverData.RingItemTime;
+                                //    //serverData.RingItemAdorn = client_p.Value.RingItemAdorn;
+                                //    //serverData.RingItemMax = serverData.RingItemMax;
+                                //    //serverData.RingItemType = client_p.Value.RingItemType;
+                                //    //if (client_p.Value.RingItemCount == serverData.RingItemMax)
+                                //    //    serverData.RingItemCount = 0;
+                                //}
+                                    //当前这个物品不存在两个字典中
+                                    Utility.Debug.LogInfo("<服务器的数量小于客户端传过来的数量>");
                             }
                         }else 
                         {
