@@ -192,12 +192,15 @@
     <Compile Include="Ascension\Application\Room\Base\BattleInputC2S.cs" />
     <Compile Include="Ascension\Application\Room\Base\RoomCache.cs" />
     <Compile Include="Concurrent\ConcurrentInt.cs" />
+    <Compile Include="DOMap\AllianceConstructionMap.cs" />
     <Compile Include="DO\AllianceConstruction.cs" />
     <Compile Include="DO\RoleAuctionItems.cs" />
     <Compile Include="Handlers\SyncAllianceConstruction\SubHandler\GetAllianceConstructionSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceConstruction\SubHandler\SyncAllianceConstructionSubHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceConstruction\SubHandler\UpdateAllianceConstructionSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceConstruction\SyncAllianceConstructionHandler.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\RemoveImmortalsAllianceHandler.cs" />
+    <Compile Include="Handlers\SyncRoleAlliance\SubHandler\UpdateRoleAllianceSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAuctionItems\SubHandler\GetRoleAuctionItemsSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAuctionItems\SubHandler\SyncRoleAuctionItemsSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAuctionItems\SyncRoleAuctionItemsHandler.cs" />
