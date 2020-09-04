@@ -183,8 +183,7 @@
     <Compile Include="Ascension\Application\Base\Variable\NetVariable.cs" />
     <Compile Include="Ascension\Application\Base\Variable\TokenVar.cs" />
     <Compile Include="Ascension\Application\Peer\PeerManager.cs" />
-    <Compile Include="Ascension\Application\Peer\IPeerMessageProvider.cs" />
-    <Compile Include="Ascension\Application\Peer\PhotonPeerMessageProvider.cs" />
+    <Compile Include="Ascension\Application\Record\RecordManager.cs" />
     <Compile Include="Ascension\Application\Resource\ResourceManager.cs" />
     <Compile Include="Ascension\Application\Room\Base\BattleRoomCache.cs" />
     <Compile Include="Ascension\Application\Room\Base\RoomBattleInputC2S.cs" />
