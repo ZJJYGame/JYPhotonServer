@@ -18,11 +18,6 @@ namespace AscensionServer
         /// </summary>
         Action<object> broadcastEvent;
         ConcurrentDictionary<long, PeerEntity> peerDict;
-        IPeerMessageProvider peerMessageProvider;
-        public void SetProvider(IPeerMessageProvider provider)
-        {
-            peerMessageProvider = provider;
-        }
         public override void OnInitialization()
         {
             peerDict = new ConcurrentDictionary<long, PeerEntity>();
