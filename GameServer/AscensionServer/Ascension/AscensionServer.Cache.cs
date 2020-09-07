@@ -20,12 +20,6 @@ namespace AscensionServer
     public partial class AscensionServer:ApplicationBase
     {
         #region Properties
-        /// <summary>
-        /// 已经连接但是未登录的客户端对象容器
-        /// </summary>
-        HashSet<AscensionPeer> connectedPeerHashSet = new HashSet<AscensionPeer>();
-        public HashSet<AscensionPeer> ConnectedPeerHashSet { get { return connectedPeerHashSet; } set { connectedPeerHashSet = value; } }
-
         Cache<AscensionPeer> loggedPeerCache = new Cache<AscensionPeer>();
         public Cache<AscensionPeer> LoggedPeerCache { get { return loggedPeerCache; } }
         Cache<AscensionPeer> addventureScenePeerCache = new Cache<AscensionPeer>();

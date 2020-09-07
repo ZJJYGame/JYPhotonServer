@@ -24,14 +24,14 @@ namespace AscensionServer
         /// 成功房间时最大取值范围
         /// </summary>
         readonly int _MaxValue = 99999999;
-        ConcurrentDictionary<uint, RoomCache> roomDict = new ConcurrentDictionary<uint, RoomCache>();
-        public bool AddRoom(RoomCache roomCache)
+        ConcurrentDictionary<uint, RoomEntity> roomDict = new ConcurrentDictionary<uint, RoomEntity>();
+        public bool AddRoom(RoomEntity roomCache)
         {
             return roomDict.TryAdd(roomCache.RoomId, roomCache);
         }
-        public RoomCache CreateRoom()
+        public RoomEntity CreateRoom()
         {
-            var room = GameManager.ReferencePoolManager.Spawn<RoomCache>();
+            var room = GameManager.ReferencePoolManager.Spawn<RoomEntity>();
             uint roomID = CreateRoomID();
             if (roomDict.ContainsKey(roomID))
             {
@@ -41,12 +41,12 @@ namespace AscensionServer
         }
         public bool RemoveRoom(uint roomID)
         {
-            RoomCache rc;
+            RoomEntity rc;
             return roomDict.TryRemove(roomID, out rc);
         }
-        public RoomCache GetRoom(uint roomID)
+        public RoomEntity GetRoom(uint roomID)
         {
-            RoomCache rc;
+            RoomEntity rc;
             roomDict.TryGetValue(roomID, out rc);
             return rc;
         }

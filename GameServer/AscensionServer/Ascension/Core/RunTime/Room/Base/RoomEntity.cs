@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 using Cosmos;
 namespace AscensionServer
 {
-    public class RoomCache : IReference,ISimpleKeyValue<long,PeerEntity>
+    public class RoomEntity : IReference,ISimpleKeyValue<long,PeerEntity>
     {
         #region Properties
         public uint RoomId { get; private set; }

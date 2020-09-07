@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 using Cosmos;
 namespace AscensionServer
 {
-    public class TeamCache : IReference
+    public class TeamEntity : IReference
     {
         /// <summary>
         /// 队长ID

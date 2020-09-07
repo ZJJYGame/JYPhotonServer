@@ -23,13 +23,13 @@ namespace AscensionServer
         /// </summary>
         readonly int _MaxValue = 99999999;
         CancellationToken cancelToken = new CancellationToken();
-        ConcurrentDictionary<uint, TeamCache> teamDict = new ConcurrentDictionary<uint, TeamCache>();
+        ConcurrentDictionary<uint, TeamEntity> teamDict = new ConcurrentDictionary<uint, TeamEntity>();
         HashSet<uint>matchingQueue = new HashSet<uint>();
-        public TeamCache CreateTeam(uint createrID)
+        public TeamEntity CreateTeam(uint createrID)
         {
             if (teamDict.ContainsKey(createrID))
                 return null;
-            var tc = GameManager.ReferencePoolManager.Spawn<TeamCache>();
+            var tc = GameManager.ReferencePoolManager.Spawn<TeamEntity>();
             tc.InitTeam(createrID, CreateTeamID());
             return tc;
         }
@@ -75,7 +75,7 @@ namespace AscensionServer
                         {
                             if (teamID == 0)
                                 continue;
-                            TeamCache tc;
+                            TeamEntity tc;
                             teamDict.TryGetValue(teamID, out tc);
                             tc.JoinTeam(id);
                             removeIDSet.Add(id);
@@ -96,7 +96,7 @@ namespace AscensionServer
         /// <returns>是否加入成功</returns>
         public bool JoinTeam(uint teamID, uint peerID)
         {
-            TeamCache gc;
+            TeamEntity gc;
             if (!teamDict.TryGetValue(teamID, out gc))
                 return false;
             else

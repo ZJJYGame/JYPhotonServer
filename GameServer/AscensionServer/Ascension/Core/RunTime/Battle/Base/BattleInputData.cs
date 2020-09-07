@@ -30,21 +30,21 @@ namespace AscensionServer
         /// <summary>
         /// 指令输入者ID
         /// </summary>
-        public uint CmdInputterID { get; set; }
+        public uint CmdInputterId { get; set; }
         /// <summary>
         /// 指令ID；
         /// 例如使用功法秘术技能，或使用道具是不同的指令；
         /// </summary>
-        public int CmdID{ get; set; }
+        public byte CmdId{ get; set; }
         /// <summary>
         /// 指令字段ID；
         /// 当前指令下，例如使用了道具的具体ID，技能的具体ID；
         /// </summary>
-        public int CmdFieldID{ get; set; }
+        public int CmdFieldId{ get; set; }
         /// <summary>
         /// 目标ID
         /// </summary>
-        public uint TargetID { get; set; }
+        public uint TargetId { get; set; }
 
     }
 }

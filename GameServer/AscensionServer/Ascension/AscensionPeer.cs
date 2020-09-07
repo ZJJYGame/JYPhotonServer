@@ -55,7 +55,6 @@ namespace AscensionServer
             Utility.Debug.LogInfo($"Client Disconnect :{ToString()}");
             await GameManager.External.GetModule<PeerManager>().BroadcastEventAsync(ed, () => Logoff()); 
             Logoff();
-            AscensionServer.Instance.ConnectedPeerHashSet.Remove(this);
         }
         //处理客户端的请求
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)

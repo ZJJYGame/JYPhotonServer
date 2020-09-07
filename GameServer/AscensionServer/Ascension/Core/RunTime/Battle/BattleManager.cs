@@ -12,12 +12,12 @@ namespace AscensionServer
     /// 此模块用于转发客户端发送过来的消息到具体战斗容器中；
     /// 此模块非逻辑层，若处理逻辑，则在具体的战斗容器中处理；
     /// </summary>
-    public sealed class BattleManager : Module<BattleManager>, IKeyValue<uint, RoomCache>
+    public sealed class BattleManager : Module<BattleManager>, IKeyValue<uint, RoomEntity>
     {
         /// <summary>
         /// 战斗房间的缓存
         /// </summary>
-        ConcurrentDictionary<uint, RoomCache> roomDict;
+        ConcurrentDictionary<uint, RoomEntity> roomDict;
         IBattleMessageHelper battleMessageProvider;
         public void SetProvider(IBattleMessageHelper provider)
         {
@@ -25,7 +25,7 @@ namespace AscensionServer
         }
         public override void OnInitialization()
         {
-            roomDict = new ConcurrentDictionary<uint, RoomCache>();
+            roomDict = new ConcurrentDictionary<uint, RoomEntity>();
             NetworkEventCore.Instance.AddEventListener(NetworkEventParam.BATTLE_CMD, BroadCastBattleCmd);
         }
         void BroadCastBattleCmd(object data)
@@ -37,9 +37,9 @@ namespace AscensionServer
             //if (result)
             //    rc.CacheInputCmdC2S(rbiCmd);
         }
-        public RoomCache GetBattleRoom(uint roomID)
+        public RoomEntity GetBattleRoom(uint roomID)
         {
-            RoomCache rc;
+            RoomEntity rc;
             roomDict.TryGetValue(roomID, out rc);
             return rc;
         }
@@ -51,7 +51,7 @@ namespace AscensionServer
             }
             roomDict.Clear();
         }
-        public bool TryGetValue(uint key, out RoomCache value)
+        public bool TryGetValue(uint key, out RoomEntity value)
         {
             var result = roomDict.TryGetValue(key, out value);
             return result;
@@ -62,17 +62,17 @@ namespace AscensionServer
         }
         public bool TryRemove(uint Key)
         {
-            RoomCache rc;
+            RoomEntity rc;
             var result = roomDict.TryRemove(Key, out rc);
             if (result)
                 GameManager.ReferencePoolManager.Despawn(rc);
             return result;
         }
-        public bool TryAdd(uint key, RoomCache Value)
+        public bool TryAdd(uint key, RoomEntity Value)
         {
             return roomDict.TryAdd(key, Value);
         }
-        public bool TryUpdate(uint key, RoomCache newValue, RoomCache comparsionValue)
+        public bool TryUpdate(uint key, RoomEntity newValue, RoomEntity comparsionValue)
         {
             return roomDict.TryUpdate(key, newValue,comparsionValue);
         }

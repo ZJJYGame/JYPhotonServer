@@ -15,7 +15,9 @@ namespace AscensionServer
     /// </summary>
     public class PeerEntity : IKeyValue<Type, NetVariable>, IReference
     {
+        public long SessionId { get; private set; }
         public IPeer ClientPeer { get; private set; }
+        public IRole Role { get; private set; }
         public ICollection<NetVariable> NetVariableCollection { get { return variableDict.Values; } }
         ConcurrentDictionary<Type, NetVariable> variableDict;
         public PeerEntity()

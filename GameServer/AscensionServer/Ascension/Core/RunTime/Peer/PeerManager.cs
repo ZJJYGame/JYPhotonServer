@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using System.Threading;
+using Ubiety.Dns.Core.Common;
 
 namespace AscensionServer
 {
@@ -22,6 +23,7 @@ namespace AscensionServer
         public override void OnInitialization()
         {
             peerDict = new ConcurrentDictionary<long, PeerEntity>();
+            NetworkEventCore.Instance.AddEventListener(2, PeerLogoff);
         }
         public bool TryAdd(long sessionId, PeerEntity peer)
         {
@@ -94,6 +96,10 @@ namespace AscensionServer
         public async Task BroadcastEventAsync(object userData,Action callback=null)
         {
             await Task.Run(() => { broadcastEvent?.Invoke(userData); callback?.Invoke(); });
+        }
+        void PeerLogoff(object data)
+        {
+
         }
     }
 }
