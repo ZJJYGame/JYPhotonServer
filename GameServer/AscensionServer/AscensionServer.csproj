@@ -177,6 +177,8 @@
     <Compile Include="Ascension\Core\Base\Peer\IPeer.cs" />
     <Compile Include="Ascension\Core\Base\NetEvent\NetworkEventParam.cs" />
     <Compile Include="Ascension\Core\Base\NetEvent\NetworkEventCore.cs" />
+    <Compile Include="Ascension\Core\Base\Player\IRole.cs" />
+    <Compile Include="Ascension\Core\Base\Player\RoleEntity.cs" />
     <Compile Include="Ascension\Core\Base\Variable\ISimpleKeyValue.cs" />
     <Compile Include="Ascension\Core\Base\Variable\IKeyValue.cs" />
     <Compile Include="Ascension\Core\Base\Peer\PeerEntity.cs" />
@@ -189,14 +191,14 @@
     <Compile Include="Ascension\Core\RunTime\Peer\PeerManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Record\RecordManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\ResourceManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Room\Base\BattleRoomCache.cs" />
+    <Compile Include="Ascension\Core\RunTime\Room\Base\BattleRoomEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\Base\RoomBattleInputData.cs" />
     <Compile Include="Ascension\Core\RunTime\Scene\SceneEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Scene\SceneManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Scene\ScenePool.cs" />
-    <Compile Include="Ascension\Core\RunTime\Team\Base\TeamCache.cs" />
+    <Compile Include="Ascension\Core\RunTime\Team\Base\TeamEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\Base\BattleInputData.cs" />
-    <Compile Include="Ascension\Core\RunTime\Room\Base\RoomCache.cs" />
+    <Compile Include="Ascension\Core\RunTime\Room\Base\RoomEntity.cs" />
     <Compile Include="Concurrent\ConcurrentInt.cs" />
     <Compile Include="DOMap\AllianceConstructionMap.cs" />
     <Compile Include="DOMap\RoleAllianceSkillMap.cs" />
