@@ -19,7 +19,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
-    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -172,28 +172,36 @@
     <Compile Include="AlliancelogicManager\AlliancelogicManager.cs" />
     <Compile Include="AreaHandlers\EnterAdventureSceneHandler.cs" />
     <Compile Include="AreaHandlers\ExitAdventureSceneHandler.cs" />
-    <Compile Include="Ascension\Application\Base\Actor\ActorTypeEnum.cs" />
-    <Compile Include="Ascension\Application\Base\Input\IInputCmd.cs" />
-    <Compile Include="Ascension\Application\Base\Peer\IPeer.cs" />
-    <Compile Include="Ascension\Application\Base\NetEvent\NetEventKey.cs" />
-    <Compile Include="Ascension\Application\Base\NetEvent\NetworkEventCore.cs" />
-    <Compile Include="Ascension\Application\Base\Variable\IKeyValue.cs" />
-    <Compile Include="Ascension\Application\Base\Peer\PeerEntity.cs" />
-    <Compile Include="Ascension\Application\Actor\ActorManager.cs" />
-    <Compile Include="Ascension\Application\Base\Variable\NetVariable.cs" />
-    <Compile Include="Ascension\Application\Base\Variable\TokenVar.cs" />
-    <Compile Include="Ascension\Application\Peer\PeerManager.cs" />
-    <Compile Include="Ascension\Application\Record\RecordManager.cs" />
-    <Compile Include="Ascension\Application\Resource\ResourceManager.cs" />
-    <Compile Include="Ascension\Application\Room\Base\BattleRoomCache.cs" />
-    <Compile Include="Ascension\Application\Room\Base\RoomBattleInputC2S.cs" />
-    <Compile Include="Ascension\Application\Scene\SceneManager.cs" />
-    <Compile Include="Ascension\Application\Team\Base\TeamCache.cs" />
-    <Compile Include="Ascension\Application\Room\Base\BattleInputC2S.cs" />
-    <Compile Include="Ascension\Application\Room\Base\RoomCache.cs" />
+    <Compile Include="Ascension\Core\Base\Actor\ActorTypeEnum.cs" />
+    <Compile Include="Ascension\Core\Base\Input\IInputData.cs" />
+    <Compile Include="Ascension\Core\Base\Peer\IPeer.cs" />
+    <Compile Include="Ascension\Core\Base\NetEvent\NetworkEventParam.cs" />
+    <Compile Include="Ascension\Core\Base\NetEvent\NetworkEventCore.cs" />
+    <Compile Include="Ascension\Core\Base\Variable\ISimpleKeyValue.cs" />
+    <Compile Include="Ascension\Core\Base\Variable\IKeyValue.cs" />
+    <Compile Include="Ascension\Core\Base\Peer\PeerEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\Actor\ActorManager.cs" />
+    <Compile Include="Ascension\Core\Base\Variable\NetVariable.cs" />
+    <Compile Include="Ascension\Core\Base\Variable\TokenVar.cs" />
+    <Compile Include="Ascension\Core\RunTime\Battle\Base\BattleResultVariable.cs" />
+    <Compile Include="Ascension\Core\RunTime\Battle\Base\IBattleMessageHelper.cs" />
+    <Compile Include="Ascension\Core\RunTime\Battle\PeerBattleMessageHelper.cs" />
+    <Compile Include="Ascension\Core\RunTime\Peer\PeerManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Record\RecordManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Resource\ResourceManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Room\Base\BattleRoomCache.cs" />
+    <Compile Include="Ascension\Core\RunTime\Room\Base\RoomBattleInputData.cs" />
+    <Compile Include="Ascension\Core\RunTime\Scene\SceneEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\Scene\SceneManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Scene\ScenePool.cs" />
+    <Compile Include="Ascension\Core\RunTime\Team\Base\TeamCache.cs" />
+    <Compile Include="Ascension\Core\RunTime\Battle\Base\BattleInputData.cs" />
+    <Compile Include="Ascension\Core\RunTime\Room\Base\RoomCache.cs" />
     <Compile Include="Concurrent\ConcurrentInt.cs" />
     <Compile Include="DOMap\AllianceConstructionMap.cs" />
+    <Compile Include="DOMap\RoleAllianceSkillMap.cs" />
     <Compile Include="DO\AllianceConstruction.cs" />
+    <Compile Include="DO\RoleAllianceSkill.cs" />
     <Compile Include="DO\RoleAuctionItems.cs" />
     <Compile Include="Handlers\SyncAllianceConstruction\SubHandler\GetAllianceConstructionSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceConstruction\SubHandler\SyncAllianceConstructionSubHandler.cs" />
@@ -250,10 +258,10 @@
     <Compile Include="DO\TacticFormation.cs" />
     <Compile Include="DO\TemporaryRing.cs" />
     <Compile Include="DO\Treasureattic.cs" />
-    <Compile Include="Ascension\Application\Battle\BattleManager.cs" />
-    <Compile Include="Ascension\Application\Team\TeamManager.cs" />
-    <Compile Include="Ascension\Application\Lobby\LobbyManager.cs" />
-    <Compile Include="Ascension\Application\Room\RoomManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Battle\BattleManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Team\TeamManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Lobby\LobbyManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Room\RoomManager.cs" />
     <Compile Include="DO\VareityPurchaseRecord.cs" />
     <Compile Include="DO\VareityShop.cs" />
     <Compile Include="Handlers\SchoolSchoolRefresh\SyncSchoolRefreshHandler.cs" />
@@ -525,7 +533,7 @@
     <Compile Include="NHManager\NHCriteria\NHCriteria.cs" />
     <Compile Include="NHManager\NHibernateHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Ascension\Application\RedisData\RedisData.Initialize.cs" />
+    <Compile Include="Ascension\Core\RunTime\RedisData\RedisData.Initialize.cs" />
     <Compile Include="Threads\Base\ISyncEvent.cs" />
     <Compile Include="Threads\Base\IThreadEventData.cs" />
     <Compile Include="Threads\Base\SyncEvent.cs" />

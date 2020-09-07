@@ -23,6 +23,7 @@ namespace Cosmos
             /// 此类模块不由CF框架生成，由用户自定义
             /// 需要从Module类派生;
             /// 线程安全；
+            /// 使用此方法获得的模块对象，享有与原生CF模块的轮询、初始化等功能；
             /// </summary>
             /// <typeparam name="TModule">实现模块功能的类对象</typeparam>
             /// <returns>获取的模块</returns>

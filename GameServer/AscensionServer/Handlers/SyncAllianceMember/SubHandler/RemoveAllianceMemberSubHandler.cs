@@ -22,7 +22,7 @@ namespace AscensionServer
         }
 
 
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
             string allianceMemberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
@@ -46,16 +46,16 @@ namespace AscensionServer
 
                         var alliancestatus = AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", allianceMemberObj.AllianceID);
                         alliancestatus.AllianceNumberPeople -=1;
-                        ConcurrentSingleton<NHManager>.Instance.UpdateAsync(alliancestatus);
+                       await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(alliancestatus);
                         var MemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriMember);
                         MemberTemp.AllianceID = 0;
+                        await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(MemberTemp);
                         MemberTemp.AllianceJob = 50;
-                        ConcurrentSingleton<NHManager>.Instance.UpdateAsync(MemberTemp);
 
                         memberlist = Utility.Json.ToObject<List<int>>(allianceMemberTemp.Member);
                         memberlist.Remove(allianceMemberObj.Member[i]);
                         allianceMemberTemp.Member = Utility.Json.ToJson(memberlist);
-                        ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceMemberTemp);
+                        await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceMemberTemp);
                         SetResponseData(() =>
                         {
                             Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;

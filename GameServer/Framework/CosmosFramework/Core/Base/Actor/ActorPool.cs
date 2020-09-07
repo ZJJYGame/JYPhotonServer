@@ -62,7 +62,6 @@ namespace Cosmos
         public IEnumerator<ActorBase> GetEnumerator()
         {
             return actorDict.Values.GetEnumerator();
-
         }
         IEnumerator IEnumerable.GetEnumerator()
         {
