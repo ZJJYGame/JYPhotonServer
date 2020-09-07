@@ -29,14 +29,11 @@ namespace AscensionServer
             var allianceConstructionObj = Utility.Json.ToObject<AllianceConstructionDTO>(allianceConstructionJson);
             NHCriteria nHCriteriallianceConstruction = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceConstructionObj.AllianceID);
 
-            Utility.Debug.LogError("獲得的得到的"+ allianceConstructionJson);
-            var allianceConstructionTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceConstruction>(nHCriteriallianceConstruction).Result;
-            Utility.Debug.LogError("2獲得的得到的" + Utility.Json.ToJson(allianceConstructionTemp));
-            if (allianceConstructionTemp != null)
+            if (allianceConstructionObj!=null)
             {
                 SetResponseData(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.AllianceConstruction, Utility.Json.ToJson(allianceConstructionTemp));
+                    SubDict.Add((byte)ParameterCode.AllianceConstruction, Utility.Json.ToJson(allianceConstructionObj));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }

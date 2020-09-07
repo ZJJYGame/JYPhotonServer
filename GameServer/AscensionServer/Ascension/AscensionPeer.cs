@@ -34,14 +34,13 @@ namespace AscensionServer
         public long SessionId { get; private set; }
         public bool Available { get; private set; }
         public object Handle { get { return this; } }
-        SendParameters sendParam = new SendParameters();
         #endregion
 
         #region Methods
         public AscensionPeer(InitRequest initRequest) : base(initRequest) { }
 
         //处理客户端断开连接的后续工作
-        protected async override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
+        protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
             EventData ed = new EventData((byte)EventCode.DeletePlayer);
             Dictionary<byte, object> data = new Dictionary<byte, object>();
@@ -52,10 +51,23 @@ namespace AscensionServer
             {
                 RecordOnOffLine(PeerCache.RoleID);
             }
-            Utility.Debug.LogInfo($"Client Disconnect :{ToString()}");
-            await GameManager.External.GetModule<PeerManager>().BroadcastEventAsync(ed, () => Logoff()); 
+            var loggedPeerHashSet = AscensionServer.Instance.LoggedPeerCache.GetValuesHashSet();
+            loggedPeerHashSet.Remove(this);
+            var sendParameter = new SendParameters();
+
+
+            if (AscensionServer.Instance.IsEnterAdventureScene(this))
+                AscensionServer.Instance.ExitAdventureScene(this);
+            AscensionServer.Instance.RemoveFromLoggedUserCache(this);
+
+
+            foreach (AscensionPeer tmpPeer in loggedPeerHashSet)
+            {
+                tmpPeer.SendEvent(ed, sendParameter);
+            }
             Logoff();
             AscensionServer.Instance.ConnectedPeerHashSet.Remove(this);
+            Utility.Debug.LogInfo("***********************  Client Disconnect    ***********************");
         }
         //处理客户端的请求
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
@@ -97,12 +109,7 @@ namespace AscensionServer
         /// <param name="userData">用户自定义数据</param>
         public void SendEventMessage(object userData)
         {
-            SendEvent(userData as IEventData, sendParam);
-        }
-        public void Clear()
-        {
-            SessionId = 0;
-            Available = false;
+            SendEvent(userData as IEventData, new SendParameters());
         }
         public override string ToString()
         {
@@ -132,8 +139,13 @@ namespace AscensionServer
                 ConcurrentSingleton<NHManager>.Instance.Insert(offLineTimeTmp);
                 GameManager.ReferencePoolManager.Despawn(offLineTimeTmp);
             }
-            GameManager.ReferencePoolManager.Despawn(nHCriteriaOnOff);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaOnOff);
             Utility.Debug.LogInfo("同步离线时间成功");
+        }
+        public void Clear()
+        {
+            SessionId = 0;
+            Available = false;
         }
 
     }

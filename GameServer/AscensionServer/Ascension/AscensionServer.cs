@@ -39,7 +39,7 @@ namespace AscensionServer
         {
             var peer = new AscensionPeer(initRequest);
             Utility.Debug.LogInfo("Peer connect");
-            ConnectedPeerHashSet.Add(peer);
+            connectedPeerHashSet.Add(peer);
             return peer;
         }
         protected override void Setup()

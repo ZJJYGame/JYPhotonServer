@@ -73,7 +73,6 @@
     <Compile Include="DTO\PetDTO.cs" />
     <Compile Include="DTO\PetStatusDTO.cs" />
     <Compile Include="DTO\PuppetDTO.cs" />
-    <Compile Include="DTO\RoleAllianceSkillDTO.cs" />
     <Compile Include="DTO\RoleAuctionItemsDTO.cs" />
     <Compile Include="DTO\RolePurchaseRecordDTO.cs" />
     <Compile Include="DTO\ShoppingMallDTO.cs" />
