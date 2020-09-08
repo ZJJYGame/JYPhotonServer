@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-  public abstract  class SyncAllianceConstructionSubHandler:SubHandler
+    public abstract  class SyncRoleAllianceSkillSubHandler:SubHandler
     {
-
-
     }
 }

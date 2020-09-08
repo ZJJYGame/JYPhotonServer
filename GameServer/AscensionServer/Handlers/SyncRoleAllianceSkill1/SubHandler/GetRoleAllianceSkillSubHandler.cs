@@ -9,10 +9,10 @@ using Photon.SocketServer;
 using AscensionServer.Model;
 using Cosmos;
 using RedisDotNet;
-using StackExchange.Redis;
+
 namespace AscensionServer
 {
-    public class GetAllianceConstructionSubHandler : SyncAllianceConstructionSubHandler
+    public class GetRoleAllianceSkillSubHandler : SyncRoleAllianceSkillSubHandler
     {
         public override void OnInitialization()
         {
@@ -24,16 +24,21 @@ namespace AscensionServer
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
-            string allianceConstructionJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceConstruction));
+            string roleallianceskillJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAllianceSkill));
 
-            var allianceConstructionObj = Utility.Json.ToObject<AllianceConstructionDTO>(allianceConstructionJson);
-            NHCriteria nHCriteriallianceConstruction = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceConstructionObj.AllianceID);
+            var roleallianceskillObj = Utility.Json.ToObject<RoleAllianceSkillDTO>(roleallianceskillJson);
+            NHCriteria nHCriteriroleallianceskill = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceskillObj.RoleID);
+            Utility.Debug.LogError("收到的获得技能仙盟数据" + roleallianceskillJson);
 
-            if (allianceConstructionObj!=null)
+            var roleallianceskillTemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAllianceSkill>(nHCriteriroleallianceskill).Result;
+
+
+            if (roleallianceskillTemp!=null)
             {
                 SetResponseData(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.AllianceConstruction, Utility.Json.ToJson(allianceConstructionObj));
+                    SubDict.Add((byte)ParameterCode.RoleAllianceSkill, Utility.Json.ToJson(roleallianceskillTemp));
+
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
@@ -45,7 +50,7 @@ namespace AscensionServer
                 });
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            GameManager.ReferencePoolManager.Despawns(nHCriteriallianceConstruction);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriroleallianceskill);
         }
     }
 }

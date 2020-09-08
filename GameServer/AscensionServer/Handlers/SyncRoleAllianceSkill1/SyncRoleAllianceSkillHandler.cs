@@ -4,16 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol;
-
 namespace AscensionServer
 {
-   public class SyncAllianceConstructionHandler:Handler
+  public  class SyncRoleAllianceSkillHandler:Handler
     {
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncAllianceConstruction;
+            OpCode = OperationCode.SyncRoleAllianceSkill;
             base.OnInitialization();
-            OnSubHandlerInitialization<SyncAllianceConstructionSubHandler>();
+            OnSubHandlerInitialization<SyncRoleAllianceSkillSubHandler>();
         }
+
+
     }
 }
