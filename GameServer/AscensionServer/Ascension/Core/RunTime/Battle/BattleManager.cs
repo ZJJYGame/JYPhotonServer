@@ -12,35 +12,41 @@ namespace AscensionServer
     /// 此模块用于转发客户端发送过来的消息到具体战斗容器中；
     /// 此模块非逻辑层，若处理逻辑，则在具体的战斗容器中处理；
     /// </summary>
-    public sealed class BattleManager : Module<BattleManager>, IKeyValue<uint, RoomEntity>
+    public sealed class BattleManager : Module<BattleManager>
     {
+        ConcurrentDictionary<int, RoomCache> roomDict = new ConcurrentDictionary<int, RoomCache>();
+
+        public void StartBattle()
+        {
+            var rc = GameManager.ReferencePoolManager.Spawn<RoomCache>();
+        }
         /// <summary>
-        /// 战斗房间的缓存
+        /// 转发战斗消息
         /// </summary>
-        ConcurrentDictionary<uint, RoomEntity> roomDict;
-        IBattleMessageHelper battleMessageProvider;
-        public void SetProvider(IBattleMessageHelper provider)
+        /// <param name="rbiCmd">房间战斗消息命令</param>
+        /// <returns>战斗系统是否能够成功转发消息</returns>
+        public bool ForwardingBattleCmd(RoomBattleInputC2S rbiCmd)
         {
-            battleMessageProvider = provider;
+            if (rbiCmd == null)
+                return false;
+            RoomCache rc;
+            var result = roomDict.TryGetValue(rbiCmd.RoomID, out rc);
+            if (result)
+                rc.CacheInputCmdC2S(rbiCmd);
+            return result;
         }
-        public override void OnInitialization()
+        /// <summary>
+        /// 释放并回收战斗房间
+        /// </summary>
+        public void ReleaseBattleRoom(int roomID)
         {
-            roomDict = new ConcurrentDictionary<uint, RoomEntity>();
-            //NetworkEventCore.Instance.AddEventListener(NetworkEventParam.BATTLE_CMD, BroadCastBattleCmd);
-            //NetworkEventCore.Instance.AddEventListener(NetworkEventParam.BATTLE_CMD, BroadCastBattleCmd);
+            RoomCache rc;
+            roomDict.TryRemove(roomID, out rc);
+            GameManager.ReferencePoolManager.Despawn(rc);
         }
-        void BroadCastBattleCmd(object data)
+        public RoomCache GetBattleRoom(int roomID)
         {
-            //if (data == null)
-            //    return;
-            //RoomCache rc;
-            //var result = roomDict.TryGetValue(rbiCmd.RoomID, out rc);
-            //if (result)
-            //    rc.CacheInputCmdC2S(rbiCmd);
-        }
-        public RoomEntity GetBattleRoom(uint roomID)
-        {
-            RoomEntity rc;
+            RoomCache rc;
             roomDict.TryGetValue(roomID, out rc);
             return rc;
         }
@@ -51,31 +57,6 @@ namespace AscensionServer
                 room.Clear();
             }
             roomDict.Clear();
-        }
-        public bool TryGetValue(uint key, out RoomEntity value)
-        {
-            var result = roomDict.TryGetValue(key, out value);
-            return result;
-        }
-        public bool ContainsKey(uint key)
-        {
-            return roomDict.ContainsKey(key);
-        }
-        public bool TryRemove(uint Key)
-        {
-            RoomEntity rc;
-            var result = roomDict.TryRemove(Key, out rc);
-            if (result)
-                GameManager.ReferencePoolManager.Despawn(rc);
-            return result;
-        }
-        public bool TryAdd(uint key, RoomEntity Value)
-        {
-            return roomDict.TryAdd(key, Value);
-        }
-        public bool TryUpdate(uint key, RoomEntity newValue, RoomEntity comparsionValue)
-        {
-            return roomDict.TryUpdate(key, newValue,comparsionValue);
         }
     }
 }

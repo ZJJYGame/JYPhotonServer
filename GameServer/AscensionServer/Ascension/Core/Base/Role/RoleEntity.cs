@@ -11,7 +11,7 @@ namespace AscensionServer
     /// <summary>
     /// 数据注入用ParameterCode对应的数据类型作Key Value;
     /// </summary>
-    public class RoleEntity : IRoleEntity, IReference
+    public class RoleEntity : IRole, IReference
     {
         /// <summary>
         /// 初始化后的role ID
