@@ -76,9 +76,9 @@
     <Compile Include="CosmosFramework\Core\Base\Event\LogicEventArgs.cs" />
     <Compile Include="CosmosFramework\Core\Base\Singleton\ConcurrentSingleton.cs" />
     <Compile Include="CosmosFramework\Core\Base\Singleton\Singleton.cs" />
-    <Compile Include="CosmosFramework\Core\Base\Utility\Helper\Debug\IDebugHelper.cs" />
-    <Compile Include="CosmosFramework\Core\Base\Utility\Helper\Json\IJsonHelper.cs" />
-    <Compile Include="CosmosFramework\Core\Base\Utility\Helper\Logger\ILoggerHelper.cs" />
+    <Compile Include="CosmosFramework\Core\Base\Utility\Helper\DebugHelper\IDebugHelper.cs" />
+    <Compile Include="CosmosFramework\Core\Base\Utility\Helper\JsonHelper\IJsonHelper.cs" />
+    <Compile Include="CosmosFramework\Core\Base\Utility\Helper\LoggerHelper\ILoggerHelper.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Algorithm.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Assembly.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Assert.cs" />
