@@ -78,17 +78,23 @@ namespace AscensionServer
                                             Utility.Debug.LogInfo("<NowID>" + client_p.Key);
                                             while (true)
                                             {
-                                                Utility.Debug.LogInfo("<NowIDtrue>" + client_p.Key);
+                                                //Utility.Debug.LogInfo("<NowIDtrue>" + client_p.Key);
                                                 int NowID = 0;
                                                 var randomNumer = new Random().Next(3001, 4000);
                                                 Utility.Debug.LogInfo("<randomNumer>" + randomNumer);
-                                                if (client_p.Key.ToString().Length > 8)
+                                                if (client_p.Key.ToString().Length == 6 || client_p.Key.ToString().Length == 7 || client_p.Key.ToString().Length == 8)
+                                                    NowID = Int32.Parse(client_p.Key.ToString() + randomNumer.ToString().Substring(0, 3));
+                                                else if (client_p.Key.ToString().Length > 8)
                                                     NowID = client_p.Key + randomNumer;
                                                 else
                                                     NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
+                                                Utility.Debug.LogInfo("<randomNumer>" + NowID);
                                                 if (!ServerDic.ContainsKey(NowID) && !ServerDictAdorn.ContainsKey(NowID))
                                                 {
+                                                    Utility.Debug.LogInfo("<RingItemAdorn>" + client_p.Value.RingItemAdorn);
                                                     ServerDic = ServerDic.ToDictionary(k => k.Key == client_p.Key ? NowID : k.Key, k => k.Value);
+                                                    Utility.Debug.LogInfo("<RingItemAdorn>" + ServerDic[NowID].RingItemAdorn);
+                                                    ServerDic[NowID].RingItemAdorn = "1";
                                                     break;
                                                 }
                                             }
@@ -111,7 +117,9 @@ namespace AscensionServer
                                                     Utility.Debug.LogInfo("<NowIDtrue>" + client_p.Key);
                                                     var randomNumer = new Random().Next(3001, 4000);
                                                     Utility.Debug.LogInfo("<randomNumer>" + randomNumer);
-                                                    if (client_p.Key.ToString().Length > 8)
+                                                    if (client_p.Key.ToString().Length == 6 || client_p.Key.ToString().Length == 7 || client_p.Key.ToString().Length == 8)
+                                                        NowID = Int32.Parse(client_p.Key.ToString() + randomNumer.ToString().Substring(0,3)); 
+                                                    else if (client_p.Key.ToString().Length > 8)
                                                         NowID = client_p.Key + randomNumer;
                                                     else
                                                         NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);

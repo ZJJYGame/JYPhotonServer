@@ -50,9 +50,9 @@ namespace AscensionServer
             {
                 var  roleStatusSever =  ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleStatus>(nHCriteriaRoleId);
                 
-                if (roleObj.RoleHP != 0 )
+                if (roleObj.RoleMaxHP != 0 )
                 {
-                    roleStatusSever.RoleHP += roleObj.RoleHP;
+                    roleStatusSever.RoleMaxHP += roleObj.RoleMaxHP;
                     //if ((roleStatusSever.RoleHP + roleObj.RoleHP) < 0)
                     //    roleStatusSever.RoleHP = 0;
                 }
@@ -110,8 +110,22 @@ namespace AscensionServer
                     RoleResistanceDamage = roleStatusSever.RoleResistanceDamage,
                     RoleAttackPower = roleStatusSever.RoleAttackPower,
                     RoleResistancePower = roleStatusSever.RoleResistancePower,
-                     RoleSpeedAttack  = roleStatusSever.RoleSpeedAttack,
-                });
+                    RoleSpeedAttack = roleStatusSever.RoleSpeedAttack,
+                    RoleCrit = roleStatusSever.RoleCrit,
+                    RoleCritResistance = roleStatusSever.RoleCritResistance,
+                    RoleDormant = roleStatusSever.RoleDormant,
+                    RoleMaxHP = roleStatusSever.RoleMaxHP,
+                    RoleJingXue = roleStatusSever.RoleJingXue,
+                    RoleKillingIntent = roleStatusSever.RoleKillingIntent,
+                    RoleMaxJingXue = roleStatusSever.RoleMaxJingXue,
+                    RoleMaxShenhun = roleStatusSever.RoleMaxShenhun,
+                    RoleMP = roleStatusSever.RoleMP,
+                    RoleShenhun = roleStatusSever.RoleShenhun,
+                    RoleShenHunDamage = roleStatusSever.RoleShenHunDamage,
+                    RoleShenHunResistance = roleStatusSever.RoleShenHunResistance,
+                    RoleVileSpawn = roleStatusSever.RoleVileSpawn,
+                    RoleVitality = roleStatusSever.RoleVitality
+                }) ;
                 Owner.OpResponse.Parameters = Owner.ResponseData;
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             }else Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
