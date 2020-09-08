@@ -141,5 +141,6 @@
         RoleAuctionItems=84,
         AllianceConstruction=85,
         RoleAllianceSkill=86,
+        RoleAllianceCave=87,
     }
 }
