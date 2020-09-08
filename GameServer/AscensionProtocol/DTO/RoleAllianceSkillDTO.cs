@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class RoleAllianceSkillDTO:DataTransferObject
+    public class RoleAllianceSkillDTO :DataTransferObject
     {
-        public virtual int RoleID {get;set;}
+        public virtual int RoleID { get; set; }
         public virtual int SkillStrong { get; set; }
         public virtual int SkillInsight { get; set; }
         public virtual int SkillMeditation { get; set; }
@@ -17,7 +17,7 @@ namespace AscensionProtocol.DTO
 
         public override void Clear()
         {
-            RoleID = 0;
+            RoleID = -1;
             SkillStrong = 0;
             SkillInsight = 0;
             SkillMeditation = 0;

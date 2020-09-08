@@ -10,7 +10,7 @@ namespace Cosmos
     /// <summary>
     /// Peer对象接口；
     /// </summary>
-    public interface IRemotePeer : IReference
+    public interface IRemotePeer:IReference
     {
         /// <summary>
         /// 会话ID

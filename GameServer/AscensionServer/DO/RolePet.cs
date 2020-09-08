@@ -11,10 +11,19 @@ namespace AscensionServer.Model
     {
         public virtual int RoleID { get; set; }
         public virtual string PetIDDict { get; set; }
+        public virtual int PetIsBattle { get; set; }
+
+        public RolePet()
+        {
+            PetIDDict = null;
+            PetIsBattle = 0;
+        }
+
         public override void Clear()
         {
             RoleID = -1;
             PetIDDict = null;
+            PetIsBattle=0;
         }
     }
 }

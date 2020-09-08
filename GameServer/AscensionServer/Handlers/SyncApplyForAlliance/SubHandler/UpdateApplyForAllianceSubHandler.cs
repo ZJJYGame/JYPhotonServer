@@ -14,7 +14,7 @@ using StackExchange.Redis;
 
 namespace AscensionServer
 {
-    public class UpdateApplyForAllianceSubHandler : SyncApplyForAllianceSubHandler
+    public  class UpdateApplyForAllianceSubHandler : SyncApplyForAllianceSubHandler
     {
         public override void OnInitialization()
         {
@@ -23,7 +23,7 @@ namespace AscensionServer
         }
 
 
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
 
@@ -59,7 +59,7 @@ namespace AscensionServer
                         roleAllianceTemp.AllianceID = allianceMemberTemp.AllianceID;
                         //roleAllianceTemp.JoinOffline =
                         roleAllianceTemp.ApplyForAlliance = "[]";
-                        ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAllianceTemp);
+                       await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAllianceTemp);
 
                         RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { RoleID = roleAllianceTemp.RoleID, ApplyForAlliance = new List<int>(), AllianceID = roleAllianceTemp.AllianceID, ReputationHistroy = roleAllianceTemp.ReputationHistroy, AllianceJob = roleAllianceTemp.AllianceJob, JoinOffline = roleAllianceTemp.JoinOffline, JoinTime = roleAllianceTemp.JoinTime, Reputation = roleAllianceTemp.Reputation, ReputationMonth = roleAllianceTemp.ReputationMonth, RoleName = roleAllianceTemp.RoleName,RoleSchool= roleAllianceTemp.RoleSchool };
                         roleAllianceDTOs.Add(roleAllianceDTO);
@@ -69,13 +69,15 @@ namespace AscensionServer
                         applyList.Remove(roleidList[i]);
 
                         memberList.Add(roleidList[i]);
-
+                        RoleAllianceSkill roleAllianceSkill = new RoleAllianceSkill() { RoleID = roleAllianceTemp.RoleID };
+                        await ConcurrentSingleton<NHManager>.Instance.InsertAsync(roleAllianceSkill);
                     }
                 }
                 allianceMemberTemp.ApplyforMember = Utility.Json.ToJson(applyList);
                 allianceMemberTemp.Member = Utility.Json.ToJson(memberList);
-                ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceMemberTemp);
-                ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceStatusTemp);
+
+                await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceMemberTemp);
+                await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceStatusTemp);
             }
             if (roleAllianceDTOs.Count>0)
             {

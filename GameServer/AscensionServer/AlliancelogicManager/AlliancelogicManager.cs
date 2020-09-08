@@ -10,7 +10,7 @@ using Cosmos;
 
 namespace AscensionServer
 {
-    public  class AlliancelogicManager:ConcurrentSingleton<AlliancelogicManager>
+    public   class AlliancelogicManager:ConcurrentSingleton<AlliancelogicManager>
     {
         /// <summary>
         /// 储存登录盟主的字典，用于派发申请消息
@@ -156,10 +156,10 @@ namespace AscensionServer
         public T GetNHCriteria<T>(  string  keyname,int key)
         {
             NHCriteria nHCriteria  = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue(keyname, key);
-            var dataObjectTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<T>(nHCriteria);
+            var dataObjectTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<T>(nHCriteria).Result;
 
                 GameManager.ReferencePoolManager.Despawns(nHCriteria);
-                return dataObjectTemp.Result;
+                return dataObjectTemp;
 
         }
         /// <summary>
@@ -174,7 +174,6 @@ namespace AscensionServer
             return applyForAllianceDTO;
 
         }
-
 
 
         public void HandlerAlliance(int roleid)

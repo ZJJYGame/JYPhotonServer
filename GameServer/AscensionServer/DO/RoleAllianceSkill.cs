@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public   class RoleAllianceSkill:DataObject
+    public class RoleAllianceSkill : DataObject
     {
         public virtual int RoleID { get; set; }
         public virtual int SkillStrong { get; set; }
@@ -17,20 +17,20 @@ namespace AscensionServer.Model
 
         public RoleAllianceSkill()
         {
-
-            SkillStrong = 0;
-            SkillInsight =0;
-            SkillMeditation = 0;
-            SkillRapid = 0;
+            SkillStrong =1;
+            SkillInsight =1;
+            SkillMeditation = 1;
+            SkillRapid =1;
         }
 
         public override void Clear()
         {
-            RoleID = 0;
+            RoleID = -1;
             SkillStrong = 0;
             SkillInsight = 0;
             SkillMeditation = 0;
             SkillRapid = 0;
+
         }
     }
 }

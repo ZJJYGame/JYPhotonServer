@@ -35,9 +35,6 @@ namespace AscensionServer
             if (verified)
             {
                 OpResponse.ReturnCode = (short)ReturnCode.Success;
-                //AscensionServer.Instance.RemoveFromLoggedUserCache(peer);
-
-                //广播OperationCode.Logoff为Key的网络事件，传输User对象
                 OpCodeEventCore.Instance.Dispatch(operationRequest.OperationCode, userObj);
                 peer.Logoff();
             }

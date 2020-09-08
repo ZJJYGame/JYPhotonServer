@@ -10,9 +10,8 @@ namespace Cosmos
     {
         public uint Conv { get; set; }
 
-        public bool DecodeMessage(byte[] buffer)
+        public void DecodeMessage(byte[] buffer)
         {
-            return false;
         }
         public byte[] EncodeMessage()
         {

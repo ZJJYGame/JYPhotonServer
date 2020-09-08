@@ -22,7 +22,7 @@ namespace AscensionServer
         {
             var dict = ParseSubDict(operationRequest);
             string petstatusJson = Convert.ToString(Utility.GetValue(dict,(byte)ParameterCode.PetStatus));
-
+            Utility.Debug.LogInfo("收到的宠物状态数据" + petstatusJson);
 
             var petstatusObj = Utility.Json.ToObject<PetStatus>(petstatusJson);
             NHCriteria nHCriteriapetstatus = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petstatusObj.PetID);
@@ -35,39 +35,23 @@ namespace AscensionServer
 
                 petstatusTemp = petstatusObj;
                 ConcurrentSingleton<NHManager>.Instance.Update<PetStatus>(petstatusTemp);
+                SetResponseData(() =>
+                {
+                    SubDict.Add((byte)ParameterCode.PetStatus, Utility.Json.ToJson(petstatusTemp));
+                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                });
             }
-         
-            SetResponseData(() =>
+            else
             {
-                SubDict.Add((byte)ParameterCode.PetStatus, Utility.Json.ToJson(petstatusTemp));
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
-            });
-
+                SetResponseData(() =>
+                {
+                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                });
+            }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriapetstatus);
         }
 
-        #region 待删
-        PetStatus AddStatus(PetStatus petStatusclient, PetStatus petStatusserver)
-        {
-            petStatusserver.PetAbilityPower += petStatusclient.PetAbilityPower;
-            petStatusserver.PetAttackDamage += petStatusclient.PetAttackDamage;
-            petStatusserver.PetHP += petStatusclient.PetHP;
-            petStatusserver.PetMaxHP += petStatusclient.PetMaxHP;
-            petStatusserver.PetMaxMP += petStatusclient.PetMaxMP;
-            petStatusserver.PetMaxShenhun += petStatusclient.PetMaxShenhun;
-            petStatusserver.PetMP += petStatusclient.PetMP;
-            petStatusserver.PetResistanceAttack += petStatusclient.PetResistanceAttack;
-            petStatusserver.PetResistancePower += petStatusclient.PetResistancePower;
-            petStatusserver.PetShenhun += petStatusclient.PetShenhun;
-            petStatusserver.PetShenhunDamage += petStatusclient.PetShenhunDamage;
-            petStatusserver.PetShenhunResistance += petStatusclient.PetShenhunResistance;
-            petStatusserver.PetSpeed += petStatusclient.PetSpeed;
-            petStatusserver.PetTalent += petStatusclient.PetTalent;
-            return petStatusserver;
-        }
 
-      
-        #endregion
     }
 }

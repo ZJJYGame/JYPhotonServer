@@ -38,7 +38,7 @@ namespace AscensionServer
                 if (exist)
                 {
                     Utility.Debug.LogInfo("------------------------------------" + "获取人物数据  : " + roleJson + "---------------------------------------");
-                    //AscensionServer.Instance.Online(peer, roleObj);
+                    AscensionServer.Instance.Online(peer, roleObj);
                     RoleStatus roleStatus = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleStatus>(nHCriteriaRoleId);
                     Utility.Debug.LogInfo("------------------------------------GetRoleStatusSubHandler\n" + "RoleStatus  : " + roleStatus + "\nGetRoleStatusSubHandler---------------------------------------");
                     string roleStatusJson = Utility.Json.ToJson(roleStatus);

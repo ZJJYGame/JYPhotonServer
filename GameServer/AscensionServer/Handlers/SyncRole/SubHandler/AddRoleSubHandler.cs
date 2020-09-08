@@ -86,14 +86,14 @@ namespace AscensionServer
                 ConcurrentSingleton<NHManager>.Instance.Insert(new RoleMiShu() { RoleID = rolestatus.RoleID, MiShuIDArray = Utility.Json.ToJson(RoleMiShuDict) });
 
                 RolePetDict.Clear();
-                Pet pet = new Pet() {};
-                pet = ConcurrentSingleton<NHManager>.Instance.Insert(pet);
-                PetStatus petStatus = new PetStatus() { PetID = pet.ID };
-                ConcurrentSingleton<NHManager>.Instance.Insert(petStatus);
-                PetaPtitude petaPtitude=new PetaPtitude() { PetID = pet.ID,PetaptitudeDrug=Utility.Json.ToJson(new Dictionary<int, int>()) };
-                petaPtitude = ConcurrentSingleton<NHManager>.Instance.Insert(petaPtitude);
-                RolePetDict.Add(pet.ID, pet.PetID);
-                ConcurrentSingleton<NHManager>.Instance.Insert(new RolePet() { RoleID = rolestatus.RoleID, PetIDDict = Utility.Json.ToJson(RolePetDict) });
+                //Pet pet = new Pet() {};
+                //pet = ConcurrentSingleton<NHManager>.Instance.Insert(pet);
+                //PetStatus petStatus = new PetStatus() { PetID = pet.ID };
+                //ConcurrentSingleton<NHManager>.Instance.Insert(petStatus);
+                //PetaPtitude petaPtitude=new PetaPtitude() { PetID = pet.ID,PetaptitudeDrug=Utility.Json.ToJson(new Dictionary<int, int>()) };
+                //petaPtitude = ConcurrentSingleton<NHManager>.Instance.Insert(petaPtitude);
+                //RolePetDict.Add(pet.ID, pet.PetID);
+                ConcurrentSingleton<NHManager>.Instance.Insert(new RolePet() { RoleID = rolestatus.RoleID, PetIDDict = "{}" });
                 RolePurchaseRecord rolePurchaseRecord = new RolePurchaseRecord() { RoleID = rolestatus.RoleID ,GoodsPurchasedCount=Utility.Json.ToJson(new Dictionary<int, int>()) };
                 ConcurrentSingleton<NHManager>.Instance.Insert(rolePurchaseRecord);
                 Weapon weapon = new Weapon() { RoleID= rolestatus.RoleID, Weaponindex = Utility.Json.ToJson(new Dictionary<int, int>()), WeaponStatusDict=Utility.Json.ToJson(new Dictionary<int, int>()) };

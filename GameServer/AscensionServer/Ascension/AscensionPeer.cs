@@ -42,7 +42,7 @@ namespace AscensionServer
         public AscensionPeer(InitRequest initRequest) : base(initRequest) { }
 
         //处理客户端断开连接的后续工作
-        protected async override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
+        protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
             EventData ed = new EventData((byte)EventCode.DeletePlayer);
             Dictionary<byte, object> data = new Dictionary<byte, object>();
@@ -55,7 +55,10 @@ namespace AscensionServer
             }
             Utility.Debug.LogInfo($"Client Disconnect :{ToString()}");
             await GameManager.External.GetModule<PeerManager>().BroadcastEventAsync((byte)OperationCode.Logoff,ed, () => Logoff()); 
+
             Logoff();
+            AscensionServer.Instance.ConnectedPeerHashSet.Remove(this);
+            Utility.Debug.LogInfo("***********************  Client Disconnect    ***********************");
         }
         //处理客户端的请求
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
@@ -135,8 +138,13 @@ namespace AscensionServer
                 ConcurrentSingleton<NHManager>.Instance.Insert(offLineTimeTmp);
                 GameManager.ReferencePoolManager.Despawn(offLineTimeTmp);
             }
-            GameManager.ReferencePoolManager.Despawn(nHCriteriaOnOff);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaOnOff);
             Utility.Debug.LogInfo("同步离线时间成功");
+        }
+        public void Clear()
+        {
+            SessionId = 0;
+            Available = false;
         }
 
     }

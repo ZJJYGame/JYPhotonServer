@@ -1,4 +1,5 @@
-﻿using Cosmos.Network;
+﻿using Cosmos.Log;
+using Cosmos.Network;
 using Cosmos.Polling;
 using Cosmos.Reference;
 using System;
@@ -56,6 +57,19 @@ namespace Cosmos
                     Instance.ModuleInitialization(pollingManager);
                 }
                 return pollingManager;
+            }
+        }
+        static LogManager  logManager;
+        public static LogManager LogManager
+        {
+            get
+            {
+                if (logManager == null)
+                {
+                    logManager = new LogManager();
+                    Instance.ModuleInitialization(logManager);
+                }
+                return logManager ;
             }
         }
         static ConcurrentDictionary<Type, IModule> extensionsModuleDict = new ConcurrentDictionary<Type, IModule>();

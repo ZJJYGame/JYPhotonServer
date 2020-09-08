@@ -111,10 +111,10 @@ namespace AscensionServer
                     RoleAttackPower = roleStatusSever.RoleAttackPower,
                     RoleResistancePower = roleStatusSever.RoleResistancePower,
                     RoleSpeedAttack = roleStatusSever.RoleSpeedAttack,
+                    RoleMaxHP = roleStatusSever.RoleMaxHP,
                     RoleCrit = roleStatusSever.RoleCrit,
                     RoleCritResistance = roleStatusSever.RoleCritResistance,
                     RoleDormant = roleStatusSever.RoleDormant,
-                    RoleMaxHP = roleStatusSever.RoleMaxHP,
                     RoleJingXue = roleStatusSever.RoleJingXue,
                     RoleKillingIntent = roleStatusSever.RoleKillingIntent,
                     RoleMaxJingXue = roleStatusSever.RoleMaxJingXue,
@@ -125,7 +125,7 @@ namespace AscensionServer
                     RoleShenHunResistance = roleStatusSever.RoleShenHunResistance,
                     RoleVileSpawn = roleStatusSever.RoleVileSpawn,
                     RoleVitality = roleStatusSever.RoleVitality
-                }) ;
+                });
                 Owner.OpResponse.Parameters = Owner.ResponseData;
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             }else Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;

@@ -85,6 +85,7 @@ namespace AscensionServer
                                     while (true)
                                     {
                                         var randomNumer = new Random().Next(1000, 3000);
+                                        
                                         if (!ServerDict.ContainsKey(NowID)&&!ServerDictAdorn.ContainsKey(NowID))
                                             break;
                                         NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);

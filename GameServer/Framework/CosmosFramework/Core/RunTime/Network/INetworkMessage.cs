@@ -9,7 +9,7 @@ namespace Cosmos
     {
         uint Conv { get; }
         byte[] EncodeMessage();
-        bool DecodeMessage(byte[] buffer);
+        void DecodeMessage(byte[] buffer);
         byte[] GetBuffer();
     }
 }

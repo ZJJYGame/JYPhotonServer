@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using AscensionServer.Model;
 using FluentNHibernate.Mapping;
 
@@ -19,5 +18,7 @@ namespace AscensionServer.DOMap
             Map(x => x.SkillStrong).Column("skill_strong");
             Table("role_alliance_skill");
         }
+
+
     }
 }
