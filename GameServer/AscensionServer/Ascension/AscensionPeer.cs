@@ -1,4 +1,4 @@
-﻿/*
+﻿ /*
 *Author : xianrenZhang
 *Since 	:2020-04-18
 *Description  : 客户端类
@@ -34,6 +34,8 @@ namespace AscensionServer
         public long SessionId { get; private set; }
         public bool Available { get; private set; }
         public object Handle { get { return this; } }
+        SendParameters sendParam = new SendParameters();
+        EventData eventData= new EventData();
         #endregion
 
         #region Methods
@@ -51,20 +53,9 @@ namespace AscensionServer
             {
                 RecordOnOffLine(PeerCache.RoleID);
             }
-            var loggedPeerHashSet = AscensionServer.Instance.LoggedPeerCache.GetValuesHashSet();
-            loggedPeerHashSet.Remove(this);
-            var sendParameter = new SendParameters();
+            Utility.Debug.LogInfo($"Client Disconnect :{ToString()}");
+            await GameManager.External.GetModule<PeerManager>().BroadcastEventAsync((byte)OperationCode.Logoff,ed, () => Logoff()); 
 
-
-            if (AscensionServer.Instance.IsEnterAdventureScene(this))
-                AscensionServer.Instance.ExitAdventureScene(this);
-            AscensionServer.Instance.RemoveFromLoggedUserCache(this);
-
-
-            foreach (AscensionPeer tmpPeer in loggedPeerHashSet)
-            {
-                tmpPeer.SendEvent(ed, sendParameter);
-            }
             Logoff();
             AscensionServer.Instance.ConnectedPeerHashSet.Remove(this);
             Utility.Debug.LogInfo("***********************  Client Disconnect    ***********************");
@@ -107,9 +98,17 @@ namespace AscensionServer
         /// 外部接口的发送消息；
         /// </summary>
         /// <param name="userData">用户自定义数据</param>
-        public void SendEventMessage(object userData)
+        public void SendEventMessage(byte opCode,object userData)
         {
-            SendEvent(userData as IEventData, new SendParameters());
+            var data = userData as Dictionary<byte, object>;
+            eventData.Code = opCode;
+            eventData.Parameters = data;
+            SendEvent(eventData, sendParam);
+        }
+        public void Clear()
+        {
+            SessionId = 0;
+            Available = false;
         }
         public override string ToString()
         {

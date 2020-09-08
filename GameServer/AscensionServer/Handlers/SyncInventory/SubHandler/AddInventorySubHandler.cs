@@ -81,13 +81,14 @@ namespace AscensionServer
                                 int numberCount = remainder == 0 || client_p.Value.RingItemMax == 1 ? NumberCountMethod(client_p.Value.RingItemCount, client_p.Value.RingItemMax) : NumberCountMethod(client_p.Value.RingItemCount, client_p.Value.RingItemMax) + 1;
                                 for (int o = 0; o < numberCount; o++)
                                 {
-                                    int NowID = 0;
+                                    int NowID = client_p.Key;
                                     while (true)
                                     {
                                         var randomNumer = new Random().Next(1000, 3000);
-                                        NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
+                                        
                                         if (!ServerDict.ContainsKey(NowID)&&!ServerDictAdorn.ContainsKey(NowID))
                                             break;
+                                        NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
                                     }
                                     int numbCount = held > client_p.Value.RingItemMax ? client_p.Value.RingItemMax : remainder;
                                     RingItemsDTO Items = new RingItemsDTO() { RingItemTime = client_p.Value.RingItemTime, RingItemCount = numbCount, RingItemMax = client_p.Value.RingItemMax, RingItemAdorn = client_p.Value.RingItemAdorn };
@@ -150,13 +151,13 @@ namespace AscensionServer
                                             int numberCount = remainder == 0 || client_p.Value.RingItemMax == 1 ? NumberCountMethod(Amount, client_p.Value.RingItemMax) : NumberCountMethod(Amount, client_p.Value.RingItemMax) + 1;
                                             for (int o = 0; o < numberCount; o++)
                                             {
-                                                int NowID = 0;
+                                                int NowID = client_p.Key;
                                                 while (true)
                                                 {
                                                     var randomNumer = new Random().Next(1000, 3000);
-                                                    NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
                                                     if (!ServerDict.ContainsKey(NowID) && !ServerDictAdorn.ContainsKey(NowID))
                                                         break;
+                                                    NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
                                                 }
                                                 int numbCount = held > client_p.Value.RingItemMax ? client_p.Value.RingItemMax : remainder;
                                                 RingItemsDTO Items = new RingItemsDTO() { RingItemTime = client_p.Value.RingItemTime, RingItemCount = numbCount, RingItemMax = client_p.Value.RingItemMax, RingItemAdorn = client_p.Value.RingItemAdorn, RingItemType = client_p.Value.RingItemType };
@@ -176,13 +177,13 @@ namespace AscensionServer
                                         }
                                         else
                                         {
-                                            int NowID = 0;
+                                            int NowID = client_p.Key;
                                             while (true)
                                             {
                                                 var randomNumer = new Random().Next(1000, 3000);
-                                                NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
                                                 if (!ServerDict.ContainsKey(NowID) && !ServerDictAdorn.ContainsKey(NowID))
                                                     break;
+                                                NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
                                             }
                                             Utility.Debug.LogInfo($"<NowID>{NowID}");
 

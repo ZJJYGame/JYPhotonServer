@@ -35,7 +35,7 @@ namespace AscensionServer
             if (verified)
             {
                 OpResponse.ReturnCode = (short)ReturnCode.Success;
-                AscensionServer.Instance.RemoveFromLoggedUserCache(peer);
+                OpCodeEventCore.Instance.Dispatch(operationRequest.OperationCode, userObj);
                 peer.Logoff();
             }
             else

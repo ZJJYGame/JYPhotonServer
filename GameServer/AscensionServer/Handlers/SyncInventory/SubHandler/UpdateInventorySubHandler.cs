@@ -63,86 +63,163 @@ namespace AscensionServer
                                 if (client_p.Value.RingItemAdorn == "2" || client_p.Value.RingItemAdorn == "1" || ServerDictAdorn.ContainsKey(client_p.Key))
                                 {
 
+                                    //是否同一id
                                     var firstAdorn = ServerDictAdorn.FirstOrDefault(q => Int32.Parse(q.Key.ToString().Substring(0, 5)) == Int32.Parse(client_p.Key.ToString().Substring(0, 5))).Key;
+                                    //是否同一类型
                                     var firstType = ServerDictAdorn.FirstOrDefault(q => q.Value.RingItemType == client_p.Value.RingItemType).Key;
+                                    //是否有空位置
                                     var firstKeyDefault = ServerDic.FirstOrDefault(q => q.Value.RingItemAdorn == "1" || q.Value.RingItemAdorn == "2" || q.Value.RingItemCount == 0).Key;
                                     Utility.Debug.LogInfo("<firstAdorn>" + firstAdorn);
                                     Utility.Debug.LogInfo("<firstType>" + firstType);
                                     Utility.Debug.LogInfo("<firstKeyDefault>" + firstKeyDefault);
-                                    if (firstAdorn == 0 &&(firstType == 0||client_p.Value.RingItemAdorn == "2") && !ServerDictAdorn.ContainsKey(client_p.Key))
+                                    if (firstAdorn == 0 && (firstType == 0 || client_p.Value.RingItemAdorn == "2") && !ServerDictAdorn.ContainsKey(client_p.Key))
                                     {
                                         if (ServerDic.ContainsKey(client_p.Key))
                                         {
-                                            Utility.Debug.LogInfo("<NowID>"+ client_p.Key);
+                                            Utility.Debug.LogInfo("<NowID>" + client_p.Key);
+                                            Utility.Debug.LogInfo("<NowID>" + client_p.Key);
                                             while (true)
                                             {
-                                                Utility.Debug.LogInfo("<NowIDtrue>" + client_p.Key);
+                                                //Utility.Debug.LogInfo("<NowIDtrue>" + client_p.Key);
                                                 int NowID = 0;
                                                 var randomNumer = new Random().Next(3001, 4000);
                                                 Utility.Debug.LogInfo("<randomNumer>" + randomNumer);
-                                                if (client_p.Key.ToString().Length>8)
+                                                if (client_p.Key.ToString().Length == 6 || client_p.Key.ToString().Length == 7 || client_p.Key.ToString().Length == 8)
+                                                    NowID = Int32.Parse(client_p.Key.ToString() + randomNumer.ToString().Substring(0, 3));
+                                                else if (client_p.Key.ToString().Length > 8)
                                                     NowID = client_p.Key + randomNumer;
                                                 else
                                                     NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
-                                                if (!ServerDic.ContainsKey(NowID))
+                                                Utility.Debug.LogInfo("<randomNumer>" + NowID);
+                                                if (!ServerDic.ContainsKey(NowID) && !ServerDictAdorn.ContainsKey(NowID))
                                                 {
+                                                    //Utility.Debug.LogInfo("<RingItemAdorn>" + client_p.Value.RingItemAdorn);
                                                     ServerDic = ServerDic.ToDictionary(k => k.Key == client_p.Key ? NowID : k.Key, k => k.Value);
+                                                    //Utility.Debug.LogInfo("<RingItemAdorn>" + ServerDic[NowID].RingItemAdorn);
+                                                    ServerDic[NowID].RingItemAdorn = "1";
                                                     break;
                                                 }
                                             }
                                             if (!ServerDictAdorn.ContainsKey(client_p.Key))
                                                 ServerDictAdorn.Add(client_p.Key, serverData);
                                         }
-                                        
+
                                     }
-                                    else if (firstAdorn == 0 && firstType != 0&& ServerDictAdorn.ContainsKey(firstType)) ///存在同一位置武器
+                                    else if (firstAdorn != 0 && firstType != 0 && !ServerDictAdorn.ContainsKey(client_p.Key)) ///存在同一位置 同一个id武器
                                     {
-                                        Utility.Debug.LogInfo("<存在同一位置武器>" + firstType);
+                                        Utility.Debug.LogInfo("<存在同一位置 同一个id武器>" + firstType);
                                         if (firstKeyDefault != 0)
                                         {
                                             ServerDic = ServerDic.ToDictionary(k => k.Key == firstKeyDefault ? firstType : k.Key, k => k.Value);
+                                            if (ServerDic.ContainsKey(client_p.Key))
+                                            {
+                                                Utility.Debug.LogInfo("<NowID>" + client_p.Key);
+                                                int NowID = 0;
+                                                while (true)
+                                                {
+                                                    Utility.Debug.LogInfo("<NowIDtrue>" + client_p.Key);
+                                                    var randomNumer = new Random().Next(3001, 4000);
+                                                    Utility.Debug.LogInfo("<randomNumer>" + randomNumer);
+                                                    if (client_p.Key.ToString().Length == 6 || client_p.Key.ToString().Length == 7 || client_p.Key.ToString().Length == 8)
+                                                        NowID = Int32.Parse(client_p.Key.ToString() + randomNumer.ToString().Substring(0, 3));
+                                                    else if (client_p.Key.ToString().Length > 8)
+                                                        NowID = client_p.Key + randomNumer;
+                                                    else
+                                                        NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
+                                                    if (!ServerDic.ContainsKey(NowID) && !ServerDictAdorn.ContainsKey(NowID))
+                                                    {
+                                                        ServerDic = ServerDic.ToDictionary(k => k.Key == client_p.Key ? NowID : k.Key, k => k.Value);
+                                                        break;
+                                                    }
+                                                }
+                                                ServerDic = ServerDic.ToDictionary(k => k.Key == NowID ? firstType : k.Key, k => k.Value);
+                                            }
+                                            else
+                                                ServerDic = ServerDic.ToDictionary(k => k.Key == firstKeyDefault ? firstType : k.Key, k => k.Value);
+                                            //ServerDic = ServerDic.ToDictionary(k => k.Key == firstKeyDefault ? firstType : k.Key, k => k.Value);
                                             ServerDictAdorn = ServerDictAdorn.ToDictionary(k => k.Key == firstType ? client_p.Key : k.Key, k => k.Value);
                                             ServerDic[firstType].RingItemAdorn = "0";
-                                            //ServerDic[firstType].RingItemCount = 1;
-                                            //ServerDictAdorn[client_p.Key].RingItemAdorn = "1";
-                                            //ServerDictAdorn[client_p.Key].RingItemCount = 1;
-                                        }
-                                        else
-                                        {
-                                            if (!ServerDictAdorn.ContainsKey(firstAdorn))
-                                                ServerDic.Add(firstAdorn, ServerDictAdorn[firstAdorn]);
-                                            else if (!ServerDic.ContainsKey(firstAdorn))
-                                                ServerDic.Add(firstAdorn, ServerDictAdorn[firstAdorn]);
-                                            ServerDic[firstAdorn].RingItemAdorn = "0";
-                                            //ServerDic[firstAdorn].RingItemCount = 1;
-                                            ServerDictAdorn.Remove(firstAdorn);
                                         }
                                     }
-                                    else if (firstAdorn != 0)
+                                    else if (firstAdorn == 0 && firstType != 0)//存在同一位置不同id武器
                                     {
-                                        Utility.Debug.LogInfo("<不同一位置>" + firstAdorn);
+                                        Utility.Debug.LogInfo("<存在同一位置不同id武器>" + firstAdorn);
                                         if (firstKeyDefault != 0)
                                         {
-                                            //ServerDictAdorn[firstKeyDefault] = serverData;
-                                            ServerDic = ServerDic.ToDictionary(k => k.Key == firstKeyDefault ? client_p.Key : k.Key, k => k.Value);
+                                            if (ServerDic.ContainsKey(client_p.Key))
+                                            {
+                                                Utility.Debug.LogInfo("<NowID>" + client_p.Key);
+                                                int NowID = 0;
+                                                while (true)
+                                                {
+                                                    Utility.Debug.LogInfo("<NowIDtrue>" + client_p.Key);
+                                                    var randomNumer = new Random().Next(3001, 4000);
+                                                    Utility.Debug.LogInfo("<randomNumer>" + randomNumer);
+                                                    if (client_p.Key.ToString().Length > 8)
+                                                        NowID = client_p.Key + randomNumer;
+                                                    else
+                                                        NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
+                                                    if (!ServerDic.ContainsKey(NowID) && !ServerDictAdorn.ContainsKey(NowID))
+                                                    {
+                                                        ServerDic = ServerDic.ToDictionary(k => k.Key == client_p.Key ? NowID : k.Key, k => k.Value);
+                                                        break;
+                                                    }
+                                                }
+                                                ServerDic = ServerDic.ToDictionary(k => k.Key == NowID ? firstType : k.Key, k => k.Value);
+                                            }
+                                            else
+                                                ServerDic = ServerDic.ToDictionary(k => k.Key == firstKeyDefault ? firstType : k.Key, k => k.Value);
+                                            //ServerDic = ServerDic.ToDictionary(k => k.Key == firstKeyDefault ? firstType : k.Key, k => k.Value);
+                                            ServerDictAdorn = ServerDictAdorn.ToDictionary(k => k.Key == firstType ? client_p.Key : k.Key, k => k.Value);
+                                            ServerDic[firstType].RingItemAdorn = "0";
+                                        }
+                                    }
+                                    else// 不同位置武器
+                                    {
+                                        Utility.Debug.LogInfo("<不同位置id武器>" + firstAdorn);
+                                        if (firstKeyDefault != 0)
+                                        {
+                                            if (ServerDic.ContainsKey(client_p.Key))
+                                            {
+                                                Utility.Debug.LogInfo("<NowID>" + client_p.Key);
+                                                int NowID = 0;
+                                                while (true)
+                                                {
+                                                    Utility.Debug.LogInfo("<NowIDtrue>" + client_p.Key);
+                                                    var randomNumer = new Random().Next(3001, 4000);
+                                                    Utility.Debug.LogInfo("<randomNumer>" + randomNumer);
+                                                    if (client_p.Key.ToString().Length > 8)
+                                                        NowID = client_p.Key + randomNumer;
+                                                    else
+                                                        NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
+                                                    if (!ServerDic.ContainsKey(NowID) && !ServerDictAdorn.ContainsKey(NowID))
+                                                    {
+                                                        ServerDic = ServerDic.ToDictionary(k => k.Key == client_p.Key ? NowID : k.Key, k => k.Value);
+                                                        break;
+                                                    }
+                                                }
+                                                ServerDic = ServerDic.ToDictionary(k => k.Key == NowID ? client_p.Key : k.Key, k => k.Value);
+                                            }
+                                            else
+                                                ServerDic = ServerDic.ToDictionary(k => k.Key == firstKeyDefault ? client_p.Key : k.Key, k => k.Value);
                                             ServerDic[client_p.Key].RingItemAdorn = "0";//serverData;
-                                            //ServerDic[client_p.Key].RingItemCount = 1;
+                                            ServerDic[client_p.Key].RingItemCount = 1;
                                             ServerDictAdorn.Remove(firstAdorn);
                                         }
                                         else
                                         {
-                                            //Utility.Debug.LogInfo("<firstAdorn>" + firstAdorn);
-                                            //ServerDictAdorn[firstAdorn].RingItemAdorn = "0";
-                                            if (!ServerDictAdorn.ContainsKey(firstAdorn))
-                                                ServerDic.Add(firstAdorn, ServerDictAdorn[firstAdorn]);
-                                            else if (!ServerDic.ContainsKey(firstAdorn))
-                                                ServerDic.Add(firstAdorn, ServerDictAdorn[firstAdorn]);
+                                            //if (!ServerDictAdorn.ContainsKey(firstAdorn))
+                                            //    ServerDic.Add(firstAdorn, ServerDictAdorn[firstAdorn]);
+                                            //else if (!ServerDic.ContainsKey(firstAdorn))
+                                            //    ServerDic.Add(firstAdorn, ServerDictAdorn[firstAdorn]);
+                                            ServerDic.Add(firstAdorn, ServerDictAdorn[firstAdorn]);
                                             ServerDic[firstAdorn].RingItemAdorn = "0";
                                             //ServerDic[firstAdorn].RingItemCount = 1;
                                             ServerDictAdorn.Remove(firstAdorn);
                                         }
                                     }
                                 }
+
                                 #endregion
 
                                 if (ServerMagicDic.Count != 0)
@@ -164,45 +241,8 @@ namespace AscensionServer
                             }
                             else
                             {
-                                //if (serverData.RingItemCount < client_p.Value.RingItemCount)
-                                //{
-                                //    serverData.RingItemCount -= client_p.Value.RingItemCount;
-                                //    //serverData.RingItemTime = serverData.RingItemTime;
-                                //    //serverData.RingItemAdorn = client_p.Value.RingItemAdorn;
-                                //    //serverData.RingItemMax = serverData.RingItemMax;
-                                //    //serverData.RingItemType = client_p.Value.RingItemType;
-                                //    //if (client_p.Value.RingItemCount == serverData.RingItemMax)
-                                //    //    serverData.RingItemCount = 0;
-                                //}
-                                    //当前这个物品不存在两个字典中
-                                    Utility.Debug.LogInfo("<服务器的数量小于客户端传过来的数量>");
+                                Utility.Debug.LogInfo("<服务器的数量小于客户端传过来的数量>");
                             }
-                        }else 
-                        {
-                            /*
-                            //当前这个物品不存在两个字典中
-                            Utility.Debug.LogInfo("<两个字典都不存在这个物品id>");
-                            int NowID = 0;
-                            while (true)
-                            {
-                                var randomNumer = new Random().Next(1000, 3000);
-                                NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
-                                if (!ServerDic.ContainsKey(NowID) && !ServerDictAdorn.ContainsKey(NowID))
-                                    break;
-                            }
-                            //Utility.Debug.LogInfo($"<NowID>{NowID}");
-
-                            RingItemsDTO Items = new RingItemsDTO() { RingItemTime = client_p.Value.RingItemTime, RingItemCount = 1, RingItemMax = client_p.Value.RingItemMax, RingItemAdorn = client_p.Value.RingItemAdorn, RingItemType = client_p.Value.RingItemType };
-                            var firstKeyDefault = ServerDic.FirstOrDefault(q => q.Value.RingItemAdorn == "1" || q.Value.RingItemAdorn == "2" || q.Value.RingItemCount == 0).Key;
-
-                            if (firstKeyDefault != 0)
-                            {
-                                ServerDic[firstKeyDefault] = Items;
-                                ServerDic = ServerDic.ToDictionary(k => k.Key == firstKeyDefault ? NowID : k.Key, k => k.Value);
-                            }
-                            else
-                                ServerDic.Add(NowID, Items);
-                            //ServerDic.Add(client_p.Key, client_p.Value);*/
                         }
                     }
                     #region ob
