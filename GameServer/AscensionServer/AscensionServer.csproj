@@ -198,7 +198,7 @@
     <Compile Include="Ascension\Core\RunTime\Room\RoomManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Scene\SceneEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Scene\SceneManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Team\Base\TeamCache.cs" />
+    <Compile Include="Ascension\Core\RunTime\Team\Base\TeamEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Team\TeamManager.cs" />
     <Compile Include="Concurrent\ConcurrentInt.cs" />
     <Compile Include="DOMap\AllianceConstructionMap.cs" />
