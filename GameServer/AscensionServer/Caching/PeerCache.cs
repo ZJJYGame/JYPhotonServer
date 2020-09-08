@@ -23,7 +23,6 @@ namespace AscensionServer
         public int RoleID { get { return Role.RoleID; }set { Role.RoleID = value; } }
         public User User { get; set; }
         public Role Role { get; set; }
-        public RoleDataVO RoleDataVO { get; set; }
         public RoleTransformQueueDTO RoleTransformQueue { get; set; }
         public RoleMoveStatusDTO RoleMoveStatus { get; set; }
         public RoleAdventureSkillDTO RoleAdventureSkill { get; set; }
@@ -31,7 +30,6 @@ namespace AscensionServer
         {
             User = new User();
             Role = new Role();
-            RoleDataVO = new RoleDataVO();
             RoleTransformQueue = new RoleTransformQueueDTO();
             RoleMoveStatus = new RoleMoveStatusDTO();
             IsLogged = false;

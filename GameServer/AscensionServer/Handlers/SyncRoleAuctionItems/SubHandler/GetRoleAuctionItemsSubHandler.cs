@@ -23,6 +23,7 @@ namespace AscensionServer
 
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
+            Utility.Debug.LogInfo("我进来了");
             var dict = ParseSubDict(operationRequest);
             int roleID = Convert.ToInt32(Utility.GetValue(dict, (byte)ParameterCode.RoleAuctionItems));
             List<RoleAuctionItem> roleAuctionItemList = new List<RoleAuctionItem>();
@@ -35,7 +36,7 @@ namespace AscensionServer
                     {
                         roleAuctionItemList.Add(new RoleAuctionItem()
                         {
-                            AuctionGoods=RedisHelper.Hash.HashGetAsync<AuctionGoodsDTO>("AuctionGoodsData", "AuctionGoods_" + tempGuidList[i]).Result,
+                            AuctionGoods=RedisHelper.Hash.HashGetAsync<AuctionGoodsDTO>("AuctionGoodsData", tempGuidList[i]).Result,
                             IsPutAway=true
                         });
                     }
@@ -43,15 +44,16 @@ namespace AscensionServer
                     {
                         roleAuctionItemList.Add(new RoleAuctionItem()
                         {
-                            AuctionGoods = RedisHelper.Hash.HashGetAsync<AuctionGoodsDTO>("AuctionGoodsData", "AuctionGoods_" + tempGuidList[i]).Result,
+                            AuctionGoods = RedisHelper.Hash.HashGetAsync<AuctionGoodsDTO>("AuctionGoodsData", tempGuidList[i]).Result,
                             IsPutAway = false
                         });
                     }
                 }
             }
+            Utility.Debug.LogInfo("21313");
             SetResponseData(() =>
             {
-                Utility.Debug.LogInfo(Utility.Json.ToJson(roleAuctionItemList));
+                Utility.Debug.LogInfo("我的上架数据" + Utility.Json.ToJson(roleAuctionItemList));
                 SubDict.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(roleAuctionItemList));
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             });
