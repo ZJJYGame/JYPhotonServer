@@ -197,11 +197,15 @@
     <Compile Include="DO\AllianceConstruction.cs" />
     <Compile Include="DO\RoleAllianceSkill.cs" />
     <Compile Include="DO\RoleAuctionItems.cs" />
+    <Compile Include="Handlers\SyncAllianceCave\SubHandler\SyncRoleAllianceCaveSubHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceCave\SubHandler\UpdateRoleAllianceCaveSubHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceCave\SyncRoleAlliaanceCaveHandler.cs" />
     <Compile Include="Handlers\SyncAllianceConstruction\SubHandler\GetAllianceConstructionSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceConstruction\SubHandler\SyncAllianceConstructionSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceConstruction\SubHandler\UpdateAllianceConstructionSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceConstruction\SyncAllianceConstructionHandler.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\RemoveImmortalsAllianceHandler.cs" />
+    <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\VerifyImmortalsAllianceHandler.cs" />
     <Compile Include="Handlers\SyncRoleAllianceSkill\SubHandler\GetRoleAllianceSkillSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAllianceSkill\SubHandler\SyncRoleAllianceSkillSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAllianceSkill\SubHandler\UpdateRoleAllianceSkillSubHandler.cs" />
