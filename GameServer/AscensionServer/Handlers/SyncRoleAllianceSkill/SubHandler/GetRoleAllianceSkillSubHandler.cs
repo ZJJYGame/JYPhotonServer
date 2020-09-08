@@ -6,38 +6,39 @@ using System.Threading.Tasks;
 using AscensionProtocol;
 using AscensionProtocol.DTO;
 using Photon.SocketServer;
-using RedisDotNet;
 using AscensionServer.Model;
 using Cosmos;
+using RedisDotNet;
+
 namespace AscensionServer
 {
-    public class UpdatePetStatusSubHandler : SyncPetStatusSubHandler
+    public class GetRoleAllianceSkillSubHandler : SyncRoleAllianceSkillSubHandler
     {
         public override void OnInitialization()
         {
-            SubOpCode = SubOperationCode.Update;
+            SubOpCode = SubOperationCode.Get;
             base.OnInitialization();
         }
+
+
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
-            string petstatusJson = Convert.ToString(Utility.GetValue(dict,(byte)ParameterCode.PetStatus));
-            Utility.Debug.LogInfo("收到的宠物状态数据" + petstatusJson);
+            string roleallianceskillJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAllianceSkill));
 
-            var petstatusObj = Utility.Json.ToObject<PetStatus>(petstatusJson);
-            NHCriteria nHCriteriapetstatus = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petstatusObj.PetID);
+            var roleallianceskillObj = Utility.Json.ToObject<RoleAllianceSkillDTO>(roleallianceskillJson);
+            NHCriteria nHCriteriroleallianceskill = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceskillObj.RoleID);
+            Utility.Debug.LogError("收到的获得技能仙盟数据" + roleallianceskillJson);
+
+            var roleallianceskillTemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAllianceSkill>(nHCriteriroleallianceskill).Result;
 
 
-            var petstatusTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<PetStatus>(nHCriteriapetstatus);
-
-            if (petstatusTemp!=null)
+            if (roleallianceskillTemp!=null)
             {
-
-                petstatusTemp = petstatusObj;
-                ConcurrentSingleton<NHManager>.Instance.Update<PetStatus>(petstatusTemp);
                 SetResponseData(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.PetStatus, Utility.Json.ToJson(petstatusTemp));
+                    SubDict.Add((byte)ParameterCode.RoleAllianceSkill, Utility.Json.ToJson(roleallianceskillTemp));
+
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
@@ -49,9 +50,7 @@ namespace AscensionServer
                 });
             }
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            GameManager.ReferencePoolManager.Despawns(nHCriteriapetstatus);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriroleallianceskill);
         }
-
-
     }
 }

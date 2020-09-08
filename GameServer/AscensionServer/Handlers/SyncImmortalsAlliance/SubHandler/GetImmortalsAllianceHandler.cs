@@ -26,22 +26,23 @@ namespace AscensionServer
             string immortalsAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ImmortalsAlliance));
             var immortalsAllianceObj = Utility.Json.ToObject<AlliancesDTO>
                 (immortalsAllianceJson);
-            var name = RedisData.Initialize.InsertName("(ALLIANCE_LIST", immortalsAllianceObj.ID);
+            var name = RedisData.Initialize.InsertName("(Alliance", immortalsAllianceObj.ID);
             var content = RedisData.Initialize.GetData(name);
 
 
             List<int> alliances = new List<int>();
             List<NHCriteria> nhcriteriaList = new List<NHCriteria>();
             List<AllianceStatusDTO> ImmortalsAllianceList = new List<AllianceStatusDTO>();
-            if (string.IsNullOrEmpty(content))
-            {
-
-                NHCriteria nHCriteriaimmortalsAllianceslist= GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", 1);
+            //if (string.IsNullOrEmpty(content))
+              if (true)
+                {
+                #region  MySql模块
+                NHCriteria nHCriteriaimmortalsAllianceslist = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", 1);
                 nhcriteriaList.Add(nHCriteriaimmortalsAllianceslist);
                 var immortalsAllianceslistTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Alliances>(nHCriteriaimmortalsAllianceslist);
 
                 alliances = Utility.Json.ToObject<List<int>>(immortalsAllianceslistTemp.AllianceList);
-                Utility.Debug.LogInfo("获取到的仙盟数量为"+ alliances.Count);
+                Utility.Debug.LogError("获取到的仙盟数量为"+ alliances.Count);
                 if (immortalsAllianceObj.Index<= alliances.Count)
                 {
                     if (immortalsAllianceObj.AllIndex < alliances.Count)
@@ -79,6 +80,13 @@ namespace AscensionServer
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 GameManager.ReferencePoolManager.Despawns(nhcriteriaList);
+                #endregion
+            }
+            else
+            {
+
+                alliances = Utility.Json.ToObject<List<int>>(content);
+                Utility.Debug.LogError("获取到的Redis仙盟数量为" + alliances.Count);
             }
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);

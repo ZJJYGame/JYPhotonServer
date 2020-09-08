@@ -31,6 +31,11 @@ namespace AscensionServer
                 var name = header + id;
                 return name;
             }
-    }
+            public static string InsertName(string header)
+            {
+                var name = header ;
+                return name;
+            }
+        }
     }
 }

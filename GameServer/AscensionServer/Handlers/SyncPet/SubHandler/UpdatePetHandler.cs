@@ -20,7 +20,7 @@ namespace AscensionServer
             SubOpCode = SubOperationCode.Update;
             base.OnInitialization();
         }
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
 
@@ -28,59 +28,33 @@ namespace AscensionServer
 
             var petObj = Utility.Json.ToObject<Pet>(petJson);
             NHCriteria nHCriteriaPet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petObj.ID);
-            int level;
-            int exp;
             var pet = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriaPet);
             if (pet != null && RedisHelper.Hash.HashExistAsync("Pet", petObj.ID.ToString()).Result)
             {
                 if (petObj.PetLevel!=0)
                 {
-                   
-                    pet.PetExp = 0;
-                    level = pet.PetLevel + petObj.PetLevel;
-                    exp = pet.PetExp + petObj.PetExp;
-                    ConcurrentSingleton<NHManager>.Instance.Update(new Pet()
-                    {
-                        ID= petObj.ID,PetID=petObj.PetID,PetExp= exp,PetLevel=(byte)level,PetIsBattle=petObj.PetIsBattle,PetSkillArray=petObj.PetSkillArray,PetName=petObj.PetName
-                    });
-                    RedisHelper.Hash.HashSetAsync<Pet>("Pet", pet.ID.ToString(), new Pet()
-                    {  ID = petObj.ID,PetID = petObj.PetID, PetExp = exp,PetLevel = (byte)level, PetIsBattle = petObj.PetIsBattle,PetSkillArray =petObj.PetSkillArray, PetName = petObj.PetName });
+
+                   pet.PetLevel += petObj.PetLevel;
+                   pet.PetExp =petObj.PetExp;
+                    ConcurrentSingleton<NHManager>.Instance.Update(pet);
+                  await  RedisHelper.Hash.HashSetAsync<Pet>("Pet", pet.ID.ToString(), pet);
                 }
                 else
                 {
-                    exp = pet.PetExp + petObj.PetExp;
-                    ConcurrentSingleton<NHManager>.Instance.Update(new Pet()
-                    {
-                        ID = petObj.ID,
-                        PetID = petObj.PetID,
-                        PetExp = exp,
-                        PetLevel = pet.PetLevel,
-                        PetIsBattle = petObj.PetIsBattle,
-                        PetSkillArray = petObj.PetSkillArray,
-                        PetName = petObj.PetName
-                    });
-                    RedisHelper.Hash.HashSetAsync<Pet>("Pet", pet.ID.ToString(), new Pet()
-                    {
-                        ID = petObj.ID,
-                        PetID = petObj.PetID,
-                        PetExp = exp,
-                        PetLevel = pet.PetLevel,
-                        PetIsBattle = petObj.PetIsBattle,
-                        PetSkillArray = petObj.PetSkillArray,
-                        PetName = petObj.PetName
-                    });
+                     pet.PetExp += petObj.PetExp;
+                    ConcurrentSingleton<NHManager>.Instance.Update(pet);
+                   await RedisHelper.Hash.HashSetAsync<Pet>("Pet", pet.ID.ToString(), pet);
                 }
                 SetResponseData(() =>
                 {
-                    var sendPet = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriaPet);
-                    SubDict.Add((byte)ParameterCode.Pet, Utility.Json.ToJson(sendPet));
+                    Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>穿回去的宠物经验" + petJson);
+                    SubDict.Add((byte)ParameterCode.Pet, Utility.Json.ToJson(pet));
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
             }
             else
             {
                 Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>传过来的宠物状态为空" + petJson);
-                //pet = Singleton<NHManager>.Instance.Insert<Pet>(pet);
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
             }
 

@@ -140,5 +140,6 @@
         ApplyForAlliance=83,
         RoleAuctionItems=84,
         AllianceConstruction=85,
+        RoleAllianceSkill=86,
     }
 }

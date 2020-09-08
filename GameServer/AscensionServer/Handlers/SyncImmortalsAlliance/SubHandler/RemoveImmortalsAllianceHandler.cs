@@ -22,7 +22,7 @@ namespace AscensionServer
         }
 
 
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
             string allianceMemberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
@@ -35,14 +35,14 @@ namespace AscensionServer
             {
 
 
-             //   Utility.Debug.LogError("解散仙盟" + allianceMemberTemp.AllianceID);
+                Utility.Debug.LogError("解散仙盟" + allianceMemberTemp.AllianceID);
                 if (!string.IsNullOrEmpty(allianceMemberTemp.Member))
                 {
                     List<int> memberlist = new List<int>();
                     memberlist = Utility.Json.ToObject<List<int>>(allianceMemberTemp.Member);
                     for (int i = 0; i < memberlist.Count; i++)
                     {
-                       // Utility.Debug.LogError("解散仙盟2" + allianceMemberTemp.AllianceID);
+                        Utility.Debug.LogError("解散仙盟2" + allianceMemberTemp.AllianceID);
                         var roleObj = AlliancelogicManager.Instance.GetNHCriteria<RoleAlliance>("RoleID", memberlist[i]);
                         roleObj.AllianceID = 0;
                         roleObj.AllianceJob = 50;
@@ -51,7 +51,7 @@ namespace AscensionServer
                 }
                 if (!string.IsNullOrEmpty(allianceMemberTemp.ApplyforMember))
                 {
-                    //Utility.Debug.LogError("解散仙盟3" + allianceMemberTemp.AllianceID);
+                    Utility.Debug.LogError("解散仙盟3" + allianceMemberTemp.AllianceID);
                     List<int> applylist = new List<int>();
                     applylist = Utility.Json.ToObject<List<int>>(allianceMemberTemp.ApplyforMember);
                     for (int i = 0; i < applylist.Count; i++)
@@ -60,7 +60,7 @@ namespace AscensionServer
                         var applyList = Utility.Json.ToObject<List<int>>(roleObj.ApplyForAlliance);
                         applyList.Remove(allianceMemberObj.AllianceID);
                         roleObj.ApplyForAlliance = Utility.Json.ToJson(applyList);
-                        ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleObj);
+                    await    ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleObj);
 
                     }
                 }
@@ -68,19 +68,19 @@ namespace AscensionServer
                 var alliancesList = Utility.Json.ToObject<List<int>>(alliances.AllianceList);
                 alliancesList.Remove(allianceMemberObj.AllianceID);
                 alliances.AllianceList = Utility.Json.ToJson(alliancesList);
-                ConcurrentSingleton<NHManager>.Instance.UpdateAsync(alliances);
+             await   ConcurrentSingleton<NHManager>.Instance.UpdateAsync(alliances);
 
-             //   Utility.Debug.LogError("解散仙盟4" + allianceMemberTemp.AllianceID);
+                Utility.Debug.LogError("解散仙盟4" + allianceMemberTemp.AllianceID);
 
                 var allianceStatusObj = AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", allianceMemberObj.AllianceID);
 
                 var allianceConstructionObj = AlliancelogicManager.Instance.GetNHCriteria<AllianceConstruction>("AllianceID", allianceMemberObj.AllianceID);
-                ConcurrentSingleton<NHManager>.Instance.DeleteAsync(allianceConstructionObj);
-                ConcurrentSingleton<NHManager>.Instance.DeleteAsync(allianceStatusObj);
-                ConcurrentSingleton<NHManager>.Instance.DeleteAsync(allianceMemberTemp);
+              await  ConcurrentSingleton<NHManager>.Instance.DeleteAsync(allianceConstructionObj);
+             await   ConcurrentSingleton<NHManager>.Instance.DeleteAsync(allianceStatusObj);
+             await   ConcurrentSingleton<NHManager>.Instance.DeleteAsync(allianceMemberTemp);
                 SetResponseData(() =>
                 {
-                 //   Utility.Debug.LogError("解散仙盟5" );
+                    Utility.Debug.LogError("解散仙盟5");
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }

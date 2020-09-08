@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol;
+using AscensionProtocol.DTO;
 using Photon.SocketServer;
 using AscensionServer.Model;
 using Cosmos;
@@ -28,13 +29,14 @@ namespace AscensionServer
             NHCriteria nHCriteriaRolePet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
 
             var rolepets = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RolePet>(nHCriteriaRolePet);
-
+            List<Pet> petlist = new List<Pet>();
+            Dictionary<string, string> DODict = new Dictionary<string, string>();
             if (RedisHelper.Hash.HashExistAsync("RolePet", rolepetObj.RoleID.ToString()).Result)
             {
                 #region Redis模块
                 RolePet rolePetTemp = RedisHelper.Hash.HashGetAsync<RolePet>("RolePet", rolepetObj.RoleID.ToString()).Result;
                 Dictionary<int, int> petIDList;
-                List<Pet> petlist = new List<Pet>();
+
                 List<NHCriteria> nHCriteriasList = new List<NHCriteria>();
                 if (!string.IsNullOrEmpty(rolePetTemp.PetIDDict))
                 {
@@ -48,9 +50,11 @@ namespace AscensionServer
                         nHCriteriasList.Add(nHCriteriapet);
                     }
                 }
+                DODict.Add("Pet", Utility.Json.ToJson(petlist));        
+                DODict.Add("RolePet", Utility.Json.ToJson(rolePetTemp));
                 SetResponseData(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(petlist));
+                    SubDict.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(DODict));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
                 GameManager.ReferencePoolManager.Despawns(nHCriteriasList);
@@ -66,7 +70,7 @@ namespace AscensionServer
                     var rpetObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RolePet>(nHCriteriaRolePet);
                     string RolePetList = rpetObj.PetIDDict;
                     Dictionary<int, int> petIDList;
-                    List<Pet> petlist = new List<Pet>();
+                    //List<Pet> petlist = new List<Pet>();
                     List<NHCriteria> nHCriteriasList = new List<NHCriteria>();
                     if (!string.IsNullOrEmpty(RolePetList))
                     {
@@ -80,9 +84,11 @@ namespace AscensionServer
                             nHCriteriasList.Add(nHCriteriapet);
                         }
                     }
+                    DODict.Add("Pet", Utility.Json.ToJson(petlist));
+                    DODict.Add("RolePet", Utility.Json.ToJson(rpetObj));
                     SetResponseData(() =>
                     {
-                        SubDict.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(petlist));
+                        SubDict.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(DODict));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                     GameManager.ReferencePoolManager.Despawns(nHCriteriasList);
