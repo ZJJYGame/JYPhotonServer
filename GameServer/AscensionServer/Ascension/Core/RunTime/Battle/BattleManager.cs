@@ -14,11 +14,11 @@ namespace AscensionServer
     /// </summary>
     public sealed class BattleManager : Module<BattleManager>
     {
-        ConcurrentDictionary<int, RoomCache> roomDict = new ConcurrentDictionary<int, RoomCache>();
+        ConcurrentDictionary<int, RoomEntity> roomDict = new ConcurrentDictionary<int, RoomEntity>();
 
         public void StartBattle()
         {
-            var rc = GameManager.ReferencePoolManager.Spawn<RoomCache>();
+            var rc = GameManager.ReferencePoolManager.Spawn<RoomEntity>();
         }
         /// <summary>
         /// 转发战斗消息
@@ -29,10 +29,10 @@ namespace AscensionServer
         {
             if (rbiCmd == null)
                 return false;
-            RoomCache rc;
+            RoomEntity rc;
             var result = roomDict.TryGetValue(rbiCmd.RoomID, out rc);
-            if (result)
-                rc.CacheInputCmdC2S(rbiCmd);
+            //if (result)
+            //    rc.CacheInputCmdC2S(rbiCmd);
             return result;
         }
         /// <summary>
@@ -40,13 +40,13 @@ namespace AscensionServer
         /// </summary>
         public void ReleaseBattleRoom(int roomID)
         {
-            RoomCache rc;
+            RoomEntity rc;
             roomDict.TryRemove(roomID, out rc);
             GameManager.ReferencePoolManager.Despawn(rc);
         }
-        public RoomCache GetBattleRoom(int roomID)
+        public RoomEntity GetBattleRoom(int roomID)
         {
-            RoomCache rc;
+            RoomEntity rc;
             roomDict.TryGetValue(roomID, out rc);
             return rc;
         }

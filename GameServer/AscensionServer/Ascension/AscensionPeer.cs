@@ -54,8 +54,7 @@ namespace AscensionServer
                 RecordOnOffLine(PeerCache.RoleID);
             }
             Utility.Debug.LogInfo($"Client Disconnect :{ToString()}");
-            await GameManager.External.GetModule<PeerManager>().BroadcastEventAsync((byte)OperationCode.Logoff,ed, () => Logoff()); 
-
+            var t= GameManager.External.GetModule<PeerManager>().BroadcastEventAsync((byte)OperationCode.Logoff,ed, () => Logoff()); 
             Logoff();
             AscensionServer.Instance.ConnectedPeerHashSet.Remove(this);
             Utility.Debug.LogInfo("***********************  Client Disconnect    ***********************");
@@ -141,12 +140,6 @@ namespace AscensionServer
             GameManager.ReferencePoolManager.Despawns(nHCriteriaOnOff);
             Utility.Debug.LogInfo("同步离线时间成功");
         }
-        public void Clear()
-        {
-            SessionId = 0;
-            Available = false;
-        }
-
     }
     #endregion
 }
