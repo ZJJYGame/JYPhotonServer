@@ -22,10 +22,11 @@ namespace AscensionServer.Handlers
         }
 
 
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
             string allianceConstructionJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceConstruction));
+
             Utility.Debug.LogError("仙盟升级数据接收成功为" + allianceConstructionJson);
             var allianceConstructionObj = Utility.Json.ToObject<AllianceConstructionDTO>(allianceConstructionJson);
             NHCriteria nHCriteriallianceConstruction = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceConstructionObj.AllianceID);
@@ -130,6 +131,7 @@ namespace AscensionServer.Handlers
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriallianceConstruction);
+
         }
     }
 }

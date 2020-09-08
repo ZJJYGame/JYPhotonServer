@@ -33,14 +33,16 @@ namespace AscensionServer
 
                 if (roleAssetsObj.XianYu != 0 && assetsServer.XianYu >= 0)
                 {
+                    Utility.Debug.LogInfo("变动的仙玉数量" + roleAssetsObj.XianYu);
+                    Utility.Debug.LogInfo("当前的仙玉数量" + assetsServer.XianYu);
                     assetsServer.XianYu += roleAssetsObj.XianYu;
-                    if ((assetsServer.XianYu + roleAssetsObj.XianYu < 0))
+                    if ((assetsServer.XianYu < 0))
                         assetsServer.XianYu = 0;
                 }
                 if (roleAssetsObj.SpiritStonesLow != 0 && assetsServer.SpiritStonesLow >= 0)
                 {
                     assetsServer.SpiritStonesLow += roleAssetsObj.SpiritStonesLow;
-                    if ((assetsServer.SpiritStonesLow + roleAssetsObj.SpiritStonesLow < 0))
+                    if ((assetsServer.SpiritStonesLow < 0))
                         assetsServer.SpiritStonesLow = 0;
                 }
 
