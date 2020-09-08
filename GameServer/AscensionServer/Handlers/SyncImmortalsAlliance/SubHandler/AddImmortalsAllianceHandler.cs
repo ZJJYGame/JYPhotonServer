@@ -36,6 +36,9 @@ namespace AscensionServer
             NHCriteria nHCriteriaAllianceName = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceName", alliancestatusObj.AllianceName);
             var alliance = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceStatus>(nHCriteriaAllianceName);
 
+            NHCriteria nHCriteriaAllianceMaster = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceMaster", alliancestatusObj.AllianceMaster);
+            var allianceMasterObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceStatus>(nHCriteriaAllianceMaster);
+
 
             List<string> Alliancelist = new List<string>();
             NHCriteria nHCriteriaroleAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleAllianceObj.RoleID);
@@ -43,7 +46,7 @@ namespace AscensionServer
 
 
             #region MySql数据模块
-            if (alliance == null)
+            if (alliance == null&& allianceMasterObj==null)
             {
                 List<int> gangslist = new List<int>();
                 NHCriteria nHCriteriaAllianceList = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", 1);
@@ -59,9 +62,12 @@ namespace AscensionServer
               await  ConcurrentSingleton<NHManager>.Instance.InsertAsync(allianceMember);
                 gangslist.Add(allianceslIstObj.ID);
                 allianceTemp.AllianceList = Utility.Json.ToJson(gangslist);
-                RoleAllianceSkill roleAllianceSkill = new RoleAllianceSkill() { RoleID= roleAllianceObj.RoleID };
+                if (ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAllianceSkill>(nHCriteriaroleAlliance)==null)
+                {
+                    RoleAllianceSkill roleAllianceSkill = new RoleAllianceSkill() { RoleID = roleAllianceObj.RoleID };
 
-                await ConcurrentSingleton<NHManager>.Instance.InsertAsync(roleAllianceSkill);
+                    await ConcurrentSingleton<NHManager>.Instance.InsertAsync(roleAllianceSkill);
+                }
                 await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceTemp);
 
                 Alliancelist.Add(Utility.Json.ToJson(allianceslIstObj));

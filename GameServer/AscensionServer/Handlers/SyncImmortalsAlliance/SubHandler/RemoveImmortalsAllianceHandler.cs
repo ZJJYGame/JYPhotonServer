@@ -24,6 +24,7 @@ namespace AscensionServer
 
         public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
+            ResetResponseData(operationRequest);
             var dict = ParseSubDict(operationRequest);
             string allianceMemberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
             var allianceMemberObj = Utility.Json.ToObject<AllianceMemberDTO>(allianceMemberJson);
@@ -46,7 +47,7 @@ namespace AscensionServer
                         var roleObj = AlliancelogicManager.Instance.GetNHCriteria<RoleAlliance>("RoleID", memberlist[i]);
                         roleObj.AllianceID = 0;
                         roleObj.AllianceJob = 50;
-                        ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleObj);
+                     await   ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleObj);
                     }
                 }
                 if (!string.IsNullOrEmpty(allianceMemberTemp.ApplyforMember))

@@ -22,6 +22,7 @@ namespace AscensionServer
 
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
+            ResetResponseData(operationRequest);
             var dict = ParseSubDict(operationRequest);
             string immortalsAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ImmortalsAlliance));
             var immortalsAllianceObj = Utility.Json.ToObject<AlliancesDTO>

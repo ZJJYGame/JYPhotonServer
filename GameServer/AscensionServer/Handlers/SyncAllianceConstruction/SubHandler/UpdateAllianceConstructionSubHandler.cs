@@ -31,8 +31,10 @@ namespace AscensionServer.Handlers
             var allianceConstructionObj = Utility.Json.ToObject<AllianceConstructionDTO>(allianceConstructionJson);
             NHCriteria nHCriteriallianceConstruction = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceConstructionObj.AllianceID);
 
+            NHCriteria nHCriterialliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", allianceConstructionObj.AllianceID);
+
             var allianceConstructionTemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceConstruction>(nHCriteriallianceConstruction).Result;
-            var allianceStatusTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceStatus>(nHCriteriallianceConstruction).Result;
+            var allianceStatusTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceStatus>(nHCriterialliance).Result;
 
             if (allianceConstructionTemp != null)
             {
@@ -130,7 +132,7 @@ namespace AscensionServer.Handlers
             }
 
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            GameManager.ReferencePoolManager.Despawns(nHCriteriallianceConstruction);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriallianceConstruction, nHCriterialliance);
 
         }
     }
