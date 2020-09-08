@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 using Cosmos;
 namespace AscensionServer
 {
-    public class TeamCache : IReference
+    public class TeamEntity: IReference
     {
         /// <summary>
         /// 队长ID
@@ -28,7 +28,7 @@ namespace AscensionServer
         /// 初始化队伍
         /// </summary>
         /// <param name="createrID">创建者的ID</param>
-        public void InitTeam(uint createrID,uint teamID)
+        public void Oninit(uint createrID,uint teamID)
         {
             TeamID = teamID;
             CaptainID = createrID;
