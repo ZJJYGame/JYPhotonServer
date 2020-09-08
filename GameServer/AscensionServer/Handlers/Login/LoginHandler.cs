@@ -44,7 +44,7 @@ namespace AscensionServer
                 //GameManager.External.GetModule<PeerManager>().TryGetValue();
 
                 var pe= PeerEntity.Create(peer);
-                GameManager.External.GetModule<PeerManager>().TryAdd(pe.ClientPeer.SessionId, pe);
+                GameManager.External.GetModule<PeerManager>().TryAdd(pe.SessionId, pe);
 
                 Utility.Debug.LogInfo("Login Success : " + userObj.Account + " ; UUID : " + peer.PeerCache.UUID );
                 ResponseData.Add((byte)ParameterCode.Role, Utility.Json.ToJson(userObj));

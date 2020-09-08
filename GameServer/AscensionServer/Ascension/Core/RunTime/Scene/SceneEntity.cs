@@ -59,7 +59,7 @@ namespace AscensionServer
             int length = peerEntities.Length;
             for (int i = 0; i < length; i++)
             {
-                se.TryAdd(peerEntities[i].ClientPeer.SessionId, peerEntities[i]);
+                se.TryAdd(peerEntities[i].SessionId, peerEntities[i]);
             }
             return se;
         }
@@ -70,7 +70,7 @@ namespace AscensionServer
             int length = peerEntities.Count;
             for (int i = 0; i < length; i++)
             {
-                se.TryAdd(peerEntities[i].ClientPeer.SessionId, peerEntities[i]);
+                se.TryAdd(peerEntities[i].SessionId, peerEntities[i]);
             }
             return se;
         }

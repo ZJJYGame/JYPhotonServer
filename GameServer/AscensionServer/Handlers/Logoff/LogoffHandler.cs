@@ -38,7 +38,7 @@ namespace AscensionServer
                 //AscensionServer.Instance.RemoveFromLoggedUserCache(peer);
 
                 //广播OperationCode.Logoff为Key的网络事件，传输User对象
-                NetworkEventCore.Instance.Dispatch(operationRequest.OperationCode, userObj);
+                OpCodeEventCore.Instance.Dispatch(operationRequest.OperationCode, userObj);
                 peer.Logoff();
             }
             else

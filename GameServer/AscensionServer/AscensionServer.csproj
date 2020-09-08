@@ -21,7 +21,6 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -170,16 +169,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlliancelogicManager\AllianceEvent.cs" />
+    <Compile Include="AlliancelogicManager\AllianceEventCore.cs" />
     <Compile Include="AlliancelogicManager\AlliancelogicManager.cs" />
     <Compile Include="AreaHandlers\EnterAdventureSceneHandler.cs" />
     <Compile Include="AreaHandlers\ExitAdventureSceneHandler.cs" />
     <Compile Include="Ascension\Core\Base\Actor\ActorTypeEnum.cs" />
     <Compile Include="Ascension\Core\Base\Input\IInputData.cs" />
     <Compile Include="Ascension\Core\Base\Peer\IPeer.cs" />
-    <Compile Include="Ascension\Core\Base\NetEvent\NetworkEventParam.cs" />
-    <Compile Include="Ascension\Core\Base\NetEvent\NetworkEventCore.cs" />
-    <Compile Include="Ascension\Core\Base\Player\IRole.cs" />
+    <Compile Include="Ascension\Core\Base\EventCore\OpCodeEventCore.cs" />
+    <Compile Include="Ascension\Core\Base\Player\IRoleEntity.cs" />
     <Compile Include="Ascension\Core\Base\Player\RoleEntity.cs" />
     <Compile Include="Ascension\Core\Base\Variable\ISimpleKeyValue.cs" />
     <Compile Include="Ascension\Core\Base\Variable\IKeyValue.cs" />

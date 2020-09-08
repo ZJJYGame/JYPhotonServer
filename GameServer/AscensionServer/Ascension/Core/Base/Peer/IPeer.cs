@@ -29,10 +29,10 @@ namespace AscensionServer
         /// </summary>
         object Handle { get; }
         /// <summary>
-        /// 发送消息事件
+        /// 发送消息到remotePeer
         /// </summary>
-        /// <param name="userData">用户自定义数据</param>
-        /// <returns>发送后的返回码</returns>
-        void  SendEventMessage(object userData);
+        /// <param name="opCode">操作码</param>
+        /// <param name="userData">用户自定义的数据字典</param>
+        void SendEventMessage(byte opCode,object userData);
     }
 }

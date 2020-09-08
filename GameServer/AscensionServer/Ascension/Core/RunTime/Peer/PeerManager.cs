@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using System.Threading;
-using Ubiety.Dns.Core.Common;
-
+using AscensionProtocol;
 namespace AscensionServer
 {
     /// <summary>
@@ -18,35 +17,36 @@ namespace AscensionServer
         /// <summary>
         /// 广播消息 
         /// </summary>
-        Action<object> broadcastEvent;
+        Action<byte,object> broadcastEvent;
         ConcurrentDictionary<long, PeerEntity> peerDict;
         public override void OnInitialization()
         {
             peerDict = new ConcurrentDictionary<long, PeerEntity>();
-            NetworkEventCore.Instance.AddEventListener(2, PeerLogoff);
+            OpCodeEventCore.Instance.AddEventListener((byte)OperationCode.Logoff, PeerDisconnect);
+            OpCodeEventCore.Instance.AddEventListener((byte)OperationCode.Login, PeerConnect);
         }
         public bool TryAdd(long sessionId, PeerEntity peer)
         {
             var result = peerDict.TryAdd(sessionId, peer);
             if (result)
             {
-                broadcastEvent += peer.ClientPeer.SendEventMessage;
+                broadcastEvent += peer.SendEventMessage;
             }
             return result;
         }
         public bool TryRemove(long sessionId)
         {
             PeerEntity peer;
-            var result= peerDict.TryRemove(sessionId, out peer);
+            var result = peerDict.TryRemove(sessionId, out peer);
             if (result)
             {
                 try
                 {
-                    broadcastEvent -= peer.ClientPeer.SendEventMessage;
+                    broadcastEvent -= peer.SendEventMessage;
                 }
                 catch (Exception e)
                 {
-                    Utility.Debug.LogError($"无法移除发送消息的委托:{peer.ClientPeer.Handle.ToString()},{e}");
+                    Utility.Debug.LogError($"无法移除发送消息的委托:{peer.Handle},{e}");
                 }
             }
             return result;
@@ -65,8 +65,8 @@ namespace AscensionServer
             {
                 try
                 {
-                    broadcastEvent -= comparisonPeer.ClientPeer.SendEventMessage;
-                    broadcastEvent += newPeer.ClientPeer.SendEventMessage;
+                    broadcastEvent -= comparisonPeer.SendEventMessage;
+                    broadcastEvent += newPeer.SendEventMessage;
                 }
                 catch (Exception e)
                 {
@@ -80,12 +80,13 @@ namespace AscensionServer
             return peerDict.TryGetValue(sessionId, out peer);
         }
         /// <summary>
-        /// 同步广播事件
+        /// 同步广播事件；
+        /// 此方法会对所有在线且Available的peer对象进行消息广播；
         /// </summary>
         /// <param name="userData">用户自定义数据</param>
-        public void BroadcastEvent(object userData)
+        public void BroadcastEvent(byte opCode,object userData)
         {
-            broadcastEvent?.Invoke(userData);
+            broadcastEvent?.Invoke(opCode,userData);
         }
         /// <summary>
         /// 异步广播事件
@@ -93,13 +94,22 @@ namespace AscensionServer
         /// <param name="userData">用户自定义数据</param>
         /// <param name="callback">广播结束后的回调</param>
         /// <returns>线程Task</returns>
-        public async Task BroadcastEventAsync(object userData,Action callback=null)
+        public async Task BroadcastEventAsync(byte opCode,object userData, Action callback = null)
         {
-            await Task.Run(() => { broadcastEvent?.Invoke(userData); callback?.Invoke(); });
+            await Task.Run(() => { broadcastEvent?.Invoke(opCode,userData); callback?.Invoke(); });
         }
-        void PeerLogoff(object data)
+        /// <summary>
+        /// peer连接到此photon
+        /// </summary>
+        /// <param name="data"></param>
+        void PeerDisconnect(object data)
         {
-
+           var t= BroadcastEventAsync((byte)OperationCode.Logoff, data);
+        }
+        // peer与此photon断开连接
+        void PeerConnect(object data)
+        {
+            var t = BroadcastEventAsync((byte)OperationCode.Login, data);
         }
     }
 }

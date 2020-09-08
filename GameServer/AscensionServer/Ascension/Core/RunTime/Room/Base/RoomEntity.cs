@@ -28,7 +28,7 @@ namespace AscensionServer
         /// </summary>
         protected int roundCount = 0;
         protected ConcurrentDictionary<long, PeerEntity> peerDict = new ConcurrentDictionary<long, PeerEntity>();
-        protected Action<object> broadcastBattleMessage;
+        protected Action<byte,object> broadcastBattleMessage;
         protected object battleResultdata;
         #endregion
 
@@ -65,11 +65,11 @@ namespace AscensionServer
             {
                 try
                 {
-                    broadcastBattleMessage -= peer.ClientPeer.SendEventMessage;
+                    broadcastBattleMessage -= peer.SendEventMessage;
                 }
                 catch (Exception e)
                 {
-                    Utility.Debug.LogError($"无法移除发送消息的委托:{peer.ClientPeer.Handle.ToString()},{e}");
+                    Utility.Debug.LogError($"无法移除发送消息的委托:{peer.Handle.ToString()},{e}");
                 }
             }
             return result;
@@ -80,7 +80,7 @@ namespace AscensionServer
                 throw new ArgumentNullException("PeerEntity is invaild ! ");
             var result= peerDict.TryAdd(key, Value);
             if (result)
-                broadcastBattleMessage += Value.ClientPeer.SendEventMessage;
+                broadcastBattleMessage += Value.SendEventMessage;
             return result;
         }
         /// <summary>
@@ -95,7 +95,7 @@ namespace AscensionServer
         {
             await Task.Delay(new TimeSpan(0, 0, 15));
             Utility.Debug.LogInfo("15秒倒计时结束，开始广播战斗计算结果");
-            await BroadcastMessageAsync(null);
+            //await BroadcastMessageAsync(null);
         }
         /// <summary>
         /// 开始回合；
@@ -105,17 +105,16 @@ namespace AscensionServer
         {
             roundCount++;
             canCacheCmd = true;
-            BroadcastMessage(null);
             CountDown();
         }
 
-        protected virtual void BroadcastMessage(object data)
+        protected virtual void BroadcastMessage(byte opCode,object data)
         {
-            Task t= BroadcastMessageAsync(data);
+            Task t= BroadcastMessageAsync(opCode,data);
         }
-        protected virtual async Task BroadcastMessageAsync(object data)
+        protected virtual async Task BroadcastMessageAsync(byte opCode, object data)
         {
-            await Task.Run(() => broadcastBattleMessage?.Invoke(data));
+            await Task.Run(() => broadcastBattleMessage?.Invoke(opCode,data));
         }
         
         #endregion

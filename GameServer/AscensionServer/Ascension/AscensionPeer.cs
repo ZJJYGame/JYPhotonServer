@@ -1,4 +1,4 @@
-﻿/*
+﻿ /*
 *Author : xianrenZhang
 *Since 	:2020-04-18
 *Description  : 客户端类
@@ -35,6 +35,7 @@ namespace AscensionServer
         public bool Available { get; private set; }
         public object Handle { get { return this; } }
         SendParameters sendParam = new SendParameters();
+        EventData eventData= new EventData();
         #endregion
 
         #region Methods
@@ -53,7 +54,7 @@ namespace AscensionServer
                 RecordOnOffLine(PeerCache.RoleID);
             }
             Utility.Debug.LogInfo($"Client Disconnect :{ToString()}");
-            await GameManager.External.GetModule<PeerManager>().BroadcastEventAsync(ed, () => Logoff()); 
+            await GameManager.External.GetModule<PeerManager>().BroadcastEventAsync((byte)OperationCode.Logoff,ed, () => Logoff()); 
             Logoff();
         }
         //处理客户端的请求
@@ -94,9 +95,12 @@ namespace AscensionServer
         /// 外部接口的发送消息；
         /// </summary>
         /// <param name="userData">用户自定义数据</param>
-        public void SendEventMessage(object userData)
+        public void SendEventMessage(byte opCode,object userData)
         {
-            SendEvent(userData as IEventData, sendParam);
+            var data = userData as Dictionary<byte, object>;
+            eventData.Code = opCode;
+            eventData.Parameters = data;
+            SendEvent(eventData, sendParam);
         }
         public void Clear()
         {

@@ -7,63 +7,67 @@ using System.Threading.Tasks;
 using Cosmos;
 using AscensionProtocol.DTO;
 using System.Security.Principal;
-
 namespace AscensionServer
 {
     /// <summary>
     /// Peer实体对象，保存了peer的具体引用
     /// </summary>
-    public class PeerEntity : IKeyValue<Type, NetVariable>, IReference
+    public class PeerEntity :  IKeyValue<Type, NetVariable>, IReference
     {
-        public long SessionId { get; private set; }
-        public IPeer ClientPeer { get; private set; }
-        public IRole Role { get; private set; }
-        public ICollection<NetVariable> NetVariableCollection { get { return variableDict.Values; } }
-        ConcurrentDictionary<Type, NetVariable> variableDict;
+        public long SessionId { get { return Handle.SessionId; } }
+        public bool Available { get { return Handle.Available; } }
+        public IRoleEntity RoleEntity { get; private set; }
+        public IPeer Handle { get; private set; }
+        public ICollection<NetVariable> DataCollection { get { return dataDict.Values; } }
+        ConcurrentDictionary<Type, NetVariable> dataDict;
         public PeerEntity()
         {
-            variableDict = new ConcurrentDictionary<Type, NetVariable>();
+            dataDict = new ConcurrentDictionary<Type, NetVariable>();
         }
-        public PeerEntity(IPeer peer) : this()
+        public PeerEntity(IPeer handle) : this()
         {
-            this.ClientPeer = peer;
+            this.Handle= handle;
         }
-        public void SetPeer(IPeer peer)
+        public void OnInit(IPeer handle)
         {
-            this.ClientPeer = peer;
+            this.Handle= handle;
         }
         public bool TryGetValue(Type key, out NetVariable value)
         {
-            return variableDict.TryGetValue(key, out value);
+            return dataDict.TryGetValue(key, out value);
         }
         public bool ContainsKey(Type key)
         {
-            return variableDict.ContainsKey(key);
+            return dataDict.ContainsKey(key);
         }
         public bool TryRemove(Type Key)
         {
             NetVariable netVar;
-            return variableDict.TryRemove(Key, out netVar);
+            return dataDict.TryRemove(Key, out netVar);
         }
         public bool TryAdd(Type key, NetVariable Value)
         {
-            return variableDict.TryAdd(key, Value);
+            return dataDict.TryAdd(key, Value);
         }
         public bool TryUpdate(Type key, NetVariable newValue, NetVariable comparsionValue)
         {
-            return variableDict.TryUpdate(key, newValue, comparsionValue);
+            return dataDict.TryUpdate(key, newValue, comparsionValue);
+        }
+        public void SendEventMessage(byte opCode, object userData)
+        {
+            Handle.SendEventMessage(opCode, userData);
         }
         public void Clear()
         {
-            ClientPeer = null;
-            variableDict.Clear();
+            Handle= null;
+            dataDict.Clear();
         }
-        public static PeerEntity Create(IPeer peer, params NetVariable[] netVars)
+        public static PeerEntity Create(IPeer handle , params NetVariable[] netVars)
         {
-            if (peer == null)
+            if (handle== null)
                 throw new ArgumentNullException("Peer is invalid");
             PeerEntity pe = GameManager.ReferencePoolManager.Spawn<PeerEntity>();
-            pe.SetPeer(peer);
+            pe.OnInit(handle);
             ushort length = Convert.ToUInt16(netVars.Length);
             for (int i = 0; i < length; i++)
             {
@@ -71,12 +75,12 @@ namespace AscensionServer
             }
             return pe;
         }
-        public static PeerEntity Create(IPeer peer, List<NetVariable> netVars)
+        public static PeerEntity Create(IPeer handle , List<NetVariable> netVars)
         {
-            if (peer == null)
+            if (handle== null)
                 throw new ArgumentNullException("Peer is invalid");
             PeerEntity pe = GameManager.ReferencePoolManager.Spawn<PeerEntity>();
-            pe.SetPeer(peer);
+            pe.OnInit(handle);
             ushort length = Convert.ToUInt16(netVars.Count);
             for (int i = 0; i < length; i++)
             {

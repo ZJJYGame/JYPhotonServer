@@ -8,7 +8,7 @@ using AscensionServer.Model;
 using Cosmos;
 namespace AscensionServer
 {
-   public class AllianceEvent: ConcurrentEventCore<int, AscensionPeer, AllianceEvent>
+   public class AllianceEventCore: ConcurrentEventCore<int, AscensionPeer, AllianceEventCore>
     {
         /// <summary>
         /// 监听仙盟解散的事件

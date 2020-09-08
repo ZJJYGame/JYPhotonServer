@@ -26,7 +26,8 @@ namespace AscensionServer
         public override void OnInitialization()
         {
             roomDict = new ConcurrentDictionary<uint, RoomEntity>();
-            NetworkEventCore.Instance.AddEventListener(NetworkEventParam.BATTLE_CMD, BroadCastBattleCmd);
+            //NetworkEventCore.Instance.AddEventListener(NetworkEventParam.BATTLE_CMD, BroadCastBattleCmd);
+            //NetworkEventCore.Instance.AddEventListener(NetworkEventParam.BATTLE_CMD, BroadCastBattleCmd);
         }
         void BroadCastBattleCmd(object data)
         {
