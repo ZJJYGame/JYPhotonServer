@@ -83,6 +83,7 @@ namespace Cosmos
                             {
                                 //消息未完全发送，则重新发送
                                 SendMessageAsync(udpNetMsg);
+                                Utility.Debug.LogInfo($"Send net KCP_ACK message");
                             }
                         }
                         catch (Exception e)
@@ -92,7 +93,7 @@ namespace Cosmos
                     }
                 }
             }
-        }
+            }
         public override void OnRefresh()
         {
             refreshHandler?.Invoke();
@@ -104,7 +105,7 @@ namespace Cosmos
                     UdpNetMessage netMsg = GameManager.ReferencePoolManager.Spawn<UdpNetMessage>();
                     netMsg.CacheDecodeBuffer(data.Buffer);
                     if (netMsg.Cmd == KcpProtocol.MSG)
-                        Utility.Debug.LogInfo($" Decode net message：{netMsg.ToString()} ;ServiceMessage : {Utility.Converter.GetString(netMsg.ServiceMsg)}");
+                        Utility.Debug.LogInfo($" OnRefresh KCP_MSG：{netMsg} ;ServiceMessage : {Utility.Converter.GetString(netMsg.ServiceMsg)},TS:{netMsg.TS}");
                     if (netMsg.IsFull)
                     {
                         if (netMsg.Conv == 0)
@@ -140,7 +141,7 @@ namespace Cosmos
                             finMsg.Cmd = KcpProtocol.FIN;
                             SendFINMessageAsync(finMsg, data.RemoteEndPoint);
                         }
-                        GameManager.ReferencePoolManager.Despawn(netMsg);
+                        //GameManager.ReferencePoolManager.Despawn(netMsg);
                     }
                 }
             }
@@ -182,12 +183,12 @@ namespace Cosmos
                 clientPeerDict.TryGetValue(conv, out tmpPeer);
                 peerAbortHandler?.Invoke(conv);
                 NetworkPeerEventCore.Instance.Dispatch(NetworkOpCode._PeerDisconnect, tmpPeer);
-                Utility.Debug.LogWarning($"Heartbeat check ， Conv :{ conv}  is unavailable，remove peer ");
+                Utility.Debug.LogWarning($" Conv :{ conv}  is Unavailable，remove peer ");
                 GameManager.ReferencePoolManager.Despawn(tmpPeer);
             }
             catch (Exception e)
             {
-                Utility.Debug.LogError($"Heartbeat check，remove unavailable peer fail", e);
+                Utility.Debug.LogError($"remove Unavailable peer fail {e}");
             }
         }
         bool CreateClientPeer(UdpNetMessage udpNetMsg, IPEndPoint endPoint, out UdpClientPeer peer)

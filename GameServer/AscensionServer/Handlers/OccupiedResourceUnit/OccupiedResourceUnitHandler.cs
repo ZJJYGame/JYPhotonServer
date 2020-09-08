@@ -42,12 +42,12 @@ namespace AscensionServer
                     if (currentDictObj.ResUnitDict.TryGetValue(occupiedUnitObj.ResID, out resourceUnitDTO))
                         resourceUnitDTO.Occupied = result;
                 }
-                var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
+                //var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
 
                 threadEventParameter.Clear();
                 //广播事件
                 threadEventParameter.Add((byte)ParameterCode.OccupiedUnit, occupiedUnitJson);
-                QueueThreadEvent(peerSet, EventCode.OccupiedResourceUnit, threadEventParameter);
+                //QueueThreadEvent(peerSet, EventCode.OccupiedResourceUnit, threadEventParameter);
             }else
                 OpResponse.ReturnCode = (short)ReturnCode.Fail;
             OpResponse.Parameters = ResponseData;

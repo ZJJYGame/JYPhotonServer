@@ -43,23 +43,23 @@ namespace AscensionServer
         {
             return sceneDict.Remove(key);
         }
-        public void ExitAdventureScene(AscensionPeer peer, Action callBack = null)
-        {
-            var result = addventureScenePeerCache.Remove(peer.PeerCache.Account);
-            if (result)
-            {
-                callBack?.Invoke();
-                Utility.Debug.LogInfo("---------------------------- AscensionServer.Cache.Logoff() :remove peer addventureScenePeerCache success : " + peer.ToString() + "------------------------------------");
-            }
-            else
-            {
-                Utility.Debug.LogInfo("---------------------------- AscensionServer.Cache.Logoff() : can't  remove from laddventureScenePeerCache : " + peer.ToString() + "------------------------------------");
-            }
-        }
-        public bool IsEnterAdventureScene(AscensionPeer peer)
-        {
-            var result = addventureScenePeerCache.IsExists(peer.PeerCache.Account);
-            return result;
-        }
+        //public void ExitAdventureScene(AscensionPeer peer, Action callBack = null)
+        //{
+        //    var result = addventureScenePeerCache.Remove(peer.PeerCache.Account);
+        //    if (result)
+        //    {
+        //        callBack?.Invoke();
+        //        Utility.Debug.LogInfo("---------------------------- AscensionServer.Cache.Logoff() :remove peer addventureScenePeerCache success : " + peer.ToString() + "------------------------------------");
+        //    }
+        //    else
+        //    {
+        //        Utility.Debug.LogInfo("---------------------------- AscensionServer.Cache.Logoff() : can't  remove from laddventureScenePeerCache : " + peer.ToString() + "------------------------------------");
+        //    }
+        //}
+        //    public bool IsEnterAdventureScene(AscensionPeer peer)
+        //    {
+        //        var result = addventureScenePeerCache.IsExists(peer.PeerCache.Account);
+        //        return result;
+        //    }
     }
 }
