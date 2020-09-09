@@ -16,7 +16,7 @@ namespace AscensionServer
     /// 泛型单例基类
     /// </summary>
     /// <typeparam name="E">泛型约束为当前类的子类</typeparam>
-    public class NHManager : INHManager
+    public class NHManager
     {
         #region Sync
         /// <summary>
@@ -185,6 +185,108 @@ namespace AscensionServer
                     session.SaveOrUpdate(data);
                     transaction.Commit();
                 }
+            }
+        }
+        /// <summary>
+        /// 多条件验证，SQL语句为Like
+        /// </summary>
+        /// <typeparam name="T">需要验证的类型</typeparam>
+        /// <param name="columns">column类对象</param>
+        /// <returns>查询到的对象集合</returns>
+        public virtual IList<T> CriteriaLike<T>(params NHCriteria[] columns) where T : new()
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                ICriteria criteria = session.CreateCriteria(typeof(T));
+                for (int i = 0; i < columns.Length; i++)
+                {
+                    criteria.Add(Restrictions.Like(columns[i].PropertyName, columns[i].Value));
+                }
+                return criteria.List<T>();
+            }
+        }
+        /// <summary>
+        /// 多条件验证，SQL语句为greater than
+        /// </summary>
+        /// <typeparam name="T">需要验证的类型</typeparam>
+        /// <param name="columns">column类对象</param>
+        /// <returns>查询到的对象集合</returns>
+        public virtual IList<T> CriteriaGt<T>(params NHCriteria[] columns) where T : new()
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                ICriteria criteria = session.CreateCriteria(typeof(T));
+                for (int i = 0; i < columns.Length; i++)
+                {
+                    criteria.Add(Restrictions.Gt(columns[i].PropertyName, columns[i].Value));
+                }
+                return criteria.List<T>();
+            }
+        }
+        /// <summary>
+        /// 多条件验证，SQL语句为less than
+        /// </summary>
+        /// <typeparam name="T">需要验证的类型</typeparam>
+        /// <param name="columns">column类对象</param>
+        /// <returns>查询到的对象集合</returns>
+        public virtual IList<T> CriteriaLt<T>(params NHCriteria[] columns) where T : new()
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                ICriteria criteria = session.CreateCriteria(typeof(T));
+                for (int i = 0; i < columns.Length; i++)
+                {
+                    criteria.Add(Restrictions.Lt(columns[i].PropertyName, columns[i].Value));
+                }
+                return criteria.List<T>();
+            }
+        }
+        /// <summary>
+        /// 双参数验证，SQL语句为less than
+        /// </summary>
+        /// <typeparam name="T">需要验证的类型</typeparam>
+        /// <param name="propertyName">参数名</param>
+        /// <param name="otherPropertyName">另一个参数名</param>
+        /// <returns>查询到的对象集合</returns>
+        public virtual IList<T> CriteriaLtProperty<T>(string propertyName, string otherPropertyName) where T : new()
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                ICriteria criteria = session.CreateCriteria(typeof(T));
+                criteria.Add(Restrictions.LtProperty(propertyName, otherPropertyName));
+                return criteria.List<T>();
+            }
+        }
+        /// <summary>
+        ///  双参数验证，SQL语句为not；
+        ///  查询不符合参数的对象集合；
+        /// </summary>
+        /// <typeparam name="T">需要验证的类型</typeparam>
+        /// <param name="propertyName">参数名</param>
+        /// <param name="otherPropertyName">另一个参数名</param>
+        /// <returns>查询到的对象集合</returns>
+        public virtual IList<T> CriteriaNotEqProperty<T>(string propertyName, string otherPropertyName) where T : new()
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                ICriteria criteria = session.CreateCriteria(typeof(T));
+                criteria.Add(Restrictions.NotEqProperty(propertyName, otherPropertyName));
+                return criteria.List<T>();
+            }
+        }
+        /// <summary>
+        /// Return the negation of an expression
+        /// </summary>
+        /// <typeparam name="T">需要验证的类型</typeparam>
+        /// <param name="expression">nhibernate表达式</param>
+        /// <returns>查询到的对象集合</returns>
+        public virtual IList<T> CriteriaNot<T>(ICriterion expression) where T : new()
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                ICriteria criteria = session.CreateCriteria(typeof(T));
+                criteria.Add(Restrictions.Not(expression));
+                return criteria.List<T>();
             }
         }
         #endregion
@@ -357,6 +459,108 @@ namespace AscensionServer
                     await session.SaveOrUpdateAsync(data);
                     transaction.Commit();
                 }
+            }
+        }
+        /// <summary>
+        /// 多条件验证，SQL语句为Like
+        /// </summary>
+        /// <typeparam name="T">需要验证的类型</typeparam>
+        /// <param name="columns">column类对象</param>
+        /// <returns>查询到的对象集合</returns>
+        public async virtual Task<IList<T>> CriteriaLikeAsync<T>(params NHCriteria[] columns) where T : new()
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                ICriteria criteria = session.CreateCriteria(typeof(T));
+                for (int i = 0; i < columns.Length; i++)
+                {
+                    criteria.Add(Restrictions.Like(columns[i].PropertyName, columns[i].Value));
+                }
+                return await criteria.ListAsync<T>();
+            }
+        }
+        /// <summary>
+        /// 多条件验证，SQL语句为greater than
+        /// </summary>
+        /// <typeparam name="T">需要验证的类型</typeparam>
+        /// <param name="columns">column类对象</param>
+        /// <returns>查询到的对象集合</returns>
+        public async virtual Task<IList<T>> CriteriaGtAsync<T>(params NHCriteria[] columns) where T : new()
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                ICriteria criteria = session.CreateCriteria(typeof(T));
+                for (int i = 0; i < columns.Length; i++)
+                {
+                    criteria.Add(Restrictions.Gt(columns[i].PropertyName, columns[i].Value));
+                }
+                return await criteria.ListAsync<T>();
+            }
+        }
+        /// <summary>
+        /// 多条件验证，SQL语句为less than
+        /// </summary>
+        /// <typeparam name="T">需要验证的类型</typeparam>
+        /// <param name="columns">column类对象</param>
+        /// <returns>查询到的对象集合</returns>
+        public async virtual Task<IList<T>> CriteriaLtAsync<T>(params NHCriteria[] columns) where T : new()
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                ICriteria criteria = session.CreateCriteria(typeof(T));
+                for (int i = 0; i < columns.Length; i++)
+                {
+                    criteria.Add(Restrictions.Lt(columns[i].PropertyName, columns[i].Value));
+                }
+                return await criteria.ListAsync<T>();
+            }
+        }
+        /// <summary>
+        /// 双参数验证，SQL语句为less than
+        /// </summary>
+        /// <typeparam name="T">需要验证的类型</typeparam>
+        /// <param name="propertyName">参数名</param>
+        /// <param name="otherPropertyName">另一个参数名</param>
+        /// <returns>查询到的对象集合</returns>
+        public async virtual Task<IList<T>> CriteriaLtPropertyAsync<T>(string propertyName, string otherPropertyName) where T : new()
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                ICriteria criteria = session.CreateCriteria(typeof(T));
+                criteria.Add(Restrictions.LtProperty(propertyName, otherPropertyName));
+                return await criteria.ListAsync<T>();
+            }
+        }
+        /// <summary>
+        ///  双参数验证，SQL语句为not；
+        ///  查询不符合参数的对象集合；
+        /// </summary>
+        /// <typeparam name="T">需要验证的类型</typeparam>
+        /// <param name="propertyName">参数名</param>
+        /// <param name="otherPropertyName">另一个参数名</param>
+        /// <returns>查询到的对象集合</returns>
+        public async virtual Task<IList<T>> CriteriaNotEqPropertyAsync<T>(string propertyName, string otherPropertyName) where T : new()
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                ICriteria criteria = session.CreateCriteria(typeof(T));
+                criteria.Add(Restrictions.NotEqProperty(propertyName, otherPropertyName));
+                return await criteria.ListAsync<T>();
+            }
+        }
+        /// <summary>
+        /// Return the negation of an expression
+        /// </summary>
+        /// <typeparam name="T">需要验证的类型</typeparam>
+        /// <param name="expression">nhibernate表达式</param>
+        /// <returns>查询到的对象集合</returns>
+        public async virtual Task<IList<T>> CriteriaNotAsync<T>(ICriterion expression) where T : new()
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                ICriteria criteria = session.CreateCriteria(typeof(T));
+                criteria.Add(Restrictions.Not(expression));
+                return await criteria.ListAsync<T>();
             }
         }
         #endregion
