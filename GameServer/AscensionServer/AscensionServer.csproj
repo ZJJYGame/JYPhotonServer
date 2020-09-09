@@ -177,9 +177,9 @@
     <Compile Include="Ascension\Core\Base\Actor\ActorTypeEnum.cs" />
     <Compile Include="Ascension\Core\Base\EventCore\OpCodeEventCore.cs" />
     <Compile Include="Ascension\Core\Base\Input\IInputData.cs" />
-    <Compile Include="Ascension\Core\Base\Peer\IPeer.cs" />
-    <Compile Include="Ascension\Core\Base\Peer\PeerEntity.cs" />
-    <Compile Include="Ascension\Core\Base\Peer\PeerManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Peer\IPeer.cs" />
+    <Compile Include="Ascension\Core\RunTime\Peer\PeerEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\Peer\PeerManager.cs" />
     <Compile Include="Ascension\Core\Base\Role\IRole.cs" />
     <Compile Include="Ascension\Core\Base\Role\RoleEntity.cs" />
     <Compile Include="Ascension\Core\Base\Variable\IKeyValue.cs" />
