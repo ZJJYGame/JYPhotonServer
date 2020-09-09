@@ -34,7 +34,9 @@ namespace AscensionServer
             List<NHCriteria> NHCriterias = new List<NHCriteria>();
             Utility.Debug.LogInfo("进来的查找所有成员的数据 ");
             NHCriteria nHCriteriallianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceObj.AllianceID);
+            NHCriterias.Add(nHCriteriallianceMember);
             NHCriteria nHCriterialliancer = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", allianceObj.AllianceID);
+            NHCriterias.Add(nHCriterialliancer);
             var allianceMemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceMember>(nHCriteriallianceMember).Result;
             var allianceStatusTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceStatus>(nHCriterialliancer).Result;
             List<int> applyList = new List<int>();
@@ -69,8 +71,11 @@ namespace AscensionServer
                         applyList.Remove(roleidList[i]);
 
                         memberList.Add(roleidList[i]);
-                        RoleAllianceSkill roleAllianceSkill = new RoleAllianceSkill() { RoleID = roleAllianceTemp.RoleID };
-                        await ConcurrentSingleton<NHManager>.Instance.InsertAsync(roleAllianceSkill);
+                        if (ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAllianceSkill>(nHCriteriRoleAlliance).Result==null)
+                        {
+                            RoleAllianceSkill roleAllianceSkill = new RoleAllianceSkill() { RoleID = roleAllianceTemp.RoleID };
+                            await ConcurrentSingleton<NHManager>.Instance.InsertAsync(roleAllianceSkill);
+                        }
                     }
                 }
                 allianceMemberTemp.ApplyforMember = Utility.Json.ToJson(applyList);

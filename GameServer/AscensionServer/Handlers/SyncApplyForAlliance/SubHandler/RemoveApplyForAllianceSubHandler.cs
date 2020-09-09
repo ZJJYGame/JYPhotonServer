@@ -21,7 +21,7 @@ namespace AscensionServer
             base.OnInitialization();
         }
 
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
 
@@ -55,7 +55,7 @@ namespace AscensionServer
                     var roleApplyList = Utility.Json.ToObject<List<int>>(roleAllianceTemp.ApplyForAlliance);
                     roleApplyList.Remove(allianceObj.AllianceID);
                     roleAllianceTemp.ApplyForAlliance = Utility.Json.ToJson(roleApplyList);
-                    ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAllianceTemp);
+                  await   ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAllianceTemp);
 
 
                     Utility.Debug.LogError("进来的查找所有成员的数据 " + roleidList[i]);
@@ -63,7 +63,7 @@ namespace AscensionServer
                 }
             }
             alliancememberTemp.ApplyforMember=Utility.Json.ToJson(applyList);
-            ConcurrentSingleton<NHManager>.Instance.UpdateAsync(alliancememberTemp);
+          await  ConcurrentSingleton<NHManager>.Instance.UpdateAsync(alliancememberTemp);
             SetResponseData(() =>
             {
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;

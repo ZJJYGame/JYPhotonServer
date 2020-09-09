@@ -20,7 +20,7 @@ namespace AscensionServer
             base.OnInitialization();
         }
 
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
             string roleallianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAlliance));
@@ -35,19 +35,19 @@ namespace AscensionServer
                 {
                     var alliancestatus = AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", roleallianceTemp.AllianceID);
                     alliancestatus.AllianceNumberPeople -= 1;
-                    ConcurrentSingleton<NHManager>.Instance.UpdateAsync(alliancestatus);
+                  await  ConcurrentSingleton<NHManager>.Instance.UpdateAsync(alliancestatus);
                     NHCriteria nHCriteriaAlliances = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", roleallianceTemp.AllianceID);
                     var allianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceMember>(nHCriteriaAlliances).Result;
                     memberlist = Utility.Json.ToObject<List<int>>(allianceTemp.Member);
                     memberlist.Remove(roleallianceObj.RoleID);
                     allianceTemp.Member = Utility.Json.ToJson(memberlist);
-                    ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceTemp);
+                  await  ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceTemp);
                     roleallianceTemp.AllianceJob = 50;
                     roleallianceTemp.AllianceID = 0;
                     roleallianceTemp.Reputation = 0;
                     roleallianceTemp.ReputationHistroy = 0;
                     roleallianceTemp.ReputationMonth = 0;
-                    ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleallianceTemp);
+                  await   ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleallianceTemp);
 
                     RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { AllianceID = roleallianceTemp.AllianceID, AllianceJob = roleallianceTemp.AllianceJob, JoinTime = roleallianceTemp.JoinTime, ApplyForAlliance = Utility.Json.ToObject<List<int>>(roleallianceTemp.ApplyForAlliance), JoinOffline = roleallianceTemp.JoinOffline, Reputation = roleallianceTemp.Reputation, ReputationHistroy = roleallianceTemp.ReputationHistroy, ReputationMonth = roleallianceTemp.ReputationMonth, RoleID = roleallianceTemp.RoleID, RoleName = roleallianceTemp.RoleName };
                     SetResponseData(() =>
