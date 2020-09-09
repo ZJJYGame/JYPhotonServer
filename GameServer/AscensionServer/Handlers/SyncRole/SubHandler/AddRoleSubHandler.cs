@@ -193,7 +193,7 @@ namespace AscensionServer
                 ConcurrentSingleton<NHManager>.Instance.Insert(new RoleSchool() { RoleID = rolestatus.RoleID, RoleJoiningSchool = school.ID, RoleJoinedSchool = 0 });
                 #endregion
                 #region 仙盟
-                RoleAlliance roleAlliance = new RoleAlliance() { RoleID = rolestatus.RoleID, RoleName = role.RoleName,ApplyForAlliance=Utility.Json.ToJson(new List<int>()) };
+                RoleAlliance roleAlliance = new RoleAlliance() { RoleID = rolestatus.RoleID, RoleName = role.RoleName,ApplyForAlliance=Utility.Json.ToJson(new List<int>()) ,RoleSchool=900};
                 ConcurrentSingleton<NHManager>.Instance.Insert(roleAlliance);
                 #endregion
                 var userRoleJson = Utility.Json.ToJson(roleList);

@@ -22,15 +22,17 @@ namespace AscensionServer
             base.OnInitialization();
         }
 
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
             string roleAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ApplyForAlliance));
             var roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(roleAllianceJson);
             Utility.Debug.LogInfo("收到的加入仙盟的请求"+ roleAllianceJson);
             NHCriteria nHCriteriaroleAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleAllianceObj.RoleID);
-            var roleAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriaroleAlliance);
+            var roleAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriaroleAlliance).Result;
             List<int> applyList = new List<int>();
+            List<NHCriteria> NHCriterias = new List<NHCriteria>();
+            NHCriterias.Add(nHCriteriaroleAlliance);
             if (!string.IsNullOrEmpty(roleAllianceTemp.ApplyForAlliance))
             {
                 applyList = Utility.Json.ToObject<List<int>>(roleAllianceTemp.ApplyForAlliance);
@@ -44,13 +46,14 @@ namespace AscensionServer
 
                         applyList.Add(roleAllianceObj.ApplyForAlliance[i]);
                         roleAllianceTemp.ApplyForAlliance = Utility.Json.ToJson(applyList);
-                        ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAllianceTemp);
+                     await   ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAllianceTemp);
                         NHCriteria nHCriteriaroleAllianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", roleAllianceObj.ApplyForAlliance[i]);
-                        var allianceMemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceMember>(nHCriteriaroleAllianceMember);
+                        NHCriterias.Add(nHCriteriaroleAllianceMember);
+                        var allianceMemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceMember>(nHCriteriaroleAllianceMember).Result;
                         var applyer = Utility.Json.ToObject<List<int>>(allianceMemberTemp.ApplyforMember);
                         applyer.Add(roleAllianceObj.RoleID);
                         allianceMemberTemp.ApplyforMember = Utility.Json.ToJson(applyer);
-                        ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceMemberTemp);
+                      await  ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceMemberTemp);
                     }
 
 
@@ -62,8 +65,8 @@ namespace AscensionServer
                     });
                 }
             }
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-
+            peer.SendOperationResponse(Owner.OpResponse, sendParameters); 
+            GameManager.ReferencePoolManager.Despawns(NHCriterias);
         }
     }
 }

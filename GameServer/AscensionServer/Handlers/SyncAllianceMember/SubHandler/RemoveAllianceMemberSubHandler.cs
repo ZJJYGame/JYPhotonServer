@@ -22,14 +22,14 @@ namespace AscensionServer
         }
 
 
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
             string allianceMemberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
             var allianceMemberObj = Utility.Json.ToObject<AllianceMemberDTO>(allianceMemberJson);
 
             NHCriteria nHCriteriallianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceMemberObj.AllianceID);
-            var allianceMemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceMember>(nHCriteriallianceMember);
+            var allianceMemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceMember>(nHCriteriallianceMember).Result;
 
             #region 待删
             List<NHCriteria> nHCriterias = new List<NHCriteria>();
@@ -46,16 +46,16 @@ namespace AscensionServer
 
                         var alliancestatus = AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", allianceMemberObj.AllianceID);
                         alliancestatus.AllianceNumberPeople -=1;
-                        ConcurrentSingleton<NHManager>.Instance.UpdateAsync(alliancestatus);
-                        var MemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriMember);
+                       await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(alliancestatus);
+                        var MemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriMember).Result;
                         MemberTemp.AllianceID = 0;
                         MemberTemp.AllianceJob = 50;
-                        ConcurrentSingleton<NHManager>.Instance.UpdateAsync(MemberTemp);
+                     await   ConcurrentSingleton<NHManager>.Instance.UpdateAsync(MemberTemp);
 
                         memberlist = Utility.Json.ToObject<List<int>>(allianceMemberTemp.Member);
                         memberlist.Remove(allianceMemberObj.Member[i]);
                         allianceMemberTemp.Member = Utility.Json.ToJson(memberlist);
-                        ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceMemberTemp);
+                     await   ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceMemberTemp);
                         SetResponseData(() =>
                         {
                             Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;

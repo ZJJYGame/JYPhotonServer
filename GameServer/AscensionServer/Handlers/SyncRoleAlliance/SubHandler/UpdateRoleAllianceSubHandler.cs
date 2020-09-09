@@ -20,7 +20,7 @@ namespace AscensionServer
         }
 
 
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public async  override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
             string roleallianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAlliance));
@@ -37,7 +37,7 @@ namespace AscensionServer
                 roleallianceTemp.AllianceJob = roleallianceObj.AllianceJob;
                 if (roleallianceTemp.Reputation >= 0 && roleallianceTemp.ReputationHistroy >= 0 && roleallianceTemp.ReputationMonth >= 0)
                 {
-                    ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleallianceTemp);
+                   await   ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleallianceTemp);
 
                     RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() {RoleID= roleallianceTemp.RoleID,AllianceID= roleallianceTemp.AllianceID,JoinOffline= roleallianceTemp.JoinOffline,AllianceJob= roleallianceTemp.AllianceJob,ApplyForAlliance= Utility.Json.ToObject<List<int>>(roleallianceTemp.ApplyForAlliance),JoinTime= roleallianceTemp.JoinTime,Reputation= roleallianceTemp.Reputation,ReputationHistroy= roleallianceTemp.ReputationHistroy,ReputationMonth= roleallianceTemp.ReputationMonth,RoleName= roleallianceTemp.RoleName,RoleSchool= roleallianceTemp.RoleSchool };
 
