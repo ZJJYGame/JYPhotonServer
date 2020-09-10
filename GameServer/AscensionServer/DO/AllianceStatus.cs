@@ -22,7 +22,7 @@ namespace AscensionServer.Model
             AllianceLevel =1;
             AllianceNumberPeople = 1;
             AlliancePeopleMax = 100;
-            Popularity = 0;
+            Popularity =500;
         }
 
 

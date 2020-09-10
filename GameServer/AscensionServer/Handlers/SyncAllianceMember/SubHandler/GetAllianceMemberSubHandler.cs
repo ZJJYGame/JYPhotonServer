@@ -21,13 +21,13 @@ namespace AscensionServer
             base.OnInitialization();
         }
 
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
             string allianceMemberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
             var allianceMemberObj = Utility.Json.ToObject<AllianceMemberDTO>(allianceMemberJson);
             NHCriteria nHCriteriallianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceMemberObj.AllianceID);
-            var allianceMemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceMember>(nHCriteriallianceMember);
+            var allianceMemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceMember>(nHCriteriallianceMember).Result;
             Utility.Debug.LogInfo("发送的仙盟的所有成员" + allianceMemberTemp.Member);
             List<int> memberList = new List<int>();
             List<RoleAllianceDTO> allianceMembers = new List<RoleAllianceDTO>();
@@ -42,9 +42,10 @@ namespace AscensionServer
                         NHCriteria nHCriteriMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", memberList[i]);
                         nHCriterias.Add(nHCriteriMember);
                        var RoleSchol= AlliancelogicManager.Instance.GetNHCriteria<RoleSchool>("RoleID", memberList[i]);
+                        var Role = AlliancelogicManager.Instance.GetNHCriteria<Role>("RoleID", memberList[i]);
                         var School = AlliancelogicManager.Instance.GetNHCriteria<School>("ID", RoleSchol.RoleJoiningSchool);
-                        var MemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriMember);
-                        RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { AllianceID = MemberTemp.AllianceID, AllianceJob = MemberTemp.AllianceJob, JoinTime = MemberTemp.JoinTime, ApplyForAlliance = Utility.Json.ToObject<List<int>>(MemberTemp.ApplyForAlliance), JoinOffline = MemberTemp.JoinOffline, Reputation = MemberTemp.Reputation, ReputationHistroy = MemberTemp.ReputationHistroy, ReputationMonth = MemberTemp.ReputationMonth, RoleID = MemberTemp.RoleID, RoleName = MemberTemp.RoleName,RoleSchool= School.SchoolID};
+                        var MemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriMember).Result;
+                        RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { AllianceID = MemberTemp.AllianceID, AllianceJob = MemberTemp.AllianceJob, JoinTime = MemberTemp.JoinTime, ApplyForAlliance = Utility.Json.ToObject<List<int>>(MemberTemp.ApplyForAlliance), JoinOffline = MemberTemp.JoinOffline, Reputation = MemberTemp.Reputation, ReputationHistroy = MemberTemp.ReputationHistroy, ReputationMonth = MemberTemp.ReputationMonth, RoleID = MemberTemp.RoleID, RoleName = MemberTemp.RoleName,RoleSchool= School.SchoolID,RoleLevel= Role .RoleLevel};
                         allianceMembers.Add(roleAllianceDTO);
                     }
 

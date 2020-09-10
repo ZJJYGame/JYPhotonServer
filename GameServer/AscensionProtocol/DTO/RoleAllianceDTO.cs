@@ -20,6 +20,7 @@ namespace AscensionProtocol.DTO
         public virtual string RoleName { get; set; }
         public virtual List<int>ApplyForAlliance { get; set; }
         public virtual int RoleSchool { get; set; }
+        public virtual int RoleLevel { get; set; }
         public override void Clear()
         {
             RoleID = -1;
@@ -33,6 +34,7 @@ namespace AscensionProtocol.DTO
             RoleName = null;
             ApplyForAlliance = null;
             RoleSchool = 0;
+            RoleLevel = 0;
         }
     }
 }

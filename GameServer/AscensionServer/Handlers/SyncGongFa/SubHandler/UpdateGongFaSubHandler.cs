@@ -16,7 +16,7 @@ namespace AscensionServer
             SubOpCode = SubOperationCode.Update;
             //base.OnInitialization();
         }
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public async  override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             ResetResponseData(operationRequest);
             var receivedRoleData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
@@ -47,16 +47,17 @@ namespace AscensionServer
                             intInfoObj = GongfaInfoExp.CultivationMethodExp + receivedObj.CultivationMethodExp;
                             intLevel = GongfaInfoExp.CultivationMethodLevel + receivedObj.CultivationMethodLevel;
                             ConcurrentSingleton<NHManager>.Instance.Update(new CultivationMethod() { ID = GongfaInfoExp.ID, CultivationMethodID = GongfaInfoExp.CultivationMethodID, CultivationMethodLevel = (short)intLevel, CultivationMethodLevelSkillArray = GongfaInfoExp.CultivationMethodLevelSkillArray, CultivationMethodExp = intInfoObj });
+                            Role role= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Role>(nHCriteriaRoleID);
+                            role.RoleLevel= intLevel;
+                          await  ConcurrentSingleton<NHManager>.Instance.UpdateAsync(role);
                         }
                         else
                         {
                             intInfoObj = GongfaInfoExp.CultivationMethodExp + receivedObj.CultivationMethodExp;
                             ConcurrentSingleton<NHManager>.Instance.Update(new CultivationMethod() { ID = GongfaInfoExp.ID, CultivationMethodID = GongfaInfoExp.CultivationMethodID, CultivationMethodLevel = GongfaInfoExp.CultivationMethodLevel, CultivationMethodLevelSkillArray = GongfaInfoExp.CultivationMethodLevelSkillArray, CultivationMethodExp = intInfoObj });
-
                         }
                     }
-                }
-               
+                }             
                 Owner.OpResponse.Parameters = Owner.ResponseData;
                 Owner. OpResponse.ReturnCode = (short)ReturnCode.Success;
             }
