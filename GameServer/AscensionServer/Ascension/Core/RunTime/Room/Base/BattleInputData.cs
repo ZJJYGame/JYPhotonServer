@@ -45,6 +45,10 @@ namespace AscensionServer
         /// 目标ID
         /// </summary>
         public int TargetID { get; set; }
+        /// <summary>
+        /// 目标的全局ID
+        /// </summary>
+        public int TargetGlobalID { get; set; }
 
     }
 }
