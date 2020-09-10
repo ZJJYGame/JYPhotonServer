@@ -106,8 +106,8 @@ namespace AscensionProtocol
         /// </summary>
         SyncRoleAuctionItems =51,
         SyncRoleAllianceSkill=53,
-        SyncRoleAlliaanceCave=54,
-        SyncRoleAlliaanceAlchemy = 55,
+        SyncRoleAllianceCave=54,
+        SyncRoleAllianceAlchemy = 55,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>
