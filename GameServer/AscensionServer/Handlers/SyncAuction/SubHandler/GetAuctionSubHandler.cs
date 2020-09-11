@@ -46,28 +46,31 @@ namespace AscensionServer
             {
                 Utility.Debug.LogInfo("redis拍卖行索引表存在该ID");
                 result = RedisHelper.Hash.HashGet<List<AuctionGoodsIndex>>("AuctionIndex", auctionGoodsID.ToString());
-                
-                if (startIndex >= result.Count)
-                    return;
-                for (int i = 0; i < result.Count; i++)
+                Utility.Debug.LogInfo("sdsfa");
+                if (startIndex < result.Count)
                 {
-                    string auctionGoodsJson = RedisHelper.String.StringGetAsync("AuctionGoods_"+result[i].RedisKey).Result;
-                    if (auctionGoodsJson != null)
+                    Utility.Debug.LogInfo(11111);
+                    for (int i = 0; i < result.Count; i++)
                     {
-                        auctionGoodsDTOList.Add(RedisHelper.Hash.HashGetAsync<AuctionGoodsDTO>("AuctionGoodsData", result[i].RedisKey).Result);
-                        newResult.Add(result[i]);
+                        string auctionGoodsJson = RedisHelper.String.StringGetAsync("AuctionGoods_" + result[i].RedisKey).Result;
+                        if (auctionGoodsJson != null)
+                        {
+                            auctionGoodsDTOList.Add(RedisHelper.Hash.HashGetAsync<AuctionGoodsDTO>("AuctionGoodsData", result[i].RedisKey).Result);
+                            newResult.Add(result[i]);
+                        }
                     }
-                }
-                RedisHelper.Hash.HashSetAsync<List<AuctionGoodsIndex>>("AuctionIndex", auctionGoodsID.ToString(),newResult);
-                goodsCount = newResult.Count;
-
-                if (startIndex+count <= goodsCount)
-                {
-                    resultAuctionGoodsDTOList = auctionGoodsDTOList.GetRange(startIndex, count);
-                }
-                else
-                {
-                    resultAuctionGoodsDTOList = auctionGoodsDTOList.GetRange(startIndex, goodsCount-startIndex);
+                    Utility.Debug.LogInfo(22222);
+                    RedisHelper.Hash.HashSetAsync<List<AuctionGoodsIndex>>("AuctionIndex", auctionGoodsID.ToString(), newResult);
+                    Utility.Debug.LogInfo(33333);
+                    goodsCount = newResult.Count;
+                    if (startIndex + count <= goodsCount)
+                    {
+                        resultAuctionGoodsDTOList = auctionGoodsDTOList.GetRange(startIndex, count);
+                    }
+                    else
+                    {
+                        resultAuctionGoodsDTOList = auctionGoodsDTOList.GetRange(startIndex, goodsCount - startIndex);
+                    }
                 }
                 //todo发送数据更改
             }
