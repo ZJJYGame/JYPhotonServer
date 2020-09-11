@@ -20,7 +20,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -173,6 +173,7 @@
     <Compile Include="AlliancelogicManager\AlliancelogicManager.cs" />
     <Compile Include="AreaHandlers\EnterAdventureSceneHandler.cs" />
     <Compile Include="AreaHandlers\ExitAdventureSceneHandler.cs" />
+    <Compile Include="Ascension\AscensionServer.Team.cs" />
     <Compile Include="Ascension\Core\Base\Actor\ActorManager.cs" />
     <Compile Include="Ascension\Core\Base\Actor\ActorTypeEnum.cs" />
     <Compile Include="Ascension\Core\Base\EventCore\OpCodeEventCore.cs" />

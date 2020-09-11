@@ -103,6 +103,7 @@
     <Compile Include="DTO\SpiritualRunesDTO.cs" />
     <Compile Include="DTO\SutrasAtticDTO.cs" />
     <Compile Include="DTO\TacticFormationDTO.cs" />
+    <Compile Include="DTO\TeamDTO.cs" />
     <Compile Include="DTO\TemporaryRingDTO.cs" />
     <Compile Include="DTO\TransformDTO.cs" />
     <Compile Include="DTO\TreasureatticDTO.cs" />

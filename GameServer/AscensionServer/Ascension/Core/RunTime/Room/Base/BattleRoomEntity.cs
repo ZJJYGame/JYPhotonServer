@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Cosmos;
 namespace AscensionServer
 {
     /// <summary>
@@ -15,6 +15,18 @@ namespace AscensionServer
     public class BattleRoomEntity:RoomEntity
     {
         ConcurrentBag<RoomBattleInputC2S> inputCmdQueue = new ConcurrentBag<RoomBattleInputC2S>();
+
+        //战斗指令
+        /// <summary>
+        /// 1.功法/秘术
+        /// 2.法宝
+        /// 3.道具
+        /// 4.捕捉
+        /// 5.逃跑
+        /// </summary>
+       
+
+
         public override void Clear()
         {
             base.Clear();
