@@ -62,8 +62,8 @@ namespace AscensionServer
                         //roleAllianceTemp.JoinOffline =
                         roleAllianceTemp.ApplyForAlliance = "[]";
                        await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAllianceTemp);
-
-                        RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { RoleID = roleAllianceTemp.RoleID, ApplyForAlliance = new List<int>(), AllianceID = roleAllianceTemp.AllianceID, ReputationHistroy = roleAllianceTemp.ReputationHistroy, AllianceJob = roleAllianceTemp.AllianceJob, JoinOffline = roleAllianceTemp.JoinOffline, JoinTime = roleAllianceTemp.JoinTime, Reputation = roleAllianceTemp.Reputation, ReputationMonth = roleAllianceTemp.ReputationMonth, RoleName = roleAllianceTemp.RoleName,RoleSchool= roleAllianceTemp.RoleSchool };
+                        var Role = AlliancelogicManager.Instance.GetNHCriteria<Role>("RoleID", roleidList[i]);
+                        RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { RoleID = roleAllianceTemp.RoleID, ApplyForAlliance = new List<int>(), AllianceID = roleAllianceTemp.AllianceID, ReputationHistroy = roleAllianceTemp.ReputationHistroy, AllianceJob = roleAllianceTemp.AllianceJob, JoinOffline = roleAllianceTemp.JoinOffline, JoinTime = roleAllianceTemp.JoinTime, Reputation = roleAllianceTemp.Reputation, ReputationMonth = roleAllianceTemp.ReputationMonth, RoleName = roleAllianceTemp.RoleName,RoleSchool= roleAllianceTemp.RoleSchool ,RoleLevel= Role .RoleLevel};
                         roleAllianceDTOs.Add(roleAllianceDTO);
 
                         allianceStatusTemp.AllianceNumberPeople++;

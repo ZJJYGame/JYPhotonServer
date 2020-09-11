@@ -10,7 +10,7 @@ using AscensionServer.Model;
 using Cosmos;
 using RedisDotNet;
 using StackExchange.Redis;
-
+using NHibernate.Criterion;
 namespace AscensionServer
 {
     public class VerifyImmortalsAllianceHandler : SyncImmortalsAllianceSubHandler
@@ -28,15 +28,15 @@ namespace AscensionServer
             string alliancestatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ImmortalsAlliance));
             var alliancestatusObj = Utility.Json.ToObject<AllianceStatusDTO>
                 (alliancestatusJson);
-            NHCriteria nHCriteriaAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", alliancestatusObj.ID);
-            var allianceIDObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceStatus>(nHCriteriaAlliance);
             List<AllianceStatusDTO> allianceStatusDTOs = new List<AllianceStatusDTO>();
-
-            if (allianceIDObj==null)
+            List<NHCriteria> nHCriterias = new List<NHCriteria>();
+            if (alliancestatusObj.ID==0)
             {
                 NHCriteria nHCriteriaAllianceName = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceName", alliancestatusObj.AllianceName);
-                var allianceNameObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceStatus>(nHCriteriaAllianceName);
-                if (allianceNameObj == null)
+                nHCriterias.Add(nHCriteriaAllianceName);
+                var allianceNameObj = ConcurrentSingleton<NHManager>.Instance.CriteriaLikeAsync<AllianceStatus>(nHCriteriaAllianceName, MatchMode.Anywhere).Result;
+                Utility.Debug.LogError("1查询获得MySQL的数据" + allianceNameObj.Count);
+                if (allianceNameObj.Count == 0)
                 {
                     SetResponseData(() =>
                     {
@@ -45,30 +45,132 @@ namespace AscensionServer
                 }
                 else
                 {
-                    AllianceStatusDTO allianceStatusDTO = new AllianceStatusDTO() { ID = allianceNameObj.ID, AllianceLevel = allianceNameObj.AllianceLevel, AllianceMaster = allianceNameObj.AllianceMaster, AllianceName = allianceNameObj.AllianceName, AllianceNumberPeople = allianceNameObj.AllianceNumberPeople, AlliancePeopleMax = allianceNameObj.AlliancePeopleMax, Manifesto = allianceNameObj.Manifesto, Popularity = allianceNameObj.Popularity };
-                    allianceStatusDTOs.Add(allianceStatusDTO);
+                    for (int i = 0; i < allianceNameObj.Count; i++)
+                    {
+                        AllianceStatusDTO allianceStatusDTO = GameManager.ReferencePoolManager.Spawn<AllianceStatusDTO>();
+                        allianceStatusDTO.ID = allianceNameObj[i].ID;
+                        allianceStatusDTO.AllianceLevel = allianceNameObj[i].AllianceLevel;
+                        allianceStatusDTO.AllianceMaster = allianceNameObj[i].AllianceMaster;
+                        allianceStatusDTO.AllianceName = allianceNameObj[i].AllianceName;
+                        allianceStatusDTO.AlliancePeopleMax = allianceNameObj[i].AlliancePeopleMax;
+                        allianceStatusDTO.AllianceNumberPeople = allianceNameObj[i].AllianceNumberPeople;
+                        allianceStatusDTO.Manifesto = allianceNameObj[i].Manifesto;
+                        allianceStatusDTO.Popularity = allianceNameObj[i].Popularity;
+                        allianceStatusDTOs.Add(allianceStatusDTO);
+
+                    }
                     SetResponseData(() =>
                     {
                         Utility.Debug.LogInfo("发送的所有仙盟列表" + Utility.Json.ToJson(allianceStatusDTOs));
                         SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(allianceStatusDTOs));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
-                    GameManager.ReferencePoolManager.Despawns(nHCriteriaAllianceName);
                 }
             }
             else
             {
-                AllianceStatusDTO allianceStatusDTO = new AllianceStatusDTO() { ID = allianceIDObj.ID, AllianceLevel = allianceIDObj.AllianceLevel, AllianceMaster = allianceIDObj.AllianceMaster, AllianceName = allianceIDObj.AllianceName, AllianceNumberPeople = allianceIDObj.AllianceNumberPeople, AlliancePeopleMax = allianceIDObj.AlliancePeopleMax, Manifesto = allianceIDObj.Manifesto, Popularity = allianceIDObj.Popularity };
-                allianceStatusDTOs.Add(allianceStatusDTO);
-                SetResponseData(() =>
+
+                NHCriteria nHCriteriaAllianceID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", alliancestatusObj.ID);
+                nHCriterias.Add(nHCriteriaAllianceID);
+                var allianceIDObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceStatus>(nHCriteriaAllianceID).Result;
+                Utility.Debug.LogError("1搜索的是仙盟名字不是id");
+                if (allianceIDObj == null)
                 {
-                    Utility.Debug.LogInfo("发送的所有仙盟列表" + Utility.Json.ToJson(allianceStatusDTOs));
-                    SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(allianceStatusDTOs));
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
-                });
+                    Utility.Debug.LogError("2搜索的是仙盟名字不是id");
+                    NHCriteria nHCriteriaAllianceName = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceName", alliancestatusObj.AllianceName.ToString());
+                    nHCriterias.Add(nHCriteriaAllianceName);
+                    var allianceNameObj = ConcurrentSingleton<NHManager>.Instance.CriteriaLikeAsync<AllianceStatus>(nHCriteriaAllianceName, MatchMode.Anywhere).Result;
+                    //Utility.Debug.LogError("1查询获得MySQL的数据" + allianceNameObj[0].AllianceName + "%%" + allianceNameObj[2].AllianceName + "**" + "查询获得MySQL的数据长度" + allianceNameObj.Count);
+                    if (allianceNameObj.Count == 0)
+                    {
+                        SetResponseData(() =>
+                        {
+                            Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                        });
+                    }
+                    else
+                    {
+                        for (int i = 0; i < allianceNameObj.Count; i++)
+                        {
+                            AllianceStatusDTO allianceStatusDTO = GameManager.ReferencePoolManager.Spawn<AllianceStatusDTO>();
+                            allianceStatusDTO.ID = allianceNameObj[i].ID;
+                            allianceStatusDTO.AllianceLevel = allianceNameObj[i].AllianceLevel;
+                            allianceStatusDTO.AllianceMaster = allianceNameObj[i].AllianceMaster;
+                            allianceStatusDTO.AllianceName = allianceNameObj[i].AllianceName;
+                            allianceStatusDTO.AllianceNumberPeople = allianceNameObj[i].AllianceNumberPeople;
+                            allianceStatusDTO.AlliancePeopleMax = allianceNameObj[i].AlliancePeopleMax;
+                            allianceStatusDTO.Manifesto = allianceNameObj[i].Manifesto;
+                            allianceStatusDTO.Popularity = allianceNameObj[i].Popularity;
+                            allianceStatusDTOs.Add(allianceStatusDTO);
+
+                        }
+                        SetResponseData(() =>
+                        {
+                            Utility.Debug.LogInfo("发送的所有仙盟列表" + Utility.Json.ToJson(allianceStatusDTOs));
+                            SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(allianceStatusDTOs));
+                            Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                        });
+                    }
+                }
+                else
+                {
+
+                    AllianceStatusDTO allianceStatusDTO = GameManager.ReferencePoolManager.Spawn<AllianceStatusDTO>();
+                    allianceStatusDTO.ID = allianceIDObj.ID;
+                    allianceStatusDTO.AllianceLevel = allianceIDObj.AllianceLevel;
+                    allianceStatusDTO.AllianceMaster = allianceIDObj.AllianceMaster;
+                    allianceStatusDTO.AllianceName = allianceIDObj.AllianceName;
+                    allianceStatusDTO.AlliancePeopleMax = allianceIDObj.AlliancePeopleMax;
+                    allianceStatusDTO.AllianceNumberPeople = allianceIDObj.AllianceNumberPeople;
+                    allianceStatusDTO.Manifesto = allianceIDObj.Manifesto;
+                    allianceStatusDTO.Popularity = allianceIDObj.Popularity;
+                    allianceStatusDTOs.Add(allianceStatusDTO);
+
+                    NHCriteria nHCriteriaAllianceName = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceName", alliancestatusObj.AllianceName);
+                    nHCriterias.Add(nHCriteriaAllianceName);
+                    var allianceNameObj = ConcurrentSingleton<NHManager>.Instance.CriteriaLikeAsync<AllianceStatus>(nHCriteriaAllianceName, MatchMode.Anywhere).Result;
+                    Utility.Debug.LogError("3搜索的是仙盟名字不是id");
+                    if (allianceNameObj.Count == 0)
+                    {
+                        SetResponseData(() =>
+                        {
+                            Utility.Debug.LogInfo("发送的所有仙盟列表" + Utility.Json.ToJson(allianceStatusDTOs));
+                            SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(allianceStatusDTOs));
+                            Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                        });
+                    }
+                    else
+                    {
+                        for (int i = 0; i < allianceNameObj.Count; i++)
+                        {
+                            if (allianceStatusDTO.ID!= allianceNameObj[i].ID)
+                            {
+                                AllianceStatusDTO allianceStatusNameDTO = GameManager.ReferencePoolManager.Spawn<AllianceStatusDTO>();
+                                allianceStatusNameDTO.ID = allianceNameObj[i].ID;
+                                allianceStatusNameDTO.AllianceLevel = allianceNameObj[i].AllianceLevel;
+                                allianceStatusNameDTO.AllianceMaster = allianceNameObj[i].AllianceMaster;
+                                allianceStatusNameDTO.AllianceName = allianceNameObj[i].AllianceName;
+                                allianceStatusNameDTO.AlliancePeopleMax = allianceNameObj[i].AlliancePeopleMax;
+                                allianceStatusNameDTO.AllianceNumberPeople = allianceNameObj[i].AllianceNumberPeople;
+                                allianceStatusNameDTO.Manifesto = allianceNameObj[i].Manifesto;
+                                allianceStatusNameDTO.Popularity = allianceNameObj[i].Popularity;
+                                allianceStatusDTOs.Add(allianceStatusNameDTO);
+                            }
+
+                        }
+                        SetResponseData(() =>
+                        {
+                            Utility.Debug.LogInfo("发送的所有仙盟列表" + Utility.Json.ToJson(allianceStatusDTOs));
+                            SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(allianceStatusDTOs));
+                            Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                        });
+                    }
+                }
             }
+          
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
-            GameManager.ReferencePoolManager.Despawns(nHCriteriaAlliance);
+           GameManager.ReferencePoolManager.Despawns(nHCriterias); 
         }
     }
 }
+

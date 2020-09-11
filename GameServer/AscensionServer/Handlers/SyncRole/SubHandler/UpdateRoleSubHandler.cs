@@ -18,7 +18,7 @@ namespace AscensionServer
             base.OnInitialization();
         }
 
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
             string roleJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role));
@@ -31,7 +31,7 @@ namespace AscensionServer
             if (roleTemp != null)
             {
                 roleTemp.RoleLevel = roleObj.RoleLevel;
-                ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleTemp);
+              await  ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleTemp);
                 SetResponseData(() =>
                 {
                     SubDict.Add((byte)ParameterCode.Role, Utility.Json.ToJson(roleTemp));

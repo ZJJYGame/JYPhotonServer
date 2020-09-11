@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using AscensionProtocol;
 namespace AscensionServer
 {
-    public class SyncRoleAlliaanceCaveHandler : Handler
+    public class SyncRoleAllianceCaveHandler : Handler
     {
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncRoleAlliaanceCave;
+            OpCode = OperationCode.SyncRoleAllianceCave;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncRoleAllianceCaveSubHandler>();
         }

@@ -20,6 +20,7 @@ namespace AscensionServer.Model
         public virtual string RoleName { get; set; }
         public virtual string ApplyForAlliance { get; set; }
         public virtual int RoleSchool { get; set; }
+
         public override void Clear()
         {
             RoleID = -1;
@@ -31,18 +32,20 @@ namespace AscensionServer.Model
             JoinTime = null;
             JoinOffline = null;
             ApplyForAlliance = null;
+
             RoleSchool = 0;
         }
         public RoleAlliance()
         {
             RoleID = -1;
             AllianceID = 0;
-            AllianceJob = 0;
+            AllianceJob = 50;
             Reputation = 0;
             ReputationMonth = 0;
             ReputationHistroy = 0;
             JoinTime = null;
             JoinOffline = null;
+ 
             ApplyForAlliance = null;
             RoleSchool = 0;
         }

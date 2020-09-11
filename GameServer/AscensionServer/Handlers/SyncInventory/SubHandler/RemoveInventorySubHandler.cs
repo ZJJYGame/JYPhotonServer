@@ -47,30 +47,37 @@ namespace AscensionServer
                         if (!ServerDic.ContainsKey(client_p.Key))
                         {
                             Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-                            break ;
+                            break;
                         }
                         else
                         {
-                            int NowID = 0;
-                            while (true)
+                            if (ServerDic[client_p.Key].RingItemCount - client_p.Value.RingItemCount > 0)
                             {
-                                var randomNumer = new Random().Next(3001, 4000);
-                                Utility.Debug.LogInfo("<randomNumer>" + randomNumer);
-                                if (client_p.Key.ToString().Length == 6 || client_p.Key.ToString().Length == 7 || client_p.Key.ToString().Length == 8)
-                                    NowID = Int32.Parse(client_p.Key.ToString() + randomNumer.ToString().Substring(0, 3));
-                                else if (client_p.Key.ToString().Length > 8)
-                                    NowID = client_p.Key + randomNumer;
-                                else
-                                    NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
-                                if (!ServerDic.ContainsKey(NowID) && !ServerDictAdorn.ContainsKey(NowID))
+
+                            }
+                            else { 
+                                int NowID = 0;
+                                while (true)
                                 {
-                                    ServerDic = ServerDic.ToDictionary(k => k.Key == client_p.Key ? NowID : k.Key, k => k.Value);
-                                    ServerDic[NowID].RingItemMax = 0;
-                                    ServerDic[NowID].RingItemAdorn = "0";
-                                    break;
+                                    var randomNumer = new Random().Next(3001, 4000);
+                                    Utility.Debug.LogInfo("<randomNumer>" + randomNumer);
+                                    if (client_p.Key.ToString().Length == 6 || client_p.Key.ToString().Length == 7 || client_p.Key.ToString().Length == 8)
+                                        NowID = Int32.Parse(client_p.Key.ToString() + randomNumer.ToString().Substring(0, 3));
+                                    else if (client_p.Key.ToString().Length > 8)
+                                        NowID = client_p.Key + randomNumer;
+                                    else
+                                        NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
+                                    if (!ServerDic.ContainsKey(NowID) && !ServerDictAdorn.ContainsKey(NowID))
+                                    {
+                                        ServerDic = ServerDic.ToDictionary(k => k.Key == client_p.Key ? NowID : k.Key, k => k.Value);
+                                        ServerDic[NowID].RingItemCount = 0;
+                                        ServerDic[NowID].RingItemAdorn = "0";
+                                        break;
+                                    }
                                 }
                             }
                             //ServerDic.Remove(client_p.Key);
+
                         }
                     }
                     ConcurrentSingleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDic), RingMagicDictServer = Utility.Json.ToJson(ServerMagicDic), RingAdorn = Utility.Json.ToJson(ServerDictAdorn) });
@@ -78,10 +85,10 @@ namespace AscensionServer
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
 
-            }else Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+            }
+            else Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID, nHCriteriaRingID);
-
         }
     }
 }
