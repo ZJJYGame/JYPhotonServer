@@ -224,8 +224,8 @@
     <Compile Include="Handlers\SyncRoleAuctionItems\SubHandler\SyncRoleAuctionItemsSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAuctionItems\SyncRoleAuctionItemsHandler.cs" />
     <Compile Include="Handlers\SyncRolePet\SubHandler\UpdateRolePetSubHandler.cs" />
-    <Compile Include="Handlers\SyncRoleStatus\SubHandler\RemoveInventorySubHandler.cs" />
-    <Compile Include="Handlers\SyncRoleStatus\SubHandler\SortingInventorySubHandler.cs" />
+    <Compile Include="Handlers\SyncInventory\SubHandler\RemoveInventorySubHandler.cs" />
+    <Compile Include="Handlers\SyncInventory\SubHandler\SortingInventorySubHandler.cs" />
     <Compile Include="Handlers\SyncWeapon\SubHandler\RemoveWeaponSubHandler.cs" />
     <Compile Include="Helpers\DebugHelper\Log4NetDebugHelper.cs" />
     <Compile Include="DOMap\AlchemyMap.cs" />
