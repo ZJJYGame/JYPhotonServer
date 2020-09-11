@@ -210,9 +210,58 @@ namespace AscensionServer
         /// <param name="roleDTO"></param>
         public void LeaveTeam(RoleDTO roleDTO)
         {
-
+            int teamId = _playerIdToTeamIdDict[roleDTO.RoleID];
+            TeamDTO teamDTO =  _teamTOModel[teamId];
+            if (teamDTO.LeaderId == roleDTO.RoleID)
+            {
+                //队长离开队伍
+                if (teamDTO.TeamMembers.Count > 1)
+                {
+                    _playerIdToTeamIdDict.Remove(roleDTO.RoleID);
+                    //房间还有其他人
+                    teamDTO.TeamMembers.RemoveAt(0);
+                    teamDTO.LeaderId = teamDTO.TeamMembers[0].RoleID;
+                    _playerIdToTeamIdDict.Add(teamDTO.TeamMembers[0].RoleID, teamId);
+                    List<int> teamMemberIdList = new List<int>();
+                    foreach (var dto in teamDTO.TeamMembers)
+                    {
+                        teamMemberIdList.Add(dto.RoleID);
+                    }
+                    //TODO
+                    Utility.Debug.LogInfo(" 你被提升为队长！");
+                    Utility.Debug.LogInfo(" 你离开了队伍！");
+                }
+                else
+                {
+                    //房间只有自己
+                    _playerIdToTeamIdDict.Remove(roleDTO.RoleID);
+                    _oldTeamList.Add(teamDTO.TeamId);
+                    teamDTO.LeaderId = 0;
+                    teamDTO.TeamMembers.Clear();
+                    teamDTO.TeamLevelDown = 0;
+                    teamDTO.TeamLevelUp = 99;
+                    Utility.Debug.LogInfo(" 你离开了队伍！");
+                }
+            }
+            else
+            {
+                //队员离开队伍
+                for (int i = 0; i < teamDTO.TeamMembers.Count; i++)
+                {
+                    if (teamDTO.TeamMembers[i].RoleID == roleDTO.RoleID)
+                    {
+                        teamDTO.TeamMembers.RemoveAt(i);
+                        break;
+                    }
+                }
+                Utility.Debug.LogInfo(" 你离开了队伍！");
+                List<int> teamMemberIdList = new List<int>();
+                foreach (var dto in teamDTO.TeamMembers)
+                {
+                    teamMemberIdList.Add(dto.RoleID);
+                }
+            }
+            GetTeamList(roleDTO);
         }
-
-
     }
 }
