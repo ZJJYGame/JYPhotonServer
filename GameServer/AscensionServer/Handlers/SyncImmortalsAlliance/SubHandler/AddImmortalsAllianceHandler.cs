@@ -44,9 +44,11 @@ namespace AscensionServer
             NHCriteria nHCriteriaroleAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleAllianceObj.RoleID);
             var roleAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriaroleAlliance).Result;
 
+            var roleAssetsTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAssets>(nHCriteriaroleAlliance).Result;
+
 
             #region MySql数据模块
-            if (alliance == null&& allianceMasterObj==null)
+            if (alliance == null&& allianceMasterObj==null&& roleAssetsTemp.SpiritStonesLow>=100000)
             {
                 List<int> gangslist = new List<int>();
                 NHCriteria nHCriteriaAllianceList = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", 1);

@@ -10,7 +10,7 @@ namespace AscensionServer
     {
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncRoleAlliaanceAlchemy;
+            OpCode = OperationCode.SyncRoleAllianceAlchemy;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncAllianceAlchemySubHandler>();
         }

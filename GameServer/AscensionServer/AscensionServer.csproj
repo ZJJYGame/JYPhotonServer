@@ -206,9 +206,12 @@
     <Compile Include="DO\AllianceConstruction.cs" />
     <Compile Include="DO\RoleAllianceSkill.cs" />
     <Compile Include="DO\RoleAuctionItems.cs" />
+    <Compile Include="Handlers\SyncAllianceAlchemy\SubHandler\SyncAllianceAlchemySubHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceAlchemy\SubHandler\UpdateAllianceAlchemySubHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceAlchemy\SyncAllianceAlchemyHandler.cs" />
     <Compile Include="Handlers\SyncAllianceCave\SubHandler\SyncRoleAllianceCaveSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceCave\SubHandler\UpdateRoleAllianceCaveSubHandler.cs" />
-    <Compile Include="Handlers\SyncAllianceCave\SyncRoleAlliaanceCaveHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceCave\SyncRoleAllianceCaveHandler.cs" />
     <Compile Include="Handlers\SyncAllianceConstruction\SubHandler\GetAllianceConstructionSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceConstruction\SubHandler\SyncAllianceConstructionSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceConstruction\SubHandler\UpdateAllianceConstructionSubHandler.cs" />
