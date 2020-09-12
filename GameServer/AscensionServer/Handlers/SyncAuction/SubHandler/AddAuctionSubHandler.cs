@@ -24,6 +24,8 @@ namespace AscensionServer
 
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
+            ResetResponseData(operationRequest);
+
             var dict = ParseSubDict(operationRequest);
             string auctionGoodsJson= Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AddAuctionGoods));;
             var auctionGoodsObj = Utility.Json.ToObject<AuctionGoodsDTO>(auctionGoodsJson);
@@ -80,12 +82,12 @@ namespace AscensionServer
                 RedisHelper.Hash.HashSetAsync("RoleAuctionItems", auctionGoodsObj.RoleID.ToString(), roleAuctionItemList);
             }
 
-           
-            SetResponseData(() =>
-            {
-                SubDict.Add((byte)ParameterCode.AddAuctionGoods, "");
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
-            });
+          
+
+            Owner.ResponseData.Add((byte)ParameterCode.AddAuctionGoods, Utility.Json.ToJson(auctionGoodsObj));
+            Owner.OpResponse.Parameters = Owner.ResponseData;
+            Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
         }
     }
