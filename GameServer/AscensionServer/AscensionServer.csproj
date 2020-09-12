@@ -217,6 +217,9 @@
     <Compile Include="Handlers\SyncAllianceConstruction\SubHandler\SyncAllianceConstructionSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceConstruction\SubHandler\UpdateAllianceConstructionSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceConstruction\SyncAllianceConstructionHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceSignin\SubHandler\SyncAllianceSigninSubHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceSignin\SubHandler\UpdateAllianceSigninSubHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceSignin\SyncAllianceSigninHandler.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\RemoveImmortalsAllianceHandler.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\VerifyImmortalsAllianceHandler.cs" />
     <Compile Include="Handlers\SyncRoleAllianceSkill\SubHandler\GetRoleAllianceSkillSubHandler.cs" />
