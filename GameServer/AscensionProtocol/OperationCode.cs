@@ -127,6 +127,10 @@ namespace AscensionProtocol
         /// </summary>
         MessageQueue =137,
         /// <summary>
+        /// 网关token
+        /// </summary>
+        Token=243,
+        /// <summary>
         /// 心跳
         /// </summary>
         HeartBeat = 244,
