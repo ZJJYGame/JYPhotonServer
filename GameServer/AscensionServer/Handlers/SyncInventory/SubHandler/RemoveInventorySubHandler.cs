@@ -51,29 +51,23 @@ namespace AscensionServer
                         }
                         else
                         {
-                            if (ServerDic[client_p.Key].RingItemCount - client_p.Value.RingItemCount > 0)
+                            int NowID = 0;
+                            while (true)
                             {
-
-                            }
-                            else { 
-                                int NowID = 0;
-                                while (true)
+                                var randomNumer = new Random().Next(3001, 4000);
+                                Utility.Debug.LogInfo("<randomNumer>" + randomNumer);
+                                if (client_p.Key.ToString().Length == 6 || client_p.Key.ToString().Length == 7 || client_p.Key.ToString().Length == 8)
+                                    NowID = Int32.Parse(client_p.Key.ToString() + randomNumer.ToString().Substring(0, 3));
+                                else if (client_p.Key.ToString().Length > 8)
+                                    NowID = client_p.Key + randomNumer;
+                                else
+                                    NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
+                                if (!ServerDic.ContainsKey(NowID) && !ServerDictAdorn.ContainsKey(NowID))
                                 {
-                                    var randomNumer = new Random().Next(3001, 4000);
-                                    Utility.Debug.LogInfo("<randomNumer>" + randomNumer);
-                                    if (client_p.Key.ToString().Length == 6 || client_p.Key.ToString().Length == 7 || client_p.Key.ToString().Length == 8)
-                                        NowID = Int32.Parse(client_p.Key.ToString() + randomNumer.ToString().Substring(0, 3));
-                                    else if (client_p.Key.ToString().Length > 8)
-                                        NowID = client_p.Key + randomNumer;
-                                    else
-                                        NowID = Int32.Parse(client_p.Key.ToString() + randomNumer);
-                                    if (!ServerDic.ContainsKey(NowID) && !ServerDictAdorn.ContainsKey(NowID))
-                                    {
-                                        ServerDic = ServerDic.ToDictionary(k => k.Key == client_p.Key ? NowID : k.Key, k => k.Value);
-                                        ServerDic[NowID].RingItemCount = 0;
-                                        ServerDic[NowID].RingItemAdorn = "0";
-                                        break;
-                                    }
+                                    ServerDic = ServerDic.ToDictionary(k => k.Key == client_p.Key ? NowID : k.Key, k => k.Value);
+                                    ServerDic[NowID].RingItemCount = 0;
+                                    ServerDic[NowID].RingItemAdorn = "0";
+                                    break;
                                 }
                             }
                             //ServerDic.Remove(client_p.Key);

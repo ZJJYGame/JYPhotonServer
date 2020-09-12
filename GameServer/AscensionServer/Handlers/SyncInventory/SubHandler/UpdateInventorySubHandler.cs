@@ -105,12 +105,12 @@ namespace AscensionServer
                                         }
 
                                     }
-                                    else if (firstAdorn != 0 && firstType != 0 && !ServerDictAdorn.ContainsKey(client_p.Key)) ///存在同一位置 同一个id武器
+                                    else if (firstAdorn != 0 && firstType != 0 && !ServerDictAdorn.ContainsKey(client_p.Key)) //(ServerDictAdorn.Keys.ToList().Find(x =>Int32.Parse(x.ToString().Substring(0, 5)) == Int32.Parse(client_p.Key.ToString().Substring(0, 5))) != 0)) ///存在同一位置 同一个id武器
                                     {
                                         Utility.Debug.LogInfo("<存在同一位置 同一个id武器>" + firstType);
                                         if (firstKeyDefault != 0)
                                         {
-                                            ServerDic = ServerDic.ToDictionary(k => k.Key == firstKeyDefault ? firstType : k.Key, k => k.Value);
+                                            //ServerDic = ServerDic.ToDictionary(k => k.Key == firstKeyDefault ? firstType : k.Key, k => k.Value);
                                             if (ServerDic.ContainsKey(client_p.Key))
                                             {
                                                 Utility.Debug.LogInfo("<NowID>" + client_p.Key);
@@ -244,6 +244,7 @@ namespace AscensionServer
                                 Utility.Debug.LogInfo("<服务器的数量小于客户端传过来的数量>");
                             }
                         }
+                        ConcurrentSingleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDic), RingMagicDictServer = Utility.Json.ToJson(ServerMagicDic), RingAdorn = Utility.Json.ToJson(ServerDictAdorn) });
                     }
                     #region ob
 
@@ -323,7 +324,6 @@ namespace AscensionServer
                     */
 
                     #endregion
-                    ConcurrentSingleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDic), RingMagicDictServer = Utility.Json.ToJson(ServerMagicDic), RingAdorn = Utility.Json.ToJson(ServerDictAdorn) });
                     Owner.OpResponse.Parameters = Owner.ResponseData;
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }
