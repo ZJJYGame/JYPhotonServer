@@ -20,7 +20,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -217,6 +217,9 @@
     <Compile Include="Handlers\SyncAllianceConstruction\SubHandler\SyncAllianceConstructionSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceConstruction\SubHandler\UpdateAllianceConstructionSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceConstruction\SyncAllianceConstructionHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceSignin\SubHandler\SyncAllianceSigninSubHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceSignin\SubHandler\UpdateAllianceSigninSubHandler.cs" />
+    <Compile Include="Handlers\SyncAllianceSignin\SyncAllianceSigninHandler.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\RemoveImmortalsAllianceHandler.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\VerifyImmortalsAllianceHandler.cs" />
     <Compile Include="Handlers\SyncRoleAllianceSkill\SubHandler\GetRoleAllianceSkillSubHandler.cs" />

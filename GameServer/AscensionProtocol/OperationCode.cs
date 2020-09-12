@@ -105,9 +105,22 @@ namespace AscensionProtocol
         /// 同步玩家个人拍卖物品
         /// </summary>
         SyncRoleAuctionItems =51,
-        SyncRoleAllianceSkill=53,
-        SyncRoleAllianceCave=54,
+        /// <summary>
+        ///仙盟技能修炼
+        /// </summary>
+        SyncRoleAllianceSkill = 53,
+        /// <summary>
+        /// 仙盟洞府修炼
+        /// </summary>
+        SyncRoleAllianceCave = 54,
+        /// <summary>
+        /// 仙盟丹药兑换
+        /// </summary>
         SyncRoleAllianceAlchemy = 55,
+        /// <summary>
+        /// 仙盟签到
+        /// </summary>
+        SyncAllianceSignin=56,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>
@@ -126,6 +139,10 @@ namespace AscensionProtocol
         /// 测试消息队列
         /// </summary>
         MessageQueue =137,
+        /// <summary>
+        /// 网关token
+        /// </summary>
+        Token=243,
         /// <summary>
         /// 心跳
         /// </summary>

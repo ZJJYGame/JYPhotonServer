@@ -21,8 +21,10 @@ namespace AscensionServer
             base.OnInitialization();
         }
 
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
+            ResetResponseData(operationRequest);
+
             Utility.Debug.LogInfo("我进来了");
             var dict = ParseSubDict(operationRequest);
             int roleID = Convert.ToInt32(Utility.GetValue(dict, (byte)ParameterCode.RoleAuctionItems));
@@ -50,13 +52,13 @@ namespace AscensionServer
                     }
                 }
             }
-            Utility.Debug.LogInfo("21313");
-            SetResponseData(() =>
-            {
-                Utility.Debug.LogInfo("我的上架数据" + Utility.Json.ToJson(roleAuctionItemList));
-                SubDict.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(roleAuctionItemList));
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
-            });
+
+
+            Utility.Debug.LogInfo("我的上架数据" + Utility.Json.ToJson(roleAuctionItemList));
+            Owner.ResponseData.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(roleAuctionItemList));
+            Owner.OpResponse.Parameters = Owner.ResponseData;
+            Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
         }
     }

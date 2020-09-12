@@ -142,5 +142,6 @@
         AllianceConstruction=85,
         RoleAllianceSkill=86,
         RoleAllianceCave=87,
+        AllianceSignin=88,
     }
 }
