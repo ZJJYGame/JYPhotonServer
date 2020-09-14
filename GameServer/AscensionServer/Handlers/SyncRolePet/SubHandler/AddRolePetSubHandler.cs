@@ -18,17 +18,17 @@ namespace AscensionServer
             SubOpCode = SubOperationCode.Add;
             base.OnInitialization();
         }
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
 
-            string rpJson = Convert.ToString(Utility.GetValue(dict,(byte)ParameterCode.RolePet));
+            string rpJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RolePet));
             string pJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Pet));
             string psJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.PetStatus));
             string ppJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.PetPtitude));
             var rolepetObj = Utility.Json.ToObject<RolePet>(rpJson);
             var petObj = Utility.Json.ToObject<Pet>(pJson);
-            Utility.Debug.LogError("添加的角色宠物"+ pJson);
+            Utility.Debug.LogError("添加的角色宠物" + pJson);
             var petstatusObj = Utility.Json.ToObject<PetStatus>(psJson);
             var petPtitudeObj = Utility.Json.ToObject<PetaPtitudeDTO>(ppJson);
             NHCriteria nHCriteriaroleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
@@ -36,7 +36,7 @@ namespace AscensionServer
             Dictionary<int, int> petDict;
             List<string> petDoList = new List<string>();
 
-            if (rolepet!=null)
+            if (rolepet != null)
             {
                 if (!string.IsNullOrEmpty(rolepet.PetIDDict))
                 {
@@ -47,19 +47,19 @@ namespace AscensionServer
                     petstatusObj.PetID = petObj.ID;
                     petstatusObj = ConcurrentSingleton<NHManager>.Instance.Insert<PetStatus>(petstatusObj);
                     petDict.Add(petObj.ID, petObj.PetID);
-                    PetaPtitude petaPtitude = new PetaPtitude() {AttackphysicalAptitude= petPtitudeObj .AttackphysicalAptitude,HPAptitude= petPtitudeObj .HPAptitude,AttackpowerAptitude= petPtitudeObj .AttackpowerAptitude,AttacksoulAptitude= petPtitudeObj .AttacksoulAptitude,DefendphysicalAptitude= petPtitudeObj .DefendphysicalAptitude= petPtitudeObj .DefendphysicalAptitude,AttackspeedAptitude= petPtitudeObj .AttackspeedAptitude,DefendpowerAptitude= petPtitudeObj .DefendpowerAptitude,DefendsoulAptitude= petPtitudeObj .DefendsoulAptitude,MPAptitude= petPtitudeObj.MPAptitude ,Petaptitudecol= petPtitudeObj.Petaptitudecol ,PetaptitudeDrug= "{}",PetID= petObj.ID, SoulAptitude= petPtitudeObj .SoulAptitude};
+                    PetaPtitude petaPtitude = new PetaPtitude() { AttackphysicalAptitude = petPtitudeObj.AttackphysicalAptitude, HPAptitude = petPtitudeObj.HPAptitude, AttackpowerAptitude = petPtitudeObj.AttackpowerAptitude, AttacksoulAptitude = petPtitudeObj.AttacksoulAptitude, DefendphysicalAptitude = petPtitudeObj.DefendphysicalAptitude = petPtitudeObj.DefendphysicalAptitude, AttackspeedAptitude = petPtitudeObj.AttackspeedAptitude, DefendpowerAptitude = petPtitudeObj.DefendpowerAptitude, DefendsoulAptitude = petPtitudeObj.DefendsoulAptitude, MPAptitude = petPtitudeObj.MPAptitude, Petaptitudecol = petPtitudeObj.Petaptitudecol, PetaptitudeDrug = "{}", PetID = petObj.ID, SoulAptitude = petPtitudeObj.SoulAptitude };
                     ConcurrentSingleton<NHManager>.Instance.Insert<PetaPtitude>(petaPtitude);
-                    ConcurrentSingleton<NHManager>.Instance.Update(new RolePet() {RoleID = rolepet.RoleID,  PetIDDict = Utility.Json.ToJson(petDict) });
+                    ConcurrentSingleton<NHManager>.Instance.Update(new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
                     petDoList.Add(Utility.Json.ToJson(petObj));
                     petDoList.Add(Utility.Json.ToJson(petstatusObj));
                     petPtitudeObj.PetID = petObj.ID;
-                     petDoList.Add(Utility.Json.ToJson(petPtitudeObj));
+                    petDoList.Add(Utility.Json.ToJson(petPtitudeObj));
 
                     #region redis模块
-                    RedisHelper.Hash.HashSetAsync<PetStatus>("PetStatus", petObj.ID.ToString(), petstatusObj);
-                    RedisHelper.Hash.HashSetAsync<PetaPtitude>("PetaPtitude", petObj.ID.ToString(), petaPtitude);
-                    RedisHelper.Hash.HashSetAsync<Pet>("Pet", petObj.ID.ToString(), petObj);
-                    RedisHelper.Hash.HashSetAsync<RolePet>("RolePet", rolepetObj.RoleID.ToString(), new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
+                    await RedisHelper.Hash.HashSetAsync<PetStatus>("PetStatus", petObj.ID.ToString(), petstatusObj);
+                    await RedisHelper.Hash.HashSetAsync<PetaPtitude>("PetaPtitude", petObj.ID.ToString(), petaPtitude);
+                    await RedisHelper.Hash.HashSetAsync<Pet>("Pet", petObj.ID.ToString(), petObj);
+                    await RedisHelper.Hash.HashSetAsync<RolePet>("RolePet", rolepetObj.RoleID.ToString(), new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
 
 
                     Utility.Debug.LogError("添加宠物成功》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》");
@@ -83,10 +83,10 @@ namespace AscensionServer
                     petPtitudeObj.PetID = petObj.ID;
                     petDoList.Add(Utility.Json.ToJson(petPtitudeObj));
                     #region redis模块
-                    RedisHelper.Hash.HashSetAsync<PetStatus>("PetStatus", petObj.ID.ToString(), petstatusObj);
-                    RedisHelper.Hash.HashSetAsync<PetaPtitude>("PetaPtitude", petObj.ID.ToString(), petaPtitude);
-                    RedisHelper.Hash.HashSetAsync<Pet>("Pet", petObj.ID.ToString(), petObj);
-                    RedisHelper.Hash.HashSetAsync<RolePet>("RolePet", rolepetObj.RoleID.ToString(), new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
+                    await RedisHelper.Hash.HashSetAsync<PetStatus>("PetStatus", petObj.ID.ToString(), petstatusObj);
+                    await RedisHelper.Hash.HashSetAsync<PetaPtitude>("PetaPtitude", petObj.ID.ToString(), petaPtitude);
+                    await RedisHelper.Hash.HashSetAsync<Pet>("Pet", petObj.ID.ToString(), petObj);
+                    await RedisHelper.Hash.HashSetAsync<RolePet>("RolePet", rolepetObj.RoleID.ToString(), new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
 
 
                     Utility.Debug.LogError("添加宠物成功》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》");
@@ -96,13 +96,13 @@ namespace AscensionServer
             }
             else
             {
-                    petDict = new Dictionary<int, int>();
-                    petDict = Utility.Json.ToObject<Dictionary<int, int>>(rolepet.PetIDDict);
+                petDict = new Dictionary<int, int>();
+                petDict = Utility.Json.ToObject<Dictionary<int, int>>(rolepet.PetIDDict);
 
-                    petObj = ConcurrentSingleton<NHManager>.Instance.Insert<Pet>(petObj);
-                    petstatusObj.PetID = petObj.ID;
-                    petstatusObj = ConcurrentSingleton<NHManager>.Instance.Insert<PetStatus>(petstatusObj);
-                    petDict.Add(petObj.ID, petObj.PetID);
+                petObj = ConcurrentSingleton<NHManager>.Instance.Insert<Pet>(petObj);
+                petstatusObj.PetID = petObj.ID;
+                petstatusObj = ConcurrentSingleton<NHManager>.Instance.Insert<PetStatus>(petstatusObj);
+                petDict.Add(petObj.ID, petObj.PetID);
                 PetaPtitude petaPtitude = new PetaPtitude() { AttackphysicalAptitude = petPtitudeObj.AttackphysicalAptitude, HPAptitude = petPtitudeObj.HPAptitude, AttackpowerAptitude = petPtitudeObj.AttackpowerAptitude, AttacksoulAptitude = petPtitudeObj.AttacksoulAptitude, DefendphysicalAptitude = petPtitudeObj.DefendphysicalAptitude = petPtitudeObj.DefendphysicalAptitude, AttackspeedAptitude = petPtitudeObj.AttackspeedAptitude, DefendpowerAptitude = petPtitudeObj.DefendpowerAptitude, DefendsoulAptitude = petPtitudeObj.DefendsoulAptitude, MPAptitude = petPtitudeObj.MPAptitude, Petaptitudecol = petPtitudeObj.Petaptitudecol, PetaptitudeDrug = "{}", PetID = petObj.ID, SoulAptitude = petPtitudeObj.SoulAptitude };
                 ConcurrentSingleton<NHManager>.Instance.Insert<PetaPtitude>(petaPtitude);
                 ConcurrentSingleton<NHManager>.Instance.Insert(new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
@@ -111,10 +111,10 @@ namespace AscensionServer
                 petPtitudeObj.PetID = petObj.ID;
                 petDoList.Add(Utility.Json.ToJson(petPtitudeObj));
                 #region redis模块
-                RedisHelper.Hash.HashSetAsync<PetStatus>("PetStatus", petObj.ID.ToString(), petstatusObj);
-                RedisHelper.Hash.HashSetAsync<PetaPtitude>("PetaPtitude", petObj.ID.ToString(), petaPtitude);
-                RedisHelper.Hash.HashSetAsync<Pet>("Pet", petObj.ID.ToString(), petObj);
-                RedisHelper.Hash.HashSetAsync<RolePet>("RolePet", rolepetObj.RoleID.ToString(), new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
+                await RedisHelper.Hash.HashSetAsync<PetStatus>("PetStatus", petObj.ID.ToString(), petstatusObj);
+                await RedisHelper.Hash.HashSetAsync<PetaPtitude>("PetaPtitude", petObj.ID.ToString(), petaPtitude);
+                await RedisHelper.Hash.HashSetAsync<Pet>("Pet", petObj.ID.ToString(), petObj);
+                await RedisHelper.Hash.HashSetAsync<RolePet>("RolePet", rolepetObj.RoleID.ToString(), new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
 
 
                 Utility.Debug.LogError("添加宠物成功》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》");
@@ -132,6 +132,6 @@ namespace AscensionServer
         }
 
 
-      
+
     }
 }
