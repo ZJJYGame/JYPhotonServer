@@ -106,9 +106,11 @@
     <Compile Include="DTO\TacticFormationDTO.cs" />
     <Compile Include="DTO\TeamDTO.cs" />
     <Compile Include="DTO\TemporaryRingDTO.cs" />
+    <Compile Include="DTO\TokenDto.cs" />
     <Compile Include="DTO\TransformDTO.cs" />
     <Compile Include="DTO\TreasureatticDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
+    <Compile Include="DTO\UserInfoDto.cs" />
     <Compile Include="DTO\VareityPurchaseRecordDTO.cs" />
     <Compile Include="DTO\VareityShopDTO.cs" />
     <Compile Include="DTO\WeaponDTO.cs" />
