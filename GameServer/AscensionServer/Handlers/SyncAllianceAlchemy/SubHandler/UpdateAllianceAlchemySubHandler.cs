@@ -28,6 +28,12 @@ namespace AscensionServer
             var allianceCaveObj = Utility.Json.ToObject<RoleAllianceDTO>(allianceAlchemyJson);
 
             string roleAssetsJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAssets));
+
+            string AllianceAlchemyJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAllianceAlchemy));
+            var redisKey = RedisData.Initialize.InsertName("AllianceAlchemyNum", allianceCaveObj.RoleID);
+            var content = RedisData.Initialize.GetData(redisKey);
+
+
             var roleAssetsObj = Utility.Json.ToObject<RoleAssetsDTO>(roleAssetsJson);
             Utility.Debug.LogError("收到的兑换弹药的请求数据"+ roleAssetsJson+ allianceAlchemyJson);
             var roleallianceTemp = AlliancelogicManager.Instance.GetNHCriteria<RoleAlliance>("RoleID", allianceCaveObj.RoleID);
@@ -47,10 +53,24 @@ namespace AscensionServer
 
                     RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { RoleID = roleallianceTemp.RoleID, AllianceID = roleallianceTemp.AllianceID, JoinOffline = roleallianceTemp.JoinOffline, AllianceJob = roleallianceTemp.AllianceJob, ApplyForAlliance = Utility.Json.ToObject<List<int>>(roleallianceTemp.ApplyForAlliance), JoinTime = roleallianceTemp.JoinTime, Reputation = roleallianceTemp.Reputation, ReputationHistroy = roleallianceTemp.ReputationHistroy, ReputationMonth = roleallianceTemp.ReputationMonth, RoleName = roleallianceTemp.RoleName, RoleSchool = roleallianceTemp.RoleSchool,RoleLevel= Role.RoleLevel };
 
+                    if (string.IsNullOrEmpty(content))
+                    {
+                        #region 测试完成替换
+                        //int h = 23 - DateTime.Now.Hour;
+                        //int m = 59 - DateTime.Now.Minute;
+                        //int s = 60 - DateTime.Now.Second;
+                        //await RedisHelper.String.StringSetAsync(redisKey, AllianceAlchemyJson, new TimeSpan(0, h, m, s));
+                        #endregion
+                        await RedisHelper.String.StringSetAsync(redisKey, AllianceAlchemyJson, new TimeSpan(0,0, 0, 60));
+                    }
+                    else
+                        await RedisHelper.String.StringGetSetAsync(redisKey, AllianceAlchemyJson);
+
                     SetResponseData(() =>
                     {
                         Utility.Debug.LogError("发送回去的兑换弹药的请求数据" + Utility.Json.ToJson(roleAssetsTemp));
                         SubDict.Add((byte)ParameterCode.RoleAlliance, Utility.Json.ToJson(roleAllianceDTO));
+                        SubDict.Add((byte)ParameterCode.RoleAllianceAlchemy, AllianceAlchemyJson);
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
