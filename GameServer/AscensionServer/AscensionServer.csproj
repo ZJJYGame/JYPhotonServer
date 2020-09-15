@@ -20,7 +20,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -236,6 +236,9 @@
     <Compile Include="Handlers\SyncRolePet\SubHandler\UpdateRolePetSubHandler.cs" />
     <Compile Include="Handlers\SyncInventory\SubHandler\RemoveInventorySubHandler.cs" />
     <Compile Include="Handlers\SyncInventory\SubHandler\SortingInventorySubHandler.cs" />
+    <Compile Include="Handlers\SyncTeam\SubHandler\GetTeamSubHandler.cs" />
+    <Compile Include="Handlers\SyncTeam\SubHandler\SyncTeamSubHandler.cs" />
+    <Compile Include="Handlers\SyncTeam\SyncRoleTeamHandler.cs" />
     <Compile Include="Handlers\SyncWeapon\SubHandler\RemoveWeaponSubHandler.cs" />
     <Compile Include="Helpers\DebugHelper\Log4NetDebugHelper.cs" />
     <Compile Include="DOMap\AlchemyMap.cs" />

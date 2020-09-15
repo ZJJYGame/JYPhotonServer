@@ -148,6 +148,10 @@
         RoleAllianceSkill=86,
         RoleAllianceCave=87,
         AllianceSignin=88,
-        RoleAllianceAlchemy = 88,
+        RoleAllianceAlchemy = 89,
+        /// <summary>
+        /// 组队
+        /// </summary>
+        RoleTeam =90,
     }
 }

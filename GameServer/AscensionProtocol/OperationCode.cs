@@ -136,6 +136,10 @@ namespace AscensionProtocol
         /// </summary>
         SyncRoleBattleMatch=115,
         /// <summary>
+        /// 创建队伍
+        /// </summary>
+        SyncRoleTeam = 125,
+        /// <summary>
         /// 测试消息队列
         /// </summary>
         MessageQueue =137,

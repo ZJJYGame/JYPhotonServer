@@ -72,7 +72,7 @@ namespace AscensionServer
             {
                 //TODO 队伍id 需要处理一下
                 teamDto = new TeamDTO();
-                //teamDto.TeamId = _index.GetAndAdd;
+                teamDto.TeamId = 1001; //_index.GetAndAdd;
                 teamDto.LeaderId = playerId;
                 teamDto.TeamMembers = roleDTOs;
                 teamDto.TeamLevelDown = levelLimint[1];
