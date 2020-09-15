@@ -8,6 +8,11 @@
         HeartBeat = 0,
         ForcedOffline = 1,
         MessageQueue=2,
+        /// <summary>
+        /// 包含账户信息以及设备号的数据
+        /// </summary>
+        UserInfo = 3,
+        Token = 4,
         ///////////////////前16为系统预留////////////////////////
 
         User = 17,
@@ -143,5 +148,6 @@
         RoleAllianceSkill=86,
         RoleAllianceCave=87,
         AllianceSignin=88,
+        RoleAllianceAlchemy = 88,
     }
 }

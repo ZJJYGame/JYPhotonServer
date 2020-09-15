@@ -20,7 +20,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\..\..\localproject\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -207,6 +207,7 @@
     <Compile Include="DO\AllianceConstruction.cs" />
     <Compile Include="DO\RoleAllianceSkill.cs" />
     <Compile Include="DO\RoleAuctionItems.cs" />
+    <Compile Include="Handlers\SyncAllianceAlchemy\SubHandler\GetAllianceAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceAlchemy\SubHandler\SyncAllianceAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceAlchemy\SubHandler\UpdateAllianceAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceAlchemy\SyncAllianceAlchemyHandler.cs" />
