@@ -121,6 +121,10 @@ namespace AscensionProtocol
         /// 仙盟签到
         /// </summary>
         SyncAllianceSignin=56,
+        /// <summary>
+        /// 修改仙盟名称
+        /// </summary>
+       SyncAllianceName=57,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>

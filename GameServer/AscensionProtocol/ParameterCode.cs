@@ -149,6 +149,7 @@
         RoleAllianceCave=87,
         AllianceSignin=88,
         RoleAllianceAlchemy = 89,
+        AllianceName = 91,
         /// <summary>
         /// 组队
         /// </summary>
