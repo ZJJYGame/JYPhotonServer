@@ -33,6 +33,11 @@ namespace AscensionServer
                         if (!AscensionServer.Instance._playerIdToTeamIdDict.ContainsKey(RoleObj.RoleID))
                             AscensionServer.Instance.CreateTeam(RoleObj, new int[] { 0, 99 });
                         break;
+                    case RoleDTO.TeamInstructions.JoinTeam:
+                        break;
+                    case RoleDTO.TeamInstructions.ApplyTeam:
+                        AscensionServer.Instance.ApplyJoinTeam(RoleObj, 1001);
+                        break;
                     default:
                         break;
                 }
