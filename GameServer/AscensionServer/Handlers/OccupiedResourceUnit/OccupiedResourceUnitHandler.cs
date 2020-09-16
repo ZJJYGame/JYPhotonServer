@@ -29,13 +29,13 @@ namespace AscensionServer
             var occupiedUnitJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.OccupiedUnit));
             Utility.Debug.LogInfo("请求资源数据  :  " + occupiedUnitJson);
             var occupiedUnitObj = Utility.Json.ToObject<OccupiedUnitDTO>(occupiedUnitJson);
-            var result =GameManager.External.GetModule< ResourceManager>().OccupiedResUnit(occupiedUnitObj);
+            var result =GameManager.OuterModule< ResourceManager>().OccupiedResUnit(occupiedUnitObj);
             if (result)
             {
                 OpResponse.ReturnCode = (short)ReturnCode.Success;
 
                 ResourceUnitSetDTO currentDictObj = null;
-                if (GameManager.External.GetModule<ResourceManager>().ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID,out currentDictObj))
+                if (GameManager.OuterModule<ResourceManager>().ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID,out currentDictObj))
                 {
 
                     ResourceUnitDTO resourceUnitDTO = null;

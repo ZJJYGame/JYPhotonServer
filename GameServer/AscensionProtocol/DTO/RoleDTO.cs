@@ -16,9 +16,12 @@ namespace AscensionProtocol.DTO
         public virtual string RoleName { get; set; }
         public virtual int RoleLevel { get; set; }
         public virtual TeamInstructions teamInstructions { get; set; }
+        public virtual TeamDTO teamDTO { get; set; } 
         public enum TeamInstructions
         {
             CreateTeam = 1,
+            JoinTeam = 2,
+            ApplyTeam = 3,
         }
         public override void Clear()
         {
@@ -29,6 +32,7 @@ namespace AscensionProtocol.DTO
             RoleName = null;
             RoleLevel = 0;
             teamInstructions = 0;
+            teamDTO = null;
         }
         public override string ToString()
         {

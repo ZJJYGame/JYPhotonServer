@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Cosmos;
 namespace AscensionServer
 {
+    [OuterModule]
     /// <summary>
     /// 玩家的大厅管理器
     /// </summary>

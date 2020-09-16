@@ -8,6 +8,7 @@ using System.Threading;
 using Cosmos;
 namespace AscensionServer
 {
+    [OuterModule]
     public class TeamManager : Module<TeamManager>
     {
         /// <summary>

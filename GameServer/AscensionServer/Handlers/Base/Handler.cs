@@ -14,6 +14,7 @@ using System.Threading;
 
 namespace AscensionServer
 {
+    [Inherited]
     public abstract class  Handler:IHandler
     {
         #region Properties
