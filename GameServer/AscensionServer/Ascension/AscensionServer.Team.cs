@@ -48,6 +48,8 @@ namespace AscensionServer
         public void CreateTeam(RoleDTO role , int [] levelLimint)
         {
             int playerId = role.RoleID;
+            //Utility.Debug.LogInfo(playerId + "<>");
+            //Utility.Debug.LogInfo(IsLeader(playerId) + "<>");
             if (IsLeader(playerId)) return;
 
             List<RoleDTO> roleDTOs = new List<RoleDTO>();
@@ -78,8 +80,9 @@ namespace AscensionServer
                 teamDto.TeamLevelDown = levelLimint[1];
                 teamDto.TeamLevelUp = levelLimint[0];
                 teamDto.ApplyMebers = new List<int>();
-                _teamTOModel.Add(playerId,teamDto);
+                _teamTOModel.Add(teamDto.TeamId, teamDto);
                 _playerIdToTeamIdDict.Add(playerId, teamDto.TeamId);
+                Utility.Debug.LogInfo(teamDto.TeamId + "<>");
             }
         }
         /// <summary>
@@ -134,7 +137,8 @@ namespace AscensionServer
         /// <returns></returns>
         public bool IsLeader(int playerId)
         {
-
+            if (!_playerIdToTeamIdDict.ContainsKey(playerId))
+                return false;
             if (_teamTOModel[_playerIdToTeamIdDict[playerId]].LeaderId != 0)
                 return true;
             return false;
