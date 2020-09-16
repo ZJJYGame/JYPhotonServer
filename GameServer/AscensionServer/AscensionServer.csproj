@@ -20,7 +20,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -176,6 +176,7 @@
     <Compile Include="Ascension\AscensionServer.Team.cs" />
     <Compile Include="Ascension\Core\Base\Actor\ActorManager.cs" />
     <Compile Include="Ascension\Core\Base\Actor\ActorTypeEnum.cs" />
+    <Compile Include="Ascension\Core\Base\Attribute\InheritedAttribute.cs" />
     <Compile Include="Ascension\Core\Base\EventCore\OpCodeEventCore.cs" />
     <Compile Include="Ascension\Core\Base\Input\IInputData.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\IPeer.cs" />
@@ -539,6 +540,7 @@
     <Compile Include="Lite\Operations\ReceiverGroup.cs" />
     <Compile Include="Lite\Operations\SetPropertiesRequest.cs" />
     <Compile Include="Lite\Room\Room.cs" />
+    <Compile Include="NetCoreExtend.cs" />
     <Compile Include="NHManager\Main\INHManager.cs" />
     <Compile Include="NHManager\Main\NHManager.cs" />
     <Compile Include="DOMap\RoleMap.cs" />

@@ -12,6 +12,7 @@ namespace AscensionServer
     /// 其余各个模块都是从此通过Conv取得Peer对象；
     /// 各个模块本身不存储对象，仅做消息转发
     /// </summary>
+    [OuterModule]
     public class PeerManager : Module<PeerManager>, IKeyValue<long, PeerEntity>
     {
         /// <summary>

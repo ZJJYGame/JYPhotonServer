@@ -63,7 +63,7 @@ namespace AscensionServer
             var syncRefreshResourcesEvent = new SyncRefreshResourcesEvent();
             syncRefreshResourcesEvent.OnInitialization();
             ThreadPool.QueueUserWorkItem(syncRefreshResourcesEvent.Handler);
-            GameManager.External.GetModule<ResourceManager>().ResourcesLoad();
+            GameManager.InitOuterModule(this.GetType().Assembly);
             RedisDotNet.RedisManager.Instance.OnInitialization();
         }
         protected override void TearDown()
@@ -73,19 +73,12 @@ namespace AscensionServer
         }
         void InitHandler()
         {
-            var handlerType = typeof(Handler);
-            Type[] types = Assembly.GetAssembly(handlerType).GetTypes();
-            for (int i = 0; i < types.Length; i++)
+           var handlers= Utility.Assembly.GetInstancesByAttribute<InheritedAttribute,Handler>();
+            int length = handlers.Length;
+            for (int i = 0; i < length; i++)
             {
-                if (handlerType.IsAssignableFrom(types[i]))
-                {
-                    if (types[i].IsClass && !types[i].IsAbstract)
-                    {
-                        var handler = Utility.Assembly.GetTypeInstance(types[i]) as Handler;
-                        handler.OnInitialization();
-                        HandlerDict.Add(handler.OpCode, handler);
-                    }
-                }
+                handlers[i].OnInitialization();
+                HandlerDict.Add(handlers[i].OpCode, handlers[i]);
             }
         }
     }

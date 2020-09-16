@@ -10,6 +10,7 @@ using AscensionProtocol.DTO;
 
 namespace AscensionServer
 {
+    [OuterModule]
     public class ResourceManager : Module<ResourceManager>
     {
         /// <summary>
@@ -25,6 +26,10 @@ namespace AscensionServer
         {
             ResUnitSetDict = new Dictionary<int, ResourceUnitSetDTO>();
             OccupiedUnitSetCache = new HashSet<OccupiedUnitDTO>();
+        }
+        public override void OnPreparatory()
+        {
+            ResourcesLoad();
         }
         /// <summary>
         /// 对资源进行占用；
@@ -54,7 +59,7 @@ namespace AscensionServer
         /// <summary>
         /// 初始化资源分布类，实现
         /// </summary>
-        public void ResourcesLoad()
+         void ResourcesLoad()
         {
             Vector2 border = new Vector2(54000, 39000);
             var str = RegionJsonDataManager.GetRegionJsonContent(AscensionData.Region.Adventure, 0);

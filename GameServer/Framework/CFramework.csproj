@@ -49,6 +49,8 @@
     <Compile Include="CosmosFramework\Core\Base\Actor\ActorPool.cs" />
     <Compile Include="CosmosFramework\Core\Base\Actor\IActor.cs" />
     <Compile Include="CosmosFramework\Core\Base\AppBuilder\IApplicationBuilder.cs" />
+    <Compile Include="CosmosFramework\Core\Base\Attribute\OuterModuleAttribute.cs" />
+    <Compile Include="CosmosFramework\Core\Base\Attribute\TargetHelperAttribute.cs" />
     <Compile Include="CosmosFramework\Core\Base\Behaviour\IBehaviour.cs" />
     <Compile Include="CosmosFramework\Core\Base\Behaviour\IConstruction.cs" />
     <Compile Include="CosmosFramework\Core\Base\Behaviour\IControllable.cs" />
@@ -136,6 +138,7 @@
     <Compile Include="CosmosFramework\Core\RunTime\ReferencePool\IReference.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\ReferencePool\ReferencePoolManager.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\ReferencePool\ReferenceSpawnPool.cs" />
+    <Compile Include="Netcore\NetCoreExtend.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
