@@ -21,35 +21,37 @@ namespace AscensionServer
             base.OnInitialization();
         }
 
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
             string immortalsAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ImmortalsAlliance));
             var immortalsAllianceObj = Utility.Json.ToObject<AllianceStatusDTO>
                 (immortalsAllianceJson);
-            Utility.Debug.LogError("发送仙盟宗旨修改成功"+ immortalsAllianceJson);
             var allianceMemberTemp = AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", immortalsAllianceObj.ID);
-            Utility.Debug.LogError("发送仙盟宗旨修改成功"+ allianceMemberTemp.ID);
+          
             if (allianceMemberTemp!=null)
             {
                 if (allianceMemberTemp.AllianceName == immortalsAllianceObj.AllianceName)
                 {
                     allianceMemberTemp.Manifesto = immortalsAllianceObj.Manifesto;
+                    await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceMemberTemp);
+
                     SetResponseData(() =>
                     {
-                        Utility.Debug.LogError("发送仙盟宗旨修改成功");
                         SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(allianceMemberTemp));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
-                }
-               
-            }else
+                }else
+                    SetResponseData(() =>
+                    {
+                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                    });
+            }
+            else
                 SetResponseData(() =>
                 {
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
-
-
             peer.SendOperationResponse(Owner.OpResponse, sendParameters);
         }
     }
