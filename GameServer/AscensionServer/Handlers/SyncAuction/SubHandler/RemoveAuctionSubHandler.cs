@@ -22,6 +22,8 @@ namespace AscensionServer
         }
         public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
+            Utility.Debug.LogInfo("开始删除拍卖行信息");
+            
             ResetResponseData(operationRequest);
 
             string[] allGoodsGuidArr = RedisHelper.Hash.HashKeysAsync("AuctionGoodsData").Result;

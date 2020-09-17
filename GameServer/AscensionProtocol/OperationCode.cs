@@ -125,6 +125,10 @@ namespace AscensionProtocol
         /// 修改仙盟名称
         /// </summary>
        SyncAllianceName=57,
+       /// <summary>
+       /// 同步个人拍卖行关注列表
+       /// </summary>
+       SyncRoleAuctionAttention=58,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>
