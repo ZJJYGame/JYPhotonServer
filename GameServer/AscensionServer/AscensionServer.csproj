@@ -231,6 +231,10 @@
     <Compile Include="Handlers\SyncRoleAllianceSkill\SubHandler\UpdateRoleAllianceSkillSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAllianceSkill\SyncRoleAllianceSkillHandler.cs" />
     <Compile Include="Handlers\SyncRoleAlliance\SubHandler\UpdateRoleAllianceSubHandler.cs" />
+    <Compile Include="Handlers\SyncRoleAuctionAttention\Handler\AddRoleAuctionAttentionSubHandler.cs" />
+    <Compile Include="Handlers\SyncRoleAuctionAttention\Handler\GetRoleAuctionAttentionSubHandler.cs" />
+    <Compile Include="Handlers\SyncRoleAuctionAttention\Handler\SyncRoleAuctionAttentionSubHandler.cs" />
+    <Compile Include="Handlers\SyncRoleAuctionAttention\SyncRoleAuctionAttentionHandler.cs" />
     <Compile Include="Handlers\SyncRoleAuctionItems\SubHandler\AddRoleAuctionItemSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAuctionItems\SubHandler\GetRoleAuctionItemsSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAuctionItems\SubHandler\RemoveRoleAuctionItemsSubHandler.cs" />
