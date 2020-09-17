@@ -22,6 +22,7 @@ namespace AscensionProtocol.DTO
             CreateTeam = 1,
             JoinTeam = 2,
             ApplyTeam = 3,
+            RefusedTeam = 4,
         }
         public override void Clear()
         {

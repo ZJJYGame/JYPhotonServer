@@ -18,13 +18,14 @@ namespace AscensionServer
 
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
+            HashSet<Role> roleSet = new HashSet<Role>();
             ResetResponseData(operationRequest);
             var teamData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role) as string;
             Utility.Debug.LogInfo(">>>>>创建队伍" + teamData + ">>>>>>>>>>>>>");
             var RoleObj = Utility.Json.ToObject<RoleDTO>(teamData);
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", RoleObj.RoleID);
             bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleRing>(nHCriteriaRoleID);
-
+  
             if (exist)
             {
                 switch (RoleObj.teamInstructions)
@@ -34,15 +35,20 @@ namespace AscensionServer
                             AscensionServer.Instance.CreateTeam(RoleObj, new int[] { 0, 99 });
                         break;
                     case RoleDTO.TeamInstructions.JoinTeam:
+                        AscensionServer.Instance.JoinTeam(RoleObj,RoleObj.teamDTO.TeamId);
                         break;
                     case RoleDTO.TeamInstructions.ApplyTeam:
-                        AscensionServer.Instance.ApplyJoinTeam(RoleObj, 1001);
+                        AscensionServer.Instance.ApplyJoinTeam(RoleObj, RoleObj.teamDTO.TeamId);
+                        break;
+                    case RoleDTO.TeamInstructions.RefusedTeam:
+                        AscensionServer.Instance.RefusedApplyTeam(RoleObj, RoleObj.teamDTO.TeamId);
                         break;
                     default:
                         break;
                 }
                 Owner.ResponseData.Add((byte)ParameterCode.RoleTeam, Utility.Json.ToJson(AscensionServer.Instance._teamTOModel));
                 Owner.ResponseData.Add((byte)ParameterCode.Role, Utility.Json.ToJson(AscensionServer.Instance._playerIdToTeamIdDict));
+                //Owner.ResponseData.Add((byte)ParameterCode.RoleSet, Utility.Json.ToJson(roleSet));
                 Owner.OpResponse.Parameters = Owner.ResponseData;
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
             }

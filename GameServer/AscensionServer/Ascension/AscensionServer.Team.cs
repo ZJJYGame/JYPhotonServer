@@ -89,21 +89,21 @@ namespace AscensionServer
         /// 加入队伍
         /// </summary>
         /// <param name="roleDTO"></param>
-        public void JoinTeam(RoleDTO roleDTO)
+        public void JoinTeam(RoleDTO roleDTO, int teamId)
         {
             if (IsLeader(roleDTO.RoleID)) return;
             ///记得补上 是不是下线
             //if ()
-            TeamDTO teamDTO = _teamTOModel[_playerIdToTeamIdDict[roleDTO.RoleID]];
-            if (teamDTO.TeamMembers.Count > 4) return;
+            TeamDTO teamDTO = _teamTOModel[teamId];
+            if (teamDTO.TeamMembers.Count > 5) return;
             teamDTO.TeamMembers.Add(roleDTO);  ///将该成员信息加入到队伍成员列表去
             teamDTO.ApplyMebers.Remove(roleDTO.RoleID); //更新申请列表信息
-            _teamTOModel[_playerIdToTeamIdDict[roleDTO.RoleID]] = teamDTO;
-            List<int> teamMemberIdList = new List<int>();
-            foreach (var dto in teamDTO.TeamMembers)
-            {
-                teamMemberIdList.Add(dto.RoleID);
-            }
+            _teamTOModel[teamId] = teamDTO;
+            //List<int> teamMemberIdList = new List<int>();
+            //foreach (var dto in teamDTO.TeamMembers)
+            //{
+            //    teamMemberIdList.Add(dto.RoleID);
+            //}
             //DOTO
             //所有组员广播，某人入队信息
         }
@@ -120,7 +120,7 @@ namespace AscensionServer
             if (IsLeader(playerId)) //该玩家是不是自己组个队，并且在队伍中
                 return;
             TeamDTO teamDTO = _teamTOModel[teamId]; //取出队伍信息
-            if (teamDTO.TeamLevelDown> roleDTO.RoleLevel || teamDTO.TeamLevelUp <roleDTO.RoleLevel) //玩家是否符合入队条件。 等级必须够
+            if (teamDTO.TeamLevelDown< roleDTO.RoleLevel || teamDTO.TeamLevelUp >roleDTO.RoleLevel) //玩家是否符合入队条件。 等级必须够
             {
                 Utility.Debug.LogInfo("等级不符合队伍要求");
                 return;
@@ -129,6 +129,14 @@ namespace AscensionServer
             teamDTO.ApplyMebers.Add(roleDTO.RoleID);//将玩家加入申请列表
             //TODO 通知队长审核
         }
+        /// <summary>
+        /// 拒绝队伍申请
+        /// </summary>
+        public void RefusedApplyTeam(RoleDTO roleDTO, int teamId)
+        {
+            _teamTOModel[teamId].ApplyMebers.Remove(roleDTO.RoleID);
+        }
+
 
         /// <summary>
         /// 判断是否是队长
