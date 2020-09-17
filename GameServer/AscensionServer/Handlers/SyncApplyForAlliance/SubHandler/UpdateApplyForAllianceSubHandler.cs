@@ -59,6 +59,7 @@ namespace AscensionServer
                     if (roleAllianceTemp.AllianceID == 0)
                     {
                         roleAllianceTemp.AllianceID = allianceMemberTemp.AllianceID;
+                        roleAllianceTemp.JoinTime= DateTime.Now.ToShortDateString().ToString();
                         //roleAllianceTemp.JoinOffline =
                         roleAllianceTemp.ApplyForAlliance = "[]";
                        await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAllianceTemp);
