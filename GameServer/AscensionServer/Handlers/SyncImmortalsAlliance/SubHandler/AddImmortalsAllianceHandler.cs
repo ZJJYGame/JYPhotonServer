@@ -107,6 +107,8 @@ namespace AscensionServer
                 await RedisHelper.Hash.HashSetAsync("AllianceMember", allianceMember.AllianceID.ToString(), allianceMember);
                 await RedisHelper.Hash.HashSetAsync("RoleAlliance", roleAllianceDTO.RoleID.ToString(), roleAllianceDTO);
                 await RedisHelper.Hash.HashSetAsync("AllianceStatus", allianceslIstObj.ID.ToString(), allianceslIstObj);
+                await RedisHelper.Hash.HashSetAsync<RoleAssets>("RoleAssets", roleAllianceTemp.RoleID.ToString(), new RoleAssets() { RoleID = roleAssetsTemp.RoleID, SpiritStonesLow = roleAssetsTemp.SpiritStonesLow, XianYu = roleAssetsTemp.XianYu });
+
                 #endregion
                 GameManager.ReferencePoolManager.Despawns(nHCriteriaAllianceList, nHCriteriaAllianceName);
             }

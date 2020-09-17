@@ -4,14 +4,14 @@ using System;
 using Cosmos;
 using AscensionProtocol.DTO;
 using AscensionServer.Model;
-
-namespace AscensionServer
+using RedisDotNet;
+using StackExchange.Redis;namespace AscensionServer
 {
    public class SyncAllianceNameHandler:Handler
     {
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncRoleAdventureSkill;
+            OpCode = OperationCode.SyncAllianceName;
             base.OnInitialization();
         }
 
@@ -26,14 +26,16 @@ namespace AscensionServer
 
             NHCriteria nHCriteriaAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceName", allianceStatusObj.AllianceName);
             var allianceNameTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceStatus>(nHCriteriaAlliance);
-
+            Utility.Debug.LogError("收到仙盟修改名称的请求"+ allianceJson+"个人资产"+ roleAssetsJson);
             var allianceStatusTemp= AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", allianceStatusObj.ID);
             var roleAssetsTemp = AlliancelogicManager.Instance.GetNHCriteria<RoleAssets>("RoleID", roleAssetsObj.RoleID);
-
+            OpResponse.OperationCode = operationRequest.OperationCode;
             if (roleAssetsTemp != null)
             {
-                if (roleAssetsTemp.SpiritStonesLow <= roleAssetsObj.SpiritStonesLow)
+                Utility.Debug.LogError("个人资产" + roleAssetsTemp.SpiritStonesLow);
+                if (roleAssetsTemp.SpiritStonesLow >= roleAssetsObj.SpiritStonesLow)
                 {
+
                     if (allianceStatusTemp != null && allianceNameTemp == null)
                     {
                         allianceStatusTemp.AllianceName = allianceStatusObj.AllianceName;
@@ -41,7 +43,11 @@ namespace AscensionServer
                         await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceStatusTemp);
                         await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAssetsTemp);
 
+                        await RedisHelper.Hash.HashSetAsync<RoleAssets>("RoleAssets", roleAssetsObj.RoleID.ToString(), new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesLow = roleAssetsTemp.SpiritStonesLow, XianYu = roleAssetsTemp.XianYu });
+
+                        Utility.Debug.LogError("个人资产" + Utility.Json.ToJson(roleAssetsTemp));
                         ResponseData.Add((byte)ParameterCode.AllianceName, Utility.Json.ToJson(allianceStatusTemp));
+                        OpResponse.ReturnCode = (short)ReturnCode.Success;//返回成功
                         OpResponse.Parameters = ResponseData;
                     }
                     else
