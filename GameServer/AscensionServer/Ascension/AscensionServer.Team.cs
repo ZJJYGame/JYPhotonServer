@@ -40,6 +40,8 @@ namespace AscensionServer
         /// </summary>
         public List<int> _oldTeamList = new List<int>();
 
+        int teamid = 1000;
+
         /// <summary>
         /// 创建一个队伍  
         /// </summary>
@@ -74,7 +76,7 @@ namespace AscensionServer
             {
                 //TODO 队伍id 需要处理一下
                 teamDto = new TeamDTO();
-                teamDto.TeamId = 1001; //_index.GetAndAdd;
+                teamDto.TeamId = teamid++; //_index.GetAndAdd;
                 teamDto.LeaderId = playerId;
                 teamDto.TeamMembers = roleDTOs;
                 teamDto.TeamLevelDown = levelLimint[1];
