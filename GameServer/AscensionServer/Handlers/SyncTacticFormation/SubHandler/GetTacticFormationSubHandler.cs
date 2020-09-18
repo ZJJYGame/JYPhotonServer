@@ -33,9 +33,15 @@ namespace AscensionServer
             {
                 if (!string.IsNullOrEmpty(tacticformationtemp.Recipe_Array))
                 {
+                    tacticformationObj.JobLevel = tacticformationtemp.JobLevel;
+                    tacticformationObj.JobLevelExp = tacticformationtemp.JobLevelExp;
+                    tacticformationObj.RoleID = tacticformationtemp.RoleID;
+                    tacticformationObj.Recipe_Array = Utility.Json.ToObject<HashSet<int>>(tacticformationtemp.Recipe_Array);
+
+
                     SetResponseData(() =>
                     {
-                        SubDict.Add((byte)ParameterCode.JobTacticFormation, Utility.Json.ToJson(tacticformationtemp));
+                        SubDict.Add((byte)ParameterCode.JobTacticFormation, Utility.Json.ToJson(tacticformationObj));
 
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });

@@ -33,20 +33,20 @@ namespace AscensionServer
                 if (forgeObj.JobLevel != 0)
                 {
                     Level = forgeTemp.JobLevel + forgeObj.JobLevel;
-                    ConcurrentSingleton<NHManager>.Instance.Update(new Forge() { RoleID = forgeTemp.RoleID, JobLevel = Level, JobLevelExp = forgeObj.JobLevelExp, Recipe_Array = forgeTemp.Recipe_Array });
-                    //AscensionServer._Log.Info("传输回去的锻造数据1" + Utility.Json.ToJson(ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Forge>(nHCriteriaforge)));
+                    forgeObj = new ForgeDTO() { RoleID = forgeTemp.RoleID, JobLevel = Level, JobLevelExp = forgeObj.JobLevelExp, Recipe_Array = Utility.Json.ToObject<HashSet<int>>(forgeTemp.Recipe_Array) };
+                    ConcurrentSingleton<NHManager>.Instance.Update(forgeObj);
                 }
                 else
                 {
                     Exp = forgeTemp.JobLevelExp + forgeObj.JobLevelExp;
-                    ConcurrentSingleton<NHManager>.Instance.Update(new Forge() { RoleID = forgeTemp.RoleID, JobLevel = forgeTemp.JobLevel, JobLevelExp = Exp, Recipe_Array = forgeTemp.Recipe_Array });
-                    //AscensionServer._Log.Info("传输回去的锻造数据2" + Utility.Json.ToJson(ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Forge>(nHCriteriaforge)));
+                    forgeObj = new ForgeDTO() { RoleID = forgeTemp.RoleID, JobLevel = forgeTemp.JobLevel, JobLevelExp = Exp, Recipe_Array = Utility.Json.ToObject<HashSet<int>>(forgeTemp.Recipe_Array) };
+
+                    ConcurrentSingleton<NHManager>.Instance.Update(forgeObj);
                 }
                 SetResponseData(() =>
                 {
-                    var forge = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Forge>(nHCriteriaforge);
 
-                    SubDict.Add((byte)ParameterCode.JobForge, Utility.Json.ToJson(forge));
+                    SubDict.Add((byte)ParameterCode.JobForge, Utility.Json.ToJson(forgeObj));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }

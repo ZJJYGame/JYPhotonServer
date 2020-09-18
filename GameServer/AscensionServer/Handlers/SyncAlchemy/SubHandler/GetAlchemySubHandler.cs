@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol;
+using AscensionProtocol.DTO;
 using Photon.SocketServer;
 using AscensionServer.Model;
 using Cosmos;
@@ -21,7 +22,7 @@ namespace AscensionServer
         {
             var dict = ParseSubDict(operationRequest);
             string alchemyJson = Convert.ToString(Utility.GetValue(dict,(byte)ParameterCode.JobAlchemy));
-            var alchemyObj = Utility.Json.ToObject<Alchemy>(alchemyJson);
+            var alchemyObj = Utility.Json.ToObject<AlchemyDTO>(alchemyJson);
             NHCriteria nHCriteriaalchemy = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", alchemyObj.RoleID);
             var alchemytemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Alchemy>(nHCriteriaalchemy);
             if (alchemytemp!=null)
@@ -30,7 +31,12 @@ namespace AscensionServer
                 {
                     SetResponseData(() =>
                     {
-                        SubDict.Add((byte)ParameterCode.JobAlchemy, Utility.Json.ToJson(alchemytemp));
+                        alchemyObj.JobLevel = alchemytemp.JobLevel;
+                        alchemyObj.JobLevelExp = alchemytemp.JobLevelExp;
+                        alchemyObj.Recipe_Array = Utility.Json.ToObject<HashSet<int>>(alchemytemp.Recipe_Array);
+                        alchemyObj.RoleID = alchemytemp.RoleID;
+     
+                        SubDict.Add((byte)ParameterCode.JobAlchemy, Utility.Json.ToJson(alchemyObj));
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }

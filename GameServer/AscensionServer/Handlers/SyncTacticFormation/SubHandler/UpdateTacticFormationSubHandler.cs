@@ -36,20 +36,20 @@ namespace AscensionServer
                 if (tacticformationObj.JobLevel != 0)
                 {
                     Level = tacticformationTemp.JobLevel + tacticformationObj.JobLevel;
-                    ConcurrentSingleton<NHManager>.Instance.Update(new TacticFormation() { RoleID = tacticformationTemp.RoleID, JobLevel = Level, JobLevelExp = tacticformationObj.JobLevelExp, Recipe_Array = tacticformationTemp.Recipe_Array });
-                    //AscensionServer._Log.Info("传输回去的锻造数据1" + Utility.Json.ToJson(ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Forge>(nHCriteriaforge)));
+                    tacticformationObj = new TacticFormationDTO() { RoleID = tacticformationTemp.RoleID, JobLevel = Level, JobLevelExp = tacticformationObj.JobLevelExp, Recipe_Array = Utility.Json.ToObject<HashSet<int>>(tacticformationTemp.Recipe_Array) };
+                    ConcurrentSingleton<NHManager>.Instance.Update(tacticformationObj);
+
                 }
                 else
                 {
                     Exp = tacticformationTemp.JobLevelExp + tacticformationObj.JobLevelExp;
-                    ConcurrentSingleton<NHManager>.Instance.Update(new TacticFormation() { RoleID = tacticformationTemp.RoleID, JobLevel = tacticformationTemp.JobLevel, JobLevelExp = Exp, Recipe_Array = tacticformationTemp.Recipe_Array });
-                    //AscensionServer._Log.Info("传输回去的锻造数据2" + Utility.Json.ToJson(ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Forge>(nHCriteriaforge)));
+                    tacticformationObj = new TacticFormationDTO() { RoleID = tacticformationTemp.RoleID, JobLevel = tacticformationTemp.JobLevel, JobLevelExp = Exp, Recipe_Array =Utility.Json.ToObject<HashSet<int>>(tacticformationTemp.Recipe_Array) };
+                    ConcurrentSingleton<NHManager>.Instance.Update(tacticformationObj);
+ 
                 }
                 SetResponseData(() =>
                 {
-                    var forge = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<TacticFormation>(nHCriteriatacticformation);
-
-                    SubDict.Add((byte)ParameterCode.JobTacticFormation, Utility.Json.ToJson(forge));
+                    SubDict.Add((byte)ParameterCode.JobTacticFormation, Utility.Json.ToJson(tacticformationObj));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }

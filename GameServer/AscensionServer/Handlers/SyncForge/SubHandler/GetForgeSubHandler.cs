@@ -30,9 +30,13 @@ namespace AscensionServer
             {
                 if (!string.IsNullOrEmpty(Frogetemp.Recipe_Array))
                 {
+                    forgeObj.JobLevel = Frogetemp.JobLevel;
+                    forgeObj.JobLevelExp = Frogetemp.JobLevelExp;
+                    forgeObj.RoleID = Frogetemp.RoleID;
+                    forgeObj.Recipe_Array = Utility.Json.ToObject<HashSet<int>>(Frogetemp.Recipe_Array);
                     SetResponseData(() =>
-                    {
-                        SubDict.Add((byte)ParameterCode.JobForge, Utility.Json.ToJson(Frogetemp));
+                    {   
+                        SubDict.Add((byte)ParameterCode.JobForge, Utility.Json.ToJson(forgeObj));
 
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });

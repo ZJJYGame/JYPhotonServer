@@ -31,9 +31,14 @@ namespace AscensionServer.Handlers.SyncPuppet.SubHandler
             {
                 if (!string.IsNullOrEmpty(puppettemp.Recipe_Array))
                 {
+                    puppetObj.JobLevel = puppettemp.JobLevel;
+                    puppetObj.JobLevelExp = puppettemp.JobLevelExp;
+                    puppetObj.RoleID = puppettemp.RoleID;
+                    puppetObj.Recipe_Array = Utility.Json.ToObject<HashSet<int>>(puppettemp.Recipe_Array);
+
                     SetResponseData(() =>
                     {
-                        SubDict.Add((byte)ParameterCode.JobPuppet, Utility.Json.ToJson(puppettemp));
+                        SubDict.Add((byte)ParameterCode.JobPuppet, Utility.Json.ToJson(puppetObj));
 
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });

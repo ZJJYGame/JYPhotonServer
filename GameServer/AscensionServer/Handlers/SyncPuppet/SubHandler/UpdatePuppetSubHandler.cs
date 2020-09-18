@@ -33,20 +33,20 @@ namespace AscensionServer
                 if (puppetObj.JobLevel != 0)
                 {
                     Level = puppetTemp.JobLevel + puppetObj.JobLevel;
-                    ConcurrentSingleton<NHManager>.Instance.Update(new Puppet() { RoleID = puppetTemp.RoleID, JobLevel = Level, JobLevelExp = puppetObj.JobLevelExp, Recipe_Array = puppetTemp.Recipe_Array });
-                    //AscensionServer._Log.Info("传输回去的锻造数据1" + Utility.Json.ToJson(ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Forge>(nHCriteriaforge)));
+                    puppetObj = new PuppetDTO() { RoleID = puppetTemp.RoleID, JobLevel = Level, JobLevelExp = puppetObj.JobLevelExp, Recipe_Array = Utility.Json.ToObject<HashSet<int>>(puppetTemp.Recipe_Array)  };
+                    ConcurrentSingleton<NHManager>.Instance.Update(puppetObj);
+
                 }
                 else
                 {
                     Exp = puppetTemp.JobLevelExp + puppetObj.JobLevelExp;
-                    ConcurrentSingleton<NHManager>.Instance.Update(new Puppet() { RoleID = puppetTemp.RoleID, JobLevel = puppetTemp.JobLevel, JobLevelExp = Exp, Recipe_Array = puppetTemp.Recipe_Array });
-                    //AscensionServer._Log.Info("传输回去的锻造数据2" + Utility.Json.ToJson(ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Forge>(nHCriteriaforge)));
+                    puppetObj = new PuppetDTO() { RoleID = puppetTemp.RoleID, JobLevel = puppetTemp.JobLevel, JobLevelExp = Exp, Recipe_Array = Utility.Json.ToObject<HashSet<int>>(puppetTemp.Recipe_Array) };
+                    ConcurrentSingleton<NHManager>.Instance.Update(puppetObj);
+
                 }
                 SetResponseData(() =>
                 {
-                    var forge = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Puppet>(nHCriteriapuppet);
-
-                    SubDict.Add((byte)ParameterCode.JobPuppet, Utility.Json.ToJson(forge));
+                    SubDict.Add((byte)ParameterCode.JobPuppet, Utility.Json.ToJson(puppetObj));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
