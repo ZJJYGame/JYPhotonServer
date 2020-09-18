@@ -34,20 +34,19 @@ namespace AscensionServer
                 if (spiritualrunesObj.JobLevel != 0)
                 {
                     Level = spiritualrunesTemp.JobLevel + spiritualrunesObj.JobLevel;
-                    ConcurrentSingleton<NHManager>.Instance.Update(new SpiritualRunes() { RoleID = spiritualrunesTemp.RoleID, JobLevel = Level, JobLevelExp = spiritualrunesObj.JobLevelExp, Recipe_Array = spiritualrunesTemp.Recipe_Array });
-                    Utility.Debug.LogInfo("传输回去的制符数据1" + Utility.Json.ToJson(ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SpiritualRunes>(nHCriteriaspiritualrunes)));
+                    spiritualrunesObj = new SpiritualRunesDTO() { RoleID = spiritualrunesTemp.RoleID, JobLevel = Level, JobLevelExp = spiritualrunesObj.JobLevelExp, Recipe_Array = Utility.Json.ToObject < HashSet<int> > (spiritualrunesTemp.Recipe_Array) };
+                    ConcurrentSingleton<NHManager>.Instance.Update(spiritualrunesObj);
                 }
                 else
                 {
                     Exp = spiritualrunesTemp.JobLevelExp + spiritualrunesObj.JobLevelExp;
-                    ConcurrentSingleton<NHManager>.Instance.Update(new SpiritualRunes() { RoleID = spiritualrunesTemp.RoleID, JobLevel = spiritualrunesTemp.JobLevel, JobLevelExp = Exp, Recipe_Array = spiritualrunesTemp.Recipe_Array });
-                    Utility.Debug.LogInfo("传输回去的制符数据2" + Utility.Json.ToJson(ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SpiritualRunes>(nHCriteriaspiritualrunes)));
+                    spiritualrunesObj =  new SpiritualRunesDTO() { RoleID = spiritualrunesTemp.RoleID, JobLevel = spiritualrunesTemp.JobLevel, JobLevelExp = Exp, Recipe_Array = Utility.Json.ToObject<HashSet<int>>(spiritualrunesTemp.Recipe_Array) };
+                    ConcurrentSingleton<NHManager>.Instance.Update(spiritualrunesObj);
+
                 }
                 SetResponseData(() =>
                 {
-                    var spiritualrunesT = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SpiritualRunes>(nHCriteriaspiritualrunes);
-
-                    SubDict.Add((byte)ParameterCode.JobSpiritualRunes, Utility.Json.ToJson(spiritualrunesT));
+                    SubDict.Add((byte)ParameterCode.JobSpiritualRunes, Utility.Json.ToJson(spiritualrunesObj));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
