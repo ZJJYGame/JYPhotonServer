@@ -23,6 +23,7 @@ namespace RedisDotNet
         /// Redis对象
         /// </summary>
         public ConnectionMultiplexer Redis { get; private set; }
+        public IServer[] RedisServers { get; private set; }
         /// <summary>
         /// Redis中的DB
         /// </summary>
@@ -34,6 +35,17 @@ namespace RedisDotNet
                 Redis = ConnectionMultiplexer.Connect(ConnectStr);
                 if(Redis==null)
                     throw new ArgumentNullException("Redis Connect Fail");
+                else
+                {
+                    List<IServer> servers = new List<IServer>();
+                    foreach (var endPoint in Redis.GetEndPoints())
+                    {
+
+                        var server = Redis.GetServer(endPoint);
+                        servers.Add(server);
+                    }
+                    RedisServers = servers.ToArray();
+                }
                 RedisDB = Redis.GetDatabase();
             }
             catch (Exception)
