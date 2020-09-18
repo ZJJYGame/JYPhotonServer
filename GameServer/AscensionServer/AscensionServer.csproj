@@ -20,7 +20,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\..\localproject\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -233,6 +233,7 @@
     <Compile Include="Handlers\SyncRoleAlliance\SubHandler\UpdateRoleAllianceSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAuctionAttention\Handler\AddRoleAuctionAttentionSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAuctionAttention\Handler\GetRoleAuctionAttentionSubHandler.cs" />
+    <Compile Include="Handlers\SyncRoleAuctionAttention\Handler\RemoveRoleAuctionAttentionSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAuctionAttention\Handler\SyncRoleAuctionAttentionSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAuctionAttention\SyncRoleAuctionAttentionHandler.cs" />
     <Compile Include="Handlers\SyncRoleAuctionItems\SubHandler\AddRoleAuctionItemSubHandler.cs" />
