@@ -34,21 +34,21 @@ namespace AscensionServer
                 if (alchemyObj.JobLevel!=0)
                 {
                     Level = alchemyTemp.JobLevel + alchemyObj.JobLevel;
-                    ConcurrentSingleton<NHManager>.Instance.Update(new Alchemy() {RoleID= alchemyTemp.RoleID,JobLevel= Level,JobLevelExp= alchemyObj.JobLevelExp,Recipe_Array= alchemyTemp.Recipe_Array });
-                    Utility.Debug.LogInfo("传输回去的炼丹数据1" + Utility.Json.ToJson(alchemyTemp));
+                    alchemyObj = new AlchemyDTO() { RoleID = alchemyTemp.RoleID, JobLevel = Level, JobLevelExp = alchemyObj.JobLevelExp, Recipe_Array = Utility.Json.ToObject<HashSet<int>>(alchemyTemp.Recipe_Array) };
+
+                    ConcurrentSingleton<NHManager>.Instance.Update(alchemyObj);
                 }
                 else
                 {
                     Exp= alchemyTemp.JobLevelExp + alchemyObj.JobLevelExp;
+                    alchemyObj = new AlchemyDTO() { RoleID = alchemyTemp.RoleID, JobLevel = alchemyTemp.JobLevel, JobLevelExp = Exp, Recipe_Array = Utility.Json.ToObject<HashSet<int>>(alchemyTemp.Recipe_Array) };
+
                     ConcurrentSingleton<NHManager>.Instance.Update(new Alchemy() { RoleID = alchemyTemp.RoleID, JobLevel = alchemyTemp.JobLevel, JobLevelExp = Exp, Recipe_Array = alchemyTemp.Recipe_Array });
-                    Utility.Debug.LogInfo("传输回去的炼丹数据2" + Utility.Json.ToJson(alchemyTemp));
                 }
 
                 SetResponseData(() =>
-                {
-                    var alchemy = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Alchemy>(nHCriteriaAlchemy);
-              
-                    SubDict.Add((byte)ParameterCode.JobAlchemy, Utility.Json.ToJson(alchemy));
+                {            
+                    SubDict.Add((byte)ParameterCode.JobAlchemy, Utility.Json.ToJson(alchemyObj));
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 });
           

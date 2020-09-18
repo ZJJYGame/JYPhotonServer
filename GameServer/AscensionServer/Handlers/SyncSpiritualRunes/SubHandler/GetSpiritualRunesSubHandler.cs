@@ -31,9 +31,14 @@ namespace AscensionServer
             {
                 if (!string.IsNullOrEmpty(spiritualrunestemp.Recipe_Array))
                 {
+                    spiritualrunesObj.JobLevel = spiritualrunestemp.JobLevel;
+                    spiritualrunesObj.JobLevelExp = spiritualrunestemp.JobLevelExp;
+                    spiritualrunesObj.RoleID = spiritualrunestemp.RoleID;
+                    spiritualrunesObj.Recipe_Array = Utility.Json.ToObject<HashSet<int>>(spiritualrunestemp.Recipe_Array);
+
                     SetResponseData(() =>
                     {
-                        SubDict.Add((byte)ParameterCode.JobSpiritualRunes, Utility.Json.ToJson(spiritualrunestemp));
+                        SubDict.Add((byte)ParameterCode.JobSpiritualRunes, Utility.Json.ToJson(spiritualrunesObj));
 
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     });
