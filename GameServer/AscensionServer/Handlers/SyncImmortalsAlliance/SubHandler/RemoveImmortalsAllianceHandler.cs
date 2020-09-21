@@ -24,7 +24,6 @@ namespace AscensionServer
 
         public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            SubDict.Clear();
             ResetResponseData(operationRequest);
             var dict = ParseSubDict(operationRequest);
             string allianceMemberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
