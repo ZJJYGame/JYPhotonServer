@@ -21,12 +21,12 @@ namespace AscensionServer
             var dict = ParseSubDict(operationRequest);
             string account = Utility.Json.ToObject<User>(Convert.ToString (Utility.GetValue(dict, (byte)ParameterCode.User))).Account;
             NHCriteria nHCriteriaAccount = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("Account", account);
-            string _uuid = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<User>(nHCriteriaAccount).UUID;
+            string _uuid = NHibernateQuerier.CriteriaSelect<User>(nHCriteriaAccount).UUID;
             NHCriteria nHCriteriaUUID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("UUID", _uuid);
-            UserRole userRole = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<UserRole>(nHCriteriaUUID);
+            UserRole userRole = NHibernateQuerier.CriteriaSelect<UserRole>(nHCriteriaUUID);
             if (!string.IsNullOrEmpty(userRole.RoleIDArray))
             {
-                var userRoleObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<UserRole>(nHCriteriaUUID);
+                var userRoleObj = NHibernateQuerier.CriteriaSelect<UserRole>(nHCriteriaUUID);
                 string roleIDListJson = userRoleObj.RoleIDArray;
                 List<string> roleIDlist;
                 List<Role> roleObjList = new List<Role>();
@@ -38,7 +38,7 @@ namespace AscensionServer
                     for (int i = 0; i < roleIDlist.Count; i++)
                     {
                         NHCriteria tmpCriteria = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", int.Parse(roleIDlist[i]));
-                        Role tmpRole = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Role>(tmpCriteria);
+                        Role tmpRole = NHibernateQuerier.CriteriaSelect<Role>(tmpCriteria);
                         roleObjList.Add(tmpRole);
                         nHCriteriaList.Add(tmpCriteria);
                     }

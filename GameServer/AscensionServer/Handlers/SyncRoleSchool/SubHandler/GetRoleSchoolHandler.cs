@@ -31,14 +31,14 @@ namespace AscensionServer
                 foreach (var roleId in roleobj)
                 {
                     NHCriteria nHCriteriarole = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
-                    var roleschoolObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleSchool>(nHCriteriarole);
-                    var verify= ConcurrentSingleton<NHManager>.Instance.Verify<RoleSchool>(nHCriteriarole);
+                    var roleschoolObj =NHibernateQuerier.CriteriaSelect<RoleSchool>(nHCriteriarole);
+                    var verify= NHibernateQuerier.Verify<RoleSchool>(nHCriteriarole);
                     if (verify)
                     {
                         if (roleschoolObj.RoleJoiningSchool!=null)
                         {
                             NHCriteria nHCriteriaSchool = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleschoolObj.RoleJoiningSchool);
-                            var schoolObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
+                            var schoolObj = NHibernateQuerier.CriteriaSelect<School>(nHCriteriaSchool);
                             schoolDict.Add(roleId, schoolObj);
 
                             GameManager.ReferencePoolManager.Despawns(nHCriteriaSchool);

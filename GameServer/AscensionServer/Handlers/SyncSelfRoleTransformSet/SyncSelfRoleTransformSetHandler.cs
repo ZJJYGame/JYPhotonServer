@@ -21,9 +21,9 @@ namespace AscensionServer
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var JsonResult = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleTransformQueue));
-            peer.PeerCache.RoleTransformQueue = Utility.Json.ToObject<RoleTransformQueueDTO>(JsonResult);
-            peer.PeerCache.RoleTransformQueue.RoleID = peer.PeerCache.RoleID;
-            peer.IsSendedTransform = false;
+            //peer.PeerCache.RoleTransformQueue = Utility.Json.ToObject<RoleTransformQueueDTO>(JsonResult);
+            //peer.PeerCache.RoleTransformQueue.RoleID = peer.PeerCache.RoleID;
+            //peer.IsSendedTransform = false;
             ResponseData.Clear();
             OpResponse.OperationCode = operationRequest.OperationCode;
             OpResponse.ReturnCode = (short)ReturnCode.Success;

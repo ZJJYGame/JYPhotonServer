@@ -37,8 +37,8 @@ namespace AscensionServer
             NHCriterias.Add(nHCriteriallianceMember);
             NHCriteria nHCriterialliancer = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", allianceObj.AllianceID);
             NHCriterias.Add(nHCriterialliancer);
-            var allianceMemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceMember>(nHCriteriallianceMember).Result;
-            var allianceStatusTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceStatus>(nHCriterialliancer).Result;
+            var allianceMemberTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceMember>(nHCriteriallianceMember).Result;
+            var allianceStatusTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceStatus>(nHCriterialliancer).Result;
             List<int> applyList = new List<int>();
             List<int> memberList = new List<int>();
             List<RoleAllianceDTO> roleAllianceDTOs = new List<RoleAllianceDTO>();
@@ -54,7 +54,7 @@ namespace AscensionServer
                     NHCriteria nHCriteriRoleAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleidList[i]);
 
                     NHCriterias.Add(nHCriteriRoleAlliance);
-                    var roleAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriRoleAlliance).Result;
+                    var roleAllianceTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriRoleAlliance).Result;
 
                     if (roleAllianceTemp.AllianceID == 0)
                     {
@@ -62,7 +62,7 @@ namespace AscensionServer
                         roleAllianceTemp.JoinTime= DateTime.Now.ToShortDateString().ToString();
                         //roleAllianceTemp.JoinOffline =
                         roleAllianceTemp.ApplyForAlliance = "[]";
-                       await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAllianceTemp);
+                       await NHibernateQuerier.UpdateAsync(roleAllianceTemp);
                         var Role = AlliancelogicManager.Instance.GetNHCriteria<Role>("RoleID", roleidList[i]);
                         RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { RoleID = roleAllianceTemp.RoleID, ApplyForAlliance = new List<int>(), AllianceID = roleAllianceTemp.AllianceID, ReputationHistroy = roleAllianceTemp.ReputationHistroy, AllianceJob = roleAllianceTemp.AllianceJob, JoinOffline = roleAllianceTemp.JoinOffline, JoinTime = roleAllianceTemp.JoinTime, Reputation = roleAllianceTemp.Reputation, ReputationMonth = roleAllianceTemp.ReputationMonth, RoleName = roleAllianceTemp.RoleName,RoleSchool= roleAllianceTemp.RoleSchool ,RoleLevel= Role .RoleLevel};
                         roleAllianceDTOs.Add(roleAllianceDTO);
@@ -72,18 +72,18 @@ namespace AscensionServer
                         applyList.Remove(roleidList[i]);
 
                         memberList.Add(roleidList[i]);
-                        if (ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAllianceSkill>(nHCriteriRoleAlliance).Result==null)
+                        if (NHibernateQuerier.CriteriaSelectAsync<RoleAllianceSkill>(nHCriteriRoleAlliance).Result==null)
                         {
                             RoleAllianceSkill roleAllianceSkill = new RoleAllianceSkill() { RoleID = roleAllianceTemp.RoleID };
-                            await ConcurrentSingleton<NHManager>.Instance.InsertAsync(roleAllianceSkill);
+                            await NHibernateQuerier.InsertAsync(roleAllianceSkill);
                         }
                     }
                 }
                 allianceMemberTemp.ApplyforMember = Utility.Json.ToJson(applyList);
                 allianceMemberTemp.Member = Utility.Json.ToJson(memberList);
 
-                await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceMemberTemp);
-                await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceStatusTemp);
+                await NHibernateQuerier.UpdateAsync(allianceMemberTemp);
+                await NHibernateQuerier.UpdateAsync(allianceStatusTemp);
             }
             if (roleAllianceDTOs.Count>0)
             {

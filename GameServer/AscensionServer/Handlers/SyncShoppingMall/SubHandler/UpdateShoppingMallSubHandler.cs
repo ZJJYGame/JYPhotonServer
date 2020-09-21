@@ -26,13 +26,13 @@ namespace AscensionServer
             var rolepurchaseObj = Utility.Json.ToObject<RolePurchaseRecordDTO>(rolepurchaseJson);
             NHCriteria nHCriteriarolepurchase = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepurchaseObj.RoleID);
             Utility.Debug.LogInfo("传过来的购买数据" + rolepurchaseJson);
-            var rolepurchasetemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RolePurchaseRecord>(nHCriteriarolepurchase);
+            var rolepurchasetemp = NHibernateQuerier.CriteriaSelect<RolePurchaseRecord>(nHCriteriarolepurchase);
             if (rolepurchasetemp != null)
             {
                 if (rolepurchasetemp.GoodsPurchasedCount.Equals("{}"))
                 {
                     rolepurchasetemp.GoodsPurchasedCount = Utility.Json.ToJson(rolepurchaseObj.GoodsPurchasedCount);
-                    ConcurrentSingleton<NHManager>.Instance.Update(rolepurchasetemp);
+                    NHibernateQuerier.Update(rolepurchasetemp);
                 }
                 else
                 {
@@ -47,7 +47,7 @@ namespace AscensionServer
                             rolepurchaseDict.Add(item.Key, item.Value);
                     }                 
                     rolepurchasetemp.GoodsPurchasedCount = Utility.Json.ToJson(rolepurchaseDict);
-                    ConcurrentSingleton<NHManager>.Instance.Update(rolepurchasetemp);
+                    NHibernateQuerier.Update(rolepurchasetemp);
                 }
                 RolePurchaseRecordDTO rolePurchaseRecordDTO = new RolePurchaseRecordDTO() { RoleID = rolepurchasetemp.RoleID, GoodsPurchasedCount = Utility.Json.ToObject<Dictionary<int, int>>(rolepurchasetemp.GoodsPurchasedCount) };
                 SetResponseData(() =>

@@ -26,7 +26,7 @@ namespace AscensionServer
             var weaponObj = Utility.Json.ToObject<WeaponDTO>(weaponJson);
 
             NHCriteria nHCriteriaweapon = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", weaponObj.RoleID);
-            var weapontemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Weapon>(nHCriteriaweapon);
+            var weapontemp = NHibernateQuerier.CriteriaSelect<Weapon>(nHCriteriaweapon);
 
             if (weapontemp != null)
             {
@@ -36,7 +36,7 @@ namespace AscensionServer
                     WeaponDict.Remove(item.Key);
                 }
                 weapontemp.WeaponStatusDict = Utility.Json.ToJson(WeaponDict);
-                ConcurrentSingleton<NHManager>.Instance.Update(weapontemp);
+                NHibernateQuerier.Update(weapontemp);
                 SetResponseData(() =>
                 {
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;

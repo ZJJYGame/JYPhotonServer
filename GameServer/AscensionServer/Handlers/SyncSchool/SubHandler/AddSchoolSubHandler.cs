@@ -39,9 +39,9 @@ namespace AscensionServer
             NHCriteria nHCriteriaTreasureattic = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", treasureatticObj.ID);
             NHCriteria nHCriteriasutrasAttic = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", sutrasAtticObj.ID);
 
-            var schoolTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
-            var treasureatticTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
-            var sutrasAtticTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SutrasAttic>(nHCriteriasutrasAttic);
+            var schoolTemp = NHibernateQuerier.CriteriaSelect<School>(nHCriteriaSchool);
+            var treasureatticTemp = NHibernateQuerier.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
+            var sutrasAtticTemp = NHibernateQuerier.CriteriaSelect<SutrasAttic>(nHCriteriasutrasAttic);
             Dictionary<string, string> DTOdict = new Dictionary<string, string>();
             if (schoolTemp != null)
             {
@@ -51,18 +51,18 @@ namespace AscensionServer
                 {
                     treasureatticTemp.ID = treasureatticObj.ID;
                     treasureatticTemp.ItemAmountDict = Utility.Json.ToJson(treasureatticObj.ItemAmountDict);
-                    ConcurrentSingleton<NHManager>.Instance.Update(treasureatticTemp);
+                    NHibernateQuerier.Update(treasureatticTemp);
                 }
                 if (sutrasAtticTemp != null)
                     {
                     sutrasAtticTemp.ID = sutrasAtticObj.ID;
                     sutrasAtticTemp.SutrasAmountDict = Utility.Json.ToJson(sutrasAtticObj.SutrasAmountDict);
-                        ConcurrentSingleton<NHManager>.Instance.Update(sutrasAtticTemp);
+                        NHibernateQuerier.Update(sutrasAtticTemp);
                 }
                     schoolTemp.SchoolID = schoolObj.SchoolID;
                 schoolTemp.SchoolJob = schoolObj.SchoolJob;
-                ConcurrentSingleton<NHManager>.Instance.Update(schoolTemp);
-                var schoolSendObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
+                NHibernateQuerier.Update(schoolTemp);
+                var schoolSendObj = NHibernateQuerier.CriteriaSelect<School>(nHCriteriaSchool);
                 SetResponseData(() =>
                 {
                     Utility.Debug.LogInfo(">>>>>>>返回加入宗门的数据" + Utility.Json.ToJson(schoolSendObj));

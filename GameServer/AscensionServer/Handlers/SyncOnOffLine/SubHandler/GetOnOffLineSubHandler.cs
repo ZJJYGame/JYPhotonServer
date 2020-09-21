@@ -31,15 +31,15 @@ namespace AscensionServer
             Bottleneck bottleneck = new Bottleneck() {RoleID= onofflinetemp.RoleID };
             NHCriteria nHCriteriabottleneck = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", bottleneck.RoleID);
             NHCriteria nHCriteriaRole = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
-            var bottleneckObj= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Bottleneck>(nHCriteriabottleneck);
+            var bottleneckObj= NHibernateQuerier.CriteriaSelect<Bottleneck>(nHCriteriabottleneck);
             ///获取的时间秒
             OffLineTimeDTO offLineTime = new OffLineTimeDTO() { RoleID = onofflinetemp.RoleID };
-            var obj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<OffLineTime>(nHCriteriaRole);
+            var obj = NHibernateQuerier.CriteriaSelect<OffLineTime>(nHCriteriaRole);
             TimeSpan interval = (DateTime.Now).Subtract(Convert.ToDateTime(obj.OffTime));
 
             if (obj != null)
             {
-                var Exptypeobj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<OnOffLine>(nHCriteriaRole);
+                var Exptypeobj = NHibernateQuerier.CriteriaSelect<OnOffLine>(nHCriteriaRole);
                 if (Exptypeobj.ExpType==1)
 
                 {

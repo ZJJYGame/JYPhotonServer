@@ -24,7 +24,7 @@ namespace AscensionServer
             string puppetJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobPuppet));
             var puppetObj = Utility.Json.ToObject<PuppetDTO>(puppetJson);
             NHCriteria nHCriteriapuppet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", puppetObj.RoleID);
-            var puppetTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Puppet>(nHCriteriapuppet);
+            var puppetTemp =NHibernateQuerier.CriteriaSelect<Puppet>(nHCriteriapuppet);
             int Level = 0;
             int Exp = 0;
             //AscensionServer._Log.Info("传输回去的锻造数据" + forgeJson);
@@ -34,14 +34,14 @@ namespace AscensionServer
                 {
                     Level = puppetTemp.JobLevel + puppetObj.JobLevel;
                     puppetObj = new PuppetDTO() { RoleID = puppetTemp.RoleID, JobLevel = Level, JobLevelExp = puppetObj.JobLevelExp, Recipe_Array = Utility.Json.ToObject<HashSet<int>>(puppetTemp.Recipe_Array)  };
-                    ConcurrentSingleton<NHManager>.Instance.Update(puppetObj);
+                    NHibernateQuerier.Update(puppetObj);
 
                 }
                 else
                 {
                     Exp = puppetTemp.JobLevelExp + puppetObj.JobLevelExp;
                     puppetObj = new PuppetDTO() { RoleID = puppetTemp.RoleID, JobLevel = puppetTemp.JobLevel, JobLevelExp = Exp, Recipe_Array = Utility.Json.ToObject<HashSet<int>>(puppetTemp.Recipe_Array) };
-                    ConcurrentSingleton<NHManager>.Instance.Update(puppetObj);
+                    NHibernateQuerier.Update(puppetObj);
 
                 }
                 SetResponseData(() =>

@@ -39,7 +39,7 @@ namespace AscensionServer
                 #region  MySql模块
                 NHCriteria nHCriteriaimmortalsAllianceslist = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", 1);
                 nhcriteriaList.Add(nHCriteriaimmortalsAllianceslist);
-                var immortalsAllianceslistTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Alliances>(nHCriteriaimmortalsAllianceslist);
+                var immortalsAllianceslistTemp = NHibernateQuerier.CriteriaSelect<Alliances>(nHCriteriaimmortalsAllianceslist);
 
                 alliances = Utility.Json.ToObject<List<int>>(immortalsAllianceslistTemp.AllianceList);
                 Utility.Debug.LogError("获取到的仙盟数量为"+ alliances.Count);
@@ -51,7 +51,7 @@ namespace AscensionServer
                         for (int i = immortalsAllianceObj.Index; i <=immortalsAllianceObj.AllIndex; i++)
                         {
                             NHCriteria nHCriteriaimmortalsAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", alliances[i]);
-                            var alliancestatusTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceStatus>(nHCriteriaimmortalsAlliance);
+                            var alliancestatusTemp = NHibernateQuerier.CriteriaSelect<AllianceStatus>(nHCriteriaimmortalsAlliance);
                             AllianceStatusDTO allianceStatusDTO = new AllianceStatusDTO() { ID= alliancestatusTemp .ID,AllianceLevel= alliancestatusTemp .AllianceLevel,AllianceMaster= alliancestatusTemp .AllianceMaster,AllianceName= alliancestatusTemp .AllianceName,AllianceNumberPeople= alliancestatusTemp .AllianceNumberPeople,AlliancePeopleMax= alliancestatusTemp.AlliancePeopleMax ,Manifesto= alliancestatusTemp .Manifesto,Popularity= alliancestatusTemp .Popularity};
                             ImmortalsAllianceList.Add(allianceStatusDTO);
                             nhcriteriaList.Add(nHCriteriaimmortalsAlliance);
@@ -65,7 +65,7 @@ namespace AscensionServer
 
                             Utility.Debug.LogInfo("发送的所有仙盟列表" + alliances[i]);
                             NHCriteria nHCriteriaimmortalsAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", alliances[i]);
-                            var alliancestatusTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceStatus>(nHCriteriaimmortalsAlliance);
+                            var alliancestatusTemp = NHibernateQuerier.CriteriaSelect<AllianceStatus>(nHCriteriaimmortalsAlliance);
                             AllianceStatusDTO allianceStatusDTO = new AllianceStatusDTO() { ID = alliancestatusTemp.ID, AllianceLevel = alliancestatusTemp.AllianceLevel, AllianceMaster = alliancestatusTemp.AllianceMaster, AllianceName = alliancestatusTemp.AllianceName, AllianceNumberPeople = alliancestatusTemp.AllianceNumberPeople, AlliancePeopleMax = alliancestatusTemp.AlliancePeopleMax, Manifesto = alliancestatusTemp.Manifesto, Popularity = alliancestatusTemp.Popularity };
 
                             ImmortalsAllianceList.Add(allianceStatusDTO);

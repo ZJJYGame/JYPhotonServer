@@ -26,7 +26,7 @@ namespace AscensionServer
             var roleObj = Utility.Json.ToObject<Role>(roleJson);
             var mishuObj = Utility.Json.ToObject<MiShu>(msJson);
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
-            var roleMiShuObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriaRoleID);
+            var roleMiShuObj = NHibernateQuerier.CriteriaSelect<RoleMiShu>(nHCriteriaRoleID);
             Dictionary<int, int> mishuDict;
             Dictionary<int, string> DOdict = new Dictionary<int, string>();
             if (roleMiShuObj!=null)
@@ -46,10 +46,10 @@ namespace AscensionServer
                     else
                     {
                         MiShu miShu = new MiShu() { MiShuID= mishuObj .MiShuID};
-                        miShu= ConcurrentSingleton<NHManager>.Instance.Insert(miShu);
+                        miShu= NHibernateQuerier.Insert(miShu);
                         mishuDict.Add(miShu.ID, miShu.MiShuID);
                         roleMiShuObj.MiShuIDArray = Utility.Json.ToJson(mishuDict);
-                        ConcurrentSingleton<NHManager>.Instance.Update(roleMiShuObj);
+                        NHibernateQuerier.Update(roleMiShuObj);
                         DOdict.Add(0, Utility.Json.ToJson(miShu));
                         DOdict.Add(1, Utility.Json.ToJson(roleMiShuObj));
                         SetResponseData(() =>

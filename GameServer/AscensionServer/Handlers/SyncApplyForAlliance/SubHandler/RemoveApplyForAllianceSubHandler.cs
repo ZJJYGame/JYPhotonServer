@@ -32,7 +32,7 @@ namespace AscensionServer
             NHCriteria nHCriteriallianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceObj.AllianceID);
 
 
-            var alliancememberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceMember>(nHCriteriallianceMember).Result;
+            var alliancememberTemp =NHibernateQuerier.CriteriaSelectAsync<AllianceMember>(nHCriteriallianceMember).Result;
 
             List<NHCriteria> NHCriterias = new List<NHCriteria>();
             NHCriterias.Add(nHCriteriallianceMember);
@@ -48,14 +48,14 @@ namespace AscensionServer
                 NHCriteria nHCriteriRoleAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleidList[i]);
 
                 NHCriterias.Add(nHCriteriRoleAlliance);
-                var roleAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriRoleAlliance).Result;
+                var roleAllianceTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriRoleAlliance).Result;
                 if (roleAllianceTemp.AllianceID == 0)
                 {
 
                     var roleApplyList = Utility.Json.ToObject<List<int>>(roleAllianceTemp.ApplyForAlliance);
                     roleApplyList.Remove(allianceObj.AllianceID);
                     roleAllianceTemp.ApplyForAlliance = Utility.Json.ToJson(roleApplyList);
-                  await   ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAllianceTemp);
+                  await   NHibernateQuerier.UpdateAsync(roleAllianceTemp);
 
 
                     Utility.Debug.LogError("进来的查找所有成员的数据 " + roleidList[i]);
@@ -63,7 +63,7 @@ namespace AscensionServer
                 }
             }
             alliancememberTemp.ApplyforMember=Utility.Json.ToJson(applyList);
-          await  ConcurrentSingleton<NHManager>.Instance.UpdateAsync(alliancememberTemp);
+          await  NHibernateQuerier.UpdateAsync(alliancememberTemp);
             SetResponseData(() =>
             {
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;

@@ -26,7 +26,7 @@ namespace AscensionServer.Handlers.SyncPuppet.SubHandler
             var puppetObj = Utility.Json.ToObject<PuppetDTO>(puppetJson);
             NHCriteria nHCriteriapuppetObj = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", puppetObj.RoleID);
             //AscensionServer._Log.Info("得到的锻造配方" );
-            var puppettemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Puppet>(nHCriteriapuppetObj);
+            var puppettemp =NHibernateQuerier.CriteriaSelect<Puppet>(nHCriteriapuppetObj);
             if (puppettemp != null)
             {
                 if (!string.IsNullOrEmpty(puppettemp.Recipe_Array))

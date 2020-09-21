@@ -41,7 +41,7 @@ namespace AscensionServer
             {
                // Utility.Debug.LogInfo("储存进Redis成功了杂货铺名字是" + vareityname + "内容是" + vareitycontent);
                 NHCriteria nHCriteriavareitycontent = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", vareitypurchaseObj.RoleID);
-                var vareitycontentTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<VareityPurchaseRecord>(nHCriteriavareitycontent);
+                var vareitycontentTemp = NHibernateQuerier.CriteriaSelect<VareityPurchaseRecord>(nHCriteriavareitycontent);
                 if (vareitycontentTemp != null)
                 {
                    
@@ -71,7 +71,7 @@ namespace AscensionServer
             if (string.IsNullOrEmpty(content))
             {
                 NHCriteria nHCriteriavareity = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("VareityshopID", vareityObj.VareityshopID);
-                var vareityTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<VareityShop>(nHCriteriavareity);
+                var vareityTemp = NHibernateQuerier.CriteriaSelect<VareityShop>(nHCriteriavareity);
 
                 if (vareityTemp != null)
                 {

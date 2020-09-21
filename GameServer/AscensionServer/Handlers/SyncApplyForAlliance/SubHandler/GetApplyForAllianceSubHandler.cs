@@ -29,7 +29,7 @@ namespace AscensionServer
             List<ApplyForAllianceDTO> applyForAllianceList = new List<ApplyForAllianceDTO>();
             List<int> applyForList = new List<int>();
             NHCriteria nHCriteriaalliancemember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", alliancememberObj.AllianceID);
-            var alliancememberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceMember>(nHCriteriaalliancemember).Result;
+            var alliancememberTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceMember>(nHCriteriaalliancemember).Result;
             applyForList = Utility.Json.ToObject<List<int>>(alliancememberTemp.ApplyforMember);
             for (int i = 0; i < applyForList.Count; i++)
             {

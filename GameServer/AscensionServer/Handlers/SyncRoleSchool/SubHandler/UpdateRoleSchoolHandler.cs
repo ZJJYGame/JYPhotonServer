@@ -25,7 +25,7 @@ namespace AscensionServer
             var roleschoolObj = Utility.Json.ToObject<RoleSchool>(roleschoolJson);
 
             NHCriteria nHCriteriaRoleschool = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleschoolObj.RoleID);
-            var roleschooltmep = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleSchool>(nHCriteriaRoleschool);
+            var roleschooltmep = NHibernateQuerier.CriteriaSelect<RoleSchool>(nHCriteriaRoleschool);
             Dictionary<int, int> hatredDict = new Dictionary<int, int>();
             if (roleschooltmep!=null)
             {

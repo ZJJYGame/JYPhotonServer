@@ -34,17 +34,17 @@ namespace AscensionServer
 
           
             NHCriteria nHCriteriaAllianceName = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceName", alliancestatusObj.AllianceName);
-            var alliance = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceStatus>(nHCriteriaAllianceName).Result;
+            var alliance = NHibernateQuerier.CriteriaSelectAsync<AllianceStatus>(nHCriteriaAllianceName).Result;
 
             NHCriteria nHCriteriaAllianceMaster = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceMaster", alliancestatusObj.AllianceMaster);
-            var allianceMasterObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceStatus>(nHCriteriaAllianceMaster).Result;
+            var allianceMasterObj = NHibernateQuerier.CriteriaSelectAsync<AllianceStatus>(nHCriteriaAllianceMaster).Result;
 
 
             List<string> Alliancelist = new List<string>();
             NHCriteria nHCriteriaroleAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleAllianceObj.RoleID);
-            var roleAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriaroleAlliance).Result;
+            var roleAllianceTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriaroleAlliance).Result;
 
-            var roleAssetsTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAssets>(nHCriteriaroleAlliance).Result;
+            var roleAssetsTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAssets>(nHCriteriaroleAlliance).Result;
 
 
             #region MySql数据模块
@@ -52,25 +52,25 @@ namespace AscensionServer
             {
                 List<int> gangslist = new List<int>();
                 NHCriteria nHCriteriaAllianceList = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", 1);
-                var allianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<Alliances>(nHCriteriaAllianceList).Result;
+                var allianceTemp = NHibernateQuerier.CriteriaSelectAsync<Alliances>(nHCriteriaAllianceList).Result;
                 gangslist = Utility.Json.ToObject<List<int>>(allianceTemp.AllianceList);
 
 
-                var allianceslIstObj =await ConcurrentSingleton<NHManager>.Instance.InsertAsync(alliancestatusObj);
+                var allianceslIstObj =await NHibernateQuerier.InsertAsync(alliancestatusObj);
 
                 AllianceConstruction allianceConstruction = new AllianceConstruction() { AllianceID = allianceslIstObj.ID};
-               await ConcurrentSingleton<NHManager>.Instance.InsertAsync(allianceConstruction);
+               await NHibernateQuerier.InsertAsync(allianceConstruction);
                 AllianceMember allianceMember = new AllianceMember() { AllianceID = allianceslIstObj.ID, ApplyforMember = Utility.Json.ToJson(new List<int>() { }) ,Member = Utility.Json.ToJson(new List<int>() { roleAllianceObj .RoleID}) };
-              await  ConcurrentSingleton<NHManager>.Instance.InsertAsync(allianceMember);
+              await  NHibernateQuerier.InsertAsync(allianceMember);
                 gangslist.Add(allianceslIstObj.ID);
                 allianceTemp.AllianceList = Utility.Json.ToJson(gangslist);
-                if (ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAllianceSkill>(nHCriteriaroleAlliance).Result==null)
+                if (NHibernateQuerier.CriteriaSelectAsync<RoleAllianceSkill>(nHCriteriaroleAlliance).Result==null)
                 {
                     RoleAllianceSkill roleAllianceSkill = new RoleAllianceSkill() { RoleID = roleAllianceObj.RoleID };
 
-                    await ConcurrentSingleton<NHManager>.Instance.InsertAsync(roleAllianceSkill);
+                    await NHibernateQuerier.InsertAsync(roleAllianceSkill);
                 }
-                await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceTemp);
+                await NHibernateQuerier.UpdateAsync(allianceTemp);
 
                 Alliancelist.Add(Utility.Json.ToJson(allianceslIstObj));
                 if (roleAllianceTemp != null)
@@ -79,7 +79,7 @@ namespace AscensionServer
                     roleAllianceTemp.AllianceID = allianceslIstObj.ID;
                     roleAllianceTemp.AllianceJob = roleAllianceObj.AllianceJob;
                     roleAllianceTemp.Reputation = roleAllianceObj.Reputation;
-                  await  ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAllianceTemp);
+                  await  NHibernateQuerier.UpdateAsync(roleAllianceTemp);
                 }
                 else
                 {
@@ -90,7 +90,7 @@ namespace AscensionServer
                         AllianceJob = roleAllianceObj.AllianceJob,
                         Reputation = roleAllianceObj.Reputation,
                     };
-                    await ConcurrentSingleton<NHManager>.Instance.InsertAsync(roleAllianceTemp);
+                    await NHibernateQuerier.InsertAsync(roleAllianceTemp);
                 }
                 RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { AllianceID = roleAllianceTemp.AllianceID, AllianceJob = roleAllianceTemp.AllianceJob, JoinTime = roleAllianceTemp.JoinTime, ApplyForAlliance = Utility.Json.ToObject<List<int>>(roleAllianceTemp.ApplyForAlliance), JoinOffline = roleAllianceTemp.JoinOffline, Reputation = roleAllianceTemp.Reputation, ReputationHistroy = roleAllianceTemp.ReputationHistroy, ReputationMonth = roleAllianceTemp.ReputationMonth, RoleID = roleAllianceTemp.RoleID, RoleName = roleAllianceTemp.RoleName };
                 Alliancelist.Add(Utility.Json.ToJson(roleAllianceDTO));

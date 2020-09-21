@@ -24,10 +24,10 @@ namespace AscensionServer
 
             var petObj = Utility.Json.ToObject<Pet>(petJson);
             NHCriteria nHCriteriaPet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petObj.PetID);
-            var PetObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriaPet);
+            var PetObj = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriaPet);
             if (!string.IsNullOrEmpty(petJson))
             {
-                petObj = ConcurrentSingleton<NHManager>.Instance.Insert(petObj);
+                petObj = NHibernateQuerier.Insert(petObj);
                 Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>添加宠物进来了》》》》》》》》》》》》》》》");
                 SetResponseData(() =>
                 {

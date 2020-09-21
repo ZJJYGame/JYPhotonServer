@@ -32,7 +32,7 @@ namespace AscensionServer
             var petstatusObj = Utility.Json.ToObject<PetStatus>(psJson);
             var petPtitudeObj = Utility.Json.ToObject<PetaPtitudeDTO>(ppJson);
             NHCriteria nHCriteriaroleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
-            var rolepet = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RolePet>(nHCriteriaroleID);
+            var rolepet = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriaroleID);
             Dictionary<int, int> petDict;
             List<string> petDoList = new List<string>();
 
@@ -43,13 +43,13 @@ namespace AscensionServer
                     petDict = new Dictionary<int, int>();
                     petDict = Utility.Json.ToObject<Dictionary<int, int>>(rolepet.PetIDDict);
 
-                    petObj = ConcurrentSingleton<NHManager>.Instance.Insert<Pet>(petObj);
+                    petObj = NHibernateQuerier.Insert<Pet>(petObj);
                     petstatusObj.PetID = petObj.ID;
-                    petstatusObj = ConcurrentSingleton<NHManager>.Instance.Insert<PetStatus>(petstatusObj);
+                    petstatusObj = NHibernateQuerier.Insert<PetStatus>(petstatusObj);
                     petDict.Add(petObj.ID, petObj.PetID);
                     PetaPtitude petaPtitude = new PetaPtitude() { AttackphysicalAptitude = petPtitudeObj.AttackphysicalAptitude, HPAptitude = petPtitudeObj.HPAptitude, AttackpowerAptitude = petPtitudeObj.AttackpowerAptitude, AttacksoulAptitude = petPtitudeObj.AttacksoulAptitude, DefendphysicalAptitude = petPtitudeObj.DefendphysicalAptitude = petPtitudeObj.DefendphysicalAptitude, AttackspeedAptitude = petPtitudeObj.AttackspeedAptitude, DefendpowerAptitude = petPtitudeObj.DefendpowerAptitude, DefendsoulAptitude = petPtitudeObj.DefendsoulAptitude, MPAptitude = petPtitudeObj.MPAptitude, Petaptitudecol = petPtitudeObj.Petaptitudecol, PetaptitudeDrug = "{}", PetID = petObj.ID, SoulAptitude = petPtitudeObj.SoulAptitude };
-                    ConcurrentSingleton<NHManager>.Instance.Insert<PetaPtitude>(petaPtitude);
-                    ConcurrentSingleton<NHManager>.Instance.Update(new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
+                    NHibernateQuerier.Insert<PetaPtitude>(petaPtitude);
+                    NHibernateQuerier.Update(new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
                     petDoList.Add(Utility.Json.ToJson(petObj));
                     petDoList.Add(Utility.Json.ToJson(petstatusObj));
                     petPtitudeObj.PetID = petObj.ID;
@@ -71,13 +71,13 @@ namespace AscensionServer
                     petDict = new Dictionary<int, int>();
                     petDict = Utility.Json.ToObject<Dictionary<int, int>>(rolepet.PetIDDict);
 
-                    petObj = ConcurrentSingleton<NHManager>.Instance.Insert<Pet>(petObj);
+                    petObj = NHibernateQuerier.Insert<Pet>(petObj);
                     petstatusObj.PetID = petObj.ID;
-                    petstatusObj = ConcurrentSingleton<NHManager>.Instance.Insert<PetStatus>(petstatusObj);
+                    petstatusObj = NHibernateQuerier.Insert<PetStatus>(petstatusObj);
                     petDict.Add(petObj.ID, petObj.PetID);
                     PetaPtitude petaPtitude = new PetaPtitude() { AttackphysicalAptitude = petPtitudeObj.AttackphysicalAptitude, HPAptitude = petPtitudeObj.HPAptitude, AttackpowerAptitude = petPtitudeObj.AttackpowerAptitude, AttacksoulAptitude = petPtitudeObj.AttacksoulAptitude, DefendphysicalAptitude = petPtitudeObj.DefendphysicalAptitude = petPtitudeObj.DefendphysicalAptitude, AttackspeedAptitude = petPtitudeObj.AttackspeedAptitude, DefendpowerAptitude = petPtitudeObj.DefendpowerAptitude, DefendsoulAptitude = petPtitudeObj.DefendsoulAptitude, MPAptitude = petPtitudeObj.MPAptitude, Petaptitudecol = petPtitudeObj.Petaptitudecol, PetaptitudeDrug = "{}", PetID = petObj.ID, SoulAptitude = petPtitudeObj.SoulAptitude };
-                    ConcurrentSingleton<NHManager>.Instance.Insert<PetaPtitude>(petaPtitude);
-                    ConcurrentSingleton<NHManager>.Instance.Update(new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
+                    NHibernateQuerier.Insert<PetaPtitude>(petaPtitude);
+                    NHibernateQuerier.Update(new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
                     petDoList.Add(Utility.Json.ToJson(petObj));
                     petDoList.Add(Utility.Json.ToJson(petstatusObj));
                     petPtitudeObj.PetID = petObj.ID;
@@ -99,13 +99,13 @@ namespace AscensionServer
                 petDict = new Dictionary<int, int>();
                 petDict = Utility.Json.ToObject<Dictionary<int, int>>(rolepet.PetIDDict);
 
-                petObj = ConcurrentSingleton<NHManager>.Instance.Insert<Pet>(petObj);
+                petObj = NHibernateQuerier.Insert<Pet>(petObj);
                 petstatusObj.PetID = petObj.ID;
-                petstatusObj = ConcurrentSingleton<NHManager>.Instance.Insert<PetStatus>(petstatusObj);
+                petstatusObj = NHibernateQuerier.Insert<PetStatus>(petstatusObj);
                 petDict.Add(petObj.ID, petObj.PetID);
                 PetaPtitude petaPtitude = new PetaPtitude() { AttackphysicalAptitude = petPtitudeObj.AttackphysicalAptitude, HPAptitude = petPtitudeObj.HPAptitude, AttackpowerAptitude = petPtitudeObj.AttackpowerAptitude, AttacksoulAptitude = petPtitudeObj.AttacksoulAptitude, DefendphysicalAptitude = petPtitudeObj.DefendphysicalAptitude = petPtitudeObj.DefendphysicalAptitude, AttackspeedAptitude = petPtitudeObj.AttackspeedAptitude, DefendpowerAptitude = petPtitudeObj.DefendpowerAptitude, DefendsoulAptitude = petPtitudeObj.DefendsoulAptitude, MPAptitude = petPtitudeObj.MPAptitude, Petaptitudecol = petPtitudeObj.Petaptitudecol, PetaptitudeDrug = "{}", PetID = petObj.ID, SoulAptitude = petPtitudeObj.SoulAptitude };
-                ConcurrentSingleton<NHManager>.Instance.Insert<PetaPtitude>(petaPtitude);
-                ConcurrentSingleton<NHManager>.Instance.Insert(new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
+                NHibernateQuerier.Insert<PetaPtitude>(petaPtitude);
+                NHibernateQuerier.Insert(new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
                 petDoList.Add(Utility.Json.ToJson(petObj));
                 petDoList.Add(Utility.Json.ToJson(petstatusObj));
                 petPtitudeObj.PetID = petObj.ID;

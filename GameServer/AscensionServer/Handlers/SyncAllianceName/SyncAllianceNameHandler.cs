@@ -25,7 +25,7 @@ using StackExchange.Redis;namespace AscensionServer
             var roleAssetsObj = Utility.Json.ToObject<RoleAssetsDTO>(roleAssetsJson);
 
             NHCriteria nHCriteriaAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceName", allianceStatusObj.AllianceName);
-            var allianceNameTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceStatus>(nHCriteriaAlliance);
+            var allianceNameTemp = NHibernateQuerier.CriteriaSelect<AllianceStatus>(nHCriteriaAlliance);
             var allianceStatusTemp= AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", allianceStatusObj.ID);
             var roleAssetsTemp = AlliancelogicManager.Instance.GetNHCriteria<RoleAssets>("RoleID", roleAssetsObj.RoleID);
             OpResponse.OperationCode = operationRequest.OperationCode;
@@ -38,8 +38,8 @@ using StackExchange.Redis;namespace AscensionServer
                     {
                         allianceStatusTemp.AllianceName = allianceStatusObj.AllianceName;
                         roleAssetsTemp.SpiritStonesLow -= roleAssetsObj.SpiritStonesLow;
-                        await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceStatusTemp);
-                        await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAssetsTemp);
+                        await NHibernateQuerier.UpdateAsync(allianceStatusTemp);
+                        await NHibernateQuerier.UpdateAsync(roleAssetsTemp);
 
                         await RedisHelper.Hash.HashSetAsync<RoleAssets>("RoleAssets", roleAssetsObj.RoleID.ToString(), new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesLow = roleAssetsTemp.SpiritStonesLow, XianYu = roleAssetsTemp.XianYu });
                         ResponseData.Add((byte)ParameterCode.AllianceName, Utility.Json.ToJson(allianceStatusTemp));

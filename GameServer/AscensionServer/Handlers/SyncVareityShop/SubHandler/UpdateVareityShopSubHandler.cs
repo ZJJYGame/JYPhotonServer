@@ -32,13 +32,13 @@ namespace AscensionServer
             #endregion
             NHCriteria nHCriteriarolepurchase = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepurchaseObj.RoleID);
             Utility.Debug.LogInfo("传过来的杂货铺购买数据" + rolepurchaseJson);
-            var rolepurchasetemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<VareityPurchaseRecord>(nHCriteriarolepurchase);
+            var rolepurchasetemp = NHibernateQuerier.CriteriaSelect<VareityPurchaseRecord>(nHCriteriarolepurchase);
             if (rolepurchasetemp != null)
             {
                 if (rolepurchasetemp.VareityPurchasedCount.Equals("{}"))
                 {
                     rolepurchasetemp.VareityPurchasedCount = Utility.Json.ToJson(rolepurchaseObj.VareityPurchasedCount);
-                    ConcurrentSingleton<NHManager>.Instance.Update(rolepurchasetemp);
+                    NHibernateQuerier.Update(rolepurchasetemp);
                 }
                 else
                 {
@@ -53,7 +53,7 @@ namespace AscensionServer
                             rolepurchaseDict.Add(item.Key, item.Value);
                     }
                     rolepurchasetemp.VareityPurchasedCount = Utility.Json.ToJson(rolepurchaseDict);
-                    ConcurrentSingleton<NHManager>.Instance.Update(rolepurchasetemp);
+                    NHibernateQuerier.Update(rolepurchasetemp);
                 }
 
                 VareityPurchaseRecordDTO vareityPurchaseRecordDTO = new VareityPurchaseRecordDTO() { RoleID = rolepurchasetemp.RoleID, VareityPurchasedCount = Utility.Json.ToObject<Dictionary<int, int>>(rolepurchasetemp.VareityPurchasedCount) };

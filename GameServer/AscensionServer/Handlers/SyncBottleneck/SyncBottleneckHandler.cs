@@ -24,15 +24,15 @@ namespace AscensionServer
             NHCriteria nHCriteriaBottleneck = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", bottleneckObj.RoleID);
 
 
-            Bottleneck bottleneck = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Bottleneck>(nHCriteriaBottleneck);
+            Bottleneck bottleneck = NHibernateQuerier.CriteriaSelect<Bottleneck>(nHCriteriaBottleneck);
             if (bottleneck != null)
             {
-                ConcurrentSingleton<NHManager>.Instance.Update(bottleneckObj);
+                NHibernateQuerier.Update(bottleneckObj);
                 OpResponse.ReturnCode = (short)ReturnCode.Success;
             }
             else
             {
-                ConcurrentSingleton<NHManager>.Instance.Insert(bottleneckObj);
+                NHibernateQuerier.Insert(bottleneckObj);
                 OpResponse.ReturnCode = (short)ReturnCode.Success;
             }
             peer.SendOperationResponse(OpResponse, sendParameters);

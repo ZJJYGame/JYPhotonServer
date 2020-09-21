@@ -23,11 +23,11 @@ namespace AscensionServer
             string roleMSJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.MiShu));
             var roleMiShuObj = Utility.Json.ToObject<RoleMiShu>(roleMSJson);
             NHCriteria nHCriteriamishu = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleMiShuObj.RoleID);
-            RoleMiShu roleMiShu = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriamishu);
+            RoleMiShu roleMiShu = NHibernateQuerier.CriteriaSelect<RoleMiShu>(nHCriteriamishu);
             Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收到获取秘术的数组" + roleMiShu.MiShuIDArray);
             if ( !string.IsNullOrEmpty(roleMiShu.MiShuIDArray))
             {
-                var rMiShuObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriamishu);
+                var rMiShuObj = NHibernateQuerier.CriteriaSelect<RoleMiShu>(nHCriteriamishu);
                 string rolemishuJson = rMiShuObj.MiShuIDArray;
                 Dictionary<int, int> roleIDict;
                 List<MiShu> miShuIdList = new List<MiShu>();
@@ -39,7 +39,7 @@ namespace AscensionServer
                     foreach (var roleid in roleIDict)
                     {
                         NHCriteria tmpcriteria = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleid.Key);
-                        MiShu miShu = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<MiShu>(tmpcriteria);
+                        MiShu miShu = NHibernateQuerier.CriteriaSelect<MiShu>(tmpcriteria);
                         miShuIdList.Add(miShu);
                         nHCriteriaslist.Add(tmpcriteria);
                     }

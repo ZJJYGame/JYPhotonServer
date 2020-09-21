@@ -34,7 +34,7 @@ namespace AscensionServer
             {
                 NHCriteria nHCriteriaAllianceName = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceName", alliancestatusObj.AllianceName);
                 nHCriterias.Add(nHCriteriaAllianceName);
-                var allianceNameObj = ConcurrentSingleton<NHManager>.Instance.CriteriaLikeAsync<AllianceStatus>(nHCriteriaAllianceName, MatchMode.Anywhere).Result;
+                var allianceNameObj = NHibernateQuerier.CriteriaLikeAsync<AllianceStatus>(nHCriteriaAllianceName, MatchMode.Anywhere).Result;
                 Utility.Debug.LogError("1查询获得MySQL的数据" + allianceNameObj.Count);
                 if (allianceNameObj.Count == 0)
                 {
@@ -72,14 +72,14 @@ namespace AscensionServer
 
                 NHCriteria nHCriteriaAllianceID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", alliancestatusObj.ID);
                 nHCriterias.Add(nHCriteriaAllianceID);
-                var allianceIDObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceStatus>(nHCriteriaAllianceID).Result;
+                var allianceIDObj = NHibernateQuerier.CriteriaSelectAsync<AllianceStatus>(nHCriteriaAllianceID).Result;
                 Utility.Debug.LogError("1搜索的是仙盟名字不是id");
                 if (allianceIDObj == null)
                 {
                     Utility.Debug.LogError("2搜索的是仙盟名字不是id");
                     NHCriteria nHCriteriaAllianceName = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceName", alliancestatusObj.AllianceName.ToString());
                     nHCriterias.Add(nHCriteriaAllianceName);
-                    var allianceNameObj = ConcurrentSingleton<NHManager>.Instance.CriteriaLikeAsync<AllianceStatus>(nHCriteriaAllianceName, MatchMode.Anywhere).Result;
+                    var allianceNameObj = NHibernateQuerier.CriteriaLikeAsync<AllianceStatus>(nHCriteriaAllianceName, MatchMode.Anywhere).Result;
                     //Utility.Debug.LogError("1查询获得MySQL的数据" + allianceNameObj[0].AllianceName + "%%" + allianceNameObj[2].AllianceName + "**" + "查询获得MySQL的数据长度" + allianceNameObj.Count);
                     if (allianceNameObj.Count == 0)
                     {
@@ -128,7 +128,7 @@ namespace AscensionServer
 
                     NHCriteria nHCriteriaAllianceName = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceName", alliancestatusObj.AllianceName);
                     nHCriterias.Add(nHCriteriaAllianceName);
-                    var allianceNameObj = ConcurrentSingleton<NHManager>.Instance.CriteriaLikeAsync<AllianceStatus>(nHCriteriaAllianceName, MatchMode.Anywhere).Result;
+                    var allianceNameObj = NHibernateQuerier.CriteriaLikeAsync<AllianceStatus>(nHCriteriaAllianceName, MatchMode.Anywhere).Result;
                     Utility.Debug.LogError("3搜索的是仙盟名字不是id");
                     if (allianceNameObj.Count == 0)
                     {

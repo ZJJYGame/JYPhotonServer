@@ -25,10 +25,10 @@ namespace AscensionServer
             Utility.Debug.LogInfo(">>>>>>>>>>>>>获得任务相关信息：" + roletask + ">>>>>>>>>>>>>>>>>>>>>>");
             var roletaskobj = Utility.Json.ToObject<RoleTaskProgressDTO>(roletask);
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roletaskobj.RoleID);
-            bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID);
+            bool exist = NHibernateQuerier.Verify<Role>(nHCriteriaRoleID);
             if (exist)
             {
-                var roleTaskInfo = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleTaskProgress>(nHCriteriaRoleID);
+                var roleTaskInfo = NHibernateQuerier.CriteriaSelect<RoleTaskProgress>(nHCriteriaRoleID);
                 if (roleTaskInfo.RoleTaskInfoDic != null)
                     Owner.ResponseData.Add((byte)ParameterCode.Task, roleTaskInfo.RoleTaskInfoDic);
                 Owner.OpResponse.Parameters = Owner.ResponseData;

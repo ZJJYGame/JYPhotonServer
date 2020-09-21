@@ -26,10 +26,10 @@ namespace AscensionServer
             Utility.Debug.LogInfo(">>>>>Add 临时背包" + TemRingRoleData + ">>>>>>>>>>>>>");
             var TemRingRoleObj = Utility.Json.ToObject<TemporaryRingDTO>(TemRingRoleData);
             NHCriteria nHCriteriaRoleID =GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", TemRingRoleObj.RoleID);
-            bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleRing>(nHCriteriaRoleID);
+            bool exist = NHibernateQuerier.Verify<RoleRing>(nHCriteriaRoleID);
             if (exist)
             {
-                var ringServer = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<TemporaryRing>(nHCriteriaRoleID);
+                var ringServer = NHibernateQuerier.CriteriaSelect<TemporaryRing>(nHCriteriaRoleID);
                 var tempRing = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServer.RingItems);
 
                 foreach (var temp in TemRingRoleObj.RingItems)
@@ -46,7 +46,7 @@ namespace AscensionServer
                         if (tempValue.RingItemAdorn != temp.Value.RingItemAdorn)
                             tempValue.RingItemAdorn = temp.Value.RingItemAdorn;
                     }
-                    ConcurrentSingleton<NHManager>.Instance.Update(new TemporaryRing() { RoleID = TemRingRoleObj.RoleID, RingItems = Utility.Json.ToJson(tempRing) });
+                    NHibernateQuerier.Update(new TemporaryRing() { RoleID = TemRingRoleObj.RoleID, RingItems = Utility.Json.ToJson(tempRing) });
 
                 }
                 Owner.OpResponse.Parameters = Owner.ResponseData;

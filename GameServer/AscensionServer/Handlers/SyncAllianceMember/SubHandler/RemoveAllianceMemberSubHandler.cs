@@ -29,7 +29,7 @@ namespace AscensionServer
             var allianceMemberObj = Utility.Json.ToObject<AllianceMemberDTO>(allianceMemberJson);
 
             NHCriteria nHCriteriallianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceMemberObj.AllianceID);
-            var allianceMemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceMember>(nHCriteriallianceMember).Result;
+            var allianceMemberTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceMember>(nHCriteriallianceMember).Result;
 
             #region 待删
             List<NHCriteria> nHCriterias = new List<NHCriteria>();
@@ -46,16 +46,16 @@ namespace AscensionServer
 
                         var alliancestatus = AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", allianceMemberObj.AllianceID);
                         alliancestatus.AllianceNumberPeople -=1;
-                       await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(alliancestatus);
-                        var MemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriMember).Result;
+                       await NHibernateQuerier.UpdateAsync(alliancestatus);
+                        var MemberTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriMember).Result;
                         MemberTemp.AllianceID = 0;
                         MemberTemp.AllianceJob = 50;
-                     await   ConcurrentSingleton<NHManager>.Instance.UpdateAsync(MemberTemp);
+                     await   NHibernateQuerier.UpdateAsync(MemberTemp);
 
                         memberlist = Utility.Json.ToObject<List<int>>(allianceMemberTemp.Member);
                         memberlist.Remove(allianceMemberObj.Member[i]);
                         allianceMemberTemp.Member = Utility.Json.ToJson(memberlist);
-                     await   ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceMemberTemp);
+                     await   NHibernateQuerier.UpdateAsync(allianceMemberTemp);
                         SetResponseData(() =>
                         {
                             Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;

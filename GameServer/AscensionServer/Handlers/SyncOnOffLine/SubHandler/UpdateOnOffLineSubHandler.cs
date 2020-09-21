@@ -29,12 +29,12 @@ namespace AscensionServer
             string subDataJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.OnOffLine));
             var onofflinetemp = Utility.Json.ToObject<OnOffLine>(subDataJson);
             NHCriteria nHCriteriaOnoff = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
-            var obj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<OnOffLine>(nHCriteriaOnoff);
+            var obj = NHibernateQuerier.CriteriaSelect<OnOffLine>(nHCriteriaOnoff);
             if (obj != null)
             {
                 obj.MsGfID = onofflinetemp.MsGfID;
                 obj.ExpType = onofflinetemp.ExpType;
-                ConcurrentSingleton<NHManager>.Instance.Update(obj);
+                NHibernateQuerier.Update(obj);
                 SetResponseData(() =>
                 {
                     Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
@@ -42,7 +42,7 @@ namespace AscensionServer
             }
             else
             {
-                ConcurrentSingleton<NHManager>.Instance.Insert(onofflinetemp);
+                NHibernateQuerier.Insert(onofflinetemp);
             }
             //peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaOnoff);

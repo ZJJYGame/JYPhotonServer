@@ -30,8 +30,8 @@ namespace AscensionServer
             NHCriteria nHCriteriashoppingmall = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", shoppingmallObj.ID);
 
 
-            var rolepurchasetemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RolePurchaseRecord>(nHCriteriarolepurchase);
-            var shoppingmalltemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<ShoppingMall>(nHCriteriashoppingmall);
+            var rolepurchasetemp= NHibernateQuerier.CriteriaSelect<RolePurchaseRecord>(nHCriteriarolepurchase);
+            var shoppingmalltemp = NHibernateQuerier.CriteriaSelect<ShoppingMall>(nHCriteriashoppingmall);
             //记录传输的总商店物品及已经兑换的商店物品
             Dictionary<string, string> shopDIct = new Dictionary<string, string>();
             if (shoppingmalltemp!=null)

@@ -26,14 +26,14 @@ namespace AscensionServer
             Utility.Debug.LogInfo("更新前的宗门信息");
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
             NHCriteria nHCriteriaschool = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
-            var schooltemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaschool);
+            var schooltemp = NHibernateQuerier.CriteriaSelect<School>(nHCriteriaschool);
             if (schooltemp != null)
             {
                 if (schoolObj.GetContributions >= 0)
                 {
                     schooltemp.ContributionNow += schoolObj.GetContributions;
                     schooltemp.IsSignin = schoolObj.IsSignin;
-                    ConcurrentSingleton<NHManager>.Instance.Update<School>(schooltemp);
+                    NHibernateQuerier.Update<School>(schooltemp);
                     OpResponse.ReturnCode = (byte)ReturnCode.Success;
                     ResponseData.Add((byte)ParameterCode.SchoolRefresh, Utility.Json.ToJson(schooltemp));
                     OpResponse.OperationCode = operationRequest.OperationCode;

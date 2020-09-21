@@ -29,8 +29,8 @@ namespace AscensionServer
     {
         #region Properties
         new public static AscensionServer Instance { get; private set; }
-        public Dictionary<OperationCode, Handler> HandlerDict { get; private set; }
         #endregion
+        uint peerIndex;
         /// <summary>
         /// 当一个客户端请求连接的时候，服务器就会调用这个方法
         /// 我们使用peerbase，表示和一个客户端的连接，然后photon就会把链接管理起来
@@ -39,13 +39,13 @@ namespace AscensionServer
         {
             var peer = new AscensionPeer(initRequest);
             Utility.Debug.LogInfo("Peer connect");
-            connectedPeerHashSet.Add(peer);
+           var pe= PeerEntity.Create(peer);
+            GameManager.CustomeModule<PeerManager>().TryAdd(peerIndex,pe);
             return peer;
         }
         protected override void Setup()
         {
             Utility.Debug.SetHelper(new Log4NetDebugHelper());
-            HandlerDict = new Dictionary<OperationCode, Handler>();
             Instance = this;
             log4net.GlobalContext.Properties["Photon:ApplicationLogPath"] = Path.Combine(this.ApplicationRootPath, "log");//配置log的输出位置
             FileInfo configFileInfo = new FileInfo(Path.Combine(this.BinaryPath, "log4net.config"));
@@ -55,7 +55,6 @@ namespace AscensionServer
                 XmlConfigurator.ConfigureAndWatch(configFileInfo);//让log4net读取配置文件
                 Utility.Debug.LogInfo("Server Start Running");
             }
-            InitHandler();
             Utility.Json.SetHelper(new NewtonjsonHelper());
             var syncRoleTransEvent = new SyncRoleTransformEvent();
             syncRoleTransEvent.OnInitialization();
@@ -69,17 +68,7 @@ namespace AscensionServer
         protected override void TearDown()
         {
             Utility.Debug.LogInfo("Server Shutdown");
-            HandlerDict.Clear();
-        }
-        void InitHandler()
-        {
-           var handlers= Utility.Assembly.GetInstancesByAttribute<InheritedAttribute,Handler>();
-            int length = handlers.Length;
-            for (int i = 0; i < length; i++)
-            {
-                handlers[i].OnInitialization();
-                HandlerDict.Add(handlers[i].OpCode, handlers[i]);
-            }
+            GameManager.Instance.Dispose();
         }
     }
 }

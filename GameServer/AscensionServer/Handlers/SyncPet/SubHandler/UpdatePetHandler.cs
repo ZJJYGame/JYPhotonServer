@@ -28,7 +28,7 @@ namespace AscensionServer
 
             var petObj = Utility.Json.ToObject<Pet>(petJson);
             NHCriteria nHCriteriaPet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petObj.ID);
-            var pet = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriaPet);
+            var pet = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriaPet);
             if (pet != null && RedisHelper.Hash.HashExistAsync("Pet", petObj.ID.ToString()).Result)
             {
                 if (petObj.PetLevel!=0)
@@ -36,13 +36,13 @@ namespace AscensionServer
 
                    pet.PetLevel += petObj.PetLevel;
                    pet.PetExp =petObj.PetExp;
-                    ConcurrentSingleton<NHManager>.Instance.Update(pet);
+                    NHibernateQuerier.Update(pet);
                   await  RedisHelper.Hash.HashSetAsync<Pet>("Pet", pet.ID.ToString(), pet);
                 }
                 else
                 {
                      pet.PetExp += petObj.PetExp;
-                    ConcurrentSingleton<NHManager>.Instance.Update(pet);
+                    NHibernateQuerier.Update(pet);
                    await RedisHelper.Hash.HashSetAsync<Pet>("Pet", pet.ID.ToString(), pet);
                 }
                 SetResponseData(() =>

@@ -45,10 +45,10 @@ namespace AscensionServer
             Utility.Debug.LogInfo(">>>>>添加自己的一些属性" + RoleStatusData + ">>>>>>>>>>>>>");
             var roleObj = Utility.Json.ToObject<RoleStatus>(RoleStatusData);
             NHCriteria nHCriteriaRoleId = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
-            bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleStatus>(nHCriteriaRoleId);
+            bool exist = NHibernateQuerier.Verify<RoleStatus>(nHCriteriaRoleId);
             if (exist)
             {
-                var  roleStatusSever =  ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleStatus>(nHCriteriaRoleId);
+                var  roleStatusSever =  NHibernateQuerier.CriteriaSelect<RoleStatus>(nHCriteriaRoleId);
                 
                 if (roleObj.RoleMaxHP != 0 )
                 {
@@ -101,7 +101,7 @@ namespace AscensionServer
                 }
 
 
-                ConcurrentSingleton<NHManager>.Instance.Update(new RoleStatus()
+                NHibernateQuerier.Update(new RoleStatus()
                 {
                     RoleID = roleObj.RoleID,
                     RoleHP = roleStatusSever.RoleHP,

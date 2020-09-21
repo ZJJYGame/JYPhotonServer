@@ -23,16 +23,15 @@ namespace AscensionServer
         {
             ResponseData.Clear();
             var roleAdventureSkillJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleAdventureStartSkill));
-            peer.PeerCache.RoleAdventureSkill = Utility.Json.ToObject<RoleAdventureSkillDTO>(roleAdventureSkillJson);
-            peer.IsUseSkill = false;
+            //peer.PeerCache.RoleAdventureSkill = Utility.Json.ToObject<RoleAdventureSkillDTO>(roleAdventureSkillJson);
             Utility.Debug.LogInfo("历练技能使用成功");
             roleSet.Clear();
-            var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
-            int peerSetLength = peerSet.Count;
-            for (int i = 0; i < peerSetLength; i++)
-            {
-                roleSet.Add(peerSet[i].PeerCache.RoleAdventureSkill);
-            }
+            //var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
+            //int peerSetLength = peerSet.Count;
+            //for (int i = 0; i < peerSetLength; i++)
+            //{
+            //    roleSet.Add(peerSet[i].PeerCache.RoleAdventureSkill);
+            //}
             var roleSetJson = Utility.Json.ToJson(roleSet);
             ResponseData.Add((byte)ParameterCode.RoleAdventureStartSkill, roleAdventureSkillJson);
             OpResponse.OperationCode = operationRequest.OperationCode;
@@ -42,10 +41,10 @@ namespace AscensionServer
             //广播事件
             threadEventParameter.Clear();
             threadEventParameter.Add((byte)ParameterCode.RoleAdventureStartSkill, roleAdventureSkillJson);
-            QueueThreadEvent(peerSet, EventCode.RoleAdventureStartSkill, threadEventParameter);
+            //QueueThreadEvent(peerSet, EventCode.RoleAdventureStartSkill, threadEventParameter);
 
-            SkillBuffEnd(peer.PeerCache.RoleAdventureSkill.BuffeInterval, peer);
-            CDIntervalMethod(peer.PeerCache.RoleAdventureSkill.CDInterval, peer, peer.PeerCache.RoleAdventureSkill.SkillID);
+            //SkillBuffEnd(peer.PeerCache.RoleAdventureSkill.BuffeInterval, peer);
+            //CDIntervalMethod(peer.PeerCache.RoleAdventureSkill.CDInterval, peer, peer.PeerCache.RoleAdventureSkill.SkillID);
         }
 
         #region 删除
@@ -66,7 +65,7 @@ namespace AscensionServer
                 //AscensionServer._Log.Info("进入技能buff线程》》》》》》》》》》》》》》》》》》》》"+ peer.PeerCache.RoleAdventureSkill.IsInUse);
                 Thread.Sleep(cd * 1000);
                 //AscensionServer._Log.Info("技能buff线程已经开始》》》》》》》》》》》》》》》》》》》》");
-                peer.PeerCache.RoleAdventureSkill.IsInUse =false ;
+                //peer.PeerCache.RoleAdventureSkill.IsInUse =false ;
                 var syncAdventureSkillEvent = new SyncAdventureSkillEvent();
                 syncAdventureSkillEvent.OnInitialization();
                 ThreadPool.QueueUserWorkItem(syncAdventureSkillEvent.Handler);

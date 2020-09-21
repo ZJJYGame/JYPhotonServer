@@ -46,9 +46,9 @@ namespace AscensionServer
                 signinList.Add(Utility.Json.ToJson(roleAllianceDTO));
                 signinList.Add(Utility.Json.ToJson(allianceTemp));
                 signinList.Add(Utility.Json.ToJson(allianceConstructionTemp));
-                await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleallianceTemp);
-                await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceTemp);
-                await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceConstructionTemp);
+                await NHibernateQuerier.UpdateAsync(roleallianceTemp);
+                await NHibernateQuerier.UpdateAsync(allianceTemp);
+                await NHibernateQuerier.UpdateAsync(allianceConstructionTemp);
                 SetResponseData(() =>
                 {
                     Utility.Debug.LogError("发送回去的兑换弹药的请求数据" + Utility.Json.ToJson(signinList));

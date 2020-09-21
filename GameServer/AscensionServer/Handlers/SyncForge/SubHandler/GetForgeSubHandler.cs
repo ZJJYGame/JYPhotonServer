@@ -25,7 +25,7 @@ namespace AscensionServer
             var forgeObj = Utility.Json.ToObject<ForgeDTO>(forgeJson);
             NHCriteria nHCriteriaFroge = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", forgeObj.RoleID);
             //AscensionServer._Log.Info("得到的锻造配方" );
-            var Frogetemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Forge>(nHCriteriaFroge);
+            var Frogetemp= NHibernateQuerier.CriteriaSelect<Forge>(nHCriteriaFroge);
             if (Frogetemp != null)
             {
                 if (!string.IsNullOrEmpty(Frogetemp.Recipe_Array))

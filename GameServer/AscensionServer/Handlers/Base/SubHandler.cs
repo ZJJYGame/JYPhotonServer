@@ -14,6 +14,7 @@ namespace AscensionServer
     /// <typeparam name="T">拥有者</typeparam>
     public abstract class SubHandler : ISubHandler
     {
+        public byte SubOpcode { get { return (byte)SubOpCode; } }
         public Handler Owner { get; set; }
         public SubOperationCode SubOpCode { get; protected set; }
         public abstract void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer);
@@ -40,6 +41,10 @@ namespace AscensionServer
         }
         public Dictionary<byte, object> SubDict { get; protected set; }
 
+        public object EncodeMessage(object message)
+        {
+            return null;
+        }
         protected void SetResponseData(Action callBack)
         {
             SubDict.Clear();
@@ -47,5 +52,7 @@ namespace AscensionServer
             Owner.ResponseData.Add((byte)OperationCode.SubOpCodeData, Utility.Json.ToJson(SubDict));
             Owner.OpResponse.Parameters = Owner.ResponseData;
         }
+
+ 
     }
 }

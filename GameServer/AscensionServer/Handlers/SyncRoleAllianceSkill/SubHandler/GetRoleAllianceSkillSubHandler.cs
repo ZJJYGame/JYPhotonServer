@@ -30,7 +30,7 @@ namespace AscensionServer
             NHCriteria nHCriteriroleallianceskill = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceskillObj.RoleID);
             Utility.Debug.LogError("收到的获得技能仙盟数据" + roleallianceskillJson);
 
-            var roleallianceskillTemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAllianceSkill>(nHCriteriroleallianceskill).Result;
+            var roleallianceskillTemp= NHibernateQuerier.CriteriaSelectAsync<RoleAllianceSkill>(nHCriteriroleallianceskill).Result;
 
 
             if (roleallianceskillTemp!=null)

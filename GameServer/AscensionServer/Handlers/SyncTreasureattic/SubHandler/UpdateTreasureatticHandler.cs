@@ -28,9 +28,9 @@ namespace AscensionServer
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
             NHCriteria nHCriteriaTreasureattic = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", treasureatticObj.ID);
             NHCriteria nHCriteriaschool = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
-            var treasureatticTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
-            var schoolTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaschool);
-            var exit = ConcurrentSingleton<NHManager>.Instance.Verify<Treasureattic>(nHCriteriaTreasureattic);
+            var treasureatticTemp =NHibernateQuerier.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
+            var schoolTemp = NHibernateQuerier.CriteriaSelect<School>(nHCriteriaschool);
+            var exit = NHibernateQuerier.Verify<Treasureattic>(nHCriteriaTreasureattic);
             int contribution = 0;
 
             Dictionary<int, int> itemDict = new Dictionary<int, int>();
@@ -40,7 +40,7 @@ namespace AscensionServer
                 if (schoolTemp.ContributionNow > schoolObj.ContributionNow)
                 {
                     contribution = schoolTemp.ContributionNow - schoolObj.ContributionNow;
-                    ConcurrentSingleton<NHManager>.Instance.Update<School>(new School() { ID = schoolTemp.ID, SchoolID = schoolTemp.SchoolID, SchoolJob = schoolTemp.SchoolJob, TreasureAtticID = schoolTemp.TreasureAtticID, SutrasAtticID= schoolTemp.SutrasAtticID, ContributionNow = contribution });
+                    NHibernateQuerier.Update<School>(new School() { ID = schoolTemp.ID, SchoolID = schoolTemp.SchoolID, SchoolJob = schoolTemp.SchoolJob, TreasureAtticID = schoolTemp.TreasureAtticID, SutrasAtticID= schoolTemp.SutrasAtticID, ContributionNow = contribution });
                     if (exit)
                     {
                         if (!string.IsNullOrEmpty(treasureatticTemp.ItemRedeemedDict))
@@ -60,10 +60,10 @@ namespace AscensionServer
                         }
                         else
                             itemDict = treasureatticObj.ItemRedeemedDict;
-                        ConcurrentSingleton<NHManager>.Instance.Update<Treasureattic>(new Treasureattic() { ID = treasureatticTemp.ID, ItemAmountDict = treasureatticTemp.ItemAmountDict, ItemRedeemedDict = Utility.Json.ToJson(itemDict) });
+                        NHibernateQuerier.Update<Treasureattic>(new Treasureattic() { ID = treasureatticTemp.ID, ItemAmountDict = treasureatticTemp.ItemAmountDict, ItemRedeemedDict = Utility.Json.ToJson(itemDict) });
                     }
-                    var taSendObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
-                    var sSendObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaschool);
+                    var taSendObj = NHibernateQuerier.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
+                    var sSendObj = NHibernateQuerier.CriteriaSelect<School>(nHCriteriaschool);
                     DOdict.Add("Treasureattic", Utility.Json.ToJson(new TreasureatticDTO() { ID = taSendObj.ID, ItemRedeemedDict = Utility.Json.ToObject<Dictionary<int, int>>(taSendObj.ItemRedeemedDict) }));
                     DOdict.Add("School", Utility.Json.ToJson(sSendObj));
                     SetResponseData(() =>

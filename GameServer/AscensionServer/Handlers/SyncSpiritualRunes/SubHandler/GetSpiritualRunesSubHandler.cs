@@ -26,7 +26,7 @@ namespace AscensionServer
             var spiritualrunesObj = Utility.Json.ToObject<SpiritualRunesDTO>(spiritualrunesJson);
             NHCriteria nHCriteriaspiritualrunes = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", spiritualrunesObj.RoleID);
             Utility.Debug.LogInfo("得到的制符配方");
-            var spiritualrunestemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SpiritualRunes>(nHCriteriaspiritualrunes);
+            var spiritualrunestemp =NHibernateQuerier.CriteriaSelect<SpiritualRunes>(nHCriteriaspiritualrunes);
             if (spiritualrunestemp != null)
             {
                 if (!string.IsNullOrEmpty(spiritualrunestemp.Recipe_Array))

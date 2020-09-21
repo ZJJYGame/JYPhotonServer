@@ -25,7 +25,7 @@ namespace AscensionServer
             string schoolJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.TreasureAttic));
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
             NHCriteria nHCriteriaSchool = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
-            var schoolTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<School>(nHCriteriaSchool);
+            var schoolTemp = NHibernateQuerier.CriteriaSelect<School>(nHCriteriaSchool);
             if (schoolTemp!=null)
             {
                 Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>数据库贡献点" + schoolTemp.ContributionNow + "传过来的贡献点" + schoolObj.ContributionNow);

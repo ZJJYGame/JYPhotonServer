@@ -28,12 +28,12 @@ namespace AscensionServer
 
             var petaptitudeObj = Utility.Json.ToObject<PetaPtitudeDTO>(petptitudeJson);
             NHCriteria nHCriteriapetaptitude = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petaptitudeObj.PetID);
-            var petaptitudeTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<PetaPtitude>(nHCriteriapetaptitude);
+            var petaptitudeTemp = NHibernateQuerier.CriteriaSelect<PetaPtitude>(nHCriteriapetaptitude);
 
             if (petaptitudeTemp != null)
             {   
                 petaptitudeTemp = AddaPtitude(petaptitudeObj, petaptitudeTemp);
-                ConcurrentSingleton<NHManager>.Instance.Update(petaptitudeTemp);
+                NHibernateQuerier.Update(petaptitudeTemp);
                 SetResponseData(() =>
                 {
                     PetaPtitudeDTO petaPtitudeDTO = new PetaPtitudeDTO() {AttackphysicalAptitude= petaptitudeTemp.AttackphysicalAptitude,AttacksoulAptitude= petaptitudeTemp.AttacksoulAptitude,AttackspeedAptitude= petaptitudeTemp.AttackspeedAptitude,AttackpowerAptitude= petaptitudeTemp.AttackpowerAptitude,DefendphysicalAptitude= petaptitudeTemp.DefendphysicalAptitude,DefendpowerAptitude= petaptitudeTemp.DefendpowerAptitude,HPAptitude= petaptitudeTemp.HPAptitude,DefendsoulAptitude= petaptitudeTemp.DefendsoulAptitude,MPAptitude= petaptitudeTemp .MPAptitude,Petaptitudecol= petaptitudeTemp .Petaptitudecol,PetaptitudeDrug= Utility.Json.ToObject<Dictionary<int,int>>(petaptitudeTemp.PetaptitudeDrug),PetID= petaptitudeTemp .PetID,SoulAptitude= petaptitudeTemp .SoulAptitude};

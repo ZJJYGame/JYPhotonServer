@@ -156,7 +156,7 @@ namespace AscensionServer
         public T GetNHCriteria<T>(  string  keyname,int key)
         {
             NHCriteria nHCriteria  = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue(keyname, key);
-            var dataObjectTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<T>(nHCriteria).Result;
+            var dataObjectTemp = NHibernateQuerier.CriteriaSelectAsync<T>(nHCriteria).Result;
 
                 GameManager.ReferencePoolManager.Despawns(nHCriteria);
                 return dataObjectTemp;

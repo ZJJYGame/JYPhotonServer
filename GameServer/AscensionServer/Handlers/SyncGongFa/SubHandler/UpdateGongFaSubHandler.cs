@@ -26,17 +26,17 @@ namespace AscensionServer
             var receivedRoleObj = Utility.Json.ToObject<RoleGongFa>(receivedRoleData);
             var receivedObj = Utility.Json.ToObject<CultivationMethod>(receivedData);
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
-            bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleGongFa>(nHCriteriaRoleID);
+            bool exist = NHibernateQuerier.Verify<RoleGongFa>(nHCriteriaRoleID);
             int intInfoObj = 0;
             int intLevel = 0; 
             if (exist)
             {
-                RoleGongFa GongfaInfo = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleGongFa>(nHCriteriaRoleID);
+                RoleGongFa GongfaInfo = NHibernateQuerier.CriteriaSelect<RoleGongFa>(nHCriteriaRoleID);
                 NHCriteria nHCriteriaGongFaID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", receivedObj.ID);
-                bool existGongFa = ConcurrentSingleton<NHManager>.Instance.Verify<CultivationMethod>(nHCriteriaGongFaID);
+                bool existGongFa = NHibernateQuerier.Verify<CultivationMethod>(nHCriteriaGongFaID);
                 if (existGongFa)
                 {
-                    CultivationMethod GongfaInfoExp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<CultivationMethod>(nHCriteriaGongFaID);
+                    CultivationMethod GongfaInfoExp = NHibernateQuerier.CriteriaSelect<CultivationMethod>(nHCriteriaGongFaID);
                    var dicGongFaId =   Utility.Json.ToObject<Dictionary<int,int>>(GongfaInfo.GongFaIDArray);
 
                     if (dicGongFaId.ContainsKey(receivedObj.ID))
@@ -46,15 +46,15 @@ namespace AscensionServer
                             GongfaInfoExp.CultivationMethodExp = 0;
                             intInfoObj = GongfaInfoExp.CultivationMethodExp + receivedObj.CultivationMethodExp;
                             intLevel = GongfaInfoExp.CultivationMethodLevel + receivedObj.CultivationMethodLevel;
-                            ConcurrentSingleton<NHManager>.Instance.Update(new CultivationMethod() { ID = GongfaInfoExp.ID, CultivationMethodID = GongfaInfoExp.CultivationMethodID, CultivationMethodLevel = (short)intLevel, CultivationMethodLevelSkillArray = GongfaInfoExp.CultivationMethodLevelSkillArray, CultivationMethodExp = intInfoObj });
-                            Role role= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Role>(nHCriteriaRoleID);
+                            NHibernateQuerier.Update(new CultivationMethod() { ID = GongfaInfoExp.ID, CultivationMethodID = GongfaInfoExp.CultivationMethodID, CultivationMethodLevel = (short)intLevel, CultivationMethodLevelSkillArray = GongfaInfoExp.CultivationMethodLevelSkillArray, CultivationMethodExp = intInfoObj });
+                            Role role= NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRoleID);
                             role.RoleLevel= intLevel;
-                          await  ConcurrentSingleton<NHManager>.Instance.UpdateAsync(role);
+                          await  NHibernateQuerier.UpdateAsync(role);
                         }
                         else
                         {
                             intInfoObj = GongfaInfoExp.CultivationMethodExp + receivedObj.CultivationMethodExp;
-                            ConcurrentSingleton<NHManager>.Instance.Update(new CultivationMethod() { ID = GongfaInfoExp.ID, CultivationMethodID = GongfaInfoExp.CultivationMethodID, CultivationMethodLevel = GongfaInfoExp.CultivationMethodLevel, CultivationMethodLevelSkillArray = GongfaInfoExp.CultivationMethodLevelSkillArray, CultivationMethodExp = intInfoObj });
+                            NHibernateQuerier.Update(new CultivationMethod() { ID = GongfaInfoExp.ID, CultivationMethodID = GongfaInfoExp.CultivationMethodID, CultivationMethodLevel = GongfaInfoExp.CultivationMethodLevel, CultivationMethodLevelSkillArray = GongfaInfoExp.CultivationMethodLevelSkillArray, CultivationMethodExp = intInfoObj });
                         }
                     }
                 }             

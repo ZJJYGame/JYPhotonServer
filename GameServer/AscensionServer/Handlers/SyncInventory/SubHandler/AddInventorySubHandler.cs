@@ -51,13 +51,13 @@ namespace AscensionServer
             var InventoryObj = Utility.Json.ToObject<RingDTO>(InventoryData);
 
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", InventoryRoleObj.RoleID);
-            bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleRing>(nHCriteriaRoleID);
+            bool exist = NHibernateQuerier.Verify<RoleRing>(nHCriteriaRoleID);
             NHCriteria nHCriteriaRingID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", InventoryObj.ID);
-            bool existRing = ConcurrentSingleton<NHManager>.Instance.Verify<Ring>(nHCriteriaRingID);
+            bool existRing = NHibernateQuerier.Verify<Ring>(nHCriteriaRingID);
 
             if (exist && existRing)
             {
-                var ringServerArray = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Ring>(nHCriteriaRingID);
+                var ringServerArray = NHibernateQuerier.CriteriaSelect<Ring>(nHCriteriaRingID);
 
                 if (InventoryObj.ID == ringServerArray.ID)
                 {
@@ -420,7 +420,7 @@ namespace AscensionServer
                  */
                     #endregion
 
-                    ConcurrentSingleton<NHManager>.Instance.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDict), RingMagicDictServer = ringServerArray.RingMagicDictServer , RingAdorn =Utility.Json.ToJson(ServerDictAdorn) });
+                    NHibernateQuerier.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDict), RingMagicDictServer = ringServerArray.RingMagicDictServer , RingAdorn =Utility.Json.ToJson(ServerDictAdorn) });
                     Owner.OpResponse.Parameters = Owner.ResponseData;
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 }

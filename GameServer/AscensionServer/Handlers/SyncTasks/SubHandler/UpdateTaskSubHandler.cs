@@ -23,10 +23,10 @@ namespace AscensionServer
             Utility.Debug.LogInfo(">>>>>>>>>>>>>更新任务相关信息：" + roletask + ">>>>>>>>>>>>>>>>>>>>>>");
             var roletaskobj = Utility.Json.ToObject<RoleTaskProgressDTO>(roletask);
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roletaskobj.RoleID);
-            bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleTaskProgress>(nHCriteriaRoleID);
+            bool exist = NHibernateQuerier.Verify<RoleTaskProgress>(nHCriteriaRoleID);
             if (exist)
             {
-                var roleTaskInfo = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleTaskProgress>(nHCriteriaRoleID);
+                var roleTaskInfo = NHibernateQuerier.CriteriaSelect<RoleTaskProgress>(nHCriteriaRoleID);
                 var serverDict = Utility.Json.ToObject<Dictionary<string, RoleTaskItemDTO>>(roleTaskInfo.RoleTaskInfoDic);
                 if (roleTaskInfo.RoleTaskInfoDic != null)
                 {
@@ -41,7 +41,7 @@ namespace AscensionServer
                                 serverDictValue.RoleTaskAbandonState = client_p.Value.RoleTaskAbandonState;
                             if (serverDictValue.RoleTaskAchieveState != client_p.Value.RoleTaskAchieveState)
                                 serverDictValue.RoleTaskAchieveState = client_p.Value.RoleTaskAchieveState;
-                            ConcurrentSingleton<NHManager>.Instance.Update(new RoleTaskProgress() { RoleID = roletaskobj.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(serverDict) });
+                            NHibernateQuerier.Update(new RoleTaskProgress() { RoleID = roletaskobj.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(serverDict) });
                         }else
                             Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
                     }

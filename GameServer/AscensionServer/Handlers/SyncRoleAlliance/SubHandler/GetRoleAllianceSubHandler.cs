@@ -27,7 +27,7 @@ namespace AscensionServer
             var roleallianceObj = Utility.Json.ToObject<RoleAllianceDTO>
               (roleallianceJson);
             NHCriteria nHCriteriaroleAlliances = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceObj.RoleID);
-            var roleallianceTemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAlliance>(nHCriteriaroleAlliances);
+            var roleallianceTemp= NHibernateQuerier.CriteriaSelect<RoleAlliance>(nHCriteriaroleAlliances);
             List<string> Alliancelist = new List<string>();
 
 
@@ -38,10 +38,10 @@ namespace AscensionServer
                 var Role = AlliancelogicManager.Instance.GetNHCriteria<Role>("RoleID", roleallianceObj.RoleID);
 
                 RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { AllianceID = roleallianceTemp.AllianceID, AllianceJob = roleallianceTemp.AllianceJob, JoinTime = roleallianceTemp.JoinTime, ApplyForAlliance = Utility.Json.ToObject<List<int>>(roleallianceTemp.ApplyForAlliance), JoinOffline = roleallianceTemp.JoinOffline, Reputation = roleallianceTemp.Reputation, ReputationHistroy = roleallianceTemp.ReputationHistroy, ReputationMonth = roleallianceTemp.ReputationMonth, RoleID = roleallianceTemp.RoleID, RoleName = roleallianceTemp.RoleName,RoleSchool= roleallianceTemp.RoleSchool,RoleLevel= Role.RoleLevel };
-                var allianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceStatus>(nHCriteriaAlliances).Result;
+                var allianceTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceStatus>(nHCriteriaAlliances).Result;
                 NHCriteria nHCriteriaAlliancesConstruction = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", roleallianceTemp.AllianceID);
 
-                var allianceConstructionTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<AllianceConstruction>(nHCriteriaAlliancesConstruction);
+                var allianceConstructionTemp = NHibernateQuerier.CriteriaSelect<AllianceConstruction>(nHCriteriaAlliancesConstruction);
 
                 Alliancelist.Add(Utility.Json.ToJson(roleAllianceDTO));
                 if (allianceConstructionTemp!=null)

@@ -25,11 +25,6 @@ namespace Cosmos
                 }
             }
         }
-        Dictionary<ModuleEnum, IModule> moduleDict;
-        public GameManagerAgent()
-        {
-            moduleDict = GameManager.ModuleDict;
-        }
         public void OnRefresh()
         {
             while (true)

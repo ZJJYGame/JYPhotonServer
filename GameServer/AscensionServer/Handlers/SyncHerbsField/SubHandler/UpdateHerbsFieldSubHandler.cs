@@ -26,7 +26,7 @@ namespace AscensionServer.Handlers
             var hfObj = Utility.Json.ToObject<HerbsFieldDTO>(herbsfieldJson);
             NHCriteria nHCriteriahf = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", hfObj.RoleID);
             Utility.Debug.LogInfo("接收到的霛田信息" + herbsfieldJson);
-            var hfTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<HerbsField>(nHCriteriahf);
+            var hfTemp = NHibernateQuerier.CriteriaSelect<HerbsField>(nHCriteriahf);
             List<HerbFieldStatus> hfList = new List<HerbFieldStatus>();
             if (hfTemp != null)
             {
@@ -51,7 +51,7 @@ namespace AscensionServer.Handlers
                         {
                             hfList[hfObj.AllHerbs[i].ArrayID].plantingTime = hfObj.AllHerbs[i].plantingTime;
                         }
-                        ConcurrentSingleton<NHManager>.Instance.Update<HerbsField>(new HerbsField() {RoleID= hfTemp.RoleID,jobLevel= hfTemp.jobLevel,AllHerbs= Utility.Json.ToJson(hfList) });
+                       NHibernateQuerier.Update<HerbsField>(new HerbsField() {RoleID= hfTemp.RoleID,jobLevel= hfTemp.jobLevel,AllHerbs= Utility.Json.ToJson(hfList) });
                         for (int j = 0; j < hfObj.AllHerbs.Count; j++)
                         {
                             hfObj.AllHerbs[j].IsStratPlant = false;

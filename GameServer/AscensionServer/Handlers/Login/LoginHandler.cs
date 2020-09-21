@@ -31,22 +31,21 @@ namespace AscensionServer
             var userObj = Utility.Json.ToObject<User>(userJson);
             NHCriteria nHCriteriaAccount = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
             NHCriteria nHCriteriaPassword = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("Password", userObj.Password);
-            bool verified = ConcurrentSingleton<NHManager>.Instance.Verify<User>(nHCriteriaAccount, nHCriteriaPassword);
+            bool verified = NHibernateQuerier.Verify<User>(nHCriteriaAccount, nHCriteriaPassword);
             ResponseData.Clear();
             //如果验证成功，把成功的结果利用response.ReturnCode返回成功给客户端
             OpResponse.OperationCode = operationRequest.OperationCode;
             if (verified)
             {
                OpResponse.ReturnCode = (short)ReturnCode.Success;
-                userObj.UUID= ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<User>(nHCriteriaAccount).UUID;
-                peer.Login(userObj);
+                userObj.UUID= NHibernateQuerier.CriteriaSelect<User>(nHCriteriaAccount).UUID;
+                //peer.Login(userObj);
 
                 //GameManager.External.GetModule<PeerManager>().TryGetValue();
 
                 var pe= PeerEntity.Create(peer);
                 GameManager.CustomeModule<PeerManager>().TryAdd(pe.SessionId, pe);
 
-                Utility.Debug.LogInfo("Login Success : " + userObj.Account + " ; UUID : " + peer.PeerCache.UUID );
                 ResponseData.Add((byte)ParameterCode.Role, Utility.Json.ToJson(userObj));
                 OpResponse.Parameters = ResponseData;
             }

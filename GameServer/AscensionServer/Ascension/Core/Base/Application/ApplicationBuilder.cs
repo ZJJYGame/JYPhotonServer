@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-    public partial class AscensionConst
+    public partial class ApplicationBuilder
     {
         /// <summary>
         /// 线程间隔时间为毫秒，时间间距： s*1000=ms

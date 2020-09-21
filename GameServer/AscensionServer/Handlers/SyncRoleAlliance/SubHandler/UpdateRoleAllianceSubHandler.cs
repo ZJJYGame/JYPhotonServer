@@ -28,7 +28,7 @@ namespace AscensionServer
             Utility.Debug.LogError("储存的成员" + roleallianceJson);
 
             NHCriteria nHCriteriaroleAlliances = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceObj.RoleID);
-            var roleallianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriaroleAlliances).Result;
+            var roleallianceTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriaroleAlliances).Result;
             if (roleallianceTemp!=null)
             {
                 roleallianceTemp.Reputation += roleallianceObj.Reputation;
@@ -37,7 +37,7 @@ namespace AscensionServer
                 roleallianceTemp.AllianceJob = roleallianceObj.AllianceJob;
                 if (roleallianceTemp.Reputation >= 0 && roleallianceTemp.ReputationHistroy >= 0 && roleallianceTemp.ReputationMonth >= 0)
                 {
-                   await   ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleallianceTemp);
+                   await   NHibernateQuerier.UpdateAsync(roleallianceTemp);
                     var Role = AlliancelogicManager.Instance.GetNHCriteria<Role>("RoleID", roleallianceObj.RoleID);
                     RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() {RoleID= roleallianceTemp.RoleID,AllianceID= roleallianceTemp.AllianceID,JoinOffline= roleallianceTemp.JoinOffline,AllianceJob= roleallianceTemp.AllianceJob,ApplyForAlliance= Utility.Json.ToObject<List<int>>(roleallianceTemp.ApplyForAlliance),JoinTime= roleallianceTemp.JoinTime,Reputation= roleallianceTemp.Reputation,ReputationHistroy= roleallianceTemp.ReputationHistroy,ReputationMonth= roleallianceTemp.ReputationMonth,RoleName= roleallianceTemp.RoleName,RoleSchool= roleallianceTemp.RoleSchool,RoleLevel= Role.RoleLevel };
 

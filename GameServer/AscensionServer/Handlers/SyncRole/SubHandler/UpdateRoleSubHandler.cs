@@ -26,12 +26,12 @@ namespace AscensionServer
 
             var roleObj = Utility.Json.ToObject<RoleDTO>(roleJson);
             NHCriteria nHCriteriaRole = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
-            var roleTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Role>(nHCriteriaRole);
+            var roleTemp = NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRole);
 
             if (roleTemp != null)
             {
                 roleTemp.RoleLevel = roleObj.RoleLevel;
-              await  ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleTemp);
+              await  NHibernateQuerier.UpdateAsync(roleTemp);
                 SetResponseData(() =>
                 {
                     SubDict.Add((byte)ParameterCode.Role, Utility.Json.ToJson(roleTemp));

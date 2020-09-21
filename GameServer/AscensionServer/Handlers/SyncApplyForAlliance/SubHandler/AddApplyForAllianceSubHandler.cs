@@ -29,7 +29,7 @@ namespace AscensionServer
             var roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(roleAllianceJson);
             Utility.Debug.LogInfo("收到的加入仙盟的请求"+ roleAllianceJson);
             NHCriteria nHCriteriaroleAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleAllianceObj.RoleID);
-            var roleAllianceTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriaroleAlliance).Result;
+            var roleAllianceTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriaroleAlliance).Result;
             List<int> applyList = new List<int>();
             List<NHCriteria> NHCriterias = new List<NHCriteria>();
             NHCriterias.Add(nHCriteriaroleAlliance);
@@ -46,14 +46,14 @@ namespace AscensionServer
 
                         applyList.Add(roleAllianceObj.ApplyForAlliance[i]);
                         roleAllianceTemp.ApplyForAlliance = Utility.Json.ToJson(applyList);
-                     await   ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAllianceTemp);
+                     await   NHibernateQuerier.UpdateAsync(roleAllianceTemp);
                         NHCriteria nHCriteriaroleAllianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", roleAllianceObj.ApplyForAlliance[i]);
                         NHCriterias.Add(nHCriteriaroleAllianceMember);
-                        var allianceMemberTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceMember>(nHCriteriaroleAllianceMember).Result;
+                        var allianceMemberTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceMember>(nHCriteriaroleAllianceMember).Result;
                         var applyer = Utility.Json.ToObject<List<int>>(allianceMemberTemp.ApplyforMember);
                         applyer.Add(roleAllianceObj.RoleID);
                         allianceMemberTemp.ApplyforMember = Utility.Json.ToJson(applyer);
-                      await  ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceMemberTemp);
+                      await  NHibernateQuerier.UpdateAsync(allianceMemberTemp);
                     }
 
 
