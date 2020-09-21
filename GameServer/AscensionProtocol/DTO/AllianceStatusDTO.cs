@@ -17,6 +17,7 @@ namespace AscensionProtocol.DTO
         public virtual string AllianceName { get; set; }
         public virtual int Popularity { get; set; }
         public virtual string Manifesto { get; set; }
+        public virtual int OnLineNum { get; set; }
         public override void Clear()
         {
             ID = -1;
@@ -26,6 +27,7 @@ namespace AscensionProtocol.DTO
             AllianceNumberPeople = 0;
             AllianceName = null;
             Popularity = 0;
+            OnLineNum = 0;
         }
     }
 }

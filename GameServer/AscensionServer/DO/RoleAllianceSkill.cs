@@ -17,10 +17,10 @@ namespace AscensionServer.Model
 
         public RoleAllianceSkill()
         {
-            SkillStrong =1;
-            SkillInsight =1;
-            SkillMeditation = 1;
-            SkillRapid =1;
+            SkillStrong =0;
+            SkillInsight =0;
+            SkillMeditation = 0;
+            SkillRapid =0;
         }
 
         public override void Clear()

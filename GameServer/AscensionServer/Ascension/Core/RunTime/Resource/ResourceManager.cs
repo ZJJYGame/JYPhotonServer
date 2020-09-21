@@ -10,7 +10,7 @@ using AscensionProtocol.DTO;
 
 namespace AscensionServer
 {
-    [OuterModule]
+    [CustomeModule]
     public class ResourceManager : Module<ResourceManager>
     {
         /// <summary>

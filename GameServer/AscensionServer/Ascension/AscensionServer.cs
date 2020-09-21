@@ -63,7 +63,7 @@ namespace AscensionServer
             var syncRefreshResourcesEvent = new SyncRefreshResourcesEvent();
             syncRefreshResourcesEvent.OnInitialization();
             ThreadPool.QueueUserWorkItem(syncRefreshResourcesEvent.Handler);
-            GameManager.InitOuterModule(this.GetType().Assembly);
+            GameManager.InitCustomeModule(this.GetType().Assembly);
             RedisDotNet.RedisManager.Instance.OnInitialization();
         }
         protected override void TearDown()

@@ -17,6 +17,7 @@ namespace AscensionServer.DOMap
             Map(x => x.AllianceNumberPeople).Column("alliance_number_people");
             Map(x => x.Manifesto).Column("manifesto");
             Map(x => x.Popularity).Column("popularity");
+            Map(x => x.OnLineNum).Column("online_num");
             Table("alliance_status");
         }
 

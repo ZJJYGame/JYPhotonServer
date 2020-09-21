@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Cosmos;
 namespace AscensionServer
 {
-    [OuterModule]
+    [CustomeModule]
     public class SceneManager:Module<SceneManager>
     {
 

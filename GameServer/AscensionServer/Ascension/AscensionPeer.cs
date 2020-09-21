@@ -54,7 +54,7 @@ namespace AscensionServer
                 RecordOnOffLine(PeerCache.RoleID);
             }
             Utility.Debug.LogInfo($"Client Disconnect :{ToString()}");
-            var t= GameManager.OuterModule<PeerManager>().BroadcastEventAsync((byte)OperationCode.Logoff,ed, () => Logoff()); 
+            var t= GameManager.CustomeModule<PeerManager>().BroadcastEventAsync((byte)OperationCode.Logoff,ed, () => Logoff()); 
             Logoff();
             AscensionServer.Instance.ConnectedPeerHashSet.Remove(this);
             Utility.Debug.LogInfo("***********************  Client Disconnect    ***********************");
