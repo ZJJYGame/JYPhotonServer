@@ -19,18 +19,14 @@ namespace AscensionServer
     /// </summary>
     public class LogoffHandler : Handler
     {
-        public override void OnInitialization()
-        {
-            OpCode = OperationCode.Logoff;
-            base.OnInitialization();
-        }
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override byte OpCode { get { return (byte)OperationCode.Logoff; } }
+        protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
             string userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.User));
             var userObj = Utility.Json.ToObject<User>(userJson);
             ResponseData.Clear();
             //bool verified = peer.PeerCache.EqualUser(userObj)&&peer.PeerCache.IsLogged==true;
-            OpResponse.OperationCode = operationRequest.OperationCode;
+            OpResponseData.OperationCode = operationRequest.OperationCode;
             //if (verified)
             //{
             //    OpResponse.ReturnCode = (short)ReturnCode.Success;
@@ -40,8 +36,7 @@ namespace AscensionServer
             //{
             //    OpResponse.ReturnCode = (short)ReturnCode.Fail;
             //}
-
-            peer.SendOperationResponse(OpResponse, sendParameters);
+            return OpResponseData;
         }
     }
 }

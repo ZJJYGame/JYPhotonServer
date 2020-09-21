@@ -13,11 +13,7 @@ namespace AscensionServer
 {
     public class AddSpiritualRunesSubHandler : SyncSpiritualRuneSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Add;
-            base.OnInitialization();
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -45,12 +41,12 @@ namespace AscensionServer
                     spiritualRuneObj = new SpiritualRunesDTO() { RoleID = spiritualRuneTemp.RoleID, JobLevel = spiritualRuneTemp.JobLevel, JobLevelExp = spiritualRuneTemp.JobLevelExp, Recipe_Array = spiritualRuneHash };
 
                     SubDict.Add((byte)ParameterCode.JobSpiritualRunes, spiritualRuneObj);
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                 });
             }
             else
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaspiritualRune);
         }
     }

@@ -8,9 +8,9 @@ namespace AscensionServer
 {
     public class SyncTreasureatticHandler : Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncTreasureattic; } }
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncTreasureattic;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncTreasureatticSubHandler>();
 

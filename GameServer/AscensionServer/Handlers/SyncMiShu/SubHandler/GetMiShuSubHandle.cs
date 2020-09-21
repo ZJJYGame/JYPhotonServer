@@ -11,11 +11,7 @@ namespace AscensionServer
 {
     public class GetMiShuSubHandle : SyncMiShuSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Get;
-            base.OnInitialization();
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
 
@@ -47,7 +43,7 @@ namespace AscensionServer
                 SetResponseData(() =>
                 {
                     SubDict.Add((byte)ParameterCode.MiShu, Utility.Json.ToJson(miShuIdList));
-                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
                 });
                 GameManager.ReferencePoolManager.Despawns(nHCriteriaslist);
             }
@@ -57,11 +53,11 @@ namespace AscensionServer
                 {
                     Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收到获取秘术的id为空");
                     SubDict.Add((byte)ParameterCode.MiShu, Utility.Json.ToJson(new List<string>()));
-                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
+                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
                 });
             }
 
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriamishu);
         }
     }

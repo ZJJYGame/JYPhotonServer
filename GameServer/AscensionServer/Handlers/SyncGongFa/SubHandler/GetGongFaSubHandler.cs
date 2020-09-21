@@ -14,12 +14,7 @@ namespace AscensionServer
 {
     public class GetGongFaSubHandler : SyncGongFaSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Get;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -61,15 +56,15 @@ namespace AscensionServer
                         }
                         GameManager.ReferencePoolManager.Despawns(nHCriteriaGongFa);
                     }
-                    Owner.OpResponse.Parameters = Owner.ResponseData;
+                    Owner.OpResponseData.Parameters = Owner.ResponseData;
                     Owner.ResponseData.Add((byte)ParameterCode.GongFa, Utility.Json.ToJson(gongFaDic));
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                 }
                 else
                 {
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
                 }
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
 
         }
     }

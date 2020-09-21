@@ -15,12 +15,7 @@ namespace AscensionServer
 {
     public class RemoveApplyForAllianceSubHandler : SyncApplyForAllianceSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Remove;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Remove;
         public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -30,8 +25,6 @@ namespace AscensionServer
             List<int> roleidList = new List<int>();
             roleidList = allianceObj.ApplyforMember;
             NHCriteria nHCriteriallianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceObj.AllianceID);
-
-
             var alliancememberTemp =NHibernateQuerier.CriteriaSelectAsync<AllianceMember>(nHCriteriallianceMember).Result;
 
             List<NHCriteria> NHCriterias = new List<NHCriteria>();
@@ -66,12 +59,10 @@ namespace AscensionServer
           await  NHibernateQuerier.UpdateAsync(alliancememberTemp);
             SetResponseData(() =>
             {
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
             });
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
                 GameManager.ReferencePoolManager.Despawns(NHCriterias);
             }
-
-
         }
     }

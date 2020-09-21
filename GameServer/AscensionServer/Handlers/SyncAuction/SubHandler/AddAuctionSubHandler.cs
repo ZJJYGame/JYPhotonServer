@@ -16,12 +16,7 @@ namespace AscensionServer
 {
     public class AddAuctionSubHandler : SyncAuctionSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Add;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             ResetResponseData(operationRequest);
@@ -33,7 +28,7 @@ namespace AscensionServer
             auctionGoodsObj.GUID = guid;
 
             string redisKey = "AuctionGoods_" + guid;
-            RedisHelper.String.StringSetAsync(redisKey, "");
+            RedisHelper.String.StringSet(redisKey, "");
 
             //加入索引表
             if (RedisHelper.Hash.HashExistAsync("AuctionIndex", auctionGoodsObj.GlobalID.ToString()).Result)
@@ -49,7 +44,7 @@ namespace AscensionServer
                 tempAuctionGoods.Sort();
                 Utility.Debug.LogInfo(Utility.Json.ToJson(tempAuctionGoods));
 
-                RedisHelper.Hash.HashSetAsync("AuctionIndex", auctionGoodsObj.GlobalID.ToString(), tempAuctionGoods);
+                RedisHelper.Hash.HashSet("AuctionIndex", auctionGoodsObj.GlobalID.ToString(), tempAuctionGoods);
             }
             else
             {
@@ -60,11 +55,11 @@ namespace AscensionServer
                     RedisKey = auctionGoodsObj.GUID,
                     Price = auctionGoodsObj.Price
                 });
-                RedisHelper.Hash.HashSetAsync("AuctionIndex", auctionGoodsObj.GlobalID.ToString(), tempAuctionGoods);
+                RedisHelper.Hash.HashSet("AuctionIndex", auctionGoodsObj.GlobalID.ToString(), tempAuctionGoods);
             }
             //加入数据表
             if (!RedisHelper.Hash.HashExistAsync("AuctionGoodsData", auctionGoodsObj.GUID.ToString()).Result)
-                RedisHelper.Hash.HashSetAsync("AuctionGoodsData", auctionGoodsObj.GUID.ToString(), auctionGoodsObj);
+                RedisHelper.Hash.HashSet("AuctionGoodsData", auctionGoodsObj.GUID.ToString(), auctionGoodsObj);
 
             List<string> roleAuctionItemList = new List<string>();
             //更新玩家个人拍卖表数据
@@ -73,22 +68,22 @@ namespace AscensionServer
                 roleAuctionItemList = RedisHelper.Hash.HashGetAsync<List<string>>("RoleAuctionItems", auctionGoodsObj.RoleID.ToString()).Result;
                 roleAuctionItemList.Add(auctionGoodsObj.GUID);
                 Utility.Debug.LogInfo("玩家拍卖列表存在key");
-                RedisHelper.Hash.HashSetAsync("RoleAuctionItems", auctionGoodsObj.RoleID.ToString(), roleAuctionItemList);
+                RedisHelper.Hash.HashSet("RoleAuctionItems", auctionGoodsObj.RoleID.ToString(), roleAuctionItemList);
             }
             else
             {
                 Utility.Debug.LogInfo("玩家拍卖列表不存在key!!!!");
                 roleAuctionItemList.Add(auctionGoodsObj.GUID);
-                RedisHelper.Hash.HashSetAsync("RoleAuctionItems", auctionGoodsObj.RoleID.ToString(), roleAuctionItemList);
+                RedisHelper.Hash.HashSet("RoleAuctionItems", auctionGoodsObj.RoleID.ToString(), roleAuctionItemList);
             }
 
           
 
             Owner.ResponseData.Add((byte)ParameterCode.AddAuctionGoods, Utility.Json.ToJson(auctionGoodsObj));
-            Owner.OpResponse.Parameters = Owner.ResponseData;
-            Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+            Owner.OpResponseData.Parameters = Owner.ResponseData;
+            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
 
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
         }
     }
 }

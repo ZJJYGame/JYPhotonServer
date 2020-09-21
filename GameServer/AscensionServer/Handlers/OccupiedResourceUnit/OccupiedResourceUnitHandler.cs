@@ -18,12 +18,8 @@ namespace AscensionServer
     /// </summary>
     public class OccupiedResourceUnitHandler : Handler
     {
-        public override void OnInitialization()
-        {
-            OpCode = OperationCode.OccupiedResourceUnit;
-            base.OnInitialization();
-        }
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override byte OpCode { get { return (byte)OperationCode.OccupiedResourceUnit; } }
+        protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
             ResponseData.Clear();
             var occupiedUnitJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.OccupiedUnit));
@@ -32,7 +28,7 @@ namespace AscensionServer
             var result =GameManager.CustomeModule< ResourceManager>().OccupiedResUnit(occupiedUnitObj);
             if (result)
             {
-                OpResponse.ReturnCode = (short)ReturnCode.Success;
+                OpResponseData.ReturnCode = (short)ReturnCode.Success;
 
                 ResourceUnitSetDTO currentDictObj = null;
                 if (GameManager.CustomeModule<ResourceManager>().ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID,out currentDictObj))
@@ -49,10 +45,10 @@ namespace AscensionServer
                 threadEventParameter.Add((byte)ParameterCode.OccupiedUnit, occupiedUnitJson);
                 //QueueThreadEvent(peerSet, EventCode.OccupiedResourceUnit, threadEventParameter);
             }else
-                OpResponse.ReturnCode = (short)ReturnCode.Fail;
-            OpResponse.Parameters = ResponseData;
-            OpResponse.OperationCode = operationRequest.OperationCode;
-            peer.SendOperationResponse(OpResponse, sendParameters);
+                OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+            OpResponseData.Parameters = ResponseData;
+            OpResponseData.OperationCode = operationRequest.OperationCode;
+            return OpResponseData;
         }
     }
 }

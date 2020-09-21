@@ -16,9 +16,9 @@ namespace AscensionServer
 {
   public  class SyncPetStatusHandler:Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncPetStatus; } }
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncPetStatus;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncPetStatusSubHandler>();
             

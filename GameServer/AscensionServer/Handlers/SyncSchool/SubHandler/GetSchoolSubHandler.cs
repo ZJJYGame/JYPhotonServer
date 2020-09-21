@@ -13,11 +13,7 @@ namespace AscensionServer
 {
     public class GetSchoolSubHandler : SyncSchoolSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Get;
-            base.OnInitialization();
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -46,21 +42,21 @@ namespace AscensionServer
                 GameManager.ReferencePoolManager.Despawns(nHCriteriaTreasureattic, nHCriteriaSutrasAttic);
             }
             else     
-                SetResponseData(() => {Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail; });
+                SetResponseData(() => {Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail; });
 
             if (DTOList.Count >0)
             {
                 SetResponseData(() =>
                 {
                     SubDict.Add((byte)ParameterCode.School, Utility.Json.ToJson(DTOList));
-                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
                 });
             }
             else
             {
-                SetResponseData(() => { Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail; });
+                SetResponseData(() => { Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail; });
             }
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaSchool);
 
         }

@@ -8,9 +8,9 @@ namespace AscensionServer
 {
     public class SyncSchoolHandler:Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncSchool; } }
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncSchool;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncSchoolSubHandler>();
         }

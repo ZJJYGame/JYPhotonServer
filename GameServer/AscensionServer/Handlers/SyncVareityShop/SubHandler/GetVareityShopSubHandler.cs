@@ -15,13 +15,7 @@ namespace AscensionServer
 {
     public class GetVareityShopSubHandler : SyncVareityShopSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Get;
-            base.OnInitialization();
-        }
-
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -95,9 +89,9 @@ namespace AscensionServer
             SetResponseData(() =>
             {
                 SubDict.Add((byte)ParameterCode.VareityShop, Utility.Json.ToJson(shopDIct));
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
             });
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             
         }
     

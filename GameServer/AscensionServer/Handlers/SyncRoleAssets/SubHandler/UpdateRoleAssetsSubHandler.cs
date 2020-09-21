@@ -12,11 +12,7 @@ namespace AscensionServer
 {
     public class UpdateRoleAssetsSubHandler : SyncRoleAssetsSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Update;
-            base.OnInitialization();
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
         public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             ResetResponseData(operationRequest);
@@ -50,11 +46,11 @@ namespace AscensionServer
 
                await  RedisHelper.Hash.HashSetAsync<RoleAssets>("RoleAssets", roleAssetsObj.RoleID.ToString(), new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesLow = assetsServer.SpiritStonesLow, XianYu = assetsServer.XianYu });
 
-                Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
             }
             else
-                Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+                Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
         }
     }

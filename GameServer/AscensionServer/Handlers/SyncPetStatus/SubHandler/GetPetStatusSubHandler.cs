@@ -13,12 +13,7 @@ namespace AscensionServer
 {
     public class GetPetStatusSubHandler : SyncPetStatusSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Get;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -52,7 +47,7 @@ namespace AscensionServer
                 {
                     SubDict.Add((byte)ParameterCode.PetStatus, Utility.Json.ToJson(petList));
                     SubDict.Add((byte)ParameterCode.PetPtitude, Utility.Json.ToJson(petaptitudeList));
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                 });
                 GameManager.ReferencePoolManager.Despawns(nHCriteriasList);
             }
@@ -62,10 +57,10 @@ namespace AscensionServer
                 {
                     Utility.Debug.LogInfo(">>>>>>>>>>>>>》》》》》》》》》》》》>>获得宠物数据失败");
                     SubDict.Add((byte)ParameterCode.PetStatus, Utility.Json.ToJson(new List<string>()));
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriarolepet);
         }
     }

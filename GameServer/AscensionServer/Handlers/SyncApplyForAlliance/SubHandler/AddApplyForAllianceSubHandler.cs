@@ -15,13 +15,7 @@ namespace AscensionServer
 {
     public class AddApplyForAllianceSubHandler : SyncApplyForAllianceSubHandler
     {
-
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Add;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
         public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -61,11 +55,11 @@ namespace AscensionServer
                     {
                         roleAllianceObj.ApplyForAlliance = applyList;
                         SubDict.Add((byte)ParameterCode.ApplyForAlliance, Utility.Json.ToJson(roleAllianceObj));
-                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
             }
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters); 
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters); 
             GameManager.ReferencePoolManager.Despawns(NHCriterias);
         }
     }

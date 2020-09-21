@@ -15,10 +15,7 @@ namespace AscensionServer
 {
     public class RemoveInventorySubHandler : SyncInventorySubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Remove;
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Remove;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
 
@@ -46,7 +43,7 @@ namespace AscensionServer
                     {
                         if (!ServerDic.ContainsKey(client_p.Key))
                         {
-                            Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
                             break;
                         }
                         else
@@ -75,13 +72,13 @@ namespace AscensionServer
                         }
                     }
                     NHibernateQuerier.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDic), RingMagicDictServer = Utility.Json.ToJson(ServerMagicDic), RingAdorn = Utility.Json.ToJson(ServerDictAdorn) });
-                    Owner.OpResponse.Parameters = Owner.ResponseData;
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    Owner.OpResponseData.Parameters = Owner.ResponseData;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                 }
 
             }
-            else Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            else Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID, nHCriteriaRingID);
         }
     }

@@ -15,11 +15,7 @@ namespace AscensionServer
 {
     public class RemoveRoleAuctionAttentionSubHandler : SyncRoleAuctionAttentionSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Remove;
-            base.OnInitialization();
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Remove;
         public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             Utility.Debug.LogInfo("进入移除关注事件");
@@ -35,15 +31,15 @@ namespace AscensionServer
                 {
                     guidList.Remove(guid);
                     await RedisHelper.Hash.HashSetAsync("RoleAuctionAttention", roleID.ToString(), guidList);
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                 }
                 else
                 {
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
                 }
             }
-            Owner.OpResponse.Parameters = Owner.ResponseData;
-            if (Owner.OpResponse.ReturnCode == (short)ReturnCode.Success)
+            Owner.OpResponseData.Parameters = Owner.ResponseData;
+            if (Owner.OpResponseData.ReturnCode == (short)ReturnCode.Success)
             {
                 List<AuctionGoodsDTO> resultList = new List<AuctionGoodsDTO>();
                 for (int i = 0; i < guidList.Count; i++)
@@ -56,7 +52,7 @@ namespace AscensionServer
                 Owner.ResponseData.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(resultList));
             }
 
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
         }
     }
 }

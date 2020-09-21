@@ -15,9 +15,9 @@ namespace AscensionServer
 {
    public class SyncPetaPtitudeHandler: Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncPetaPtitude; } }
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncPetaPtitude;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncPetaPtitudeSubHandler>();
         }

@@ -15,12 +15,7 @@ namespace AscensionServer
 {
     public class UpdatePetaPtitudeSubHandler : SyncPetaPtitudeSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Update;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -38,11 +33,11 @@ namespace AscensionServer
                 {
                     PetaPtitudeDTO petaPtitudeDTO = new PetaPtitudeDTO() {AttackphysicalAptitude= petaptitudeTemp.AttackphysicalAptitude,AttacksoulAptitude= petaptitudeTemp.AttacksoulAptitude,AttackspeedAptitude= petaptitudeTemp.AttackspeedAptitude,AttackpowerAptitude= petaptitudeTemp.AttackpowerAptitude,DefendphysicalAptitude= petaptitudeTemp.DefendphysicalAptitude,DefendpowerAptitude= petaptitudeTemp.DefendpowerAptitude,HPAptitude= petaptitudeTemp.HPAptitude,DefendsoulAptitude= petaptitudeTemp.DefendsoulAptitude,MPAptitude= petaptitudeTemp .MPAptitude,Petaptitudecol= petaptitudeTemp .Petaptitudecol,PetaptitudeDrug= Utility.Json.ToObject<Dictionary<int,int>>(petaptitudeTemp.PetaptitudeDrug),PetID= petaptitudeTemp .PetID,SoulAptitude= petaptitudeTemp .SoulAptitude};
                     SubDict.Add((byte)ParameterCode.PetPtitude, Utility.Json.ToJson(petaPtitudeDTO));
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                 });
             }else
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriapetaptitude);
         }
 

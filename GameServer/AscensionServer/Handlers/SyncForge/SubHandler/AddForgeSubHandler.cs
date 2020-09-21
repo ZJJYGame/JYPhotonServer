@@ -13,12 +13,7 @@ namespace AscensionServer
 {
    public  class AddForgeSubHandler:SyncForgeSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Add;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -46,12 +41,12 @@ namespace AscensionServer
                 {
                     forgeObj = new ForgeDTO() { RoleID = forgeTemp.RoleID, JobLevel = forgeTemp.JobLevel, JobLevelExp = forgeTemp.JobLevelExp, Recipe_Array = forgeHash };
                     SubDict.Add((byte)ParameterCode.JobForge, Utility.Json.ToJson(forgeObj));
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                 });
             }
             else
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaforge);
         }
 

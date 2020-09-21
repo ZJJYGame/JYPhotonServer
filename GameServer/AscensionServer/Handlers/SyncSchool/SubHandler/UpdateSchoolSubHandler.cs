@@ -13,11 +13,7 @@ namespace AscensionServer
 {
     public class UpdateSchoolSubHandler : SyncSchoolSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Update;
-            base.OnInitialization();
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
 
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
@@ -36,19 +32,19 @@ namespace AscensionServer
                     SetResponseData(() =>
                     {
                         SubDict.Add((byte)ParameterCode.School, Utility.Json.ToJson(schooltemp));
-                        Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                        Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
                     });
                 }
                 else
                 {
                     SetResponseData(() =>
                     {
-                        Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
+                        Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
                     });
                 }
             }
             Utility.Debug.LogInfo("更新后的宗门信息" + Utility.Json.ToJson(schooltemp));
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaschool);
         }
     }

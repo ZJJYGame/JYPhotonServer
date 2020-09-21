@@ -10,7 +10,7 @@ namespace AscensionServer
 {
     public interface IHandler:IBehaviour
     {
-        byte Opcode { get; }
+        byte OpCode { get; }
         object EncodeMessage(object message);
     }
 }

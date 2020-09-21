@@ -17,12 +17,7 @@ namespace AscensionServer
 {
    public  class GetSyncOnOffLineSubHandler : SyncOnOffLineSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Get;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -57,7 +52,7 @@ namespace AscensionServer
                     SetResponseData(() =>
                     {
                         SubDict.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
-                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
                 else if (Exptypeobj.ExpType==2)
@@ -78,7 +73,7 @@ namespace AscensionServer
                     SetResponseData(() =>
                     {
                         SubDict.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
-                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
                 else
@@ -86,17 +81,17 @@ namespace AscensionServer
                     SetResponseData(() =>
                     {
                         SubDict.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(new List<string>()));
-                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
                     });
                 }
                 }else{
                 SetResponseData(() =>
                 {
                 SubDict.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(new List<string>()));
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
                 });
                 }
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRole);
         }
     }

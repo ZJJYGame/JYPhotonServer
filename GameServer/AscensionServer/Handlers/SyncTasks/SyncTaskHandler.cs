@@ -13,9 +13,9 @@ namespace AscensionServer
 {
     public class SyncTaskHandler : Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncTask; } }
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncTask;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncTaskSubHandler>();
         }

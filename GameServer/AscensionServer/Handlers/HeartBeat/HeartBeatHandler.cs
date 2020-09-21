@@ -15,28 +15,25 @@ namespace AscensionServer
 {
     public class HeartBeatHandler : Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.HeartBeat; } }
+
         /// <summary>
         /// 服务器心跳检测处理者
         /// </summary>
-        public override void OnInitialization()
-        {
-            OpCode = OperationCode.HeartBeat;
-            base.OnInitialization();
-        }
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
             byte heartBeatResult = Convert.ToByte(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.HeartBeat));
             ResponseData.Clear();
-            OpResponse.OperationCode = operationRequest.OperationCode;
+            OpResponseData.OperationCode = operationRequest.OperationCode;
             if (heartBeatResult == 1)
             {
-                OpResponse.ReturnCode = (short)ReturnCode.Success;
+                OpResponseData.ReturnCode = (short)ReturnCode.Success;
             }
             else
             {
-                OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                OpResponseData.ReturnCode = (short)ReturnCode.Fail;
             }
-            peer.SendOperationResponse(OpResponse, sendParameters);
+            return OpResponseData;
         }
     }
 }

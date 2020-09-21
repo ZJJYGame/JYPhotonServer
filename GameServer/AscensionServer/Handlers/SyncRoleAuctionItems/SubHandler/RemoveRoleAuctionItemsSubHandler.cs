@@ -15,11 +15,7 @@ namespace AscensionServer
 {
     public class RemoveRoleAuctionItemsSubHandler : SyncRoleAuctionItemsSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Remove;
-            base.OnInitialization();
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Remove;
         public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             bool isSuccess = true;
@@ -106,16 +102,16 @@ namespace AscensionServer
                 Utility.Debug.LogInfo("移除成功"+ Utility.Json.ToJson(roleAuctionItemList));
                 Owner.ResponseData.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson (removeRoleAuctionItem));
                 Owner.ResponseData.Add((byte)ParameterCode.Auction, Utility.Json.ToJson(roleAuctionItemList));
-                Owner.OpResponse.Parameters = Owner.ResponseData;
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                Owner.OpResponseData.Parameters = Owner.ResponseData;
+                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
               
             }
             else
             {
                 Utility.Debug.LogInfo("移除失败");
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
             }
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             Utility.Debug.LogInfo("移除事件结束");
 
         }

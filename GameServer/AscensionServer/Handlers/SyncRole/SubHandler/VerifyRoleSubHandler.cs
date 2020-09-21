@@ -11,11 +11,7 @@ namespace AscensionServer
 {
     public class VerifyRoleSubHandler : SyncRoleSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Verify;
-            base.OnInitialization();
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Verify;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -27,13 +23,13 @@ namespace AscensionServer
             if (result)
             {
                 NHibernateQuerier.Update(rolestatusObj);
-                SetResponseData(() => Owner.OpResponse.ReturnCode = (short)ReturnCode.Success);
+                SetResponseData(() => Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success);
             }
             else
             {
-                SetResponseData(() => Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail);
+                SetResponseData(() => Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail);
             }
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
         }
     }
 }

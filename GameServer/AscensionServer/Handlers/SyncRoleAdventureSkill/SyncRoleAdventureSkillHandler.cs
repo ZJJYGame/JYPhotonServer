@@ -13,13 +13,9 @@ namespace AscensionServer
 {
    public class SyncRoleAdventureSkillHandler:Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncRoleAdventureSkill; } }
         HashSet<RoleAdventureSkillDTO> roleSet = new HashSet<RoleAdventureSkillDTO>();
-        public override void OnInitialization()
-        {
-            OpCode = OperationCode.SyncRoleAdventureSkill;
-            base.OnInitialization();
-        }
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
             ResponseData.Clear();
             var roleAdventureSkillJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleAdventureStartSkill));
@@ -34,17 +30,16 @@ namespace AscensionServer
             //}
             var roleSetJson = Utility.Json.ToJson(roleSet);
             ResponseData.Add((byte)ParameterCode.RoleAdventureStartSkill, roleAdventureSkillJson);
-            OpResponse.OperationCode = operationRequest.OperationCode;
-            OpResponse.ReturnCode = (short)ReturnCode.Success;
-            OpResponse.Parameters = ResponseData;
-            peer.SendOperationResponse(OpResponse, sendParameters);
+            OpResponseData.OperationCode = operationRequest.OperationCode;
+            OpResponseData.ReturnCode = (short)ReturnCode.Success;
+            OpResponseData.Parameters = ResponseData;
             //广播事件
             threadEventParameter.Clear();
             threadEventParameter.Add((byte)ParameterCode.RoleAdventureStartSkill, roleAdventureSkillJson);
             //QueueThreadEvent(peerSet, EventCode.RoleAdventureStartSkill, threadEventParameter);
-
             //SkillBuffEnd(peer.PeerCache.RoleAdventureSkill.BuffeInterval, peer);
             //CDIntervalMethod(peer.PeerCache.RoleAdventureSkill.CDInterval, peer, peer.PeerCache.RoleAdventureSkill.SkillID);
+            return OpResponseData;
         }
 
         #region 删除
@@ -56,7 +51,6 @@ namespace AscensionServer
         {
             await BuffIntervalMethod(cd, peer);
         }
-
 
         Task BuffIntervalMethod(int cd, AscensionPeer peer)
         {

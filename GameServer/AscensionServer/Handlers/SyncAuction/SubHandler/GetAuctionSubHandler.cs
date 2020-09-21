@@ -15,12 +15,7 @@ namespace AscensionServer
 {
     public class GetAuctionSubHandler : SyncAuctionSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Get;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -83,10 +78,10 @@ namespace AscensionServer
                 Utility.Debug.LogInfo("发送数据");
                 string resultJson = Utility.Json.ToJson(resultDict);
                 SubDict.Add((byte)ParameterCode.Auction, resultJson);
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                 Utility.Debug.LogInfo("发送数据完成"+ resultJson);
             });
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
         }
     }
 }

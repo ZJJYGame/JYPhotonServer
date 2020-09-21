@@ -24,7 +24,7 @@ namespace AscensionServer
             IHandler handler;
             var result = handlerDict.TryGetValue(request.OperationCode, out handler);
             if (!result)
-                return handlerDict[0].EncodeMessage(request);
+                return handlerDict[0].EncodeMessage(request);//使用default handler
             else
                 return handler.EncodeMessage(request);
         }

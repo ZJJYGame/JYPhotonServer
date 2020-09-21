@@ -11,12 +11,7 @@ namespace AscensionServer
 {
     public class VerifySutrasAtticmHandler : SyncSutrasAtticmSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Verify;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Verify;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
            

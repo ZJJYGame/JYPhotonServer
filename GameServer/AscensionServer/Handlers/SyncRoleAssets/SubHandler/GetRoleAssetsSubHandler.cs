@@ -12,11 +12,7 @@ namespace AscensionServer
 {
     public class GetRoleAssetsSubHandler : SyncRoleAssetsSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Get;
-            base.OnInitialization();
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -33,14 +29,14 @@ namespace AscensionServer
                 {
                     Utility.Debug.LogError("获取人物资源的书序4"+ roleAssetsJson);
                     SubDict.Add((byte)ParameterCode.RoleAssets, roleAssetsJson);
-                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
                 });
                 #endregion
 
             }
             else
             {
-                #region MySqL
+                #region MySql
                 NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
                 var obj = NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRoleID);
                 if (obj != null)
@@ -58,18 +54,18 @@ namespace AscensionServer
                     {
                         Utility.Debug.LogError("获取人物资源的书序3");
                         SubDict.Add((byte)ParameterCode.RoleAssets, roleAssetsJson);
-                        Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                        Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
                     });
                 }
                 else
                 {
                     Utility.Debug.LogError("获取人物资源的书序5");
-                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
+                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
                 }
                 GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
                 #endregion
             }
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
 
         }
     }

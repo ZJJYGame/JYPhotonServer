@@ -16,9 +16,9 @@ namespace AscensionServer
 {
     public class SyncAlchemyHandler:Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncAlchemy; } }
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncAlchemy;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncAlchemySubHandler>();
         }

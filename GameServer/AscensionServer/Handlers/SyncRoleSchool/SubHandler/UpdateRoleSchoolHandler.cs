@@ -12,12 +12,7 @@ namespace AscensionServer
 {
     public class UpdateRoleSchoolHandler : SyncRoleSchoolSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Update;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);

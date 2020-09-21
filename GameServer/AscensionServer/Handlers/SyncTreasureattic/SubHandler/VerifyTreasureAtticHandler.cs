@@ -13,12 +13,7 @@ namespace AscensionServer
 {
     public class VerifyTreasureAtticHandler : SyncTreasureatticSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Verify;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Verify;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -41,17 +36,17 @@ namespace AscensionServer
                     {
 
                         SubDict.Add((byte)ParameterCode.TreasureAttic, Utility.Json.ToJson(true));
-                        Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                        Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
                     });
                 }
                 else
                 {
                     SubDict.Add((byte)ParameterCode.TreasureAttic, Utility.Json.ToJson(false));
-                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
+                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
                 }
             }
 
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaSchool);
         }
     }

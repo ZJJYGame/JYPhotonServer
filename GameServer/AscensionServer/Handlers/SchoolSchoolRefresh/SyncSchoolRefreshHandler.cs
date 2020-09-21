@@ -13,12 +13,8 @@ namespace AscensionServer
 {
   public  class SyncSchoolRefreshHandler: Handler
     {
-        public override void OnInitialization()
-        {
-            OpCode = OperationCode.SyncSchoolRefresh;
-            base.OnInitialization();
-        }
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override byte OpCode { get { return (byte)OperationCode.SyncSchoolRefresh; } }
+        protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {              
             ResponseData.Clear();
             var roleJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
@@ -43,6 +39,7 @@ namespace AscensionServer
             //    Utility.Debug.LogInfo("派发刷新商店的事件给服务器1》》》》》》》》》》》》》》》》" + schoolJson);
             //    Utility.Debug.LogInfo("派发刷新商店的事件给服务器2》》》》》》》》》》》》》》》》" + roleJson);
             //}
+            return OpResponseData;
         }
     }
 }

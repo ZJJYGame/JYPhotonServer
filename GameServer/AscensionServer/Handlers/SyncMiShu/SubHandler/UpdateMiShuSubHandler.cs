@@ -11,11 +11,7 @@ namespace AscensionServer
 {
     public class UpdateMiShuSubHandler : SyncMiShuSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Update;
-            base.OnInitialization();
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             ResetResponseData(operationRequest);
@@ -58,14 +54,14 @@ namespace AscensionServer
                     }
                 }
 
-                Owner.OpResponse.Parameters = Owner.ResponseData;
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                Owner.OpResponseData.Parameters = Owner.ResponseData;
+                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
             }
             else
             {
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
             }
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
         }
     }

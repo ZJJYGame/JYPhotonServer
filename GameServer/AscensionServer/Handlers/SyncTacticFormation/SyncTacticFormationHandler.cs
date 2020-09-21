@@ -9,9 +9,9 @@ namespace AscensionServer
 {
    public  class SyncTacticFormationHandler:Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncTacticFormation; } }
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncTacticFormation;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncTacticFormationSubHandler>();
         }

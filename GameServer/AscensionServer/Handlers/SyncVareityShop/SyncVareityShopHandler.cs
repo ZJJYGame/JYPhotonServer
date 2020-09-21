@@ -9,9 +9,9 @@ namespace AscensionServer
 {
   public  class SyncVareityShopHandler: Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncVareityShop; } }
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncVareityShop;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncVareityShopSubHandler>();
         }

@@ -14,12 +14,7 @@ namespace AscensionServer
 {
     public class GetAllianceAlchemySubHandler : SyncAllianceAlchemySubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Get;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -36,7 +31,7 @@ namespace AscensionServer
                 {
                     SubDict.Add((byte)ParameterCode.RoleAllianceAlchemy, Utility.Json.ToJson(allianceAlchemyNumObj));
                     Utility.Debug.LogError("1获得的兑换的丹药"+ Utility.Json.ToJson(allianceAlchemyNumObj));
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                 });
             }
             else
@@ -45,10 +40,10 @@ namespace AscensionServer
                 {
                     Utility.Debug.LogError("2获得的兑换的丹药" + content);
                     SubDict.Add((byte)ParameterCode.RoleAllianceAlchemy, content);
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                 });
             }
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
         }
     }
 }

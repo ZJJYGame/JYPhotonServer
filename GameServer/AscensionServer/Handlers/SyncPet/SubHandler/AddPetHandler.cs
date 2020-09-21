@@ -11,11 +11,7 @@ namespace AscensionServer
 {
     public class AddPetHandler : SyncPetSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Add;
-            base.OnInitialization();    
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -32,14 +28,14 @@ namespace AscensionServer
                 SetResponseData(() =>
                 {
                     SubDict.Add((byte)ParameterCode.Pet, petObj);
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                 });
             }
             else
             {
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
             }
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
         }
     }
     }

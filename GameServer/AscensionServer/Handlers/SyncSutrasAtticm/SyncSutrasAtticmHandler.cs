@@ -8,9 +8,9 @@ namespace AscensionServer
 {
    public class SyncSutrasAtticmHandler:Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncSutrasAtticm; } }
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncSutrasAtticm;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncSutrasAtticmSubHandler>();
         }

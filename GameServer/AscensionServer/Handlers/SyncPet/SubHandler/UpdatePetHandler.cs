@@ -15,11 +15,7 @@ namespace AscensionServer
 {
     public class UpdatePetHandler : SyncPetSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Update;
-            base.OnInitialization();
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
         public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -49,16 +45,16 @@ namespace AscensionServer
                 {
                     Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>穿回去的宠物经验" + petJson);
                     SubDict.Add((byte)ParameterCode.Pet, Utility.Json.ToJson(pet));
-                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
                 });
             }
             else
             {
                 Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>传过来的宠物状态为空" + petJson);
-                Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
+                Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
             }
 
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaPet);
         }
     }

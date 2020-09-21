@@ -12,12 +12,7 @@ namespace AscensionServer
 {
    public class GetAlchemySubHandler:SyncAlchemySubHandler
     {
-
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Get;
-            base.OnInitialization();
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -37,16 +32,16 @@ namespace AscensionServer
                         alchemyObj.RoleID = alchemytemp.RoleID;
      
                         SubDict.Add((byte)ParameterCode.JobAlchemy, Utility.Json.ToJson(alchemyObj));
-                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
             }
             else
             {
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
                 SubDict.Add((byte)ParameterCode.JobAlchemy, Utility.Json.ToJson(new List<string>()));
             }
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaalchemy);
         }
 

@@ -13,12 +13,7 @@ namespace AscensionServer
 {
     public class RemoveWeaponSubHandler : SyncWeaponSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Remove;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Remove;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -39,18 +34,18 @@ namespace AscensionServer
                 NHibernateQuerier.Update(weapontemp);
                 SetResponseData(() =>
                 {
-                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
                 });
             }
             else
             {
                 SetResponseData(() =>
                 {
-                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
+                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
                 });
             }
 
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaweapon);
 
 

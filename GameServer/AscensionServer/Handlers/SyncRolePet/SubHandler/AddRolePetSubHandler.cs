@@ -13,11 +13,7 @@ namespace AscensionServer
 {
     public class AddRolePetSubHandler : SyncRolePetSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Add;
-            base.OnInitialization();
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
         public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -125,9 +121,9 @@ namespace AscensionServer
             {
                 SubDict.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(petDoList));
 
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
             });
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaroleID);
         }
 

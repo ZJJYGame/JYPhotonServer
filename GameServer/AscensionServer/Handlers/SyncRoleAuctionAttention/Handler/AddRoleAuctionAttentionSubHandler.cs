@@ -15,12 +15,7 @@ namespace AscensionServer
 {
     public class AddRoleAuctionAttentionSubHandler : SyncRoleAuctionAttentionSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Add;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
         public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             Utility.Debug.LogInfo("进入关注事件");
@@ -36,11 +31,11 @@ namespace AscensionServer
                 {
                     guidList.Add(guid);
                     await RedisHelper.Hash.HashSetAsync("RoleAuctionAttention", roleID.ToString(), guidList);
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                 }
                 else
                 {
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
                 }
             }
             else
@@ -50,9 +45,9 @@ namespace AscensionServer
                 await RedisHelper.Hash.HashSetAsync("RoleAuctionAttention", roleID.ToString(), guidList);
             }
 
-            Owner.OpResponse.Parameters = Owner.ResponseData;
+            Owner.OpResponseData.Parameters = Owner.ResponseData;
 
-            if (Owner.OpResponse.ReturnCode == (short)ReturnCode.Success)
+            if (Owner.OpResponseData.ReturnCode == (short)ReturnCode.Success)
             {
                 List<AuctionGoodsDTO> resultList = new List<AuctionGoodsDTO>();
                 for (int i = 0; i < guidList.Count; i++)
@@ -65,7 +60,7 @@ namespace AscensionServer
                 Owner.ResponseData.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(resultList));
             }
 
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
         }
     }
 }

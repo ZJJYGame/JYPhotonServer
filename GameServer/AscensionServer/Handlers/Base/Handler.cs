@@ -18,58 +18,23 @@ namespace AscensionServer
     public abstract class Handler : IHandler
     {
         #region Properties
-        public byte Opcode { get { return (byte)OpCode; } }
-        public OperationCode OpCode { get; protected set; }
+        public abstract byte OpCode { get;  }
         public EventCode EvCode { get; protected set; }
         Dictionary<byte, ISubHandler> subHandlerDict;
-        public OperationResponse OpResponse { get; protected set; }
+        public OperationResponse OpResponseData { get; protected set; }
         public Dictionary<byte, object> ResponseData { get; protected set; }
         protected Dictionary<byte, object> threadEventParameter { get; set; }
         #endregion
 
         #region Methods
-        public virtual void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
-        {
-            var subCode = Convert.ToByte(Utility.GetValue(operationRequest.Parameters, (byte)OperationCode.SubOperationCode));
-            if (subCode != 0)
-            {
-                try
-                {
-                    ISubHandler subHandler;
-                    var result = subHandlerDict.TryGetValue(subCode, out subHandler);
-                    if (result)
-                        subHandler.Handler(operationRequest, sendParameters, peer);
-                }
-                catch
-                {
-                    Utility.Debug.LogInfo($"{(OperationCode)operationRequest.OperationCode} ;{ (SubOperationCode)subCode }  has no subHandler ");
-                }
-            }
-        }
-        public virtual object EncodeMessage(object message)
+        public object EncodeMessage(object message)
         {
             OperationRequest operationRequest = message as OperationRequest;
-            object data=null;
-            var subCode = Convert.ToByte(Utility.GetValue(operationRequest.Parameters, (byte)OperationCode.SubOperationCode));
-            if (subCode != 0)
-            {
-                try
-                {
-                    ISubHandler subHandler;
-                    var result = subHandlerDict.TryGetValue(subCode, out subHandler);
-                    if (result)
-                        data= subHandler.EncodeMessage(message);
-                }
-                catch
-                {
-                    Utility.Debug.LogInfo($"{(OperationCode)operationRequest.OperationCode} ;{ (SubOperationCode)subCode }  has no subHandler ");
-                }
-            }
-            return data;
+            return OnOperationRequest(operationRequest);
         }
         public virtual void OnInitialization()
         {
-            OpResponse = new OperationResponse();
+            OpResponseData = new OperationResponse();
             ResponseData = new Dictionary<byte, object>();
             subHandlerDict = new Dictionary<byte, ISubHandler>();
             threadEventParameter = new Dictionary<byte, object>();
@@ -81,6 +46,26 @@ namespace AscensionServer
         public void ResetHandler()
         {
             ResponseData.Clear();
+        }
+        protected virtual OperationResponse OnOperationRequest(OperationRequest operationRequest)
+        {
+            object data = null;
+            var subCode = Convert.ToByte(Utility.GetValue(operationRequest.Parameters, (byte)OperationCode.SubOperationCode));
+            if (subCode != 0)
+            {
+                try
+                {
+                    ISubHandler subHandler;
+                    var result = subHandlerDict.TryGetValue(subCode, out subHandler);
+                    if (result)
+                        data = subHandler.EncodeMessage(data);
+                }
+                catch
+                {
+                    Utility.Debug.LogInfo($"{(OperationCode)operationRequest.OperationCode} ;{ (SubOperationCode)subCode }  has no subHandler ");
+                }
+            }
+            return null;
         }
         protected virtual void OnSubHandlerInitialization<T>()
             where T : class, ISubHandler
@@ -113,7 +98,7 @@ namespace AscensionServer
         protected void SetRequestData(OperationRequest operationRequest)
         {
             ResponseData.Clear();
-            OpResponse.OperationCode = operationRequest.OperationCode;
+            OpResponseData.OperationCode = operationRequest.OperationCode;
         }
         /// <summary>
         /// 执行线程事件；
@@ -148,8 +133,6 @@ namespace AscensionServer
         {
             subHandlerDict.Remove((byte)handler.SubOpCode);
         }
-
-
         #endregion
     }
 }

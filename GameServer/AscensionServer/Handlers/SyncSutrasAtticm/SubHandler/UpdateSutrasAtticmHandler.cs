@@ -13,12 +13,7 @@ namespace AscensionServer
 {
     public class UpdateSutrasAtticmHandler : SyncSutrasAtticmSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Update;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -74,7 +69,7 @@ namespace AscensionServer
                     {
 
                         SubDict.Add((byte)ParameterCode.SutrasAtticm, Utility.Json.ToJson(DOdict));
-                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
                 else
@@ -82,7 +77,7 @@ namespace AscensionServer
                     SetResponseData(() =>
                     {
                         Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>传回到的藏宝阁s失败");
-                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
                     });
                 }
 
@@ -92,11 +87,11 @@ namespace AscensionServer
                 SetResponseData(() =>
                 {
                     Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>传回到的藏宝阁s失败");
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
 
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriasutrasAttic, nHCriteriaschool);
             Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>传回到的藏宝阁" + Utility.Json.ToJson(DOdict));
         }

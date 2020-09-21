@@ -13,12 +13,7 @@ namespace AscensionServer
 {
     public class GetRoleSchoolHandler : SyncRoleSchoolSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Get;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
 
@@ -51,9 +46,9 @@ namespace AscensionServer
 
                         SetResponseData(() =>
                         {
-                            Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
+                            Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
                         });
-                        peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+                        peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
                         return;
                     }
                     GameManager.ReferencePoolManager.Despawns(nHCriteriarole);
@@ -67,19 +62,19 @@ namespace AscensionServer
 
                         SubDict.Add((byte)ParameterCode.RoleSchool, Utility.Json.ToJson(schoolDict));
 
-                        Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                        Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
                     });
                 }
                 else
                 {
                     SetResponseData(() =>
                     {
-                        Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
+                        Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
                     });
                 }
             }
             Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>..发送加入的宗门" + Utility.Json.ToJson(schoolDict));
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
 
         }
     }

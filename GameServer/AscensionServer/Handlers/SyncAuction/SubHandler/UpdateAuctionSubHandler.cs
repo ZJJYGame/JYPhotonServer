@@ -16,12 +16,7 @@ namespace AscensionServer
 {
     public class UpdateAuctionSubHandler : SyncAuctionSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Update;
-            base.OnInitialization();
-        }
-        object locker = new object();
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
         public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             ResetResponseData(operationRequest);
@@ -184,30 +179,30 @@ namespace AscensionServer
                     Utility.Debug.LogError(roleID + "添加");
                     Utility.Debug.LogInfo(roleID + "购买物品成功");
                     Owner.ResponseData.Add((byte)ParameterCode.AddAuctionGoods, Utility.Json.ToJson(resultDict));
-                    Owner.OpResponse.Parameters = Owner.ResponseData;
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    Owner.OpResponseData.Parameters = Owner.ResponseData;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                 
                     break;
                 case BuyAuctionTypeEnum.Empty:
                     Utility.Debug.LogError(roleID + "添加");
                     Utility.Debug.LogInfo(roleID + "找不到该商品");
                     Owner.ResponseData.Add((byte)ParameterCode.Inventory, Utility.Json.ToJson(resultDict));
-                    Owner.OpResponse.Parameters = Owner.ResponseData;
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Empty;
+                    Owner.OpResponseData.Parameters = Owner.ResponseData;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Empty;
                     break;
                 case BuyAuctionTypeEnum.NotEnougth:
                     Utility.Debug.LogError(roleID + "添加");
                     Utility.Debug.LogInfo(roleID + "物品数量不足");
                     Owner.ResponseData.Add((byte)ParameterCode.Auction, Utility.Json.ToJson(resultDict));
-                    Owner.OpResponse.Parameters = Owner.ResponseData;
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                    Owner.OpResponseData.Parameters = Owner.ResponseData;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
                     break;
                 case BuyAuctionTypeEnum.Default:
                     Utility.Debug.LogInfo("拍卖行判断出现异常");
                     break;
             }
 
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             Utility.Debug.LogInfo(roleID+"更新拍卖行事件结束");
         }
 

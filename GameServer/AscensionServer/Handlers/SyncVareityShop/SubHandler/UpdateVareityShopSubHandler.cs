@@ -13,13 +13,7 @@ namespace AscensionServer
 {
     public class UpdateVareityShopSubHandler : SyncVareityShopSubHandler
     {
-
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Update;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -68,12 +62,12 @@ namespace AscensionServer
                 SetResponseData(() =>
                 {
                     SubDict.Add((byte)ParameterCode.VareityPurchase, Utility.Json.ToJson(vareityPurchaseRecordDTO));
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                 });
             }
             else
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriarolepurchase);
         }
     }

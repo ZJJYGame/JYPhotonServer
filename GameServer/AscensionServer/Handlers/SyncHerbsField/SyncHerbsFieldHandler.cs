@@ -14,9 +14,9 @@ namespace AscensionServer.Handlers
 {
    public  class SyncHerbsFieldHandler:Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncHerbsField; } }
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncHerbsField;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncHerbsFieldSubHandler>();
         }

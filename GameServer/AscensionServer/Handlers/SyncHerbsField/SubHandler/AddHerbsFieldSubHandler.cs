@@ -13,12 +13,7 @@ namespace AscensionServer.Handlers
 {
     public class AddHerbsFieldSubHandler : SyncHerbsFieldSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Add;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -52,12 +47,12 @@ namespace AscensionServer.Handlers
                     SetResponseData(() =>
                     {
                         SubDict.Add((byte)ParameterCode.JobHerbsField, Utility.Json.ToJson(new HerbsFieldDTO() {AllHerbs= hfList,jobLevel= hfTemp.jobLevel,RoleID= hfTemp.RoleID }));
-                        Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                        Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
                     });
                 }
             }
             
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
 
             GameManager.ReferencePoolManager. Despawns(nHCriteriahf);
         }

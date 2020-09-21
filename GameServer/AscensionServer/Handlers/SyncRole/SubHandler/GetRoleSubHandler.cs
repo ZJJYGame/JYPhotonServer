@@ -11,11 +11,7 @@ namespace AscensionServer
 {
     public class GetRoleSubHandler : SyncRoleSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Get;
-            base.OnInitialization();
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -46,7 +42,7 @@ namespace AscensionServer
                 SetResponseData(() =>
                 {
                     SubDict.Add((byte)ParameterCode.RoleSet, Utility.Json.ToJson(roleObjList));
-                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
                 });
                 GameManager.ReferencePoolManager.Despawns(nHCriteriaList);
             }
@@ -55,11 +51,11 @@ namespace AscensionServer
                 SetResponseData(() =>
                 {
                     SubDict.Add((byte)ParameterCode.RoleSet, Utility.Json.ToJson(new List<string>()));
-                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Empty;
+                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Empty;
                 });
             }
             // 把上面的结果给客户端
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaUUID, nHCriteriaAccount);
 
         }

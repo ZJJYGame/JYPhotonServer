@@ -397,11 +397,6 @@
     <Compile Include="Handlers\SyncPet\SubHandler\UpdatePetHandler.cs" />
     <Compile Include="Handlers\SyncRolePet\SubHandler\RemoveRolePetSubHandler.cs" />
     <Compile Include="DO\Base\DataObject.cs" />
-    <Compile Include="Handlers\MQ\SubHandler\AddMQSubHandler.cs" />
-    <Compile Include="Handlers\MQ\SubHandler\GetMQSubHandler.cs" />
-    <Compile Include="Handlers\MQ\SubHandler\MQSubHandler.cs" />
-    <Compile Include="Handlers\MQ\SubHandler\RemoveMQSubHandler.cs" />
-    <Compile Include="Handlers\MQ\SubHandler\UpdateMQSubHandler.cs" />
     <Compile Include="Handlers\SyncSutrasAtticm\SubHandler\SyncSutrasAtticmSubHandler.cs" />
     <Compile Include="Handlers\SyncSutrasAtticm\SubHandler\UpdateSutrasAtticmHandler.cs" />
     <Compile Include="Handlers\SyncSutrasAtticm\SubHandler\VerifySutrasAtticmHandler.cs" />
@@ -422,7 +417,6 @@
     <Compile Include="Handlers\Base\Handler.cs" />
     <Compile Include="Handlers\Base\IHandler.cs" />
     <Compile Include="Handlers\Base\ISubHandler.cs" />
-    <Compile Include="Handlers\MQ\MQHandler.cs" />
     <Compile Include="Handlers\SyncGongFa\SubHandler\AddGongFaSubHandler.cs" />
     <Compile Include="Handlers\SyncGongFa\SubHandler\GetGongFaSubHandler.cs" />
     <Compile Include="Handlers\SyncGongFa\SubHandler\SyncGongFaSubHandler.cs" />

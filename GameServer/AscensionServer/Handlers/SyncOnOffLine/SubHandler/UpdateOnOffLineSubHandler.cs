@@ -16,12 +16,7 @@ namespace AscensionServer
 {
    public class UpdateOnOffLineSubHandler : SyncOnOffLineSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Update;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
 
@@ -37,7 +32,7 @@ namespace AscensionServer
                 NHibernateQuerier.Update(obj);
                 SetResponseData(() =>
                 {
-                    Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
                 });
             }
             else

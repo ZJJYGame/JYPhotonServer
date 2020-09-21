@@ -8,9 +8,9 @@ namespace AscensionServer
 {
    public  class SyncForgeHandler:Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncForge; } }
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncForge;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncForgeSubHandler>();
         }

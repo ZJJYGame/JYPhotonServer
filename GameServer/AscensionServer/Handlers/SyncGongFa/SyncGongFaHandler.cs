@@ -8,9 +8,9 @@ namespace AscensionServer
 {
     public class SyncGongFaHandler:Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncGongFa; } }
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncGongFa;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncGongFaSubHandler>();
         }

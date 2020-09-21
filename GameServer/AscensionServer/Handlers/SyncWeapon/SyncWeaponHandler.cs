@@ -9,9 +9,9 @@ namespace AscensionServer
 {
     public class SyncWeaponHandler:Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncWeapon; } }
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncWeapon;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncWeaponSubHandler>();
         }

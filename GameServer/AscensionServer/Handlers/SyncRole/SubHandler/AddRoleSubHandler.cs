@@ -22,11 +22,7 @@ namespace AscensionServer
         Dictionary<string, RoleTaskItemDTO> roleTaskDic = new Dictionary<string, RoleTaskItemDTO>();
         Dictionary<int, RingItemsDTO> ringDict = new Dictionary<int, RingItemsDTO>();
         Dictionary<int, int> magicRingDict = new Dictionary<int, int>();
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Add;
-            base.OnInitialization();
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -199,7 +195,7 @@ namespace AscensionServer
                 #endregion
                 var userRoleJson = Utility.Json.ToJson(roleList);
                 NHibernateQuerier.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                 RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { RoleID = rolestatus.RoleID, RoleName = role.RoleName, ApplyForAlliance = new List<int>() };
                 DOdict.Add("Role", Utility.Json.ToJson(role));
                 DOdict.Add("RoleStatus", Utility.Json.ToJson(rolestatus));
@@ -208,14 +204,14 @@ namespace AscensionServer
                 DOdict.Add("MiShu", Utility.Json.ToJson(miShu));
                 DOdict.Add("RoleAlliance", Utility.Json.ToJson(roleAllianceDTO));
                 Owner.ResponseData.Add((byte)ParameterCode.Role, Utility.Json.ToJson(DOdict));
-                Owner.OpResponse.Parameters = Owner.ResponseData;
+                Owner.OpResponseData.Parameters = Owner.ResponseData;
             }
             else
             {
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
             }
             //把上面的回应给客户端
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaUUID, nHCriteriaRoleName);
         }
 

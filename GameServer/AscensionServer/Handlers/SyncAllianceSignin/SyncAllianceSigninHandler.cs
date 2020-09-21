@@ -8,9 +8,9 @@ namespace AscensionServer
 {
     public class SyncAllianceSigninHandler:Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncAllianceSignin; } }
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncAllianceSignin;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncAllianceSigninSubHandler>();
         }

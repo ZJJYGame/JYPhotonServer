@@ -13,12 +13,9 @@ namespace AscensionServer
 {
    public class SyncUpdatSchoolRefreshHandler: Handler
     {
-        public override void OnInitialization()
-        {
-            OpCode = OperationCode.UpdateSchoolRefresh;
-            base.OnInitialization();
-        }
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override byte OpCode { get { return (byte)OperationCode.UpdateSchoolRefresh; } }
+
+        protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
             ResponseData.Clear();
             string schoolJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)
@@ -34,19 +31,19 @@ namespace AscensionServer
                     schooltemp.ContributionNow += schoolObj.GetContributions;
                     schooltemp.IsSignin = schoolObj.IsSignin;
                     NHibernateQuerier.Update<School>(schooltemp);
-                    OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                    OpResponseData.ReturnCode = (byte)ReturnCode.Success;
                     ResponseData.Add((byte)ParameterCode.SchoolRefresh, Utility.Json.ToJson(schooltemp));
-                    OpResponse.OperationCode = operationRequest.OperationCode;
-                    OpResponse.Parameters = ResponseData;
+                    OpResponseData.OperationCode = operationRequest.OperationCode;
+                    OpResponseData.Parameters = ResponseData;
                 }
                 else
                 {
-                   OpResponse.ReturnCode = (byte)ReturnCode.Fail;
+                   OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
                 }
             }
             Utility.Debug.LogInfo("更新后的宗门信息" + Utility.Json.ToJson(schooltemp));
-            peer.SendOperationResponse(OpResponse, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaschool);
+            return OpResponseData;
         }
     }
 }

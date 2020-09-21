@@ -13,12 +13,7 @@ namespace AscensionServer
 {
     public class AddGongFaSubHandler : SyncGongFaSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Add;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -43,7 +38,7 @@ namespace AscensionServer
                         {
                             Utility.Debug.LogInfo("人物已经学会的功法" + roleGongFaObj.GongFaIDArray);
                             Utility.Debug.LogInfo("人物已经学会此功法无法添加新的功法" + gongfaObj.CultivationMethodID);
-                            Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
 
                             Owner.ResponseData.Add((byte)ParameterCode.RoleGongFa, null);
                         }
@@ -65,7 +60,7 @@ namespace AscensionServer
                         SetResponseData(() =>
                             {
                                 SubDict.Add((byte)ParameterCode.RoleGongFa, Utility.Json.ToJson(DOdict));
-                                Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                             });
                         }
                     }
@@ -73,7 +68,7 @@ namespace AscensionServer
             }
 
 
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
         }
         

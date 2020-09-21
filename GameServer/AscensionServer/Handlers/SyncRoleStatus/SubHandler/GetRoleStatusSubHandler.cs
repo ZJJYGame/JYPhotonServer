@@ -12,11 +12,7 @@ namespace AscensionServer
 {
     public class GetRoleStatusSubHandler : SyncRoleStatusSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Get;
-            base.OnInitialization();
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
 
@@ -44,14 +40,14 @@ namespace AscensionServer
                     string roleStatusJson = Utility.Json.ToJson(roleStatus);
                     RoleRing roleRing = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleId);
                     SetResponseData(() => { SubDict.Add((byte)ParameterCode.RoleStatus, roleStatusJson); SubDict.Add((byte)ParameterCode.Inventory, Utility.Json.ToObject<Dictionary<int, int>>(roleRing.RingIdArray)); });
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                     GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleId);
                 }
                 else
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
                 #endregion
             }
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
 
         }
     }

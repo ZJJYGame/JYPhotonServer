@@ -13,21 +13,17 @@ namespace AscensionServer
 {
     public class SyncSelfRoleTransformSetHandler : Handler
     {
-        public override void OnInitialization()
-        {
-            OpCode = OperationCode.SyncSelfRoleTransformQueue;
-            base.OnInitialization();
-        }
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override byte OpCode { get { return (byte)OperationCode.SyncSelfRoleTransformQueue; } }
+        protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
             var JsonResult = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleTransformQueue));
             //peer.PeerCache.RoleTransformQueue = Utility.Json.ToObject<RoleTransformQueueDTO>(JsonResult);
             //peer.PeerCache.RoleTransformQueue.RoleID = peer.PeerCache.RoleID;
             //peer.IsSendedTransform = false;
             ResponseData.Clear();
-            OpResponse.OperationCode = operationRequest.OperationCode;
-            OpResponse.ReturnCode = (short)ReturnCode.Success;
-            peer.SendOperationResponse(OpResponse, sendParameters);
+            OpResponseData.OperationCode = operationRequest.OperationCode;
+            OpResponseData.ReturnCode = (short)ReturnCode.Success;
+            return OpResponseData;
         }
     }
 }

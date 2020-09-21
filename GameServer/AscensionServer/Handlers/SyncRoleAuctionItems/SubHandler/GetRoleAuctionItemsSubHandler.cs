@@ -15,12 +15,7 @@ namespace AscensionServer
 {
     public class GetRoleAuctionItemsSubHandler : SyncRoleAuctionItemsSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Get;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             ResetResponseData(operationRequest);
@@ -56,10 +51,10 @@ namespace AscensionServer
 
             Utility.Debug.LogInfo("我的上架数据" + Utility.Json.ToJson(roleAuctionItemList));
             Owner.ResponseData.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(roleAuctionItemList));
-            Owner.OpResponse.Parameters = Owner.ResponseData;
-            Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+            Owner.OpResponseData.Parameters = Owner.ResponseData;
+            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
 
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
         }
     }
 }

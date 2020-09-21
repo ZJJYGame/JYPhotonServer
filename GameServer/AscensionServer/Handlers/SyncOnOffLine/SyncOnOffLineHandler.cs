@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AscensionProtocol;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,9 @@ namespace AscensionServer
 {
    public class SyncOnOffLineHandler:Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncOnOffLine; } }
         public override void OnInitialization()
         {
-            OpCode = AscensionProtocol.OperationCode.SyncOnOffLine;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncOnOffLineSubHandler>();
         }

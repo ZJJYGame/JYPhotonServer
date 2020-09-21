@@ -14,10 +14,7 @@ namespace AscensionServer
 {
     public class AddInventorySubHandler : SyncInventorySubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Add;
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
         /// <summary>
         /// 需要count
         /// </summary>
@@ -421,13 +418,13 @@ namespace AscensionServer
                     #endregion
 
                     NHibernateQuerier.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDict), RingMagicDictServer = ringServerArray.RingMagicDictServer , RingAdorn =Utility.Json.ToJson(ServerDictAdorn) });
-                    Owner.OpResponse.Parameters = Owner.ResponseData;
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    Owner.OpResponseData.Parameters = Owner.ResponseData;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                 }
             }
             else
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID, nHCriteriaRingID);
         }
     }

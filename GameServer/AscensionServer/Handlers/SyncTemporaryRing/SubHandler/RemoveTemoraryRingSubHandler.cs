@@ -12,10 +12,7 @@ namespace AscensionServer
 {
     public class RemoveTemoraryRingSubHandler: SyncTemporarySubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Remove;
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Remove;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             ResetResponseData(operationRequest);
@@ -33,18 +30,18 @@ namespace AscensionServer
                 {
                     if (!tempRing.ContainsKey(temp.Key))
                     {
-                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
                         continue;
                     }
                     else
                         tempRing.Remove(temp.Key);
                     NHibernateQuerier.Update(new TemporaryRing() { RoleID = TemRingRoleObj.RoleID, RingItems = Utility.Json.ToJson(tempRing) });
                 }
-                Owner.OpResponse.Parameters = Owner.ResponseData;
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                Owner.OpResponseData.Parameters = Owner.ResponseData;
+                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
             }
-            else Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            else Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
         }
     }

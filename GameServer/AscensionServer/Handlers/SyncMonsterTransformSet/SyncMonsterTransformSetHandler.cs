@@ -15,11 +15,7 @@ namespace AscensionServer
 {
     public class SyncMonsterTransformSetHandler : Handler
     {
-        public override void OnInitialization()
-        {
-            OpCode = OperationCode.SyncMonsterTransform;
-            base.OnInitialization();
-        }
+        public override byte OpCode { get { return (byte)OperationCode.SyncMonsterTransform; } }
         /*
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {

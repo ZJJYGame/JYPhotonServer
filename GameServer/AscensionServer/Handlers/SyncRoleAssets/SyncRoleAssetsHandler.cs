@@ -12,9 +12,9 @@ namespace AscensionServer
 {
     public class SyncRoleAssetsHandler : Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncRoleAssets; } }
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncRoleAssets;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncRoleAssetsSubHandler>();
         }

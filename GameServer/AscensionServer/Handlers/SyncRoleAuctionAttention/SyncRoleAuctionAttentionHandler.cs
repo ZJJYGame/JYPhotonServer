@@ -9,9 +9,9 @@ namespace AscensionServer
 {
     public class SyncRoleAuctionAttentionHandler:Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncRoleAuctionAttention; } }
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncRoleAuctionAttention;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncRoleAuctionAttentionSubHandler>();
         }

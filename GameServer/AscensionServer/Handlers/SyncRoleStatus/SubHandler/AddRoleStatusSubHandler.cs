@@ -33,11 +33,7 @@ namespace AscensionServer
 {
     public class AddRoleStatusSubHandler : SyncRoleStatusSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Add;
-            base.OnInitialization();
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             ResetResponseData(operationRequest);
@@ -126,10 +122,10 @@ namespace AscensionServer
                     RoleVileSpawn = roleStatusSever.RoleVileSpawn,
                     RoleVitality = roleStatusSever.RoleVitality
                 });
-                Owner.OpResponse.Parameters = Owner.ResponseData;
-                Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
-            }else Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+                Owner.OpResponseData.Parameters = Owner.ResponseData;
+                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+            }else Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleId);
         }
 

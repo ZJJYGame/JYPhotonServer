@@ -13,12 +13,7 @@ namespace AscensionServer
 {
     public class GetRolePetSubHandler : SyncRolePetSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Get;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
 
@@ -55,7 +50,7 @@ namespace AscensionServer
                 SetResponseData(() =>
                 {
                     SubDict.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(DODict));
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                 });
                 GameManager.ReferencePoolManager.Despawns(nHCriteriasList);
                 #endregion
@@ -89,7 +84,7 @@ namespace AscensionServer
                     SetResponseData(() =>
                     {
                         SubDict.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(DODict));
-                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                     });
                     GameManager.ReferencePoolManager.Despawns(nHCriteriasList);
                 }
@@ -98,13 +93,13 @@ namespace AscensionServer
                     SetResponseData(() =>
                     {
                         SubDict.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(new List<string>()));
-                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
                     });
                 }
                 #endregion
             }
 
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRolePet);
         }
     }

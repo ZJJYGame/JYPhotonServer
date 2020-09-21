@@ -15,12 +15,7 @@ namespace AscensionServer
 {
     public class UpdateAllianceAlchemySubHandler : SyncAllianceAlchemySubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Update;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
         public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             var dict = ParseSubDict(operationRequest);
@@ -89,14 +84,14 @@ namespace AscensionServer
                         Utility.Debug.LogError("发送回去的兑换弹药的请求数据" + Utility.Json.ToJson(roleAssetsTemp));
                         SubDict.Add((byte)ParameterCode.RoleAlliance, Utility.Json.ToJson(roleAllianceDTO));
                         SubDict.Add((byte)ParameterCode.RoleAllianceAlchemy, AllianceAlchemyJson);
-                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
                 else
                 {
                     SetResponseData(() =>
                     {
-                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
                     });
                 }
             }
@@ -104,10 +99,10 @@ namespace AscensionServer
             {
                 SetResponseData(() =>
                 {
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
         }
     }
 }

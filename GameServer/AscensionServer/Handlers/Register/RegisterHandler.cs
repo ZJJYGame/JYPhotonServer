@@ -12,19 +12,16 @@ namespace AscensionServer
 {
     public class RegisterHandler : Handler
     {
-        public override void OnInitialization()
-        {
-            OpCode = OperationCode.Register;
-            base.OnInitialization();
-        }
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override byte OpCode { get { return (byte)OperationCode.Register; } }
+
+        protected override  OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
             var userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.User));
             var userObj = Utility.Json.ToObject<User>(userJson);
             NHCriteria nHCriteriaAccount = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
             bool isExist = NHibernateQuerier.Verify<User>(nHCriteriaAccount);
             ResponseData.Clear();
-            OpResponse.OperationCode = operationRequest.OperationCode;
+            OpResponseData.OperationCode = operationRequest.OperationCode;
             if (!isExist)
             {
                 Utility.Debug.LogInfo("==========\n  before add UUID ：" +userJson +"\n"+ userObj.UUID + "\n================");
@@ -39,16 +36,16 @@ namespace AscensionServer
                     var userRole = new UserRole() { UUID = userObj.UUID };
                     NHibernateQuerier.Insert(userRole);
                 }
-            OpResponse.ReturnCode = (short)ReturnCode.Success;//返回成功
+            OpResponseData.ReturnCode = (short)ReturnCode.Success;//返回成功
                 GameManager.ReferencePoolManager.Despawns(nHCriteriaUUID);
             }
             else//否者这个用户被注册了
             {
-                OpResponse.ReturnCode = (short)ReturnCode.Fail;//返回失败
+                OpResponseData.ReturnCode = (short)ReturnCode.Fail;//返回失败
             }
             // 把上面的结果给客户端
-            peer.SendOperationResponse(OpResponse, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaAccount);
+            return OpResponseData;
         }
     }
 }

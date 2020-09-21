@@ -13,13 +13,7 @@ namespace AscensionServer
 {
     public class GetImmortalsAllianceHandler : SyncImmortalsAllianceSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Get;
-            base.OnInitialization();
-        }
-
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             SubDict.Clear();
@@ -78,7 +72,7 @@ namespace AscensionServer
                     {
                         Utility.Debug.LogInfo("发送的所有仙盟列表" + Utility.Json.ToJson(ImmortalsAllianceList));
                         SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(ImmortalsAllianceList));
-                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                     });
                 GameManager.ReferencePoolManager.Despawns(nhcriteriaList);
                 #endregion
@@ -90,7 +84,7 @@ namespace AscensionServer
                 Utility.Debug.LogError("获取到的Redis仙盟数量为" + alliances.Count);
             }
 
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             
         }
     }

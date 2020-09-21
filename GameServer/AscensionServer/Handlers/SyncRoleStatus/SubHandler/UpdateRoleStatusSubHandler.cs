@@ -13,11 +13,7 @@ namespace AscensionServer
 {
     public class UpdateRoleStatusSubHandler : SyncRoleStatusSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Update;
-            base.OnInitialization();
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             Utility.Debug.LogInfo(">>>>>>>>>>>>VerifyRoleStatusHandler\n进来更新的战斗数据:VerifyRoleStatusHandler\n<<<<<<<<<<<");
@@ -30,13 +26,13 @@ namespace AscensionServer
             if (result)
             {
                 NHibernateQuerier.Update(rolestatusObj);
-                SetResponseData(() => Owner.OpResponse.ReturnCode = (short)ReturnCode.Success);
+                SetResponseData(() => Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success);
             }
             else
             {
-                SetResponseData(() => Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail);
+                SetResponseData(() => Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail);
             }
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
         }
     }
 }

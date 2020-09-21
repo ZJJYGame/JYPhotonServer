@@ -9,9 +9,9 @@ namespace AscensionServer
 {
     public  class SyncPuppetHandler:Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncPuppet; } }
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncPuppet;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncPuppetSubHandler>();
         }

@@ -15,10 +15,10 @@ namespace AscensionServer
 {
     public class SyncRolePetHandler:Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncRolePet; } }
+
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncRolePet;
-
             base.OnInitialization();
             OnSubHandlerInitialization<SyncRolePetSubHandler>();
         }

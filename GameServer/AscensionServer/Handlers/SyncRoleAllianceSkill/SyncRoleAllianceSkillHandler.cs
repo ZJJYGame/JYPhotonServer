@@ -8,13 +8,11 @@ namespace AscensionServer
 {
   public  class SyncRoleAllianceSkillHandler:Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncRoleAllianceSkill; } }
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncRoleAllianceSkill;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncRoleAllianceSkillSubHandler>();
         }
-
-
     }
 }

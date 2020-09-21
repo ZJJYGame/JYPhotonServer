@@ -12,12 +12,7 @@ namespace AscensionServer
 {
     public class RemoveRoleAssetsSubHandler : SyncRoleAssetsSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Remove;
-            base.OnInitialization();
-        }
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Remove;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             ResetResponseData(operationRequest);
@@ -43,12 +38,12 @@ namespace AscensionServer
                     XianYu = assetsServer.XianYu- roleAssetsObj.XianYu ;
                 NHibernateQuerier.Update<RoleAssets>(new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesLow = SpiritStonesLow, XianYu = XianYu });
                 RedisHelper.Hash.HashSetAsync<RoleAssets>("RoleAssets", roleAssetsObj.RoleID.ToString(), new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesLow = SpiritStonesLow, XianYu = XianYu });
-                Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
+                Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
             }
             else
-                Owner.OpResponse.ReturnCode = (byte)ReturnCode.Fail;
+                Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
             Utility.Debug.LogInfo(">>>>>>>>>>>>>發送囘u去：" + roleAssetsJson + ">>>>>>>>>>>>>>>>>>>>>>");
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
         }
     }

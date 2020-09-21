@@ -15,14 +15,10 @@ namespace AscensionServer
 {
     public class SyncMoveStatusHandler : Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncMoveStatus; } }
         HashSet<RoleMoveStatusDTO> roleSet = new HashSet<RoleMoveStatusDTO>();
-        public override void OnInitialization()
-        {
-            OpCode = OperationCode.SyncMoveStatus;
-            base.OnInitialization();
-        }
         //获取历练技能cd请求的处理的代码
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
             ResponseData.Clear();
             var roleMoveStatusJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleMoveStatus));
@@ -38,15 +34,14 @@ namespace AscensionServer
             var roleSetJson = Utility.Json.ToJson(roleSet);
 
             ResponseData.Add((byte)ParameterCode.RoleMoveStatus, roleSetJson);
-            OpResponse.OperationCode = operationRequest.OperationCode;
-            OpResponse.ReturnCode = (short)ReturnCode.Success;
-            OpResponse.Parameters = ResponseData;
-            peer.SendOperationResponse(OpResponse, sendParameters);
+            OpResponseData.OperationCode = operationRequest.OperationCode;
+            OpResponseData.ReturnCode = (short)ReturnCode.Success;
+            OpResponseData.Parameters = ResponseData;
             //广播事件
             threadEventParameter.Clear();
             threadEventParameter.Add((byte)ParameterCode.RoleMoveStatus, roleMoveStatusJson);
             //QueueThreadEvent(peerSet, EventCode.SyncRoleMoveStatus, threadEventParameter);
+            return OpResponseData;
         }
-
     }
 }

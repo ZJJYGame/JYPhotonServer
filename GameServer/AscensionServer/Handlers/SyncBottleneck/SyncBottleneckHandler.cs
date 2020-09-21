@@ -10,13 +10,8 @@ namespace AscensionServer
 {
    public class SyncBottleneckHandler:Handler
     {
-        public override void OnInitialization()
-        {
-            OpCode = OperationCode.SyncBottleneck;
-            base.OnInitialization();
-
-        }
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override byte OpCode { get { return (byte)OperationCode.SyncBottleneck; } }
+        protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
             string roleJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleBottleneck));
            // AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>传过来的瓶颈状态" + roleJson);
@@ -28,15 +23,15 @@ namespace AscensionServer
             if (bottleneck != null)
             {
                 NHibernateQuerier.Update(bottleneckObj);
-                OpResponse.ReturnCode = (short)ReturnCode.Success;
+                OpResponseData.ReturnCode = (short)ReturnCode.Success;
             }
             else
             {
                 NHibernateQuerier.Insert(bottleneckObj);
-                OpResponse.ReturnCode = (short)ReturnCode.Success;
+                OpResponseData.ReturnCode = (short)ReturnCode.Success;
             }
-            peer.SendOperationResponse(OpResponse, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaBottleneck);
+            return OpResponseData;
         }
     }
 }

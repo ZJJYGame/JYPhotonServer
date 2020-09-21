@@ -16,9 +16,9 @@ namespace AscensionServer
 {
    public class SyncSpiritualRunesHandler : Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncSpiritualRunes; } }
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncSpiritualRunes;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncSpiritualRuneSubHandler>();
         }

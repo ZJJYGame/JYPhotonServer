@@ -8,9 +8,9 @@ namespace AscensionServer
 {
   public  class SyncAllianceAlchemyHandler:Handler
     {
+        public override byte OpCode { get { return (byte)OperationCode.SyncRoleAllianceAlchemy; } }
         public override void OnInitialization()
         {
-            OpCode = OperationCode.SyncRoleAllianceAlchemy;
             base.OnInitialization();
             OnSubHandlerInitialization<SyncAllianceAlchemySubHandler>();
         }

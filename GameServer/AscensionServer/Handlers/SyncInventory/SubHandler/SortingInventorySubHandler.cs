@@ -13,10 +13,7 @@ namespace AscensionServer
 {
     public class SortingInventorySubHandler : SyncInventorySubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Verify;
-        }
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Verify;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             ResetResponseData(operationRequest);
@@ -51,12 +48,12 @@ namespace AscensionServer
                     var sortDict = ServerDict.OrderByDescending(s => s.Key.ToString().Substring(0, 5)).ToDictionary(s => s.Key, s => s.Value);
 
                     NHibernateQuerier.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(sortDict), RingMagicDictServer = Utility.Json.ToJson(ServerMagicDic), RingAdorn = Utility.Json.ToJson(ServerDictAdorn) });
-                    Owner.OpResponse.Parameters = Owner.ResponseData;
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    Owner.OpResponseData.Parameters = Owner.ResponseData;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                 }
             }
-            else Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            else Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID, nHCriteriaRingID);
         }
     }

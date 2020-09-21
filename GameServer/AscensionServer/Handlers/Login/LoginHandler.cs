@@ -19,12 +19,8 @@ namespace AscensionServer
     /// </summary>
    public class LoginHandler : Handler
     {
-        public override void OnInitialization()
-        {
-            OpCode = OperationCode.Login;
-            base.OnInitialization();
-        }
-        public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override byte OpCode { get { return (byte)OperationCode.Login; } }
+        protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
             //根据发送过来的请求获得用户名和密码
             string userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.User));
@@ -34,28 +30,26 @@ namespace AscensionServer
             bool verified = NHibernateQuerier.Verify<User>(nHCriteriaAccount, nHCriteriaPassword);
             ResponseData.Clear();
             //如果验证成功，把成功的结果利用response.ReturnCode返回成功给客户端
-            OpResponse.OperationCode = operationRequest.OperationCode;
+            OpResponseData.OperationCode = operationRequest.OperationCode;
             if (verified)
             {
-               OpResponse.ReturnCode = (short)ReturnCode.Success;
-                userObj.UUID= NHibernateQuerier.CriteriaSelect<User>(nHCriteriaAccount).UUID;
+                OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                userObj.UUID = NHibernateQuerier.CriteriaSelect<User>(nHCriteriaAccount).UUID;
                 //peer.Login(userObj);
 
                 //GameManager.External.GetModule<PeerManager>().TryGetValue();
-
-                var pe= PeerEntity.Create(peer);
-                GameManager.CustomeModule<PeerManager>().TryAdd(pe.SessionId, pe);
-
+                //var pe = PeerEntity.Create(peer);
+                //GameManager.CustomeModule<PeerManager>().TryAdd(pe.SessionId, pe);
                 ResponseData.Add((byte)ParameterCode.Role, Utility.Json.ToJson(userObj));
-                OpResponse.Parameters = ResponseData;
+                OpResponseData.Parameters = ResponseData;
             }
             else
             {
                 Utility.Debug.LogError("Login fail:" + userObj.Account);
-                OpResponse.ReturnCode = (short)ReturnCode.Fail;
+                OpResponseData.ReturnCode = (short)ReturnCode.Fail;
             }
-            peer.SendOperationResponse(OpResponse, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaAccount, nHCriteriaPassword);
+            return OpResponseData;
         }
     }
 }

@@ -10,14 +10,9 @@ namespace AscensionServer
 {
     public class RemoveRoleSubHandler : SyncRoleSubHandler
     {
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Remove;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-        }
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Remove;
-            base.OnInitialization();
-
         }
     }
 }

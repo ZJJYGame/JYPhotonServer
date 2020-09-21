@@ -15,13 +15,7 @@ namespace AscensionServer
 {
     public class RemoveImmortalsAllianceHandler : SyncImmortalsAllianceSubHandler
     {
-        public override void OnInitialization()
-        {
-            SubOpCode = SubOperationCode.Remove;
-            base.OnInitialization();
-        }
-
-
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Remove;
         public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
             SubDict.Clear();
@@ -81,10 +75,10 @@ namespace AscensionServer
                 SetResponseData(() =>
                 {
                     Utility.Debug.LogError("解散仙盟5");
-                    Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
+                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                 });
             }
-            peer.SendOperationResponse(Owner.OpResponse, sendParameters);
+            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
         }
     }
 }
