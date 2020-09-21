@@ -42,8 +42,11 @@ namespace AscensionServer
                 await RedisHelper.Hash.HashSetAsync("RoleAuctionAttention", roleID.ToString(), guidList);
                 for (int i = 0; i < guidList.Count; i++)
                 {
-                    AuctionGoodsDTO tempAuctionGoodsDTO = RedisHelper.Hash.HashGetAsync<AuctionGoodsDTO>("AuctionGoodsData",guidList[i]).Result;
-                    resultAuctionGoodsList.Add(tempAuctionGoodsDTO);
+                    if (RedisHelper.Hash.HashExistAsync("AuctionGoodsData", guidList[i]).Result)
+                    {
+                        AuctionGoodsDTO tempAuctionGoodsDTO = RedisHelper.Hash.HashGetAsync<AuctionGoodsDTO>("AuctionGoodsData", guidList[i]).Result;
+                        resultAuctionGoodsList.Add(tempAuctionGoodsDTO);
+                    }
                 }
             }
             Owner.ResponseData.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(resultAuctionGoodsList));
