@@ -30,6 +30,9 @@ namespace AscensionServer
             string roleAssetsJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAssets));
 
             string AllianceAlchemyJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAllianceAlchemy));
+            AllianceAlchemyNumDTO allianceAlchemyNumDTO = Utility.Json.ToObject<AllianceAlchemyNumDTO>(AllianceAlchemyJson);
+
+
             var redisKey = RedisData.Initialize.InsertName("AllianceAlchemyNum", allianceCaveObj.RoleID);
             var content = RedisData.Initialize.GetData(redisKey);
 
@@ -61,10 +64,25 @@ namespace AscensionServer
                         //int s = 60 - DateTime.Now.Second;
                         //await RedisHelper.String.StringSetAsync(redisKey, AllianceAlchemyJson, new TimeSpan(0, h, m, s));
                         #endregion
-                        await RedisHelper.String.StringSetAsync(redisKey, AllianceAlchemyJson, new TimeSpan(0,0, 0, 60));
+                        await RedisHelper.String.StringSetAsync(redisKey, AllianceAlchemyJson, new TimeSpan(0, 0, 0, 60));
                     }
                     else
-                        await RedisHelper.String.StringGetSetAsync(redisKey, AllianceAlchemyJson);
+                    {
+                        var alchemyDict = Utility.Json.ToObject<AllianceAlchemyNumDTO>(content).AlchemyNum;
+                        foreach (var item in allianceAlchemyNumDTO.AlchemyNum)
+                        {
+                            if (alchemyDict.ContainsKey(item.Key))
+                            {
+                                alchemyDict[item.Key] += item.Value;
+                            }
+                            else
+                                alchemyDict.Add(item.Key,item.Value);
+                        }
+                        allianceAlchemyNumDTO.AlchemyNum = alchemyDict;
+                        AllianceAlchemyJson = Utility.Json.ToJson(allianceAlchemyNumDTO);
+                        
+                        await RedisHelper.String.StringSetAsync(redisKey, AllianceAlchemyJson, RedisHelper.KeyTimeToLiveAsync(redisKey).Result);
+                    }
 
                     SetResponseData(() =>
                     {

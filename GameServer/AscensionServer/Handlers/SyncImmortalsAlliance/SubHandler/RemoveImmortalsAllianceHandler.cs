@@ -24,6 +24,7 @@ namespace AscensionServer
 
         public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
+            SubDict.Clear();
             ResetResponseData(operationRequest);
             var dict = ParseSubDict(operationRequest);
             string allianceMemberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
@@ -34,8 +35,6 @@ namespace AscensionServer
 
             if (allianceMemberTemp!=null)
             {
-
-
                 Utility.Debug.LogError("解散仙盟" + allianceMemberTemp.AllianceID);
                 if (!string.IsNullOrEmpty(allianceMemberTemp.Member))
                 {

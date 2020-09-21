@@ -1,15 +1,9 @@
-﻿/*
-*Author : xianrenZhang
-*Since 	:2020-04-18
-*Description  : 客户端类
-*/
-using AscensionProtocol;
+﻿using AscensionProtocol;
 using Photon.SocketServer;
 using PhotonHostRuntimeInterfaces;
 using System.Collections.Generic;
 using Cosmos;
 using System;
-
 namespace AscensionServer
 {
     public class AscensionPeer : ClientPeer, IPeer
@@ -31,10 +25,8 @@ namespace AscensionServer
         EventData eventData = new EventData();
         Action<byte[]> receiveMessage;
         #endregion
-
         #region Methods
         public AscensionPeer(InitRequest initRequest) : base(initRequest) { Handle = this; }
-
         /// <summary>
         /// 外部接口的发送消息；
         /// </summary>

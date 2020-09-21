@@ -16,13 +16,14 @@ namespace AscensionServer.Model
         public virtual string AllianceName { get; set; }
         public virtual int Popularity { get; set; }
         public virtual string Manifesto { get; set; }
-
+        public virtual int OnLineNum { get; set; }
         public AllianceStatus()
         {
             AllianceLevel =1;
             AllianceNumberPeople = 1;
             AlliancePeopleMax = 100;
             Popularity =500;
+            OnLineNum = 0;
         }
 
 
@@ -36,6 +37,7 @@ namespace AscensionServer.Model
             AllianceNumberPeople = 0;
             AllianceName = null;
             Popularity = 0;
+            OnLineNum = 0;
         }
     }
 }
