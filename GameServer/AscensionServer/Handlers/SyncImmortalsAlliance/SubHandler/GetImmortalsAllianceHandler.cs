@@ -16,7 +16,6 @@ namespace AscensionServer
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            SubDict.Clear();
             var dict = ParseSubDict(operationRequest);
             string immortalsAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ImmortalsAlliance));
             var immortalsAllianceObj = Utility.Json.ToObject<AlliancesDTO>
@@ -70,7 +69,7 @@ namespace AscensionServer
                 }
                     SetResponseData(() =>
                     {
-                        Utility.Debug.LogInfo("发送的所有仙盟列表" + Utility.Json.ToJson(ImmortalsAllianceList));
+                        Utility.Debug.LogError("发送的所有仙盟列表" + Utility.Json.ToJson(ImmortalsAllianceList));
                         SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(ImmortalsAllianceList));
                         Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
                     });

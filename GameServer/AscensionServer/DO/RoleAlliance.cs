@@ -44,7 +44,7 @@ namespace AscensionServer.Model
             ReputationMonth = 0;
             ReputationHistroy = 0;
             JoinTime = null;
-            JoinOffline = null;
+            JoinOffline = "在线";
  
             ApplyForAlliance = null;
             RoleSchool = 0;
