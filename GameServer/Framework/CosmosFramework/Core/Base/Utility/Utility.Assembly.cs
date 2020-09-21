@@ -34,7 +34,7 @@ namespace Cosmos
                 return string.IsNullOrEmpty(name) ? typeName : Utility.Text.Format(typeName, name);
             }
             /// <summary>
-            ///   /// 反射工具，得到反射类的对象；
+            /// 反射工具，得到反射类的对象；
             /// 不可反射Mono子类，被反射对象必须是具有无参公共构造
             /// 在IOS上受限，发布IOS需要谨慎
             /// </summary>
@@ -151,6 +151,29 @@ namespace Cosmos
                     if (types[i].GetCustomAttribute<T>() != null)
                     {
                         obj = GetTypeInstance(types[i]);
+                        return obj;
+                    }
+                }
+                return obj;
+            }
+            /// <summary>
+            /// 通过特性获取对象实体；
+            /// </summary>
+            /// <typeparam name="T">目标特性</typeparam>
+            /// <typeparam name="K">基类，new()约束</typeparam>
+            /// <returns>生成的对象</returns>
+            public static K GetInstanceByAttribute<T, K>()
+                where T : Attribute
+                where K : class
+            {
+                K obj = default;
+                var types = GetDerivedTypes(typeof(K));
+                int length = types.Length;
+                for (int i = 0; i < length; i++)
+                {
+                    if (types[i].GetCustomAttribute<T>() != null)
+                    {
+                        obj = GetTypeInstance(types[i]) as K;
                         return obj;
                     }
                 }

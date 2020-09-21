@@ -49,7 +49,7 @@
     <Compile Include="CosmosFramework\Core\Base\Actor\ActorPool.cs" />
     <Compile Include="CosmosFramework\Core\Base\Actor\IActor.cs" />
     <Compile Include="CosmosFramework\Core\Base\AppBuilder\IApplicationBuilder.cs" />
-    <Compile Include="CosmosFramework\Core\Base\Attribute\OuterModuleAttribute.cs" />
+    <Compile Include="CosmosFramework\Core\Base\Attribute\CustomeModuleAttribute.cs" />
     <Compile Include="CosmosFramework\Core\Base\Attribute\TargetHelperAttribute.cs" />
     <Compile Include="CosmosFramework\Core\Base\Behaviour\IBehaviour.cs" />
     <Compile Include="CosmosFramework\Core\Base\Behaviour\IConstruction.cs" />
@@ -81,7 +81,6 @@
     <Compile Include="CosmosFramework\Core\Base\Singleton\Singleton.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Helper\DebugHelper\IDebugHelper.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Helper\JsonHelper\IJsonHelper.cs" />
-    <Compile Include="CosmosFramework\Core\Base\Utility\Helper\LoggerHelper\ILoggerHelper.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Algorithm.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Assembly.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Assert.cs" />
@@ -94,7 +93,6 @@
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Global.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.IO.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Json.cs" />
-    <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Logger.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Text.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Time.cs" />
     <Compile Include="CosmosFramework\Core\Base\Variable\Variable.cs" />
