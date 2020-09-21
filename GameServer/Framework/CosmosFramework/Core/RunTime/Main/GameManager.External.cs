@@ -52,6 +52,7 @@ namespace Cosmos
                         module.OnInitialization();
                         Utility.Debug.LogInfo($"Instance Custome Module :{module.ToString()} ");
                         GameManager.Instance.refreshHandler += module.OnRefresh;
+                        GameManager.Instance.terminationHandler+= module.OnTermination;
                     }
                 }
             }

@@ -26,21 +26,21 @@ namespace AscensionServer
             Utility.Debug.LogInfo("得到的傀儡为" + puppetJson);
             var puppetObj = Utility.Json.ToObject<PuppetDTO>(puppetJson);
             NHCriteria nHCriteriaPuppet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", puppetObj.RoleID);
-            var puppetTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Puppet>(nHCriteriaPuppet);
+            var puppetTemp = NHibernateQuerier.CriteriaSelect<Puppet>(nHCriteriaPuppet);
             HashSet<int> puppetHash = new HashSet<int>();
             if (puppetTemp!=null)
             {
                 if (string.IsNullOrEmpty(puppetTemp.Recipe_Array))
                 {
                     puppetTemp.Recipe_Array = Utility.Json.ToJson(puppetObj.Recipe_Array);
-                    ConcurrentSingleton<NHManager>.Instance.Update(puppetTemp);
+                    NHibernateQuerier.Update(puppetTemp);
                 }
                 else
                 {
                     puppetHash = Utility.Json.ToObject<HashSet<int>>(puppetTemp.Recipe_Array);
                     puppetHash.Add(puppetObj.Recipe_Array.First());
                     puppetTemp.Recipe_Array = Utility.Json.ToJson(puppetHash);
-                    ConcurrentSingleton<NHManager>.Instance.Update(puppetTemp);
+                    NHibernateQuerier.Update(puppetTemp);
                 }
                 SetResponseData(() =>
                 {

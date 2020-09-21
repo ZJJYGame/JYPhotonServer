@@ -24,12 +24,12 @@ namespace AscensionServer
             Utility.Debug.LogInfo(">>>>>>>>>>>>>更新财产相关信息：" + roleAssetsJson + ">>>>>>>>>>>>>>>>>>>>>>");
             var roleAssetsObj = Utility.Json.ToObject<RoleAssets>(roleAssetsJson);
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleAssetsObj.RoleID);
-            bool roleExist = ConcurrentSingleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID);
-            bool roleAssetsExist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleAssets>(nHCriteriaRoleID);
+            bool roleExist = NHibernateQuerier.Verify<Role>(nHCriteriaRoleID);
+            bool roleAssetsExist = NHibernateQuerier.Verify<RoleAssets>(nHCriteriaRoleID);
 
             if (roleExist && roleAssetsExist)
             {
-                var assetsServer = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAssets>(nHCriteriaRoleID);
+                var assetsServer = NHibernateQuerier.CriteriaSelect<RoleAssets>(nHCriteriaRoleID);
 
                 if (roleAssetsObj.XianYu != 0 && assetsServer.XianYu >= 0)
                 {
@@ -46,7 +46,7 @@ namespace AscensionServer
                         assetsServer.SpiritStonesLow = 0;
                 }
 
-                ConcurrentSingleton<NHManager>.Instance.Update<RoleAssets>(new RoleAssets() { RoleID = roleAssetsObj.RoleID,  SpiritStonesLow = assetsServer.SpiritStonesLow,XianYu = assetsServer.XianYu });
+                NHibernateQuerier.Update<RoleAssets>(new RoleAssets() { RoleID = roleAssetsObj.RoleID,  SpiritStonesLow = assetsServer.SpiritStonesLow,XianYu = assetsServer.XianYu });
 
                await  RedisHelper.Hash.HashSetAsync<RoleAssets>("RoleAssets", roleAssetsObj.RoleID.ToString(), new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesLow = assetsServer.SpiritStonesLow, XianYu = assetsServer.XianYu });
 

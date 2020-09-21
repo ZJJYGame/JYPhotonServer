@@ -31,12 +31,12 @@ namespace AscensionServer
             var InventoryObj = Utility.Json.ToObject<RingDTO>(InventoryData);
 
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", InventoryRoleObj.RoleID);
-            bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleRing>(nHCriteriaRoleID);
+            bool exist = NHibernateQuerier.Verify<RoleRing>(nHCriteriaRoleID);
             NHCriteria nHCriteriaRingID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", InventoryObj.ID);
-            bool existRing = ConcurrentSingleton<NHManager>.Instance.Verify<Ring>(nHCriteriaRingID);
+            bool existRing = NHibernateQuerier.Verify<Ring>(nHCriteriaRingID);
             if (exist && existRing)
             {
-                var ringServerArray = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Ring>(nHCriteriaRingID);
+                var ringServerArray = NHibernateQuerier.CriteriaSelect<Ring>(nHCriteriaRingID);
                 Owner.ResponseData.Add((byte)ParameterCode.Inventory, ringServerArray.RingItems);
                 Owner.ResponseData.Add((byte)ParameterCode.MessageQueue, ringServerArray.RingMagicDictServer);
                 Owner.ResponseData.Add((byte)ParameterCode.RoleTemInventory, ringServerArray.RingAdorn);

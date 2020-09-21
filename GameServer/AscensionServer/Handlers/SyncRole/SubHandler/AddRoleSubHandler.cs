@@ -33,13 +33,14 @@ namespace AscensionServer
             string roleJsonTmp = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role));
             Role roleTmp = Utility.Json.ToObject<Role>(roleJsonTmp);
             NHCriteria nHCriteriaRoleName = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleName", roleTmp.RoleName);
-            var isExisted = ConcurrentSingleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleName);
+            var isExisted = NHibernateQuerier.Verify<Role>(nHCriteriaRoleName);
             if (isExisted)
                 Utility.Debug.LogInfo("----------------------------  Role >>Role name:+" + roleTmp.RoleName + " already exist !!!  ---------------------------------");
-            Role role = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Role>(nHCriteriaRoleName);//根据username查询数据
-            string str_uuid = peer.PeerCache.UUID;
+            Role role = NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRoleName);//根据username查询数据
+            //TODO AddRoleSubHandler查询uuid未处理
+            string str_uuid = "";
             NHCriteria nHCriteriaUUID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("UUID", str_uuid);
-            var userRole = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<UserRole>(nHCriteriaUUID);
+            var userRole = NHibernateQuerier.CriteriaSelect<UserRole>(nHCriteriaUUID);
             string roleJson = userRole.RoleIDArray;
             string roleStatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleStatus));
             Dictionary<int, int> idRing = new Dictionary<int, int>();
@@ -55,20 +56,20 @@ namespace AscensionServer
                 //添加输入的用户进数据库
                 role = roleTmp;
                 var rolestatus = Utility.Json.ToObject<RoleStatus>(roleStatusJson);
-                role = ConcurrentSingleton<NHManager>.Instance.Insert<Role>(role);
+                role = NHibernateQuerier.Insert<Role>(role);
                 string roleId = role.RoleID.ToString();
                 if (!string.IsNullOrEmpty(roleJson))
                     roleList.Add(roleId);
                 else
                     roleList.Add(roleId);
                 rolestatus.RoleID = int.Parse(roleId);
-                ConcurrentSingleton<NHManager>.Instance.Insert(rolestatus);
-                ConcurrentSingleton<NHManager>.Instance.Insert(new RoleAssets() { RoleID = rolestatus.RoleID });
-                ConcurrentSingleton<NHManager>.Instance.Insert(new OnOffLine() { RoleID = rolestatus.RoleID });
+                NHibernateQuerier.Insert(rolestatus);
+                NHibernateQuerier.Insert(new RoleAssets() { RoleID = rolestatus.RoleID });
+                NHibernateQuerier.Insert(new OnOffLine() { RoleID = rolestatus.RoleID });
                 #region 任务
                 roleTaskDic.Clear();
                 roleTaskDic.Add("1001001", new RoleTaskItemDTO() { RoleTaskType = "DialogSystem", RoleTaskAchieveState = "NoAchieveTask", RoleTaskAcceptState = "NoAcceptAbleTask", RoleTaskAbandonState = "NoAbandonTask", RoleTaskKind = "MainTask" });
-                ConcurrentSingleton<NHManager>.Instance.Insert(new RoleTaskProgress() { RoleID = rolestatus.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(roleTaskDic) });
+                NHibernateQuerier.Insert(new RoleTaskProgress() { RoleID = rolestatus.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(roleTaskDic) });
                 #endregion
                 Dictionary<string, string> DOdict = new Dictionary<string, string>();
                 #region 测试待修改
@@ -76,14 +77,14 @@ namespace AscensionServer
                 //CultivationMethod gongFa = new CultivationMethod();
                 //gongFa = ConcurrentSingleton<NHManager>.Instance.Insert(gongFa);
                 //RoleGFDict.Add(gongFa.ID, gongFa.CultivationMethodID);
-                ConcurrentSingleton<NHManager>.Instance.Insert(new RoleGongFa() { RoleID = rolestatus.RoleID, GongFaIDArray = Utility.Json.ToJson(new Dictionary<string, string>()) });
+                NHibernateQuerier.Insert(new RoleGongFa() { RoleID = rolestatus.RoleID, GongFaIDArray = Utility.Json.ToJson(new Dictionary<string, string>()) });
 
 
                 RoleMiShuDict.Clear();
                 MiShu miShu = new MiShu();
-                miShu = ConcurrentSingleton<NHManager>.Instance.Insert(miShu);
+                miShu = NHibernateQuerier.Insert(miShu);
                 RoleMiShuDict.Add(miShu.ID, miShu.MiShuID);
-                ConcurrentSingleton<NHManager>.Instance.Insert(new RoleMiShu() { RoleID = rolestatus.RoleID, MiShuIDArray = Utility.Json.ToJson(RoleMiShuDict) });
+                NHibernateQuerier.Insert(new RoleMiShu() { RoleID = rolestatus.RoleID, MiShuIDArray = Utility.Json.ToJson(RoleMiShuDict) });
 
                 RolePetDict.Clear();
                 //Pet pet = new Pet() {};
@@ -93,16 +94,16 @@ namespace AscensionServer
                 //PetaPtitude petaPtitude=new PetaPtitude() { PetID = pet.ID,PetaptitudeDrug=Utility.Json.ToJson(new Dictionary<int, int>()) };
                 //petaPtitude = ConcurrentSingleton<NHManager>.Instance.Insert(petaPtitude);
                 //RolePetDict.Add(pet.ID, pet.PetID);
-                ConcurrentSingleton<NHManager>.Instance.Insert(new RolePet() { RoleID = rolestatus.RoleID, PetIDDict = "{}" });
+                NHibernateQuerier.Insert(new RolePet() { RoleID = rolestatus.RoleID, PetIDDict = "{}" });
                 RolePurchaseRecord rolePurchaseRecord = new RolePurchaseRecord() { RoleID = rolestatus.RoleID ,GoodsPurchasedCount=Utility.Json.ToJson(new Dictionary<int, int>()) };
-                ConcurrentSingleton<NHManager>.Instance.Insert(rolePurchaseRecord);
+                NHibernateQuerier.Insert(rolePurchaseRecord);
                 Weapon weapon = new Weapon() { RoleID= rolestatus.RoleID, Weaponindex = Utility.Json.ToJson(new Dictionary<int, int>()), WeaponStatusDict=Utility.Json.ToJson(new Dictionary<int, int>()) };
-                ConcurrentSingleton<NHManager>.Instance.Insert(weapon);
+                NHibernateQuerier.Insert(weapon);
                 #endregion
                 #region 背包
-                ConcurrentSingleton<NHManager>.Instance.Insert(new RoleRing() { RoleID = rolestatus.RoleID });
+                NHibernateQuerier.Insert(new RoleRing() { RoleID = rolestatus.RoleID });
                 NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolestatus.RoleID);
-                var ringArray = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
+                var ringArray = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
                 if (string.IsNullOrEmpty(ringArray.RingIdArray))
                 {
                     ringDict.Clear();
@@ -162,42 +163,42 @@ namespace AscensionServer
                     //ringDict.Add(14005, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = 99 });
                     for (int i = 0; i < 6; i++)
                     { magicRingDict.Add(i, -1); }
-                    ring = ConcurrentSingleton<NHManager>.Instance.Insert<Ring>(new Ring() { RingId = 11110, RingItems = Utility.Json.ToJson(ringDict), RingMagicDictServer = Utility.Json.ToJson(magicRingDict), RingAdorn = Utility.Json.ToJson(new Dictionary<int, RingItemsDTO>()) });
+                    ring = NHibernateQuerier.Insert<Ring>(new Ring() { RingId = 11110, RingItems = Utility.Json.ToJson(ringDict), RingMagicDictServer = Utility.Json.ToJson(magicRingDict), RingAdorn = Utility.Json.ToJson(new Dictionary<int, RingItemsDTO>()) });
                     idRing.Add(ring.ID, 0);
-                    ConcurrentSingleton<NHManager>.Instance.Update<RoleRing>(new RoleRing() { RoleID = rolestatus.RoleID, RingIdArray = Utility.Json.ToJson(idRing) });
+                    NHibernateQuerier.Update<RoleRing>(new RoleRing() { RoleID = rolestatus.RoleID, RingIdArray = Utility.Json.ToJson(idRing) });
                 }
 
                 #endregion
                 #region 临时背包
-                ConcurrentSingleton<NHManager>.Instance.Insert(new TemporaryRing() { RoleID = rolestatus.RoleID ,  RingItems = Utility.Json.ToJson(new Dictionary<int,RingItemsDTO>())});
+                NHibernateQuerier.Insert(new TemporaryRing() { RoleID = rolestatus.RoleID ,  RingItems = Utility.Json.ToJson(new Dictionary<int,RingItemsDTO>())});
                 #endregion
                 #region 副职业
-                ConcurrentSingleton<NHManager>.Instance.Insert<Alchemy>(new Alchemy() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
-                ConcurrentSingleton<NHManager>.Instance.Insert<HerbsField>(new HerbsField() { RoleID = rolestatus.RoleID, jobLevel = 0, AllHerbs = Utility.Json.ToJson(new List<HerbFieldStatus>()) });
-                ConcurrentSingleton<NHManager>.Instance.Insert<Forge>(new Forge() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
-                ConcurrentSingleton<NHManager>.Instance.Insert<SpiritualRunes>(new SpiritualRunes() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
-                ConcurrentSingleton<NHManager>.Instance.Insert<Puppet>(new Puppet() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
-                ConcurrentSingleton<NHManager>.Instance.Insert<TacticFormation>(new TacticFormation() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
+                NHibernateQuerier.Insert<Alchemy>(new Alchemy() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
+                NHibernateQuerier.Insert<HerbsField>(new HerbsField() { RoleID = rolestatus.RoleID, jobLevel = 0, AllHerbs = Utility.Json.ToJson(new List<HerbFieldStatus>()) });
+                NHibernateQuerier.Insert<Forge>(new Forge() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
+                NHibernateQuerier.Insert<SpiritualRunes>(new SpiritualRunes() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
+                NHibernateQuerier.Insert<Puppet>(new Puppet() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
+                NHibernateQuerier.Insert<TacticFormation>(new TacticFormation() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
 
                 Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>添加副职业成功");
                 #endregion
                 #region 初始化门派
                 Treasureattic treasureatti = new Treasureattic() { ItemAmountDict = Utility.Json.ToJson(new Dictionary<int, int>()), ItemRedeemedDict = Utility.Json.ToJson(new Dictionary<int, int>()) };
-                treasureatti = ConcurrentSingleton<NHManager>.Instance.Insert(treasureatti);
+                treasureatti = NHibernateQuerier.Insert(treasureatti);
                 SutrasAttic sutrasAttic = new SutrasAttic() { SutrasAmountDict = Utility.Json.ToJson(new Dictionary<int, int>()), SutrasRedeemedDictl = Utility.Json.ToJson(new Dictionary<int, int>()) };
-                sutrasAttic = ConcurrentSingleton<NHManager>.Instance.Insert(sutrasAttic);
+                sutrasAttic = NHibernateQuerier.Insert(sutrasAttic);
                 School school = new School();
                 school.TreasureAtticID = treasureatti.ID;
                 school.SutrasAtticID = sutrasAttic.ID;
-                school = ConcurrentSingleton<NHManager>.Instance.Insert(school);
-                ConcurrentSingleton<NHManager>.Instance.Insert(new RoleSchool() { RoleID = rolestatus.RoleID, RoleJoiningSchool = school.ID, RoleJoinedSchool = 0 });
+                school = NHibernateQuerier.Insert(school);
+                NHibernateQuerier.Insert(new RoleSchool() { RoleID = rolestatus.RoleID, RoleJoiningSchool = school.ID, RoleJoinedSchool = 0 });
                 #endregion
                 #region 仙盟
                 RoleAlliance roleAlliance = new RoleAlliance() { RoleID = rolestatus.RoleID, RoleName = role.RoleName,ApplyForAlliance=Utility.Json.ToJson(new List<int>()) ,RoleSchool=900};
-                ConcurrentSingleton<NHManager>.Instance.Insert(roleAlliance);
+                NHibernateQuerier.Insert(roleAlliance);
                 #endregion
                 var userRoleJson = Utility.Json.ToJson(roleList);
-                ConcurrentSingleton<NHManager>.Instance.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });
+                NHibernateQuerier.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                 RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { RoleID = rolestatus.RoleID, RoleName = role.RoleName, ApplyForAlliance = new List<int>() };
                 DOdict.Add("Role", Utility.Json.ToJson(role));

@@ -23,7 +23,7 @@ namespace AscensionServer
             Utility.Debug.LogInfo(">>>>>创建队伍" + teamData + ">>>>>>>>>>>>>");
             var RoleObj = Utility.Json.ToObject<RoleDTO>(teamData);
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", RoleObj.RoleID);
-            bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleRing>(nHCriteriaRoleID);
+            bool exist = NHibernateQuerier.Verify<RoleRing>(nHCriteriaRoleID);
   
             if (exist)
             {

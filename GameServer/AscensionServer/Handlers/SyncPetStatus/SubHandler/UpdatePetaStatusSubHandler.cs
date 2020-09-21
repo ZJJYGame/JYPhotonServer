@@ -28,13 +28,13 @@ namespace AscensionServer
             NHCriteria nHCriteriapetstatus = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petstatusObj.PetID);
 
 
-            var petstatusTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<PetStatus>(nHCriteriapetstatus);
+            var petstatusTemp = NHibernateQuerier.CriteriaSelect<PetStatus>(nHCriteriapetstatus);
 
             if (petstatusTemp!=null)
             {
 
                 petstatusTemp = petstatusObj;
-                ConcurrentSingleton<NHManager>.Instance.Update<PetStatus>(petstatusTemp);
+                NHibernateQuerier.Update<PetStatus>(petstatusTemp);
                 SetResponseData(() =>
                 {
                     SubDict.Add((byte)ParameterCode.PetStatus, Utility.Json.ToJson(petstatusTemp));

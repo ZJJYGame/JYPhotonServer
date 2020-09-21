@@ -26,17 +26,17 @@ namespace AscensionServer
             var receivedRoleObj = Utility.Json.ToObject<RoleMiShu>(receivedRoleData);
             var receivedObj = Utility.Json.ToObject<MiShu>(receivedData);
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
-            bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleMiShu>(nHCriteriaRoleID);
+            bool exist = NHibernateQuerier.Verify<RoleMiShu>(nHCriteriaRoleID);
             int intInfoObj = 0;
             int intLevel = 0;
             if (exist)
             {
-                RoleMiShu MishuInfo = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleMiShu>(nHCriteriaRoleID);
+                RoleMiShu MishuInfo = NHibernateQuerier.CriteriaSelect<RoleMiShu>(nHCriteriaRoleID);
                 NHCriteria nHCriteriaMiShuID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", receivedObj.ID);
-                bool existMiShu = ConcurrentSingleton<NHManager>.Instance.Verify<MiShu>(nHCriteriaMiShuID);
+                bool existMiShu = NHibernateQuerier.Verify<MiShu>(nHCriteriaMiShuID);
                 if (existMiShu)
                 {
-                    MiShu MishuInfoExp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<MiShu>(nHCriteriaMiShuID);
+                    MiShu MishuInfoExp = NHibernateQuerier.CriteriaSelect<MiShu>(nHCriteriaMiShuID);
                     foreach (var item in Utility.Json.ToObject<Dictionary<int,int>>(MishuInfo.MiShuIDArray))
                     {
                         if (item.Key == receivedObj.ID)
@@ -46,12 +46,12 @@ namespace AscensionServer
                                 MishuInfoExp.MiShuExp = 0;
                                 intInfoObj = MishuInfoExp.MiShuExp + receivedObj.MiShuExp;
                                 intLevel = MishuInfoExp.MiShuLevel + receivedObj.MiShuLevel;
-                                ConcurrentSingleton<NHManager>.Instance.Update(new MiShu() { ID = MishuInfoExp.ID, MiShuID = MishuInfoExp.MiShuID, MiShuLevel = (short)intLevel, MiShuSkillArry = MishuInfoExp.MiShuSkillArry, MiShuExp = intInfoObj });
+                                NHibernateQuerier.Update(new MiShu() { ID = MishuInfoExp.ID, MiShuID = MishuInfoExp.MiShuID, MiShuLevel = (short)intLevel, MiShuSkillArry = MishuInfoExp.MiShuSkillArry, MiShuExp = intInfoObj });
                             }
                             else
                             {
                                 intInfoObj = MishuInfoExp.MiShuExp + receivedObj.MiShuExp;
-                                ConcurrentSingleton<NHManager>.Instance.Update(new MiShu() { ID = MishuInfoExp.ID, MiShuID = MishuInfoExp.MiShuID, MiShuLevel = MishuInfoExp.MiShuLevel, MiShuSkillArry = MishuInfoExp.MiShuSkillArry, MiShuExp = intInfoObj });
+                                NHibernateQuerier.Update(new MiShu() { ID = MishuInfoExp.ID, MiShuID = MishuInfoExp.MiShuID, MiShuLevel = MishuInfoExp.MiShuLevel, MiShuSkillArry = MishuInfoExp.MiShuSkillArry, MiShuExp = intInfoObj });
 
                             }
                         }

@@ -30,7 +30,7 @@ namespace AscensionServer
             var rolepetObj = Utility.Json.ToObject<RolePet>(rolepet);
             NHCriteria nHCriteriaRolePet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
 
-            var rolepets = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RolePet>(nHCriteriaRolePet).Result;
+            var rolepets = NHibernateQuerier.CriteriaSelectAsync<RolePet>(nHCriteriaRolePet).Result;
 
             if (RedisHelper.Hash.HashExistAsync("RolePet", rolepetObj.RoleID.ToString()).Result&& rolepets != null)
             {
@@ -38,7 +38,7 @@ namespace AscensionServer
                 rolepets.PetIsBattle = rolepetObj.PetIsBattle;
                await  RedisHelper.Hash.HashSetAsync<RolePet>("RolePet", rolepets.RoleID.ToString(),rolepets);
 
-               await  ConcurrentSingleton<NHManager>.Instance.UpdateAsync(rolepets);
+               await  NHibernateQuerier.UpdateAsync(rolepets);
 
                 #endregion
 

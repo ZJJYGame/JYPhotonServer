@@ -45,8 +45,8 @@ namespace AscensionServer
                     roleallianceTemp.Reputation -= allianceCaveObj.Reputation;
                     roleAssetsTemp.SpiritStonesLow -= roleAssetsObj.SpiritStonesLow;
 
-                    await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleallianceTemp);
-                    await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAssetsTemp);
+                    await NHibernateQuerier.UpdateAsync(roleallianceTemp);
+                    await NHibernateQuerier.UpdateAsync(roleAssetsTemp);
 
                     await RedisHelper.Hash.HashSetAsync<RoleAssets>("RoleAssets", roleAssetsObj.RoleID.ToString(), roleAssetsTemp);
                     var Role = AlliancelogicManager.Instance.GetNHCriteria<Role>("RoleID", roleallianceTemp.RoleID);

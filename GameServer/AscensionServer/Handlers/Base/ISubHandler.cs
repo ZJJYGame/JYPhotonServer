@@ -11,7 +11,9 @@ namespace AscensionServer
     public interface ISubHandler:IBehaviour
     {
         SubOperationCode SubOpCode { get;  }
+        byte SubOpcode { get;  }
         Handler Owner { get; set; }
         void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer);
+        object EncodeMessage(object message);
     }
 }

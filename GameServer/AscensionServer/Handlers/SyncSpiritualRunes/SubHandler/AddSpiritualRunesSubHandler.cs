@@ -24,21 +24,21 @@ namespace AscensionServer
             string spiritualRuneJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobSpiritualRunes));
             var spiritualRuneObj = Utility.Json.ToObject<SpiritualRunesDTO>(spiritualRuneJson);
             NHCriteria nHCriteriaspiritualRune = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", spiritualRuneObj.RoleID);
-            var spiritualRuneTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<SpiritualRunes>(nHCriteriaspiritualRune);
+            var spiritualRuneTemp = NHibernateQuerier.CriteriaSelect<SpiritualRunes>(nHCriteriaspiritualRune);
             HashSet<int> spiritualRuneHash = new HashSet<int>();
             if (spiritualRuneTemp != null)
             {
                 if (string.IsNullOrEmpty(spiritualRuneTemp.Recipe_Array))
                 {
                     spiritualRuneTemp.Recipe_Array = Utility.Json.ToJson(spiritualRuneObj.Recipe_Array);
-                    ConcurrentSingleton<NHManager>.Instance.Update(spiritualRuneTemp);
+                    NHibernateQuerier.Update(spiritualRuneTemp);
                 }
                 else
                 {
                     spiritualRuneHash = Utility.Json.ToObject<HashSet<int>>(spiritualRuneTemp.Recipe_Array);
                     spiritualRuneHash.Add(spiritualRuneObj.Recipe_Array.First());
                     spiritualRuneTemp.Recipe_Array = Utility.Json.ToJson(spiritualRuneHash);
-                    ConcurrentSingleton<NHManager>.Instance.Update(spiritualRuneTemp);
+                    NHibernateQuerier.Update(spiritualRuneTemp);
                 }
                 SetResponseData(() =>
                 {

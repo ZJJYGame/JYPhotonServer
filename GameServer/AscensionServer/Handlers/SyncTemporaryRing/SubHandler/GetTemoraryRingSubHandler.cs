@@ -26,10 +26,10 @@ namespace AscensionServer
             Utility.Debug.LogInfo(">>>>>Get 临时背包 " + TemRingRoleData + ">>>>>>>>>>>>>");
             var TemRingRoleObj = Utility.Json.ToObject<TemporaryRingDTO>(TemRingRoleData);
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", TemRingRoleObj.RoleID);
-            bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleRing>(nHCriteriaRoleID);
+            bool exist = NHibernateQuerier.Verify<RoleRing>(nHCriteriaRoleID);
             if (exist)
             {
-                var ringServer = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<TemporaryRing>(nHCriteriaRoleID);
+                var ringServer = NHibernateQuerier.CriteriaSelect<TemporaryRing>(nHCriteriaRoleID);
                 Owner.ResponseData.Add((byte)ParameterCode.RoleTemInventory, ringServer.RingItems);
                 Owner.OpResponse.Parameters = Owner.ResponseData;
                 Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;

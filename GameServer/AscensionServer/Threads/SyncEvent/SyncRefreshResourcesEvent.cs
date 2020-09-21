@@ -23,7 +23,7 @@ namespace AscensionServer.Threads
         {
             while (true)
             {
-                Thread.Sleep(AscensionConst.SyncResourceInterval);
+                Thread.Sleep(ApplicationBuilder.SyncResourceInterval);
                 //AscensionServer._Log.Info("刷新通知 SyncRefreshResourcesEvent");
                 //if (AscensionServer.Instance.OccupiedUnitSetCache.Count <= 0)
                 //    return;
@@ -42,16 +42,16 @@ namespace AscensionServer.Threads
         /// </summary>
         void AdventureRefreshResources()
         {
-            HashSet<OccupiedUnitDTO> occupiedUnitDTOs = GameManager.OuterModule<ResourceManager>().OccupiedUnitSetCache;
-            var loggedList = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
-            var loggedCount = loggedList.Count;
-            if (loggedCount <= 0)
-                return;
+            HashSet<OccupiedUnitDTO> occupiedUnitDTOs = GameManager.CustomeModule<ResourceManager>().OccupiedUnitSetCache;
+            //var loggedList = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
+            //var loggedCount = loggedList.Count;
+            //if (loggedCount <= 0)
+            //    return;
             Vector2 border = new Vector2(54000, 39000);
             foreach (var occupiedUnitObj in occupiedUnitDTOs)
             {
                 ResourceUnitSetDTO currentDictObj = null;
-                if (GameManager.OuterModule<ResourceManager>().ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID, out currentDictObj))
+                if (GameManager.CustomeModule<ResourceManager>().ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID, out currentDictObj))
                 {
 
                     ResourceUnitDTO resourceUnitDTO = null;
@@ -68,11 +68,11 @@ namespace AscensionServer.Threads
             var data = new Dictionary<byte, object>();
             data.Add((byte)ParameterCode.RelieveUnit, Utility.Json.ToJson(occupiedUnitDTOs));
             EventData.Parameters = data;
-            GameManager.OuterModule<ResourceManager>().OccupiedUnitSetCache.Clear();
-            foreach (var p in loggedList)
-            {
-                p.SendEvent(EventData, SendParameter);
-            }
+            GameManager.CustomeModule<ResourceManager>().OccupiedUnitSetCache.Clear();
+            //foreach (var p in loggedList)
+            //{
+            //    p.SendEvent(EventData, SendParameter);
+            //}
         }
     }
 }

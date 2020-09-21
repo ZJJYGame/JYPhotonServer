@@ -31,7 +31,7 @@ namespace AscensionServer
 
 
             Utility.Debug.LogError("獲得的得到的仙盟建設" + allianceConstructionJson);
-            var allianceConstructionTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceConstruction>(nHCriteriallianceConstruction).Result;
+            var allianceConstructionTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceConstruction>(nHCriteriallianceConstruction).Result;
             Utility.Debug.LogError("2獲得的得到的仙盟建設" + Utility.Json.ToJson(allianceConstructionTemp));
             if (allianceConstructionTemp != null)
             {

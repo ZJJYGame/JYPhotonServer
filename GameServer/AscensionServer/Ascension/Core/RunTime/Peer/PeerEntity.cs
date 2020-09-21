@@ -53,9 +53,23 @@ namespace AscensionServer
         {
             return dataDict.TryUpdate(key, newValue, comparsionValue);
         }
+        /// <summary>
+        /// 发送网络消息到peer；
+        /// </summary>
+        /// <param name="opCode">操作码</param>
+        /// <param name="userData">用户数据</param>
         public void SendEventMessage(byte opCode, object userData)
         {
             Handle.SendEventMessage(opCode, userData);
+        }
+        /// <summary>
+        /// 发送网络消息到peer；
+        /// 传输自定义的数据缓冲流；
+        /// </summary>
+        /// <param name="buffer">缓冲数据</param>
+        public void SendMessage(byte[] buffer)
+        {
+            Handle.SendMessage(buffer);
         }
         public void Clear()
         {

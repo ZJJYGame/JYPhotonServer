@@ -179,6 +179,7 @@
     <Compile Include="Ascension\Core\Base\Attribute\InheritedAttribute.cs" />
     <Compile Include="Ascension\Core\Base\EventCore\OpCodeEventCore.cs" />
     <Compile Include="Ascension\Core\Base\Input\IInputData.cs" />
+    <Compile Include="Ascension\Core\Base\HelperImplement\NetworkHelper\PhotonMessageHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\IPeer.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\PeerEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\PeerManager.cs" />
@@ -190,6 +191,8 @@
     <Compile Include="Ascension\Core\Base\Variable\TokenVar.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\BattleManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Lobby\LobbyManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Network\INetworkMessageHelper.cs" />
+    <Compile Include="Ascension\Core\RunTime\Network\NetworkManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Record\RecordManager.cs" />
     <Compile Include="Ascension\Core\RunTime\RedisData\RedisData.Initialize.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\ResourceManager.cs" />
@@ -248,7 +251,7 @@
     <Compile Include="Handlers\SyncTeam\SubHandler\SyncTeamSubHandler.cs" />
     <Compile Include="Handlers\SyncTeam\SyncRoleTeamHandler.cs" />
     <Compile Include="Handlers\SyncWeapon\SubHandler\RemoveWeaponSubHandler.cs" />
-    <Compile Include="Helpers\DebugHelper\Log4NetDebugHelper.cs" />
+    <Compile Include="Ascension\Core\Base\HelperImplement\DebugHelper\Log4NetDebugHelper.cs" />
     <Compile Include="DOMap\AlchemyMap.cs" />
     <Compile Include="DOMap\AllianceMemberMap.cs" />
     <Compile Include="DOMap\AlliancesMap.cs" />
@@ -410,9 +413,8 @@
     <Compile Include="Handlers\SyncTreasureattic\SubHandler\UpdateTreasureatticHandler.cs" />
     <Compile Include="Handlers\SyncTreasureattic\SubHandler\VerifyTreasureAtticHandler.cs" />
     <Compile Include="Handlers\SyncTreasureattic\SyncTreasureatticHandler.cs" />
-    <Compile Include="Ascension\AscensionServer.Cache.cs" />
     <Compile Include="Caching\Cache.cs" />
-    <Compile Include="Ascension\AscensionConst.cs" />
+    <Compile Include="Ascension\Core\Base\Application\ApplicationBuilder.cs" />
     <Compile Include="Ascension\AscensionPeer.cs" />
     <Compile Include="Ascension\AscensionServer.cs" />
     <Compile Include="Caching\ConcurrencyCache.cs" />
@@ -475,7 +477,7 @@
     <Compile Include="Handlers\SyncTasks\SubHandler\SyncTaskSubHandler.cs" />
     <Compile Include="Handlers\SyncTasks\SubHandler\UpdateTaskSubHandler.cs" />
     <Compile Include="Handlers\SyncTasks\SyncTaskHandler.cs" />
-    <Compile Include="Helpers\JsonHelper\NewtonjsonHelper.cs" />
+    <Compile Include="Ascension\Core\Base\HelperImplement\JsonHelper\NewtonjsonHelper.cs" />
     <Compile Include="DOMap\GongFaMap.cs" />
     <Compile Include="DOMap\MiShuMap.cs" />
     <Compile Include="DOMap\OffLineTimeMap.cs" />
@@ -548,8 +550,7 @@
     <Compile Include="Lite\Operations\SetPropertiesRequest.cs" />
     <Compile Include="Lite\Room\Room.cs" />
     <Compile Include="NetCoreExtend.cs" />
-    <Compile Include="NHManager\Main\INHManager.cs" />
-    <Compile Include="NHManager\Main\NHManager.cs" />
+    <Compile Include="Ascension\Core\Base\NHibernate\NHibernateQuerier.cs" />
     <Compile Include="DOMap\RoleMap.cs" />
     <Compile Include="DOMap\RoleStatusMap.cs" />
     <Compile Include="DOMap\UserMap.cs" />
@@ -562,8 +563,8 @@
     <Compile Include="DO\RoleStatus.cs" />
     <Compile Include="DO\User.cs" />
     <Compile Include="DO\UserRole.cs" />
-    <Compile Include="NHManager\NHCriteria\NHCriteria.cs" />
-    <Compile Include="NHManager\NHibernateHelper.cs" />
+    <Compile Include="Ascension\Core\Base\NHibernate\NHCriteria.cs" />
+    <Compile Include="Ascension\Core\Base\NHibernate\NHibernateHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Threads\Base\ISyncEvent.cs" />
     <Compile Include="Threads\Base\IThreadEventData.cs" />

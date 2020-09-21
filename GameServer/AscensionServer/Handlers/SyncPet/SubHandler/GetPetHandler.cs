@@ -27,7 +27,7 @@ namespace AscensionServer
 
             var petObj = Utility.Json.ToObject<Pet>(petJson);
             NHCriteria nHCriteriaPet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petObj.ID);
-            var pet = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriaPet);
+            var pet = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriaPet);
             if (pet!=null)
             {
                 SetResponseData(() =>

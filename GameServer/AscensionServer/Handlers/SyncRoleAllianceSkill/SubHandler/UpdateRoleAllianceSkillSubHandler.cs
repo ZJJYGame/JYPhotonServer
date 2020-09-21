@@ -30,10 +30,10 @@ namespace AscensionServer
             var roleallianceskillObj = Utility.Json.ToObject<RoleAllianceSkilltransferDTO>(roleallianceskillJson);
             NHCriteria nHCriteriroleallianceskill = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceskillObj.RoleID);
 
-            var roleallianceskillTemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAllianceSkill>(nHCriteriroleallianceskill).Result;
+            var roleallianceskillTemp= NHibernateQuerier.CriteriaSelectAsync<RoleAllianceSkill>(nHCriteriroleallianceskill).Result;
 
-            var rolealliancesTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAlliance>(nHCriteriroleallianceskill).Result;
-            var roleAssetsTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<RoleAssets>(nHCriteriroleallianceskill).Result;
+            var rolealliancesTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriroleallianceskill).Result;
+            var roleAssetsTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAssets>(nHCriteriroleallianceskill).Result;
 
             if (roleallianceskillTemp!=null&& rolealliancesTemp != null && roleAssetsTemp != null)
             {
@@ -46,9 +46,9 @@ namespace AscensionServer
                     roleAssetsTemp.SpiritStonesLow -= roleallianceskillObj.RoleAssets;
                     rolealliancesTemp.Reputation -= roleallianceskillObj.Contribution;
 
-                  await  ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleallianceskillTemp);
-                  await  ConcurrentSingleton<NHManager>.Instance.UpdateAsync(rolealliancesTemp);
-                   await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleAssetsTemp);
+                  await  NHibernateQuerier.UpdateAsync(roleallianceskillTemp);
+                  await  NHibernateQuerier.UpdateAsync(rolealliancesTemp);
+                   await NHibernateQuerier.UpdateAsync(roleAssetsTemp);
 
                     await RedisHelper.Hash.HashSetAsync<RoleAssets>("RoleAssets", roleAssetsTemp.RoleID.ToString(), roleAssetsTemp);
                     SetResponseData(() =>

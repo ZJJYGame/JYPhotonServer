@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Cosmos;
 namespace AscensionServer
 {
-    [OuterModule]
+    [CustomeModule]
     public class RecordManager:Module<RecordManager>
     {
         public void RecordTime(long sessionId)

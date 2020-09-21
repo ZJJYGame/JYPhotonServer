@@ -30,7 +30,7 @@ namespace AscensionServer
             Utility.Debug.LogInfo("添加的新的功法为"+ roleJson);
 
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
-            var roleGongFaObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleGongFa>(nHCriteriaRoleID);
+            var roleGongFaObj = NHibernateQuerier.CriteriaSelect<RoleGongFa>(nHCriteriaRoleID);
             Dictionary<int, int> gongfaDict;
             Dictionary<int, string> DOdict=new Dictionary<int, string>();
 
@@ -50,10 +50,10 @@ namespace AscensionServer
                         else
                         {
                             CultivationMethod cultivationMethod = new CultivationMethod() { CultivationMethodID = gongfaObj.CultivationMethodID, CultivationMethodLevel = gongfaObj.CultivationMethodLevel };
-                            cultivationMethod = ConcurrentSingleton<NHManager>.Instance.Insert(cultivationMethod);
+                            cultivationMethod = NHibernateQuerier.Insert(cultivationMethod);
                             gongfaDict.Add(cultivationMethod.ID, cultivationMethod.CultivationMethodID);
                             roleGongFaObj.GongFaIDArray = Utility.Json.ToJson(gongfaDict);
-                            ConcurrentSingleton<NHManager>.Instance.Update(roleGongFaObj);
+                            NHibernateQuerier.Update(roleGongFaObj);
                             DOdict.Add(0, Utility.Json.ToJson(cultivationMethod));
                             DOdict.Add(1, Utility.Json.ToJson(roleGongFaObj));
                         #region Redis模块

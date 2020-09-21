@@ -33,8 +33,8 @@ namespace AscensionServer.Handlers
 
             NHCriteria nHCriterialliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", allianceConstructionObj.AllianceID);
 
-            var allianceConstructionTemp= ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceConstruction>(nHCriteriallianceConstruction).Result;
-            var allianceStatusTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelectAsync<AllianceStatus>(nHCriterialliance).Result;
+            var allianceConstructionTemp= NHibernateQuerier.CriteriaSelectAsync<AllianceConstruction>(nHCriteriallianceConstruction).Result;
+            var allianceStatusTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceStatus>(nHCriterialliance).Result;
 
             if (allianceConstructionTemp != null)
             {
@@ -44,7 +44,7 @@ namespace AscensionServer.Handlers
                     {
                         allianceConstructionTemp.AllianceCave += allianceConstructionObj.AllianceCave;
                         allianceConstructionTemp.AllianceAssets -= allianceConstructionObj.AllianceAssets;
-                        await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceConstructionTemp);
+                        await NHibernateQuerier.UpdateAsync(allianceConstructionTemp);
                         SetResponseData(() =>
                         {
                             Utility.Debug.LogError("发送的升级仙盟数据为"+ Utility.Json.ToJson(allianceConstructionTemp));
@@ -66,7 +66,7 @@ namespace AscensionServer.Handlers
                     {
                         allianceConstructionTemp.AllianceAlchemyStorage += allianceConstructionObj.AllianceAlchemyStorage;
                         allianceConstructionTemp.AllianceAssets -= allianceConstructionObj.AllianceAssets;
-                        await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceConstructionTemp);
+                        await NHibernateQuerier.UpdateAsync(allianceConstructionTemp);
                         SetResponseData(() =>
                         {
                             Utility.Debug.LogError("发送的升级仙盟数据为" + Utility.Json.ToJson(allianceConstructionTemp));
@@ -88,7 +88,7 @@ namespace AscensionServer.Handlers
                     {
                         allianceConstructionTemp.AllianceScripturesPlatform += allianceConstructionObj.AllianceScripturesPlatform;
                         allianceConstructionTemp.AllianceAssets -= allianceConstructionObj.AllianceAssets;
-                        await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceConstructionTemp);
+                        await NHibernateQuerier.UpdateAsync(allianceConstructionTemp);
                         SetResponseData(() =>
                         {
                             Utility.Debug.LogError("发送的升级仙盟数据为" + Utility.Json.ToJson(allianceConstructionTemp));
@@ -111,9 +111,9 @@ namespace AscensionServer.Handlers
                         allianceConstructionTemp.AllianceChamber += allianceConstructionObj.AllianceChamber;
                         allianceConstructionTemp.AllianceAssets -= allianceConstructionObj.AllianceAssets;
 
-                        await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceConstructionTemp);
+                        await NHibernateQuerier.UpdateAsync(allianceConstructionTemp);
                         allianceStatusTemp.AllianceLevel += 1;
-                        await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceStatusTemp);
+                        await NHibernateQuerier.UpdateAsync(allianceStatusTemp);
                         SetResponseData(() =>
                         {
                             Utility.Debug.LogError("发送的升级仙盟数据为" + Utility.Json.ToJson(allianceConstructionTemp));

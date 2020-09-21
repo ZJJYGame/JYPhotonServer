@@ -47,7 +47,7 @@ namespace AscensionServer
                         var roleObj = AlliancelogicManager.Instance.GetNHCriteria<RoleAlliance>("RoleID", memberlist[i]);
                         roleObj.AllianceID = 0;
                         roleObj.AllianceJob = 50;
-                     await   ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleObj);
+                     await   NHibernateQuerier.UpdateAsync(roleObj);
                     }
                 }
                 if (!string.IsNullOrEmpty(allianceMemberTemp.ApplyforMember))
@@ -61,7 +61,7 @@ namespace AscensionServer
                         var applyList = Utility.Json.ToObject<List<int>>(roleObj.ApplyForAlliance);
                         applyList.Remove(allianceMemberObj.AllianceID);
                         roleObj.ApplyForAlliance = Utility.Json.ToJson(applyList);
-                    await    ConcurrentSingleton<NHManager>.Instance.UpdateAsync(roleObj);
+                    await    NHibernateQuerier.UpdateAsync(roleObj);
 
                     }
                 }
@@ -69,16 +69,16 @@ namespace AscensionServer
                 var alliancesList = Utility.Json.ToObject<List<int>>(alliances.AllianceList);
                 alliancesList.Remove(allianceMemberObj.AllianceID);
                 alliances.AllianceList = Utility.Json.ToJson(alliancesList);
-             await   ConcurrentSingleton<NHManager>.Instance.UpdateAsync(alliances);
+             await   NHibernateQuerier.UpdateAsync(alliances);
 
                 Utility.Debug.LogError("解散仙盟4" + allianceMemberTemp.AllianceID);
 
                 var allianceStatusObj = AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", allianceMemberObj.AllianceID);
 
                 var allianceConstructionObj = AlliancelogicManager.Instance.GetNHCriteria<AllianceConstruction>("AllianceID", allianceMemberObj.AllianceID);
-              await  ConcurrentSingleton<NHManager>.Instance.DeleteAsync(allianceConstructionObj);
-             await   ConcurrentSingleton<NHManager>.Instance.DeleteAsync(allianceStatusObj);
-             await   ConcurrentSingleton<NHManager>.Instance.DeleteAsync(allianceMemberTemp);
+              await  NHibernateQuerier.DeleteAsync(allianceConstructionObj);
+             await   NHibernateQuerier.DeleteAsync(allianceStatusObj);
+             await   NHibernateQuerier.DeleteAsync(allianceMemberTemp);
                 SetResponseData(() =>
                 {
                     Utility.Debug.LogError("解散仙盟5");

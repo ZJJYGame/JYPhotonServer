@@ -28,7 +28,7 @@ namespace AscensionServer
             var rolepetObj = Utility.Json.ToObject<RolePet>(rolepet);
             NHCriteria nHCriteriaRolePet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
 
-            var rolepets = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RolePet>(nHCriteriaRolePet);
+            var rolepets = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriaRolePet);
             List<Pet> petlist = new List<Pet>();
             Dictionary<string, string> DODict = new Dictionary<string, string>();
             if (RedisHelper.Hash.HashExistAsync("RolePet", rolepetObj.RoleID.ToString()).Result)
@@ -45,7 +45,7 @@ namespace AscensionServer
                     foreach (var petid in petIDList)
                     {
                         NHCriteria nHCriteriapet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petid.Key);
-                        Pet petObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriapet);
+                        Pet petObj = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriapet);
                         petlist.Add(petObj);
                         nHCriteriasList.Add(nHCriteriapet);
                     }
@@ -67,7 +67,7 @@ namespace AscensionServer
                 #region MySql逻辑
                 if (rolepets != null)
                 {
-                    var rpetObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RolePet>(nHCriteriaRolePet);
+                    var rpetObj = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriaRolePet);
                     string RolePetList = rpetObj.PetIDDict;
                     Dictionary<int, int> petIDList;
                     //List<Pet> petlist = new List<Pet>();
@@ -79,7 +79,7 @@ namespace AscensionServer
                         foreach (var petid in petIDList)
                         {
                             NHCriteria nHCriteriapet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petid.Key);
-                            Pet petObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriapet);
+                            Pet petObj = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriapet);
                             petlist.Add(petObj);
                             nHCriteriasList.Add(nHCriteriapet);
                         }

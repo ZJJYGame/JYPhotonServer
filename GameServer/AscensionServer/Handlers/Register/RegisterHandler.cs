@@ -22,7 +22,7 @@ namespace AscensionServer
             var userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.User));
             var userObj = Utility.Json.ToObject<User>(userJson);
             NHCriteria nHCriteriaAccount = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
-            bool isExist = ConcurrentSingleton<NHManager>.Instance.Verify<User>(nHCriteriaAccount);
+            bool isExist = NHibernateQuerier.Verify<User>(nHCriteriaAccount);
             ResponseData.Clear();
             OpResponse.OperationCode = operationRequest.OperationCode;
             if (!isExist)
@@ -30,14 +30,14 @@ namespace AscensionServer
                 Utility.Debug.LogInfo("==========\n  before add UUID ：" +userJson +"\n"+ userObj.UUID + "\n================");
 
                 //添加输入的用户和密码进数据库
-                userObj =  ConcurrentSingleton<NHManager>.Instance.Insert(userObj);
+                userObj =  NHibernateQuerier.Insert(userObj);
                 Utility.Debug.LogInfo("==========\n after add UUID ：" + userJson + "\n" + userObj.UUID+"\n================");
                 NHCriteria nHCriteriaUUID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("UUID", userObj.UUID);
-                bool userRoleExist = ConcurrentSingleton<NHManager>.Instance.Verify<UserRole>(nHCriteriaUUID);
+                bool userRoleExist = NHibernateQuerier.Verify<UserRole>(nHCriteriaUUID);
                 if (!userRoleExist)
                 {
                     var userRole = new UserRole() { UUID = userObj.UUID };
-                    ConcurrentSingleton<NHManager>.Instance.Insert(userRole);
+                    NHibernateQuerier.Insert(userRole);
                 }
             OpResponse.ReturnCode = (short)ReturnCode.Success;//返回成功
                 GameManager.ReferencePoolManager.Despawns(nHCriteriaUUID);

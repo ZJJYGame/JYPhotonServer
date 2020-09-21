@@ -15,27 +15,28 @@ using System.Threading;
 namespace AscensionServer
 {
     [Inherited]
-    public abstract class  Handler:IHandler
+    public abstract class Handler : IHandler
     {
         #region Properties
+        public byte Opcode { get { return (byte)OpCode; } }
         public OperationCode OpCode { get; protected set; }
         public EventCode EvCode { get; protected set; }
-         Dictionary<byte, ISubHandler> subHandlerDict;
+        Dictionary<byte, ISubHandler> subHandlerDict;
         public OperationResponse OpResponse { get; protected set; }
         public Dictionary<byte, object> ResponseData { get; protected set; }
         protected Dictionary<byte, object> threadEventParameter { get; set; }
         #endregion
 
         #region Methods
-        public virtual  void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters,AscensionPeer peer)
+        public virtual void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
         {
-            var subCode = Convert.ToByte( Utility.GetValue(operationRequest.Parameters, (byte)OperationCode.SubOperationCode));
+            var subCode = Convert.ToByte(Utility.GetValue(operationRequest.Parameters, (byte)OperationCode.SubOperationCode));
             if (subCode != 0)
             {
                 try
                 {
                     ISubHandler subHandler;
-                    var result=  subHandlerDict.TryGetValue(subCode, out subHandler);
+                    var result = subHandlerDict.TryGetValue(subCode, out subHandler);
                     if (result)
                         subHandler.Handler(operationRequest, sendParameters, peer);
                 }
@@ -44,6 +45,27 @@ namespace AscensionServer
                     Utility.Debug.LogInfo($"{(OperationCode)operationRequest.OperationCode} ;{ (SubOperationCode)subCode }  has no subHandler ");
                 }
             }
+        }
+        public virtual object EncodeMessage(object message)
+        {
+            OperationRequest operationRequest = message as OperationRequest;
+            object data=null;
+            var subCode = Convert.ToByte(Utility.GetValue(operationRequest.Parameters, (byte)OperationCode.SubOperationCode));
+            if (subCode != 0)
+            {
+                try
+                {
+                    ISubHandler subHandler;
+                    var result = subHandlerDict.TryGetValue(subCode, out subHandler);
+                    if (result)
+                        data= subHandler.EncodeMessage(message);
+                }
+                catch
+                {
+                    Utility.Debug.LogInfo($"{(OperationCode)operationRequest.OperationCode} ;{ (SubOperationCode)subCode }  has no subHandler ");
+                }
+            }
+            return data;
         }
         public virtual void OnInitialization()
         {
@@ -61,7 +83,7 @@ namespace AscensionServer
             ResponseData.Clear();
         }
         protected virtual void OnSubHandlerInitialization<T>()
-            where T:class, ISubHandler
+            where T : class, ISubHandler
         {
             var subHandlerType = typeof(T);
             Type[] types = Assembly.GetAssembly(subHandlerType).GetTypes();
@@ -100,16 +122,17 @@ namespace AscensionServer
         /// <param name="peerCollection"></param>
         /// <param name="eventCode"></param>
         /// <param name="parameters"></param>
-        protected void QueueThreadEvent(ICollection<AscensionPeer> peerCollection,EventCode eventCode,Dictionary<byte,object>parameters,string message=null)
+        protected void QueueThreadEvent(ICollection<AscensionPeer> peerCollection, EventCode eventCode, Dictionary<byte, object> parameters, string message = null)
         {
             //利用池生成线程池所需要使用的对象，并为其赋值，结束时回收
-            var threadEventData =  new ThreadEventData();
+            var threadEventData = new ThreadEventData();
             threadEventData.SetValue(peerCollection, (byte)eventCode);
             threadEventData.SetData(parameters);
-            var threadSyncEvent =new ThreadSyncEvent();
+            var threadSyncEvent = new ThreadSyncEvent();
             threadSyncEvent.OnInitialization();
             threadSyncEvent.SetEventData(threadEventData);
-            threadSyncEvent.AddFinishedHandler(() => {
+            threadSyncEvent.AddFinishedHandler(() =>
+            {
                 Utility.Debug.LogInfo(message);
                 threadSyncEvent.Clear();
             });
@@ -125,6 +148,8 @@ namespace AscensionServer
         {
             subHandlerDict.Remove((byte)handler.SubOpCode);
         }
+
+
         #endregion
     }
 }

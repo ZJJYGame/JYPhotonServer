@@ -28,7 +28,7 @@ namespace AscensionServer.Handlers
 
             NHCriteria nHCriteriahf = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", hfObj.RoleID);
             Utility.Debug.LogInfo("接收到添加的霛田信息" + herbsfieldJson);
-            var hfTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<HerbsField>(nHCriteriahf);
+            var hfTemp = NHibernateQuerier.CriteriaSelect<HerbsField>(nHCriteriahf);
             List<HerbFieldStatus> hfList = new List<HerbFieldStatus>();
             if (hfTemp!=null)
             {
@@ -48,7 +48,7 @@ namespace AscensionServer.Handlers
                         hfList = hfObj.AllHerbs;
                         hfTemp.AllHerbs = Utility.Json.ToJson(hfList);
                     }
-                    ConcurrentSingleton<NHManager>.Instance.Update(hfTemp);
+                    NHibernateQuerier.Update(hfTemp);
                     SetResponseData(() =>
                     {
                         SubDict.Add((byte)ParameterCode.JobHerbsField, Utility.Json.ToJson(new HerbsFieldDTO() {AllHerbs= hfList,jobLevel= hfTemp.jobLevel,RoleID= hfTemp.RoleID }));

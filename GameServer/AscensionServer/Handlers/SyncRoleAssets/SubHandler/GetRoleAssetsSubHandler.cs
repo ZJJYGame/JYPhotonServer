@@ -42,15 +42,15 @@ namespace AscensionServer
             {
                 #region MySqL
                 NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
-                var obj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Role>(nHCriteriaRoleID);
+                var obj = NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRoleID);
                 if (obj != null)
                 {
-                    var result = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAssets>(nHCriteriaRoleID);
+                    var result = NHibernateQuerier.CriteriaSelect<RoleAssets>(nHCriteriaRoleID);
                     if (result == null)
                     {
                         Utility.Debug.LogError("获取人物资源的书序2");
                         Utility.Debug.LogInfo(">>>>>>>>>>>>>\n GetRoleAssetsSubHandler  " + roleObj.RoleID + "  GetRoleAssetsSubHandler  \n >>>>>>>>>>>>>>>>>>>>>>");
-                        result = ConcurrentSingleton<NHManager>.Instance.Insert(new RoleAssets() { RoleID = roleObj.RoleID });
+                        result = NHibernateQuerier.Insert(new RoleAssets() { RoleID = roleObj.RoleID });
                     }
                     string roleAssetsJson = Utility.Json.ToJson(result);
                     Utility.Debug.LogInfo(">>>>>>>>>>>>>出納過去的數據為  " + Utility.Json.ToJson(result) + "   >>>>>>>>>>>>>>>>>>>>>>");

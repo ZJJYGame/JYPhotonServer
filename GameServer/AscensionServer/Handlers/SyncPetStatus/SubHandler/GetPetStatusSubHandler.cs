@@ -25,7 +25,7 @@ namespace AscensionServer
             string petstatus = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.PetStatus));
             var rolepetObj = Utility.Json.ToObject<RolePet>(petstatus);
             NHCriteria nHCriteriarolepet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
-            var petArray = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RolePet>(nHCriteriarolepet);
+            var petArray = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriarolepet);
             if (petArray != null)
             {
                 string petdict = petArray.PetIDDict;
@@ -40,8 +40,8 @@ namespace AscensionServer
                     foreach (var petid in petIDList)
                     {
                         NHCriteria nHCriteriapet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petid.Key);
-                        var petstatusObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<PetStatus>(nHCriteriapet);
-                        var petaptitudeObj = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<PetaPtitude>(nHCriteriapet);
+                        var petstatusObj = NHibernateQuerier.CriteriaSelect<PetStatus>(nHCriteriapet);
+                        var petaptitudeObj = NHibernateQuerier.CriteriaSelect<PetaPtitude>(nHCriteriapet);
                         PetaPtitudeDTO petaPtitudeDTO = new PetaPtitudeDTO() { AttackphysicalAptitude = petaptitudeObj.AttackphysicalAptitude, AttacksoulAptitude = petaptitudeObj.AttacksoulAptitude, AttackspeedAptitude = petaptitudeObj.AttackspeedAptitude, AttackpowerAptitude = petaptitudeObj.AttackpowerAptitude, DefendphysicalAptitude = petaptitudeObj.DefendphysicalAptitude, DefendpowerAptitude = petaptitudeObj.DefendpowerAptitude, HPAptitude = petaptitudeObj.HPAptitude, DefendsoulAptitude = petaptitudeObj.DefendsoulAptitude, MPAptitude = petaptitudeObj.MPAptitude, Petaptitudecol = petaptitudeObj.Petaptitudecol, PetaptitudeDrug = Utility.Json.ToObject<Dictionary<int, int>>(petaptitudeObj.PetaptitudeDrug), PetID = petaptitudeObj.PetID, SoulAptitude = petaptitudeObj.SoulAptitude };
                         petaptitudeList.Add(petaPtitudeDTO);
                         petList.Add(petstatusObj);

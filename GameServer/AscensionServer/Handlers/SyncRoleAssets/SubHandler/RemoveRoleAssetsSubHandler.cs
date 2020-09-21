@@ -25,8 +25,8 @@ namespace AscensionServer
 
             var roleAssetsObj = Utility.Json.ToObject<RoleAssets>(roleAssetsJson);
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleAssetsObj.RoleID);
-            bool roleExist = ConcurrentSingleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleID);
-            bool roleAssetsExist = ConcurrentSingleton<NHManager>.Instance.Verify<RoleAssets>(nHCriteriaRoleID);
+            bool roleExist = NHibernateQuerier.Verify<Role>(nHCriteriaRoleID);
+            bool roleAssetsExist = NHibernateQuerier.Verify<RoleAssets>(nHCriteriaRoleID);
             long SpiritStonesLow = 0;
             long SpiritStonesHigh = 0;
             long SpiritStonesMedium = 0;
@@ -34,14 +34,14 @@ namespace AscensionServer
             if (roleExist && roleAssetsExist)
             {
                
-                var assetsServer = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleAssets>(nHCriteriaRoleID);
+                var assetsServer = NHibernateQuerier.CriteriaSelect<RoleAssets>(nHCriteriaRoleID);
                 SpiritStonesLow = assetsServer.SpiritStonesLow;
                 if (roleAssetsObj.SpiritStonesLow > 0&& roleAssetsObj.SpiritStonesLow <=assetsServer.SpiritStonesLow)
                     SpiritStonesLow = assetsServer.SpiritStonesLow- roleAssetsObj.SpiritStonesLow ;
                 Utility.Debug.LogInfo(">>>>>>>>>>>>>減少的資產：" + SpiritStonesLow + ">>>>>>>>>>>>>>>>>>>>>>");
                 if (roleAssetsObj.XianYu > 0&& roleAssetsObj.XianYu <= assetsServer.XianYu)
                     XianYu = assetsServer.XianYu- roleAssetsObj.XianYu ;
-                ConcurrentSingleton<NHManager>.Instance.Update<RoleAssets>(new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesLow = SpiritStonesLow, XianYu = XianYu });
+                NHibernateQuerier.Update<RoleAssets>(new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesLow = SpiritStonesLow, XianYu = XianYu });
                 RedisHelper.Hash.HashSetAsync<RoleAssets>("RoleAssets", roleAssetsObj.RoleID.ToString(), new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesLow = SpiritStonesLow, XianYu = XianYu });
                 Owner.OpResponse.ReturnCode = (byte)ReturnCode.Success;
             }

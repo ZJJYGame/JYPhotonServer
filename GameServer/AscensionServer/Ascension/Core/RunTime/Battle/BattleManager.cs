@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Cosmos;
 namespace AscensionServer
 {
-    [OuterModule]
+    [CustomeModule]
     /// <summary>
     /// 战斗模块；
     /// 此模块用于转发客户端发送过来的消息到具体战斗容器中；

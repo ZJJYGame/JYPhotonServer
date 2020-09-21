@@ -30,7 +30,7 @@ namespace AscensionServer
 
             Dictionary<int, int> rolepetList;
             NHCriteria nHCriteriarolepet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rpObj.RoleID);
-            var rolepet = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RolePet>(nHCriteriarolepet);
+            var rolepet = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriarolepet);
             if (rolepet != null)
             {
                 if (!string.IsNullOrEmpty(rolepet.PetIDDict))
@@ -41,23 +41,23 @@ namespace AscensionServer
                     if (rolepetList.ContainsKey(pObj.ID))
                     {
                         NHCriteria nHCriteriapet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", pObj.ID);
-                        var pet = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Pet>(nHCriteriapet);
+                        var pet = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriapet);
 
                         if (pet != null)
                         {
-                            ConcurrentSingleton<NHManager>.Instance.Delete<Pet>(pet);
+                            NHibernateQuerier.Delete<Pet>(pet);
                             //AscensionServer._Log.Info("删除宠物成功》》》》》》》》》》》》》》》》》》》》》》" + pet);
                         }
 
                         NHCriteria nHCriteriapetstatus = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", pObj.ID);
-                        var petstatus = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<PetStatus>(nHCriteriapetstatus);
+                        var petstatus = NHibernateQuerier.CriteriaSelect<PetStatus>(nHCriteriapetstatus);
                         if (petstatus != null)
                         {
-                            ConcurrentSingleton<NHManager>.Instance.Delete<PetStatus>(petstatus);
+                            NHibernateQuerier.Delete<PetStatus>(petstatus);
                             //AscensionServer._Log.Info("删除宠物数据成功》》》》》》》》》》》》》》》》》》》》》》");
                         }
                         rolepetList.Remove(pObj.ID);
-                        ConcurrentSingleton<NHManager>.Instance.Update<RolePet>(new RolePet() { RoleID = rpObj.RoleID, PetIDDict = Utility.Json.ToJson(rolepetList) });
+                        NHibernateQuerier.Update<RolePet>(new RolePet() { RoleID = rpObj.RoleID, PetIDDict = Utility.Json.ToJson(rolepetList) });
                         Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                         GameManager.ReferencePoolManager.Despawns(nHCriteriapet, nHCriteriapetstatus);
                     }

@@ -29,10 +29,19 @@ namespace AscensionServer
         /// </summary>
         object Handle { get; }
         /// <summary>
+        /// 接收二进制流数据委托；
+        /// </summary>
+        event Action<byte[]> ReceiveMessage;
+        /// <summary>
         /// 发送消息到remotePeer
         /// </summary>
         /// <param name="opCode">操作码</param>
         /// <param name="userData">用户自定义的数据字典</param>
         void SendEventMessage(byte opCode,object userData);
+        /// <summary>
+        /// 发送消息到remotePeer
+        /// </summary>
+        /// <param name="buffer">缓冲数据</param>
+        void SendMessage(byte[] buffer);
     }
 }

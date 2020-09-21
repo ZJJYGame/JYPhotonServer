@@ -24,7 +24,7 @@ namespace AscensionServer
             string alchemyJson = Convert.ToString(Utility.GetValue(dict,(byte)ParameterCode.JobAlchemy));
             var alchemyObj = Utility.Json.ToObject<AlchemyDTO>(alchemyJson);
             NHCriteria nHCriteriaalchemy = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", alchemyObj.RoleID);
-            var alchemytemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Alchemy>(nHCriteriaalchemy);
+            var alchemytemp = NHibernateQuerier.CriteriaSelect<Alchemy>(nHCriteriaalchemy);
             if (alchemytemp!=null)
             {
                 if (!string.IsNullOrEmpty(alchemytemp.Recipe_Array))

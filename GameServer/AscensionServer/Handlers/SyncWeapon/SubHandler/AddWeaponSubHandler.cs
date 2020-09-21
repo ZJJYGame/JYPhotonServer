@@ -28,7 +28,7 @@ namespace AscensionServer
             string weaponJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.GetWeapon));
             var weaponObj = Utility.Json.ToObject<WeaponDTO>(weaponJson);
             NHCriteria nHCriteriaweapon = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", weaponObj.RoleID);
-            var weaponTemp = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<Weapon>(nHCriteriaweapon);
+            var weaponTemp = NHibernateQuerier.CriteriaSelect<Weapon>(nHCriteriaweapon);
 
             int index=1;
             Dictionary<int, int> indexDict = new Dictionary<int, int>();
@@ -50,7 +50,7 @@ namespace AscensionServer
                         weaponTemp.WeaponStatusDict = Utility.Json.ToJson(WeaponDict);
                         indexDict[weaponObj.WeaponID] += 1;
                         weaponTemp.Weaponindex = Utility.Json.ToJson(indexDict);
-                        ConcurrentSingleton<NHManager>.Instance.Update(weaponTemp);
+                        NHibernateQuerier.Update(weaponTemp);
                     }
                     else
                     {
@@ -60,7 +60,7 @@ namespace AscensionServer
                         weaponTemp.WeaponStatusDict = Utility.Json.ToJson(WeaponDict);
                         indexDict.Add(weaponObj.WeaponID, 1);
                         weaponTemp.Weaponindex = Utility.Json.ToJson(indexDict);
-                        ConcurrentSingleton<NHManager>.Instance.Update(weaponTemp);
+                        NHibernateQuerier.Update(weaponTemp);
                     }
                 }
                 else
@@ -71,7 +71,7 @@ namespace AscensionServer
                     weaponTemp.WeaponStatusDict = Utility.Json.ToJson(WeaponDict);
                     indexDict.Add(weaponObj.WeaponID, 1);
                     weaponTemp.Weaponindex = Utility.Json.ToJson(indexDict);
-                    ConcurrentSingleton<NHManager>.Instance.Update(weaponTemp);
+                    NHibernateQuerier.Update(weaponTemp);
             }
             SetResponseData(() =>
                 {

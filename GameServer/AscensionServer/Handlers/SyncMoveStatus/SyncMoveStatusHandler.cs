@@ -26,16 +26,15 @@ namespace AscensionServer
         {
             ResponseData.Clear();
             var roleMoveStatusJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleMoveStatus));
-            peer.PeerCache.RoleMoveStatus = Utility.Json.ToObject<RoleMoveStatusDTO>(roleMoveStatusJson);
-            Utility.Debug.LogInfo("Role:ID " + peer.PeerCache.RoleID + "\n RoleJson :" + roleMoveStatusJson);
+            //peer.PeerCache.RoleMoveStatus = Utility.Json.ToObject<RoleMoveStatusDTO>(roleMoveStatusJson);
             
             roleSet.Clear();
-            var peerSet =  AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
-            int peerSetLength = peerSet.Count;
-            for (int i = 0; i < peerSetLength; i++)
-            {
-                roleSet.Add(peerSet[i].PeerCache.RoleMoveStatus);
-            }
+            //var peerSet =  AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
+            //int peerSetLength = peerSet.Count;
+            //for (int i = 0; i < peerSetLength; i++)
+            //{
+            //    roleSet.Add(peerSet[i].PeerCache.RoleMoveStatus);
+            //}
             var roleSetJson = Utility.Json.ToJson(roleSet);
 
             ResponseData.Add((byte)ParameterCode.RoleMoveStatus, roleSetJson);
@@ -46,7 +45,7 @@ namespace AscensionServer
             //广播事件
             threadEventParameter.Clear();
             threadEventParameter.Add((byte)ParameterCode.RoleMoveStatus, roleMoveStatusJson);
-            QueueThreadEvent(peerSet, EventCode.SyncRoleMoveStatus, threadEventParameter);
+            //QueueThreadEvent(peerSet, EventCode.SyncRoleMoveStatus, threadEventParameter);
         }
 
     }

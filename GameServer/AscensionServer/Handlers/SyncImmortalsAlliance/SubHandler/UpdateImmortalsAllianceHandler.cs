@@ -34,7 +34,7 @@ namespace AscensionServer
                 if (allianceMemberTemp.AllianceName == immortalsAllianceObj.AllianceName)
                 {
                     allianceMemberTemp.Manifesto = immortalsAllianceObj.Manifesto;
-                    await ConcurrentSingleton<NHManager>.Instance.UpdateAsync(allianceMemberTemp);
+                    await NHibernateQuerier.UpdateAsync(allianceMemberTemp);
 
                     SetResponseData(() =>
                     {

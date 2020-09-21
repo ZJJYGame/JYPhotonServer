@@ -34,15 +34,15 @@ namespace AscensionServer
             {
                 #region MySql
                 NHCriteria nHCriteriaRoleId = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
-                bool exist = ConcurrentSingleton<NHManager>.Instance.Verify<Role>(nHCriteriaRoleId);
+                bool exist = NHibernateQuerier.Verify<Role>(nHCriteriaRoleId);
                 if (exist)
                 {
                     Utility.Debug.LogInfo("------------------------------------" + "获取人物数据  : " + roleJson + "---------------------------------------");
-                    AscensionServer.Instance.Online(peer, roleObj);
-                    RoleStatus roleStatus = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleStatus>(nHCriteriaRoleId);
+                    //AscensionServer.Instance.Online(peer, roleObj);
+                    RoleStatus roleStatus = NHibernateQuerier.CriteriaSelect<RoleStatus>(nHCriteriaRoleId);
                     Utility.Debug.LogInfo("------------------------------------GetRoleStatusSubHandler\n" + "RoleStatus  : " + roleStatus + "\nGetRoleStatusSubHandler---------------------------------------");
                     string roleStatusJson = Utility.Json.ToJson(roleStatus);
-                    RoleRing roleRing = ConcurrentSingleton<NHManager>.Instance.CriteriaSelect<RoleRing>(nHCriteriaRoleId);
+                    RoleRing roleRing = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleId);
                     SetResponseData(() => { SubDict.Add((byte)ParameterCode.RoleStatus, roleStatusJson); SubDict.Add((byte)ParameterCode.Inventory, Utility.Json.ToObject<Dictionary<int, int>>(roleRing.RingIdArray)); });
                     Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
                     GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleId);
