@@ -20,10 +20,10 @@ namespace AscensionServer
             //peer.PeerCache.RoleTransformQueue = Utility.Json.ToObject<RoleTransformQueueDTO>(JsonResult);
             //peer.PeerCache.RoleTransformQueue.RoleID = peer.PeerCache.RoleID;
             //peer.IsSendedTransform = false;
-            ResponseData.Clear();
-            OpResponseData.OperationCode = operationRequest.OperationCode;
-            OpResponseData.ReturnCode = (short)ReturnCode.Success;
-            return OpResponseData;
+            responseParameters.Clear();
+            opResponseData.OperationCode = operationRequest.OperationCode;
+            opResponseData.ReturnCode = (short)ReturnCode.Success;
+            return opResponseData;
         }
     }
 }

@@ -23,17 +23,17 @@ namespace AscensionServer
         protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
             byte heartBeatResult = Convert.ToByte(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.HeartBeat));
-            ResponseData.Clear();
-            OpResponseData.OperationCode = operationRequest.OperationCode;
+            responseParameters.Clear();
+            opResponseData.OperationCode = operationRequest.OperationCode;
             if (heartBeatResult == 1)
             {
-                OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                opResponseData.ReturnCode = (short)ReturnCode.Success;
             }
             else
             {
-                OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                opResponseData.ReturnCode = (short)ReturnCode.Fail;
             }
-            return OpResponseData;
+            return opResponseData;
         }
     }
 }

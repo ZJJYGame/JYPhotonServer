@@ -21,14 +21,14 @@ namespace AscensionServer
         public override byte OpCode { get { return (byte)OperationCode.OccupiedResourceUnit; } }
         protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
-            ResponseData.Clear();
+            responseParameters.Clear();
             var occupiedUnitJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.OccupiedUnit));
             Utility.Debug.LogInfo("请求资源数据  :  " + occupiedUnitJson);
             var occupiedUnitObj = Utility.Json.ToObject<OccupiedUnitDTO>(occupiedUnitJson);
             var result =GameManager.CustomeModule< ResourceManager>().OccupiedResUnit(occupiedUnitObj);
             if (result)
             {
-                OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                opResponseData.ReturnCode = (short)ReturnCode.Success;
 
                 ResourceUnitSetDTO currentDictObj = null;
                 if (GameManager.CustomeModule<ResourceManager>().ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID,out currentDictObj))
@@ -45,10 +45,10 @@ namespace AscensionServer
                 threadEventParameter.Add((byte)ParameterCode.OccupiedUnit, occupiedUnitJson);
                 //QueueThreadEvent(peerSet, EventCode.OccupiedResourceUnit, threadEventParameter);
             }else
-                OpResponseData.ReturnCode = (short)ReturnCode.Fail;
-            OpResponseData.Parameters = ResponseData;
-            OpResponseData.OperationCode = operationRequest.OperationCode;
-            return OpResponseData;
+                opResponseData.ReturnCode = (short)ReturnCode.Fail;
+            opResponseData.Parameters = responseParameters;
+            opResponseData.OperationCode = operationRequest.OperationCode;
+            return opResponseData;
         }
     }
 }

@@ -19,9 +19,9 @@ namespace AscensionServer
             //这条，获取玩家已经离开探索界面时候所有玩家的集合
             //var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
 
-            ResponseData.Clear();
-            OpResponseData.OperationCode = operationRequest.OperationCode;
-            OpResponseData.ReturnCode = (byte)ReturnCode.Success;
+            responseParameters.Clear();
+            opResponseData.OperationCode = operationRequest.OperationCode;
+            opResponseData.ReturnCode = (byte)ReturnCode.Success;
             //peer.SendOperationResponse(OpResponse, sendParameters);
 
             //var roleJson = Utility.Json.ToJson(peer.PeerCache.Role);
@@ -31,7 +31,7 @@ namespace AscensionServer
             //threadEventParameter.Add((byte)ParameterCode.Role, roleJson);
             //threadEventParameter.Add((byte)ParameterCode.RoleMoveStatus, roleMoveStatusJson);
             //QueueThreadEvent(peerSet, EventCode.DeletePlayer, threadEventParameter);
-            return OpResponseData;
+            return opResponseData;
         }
     }
 }

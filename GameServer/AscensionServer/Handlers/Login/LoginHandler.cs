@@ -28,28 +28,28 @@ namespace AscensionServer
             NHCriteria nHCriteriaAccount = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
             NHCriteria nHCriteriaPassword = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("Password", userObj.Password);
             bool verified = NHibernateQuerier.Verify<User>(nHCriteriaAccount, nHCriteriaPassword);
-            ResponseData.Clear();
+            responseParameters.Clear();
             //如果验证成功，把成功的结果利用response.ReturnCode返回成功给客户端
-            OpResponseData.OperationCode = operationRequest.OperationCode;
+            opResponseData.OperationCode = operationRequest.OperationCode;
             if (verified)
             {
-                OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                opResponseData.ReturnCode = (short)ReturnCode.Success;
                 userObj.UUID = NHibernateQuerier.CriteriaSelect<User>(nHCriteriaAccount).UUID;
                 //peer.Login(userObj);
 
                 //GameManager.External.GetModule<PeerManager>().TryGetValue();
                 //var pe = PeerEntity.Create(peer);
                 //GameManager.CustomeModule<PeerManager>().TryAdd(pe.SessionId, pe);
-                ResponseData.Add((byte)ParameterCode.Role, Utility.Json.ToJson(userObj));
-                OpResponseData.Parameters = ResponseData;
+                responseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(userObj));
+                opResponseData.Parameters = responseParameters;
             }
             else
             {
                 Utility.Debug.LogError("Login fail:" + userObj.Account);
-                OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                opResponseData.ReturnCode = (short)ReturnCode.Fail;
             }
             GameManager.ReferencePoolManager.Despawns(nHCriteriaAccount, nHCriteriaPassword);
-            return OpResponseData;
+            return opResponseData;
         }
     }
 }

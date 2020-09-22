@@ -17,7 +17,7 @@ namespace AscensionServer
         HashSet<RoleAdventureSkillDTO> roleSet = new HashSet<RoleAdventureSkillDTO>();
         protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
-            ResponseData.Clear();
+            responseParameters.Clear();
             var roleAdventureSkillJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleAdventureStartSkill));
             //peer.PeerCache.RoleAdventureSkill = Utility.Json.ToObject<RoleAdventureSkillDTO>(roleAdventureSkillJson);
             Utility.Debug.LogInfo("历练技能使用成功");
@@ -29,17 +29,17 @@ namespace AscensionServer
             //    roleSet.Add(peerSet[i].PeerCache.RoleAdventureSkill);
             //}
             var roleSetJson = Utility.Json.ToJson(roleSet);
-            ResponseData.Add((byte)ParameterCode.RoleAdventureStartSkill, roleAdventureSkillJson);
-            OpResponseData.OperationCode = operationRequest.OperationCode;
-            OpResponseData.ReturnCode = (short)ReturnCode.Success;
-            OpResponseData.Parameters = ResponseData;
+            responseParameters.Add((byte)ParameterCode.RoleAdventureStartSkill, roleAdventureSkillJson);
+            opResponseData.OperationCode = operationRequest.OperationCode;
+            opResponseData.ReturnCode = (short)ReturnCode.Success;
+            opResponseData.Parameters = responseParameters;
             //广播事件
             threadEventParameter.Clear();
             threadEventParameter.Add((byte)ParameterCode.RoleAdventureStartSkill, roleAdventureSkillJson);
             //QueueThreadEvent(peerSet, EventCode.RoleAdventureStartSkill, threadEventParameter);
             //SkillBuffEnd(peer.PeerCache.RoleAdventureSkill.BuffeInterval, peer);
             //CDIntervalMethod(peer.PeerCache.RoleAdventureSkill.CDInterval, peer, peer.PeerCache.RoleAdventureSkill.SkillID);
-            return OpResponseData;
+            return opResponseData;
         }
 
         #region 删除

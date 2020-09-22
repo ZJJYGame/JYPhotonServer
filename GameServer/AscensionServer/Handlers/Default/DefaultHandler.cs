@@ -14,7 +14,7 @@ namespace AscensionServer
 
         protected override OperationResponse  OnOperationRequest(OperationRequest operationRequest)
         {
-            return OpResponseData;
+            return opResponseData;
         }
     }
 }

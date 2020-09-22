@@ -11,7 +11,6 @@ using System.Reflection;
 using Cosmos;
 using AscensionServer.Threads;
 using System.Threading;
-
 namespace AscensionServer
 {
     [Inherited]
@@ -19,13 +18,10 @@ namespace AscensionServer
     {
         #region Properties
         public abstract byte OpCode { get;  }
-        public EventCode EvCode { get; protected set; }
+        protected Dictionary<byte, object> responseParameters;
+        protected OperationResponse opResponseData;
         Dictionary<byte, ISubHandler> subHandlerDict;
-        public OperationResponse OpResponseData { get; protected set; }
-        public Dictionary<byte, object> ResponseData { get; protected set; }
-        protected Dictionary<byte, object> threadEventParameter { get; set; }
         #endregion
-
         #region Methods
         public object EncodeMessage(object message)
         {
@@ -34,22 +30,16 @@ namespace AscensionServer
         }
         public virtual void OnInitialization()
         {
-            OpResponseData = new OperationResponse();
-            ResponseData = new Dictionary<byte, object>();
+            opResponseData = new OperationResponse();
+            responseParameters = new Dictionary<byte, object>();
             subHandlerDict = new Dictionary<byte, ISubHandler>();
-            threadEventParameter = new Dictionary<byte, object>();
         }
         public virtual void OnTermination()
         {
             OnSubHandlerTermination();
         }
-        public void ResetHandler()
-        {
-            ResponseData.Clear();
-        }
         protected virtual OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
-            object data = null;
             var subCode = Convert.ToByte(Utility.GetValue(operationRequest.Parameters, (byte)OperationCode.SubOperationCode));
             if (subCode != 0)
             {
@@ -58,14 +48,14 @@ namespace AscensionServer
                     ISubHandler subHandler;
                     var result = subHandlerDict.TryGetValue(subCode, out subHandler);
                     if (result)
-                        data = subHandler.EncodeMessage(data);
+                         return subHandler.EncodeMessage(operationRequest);
                 }
                 catch
                 {
                     Utility.Debug.LogInfo($"{(OperationCode)operationRequest.OperationCode} ;{ (SubOperationCode)subCode }  has no subHandler ");
                 }
             }
-            return null;
+            return opResponseData;
         }
         protected virtual void OnSubHandlerInitialization<T>()
             where T : class, ISubHandler
@@ -77,8 +67,6 @@ namespace AscensionServer
                 if (subHandlerType.IsAssignableFrom(types[i]) && types[i].IsClass && !types[i].IsAbstract)
                 {
                     var subHandlerResult = Utility.Assembly.GetTypeInstance(types[i]) as T;
-                    subHandlerResult.Owner = this;
-                    subHandlerResult.OnInitialization();
                     RegisterSubHandler(subHandlerResult);
                 }
             }
@@ -87,7 +75,6 @@ namespace AscensionServer
         {
             foreach (var handler in subHandlerDict)
             {
-                handler.Value.OnTermination();
                 DeregisterSubHandler(handler.Value);
             }
         }
@@ -97,37 +84,14 @@ namespace AscensionServer
         /// <param name="operationRequest"></param>
         protected void SetRequestData(OperationRequest operationRequest)
         {
-            ResponseData.Clear();
-            OpResponseData.OperationCode = operationRequest.OperationCode;
-        }
-        /// <summary>
-        /// 执行线程事件；
-        /// 线程执行结束后，会自动回收线程数据对象，并清空线程事件参数字典
-        /// </summary>
-        /// <param name="peerCollection"></param>
-        /// <param name="eventCode"></param>
-        /// <param name="parameters"></param>
-        protected void QueueThreadEvent(ICollection<AscensionPeer> peerCollection, EventCode eventCode, Dictionary<byte, object> parameters, string message = null)
-        {
-            //利用池生成线程池所需要使用的对象，并为其赋值，结束时回收
-            var threadEventData = new ThreadEventData();
-            threadEventData.SetValue(peerCollection, (byte)eventCode);
-            threadEventData.SetData(parameters);
-            var threadSyncEvent = new ThreadSyncEvent();
-            threadSyncEvent.OnInitialization();
-            threadSyncEvent.SetEventData(threadEventData);
-            threadSyncEvent.AddFinishedHandler(() =>
-            {
-                Utility.Debug.LogInfo(message);
-                threadSyncEvent.Clear();
-            });
-            ThreadPool.QueueUserWorkItem(threadSyncEvent.Handler);
+            responseParameters.Clear();
+            opResponseData.OperationCode = operationRequest.OperationCode;
         }
         void RegisterSubHandler(ISubHandler handler)
         {
-            if (subHandlerDict.ContainsKey((byte)handler.SubOpCode))
+           var result= subHandlerDict.TryAdd(handler.SubOpCode, handler);
+            if(!result)
                 Utility.Debug.LogError("重复键值：\n" + handler.ToString() + "\n:" + handler.SubOpCode.ToString() + "\n结束");
-            subHandlerDict.Add((byte)handler.SubOpCode, handler);
         }
         void DeregisterSubHandler(ISubHandler handler)
         {

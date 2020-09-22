@@ -8,11 +8,9 @@ using Photon.SocketServer;
 using Cosmos;
 namespace AscensionServer
 {
-    public interface ISubHandler:IBehaviour
+    public interface ISubHandler
     {
         byte SubOpCode { get;  }
-        Handler Owner { get; set; }
-        void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer);
-        object EncodeMessage(object message);
+        OperationResponse EncodeMessage(OperationRequest operationRequest);
     }
 }

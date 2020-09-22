@@ -20,7 +20,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -543,7 +543,6 @@
     <Compile Include="Lite\Operations\ReceiverGroup.cs" />
     <Compile Include="Lite\Operations\SetPropertiesRequest.cs" />
     <Compile Include="Lite\Room\Room.cs" />
-    <Compile Include="NetCoreExtend.cs" />
     <Compile Include="Ascension\Core\Base\NHibernate\NHibernateQuerier.cs" />
     <Compile Include="DOMap\RoleMap.cs" />
     <Compile Include="DOMap\RoleStatusMap.cs" />

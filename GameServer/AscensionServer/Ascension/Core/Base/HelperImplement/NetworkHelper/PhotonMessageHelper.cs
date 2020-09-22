@@ -35,7 +35,7 @@ namespace AscensionServer
             for (int i = 0; i < length; i++)
             {
                 handlers[i].OnInitialization();
-                handlerDict.Add(handlers[i].Opcode, handlers[i]);
+                handlerDict.Add(handlers[i].OpCode, handlers[i]);
             }
         }
     }

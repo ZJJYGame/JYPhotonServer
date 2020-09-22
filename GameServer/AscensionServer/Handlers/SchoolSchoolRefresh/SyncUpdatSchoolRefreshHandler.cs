@@ -17,7 +17,7 @@ namespace AscensionServer
 
         protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
-            ResponseData.Clear();
+            responseParameters.Clear();
             string schoolJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)
                 ParameterCode.School));
             Utility.Debug.LogInfo("更新前的宗门信息");
@@ -31,19 +31,19 @@ namespace AscensionServer
                     schooltemp.ContributionNow += schoolObj.GetContributions;
                     schooltemp.IsSignin = schoolObj.IsSignin;
                     NHibernateQuerier.Update<School>(schooltemp);
-                    OpResponseData.ReturnCode = (byte)ReturnCode.Success;
-                    ResponseData.Add((byte)ParameterCode.SchoolRefresh, Utility.Json.ToJson(schooltemp));
-                    OpResponseData.OperationCode = operationRequest.OperationCode;
-                    OpResponseData.Parameters = ResponseData;
+                    opResponseData.ReturnCode = (byte)ReturnCode.Success;
+                    responseParameters.Add((byte)ParameterCode.SchoolRefresh, Utility.Json.ToJson(schooltemp));
+                    opResponseData.OperationCode = operationRequest.OperationCode;
+                    opResponseData.Parameters = responseParameters;
                 }
                 else
                 {
-                   OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
+                   opResponseData.ReturnCode = (byte)ReturnCode.Fail;
                 }
             }
             Utility.Debug.LogInfo("更新后的宗门信息" + Utility.Json.ToJson(schooltemp));
             GameManager.ReferencePoolManager.Despawns(nHCriteriaschool);
-            return OpResponseData;
+            return opResponseData;
         }
     }
 }

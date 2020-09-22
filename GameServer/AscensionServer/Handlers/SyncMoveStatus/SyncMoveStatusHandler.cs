@@ -20,7 +20,7 @@ namespace AscensionServer
         //获取历练技能cd请求的处理的代码
         protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
-            ResponseData.Clear();
+            responseParameters.Clear();
             var roleMoveStatusJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleMoveStatus));
             //peer.PeerCache.RoleMoveStatus = Utility.Json.ToObject<RoleMoveStatusDTO>(roleMoveStatusJson);
             
@@ -33,15 +33,15 @@ namespace AscensionServer
             //}
             var roleSetJson = Utility.Json.ToJson(roleSet);
 
-            ResponseData.Add((byte)ParameterCode.RoleMoveStatus, roleSetJson);
-            OpResponseData.OperationCode = operationRequest.OperationCode;
-            OpResponseData.ReturnCode = (short)ReturnCode.Success;
-            OpResponseData.Parameters = ResponseData;
+            responseParameters.Add((byte)ParameterCode.RoleMoveStatus, roleSetJson);
+            opResponseData.OperationCode = operationRequest.OperationCode;
+            opResponseData.ReturnCode = (short)ReturnCode.Success;
+            opResponseData.Parameters = responseParameters;
             //广播事件
             threadEventParameter.Clear();
             threadEventParameter.Add((byte)ParameterCode.RoleMoveStatus, roleMoveStatusJson);
             //QueueThreadEvent(peerSet, EventCode.SyncRoleMoveStatus, threadEventParameter);
-            return OpResponseData;
+            return opResponseData;
         }
     }
 }

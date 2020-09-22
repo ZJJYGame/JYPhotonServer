@@ -16,7 +16,8 @@ namespace AscensionServer
     public class UpdateAllianceSigninSubHandler : SyncAllianceSigninSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
+
         {
             var dict = ParseSubDict(operationRequest);
             string allianceSigninJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceSignin));
@@ -27,7 +28,7 @@ namespace AscensionServer
 
             var allianceConstructionTemp = AlliancelogicManager.Instance.GetNHCriteria<AllianceConstruction>("AllianceID", allianceSigninObj.AllianceID);
             List<string> signinList = new List<string>();
-            if (roleallianceTemp!=null && allianceTemp != null&& allianceConstructionTemp!=null)
+            if (roleallianceTemp != null && allianceTemp != null && allianceConstructionTemp != null)
             {
                 roleallianceTemp.Reputation += allianceSigninObj.RoleContribution;
                 roleallianceTemp.ReputationHistroy += allianceSigninObj.RoleContribution;
@@ -41,24 +42,25 @@ namespace AscensionServer
                 signinList.Add(Utility.Json.ToJson(roleAllianceDTO));
                 signinList.Add(Utility.Json.ToJson(allianceTemp));
                 signinList.Add(Utility.Json.ToJson(allianceConstructionTemp));
-                await NHibernateQuerier.UpdateAsync(roleallianceTemp);
-                await NHibernateQuerier.UpdateAsync(allianceTemp);
-                await NHibernateQuerier.UpdateAsync(allianceConstructionTemp);
+                NHibernateQuerier.Update(roleallianceTemp);
+                NHibernateQuerier.Update(allianceTemp);
+                NHibernateQuerier.Update(allianceConstructionTemp);
                 SetResponseData(() =>
                 {
                     Utility.Debug.LogError("发送回去的兑换弹药的请求数据" + Utility.Json.ToJson(signinList));
                     SubDict.Add((byte)ParameterCode.AllianceSignin, Utility.Json.ToJson(signinList));
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    opResponseData.ReturnCode = (short)ReturnCode.Success;
                 });
             }
             else
             {
                 SetResponseData(() =>
                 {
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                    opResponseData.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+            //peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+            return opResponseData;
         }
     }
 }
