@@ -17,7 +17,7 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string rolepurchaseJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.VareityPurchase));
             var rolepurchaseObj = Utility.Json.ToObject<VareityPurchaseRecordDTO>(rolepurchaseJson);
             #region Redis模块

@@ -21,7 +21,7 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string subDataJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.OnOffLine));
             var onofflinetemp = Utility.Json.ToObject<OnOffLine>(subDataJson);
             Bottleneck bottleneck = new Bottleneck() {RoleID= onofflinetemp.RoleID };

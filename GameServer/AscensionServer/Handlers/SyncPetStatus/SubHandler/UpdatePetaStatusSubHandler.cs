@@ -16,7 +16,7 @@ namespace AscensionServer
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string petstatusJson = Convert.ToString(Utility.GetValue(dict,(byte)ParameterCode.PetStatus));
             Utility.Debug.LogInfo("收到的宠物状态数据" + petstatusJson);
 

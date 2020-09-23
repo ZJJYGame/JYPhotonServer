@@ -17,7 +17,7 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string petstatus = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.PetStatus));
             var rolepetObj = Utility.Json.ToObject<RolePet>(petstatus);
             NHCriteria nHCriteriarolepet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);

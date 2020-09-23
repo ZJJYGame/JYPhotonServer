@@ -19,10 +19,7 @@ namespace AscensionServer
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             bool isSuccess = true;
-
-            ResetResponseData(operationRequest);
-
-            var dict = ParseSubParameters(operationRequest);
+            var dict= operationRequest.Parameters;
             string removeRoleAuctionItemJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAuctionItems));
             RoleAuctionItem removeRoleAuctionItem = Utility.Json.ToObject<RoleAuctionItem>(removeRoleAuctionItemJson);
             RedisHelper.KeyDelete("AuctionGoods_" + removeRoleAuctionItem.AuctionGoods.GUID);

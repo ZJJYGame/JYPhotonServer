@@ -16,7 +16,7 @@ namespace AscensionServer
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string gfJson = Convert.ToString(Utility.GetValue(dict,(byte)ParameterCode.GongFa));
             string  roleJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role));
 

@@ -17,7 +17,7 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string alchemyJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobAlchemy));
             var alchemyObj = Utility.Json.ToObject<AlchemyDTO>(alchemyJson);
             Utility.Debug.LogInfo("传输回去的炼丹数据" + alchemyJson);

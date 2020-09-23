@@ -19,7 +19,7 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string roleAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ApplyForAlliance));
             var roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(roleAllianceJson);
             Utility.Debug.LogInfo("收到的加入仙盟的请求"+ roleAllianceJson);

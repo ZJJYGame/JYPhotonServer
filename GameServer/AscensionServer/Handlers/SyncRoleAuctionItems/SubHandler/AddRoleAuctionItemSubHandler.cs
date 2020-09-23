@@ -21,9 +21,7 @@ namespace AscensionServer
         {
             bool isSuccess = true;
 
-            ResetResponseData(operationRequest);
-
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string auctionGoodsDTOJson= Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAuctionItems));
             AuctionGoodsDTO auctionGoodsDTO = Utility.Json.ToObject<AuctionGoodsDTO>(auctionGoodsDTOJson);
 

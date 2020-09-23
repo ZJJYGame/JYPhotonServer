@@ -18,7 +18,7 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string tacticformationJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobTacticFormation));
             var tacticformationObj = Utility.Json.ToObject<TacticFormationDTO>(tacticformationJson);
             NHCriteria  nHCriteriatacticformation = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", tacticformationObj.RoleID);

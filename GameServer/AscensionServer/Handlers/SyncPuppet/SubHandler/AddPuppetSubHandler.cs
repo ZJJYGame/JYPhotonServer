@@ -16,7 +16,7 @@ namespace AscensionServer
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string puppetJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobPuppet));
             Utility.Debug.LogInfo("得到的傀儡为" + puppetJson);
             var puppetObj = Utility.Json.ToObject<PuppetDTO>(puppetJson);

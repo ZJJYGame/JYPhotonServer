@@ -17,7 +17,7 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string tacticFormationJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobTacticFormation));
             Utility.Debug.LogInfo("得到的阵法为"+tacticFormationJson);
             var tacticFormationObj = Utility.Json.ToObject<TacticFormationDTO>(tacticFormationJson);

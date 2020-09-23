@@ -18,10 +18,8 @@ namespace AscensionServer
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            ResetResponseData(operationRequest);
-
             Utility.Debug.LogInfo("我进来了");
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             int roleID = Convert.ToInt32(Utility.GetValue(dict, (byte)ParameterCode.RoleAuctionItems));
             List<RoleAuctionItem> roleAuctionItemList = new List<RoleAuctionItem>();
             if (RedisHelper.Hash.HashExistAsync("RoleAuctionItems", roleID.ToString()).Result)
@@ -33,8 +31,8 @@ namespace AscensionServer
                     {
                         roleAuctionItemList.Add(new RoleAuctionItem()
                         {
-                            AuctionGoods=RedisHelper.Hash.HashGetAsync<AuctionGoodsDTO>("AuctionGoodsData", tempGuidList[i]).Result,
-                            IsPutAway=true
+                            AuctionGoods = RedisHelper.Hash.HashGetAsync<AuctionGoodsDTO>("AuctionGoodsData", tempGuidList[i]).Result,
+                            IsPutAway = true
                         });
                     }
                     else

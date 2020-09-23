@@ -16,7 +16,7 @@ namespace AscensionServer.Handlers.SyncPuppet.SubHandler
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string puppetJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobPuppet));
             var puppetObj = Utility.Json.ToObject<PuppetDTO>(puppetJson);
             NHCriteria nHCriteriapuppetObj = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", puppetObj.RoleID);

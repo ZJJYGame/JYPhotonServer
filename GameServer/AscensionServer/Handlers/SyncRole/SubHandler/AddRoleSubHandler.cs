@@ -26,7 +26,7 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string roleJsonTmp = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role));
             Role roleTmp = Utility.Json.ToObject<Role>(roleJsonTmp);
             NHCriteria nHCriteriaRoleName = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleName", roleTmp.RoleName);

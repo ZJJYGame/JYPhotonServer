@@ -18,7 +18,7 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string rolepet = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RolePet));
 
             var rolepetObj = Utility.Json.ToObject<RolePet>(rolepet);

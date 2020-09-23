@@ -16,7 +16,7 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string msJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.MiShu));
             string roleJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role));
 

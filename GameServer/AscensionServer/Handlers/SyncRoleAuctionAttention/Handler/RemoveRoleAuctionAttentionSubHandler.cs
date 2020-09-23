@@ -19,8 +19,7 @@ namespace AscensionServer
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             Utility.Debug.LogInfo("进入移除关注事件");
-            ResetResponseData(operationRequest);
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string guid = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAuctionItems));
             int roleID = Convert.ToInt32(Utility.GetValue(dict, (byte)ParameterCode.Auction));
             List<string> guidList = new List<string>();

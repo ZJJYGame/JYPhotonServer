@@ -17,7 +17,7 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string forgeJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobForge));
             var forgeObj = Utility.Json.ToObject<ForgeDTO>(forgeJson);
             NHCriteria nHCriteriaforge = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", forgeObj.RoleID);

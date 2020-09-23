@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Runner
 {
-    public class FemalePersion:HumanPersion
+    public class HumanPersion:Persion
     {
     }
 }

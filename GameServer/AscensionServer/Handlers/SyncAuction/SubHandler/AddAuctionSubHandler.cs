@@ -20,9 +20,7 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            ResetResponseData(operationRequest);
-
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string auctionGoodsJson= Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AddAuctionGoods));;
             var auctionGoodsObj = Utility.Json.ToObject<AuctionGoodsDTO>(auctionGoodsJson);
             string guid= Guid.NewGuid().ToString("N");

@@ -18,7 +18,7 @@ namespace AscensionServer
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             Utility.Debug.LogInfo(">>>>>>>>>>>>VerifyRoleStatusHandler\n进来更新的战斗数据:VerifyRoleStatusHandler\n<<<<<<<<<<<");
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string rolestatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleStatus));
             Utility.Debug.LogInfo(">>>>>>>>>>>>VerifyRoleStatusHandler\n传输过来更新的战斗数据:" + rolestatusJson + "VerifyRoleStatusHandler\n<<<<<<<<<<<");
             var rolestatusObj = Utility.Json.ToObject<RoleStatus>(rolestatusJson);

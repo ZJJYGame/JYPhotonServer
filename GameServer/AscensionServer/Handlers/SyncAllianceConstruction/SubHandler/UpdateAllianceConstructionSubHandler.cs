@@ -19,7 +19,7 @@ namespace AscensionServer.Handlers
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string allianceConstructionJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceConstruction));
 
             Utility.Debug.LogError("仙盟升级数据接收成功为" + allianceConstructionJson);

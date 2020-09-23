@@ -18,15 +18,14 @@ namespace AscensionServer
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Remove;
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            ResetResponseData(operationRequest);
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string allianceMemberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
             var allianceMemberObj = Utility.Json.ToObject<AllianceMemberDTO>(allianceMemberJson);
 
 
             var allianceMemberTemp = AlliancelogicManager.Instance.GetNHCriteria<AllianceMember>("AllianceID", allianceMemberObj.AllianceID);
 
-            if (allianceMemberTemp!=null)
+            if (allianceMemberTemp != null)
             {
                 Utility.Debug.LogError("解散仙盟" + allianceMemberTemp.AllianceID);
                 if (!string.IsNullOrEmpty(allianceMemberTemp.Member))
@@ -39,7 +38,7 @@ namespace AscensionServer
                         var roleObj = AlliancelogicManager.Instance.GetNHCriteria<RoleAlliance>("RoleID", memberlist[i]);
                         roleObj.AllianceID = 0;
                         roleObj.AllianceJob = 50;
-                     NHibernateQuerier.Update(roleObj);
+                        NHibernateQuerier.Update(roleObj);
                     }
                 }
                 if (!string.IsNullOrEmpty(allianceMemberTemp.ApplyforMember))
@@ -53,26 +52,26 @@ namespace AscensionServer
                         var applyList = Utility.Json.ToObject<List<int>>(roleObj.ApplyForAlliance);
                         applyList.Remove(allianceMemberObj.AllianceID);
                         roleObj.ApplyForAlliance = Utility.Json.ToJson(applyList);
-                    NHibernateQuerier.Update(roleObj);
+                        NHibernateQuerier.Update(roleObj);
                     }
                 }
-                var alliances = AlliancelogicManager.Instance.GetNHCriteria<Alliances>("ID",1);
+                var alliances = AlliancelogicManager.Instance.GetNHCriteria<Alliances>("ID", 1);
                 var alliancesList = Utility.Json.ToObject<List<int>>(alliances.AllianceList);
                 alliancesList.Remove(allianceMemberObj.AllianceID);
                 alliances.AllianceList = Utility.Json.ToJson(alliancesList);
-             NHibernateQuerier.Update(alliances);
+                NHibernateQuerier.Update(alliances);
                 Utility.Debug.LogError("解散仙盟4" + allianceMemberTemp.AllianceID);
 
                 var allianceStatusObj = AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", allianceMemberObj.AllianceID);
                 var allianceConstructionObj = AlliancelogicManager.Instance.GetNHCriteria<AllianceConstruction>("AllianceID", allianceMemberObj.AllianceID);
-              NHibernateQuerier.Delete(allianceConstructionObj);
-             NHibernateQuerier.Delete(allianceStatusObj);
-             NHibernateQuerier.Delete(allianceMemberTemp);
-             SetResponseParamters(() =>
-                {
-                    Utility.Debug.LogError("解散仙盟5");
-                    operationResponse.ReturnCode = (short)ReturnCode.Success;
-                });
+                NHibernateQuerier.Delete(allianceConstructionObj);
+                NHibernateQuerier.Delete(allianceStatusObj);
+                NHibernateQuerier.Delete(allianceMemberTemp);
+                SetResponseParamters(() =>
+                   {
+                       Utility.Debug.LogError("解散仙盟5");
+                       operationResponse.ReturnCode = (short)ReturnCode.Success;
+                   });
             }
             return operationResponse;
         }

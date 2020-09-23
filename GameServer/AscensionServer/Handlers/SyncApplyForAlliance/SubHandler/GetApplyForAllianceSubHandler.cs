@@ -18,7 +18,7 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string alliancememberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ApplyForAlliance));
             var alliancememberObj = Utility.Json.ToObject<AllianceMemberDTO>(alliancememberJson);
 

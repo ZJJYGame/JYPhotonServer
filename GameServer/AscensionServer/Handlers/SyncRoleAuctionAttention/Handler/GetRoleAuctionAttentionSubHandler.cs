@@ -18,8 +18,7 @@ namespace AscensionServer
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            ResetResponseData(operationRequest);
-            var dict = ParseSubParameters(operationRequest);
+           var dict = operationRequest.Parameters;
             int roleID= Convert.ToInt32(Utility.GetValue(dict, (byte)ParameterCode.RoleAuctionItems));
 
             List<AuctionGoodsDTO> resultAuctionGoodsList = new List<AuctionGoodsDTO>();

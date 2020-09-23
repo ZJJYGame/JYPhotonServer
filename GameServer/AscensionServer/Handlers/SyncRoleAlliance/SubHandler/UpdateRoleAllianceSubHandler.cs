@@ -17,7 +17,7 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string roleallianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAlliance));
             var roleallianceObj = Utility.Json.ToObject<RoleAllianceDTO>(roleallianceJson);
             Utility.Debug.LogError("储存的成员" + roleallianceJson);

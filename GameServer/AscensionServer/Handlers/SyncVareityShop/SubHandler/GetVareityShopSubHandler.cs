@@ -19,7 +19,7 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string vareityJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.VareityShop));
             var vareityObj = Utility.Json.ToObject<VareityShopDTO>(vareityJson);
             string vareitypurchaseJson= Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.VareityPurchase));

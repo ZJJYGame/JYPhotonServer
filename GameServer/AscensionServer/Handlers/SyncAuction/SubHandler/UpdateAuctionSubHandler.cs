@@ -20,23 +20,22 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            ResetResponseData(operationRequest);
             BuyAuctionTypeEnum buyAuctionTypeEnum = BuyAuctionTypeEnum.Default;
             Utility.Debug.LogInfo("进入更新拍卖品事件");
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string buyAuctionGoodsJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AddAuctionGoods));
             Dictionary<string, string> dataDict = Utility.Json.ToObject<Dictionary<string, string>>(buyAuctionGoodsJson);
             var buyAuctionGoodsObj = Utility.Json.ToObject<AuctionGoodsDTO>(dataDict["Data"]);
             int startIndex = Convert.ToInt32(dataDict["Start"]);
             int count = Convert.ToInt32(dataDict["Count"]);
             int roleID = Convert.ToInt32(dataDict["RoleID"]);
-            int allGoodsCount=0;
+            int allGoodsCount = 0;
 
             string auctionGoodsJson = RedisHelper.String.StringGetAsync("AuctionGoods_" + buyAuctionGoodsObj.GUID).Result;
-            Utility.Debug.LogInfo(roleID+"AuctionGoods_" + buyAuctionGoodsObj.GUID);
+            Utility.Debug.LogInfo(roleID + "AuctionGoods_" + buyAuctionGoodsObj.GUID);
             Utility.Debug.LogInfo(roleID + auctionGoodsJson);
 
-            AuctionGoodsDTO resultAuctionGoodsDTO= new AuctionGoodsDTO();
+            AuctionGoodsDTO resultAuctionGoodsDTO = new AuctionGoodsDTO();
 
             if (auctionGoodsJson == null)//没有数据。失败
             {
@@ -49,7 +48,7 @@ namespace AscensionServer
                 AuctionGoodsDTO auctionGoodsObj = null;
                 try
                 {
-                    auctionGoodsObj=RedisHelper.Hash.HashGetAsync<AuctionGoodsDTO>("AuctionGoodsData", buyAuctionGoodsObj.GUID).Result;
+                    auctionGoodsObj = RedisHelper.Hash.HashGetAsync<AuctionGoodsDTO>("AuctionGoodsData", buyAuctionGoodsObj.GUID).Result;
                 }
                 catch
                 {
@@ -57,7 +56,7 @@ namespace AscensionServer
                 }
                 if (auctionGoodsObj == null)
                 {
-                    Utility.Debug.LogInfo(roleID+"63行中断");
+                    Utility.Debug.LogInfo(roleID + "63行中断");
                     buyAuctionTypeEnum = BuyAuctionTypeEnum.Empty;
                 }
                 else
@@ -115,7 +114,7 @@ namespace AscensionServer
                         buyAuctionTypeEnum = BuyAuctionTypeEnum.NotEnougth;
                     }
                 }
-              
+
             }
 
             List<AuctionGoodsDTO> tempAuctionGoodsDTOs = GetReturnGoodsList(buyAuctionGoodsObj.GlobalID, ref startIndex, count, ref allGoodsCount);
@@ -177,7 +176,7 @@ namespace AscensionServer
                     subResponseParameters.Add((byte)ParameterCode.AddAuctionGoods, Utility.Json.ToJson(resultDict));
                     operationResponse.Parameters = subResponseParameters;
                     operationResponse.ReturnCode = (short)ReturnCode.Success;
-                
+
                     break;
                 case BuyAuctionTypeEnum.Empty:
                     Utility.Debug.LogError(roleID + "添加");
@@ -197,19 +196,19 @@ namespace AscensionServer
                     Utility.Debug.LogInfo("拍卖行判断出现异常");
                     break;
             }
-            Utility.Debug.LogInfo(roleID+"更新拍卖行事件结束");
+            Utility.Debug.LogInfo(roleID + "更新拍卖行事件结束");
             return operationResponse;
         }
 
-         List<AuctionGoodsDTO> GetReturnGoodsList(int id,ref int startIndex,int count,ref int allGoodsCount)
+        List<AuctionGoodsDTO> GetReturnGoodsList(int id, ref int startIndex, int count, ref int allGoodsCount)
         {
             List<AuctionGoodsDTO> auctionGoodsDTOList = new List<AuctionGoodsDTO>();
-            if (! RedisHelper.Hash.HashExistAsync("AuctionIndex", id.ToString()).Result)
+            if (!RedisHelper.Hash.HashExistAsync("AuctionIndex", id.ToString()).Result)
             {
                 Utility.Debug.LogInfo("当前种类商品不存在");
                 return auctionGoodsDTOList;
             }
-               
+
             //todo 表不存在，直接返回
             List<AuctionGoodsIndex> result = RedisHelper.Hash.HashGet<List<AuctionGoodsIndex>>("AuctionIndex", id.ToString());
             allGoodsCount = result.Count;
@@ -219,7 +218,7 @@ namespace AscensionServer
             }
             if (startIndex >= result.Count)
             {
-                startIndex = ((result.Count-1) / count)*count;
+                startIndex = ((result.Count - 1) / count) * count;
             }
             for (int i = 0; i < result.Count; i++)
             {
@@ -239,12 +238,12 @@ namespace AscensionServer
         enum BuyAuctionTypeEnum
         {
             //购买成功
-            Success=0,
+            Success = 0,
             //商品不存在
-            Empty=1,
+            Empty = 1,
             //商品数量不足
-            NotEnougth=2,
-            Default=3,
+            NotEnougth = 2,
+            Default = 3,
         }
     }
 }

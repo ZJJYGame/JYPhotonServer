@@ -19,7 +19,7 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubParameters(operationRequest);
+            var dict = operationRequest.Parameters;
             string immortalsAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ImmortalsAlliance));
             var immortalsAllianceObj = Utility.Json.ToObject<AllianceStatusDTO>
                 (immortalsAllianceJson);
