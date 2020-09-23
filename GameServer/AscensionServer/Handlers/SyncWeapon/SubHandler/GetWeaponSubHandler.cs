@@ -14,9 +14,10 @@ namespace AscensionServer
     public class GetWeaponSubHandler : SyncWeaponSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string weaponJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.GetWeapon));
             var weaponObj = Utility.Json.ToObject<WeaponDTO>(weaponJson);
             NHCriteria nHCriteriaweapon= GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", weaponObj.RoleID);
@@ -25,16 +26,16 @@ namespace AscensionServer
             if (weapontemp!=null)
             {
                 var WeaponDict = Utility.Json.ToObject<Dictionary<int, List<int>>>(weapontemp.WeaponStatusDict);
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.GetWeapon, Utility.Json.ToJson(WeaponDict));
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.GetWeapon, Utility.Json.ToJson(WeaponDict));
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
             else
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
             GameManager.ReferencePoolManager.Despawns(nHCriteriaweapon);
+            return operationResponse;
         }
     }
 }

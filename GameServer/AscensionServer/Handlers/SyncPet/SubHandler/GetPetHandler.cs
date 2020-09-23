@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol;
@@ -15,30 +12,24 @@ namespace AscensionServer
    public class GetPetHandler: SyncPetSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
-
+            var dict = ParseSubParameters(operationRequest);
             string petJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Pet));
-
             var petObj = Utility.Json.ToObject<Pet>(petJson);
             NHCriteria nHCriteriaPet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petObj.ID);
             var pet = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriaPet);
             if (pet!=null)
             {
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.Pet, Utility.Json.ToJson(pet));
-                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.Pet, Utility.Json.ToJson(pet));
+                    operationResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
             }else
-                Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+                operationResponse.ReturnCode = (byte)ReturnCode.Fail;
             GameManager.ReferencePoolManager.Despawns(nHCriteriaPet);
-
+            return operationResponse;
         }
-
-       
-
     }
 }

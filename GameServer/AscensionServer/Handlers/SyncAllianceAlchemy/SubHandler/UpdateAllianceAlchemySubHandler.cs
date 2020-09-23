@@ -16,9 +16,10 @@ namespace AscensionServer
     public class UpdateAllianceAlchemySubHandler : SyncAllianceAlchemySubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string allianceAlchemyJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAlliance));
             var allianceCaveObj = Utility.Json.ToObject<RoleAllianceDTO>(allianceAlchemyJson);
 
@@ -27,10 +28,8 @@ namespace AscensionServer
             string AllianceAlchemyJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAllianceAlchemy));
             AllianceAlchemyNumDTO allianceAlchemyNumDTO = Utility.Json.ToObject<AllianceAlchemyNumDTO>(AllianceAlchemyJson);
 
-
             var redisKey = RedisData.Initialize.InsertName("AllianceAlchemyNum", allianceCaveObj.RoleID);
             var content = RedisData.Initialize.GetData(redisKey);
-
 
             var roleAssetsObj = Utility.Json.ToObject<RoleAssetsDTO>(roleAssetsJson);
             Utility.Debug.LogError("收到的兑换弹药的请求数据"+ roleAssetsJson+ allianceAlchemyJson);
@@ -43,14 +42,11 @@ namespace AscensionServer
                     roleallianceTemp.Reputation -= allianceCaveObj.Reputation;
                     roleAssetsTemp.SpiritStonesLow -= roleAssetsObj.SpiritStonesLow;
 
-                    await NHibernateQuerier.UpdateAsync(roleallianceTemp);
-                    await NHibernateQuerier.UpdateAsync(roleAssetsTemp);
-
-                    await RedisHelper.Hash.HashSetAsync<RoleAssets>("RoleAssets", roleAssetsObj.RoleID.ToString(), roleAssetsTemp);
+                    NHibernateQuerier.Update(roleallianceTemp);
+                    NHibernateQuerier.Update(roleAssetsTemp);
+                    RedisHelper.Hash.HashSet<RoleAssets>("RoleAssets", roleAssetsObj.RoleID.ToString(), roleAssetsTemp);
                     var Role = AlliancelogicManager.Instance.GetNHCriteria<Role>("RoleID", roleallianceTemp.RoleID);
-
                     RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { RoleID = roleallianceTemp.RoleID, AllianceID = roleallianceTemp.AllianceID, JoinOffline = roleallianceTemp.JoinOffline, AllianceJob = roleallianceTemp.AllianceJob, ApplyForAlliance = Utility.Json.ToObject<List<int>>(roleallianceTemp.ApplyForAlliance), JoinTime = roleallianceTemp.JoinTime, Reputation = roleallianceTemp.Reputation, ReputationHistroy = roleallianceTemp.ReputationHistroy, ReputationMonth = roleallianceTemp.ReputationMonth, RoleName = roleallianceTemp.RoleName, RoleSchool = roleallianceTemp.RoleSchool,RoleLevel= Role.RoleLevel };
-
                     if (string.IsNullOrEmpty(content))
                     {
                         #region 测试完成替换
@@ -59,7 +55,7 @@ namespace AscensionServer
                         //int s = 60 - DateTime.Now.Second;
                         //await RedisHelper.String.StringSetAsync(redisKey, AllianceAlchemyJson, new TimeSpan(0, h, m, s));
                         #endregion
-                        await RedisHelper.String.StringSetAsync(redisKey, AllianceAlchemyJson, new TimeSpan(0, 0, 0, 60));
+                        RedisHelper.String.StringSet(redisKey, AllianceAlchemyJson, new TimeSpan(0, 0, 0, 60));
                     }
                     else
                     {
@@ -75,34 +71,32 @@ namespace AscensionServer
                         }
                         allianceAlchemyNumDTO.AlchemyNum = alchemyDict;
                         AllianceAlchemyJson = Utility.Json.ToJson(allianceAlchemyNumDTO);
-                        
-                        await RedisHelper.String.StringSetAsync(redisKey, AllianceAlchemyJson, RedisHelper.KeyTimeToLiveAsync(redisKey).Result);
+                        RedisHelper.String.StringSet(redisKey, AllianceAlchemyJson, RedisHelper.KeyTimeToLiveAsync(redisKey).Result);
                     }
-
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
                         Utility.Debug.LogError("发送回去的兑换弹药的请求数据" + Utility.Json.ToJson(roleAssetsTemp));
-                        SubDict.Add((byte)ParameterCode.RoleAlliance, Utility.Json.ToJson(roleAllianceDTO));
-                        SubDict.Add((byte)ParameterCode.RoleAllianceAlchemy, AllianceAlchemyJson);
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                        subResponseParameters.Add((byte)ParameterCode.RoleAlliance, Utility.Json.ToJson(roleAllianceDTO));
+                        subResponseParameters.Add((byte)ParameterCode.RoleAllianceAlchemy, AllianceAlchemyJson);
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
                 else
                 {
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     });
                 }
             }
             else
             {
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+            return operationResponse;
         }
     }
 }

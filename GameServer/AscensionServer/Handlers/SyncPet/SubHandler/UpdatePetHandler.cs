@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol;
@@ -16,9 +13,9 @@ namespace AscensionServer
     public class UpdatePetHandler : SyncPetSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
 
             string petJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Pet));
 
@@ -33,29 +30,28 @@ namespace AscensionServer
                    pet.PetLevel += petObj.PetLevel;
                    pet.PetExp =petObj.PetExp;
                     NHibernateQuerier.Update(pet);
-                  await  RedisHelper.Hash.HashSetAsync<Pet>("Pet", pet.ID.ToString(), pet);
+                  RedisHelper.Hash.HashSet<Pet>("Pet", pet.ID.ToString(), pet);
                 }
                 else
                 {
                      pet.PetExp += petObj.PetExp;
                     NHibernateQuerier.Update(pet);
-                   await RedisHelper.Hash.HashSetAsync<Pet>("Pet", pet.ID.ToString(), pet);
+                   RedisHelper.Hash.HashSet<Pet>("Pet", pet.ID.ToString(), pet);
                 }
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
                     Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>穿回去的宠物经验" + petJson);
-                    SubDict.Add((byte)ParameterCode.Pet, Utility.Json.ToJson(pet));
-                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.Pet, Utility.Json.ToJson(pet));
+                    operationResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
             }
             else
             {
                 Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>传过来的宠物状态为空" + petJson);
-                Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
+                operationResponse.ReturnCode = (byte)ReturnCode.Fail;
             }
-
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaPet);
+            return operationResponse;
         }
     }
 }

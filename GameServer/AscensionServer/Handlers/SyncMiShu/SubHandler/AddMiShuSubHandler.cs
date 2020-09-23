@@ -13,9 +13,10 @@ namespace AscensionServer
     public class AddMiShuSubHandler : SyncMiShuSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string msJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.MiShu));
             string roleJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role));
 
@@ -35,9 +36,8 @@ namespace AscensionServer
                     {
                         Utility.Debug.LogInfo("人物已经学会的秘术" + roleMiShuObj.MiShuIDArray);
                         Utility.Debug.LogInfo("人物已经学会此秘术无法添加新的功法" + roleMiShuObj.MiShuIDArray);
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
-
-                        Owner.ResponseData.Add((byte)ParameterCode.RoleMiShu, null);
+                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                        subResponseParameters.Add((byte)ParameterCode.RoleMiShu, null);
                     }
                     else
                     {
@@ -48,18 +48,17 @@ namespace AscensionServer
                         NHibernateQuerier.Update(roleMiShuObj);
                         DOdict.Add(0, Utility.Json.ToJson(miShu));
                         DOdict.Add(1, Utility.Json.ToJson(roleMiShuObj));
-                        SetResponseData(() =>
+                        SetResponseParamters(() =>
                         {
                             Utility.Debug.LogInfo("添加的学习的秘术为" + Utility.Json.ToJson(DOdict));
-                            SubDict.Add((byte)ParameterCode.RoleMiShu, Utility.Json.ToJson(DOdict));
-                            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                            subResponseParameters.Add((byte)ParameterCode.RoleMiShu, Utility.Json.ToJson(DOdict));
+                            operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
                     }
                 }
             }
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
-
+            return operationResponse;
         }
 
     }

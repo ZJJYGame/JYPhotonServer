@@ -16,7 +16,6 @@ namespace AscensionServer
     public class HeartBeatHandler : Handler
     {
         public override byte OpCode { get { return (byte)OperationCode.HeartBeat; } }
-
         /// <summary>
         /// 服务器心跳检测处理者
         /// </summary>
@@ -24,16 +23,16 @@ namespace AscensionServer
         {
             byte heartBeatResult = Convert.ToByte(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.HeartBeat));
             responseParameters.Clear();
-            opResponseData.OperationCode = operationRequest.OperationCode;
+            operationResponse.OperationCode = operationRequest.OperationCode;
             if (heartBeatResult == 1)
             {
-                opResponseData.ReturnCode = (short)ReturnCode.Success;
+                operationResponse.ReturnCode = (short)ReturnCode.Success;
             }
             else
             {
-                opResponseData.ReturnCode = (short)ReturnCode.Fail;
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
             }
-            return opResponseData;
+            return operationResponse;
         }
     }
 }

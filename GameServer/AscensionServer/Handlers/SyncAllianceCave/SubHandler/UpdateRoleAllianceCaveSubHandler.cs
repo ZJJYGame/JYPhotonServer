@@ -15,9 +15,10 @@ namespace AscensionServer
     public class UpdateRoleAllianceCaveSubHandler : SyncRoleAllianceCaveSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string allianceCaveJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAlliance));
             var allianceCaveObj = Utility.Json.ToObject<RoleAllianceDTO>(allianceCaveJson);
 
@@ -34,38 +35,33 @@ namespace AscensionServer
                     roleallianceTemp.Reputation -= allianceCaveObj.Reputation;
                     roleAssetsTemp.SpiritStonesLow -= roleAssetsObj.SpiritStonesLow;
 
-                    await NHibernateQuerier.UpdateAsync(roleallianceTemp);
-                    await NHibernateQuerier.UpdateAsync(roleAssetsTemp);
-
-                    await RedisHelper.Hash.HashSetAsync<RoleAssets>("RoleAssets", roleAssetsObj.RoleID.ToString(), roleAssetsTemp);
-
+                    NHibernateQuerier.Update(roleallianceTemp);
+                    NHibernateQuerier.Update(roleAssetsTemp);
+                    RedisHelper.Hash.HashSet<RoleAssets>("RoleAssets", roleAssetsObj.RoleID.ToString(), roleAssetsTemp);
                     var Role = AlliancelogicManager.Instance.GetNHCriteria<Role>("RoleID", roleallianceTemp.RoleID);
-
                     RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { RoleID = roleallianceTemp.RoleID, AllianceID = roleallianceTemp.AllianceID, JoinOffline = roleallianceTemp.JoinOffline, AllianceJob = roleallianceTemp.AllianceJob, ApplyForAlliance = Utility.Json.ToObject<List<int>>(roleallianceTemp.ApplyForAlliance), JoinTime = roleallianceTemp.JoinTime, Reputation = roleallianceTemp.Reputation, ReputationHistroy = roleallianceTemp.ReputationHistroy, ReputationMonth = roleallianceTemp.ReputationMonth, RoleName = roleallianceTemp.RoleName, RoleSchool = roleallianceTemp.RoleSchool, RoleLevel = Role.RoleLevel };
-
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-                        SubDict.Add((byte)ParameterCode.RoleAllianceCave, Utility.Json.ToJson(roleAllianceDTO));
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                        subResponseParameters.Add((byte)ParameterCode.RoleAllianceCave, Utility.Json.ToJson(roleAllianceDTO));
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
                 else
                 {
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     });
                 }
             }
             else
             {
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
-
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+            return operationResponse;
         }
     }
 }

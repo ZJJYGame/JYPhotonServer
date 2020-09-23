@@ -16,9 +16,8 @@ namespace AscensionServer
     public class RemoveInventorySubHandler : SyncInventorySubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Remove;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-
             ResetResponseData(operationRequest);
             var InventoryRoleData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role) as string;
             var InventoryData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Inventory) as string;
@@ -43,7 +42,7 @@ namespace AscensionServer
                     {
                         if (!ServerDic.ContainsKey(client_p.Key))
                         {
-                            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                            operationResponse.ReturnCode = (short)ReturnCode.Fail;
                             break;
                         }
                         else
@@ -72,14 +71,13 @@ namespace AscensionServer
                         }
                     }
                     NHibernateQuerier.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDic), RingMagicDictServer = Utility.Json.ToJson(ServerMagicDic), RingAdorn = Utility.Json.ToJson(ServerDictAdorn) });
-                    Owner.OpResponseData.Parameters = Owner.ResponseData;
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    operationResponse.Parameters = subResponseParameters;
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
                 }
-
             }
-            else Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+            else operationResponse.ReturnCode = (short)ReturnCode.Fail;
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID, nHCriteriaRingID);
+            return operationResponse;
         }
     }
 }

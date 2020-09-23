@@ -13,7 +13,8 @@ namespace AscensionServer
     public class RemoveRoleAssetsSubHandler : SyncRoleAssetsSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Remove;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             ResetResponseData(operationRequest);
             string roleAssetsJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleAssets));
@@ -37,14 +38,14 @@ namespace AscensionServer
                 if (roleAssetsObj.XianYu > 0&& roleAssetsObj.XianYu <= assetsServer.XianYu)
                     XianYu = assetsServer.XianYu- roleAssetsObj.XianYu ;
                 NHibernateQuerier.Update<RoleAssets>(new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesLow = SpiritStonesLow, XianYu = XianYu });
-                RedisHelper.Hash.HashSetAsync<RoleAssets>("RoleAssets", roleAssetsObj.RoleID.ToString(), new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesLow = SpiritStonesLow, XianYu = XianYu });
-                Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
+                RedisHelper.Hash.HashSet<RoleAssets>("RoleAssets", roleAssetsObj.RoleID.ToString(), new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesLow = SpiritStonesLow, XianYu = XianYu });
+                operationResponse.ReturnCode = (byte)ReturnCode.Success;
             }
             else
-                Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
+                operationResponse.ReturnCode = (byte)ReturnCode.Fail;
             Utility.Debug.LogInfo(">>>>>>>>>>>>>發送囘u去：" + roleAssetsJson + ">>>>>>>>>>>>>>>>>>>>>>");
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
+            return operationResponse;
         }
     }
 }

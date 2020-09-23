@@ -16,9 +16,10 @@ namespace AscensionServer
     public class GetAuctionSubHandler : SyncAuctionSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string dictJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Auction));
             Dictionary<string, int> tempDict = Utility.Json.ToObject<Dictionary<string, int>>(dictJson);
             int auctionGoodsID = tempDict["ID"];
@@ -55,7 +56,7 @@ namespace AscensionServer
                         }
                     }
                     Utility.Debug.LogInfo(22222);
-                    RedisHelper.Hash.HashSetAsync<List<AuctionGoodsIndex>>("AuctionIndex", auctionGoodsID.ToString(), newResult);
+                    RedisHelper.Hash.HashSet<List<AuctionGoodsIndex>>("AuctionIndex", auctionGoodsID.ToString(), newResult);
                     Utility.Debug.LogInfo(33333);
                     goodsCount = newResult.Count;
                     if (startIndex + count <= goodsCount)
@@ -73,15 +74,15 @@ namespace AscensionServer
             resultDict.Add("Data", Utility.Json.ToJson(resultAuctionGoodsDTOList));
             resultDict.Add("Count", goodsCount.ToString());
             resultDict.Add("Index", startIndex.ToString());
-            SetResponseData(() =>
+            SetResponseParamters(() =>
             {
                 Utility.Debug.LogInfo("发送数据");
                 string resultJson = Utility.Json.ToJson(resultDict);
-                SubDict.Add((byte)ParameterCode.Auction, resultJson);
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                subResponseParameters.Add((byte)ParameterCode.Auction, resultJson);
+                operationResponse.ReturnCode = (short)ReturnCode.Success;
                 Utility.Debug.LogInfo("发送数据完成"+ resultJson);
             });
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+            return operationResponse;
         }
     }
 }

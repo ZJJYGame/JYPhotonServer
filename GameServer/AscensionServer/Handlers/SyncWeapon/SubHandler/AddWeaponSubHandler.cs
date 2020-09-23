@@ -16,9 +16,10 @@ namespace AscensionServer
     public class AddWeaponSubHandler : SyncWeaponSubHandler
     { 
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string weaponJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.GetWeapon));
             var weaponObj = Utility.Json.ToObject<WeaponDTO>(weaponJson);
             NHCriteria nHCriteriaweapon = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", weaponObj.RoleID);
@@ -67,17 +68,17 @@ namespace AscensionServer
                     weaponTemp.Weaponindex = Utility.Json.ToJson(indexDict);
                     NHibernateQuerier.Update(weaponTemp);
             }
-            SetResponseData(() =>
+            SetResponseParamters(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.GetWeapon, weaponTemp.WeaponStatusDict);
-                    SubDict.Add((byte)ParameterCode.GetWeaponindex, Utility.Json.ToJson(index));
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.GetWeapon, weaponTemp.WeaponStatusDict);
+                    subResponseParameters.Add((byte)ParameterCode.GetWeaponindex, Utility.Json.ToJson(index));
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
             else
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
             GameManager.ReferencePoolManager.Despawns(nHCriteriaweapon);
+            return operationResponse;
         }
     }
 }

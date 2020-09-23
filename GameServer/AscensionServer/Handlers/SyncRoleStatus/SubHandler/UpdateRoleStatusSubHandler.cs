@@ -14,10 +14,11 @@ namespace AscensionServer
     public class UpdateRoleStatusSubHandler : SyncRoleStatusSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             Utility.Debug.LogInfo(">>>>>>>>>>>>VerifyRoleStatusHandler\n进来更新的战斗数据:VerifyRoleStatusHandler\n<<<<<<<<<<<");
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string rolestatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleStatus));
             Utility.Debug.LogInfo(">>>>>>>>>>>>VerifyRoleStatusHandler\n传输过来更新的战斗数据:" + rolestatusJson + "VerifyRoleStatusHandler\n<<<<<<<<<<<");
             var rolestatusObj = Utility.Json.ToObject<RoleStatus>(rolestatusJson);
@@ -26,13 +27,13 @@ namespace AscensionServer
             if (result)
             {
                 NHibernateQuerier.Update(rolestatusObj);
-                SetResponseData(() => Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success);
+                SetResponseParamters(() => operationResponse.ReturnCode = (short)ReturnCode.Success);
             }
             else
             {
-                SetResponseData(() => Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail);
+                SetResponseParamters(() => operationResponse.ReturnCode = (short)ReturnCode.Fail);
             }
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+            return operationResponse;
         }
     }
 }

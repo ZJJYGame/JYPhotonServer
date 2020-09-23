@@ -16,9 +16,10 @@ namespace AscensionServer
     public class RemoveAllianceMemberSubHandler : SyncAllianceMemberSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Remove;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string allianceMemberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
             var allianceMemberObj = Utility.Json.ToObject<AllianceMemberDTO>(allianceMemberJson);
 
@@ -39,34 +40,33 @@ namespace AscensionServer
                         nHCriterias.Add(nHCriteriMember);
 
                         var alliancestatus = AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", allianceMemberObj.AllianceID);
-                        alliancestatus.AllianceNumberPeople -=1;
-                       await NHibernateQuerier.UpdateAsync(alliancestatus);
+                        alliancestatus.AllianceNumberPeople -= 1;
+                        NHibernateQuerier.Update(alliancestatus);
                         var MemberTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriMember).Result;
                         MemberTemp.AllianceID = 0;
                         MemberTemp.AllianceJob = 50;
-                     await   NHibernateQuerier.UpdateAsync(MemberTemp);
-
+                        NHibernateQuerier.Update(MemberTemp);
                         memberlist = Utility.Json.ToObject<List<int>>(allianceMemberTemp.Member);
                         memberlist.Remove(allianceMemberObj.Member[i]);
                         allianceMemberTemp.Member = Utility.Json.ToJson(memberlist);
-                     await   NHibernateQuerier.UpdateAsync(allianceMemberTemp);
-                        SetResponseData(() =>
+                        NHibernateQuerier.Update(allianceMemberTemp);
+                        SetResponseParamters(() =>
                         {
-                            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                            operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
                     }
                 }
                 else
                 {
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     });
                 }
             }
             #endregion
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriterias);
+            return operationResponse;
         }
     }
 }

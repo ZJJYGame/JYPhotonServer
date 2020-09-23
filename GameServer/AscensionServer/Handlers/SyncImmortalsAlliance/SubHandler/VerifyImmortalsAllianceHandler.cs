@@ -16,9 +16,9 @@ namespace AscensionServer
     public class VerifyImmortalsAllianceHandler : SyncImmortalsAllianceSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Verify;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string alliancestatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ImmortalsAlliance));
             var alliancestatusObj = Utility.Json.ToObject<AllianceStatusDTO>
                 (alliancestatusJson);
@@ -32,9 +32,9 @@ namespace AscensionServer
                 Utility.Debug.LogError("1查询获得MySQL的数据" + allianceNameObj.Count);
                 if (allianceNameObj.Count == 0)
                 {
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     });
                 }
                 else
@@ -53,11 +53,11 @@ namespace AscensionServer
                         allianceStatusDTOs.Add(allianceStatusDTO);
 
                     }
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
                         Utility.Debug.LogInfo("发送的所有仙盟列表" + Utility.Json.ToJson(allianceStatusDTOs));
-                        SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(allianceStatusDTOs));
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                        subResponseParameters.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(allianceStatusDTOs));
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
             }
@@ -77,9 +77,9 @@ namespace AscensionServer
                     //Utility.Debug.LogError("1查询获得MySQL的数据" + allianceNameObj[0].AllianceName + "%%" + allianceNameObj[2].AllianceName + "**" + "查询获得MySQL的数据长度" + allianceNameObj.Count);
                     if (allianceNameObj.Count == 0)
                     {
-                        SetResponseData(() =>
+                        SetResponseParamters(() =>
                         {
-                            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                            operationResponse.ReturnCode = (short)ReturnCode.Fail;
                         });
                     }
                     else
@@ -98,11 +98,11 @@ namespace AscensionServer
                             allianceStatusDTOs.Add(allianceStatusDTO);
 
                         }
-                        SetResponseData(() =>
+                        SetResponseParamters(() =>
                         {
                             Utility.Debug.LogInfo("发送的所有仙盟列表" + Utility.Json.ToJson(allianceStatusDTOs));
-                            SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(allianceStatusDTOs));
-                            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                            subResponseParameters.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(allianceStatusDTOs));
+                            operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
                     }
                 }
@@ -126,11 +126,11 @@ namespace AscensionServer
                     Utility.Debug.LogError("3搜索的是仙盟名字不是id");
                     if (allianceNameObj.Count == 0)
                     {
-                        SetResponseData(() =>
+                        SetResponseParamters(() =>
                         {
                             Utility.Debug.LogInfo("发送的所有仙盟列表" + Utility.Json.ToJson(allianceStatusDTOs));
-                            SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(allianceStatusDTOs));
-                            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                            subResponseParameters.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(allianceStatusDTOs));
+                            operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
                     }
                     else
@@ -152,18 +152,17 @@ namespace AscensionServer
                             }
 
                         }
-                        SetResponseData(() =>
+                        SetResponseParamters(() =>
                         {
                             Utility.Debug.LogInfo("发送的所有仙盟列表" + Utility.Json.ToJson(allianceStatusDTOs));
-                            SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(allianceStatusDTOs));
-                            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                            subResponseParameters.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(allianceStatusDTOs));
+                            operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
                     }
                 }
             }
-          
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
-           GameManager.ReferencePoolManager.Despawns(nHCriterias); 
+           GameManager.ReferencePoolManager.Despawns(nHCriterias);
+            return operationResponse;
         }
     }
 }

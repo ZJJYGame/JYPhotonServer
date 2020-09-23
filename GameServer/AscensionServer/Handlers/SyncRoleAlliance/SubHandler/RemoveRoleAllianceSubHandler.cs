@@ -15,9 +15,10 @@ namespace AscensionServer
     public class RemoveRoleAllianceSubHandler : SyncRoleAllianceSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Remove;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string roleallianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAlliance));
             var roleallianceObj = Utility.Json.ToObject<RoleAllianceDTO>(roleallianceJson);
             Utility.Debug.LogError("储存的成员" + roleallianceJson);
@@ -30,45 +31,43 @@ namespace AscensionServer
                 {
                     var alliancestatus = AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", roleallianceTemp.AllianceID);
                     alliancestatus.AllianceNumberPeople -= 1;
-                  await  NHibernateQuerier.UpdateAsync(alliancestatus);
+                  NHibernateQuerier.Update(alliancestatus);
                     NHCriteria nHCriteriaAlliances = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", roleallianceTemp.AllianceID);
                     var allianceTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceMember>(nHCriteriaAlliances).Result;
                     memberlist = Utility.Json.ToObject<List<int>>(allianceTemp.Member);
                     memberlist.Remove(roleallianceObj.RoleID);
                     allianceTemp.Member = Utility.Json.ToJson(memberlist);
-                  await  NHibernateQuerier.UpdateAsync(allianceTemp);
+                  NHibernateQuerier.Update(allianceTemp);
                     roleallianceTemp.AllianceJob = 50;
                     roleallianceTemp.AllianceID = 0;
                     roleallianceTemp.Reputation = 0;
                     roleallianceTemp.ReputationHistroy = 0;
                     roleallianceTemp.ReputationMonth = 0;
-                  await   NHibernateQuerier.UpdateAsync(roleallianceTemp);
-
+                  NHibernateQuerier.Update(roleallianceTemp);
                     RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { AllianceID = roleallianceTemp.AllianceID, AllianceJob = roleallianceTemp.AllianceJob, JoinTime = roleallianceTemp.JoinTime, ApplyForAlliance = Utility.Json.ToObject<List<int>>(roleallianceTemp.ApplyForAlliance), JoinOffline = roleallianceTemp.JoinOffline, Reputation = roleallianceTemp.Reputation, ReputationHistroy = roleallianceTemp.ReputationHistroy, ReputationMonth = roleallianceTemp.ReputationMonth, RoleID = roleallianceTemp.RoleID, RoleName = roleallianceTemp.RoleName };
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-                        SubDict.Add((byte)ParameterCode.RoleAlliance, Utility.Json.ToJson(roleAllianceDTO));
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                        subResponseParameters.Add((byte)ParameterCode.RoleAlliance, Utility.Json.ToJson(roleAllianceDTO));
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                     GameManager.ReferencePoolManager.Despawns(nHCriteriaAlliances, nHCriteriaroleAlliances);
                 }
                 else
                 {
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     });
                 }
-
             }
             else
             {
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+            return operationResponse;
         }
     }
 }

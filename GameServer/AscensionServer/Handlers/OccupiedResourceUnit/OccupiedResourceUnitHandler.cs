@@ -28,7 +28,7 @@ namespace AscensionServer
             var result =GameManager.CustomeModule< ResourceManager>().OccupiedResUnit(occupiedUnitObj);
             if (result)
             {
-                opResponseData.ReturnCode = (short)ReturnCode.Success;
+                operationResponse.ReturnCode = (short)ReturnCode.Success;
 
                 ResourceUnitSetDTO currentDictObj = null;
                 if (GameManager.CustomeModule<ResourceManager>().ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID,out currentDictObj))
@@ -40,15 +40,15 @@ namespace AscensionServer
                 }
                 //var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
 
-                threadEventParameter.Clear();
+                //threadEventParameter.Clear();
                 //广播事件
-                threadEventParameter.Add((byte)ParameterCode.OccupiedUnit, occupiedUnitJson);
+                //threadEventParameter.Add((byte)ParameterCode.OccupiedUnit, occupiedUnitJson);
                 //QueueThreadEvent(peerSet, EventCode.OccupiedResourceUnit, threadEventParameter);
             }else
-                opResponseData.ReturnCode = (short)ReturnCode.Fail;
-            opResponseData.Parameters = responseParameters;
-            opResponseData.OperationCode = operationRequest.OperationCode;
-            return opResponseData;
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
+            operationResponse.Parameters = responseParameters;
+            operationResponse.OperationCode = operationRequest.OperationCode;
+            return operationResponse;
         }
     }
 }

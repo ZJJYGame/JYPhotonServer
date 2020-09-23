@@ -13,9 +13,9 @@ namespace AscensionServer
     public class UpdateTreasureatticHandler : SyncTreasureatticSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string treasureatticJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.TreasureAttic));
             string schoolJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.School));
 
@@ -61,32 +61,30 @@ namespace AscensionServer
                     var sSendObj = NHibernateQuerier.CriteriaSelect<School>(nHCriteriaschool);
                     DOdict.Add("Treasureattic", Utility.Json.ToJson(new TreasureatticDTO() { ID = taSendObj.ID, ItemRedeemedDict = Utility.Json.ToObject<Dictionary<int, int>>(taSendObj.ItemRedeemedDict) }));
                     DOdict.Add("School", Utility.Json.ToJson(sSendObj));
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
 
-                        SubDict.Add((byte)ParameterCode.TreasureAttic, Utility.Json.ToJson(DOdict));
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                        subResponseParameters.Add((byte)ParameterCode.TreasureAttic, Utility.Json.ToJson(DOdict));
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
                 else
                 {
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                       operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     });
                 }
-
             }
             else
             {
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
-
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaTreasureattic, nHCriteriaschool);
+            return operationResponse;
         }
 
     }

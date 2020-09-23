@@ -17,14 +17,13 @@ namespace AscensionServer
     public class UpdateAuctionSubHandler : SyncAuctionSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             ResetResponseData(operationRequest);
-
             BuyAuctionTypeEnum buyAuctionTypeEnum = BuyAuctionTypeEnum.Default;
-
             Utility.Debug.LogInfo("进入更新拍卖品事件");
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string buyAuctionGoodsJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AddAuctionGoods));
             Dictionary<string, string> dataDict = Utility.Json.ToObject<Dictionary<string, string>>(buyAuctionGoodsJson);
             var buyAuctionGoodsObj = Utility.Json.ToObject<AuctionGoodsDTO>(dataDict["Data"]);
@@ -79,37 +78,34 @@ namespace AscensionServer
                         if (auctionGoodsObj.Count == 0)//买完了
                         {
                             Utility.Debug.LogInfo(roleID + "买完了");
-                            await RedisHelper.KeyDeleteAsync("AuctionGoods_" + auctionGoodsObj.GUID);
-
-                            await RedisHelper.Hash.HashDeleteAsync("AuctionGoodsData", buyAuctionGoodsObj.GUID);
-
+                            RedisHelper.KeyDelete("AuctionGoods_" + auctionGoodsObj.GUID);
+                            RedisHelper.Hash.HashDelete("AuctionGoodsData", buyAuctionGoodsObj.GUID);
                             List<string> roleAuctionGuidList = RedisHelper.Hash.HashGetAsync<List<string>>("RoleAuctionItems", auctionGoodsObj.RoleID.ToString()).Result;
                             string guidStr = roleAuctionGuidList.Find((p) => p == auctionGoodsObj.GUID);
                             roleAuctionGuidList.Remove(guidStr);
                             if (roleAuctionGuidList.Count != 0)
                             {
-                                await RedisHelper.Hash.HashSetAsync("RoleAuctionItems", auctionGoodsObj.RoleID.ToString(), roleAuctionGuidList);
+                                RedisHelper.Hash.HashSet("RoleAuctionItems", auctionGoodsObj.RoleID.ToString(), roleAuctionGuidList);
                             }
                             else
                             {
-                                await RedisHelper.Hash.HashDeleteAsync("RoleAuctionItems", auctionGoodsObj.RoleID.ToString());
+                                RedisHelper.Hash.HashDelete("RoleAuctionItems", auctionGoodsObj.RoleID.ToString());
                             }
-
                             List<AuctionGoodsIndex> tempAuctionGoodIndexs = RedisHelper.Hash.HashGetAsync<List<AuctionGoodsIndex>>("AuctionIndex", auctionGoodsObj.GlobalID.ToString()).Result;
                             AuctionGoodsIndex auctionGoodsIndex = tempAuctionGoodIndexs.Find((p) => p.RedisKey == auctionGoodsObj.GUID);
                             tempAuctionGoodIndexs.Remove(auctionGoodsIndex);
                             if (tempAuctionGoodIndexs.Count != 0)//购买后当前种物品索引数量 不为0
                             {
-                                await RedisHelper.Hash.HashSetAsync("AuctionIndex", auctionGoodsObj.GlobalID.ToString(), tempAuctionGoodIndexs);
+                                RedisHelper.Hash.HashSet("AuctionIndex", auctionGoodsObj.GlobalID.ToString(), tempAuctionGoodIndexs);
                             }
                             else
                             {
-                                await RedisHelper.Hash.HashDeleteAsync("AuctionIndex", auctionGoodsObj.GlobalID.ToString());
+                                RedisHelper.Hash.HashDelete("AuctionIndex", auctionGoodsObj.GlobalID.ToString());
                             }
                         }
                         else
                         {
-                            await RedisHelper.Hash.HashSetAsync("AuctionGoodsData", buyAuctionGoodsObj.GUID, auctionGoodsObj);
+                            RedisHelper.Hash.HashSet("AuctionGoodsData", buyAuctionGoodsObj.GUID, auctionGoodsObj);
                         }
                         Utility.Debug.LogInfo(roleID + "主备发送成功信息");
                         buyAuctionTypeEnum = BuyAuctionTypeEnum.Success;
@@ -178,32 +174,31 @@ namespace AscensionServer
 
                     Utility.Debug.LogError(roleID + "添加");
                     Utility.Debug.LogInfo(roleID + "购买物品成功");
-                    Owner.ResponseData.Add((byte)ParameterCode.AddAuctionGoods, Utility.Json.ToJson(resultDict));
-                    Owner.OpResponseData.Parameters = Owner.ResponseData;
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.AddAuctionGoods, Utility.Json.ToJson(resultDict));
+                    operationResponse.Parameters = subResponseParameters;
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
                 
                     break;
                 case BuyAuctionTypeEnum.Empty:
                     Utility.Debug.LogError(roleID + "添加");
                     Utility.Debug.LogInfo(roleID + "找不到该商品");
-                    Owner.ResponseData.Add((byte)ParameterCode.Inventory, Utility.Json.ToJson(resultDict));
-                    Owner.OpResponseData.Parameters = Owner.ResponseData;
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Empty;
+                    subResponseParameters.Add((byte)ParameterCode.Inventory, Utility.Json.ToJson(resultDict));
+                    operationResponse.Parameters = subResponseParameters;
+                    operationResponse.ReturnCode = (short)ReturnCode.Empty;
                     break;
                 case BuyAuctionTypeEnum.NotEnougth:
                     Utility.Debug.LogError(roleID + "添加");
                     Utility.Debug.LogInfo(roleID + "物品数量不足");
-                    Owner.ResponseData.Add((byte)ParameterCode.Auction, Utility.Json.ToJson(resultDict));
-                    Owner.OpResponseData.Parameters = Owner.ResponseData;
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                    subResponseParameters.Add((byte)ParameterCode.Auction, Utility.Json.ToJson(resultDict));
+                    operationResponse.Parameters = subResponseParameters;
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     break;
                 case BuyAuctionTypeEnum.Default:
                     Utility.Debug.LogInfo("拍卖行判断出现异常");
                     break;
             }
-
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             Utility.Debug.LogInfo(roleID+"更新拍卖行事件结束");
+            return operationResponse;
         }
 
          List<AuctionGoodsDTO> GetReturnGoodsList(int id,ref int startIndex,int count,ref int allGoodsCount)

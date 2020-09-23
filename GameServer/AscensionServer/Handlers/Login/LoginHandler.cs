@@ -30,10 +30,10 @@ namespace AscensionServer
             bool verified = NHibernateQuerier.Verify<User>(nHCriteriaAccount, nHCriteriaPassword);
             responseParameters.Clear();
             //如果验证成功，把成功的结果利用response.ReturnCode返回成功给客户端
-            opResponseData.OperationCode = operationRequest.OperationCode;
+            operationResponse.OperationCode = operationRequest.OperationCode;
             if (verified)
             {
-                opResponseData.ReturnCode = (short)ReturnCode.Success;
+                operationResponse.ReturnCode = (short)ReturnCode.Success;
                 userObj.UUID = NHibernateQuerier.CriteriaSelect<User>(nHCriteriaAccount).UUID;
                 //peer.Login(userObj);
 
@@ -41,15 +41,15 @@ namespace AscensionServer
                 //var pe = PeerEntity.Create(peer);
                 //GameManager.CustomeModule<PeerManager>().TryAdd(pe.SessionId, pe);
                 responseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(userObj));
-                opResponseData.Parameters = responseParameters;
+                operationResponse.Parameters = responseParameters;
             }
             else
             {
                 Utility.Debug.LogError("Login fail:" + userObj.Account);
-                opResponseData.ReturnCode = (short)ReturnCode.Fail;
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
             }
             GameManager.ReferencePoolManager.Despawns(nHCriteriaAccount, nHCriteriaPassword);
-            return opResponseData;
+            return operationResponse;
         }
     }
 }

@@ -16,9 +16,9 @@ namespace AscensionServer
     public class UpdateRoleAllianceSkillSubHandler : SyncRoleAllianceSkillSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string roleallianceskillJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAllianceSkill));
 
             var roleallianceskillObj = Utility.Json.ToObject<RoleAllianceSkilltransferDTO>(roleallianceskillJson);
@@ -40,35 +40,35 @@ namespace AscensionServer
                     roleAssetsTemp.SpiritStonesLow -= roleallianceskillObj.RoleAssets;
                     rolealliancesTemp.Reputation -= roleallianceskillObj.Contribution;
 
-                  await  NHibernateQuerier.UpdateAsync(roleallianceskillTemp);
-                  await  NHibernateQuerier.UpdateAsync(rolealliancesTemp);
-                   await NHibernateQuerier.UpdateAsync(roleAssetsTemp);
+                  NHibernateQuerier.Update(roleallianceskillTemp);
+                  NHibernateQuerier.Update(rolealliancesTemp);
+                  NHibernateQuerier.Update(roleAssetsTemp);
 
-                    await RedisHelper.Hash.HashSetAsync<RoleAssets>("RoleAssets", roleAssetsTemp.RoleID.ToString(), roleAssetsTemp);
-                    SetResponseData(() =>
+                    RedisHelper.Hash.HashSet<RoleAssets>("RoleAssets", roleAssetsTemp.RoleID.ToString(), roleAssetsTemp);
+                    SetResponseParamters(() =>
                     {
-                        SubDict.Add((byte)ParameterCode.RoleAllianceSkill, Utility.Json.ToJson(roleallianceskillTemp));
-                        SubDict.Add((byte)ParameterCode.RoleAssets, Utility.Json.ToJson(roleAssetsTemp));
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                        subResponseParameters.Add((byte)ParameterCode.RoleAllianceSkill, Utility.Json.ToJson(roleallianceskillTemp));
+                        subResponseParameters.Add((byte)ParameterCode.RoleAssets, Utility.Json.ToJson(roleAssetsTemp));
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
                 else
                 {
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     });
                 }
             }
             else
             {
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriroleallianceskill);
+            return operationResponse;
         }
         }
     }

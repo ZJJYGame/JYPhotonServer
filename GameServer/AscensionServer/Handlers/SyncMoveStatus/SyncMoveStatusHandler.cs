@@ -34,14 +34,14 @@ namespace AscensionServer
             var roleSetJson = Utility.Json.ToJson(roleSet);
 
             responseParameters.Add((byte)ParameterCode.RoleMoveStatus, roleSetJson);
-            opResponseData.OperationCode = operationRequest.OperationCode;
-            opResponseData.ReturnCode = (short)ReturnCode.Success;
-            opResponseData.Parameters = responseParameters;
+            operationResponse.OperationCode = operationRequest.OperationCode;
+            operationResponse.ReturnCode = (short)ReturnCode.Success;
+            operationResponse.Parameters = responseParameters;
             //广播事件
-            threadEventParameter.Clear();
-            threadEventParameter.Add((byte)ParameterCode.RoleMoveStatus, roleMoveStatusJson);
+            //threadEventParameter.Clear();
+            //threadEventParameter.Add((byte)ParameterCode.RoleMoveStatus, roleMoveStatusJson);
             //QueueThreadEvent(peerSet, EventCode.SyncRoleMoveStatus, threadEventParameter);
-            return opResponseData;
+            return operationResponse;
         }
     }
 }

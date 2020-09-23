@@ -14,9 +14,10 @@ namespace AscensionServer
     public class UpdateVareityShopSubHandler : SyncVareityShopSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string rolepurchaseJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.VareityPurchase));
             var rolepurchaseObj = Utility.Json.ToObject<VareityPurchaseRecordDTO>(rolepurchaseJson);
             #region Redis模块
@@ -53,22 +54,22 @@ namespace AscensionServer
                 VareityPurchaseRecordDTO vareityPurchaseRecordDTO = new VareityPurchaseRecordDTO() { RoleID = rolepurchasetemp.RoleID, VareityPurchasedCount = Utility.Json.ToObject<Dictionary<int, int>>(rolepurchasetemp.VareityPurchasedCount) };
                 if (!string.IsNullOrEmpty(vareitycontent))
                 {
-                    RedisHelper.String.StringGetSetAsync(vareityname, Utility.Json.ToJson(vareityPurchaseRecordDTO));
+                    RedisHelper.String.StringGetSet(vareityname, Utility.Json.ToJson(vareityPurchaseRecordDTO));
                 }
                 else
                 {
-                    RedisHelper.String.StringGetAsync(vareityname, Utility.Json.ToJson(vareityPurchaseRecordDTO));
+                    RedisHelper.String.StringGet(vareityname, Utility.Json.ToJson(vareityPurchaseRecordDTO));
                 }
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.VareityPurchase, Utility.Json.ToJson(vareityPurchaseRecordDTO));
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.VareityPurchase, Utility.Json.ToJson(vareityPurchaseRecordDTO));
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
             else
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
             GameManager.ReferencePoolManager.Despawns(nHCriteriarolepurchase);
+            return operationResponse;
         }
     }
 }

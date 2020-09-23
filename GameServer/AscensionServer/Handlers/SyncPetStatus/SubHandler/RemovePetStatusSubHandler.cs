@@ -14,9 +14,10 @@ namespace AscensionServer.Handlers.SyncPetStatus.SubHandler
     public class RemovePetStatusSubHandler : SyncPetStatusSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Remove;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-   
+            return operationResponse;
         }
     }
 }

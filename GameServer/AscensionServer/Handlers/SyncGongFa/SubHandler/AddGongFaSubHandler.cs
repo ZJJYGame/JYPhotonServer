@@ -14,9 +14,9 @@ namespace AscensionServer
     public class AddGongFaSubHandler : SyncGongFaSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string gfJson = Convert.ToString(Utility.GetValue(dict,(byte)ParameterCode.GongFa));
             string  roleJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role));
 
@@ -38,9 +38,8 @@ namespace AscensionServer
                         {
                             Utility.Debug.LogInfo("人物已经学会的功法" + roleGongFaObj.GongFaIDArray);
                             Utility.Debug.LogInfo("人物已经学会此功法无法添加新的功法" + gongfaObj.CultivationMethodID);
-                            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
-
-                            Owner.ResponseData.Add((byte)ParameterCode.RoleGongFa, null);
+                            operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                            subResponseParameters.Add((byte)ParameterCode.RoleGongFa, null);
                         }
                         else
                         {
@@ -53,24 +52,19 @@ namespace AscensionServer
                             DOdict.Add(1, Utility.Json.ToJson(roleGongFaObj));
                         #region Redis模块
 
-                        RedisHelper.Hash.HashSetAsync<CultivationMethod>("CultivationMethod", cultivationMethod.CultivationMethodID.ToString(), cultivationMethod);
-                        RedisHelper.Hash.HashSetAsync<RoleGongFa>("RoleGongFa", roleObj.RoleID.ToString(), roleGongFaObj);
+                        RedisHelper.Hash.HashSet<CultivationMethod>("CultivationMethod", cultivationMethod.CultivationMethodID.ToString(), cultivationMethod);
+                        RedisHelper.Hash.HashSet<RoleGongFa>("RoleGongFa", roleObj.RoleID.ToString(), roleGongFaObj);
                         #endregion
-
-                        SetResponseData(() =>
+                        SetResponseParamters(() =>
                             {
-                                SubDict.Add((byte)ParameterCode.RoleGongFa, Utility.Json.ToJson(DOdict));
-                                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                                subResponseParameters.Add((byte)ParameterCode.RoleGongFa, Utility.Json.ToJson(DOdict));
+                                operationResponse.ReturnCode = (short)ReturnCode.Success;
                             });
                         }
                     }
-
             }
-
-
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
+            return operationResponse;
         }
-        
     }
 }

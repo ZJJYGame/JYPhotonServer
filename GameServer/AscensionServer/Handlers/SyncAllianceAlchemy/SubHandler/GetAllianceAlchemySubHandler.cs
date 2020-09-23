@@ -15,9 +15,10 @@ namespace AscensionServer
     public class GetAllianceAlchemySubHandler : SyncAllianceAlchemySubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string allianceAlchemyNumJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAllianceAlchemy));
             var allianceAlchemyNumObj = Utility.Json.ToObject<AllianceAlchemyNumDTO>(allianceAlchemyNumJson);
 
@@ -27,23 +28,23 @@ namespace AscensionServer
 
             if (String.IsNullOrEmpty(content))
             {
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.RoleAllianceAlchemy, Utility.Json.ToJson(allianceAlchemyNumObj));
+                    subResponseParameters.Add((byte)ParameterCode.RoleAllianceAlchemy, Utility.Json.ToJson(allianceAlchemyNumObj));
                     Utility.Debug.LogError("1获得的兑换的丹药"+ Utility.Json.ToJson(allianceAlchemyNumObj));
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
             else
             {
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
                     Utility.Debug.LogError("2获得的兑换的丹药" + content);
-                    SubDict.Add((byte)ParameterCode.RoleAllianceAlchemy, content);
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.RoleAllianceAlchemy, content);
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+            return operationResponse;
         }
     }
 }

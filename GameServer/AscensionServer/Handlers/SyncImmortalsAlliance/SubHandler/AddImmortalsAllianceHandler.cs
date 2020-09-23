@@ -16,16 +16,16 @@ namespace AscensionServer
     public class AddImmortalsAllianceHandler : SyncImmortalsAllianceSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string alliancestatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAlliance));
             var alliancestatusObj = Utility.Json.ToObject<AllianceStatus>
                 (alliancestatusJson);
             string roleAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ImmortalsAlliance));
             var roleAllianceObj = Utility.Json.ToObject<RoleAlliance> 
                 (roleAllianceJson);
-
           
             NHCriteria nHCriteriaAllianceName = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceName", alliancestatusObj.AllianceName);
             var alliance = NHibernateQuerier.CriteriaSelectAsync<AllianceStatus>(nHCriteriaAllianceName).Result;
@@ -33,13 +33,11 @@ namespace AscensionServer
             NHCriteria nHCriteriaAllianceMaster = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceMaster", alliancestatusObj.AllianceMaster);
             var allianceMasterObj = NHibernateQuerier.CriteriaSelectAsync<AllianceStatus>(nHCriteriaAllianceMaster).Result;
 
-
             List<string> Alliancelist = new List<string>();
             NHCriteria nHCriteriaroleAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleAllianceObj.RoleID);
             var roleAllianceTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriaroleAlliance).Result;
 
             var roleAssetsTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAssets>(nHCriteriaroleAlliance).Result;
-
 
             #region MySql数据模块
             if (alliance == null&& allianceMasterObj==null&& roleAssetsTemp.SpiritStonesLow>=100000)
@@ -50,21 +48,21 @@ namespace AscensionServer
                 gangslist = Utility.Json.ToObject<List<int>>(allianceTemp.AllianceList);
 
 
-                var allianceslIstObj =await NHibernateQuerier.InsertAsync(alliancestatusObj);
+                var allianceslIstObj =NHibernateQuerier.Insert(alliancestatusObj);
 
                 AllianceConstruction allianceConstruction = new AllianceConstruction() { AllianceID = allianceslIstObj.ID};
-               await NHibernateQuerier.InsertAsync(allianceConstruction);
+               NHibernateQuerier.Insert(allianceConstruction);
                 AllianceMember allianceMember = new AllianceMember() { AllianceID = allianceslIstObj.ID, ApplyforMember = Utility.Json.ToJson(new List<int>() { }) ,Member = Utility.Json.ToJson(new List<int>() { roleAllianceObj .RoleID}) };
-              await  NHibernateQuerier.InsertAsync(allianceMember);
+              NHibernateQuerier.Insert(allianceMember);
                 gangslist.Add(allianceslIstObj.ID);
                 allianceTemp.AllianceList = Utility.Json.ToJson(gangslist);
                 if (NHibernateQuerier.CriteriaSelectAsync<RoleAllianceSkill>(nHCriteriaroleAlliance).Result==null)
                 {
                     RoleAllianceSkill roleAllianceSkill = new RoleAllianceSkill() { RoleID = roleAllianceObj.RoleID };
 
-                    await NHibernateQuerier.InsertAsync(roleAllianceSkill);
+                    NHibernateQuerier.Insert(roleAllianceSkill);
                 }
-                await NHibernateQuerier.UpdateAsync(allianceTemp);
+                NHibernateQuerier.Update(allianceTemp);
 
                 Alliancelist.Add(Utility.Json.ToJson(allianceslIstObj));
                 if (roleAllianceTemp != null)
@@ -73,7 +71,7 @@ namespace AscensionServer
                     roleAllianceTemp.AllianceID = allianceslIstObj.ID;
                     roleAllianceTemp.AllianceJob = roleAllianceObj.AllianceJob;
                     roleAllianceTemp.Reputation = roleAllianceObj.Reputation;
-                  await  NHibernateQuerier.UpdateAsync(roleAllianceTemp);
+                  NHibernateQuerier.Update(roleAllianceTemp);
                 }
                 else
                 {
@@ -84,38 +82,36 @@ namespace AscensionServer
                         AllianceJob = roleAllianceObj.AllianceJob,
                         Reputation = roleAllianceObj.Reputation,
                     };
-                    await NHibernateQuerier.InsertAsync(roleAllianceTemp);
+                    NHibernateQuerier.Insert(roleAllianceTemp);
                 }
                 RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { AllianceID = roleAllianceTemp.AllianceID, AllianceJob = roleAllianceTemp.AllianceJob, JoinTime = roleAllianceTemp.JoinTime, ApplyForAlliance = Utility.Json.ToObject<List<int>>(roleAllianceTemp.ApplyForAlliance), JoinOffline = roleAllianceTemp.JoinOffline, Reputation = roleAllianceTemp.Reputation, ReputationHistroy = roleAllianceTemp.ReputationHistroy, ReputationMonth = roleAllianceTemp.ReputationMonth, RoleID = roleAllianceTemp.RoleID, RoleName = roleAllianceTemp.RoleName };
                 Alliancelist.Add(Utility.Json.ToJson(roleAllianceDTO));
                 Alliancelist.Add(Utility.Json.ToJson(allianceConstruction));
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(Alliancelist));
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(Alliancelist));
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
 
                 #region  Redis模块
-                await RedisHelper.String.StringSetAsync("Alliance", allianceTemp.AllianceList);
-                await RedisHelper.Hash.HashSetAsync("AllianceConstruction", allianceConstruction.AllianceID.ToString(), allianceConstruction);
-                await RedisHelper.Hash.HashSetAsync("AllianceMember", allianceMember.AllianceID.ToString(), allianceMember);
-                await RedisHelper.Hash.HashSetAsync("RoleAlliance", roleAllianceDTO.RoleID.ToString(), roleAllianceDTO);
-                await RedisHelper.Hash.HashSetAsync("AllianceStatus", allianceslIstObj.ID.ToString(), allianceslIstObj);
-                await RedisHelper.Hash.HashSetAsync<RoleAssets>("RoleAssets", roleAllianceTemp.RoleID.ToString(), new RoleAssets() { RoleID = roleAssetsTemp.RoleID, SpiritStonesLow = roleAssetsTemp.SpiritStonesLow, XianYu = roleAssetsTemp.XianYu });
-
+                RedisHelper.String.StringSet("Alliance", allianceTemp.AllianceList);
+                RedisHelper.Hash.HashSet("AllianceConstruction", allianceConstruction.AllianceID.ToString(), allianceConstruction);
+                RedisHelper.Hash.HashSet("AllianceMember", allianceMember.AllianceID.ToString(), allianceMember);
+                RedisHelper.Hash.HashSet("RoleAlliance", roleAllianceDTO.RoleID.ToString(), roleAllianceDTO);
+                RedisHelper.Hash.HashSet("AllianceStatus", allianceslIstObj.ID.ToString(), allianceslIstObj);
+                RedisHelper.Hash.HashSet<RoleAssets>("RoleAssets", roleAllianceTemp.RoleID.ToString(), new RoleAssets() { RoleID = roleAssetsTemp.RoleID, SpiritStonesLow = roleAssetsTemp.SpiritStonesLow, XianYu = roleAssetsTemp.XianYu });
                 #endregion
                 GameManager.ReferencePoolManager.Despawns(nHCriteriaAllianceList, nHCriteriaAllianceName);
             }
             else
             {
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
             #endregion
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
-
+            return operationResponse;
         }
     }
 }

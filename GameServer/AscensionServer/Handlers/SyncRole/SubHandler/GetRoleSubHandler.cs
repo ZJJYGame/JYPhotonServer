@@ -12,9 +12,10 @@ namespace AscensionServer
     public class GetRoleSubHandler : SyncRoleSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string account = Utility.Json.ToObject<User>(Convert.ToString (Utility.GetValue(dict, (byte)ParameterCode.User))).Account;
             NHCriteria nHCriteriaAccount = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("Account", account);
             string _uuid = NHibernateQuerier.CriteriaSelect<User>(nHCriteriaAccount).UUID;
@@ -39,25 +40,24 @@ namespace AscensionServer
                         nHCriteriaList.Add(tmpCriteria);
                     }
                 }
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.RoleSet, Utility.Json.ToJson(roleObjList));
-                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.RoleSet, Utility.Json.ToJson(roleObjList));
+                    operationResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
                 GameManager.ReferencePoolManager.Despawns(nHCriteriaList);
             }
             else
             {
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.RoleSet, Utility.Json.ToJson(new List<string>()));
-                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Empty;
+                    subResponseParameters.Add((byte)ParameterCode.RoleSet, Utility.Json.ToJson(new List<string>()));
+                    operationResponse.ReturnCode = (byte)ReturnCode.Empty;
                 });
             }
             // 把上面的结果给客户端
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaUUID, nHCriteriaAccount);
-
+            return operationResponse;
         }
     }
 }

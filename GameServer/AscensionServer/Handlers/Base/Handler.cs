@@ -19,7 +19,7 @@ namespace AscensionServer
         #region Properties
         public abstract byte OpCode { get;  }
         protected Dictionary<byte, object> responseParameters;
-        protected OperationResponse opResponseData;
+        protected OperationResponse operationResponse;
         Dictionary<byte, ISubHandler> subHandlerDict;
         #endregion
         #region Methods
@@ -30,7 +30,7 @@ namespace AscensionServer
         }
         public virtual void OnInitialization()
         {
-            opResponseData = new OperationResponse();
+            operationResponse = new OperationResponse();
             responseParameters = new Dictionary<byte, object>();
             subHandlerDict = new Dictionary<byte, ISubHandler>();
         }
@@ -55,7 +55,7 @@ namespace AscensionServer
                     Utility.Debug.LogInfo($"{(OperationCode)operationRequest.OperationCode} ;{ (SubOperationCode)subCode }  has no subHandler ");
                 }
             }
-            return opResponseData;
+            return operationResponse;
         }
         protected virtual void OnSubHandlerInitialization<T>()
             where T : class, ISubHandler
@@ -85,7 +85,7 @@ namespace AscensionServer
         protected void SetRequestData(OperationRequest operationRequest)
         {
             responseParameters.Clear();
-            opResponseData.OperationCode = operationRequest.OperationCode;
+            operationResponse.OperationCode = operationRequest.OperationCode;
         }
         void RegisterSubHandler(ISubHandler handler)
         {

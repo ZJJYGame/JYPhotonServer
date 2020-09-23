@@ -14,9 +14,10 @@ namespace AscensionServer
     public class UpdateAlchemySubHandler : SyncAlchemySubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string alchemyJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobAlchemy));
             var alchemyObj = Utility.Json.ToObject<AlchemyDTO>(alchemyJson);
             Utility.Debug.LogInfo("传输回去的炼丹数据" + alchemyJson);
@@ -41,20 +42,17 @@ namespace AscensionServer
 
                     NHibernateQuerier.Update(new Alchemy() { RoleID = alchemyTemp.RoleID, JobLevel = alchemyTemp.JobLevel, JobLevelExp = Exp, Recipe_Array = alchemyTemp.Recipe_Array });
                 }
-
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {            
-                    SubDict.Add((byte)ParameterCode.JobAlchemy, Utility.Json.ToJson(alchemyObj));
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.JobAlchemy, Utility.Json.ToJson(alchemyObj));
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
           
             }
             else
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
-
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
             GameManager.ReferencePoolManager.Despawns(nHCriteriaAlchemy);
+            return operationResponse;
         }
-      
     }
 }

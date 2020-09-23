@@ -12,7 +12,7 @@ namespace AscensionServer
     public class UpdateGongFaSubHandler : SyncGongFaSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
-        public async  override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             ResetResponseData(operationRequest);
             var receivedRoleData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
@@ -45,7 +45,7 @@ namespace AscensionServer
                             NHibernateQuerier.Update(new CultivationMethod() { ID = GongfaInfoExp.ID, CultivationMethodID = GongfaInfoExp.CultivationMethodID, CultivationMethodLevel = (short)intLevel, CultivationMethodLevelSkillArray = GongfaInfoExp.CultivationMethodLevelSkillArray, CultivationMethodExp = intInfoObj });
                             Role role= NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRoleID);
                             role.RoleLevel= intLevel;
-                          await  NHibernateQuerier.UpdateAsync(role);
+                          NHibernateQuerier.Update(role);
                         }
                         else
                         {
@@ -54,15 +54,15 @@ namespace AscensionServer
                         }
                     }
                 }             
-                Owner.OpResponseData.Parameters = Owner.ResponseData;
-                Owner. OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                operationResponse.Parameters = subResponseParameters;
+                operationResponse.ReturnCode = (short)ReturnCode.Success;
             }
             else
             {
-                Owner. OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
             }
-            peer.SendOperationResponse(Owner. OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
+            return operationResponse;
         }
     }
 }

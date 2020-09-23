@@ -14,17 +14,15 @@ namespace AscensionServer
     public class GetRoleAllianceSubHandler : SyncRoleAllianceSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string roleallianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAlliance));
             var roleallianceObj = Utility.Json.ToObject<RoleAllianceDTO>
               (roleallianceJson);
             NHCriteria nHCriteriaroleAlliances = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceObj.RoleID);
             var roleallianceTemp= NHibernateQuerier.CriteriaSelect<RoleAlliance>(nHCriteriaroleAlliances);
             List<string> Alliancelist = new List<string>();
-
-
 
             if (roleallianceTemp!=null)
             {
@@ -46,21 +44,21 @@ namespace AscensionServer
                 {
                     Alliancelist.Add(Utility.Json.ToJson(allianceTemp));
                 }
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.RoleAlliance, Utility.Json.ToJson(Alliancelist));
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.RoleAlliance, Utility.Json.ToJson(Alliancelist));
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
                 GameManager.ReferencePoolManager.Despawns(nHCriteriaroleAlliances, nHCriteriaAlliances, nHCriteriaAlliancesConstruction);
             }
             else
             {
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+            return operationResponse;
         }
     }
 }

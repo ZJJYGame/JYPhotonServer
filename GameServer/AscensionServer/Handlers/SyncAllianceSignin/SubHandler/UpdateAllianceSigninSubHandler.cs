@@ -19,7 +19,7 @@ namespace AscensionServer
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
 
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string allianceSigninJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceSignin));
             var allianceSigninObj = Utility.Json.ToObject<AllianceSigninDTO>(allianceSigninJson);
 
@@ -45,22 +45,22 @@ namespace AscensionServer
                 NHibernateQuerier.Update(roleallianceTemp);
                 NHibernateQuerier.Update(allianceTemp);
                 NHibernateQuerier.Update(allianceConstructionTemp);
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
                     Utility.Debug.LogError("发送回去的兑换弹药的请求数据" + Utility.Json.ToJson(signinList));
-                    SubDict.Add((byte)ParameterCode.AllianceSignin, Utility.Json.ToJson(signinList));
-                    opResponseData.ReturnCode = (short)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.AllianceSignin, Utility.Json.ToJson(signinList));
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
             else
             {
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    opResponseData.ReturnCode = (short)ReturnCode.Fail;
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
             //peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
-            return opResponseData;
+            return operationResponse;
         }
     }
 }

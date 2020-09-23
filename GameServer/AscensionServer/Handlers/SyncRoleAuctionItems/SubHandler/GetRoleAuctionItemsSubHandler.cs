@@ -16,12 +16,12 @@ namespace AscensionServer
     public class GetRoleAuctionItemsSubHandler : SyncRoleAuctionItemsSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             ResetResponseData(operationRequest);
 
             Utility.Debug.LogInfo("我进来了");
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             int roleID = Convert.ToInt32(Utility.GetValue(dict, (byte)ParameterCode.RoleAuctionItems));
             List<RoleAuctionItem> roleAuctionItemList = new List<RoleAuctionItem>();
             if (RedisHelper.Hash.HashExistAsync("RoleAuctionItems", roleID.ToString()).Result)
@@ -50,11 +50,10 @@ namespace AscensionServer
 
 
             Utility.Debug.LogInfo("我的上架数据" + Utility.Json.ToJson(roleAuctionItemList));
-            Owner.ResponseData.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(roleAuctionItemList));
-            Owner.OpResponseData.Parameters = Owner.ResponseData;
-            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
-
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+            subResponseParameters.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(roleAuctionItemList));
+            operationResponse.Parameters = subResponseParameters;
+            operationResponse.ReturnCode = (short)ReturnCode.Success;
+            return operationResponse;
         }
     }
 }

@@ -21,9 +21,9 @@ namespace AscensionServer
             //peer.PeerCache.RoleTransformQueue.RoleID = peer.PeerCache.RoleID;
             //peer.IsSendedTransform = false;
             responseParameters.Clear();
-            opResponseData.OperationCode = operationRequest.OperationCode;
-            opResponseData.ReturnCode = (short)ReturnCode.Success;
-            return opResponseData;
+            operationResponse.OperationCode = operationRequest.OperationCode;
+            operationResponse.ReturnCode = (short)ReturnCode.Success;
+            return operationResponse;
         }
     }
 }

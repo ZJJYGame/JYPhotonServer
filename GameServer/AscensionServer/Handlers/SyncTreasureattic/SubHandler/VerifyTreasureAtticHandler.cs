@@ -14,9 +14,9 @@ namespace AscensionServer
     public class VerifyTreasureAtticHandler : SyncTreasureatticSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Verify;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string schoolJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.TreasureAttic));
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
             NHCriteria nHCriteriaSchool = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
@@ -32,22 +32,20 @@ namespace AscensionServer
                     //{
                     //    //判断兑换数是否超过存储总数
                     //}
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-
-                        SubDict.Add((byte)ParameterCode.TreasureAttic, Utility.Json.ToJson(true));
-                        Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
+                        subResponseParameters.Add((byte)ParameterCode.TreasureAttic, Utility.Json.ToJson(true));
+                        operationResponse.ReturnCode = (byte)ReturnCode.Success;
                     });
                 }
                 else
                 {
-                    SubDict.Add((byte)ParameterCode.TreasureAttic, Utility.Json.ToJson(false));
-                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
+                    subResponseParameters.Add((byte)ParameterCode.TreasureAttic, Utility.Json.ToJson(false));
+                    operationResponse.ReturnCode = (byte)ReturnCode.Fail;
                 }
             }
-
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaSchool);
+            return operationResponse;
         }
     }
 }

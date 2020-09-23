@@ -44,19 +44,19 @@ namespace AscensionServer
             var roleTransformQueueSetJson = Utility.Json.ToJson(roleTransformQueueSet);
             //var resSetDictJson = Utility.Json.ToJson(GameManager.OuterModule<ResourceManager>().ResUnitSetDict.Values.ToList());
             responseParameters.Clear();
-            opResponseData.OperationCode = operationRequest.OperationCode;
-            opResponseData.ReturnCode = (byte)ReturnCode.Success;
+            operationResponse.OperationCode = operationRequest.OperationCode;
+            operationResponse.ReturnCode = (byte)ReturnCode.Success;
             responseParameters.Add((byte)ParameterCode.RoleSet, roleSetJson);
             responseParameters.Add((byte)ParameterCode.RoleMoveStatusSet, roleMoveStatusSetJson);
             responseParameters.Add((byte)ParameterCode.RoleTransformQueueSet,roleTransformQueueSetJson);
             //ResponseData.Add((byte)ParameterCode.ResourcesUnitSet,resSetDictJson);
-            opResponseData.Parameters = responseParameters;
+            operationResponse.Parameters = responseParameters;
             //广播事件
-            threadEventParameter.Clear();
+            //threadEventParameter.Clear();
             //threadEventParameter.Add((byte)ParameterCode.Role, roleJson);
-            threadEventParameter.Add((byte)ParameterCode.RoleMoveStatus, roleMoveStatusJson);
+            //threadEventParameter.Add((byte)ParameterCode.RoleMoveStatus, roleMoveStatusJson);
             //QueueThreadEvent(peerSet,EventCode.NewPlayer, threadEventParameter, "EnterAdventureSceneHandler  线程结束");
-            return opResponseData;
+            return operationResponse;
         }
     }
 }

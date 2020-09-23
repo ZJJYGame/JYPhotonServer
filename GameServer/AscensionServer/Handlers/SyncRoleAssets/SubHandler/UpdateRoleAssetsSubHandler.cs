@@ -13,7 +13,7 @@ namespace AscensionServer
     public class UpdateRoleAssetsSubHandler : SyncRoleAssetsSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             ResetResponseData(operationRequest);
             string roleAssetsJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleAssets));
@@ -44,14 +44,13 @@ namespace AscensionServer
 
                 NHibernateQuerier.Update<RoleAssets>(new RoleAssets() { RoleID = roleAssetsObj.RoleID,  SpiritStonesLow = assetsServer.SpiritStonesLow,XianYu = assetsServer.XianYu });
 
-               await  RedisHelper.Hash.HashSetAsync<RoleAssets>("RoleAssets", roleAssetsObj.RoleID.ToString(), new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesLow = assetsServer.SpiritStonesLow, XianYu = assetsServer.XianYu });
-
-                Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
+               RedisHelper.Hash.HashSet<RoleAssets>("RoleAssets", roleAssetsObj.RoleID.ToString(), new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesLow = assetsServer.SpiritStonesLow, XianYu = assetsServer.XianYu });
+                operationResponse.ReturnCode = (byte)ReturnCode.Success;
             }
             else
-                Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+                operationResponse.ReturnCode = (byte)ReturnCode.Fail;
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
+            return operationResponse;
         }
     }
 }

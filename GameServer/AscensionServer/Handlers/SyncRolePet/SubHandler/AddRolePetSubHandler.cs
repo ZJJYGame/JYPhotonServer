@@ -14,9 +14,9 @@ namespace AscensionServer
     public class AddRolePetSubHandler : SyncRolePetSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
 
             string rpJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RolePet));
             string pJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Pet));
@@ -52,11 +52,10 @@ namespace AscensionServer
                     petDoList.Add(Utility.Json.ToJson(petPtitudeObj));
 
                     #region redis模块
-                    await RedisHelper.Hash.HashSetAsync<PetStatus>("PetStatus", petObj.ID.ToString(), petstatusObj);
-                    await RedisHelper.Hash.HashSetAsync<PetaPtitude>("PetaPtitude", petObj.ID.ToString(), petaPtitude);
-                    await RedisHelper.Hash.HashSetAsync<Pet>("Pet", petObj.ID.ToString(), petObj);
-                    await RedisHelper.Hash.HashSetAsync<RolePet>("RolePet", rolepetObj.RoleID.ToString(), new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
-
+                    RedisHelper.Hash.HashSet<PetStatus>("PetStatus", petObj.ID.ToString(), petstatusObj);
+                    RedisHelper.Hash.HashSet<PetaPtitude>("PetaPtitude", petObj.ID.ToString(), petaPtitude);
+                    RedisHelper.Hash.HashSet<Pet>("Pet", petObj.ID.ToString(), petObj);
+                    RedisHelper.Hash.HashSet<RolePet>("RolePet", rolepetObj.RoleID.ToString(), new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
 
                     Utility.Debug.LogError("添加宠物成功》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》");
 
@@ -79,11 +78,10 @@ namespace AscensionServer
                     petPtitudeObj.PetID = petObj.ID;
                     petDoList.Add(Utility.Json.ToJson(petPtitudeObj));
                     #region redis模块
-                    await RedisHelper.Hash.HashSetAsync<PetStatus>("PetStatus", petObj.ID.ToString(), petstatusObj);
-                    await RedisHelper.Hash.HashSetAsync<PetaPtitude>("PetaPtitude", petObj.ID.ToString(), petaPtitude);
-                    await RedisHelper.Hash.HashSetAsync<Pet>("Pet", petObj.ID.ToString(), petObj);
-                    await RedisHelper.Hash.HashSetAsync<RolePet>("RolePet", rolepetObj.RoleID.ToString(), new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
-
+                    RedisHelper.Hash.HashSet<PetStatus>("PetStatus", petObj.ID.ToString(), petstatusObj);
+                    RedisHelper.Hash.HashSet<PetaPtitude>("PetaPtitude", petObj.ID.ToString(), petaPtitude);
+                    RedisHelper.Hash.HashSet<Pet>("Pet", petObj.ID.ToString(), petObj);
+                    RedisHelper.Hash.HashSet<RolePet>("RolePet", rolepetObj.RoleID.ToString(), new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
 
                     Utility.Debug.LogError("添加宠物成功》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》");
 
@@ -107,27 +105,22 @@ namespace AscensionServer
                 petPtitudeObj.PetID = petObj.ID;
                 petDoList.Add(Utility.Json.ToJson(petPtitudeObj));
                 #region redis模块
-                await RedisHelper.Hash.HashSetAsync<PetStatus>("PetStatus", petObj.ID.ToString(), petstatusObj);
-                await RedisHelper.Hash.HashSetAsync<PetaPtitude>("PetaPtitude", petObj.ID.ToString(), petaPtitude);
-                await RedisHelper.Hash.HashSetAsync<Pet>("Pet", petObj.ID.ToString(), petObj);
-                await RedisHelper.Hash.HashSetAsync<RolePet>("RolePet", rolepetObj.RoleID.ToString(), new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
-
+                RedisHelper.Hash.HashSet<PetStatus>("PetStatus", petObj.ID.ToString(), petstatusObj);
+                RedisHelper.Hash.HashSet<PetaPtitude>("PetaPtitude", petObj.ID.ToString(), petaPtitude);
+                RedisHelper.Hash.HashSet<Pet>("Pet", petObj.ID.ToString(), petObj);
+                RedisHelper.Hash.HashSet<RolePet>("RolePet", rolepetObj.RoleID.ToString(), new RolePet() { RoleID = rolepet.RoleID, PetIDDict = Utility.Json.ToJson(petDict) });
 
                 Utility.Debug.LogError("添加宠物成功》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》》");
 
                 #endregion
             }
-            SetResponseData(() =>
+            SetResponseParamters(() =>
             {
-                SubDict.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(petDoList));
-
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                subResponseParameters.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(petDoList));
+                operationResponse.ReturnCode = (short)ReturnCode.Success;
             });
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaroleID);
+            return operationResponse;
         }
-
-
-
     }
 }

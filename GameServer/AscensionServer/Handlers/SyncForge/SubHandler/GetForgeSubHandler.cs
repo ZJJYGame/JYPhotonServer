@@ -14,9 +14,10 @@ namespace AscensionServer
     public class GetForgeSubHandler : SyncForgeSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string forgeJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobForge));
             var forgeObj = Utility.Json.ToObject<ForgeDTO>(forgeJson);
             NHCriteria nHCriteriaFroge = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", forgeObj.RoleID);
@@ -30,22 +31,21 @@ namespace AscensionServer
                     forgeObj.JobLevelExp = Frogetemp.JobLevelExp;
                     forgeObj.RoleID = Frogetemp.RoleID;
                     forgeObj.Recipe_Array = Utility.Json.ToObject<HashSet<int>>(Frogetemp.Recipe_Array);
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {   
-                        SubDict.Add((byte)ParameterCode.JobForge, Utility.Json.ToJson(forgeObj));
-
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                        subResponseParameters.Add((byte)ParameterCode.JobForge, Utility.Json.ToJson(forgeObj));
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                     //AscensionServer._Log.Info("得到的锻造配方"+ Utility.Json.ToJson(Frogetemp));
                 }
             }
             else
             {
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
-                SubDict.Add((byte)ParameterCode.JobForge, Utility.Json.ToJson(new List<string>()));
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                subResponseParameters.Add((byte)ParameterCode.JobForge, Utility.Json.ToJson(new List<string>()));
             }
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaFroge);
+            return operationResponse;
         }
     }
 }

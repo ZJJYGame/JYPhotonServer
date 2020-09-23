@@ -20,18 +20,18 @@ namespace AscensionServer
             //var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
 
             responseParameters.Clear();
-            opResponseData.OperationCode = operationRequest.OperationCode;
-            opResponseData.ReturnCode = (byte)ReturnCode.Success;
+            operationResponse.OperationCode = operationRequest.OperationCode;
+            operationResponse.ReturnCode = (byte)ReturnCode.Success;
             //peer.SendOperationResponse(OpResponse, sendParameters);
 
             //var roleJson = Utility.Json.ToJson(peer.PeerCache.Role);
             //var roleMoveStatusJson = Utility.Json.ToJson(peer.PeerCache.RoleMoveStatus);
-            threadEventParameter.Clear();
+            //threadEventParameter.Clear();
             //广播事件
             //threadEventParameter.Add((byte)ParameterCode.Role, roleJson);
             //threadEventParameter.Add((byte)ParameterCode.RoleMoveStatus, roleMoveStatusJson);
             //QueueThreadEvent(peerSet, EventCode.DeletePlayer, threadEventParameter);
-            return opResponseData;
+            return operationResponse;
         }
     }
 }

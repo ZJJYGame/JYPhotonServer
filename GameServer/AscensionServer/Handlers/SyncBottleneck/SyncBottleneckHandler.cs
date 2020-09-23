@@ -23,15 +23,15 @@ namespace AscensionServer
             if (bottleneck != null)
             {
                 NHibernateQuerier.Update(bottleneckObj);
-                opResponseData.ReturnCode = (short)ReturnCode.Success;
+                operationResponse.ReturnCode = (short)ReturnCode.Success;
             }
             else
             {
                 NHibernateQuerier.Insert(bottleneckObj);
-                opResponseData.ReturnCode = (short)ReturnCode.Success;
+                operationResponse.ReturnCode = (short)ReturnCode.Success;
             }
             GameManager.ReferencePoolManager.Despawns(nHCriteriaBottleneck);
-            return opResponseData;
+            return operationResponse;
         }
     }
 }

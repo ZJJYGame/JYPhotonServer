@@ -16,23 +16,20 @@ namespace AscensionServer
     public class RemoveRoleAuctionItemsSubHandler : SyncRoleAuctionItemsSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Remove;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             bool isSuccess = true;
 
             ResetResponseData(operationRequest);
 
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string removeRoleAuctionItemJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAuctionItems));
             RoleAuctionItem removeRoleAuctionItem = Utility.Json.ToObject<RoleAuctionItem>(removeRoleAuctionItemJson);
-
-            await RedisHelper.KeyDeleteAsync("AuctionGoods_" + removeRoleAuctionItem.AuctionGoods.GUID);
-            
-
+            RedisHelper.KeyDelete("AuctionGoods_" + removeRoleAuctionItem.AuctionGoods.GUID);
             if (RedisHelper.Hash.HashExistAsync("AuctionGoodsData", removeRoleAuctionItem.AuctionGoods.GUID).Result)
             {
                 Utility.Debug.LogInfo("移除数据表");
-                await RedisHelper.Hash.HashDeleteAsync("AuctionGoodsData", removeRoleAuctionItem.AuctionGoods.GUID);
+                RedisHelper.Hash.HashDelete("AuctionGoodsData", removeRoleAuctionItem.AuctionGoods.GUID);
             }
             else
             {
@@ -47,7 +44,7 @@ namespace AscensionServer
                 if (tempAuctionGoodsIndex != null)
                 {
                     tempAuctionGoodsIndexList.Remove(tempAuctionGoodsIndex);
-                    await RedisHelper.Hash.HashSetAsync("AuctionIndex", removeRoleAuctionItem.AuctionGoods.GlobalID.ToString(), tempAuctionGoodsIndexList);
+                    RedisHelper.Hash.HashSet("AuctionIndex", removeRoleAuctionItem.AuctionGoods.GlobalID.ToString(), tempAuctionGoodsIndexList);
                 }
             }
             else
@@ -62,7 +59,7 @@ namespace AscensionServer
                 if (tempGuidList.Contains(removeRoleAuctionItem.AuctionGoods.GUID))
                 {
                     tempGuidList.Remove(removeRoleAuctionItem.AuctionGoods.GUID);
-                    await RedisHelper.Hash.HashSetAsync("RoleAuctionItems", removeRoleAuctionItem.AuctionGoods.RoleID.ToString(), tempGuidList);
+                    RedisHelper.Hash.HashSet("RoleAuctionItems", removeRoleAuctionItem.AuctionGoods.RoleID.ToString(), tempGuidList);
                 }
             }
             else
@@ -100,20 +97,19 @@ namespace AscensionServer
             {
                 Utility.Debug.LogInfo("移除成功"+ Utility.Json.ToJson(removeRoleAuctionItem));
                 Utility.Debug.LogInfo("移除成功"+ Utility.Json.ToJson(roleAuctionItemList));
-                Owner.ResponseData.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson (removeRoleAuctionItem));
-                Owner.ResponseData.Add((byte)ParameterCode.Auction, Utility.Json.ToJson(roleAuctionItemList));
-                Owner.OpResponseData.Parameters = Owner.ResponseData;
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                subResponseParameters.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson (removeRoleAuctionItem));
+                subResponseParameters.Add((byte)ParameterCode.Auction, Utility.Json.ToJson(roleAuctionItemList));
+                operationResponse.Parameters = subResponseParameters;
+                operationResponse.ReturnCode = (short)ReturnCode.Success;
               
             }
             else
             {
                 Utility.Debug.LogInfo("移除失败");
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
             }
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             Utility.Debug.LogInfo("移除事件结束");
-
+            return operationResponse;
         }
 
         

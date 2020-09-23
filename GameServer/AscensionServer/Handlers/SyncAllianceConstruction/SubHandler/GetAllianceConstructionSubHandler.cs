@@ -15,35 +15,38 @@ namespace AscensionServer
     public class GetAllianceConstructionSubHandler : SyncAllianceConstructionSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
-            string allianceConstructionJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceConstruction));
-
-            var allianceConstructionObj = Utility.Json.ToObject<AllianceConstructionDTO>(allianceConstructionJson);
-            NHCriteria nHCriteriallianceConstruction = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceConstructionObj.AllianceID);
-
-
-            Utility.Debug.LogError("獲得的得到的仙盟建設" + allianceConstructionJson);
-            var allianceConstructionTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceConstruction>(nHCriteriallianceConstruction).Result;
-            Utility.Debug.LogError("2獲得的得到的仙盟建設" + Utility.Json.ToJson(allianceConstructionTemp));
-            if (allianceConstructionTemp != null)
             {
-                SetResponseData(() =>
+                var dict = ParseSubParameters(operationRequest);
+                string allianceConstructionJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceConstruction));
+
+                var allianceConstructionObj = Utility.Json.ToObject<AllianceConstructionDTO>(allianceConstructionJson);
+                NHCriteria nHCriteriallianceConstruction = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceConstructionObj.AllianceID);
+
+
+                Utility.Debug.LogError("獲得的得到的仙盟建設" + allianceConstructionJson);
+                var allianceConstructionTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceConstruction>(nHCriteriallianceConstruction).Result;
+                Utility.Debug.LogError("2獲得的得到的仙盟建設" + Utility.Json.ToJson(allianceConstructionTemp));
+                if (allianceConstructionTemp != null)
                 {
-                    SubDict.Add((byte)ParameterCode.AllianceConstruction, Utility.Json.ToJson(allianceConstructionTemp));
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
-                });
-            }
-            else
-            {
-                SetResponseData(() =>
+                    SetResponseParamters(() =>
+                    {
+                        subResponseParameters.Add((byte)ParameterCode.AllianceConstruction, Utility.Json.ToJson(allianceConstructionTemp));
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
+                    });
+                }
+                else
                 {
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
-                });
+                    SetResponseParamters(() =>
+                    {
+                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                    });
+                }
+                GameManager.ReferencePoolManager.Despawns(nHCriteriallianceConstruction);
+                return operationResponse;
             }
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
-            GameManager.ReferencePoolManager.Despawns(nHCriteriallianceConstruction);
         }
     }
 }

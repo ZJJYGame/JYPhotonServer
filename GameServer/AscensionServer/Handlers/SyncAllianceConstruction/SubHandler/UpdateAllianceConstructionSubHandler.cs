@@ -16,9 +16,10 @@ namespace AscensionServer.Handlers
     public class UpdateAllianceConstructionSubHandler : SyncAllianceConstructionSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string allianceConstructionJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceConstruction));
 
             Utility.Debug.LogError("仙盟升级数据接收成功为" + allianceConstructionJson);
@@ -38,19 +39,19 @@ namespace AscensionServer.Handlers
                     {
                         allianceConstructionTemp.AllianceCave += allianceConstructionObj.AllianceCave;
                         allianceConstructionTemp.AllianceAssets -= allianceConstructionObj.AllianceAssets;
-                        await NHibernateQuerier.UpdateAsync(allianceConstructionTemp);
-                        SetResponseData(() =>
+                        NHibernateQuerier.Update(allianceConstructionTemp);
+                        SetResponseParamters(() =>
                         {
                             Utility.Debug.LogError("发送的升级仙盟数据为"+ Utility.Json.ToJson(allianceConstructionTemp));
-                            SubDict.Add((byte)ParameterCode.AllianceConstruction, Utility.Json.ToJson(allianceConstructionTemp));
-                            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                            subResponseParameters.Add((byte)ParameterCode.AllianceConstruction, Utility.Json.ToJson(allianceConstructionTemp));
+                            operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
                     }
                     else
                     {
-                        SetResponseData(() =>
+                        SetResponseParamters(() =>
                         {
-                            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                            operationResponse.ReturnCode = (short)ReturnCode.Fail;
                         });
                     }
                 }
@@ -60,19 +61,19 @@ namespace AscensionServer.Handlers
                     {
                         allianceConstructionTemp.AllianceAlchemyStorage += allianceConstructionObj.AllianceAlchemyStorage;
                         allianceConstructionTemp.AllianceAssets -= allianceConstructionObj.AllianceAssets;
-                        await NHibernateQuerier.UpdateAsync(allianceConstructionTemp);
-                        SetResponseData(() =>
+                        NHibernateQuerier.Update(allianceConstructionTemp);
+                        SetResponseParamters(() =>
                         {
                             Utility.Debug.LogError("发送的升级仙盟数据为" + Utility.Json.ToJson(allianceConstructionTemp));
-                            SubDict.Add((byte)ParameterCode.AllianceConstruction, Utility.Json.ToJson(allianceConstructionTemp));
-                            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                            subResponseParameters.Add((byte)ParameterCode.AllianceConstruction, Utility.Json.ToJson(allianceConstructionTemp));
+                            operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
                     }
                     else
                     {
-                        SetResponseData(() =>
+                        SetResponseParamters(() =>
                         {
-                            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                            operationResponse.ReturnCode = (short)ReturnCode.Fail;
                         });
                     }
                 }
@@ -82,19 +83,19 @@ namespace AscensionServer.Handlers
                     {
                         allianceConstructionTemp.AllianceScripturesPlatform += allianceConstructionObj.AllianceScripturesPlatform;
                         allianceConstructionTemp.AllianceAssets -= allianceConstructionObj.AllianceAssets;
-                        await NHibernateQuerier.UpdateAsync(allianceConstructionTemp);
-                        SetResponseData(() =>
+                        NHibernateQuerier.Update(allianceConstructionTemp);
+                        SetResponseParamters(() =>
                         {
                             Utility.Debug.LogError("发送的升级仙盟数据为" + Utility.Json.ToJson(allianceConstructionTemp));
-                            SubDict.Add((byte)ParameterCode.AllianceConstruction, Utility.Json.ToJson(allianceConstructionTemp));
-                            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                            subResponseParameters.Add((byte)ParameterCode.AllianceConstruction, Utility.Json.ToJson(allianceConstructionTemp));
+                            operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
                     }
                     else
                     {
-                        SetResponseData(() =>
+                        SetResponseParamters(() =>
                         {
-                            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                            operationResponse.ReturnCode = (short)ReturnCode.Fail;
                         });
                     }
                 }
@@ -104,30 +105,28 @@ namespace AscensionServer.Handlers
                     {
                         allianceConstructionTemp.AllianceChamber += allianceConstructionObj.AllianceChamber;
                         allianceConstructionTemp.AllianceAssets -= allianceConstructionObj.AllianceAssets;
-
-                        await NHibernateQuerier.UpdateAsync(allianceConstructionTemp);
+                        NHibernateQuerier.Update(allianceConstructionTemp);
                         allianceStatusTemp.AllianceLevel += 1;
-                        await NHibernateQuerier.UpdateAsync(allianceStatusTemp);
-                        SetResponseData(() =>
+                        NHibernateQuerier.Update(allianceStatusTemp);
+                        SetResponseParamters(() =>
                         {
                             Utility.Debug.LogError("发送的升级仙盟数据为" + Utility.Json.ToJson(allianceConstructionTemp));
-                            SubDict.Add((byte)ParameterCode.AllianceConstruction, Utility.Json.ToJson(allianceConstructionTemp));
-                            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                            subResponseParameters.Add((byte)ParameterCode.AllianceConstruction, Utility.Json.ToJson(allianceConstructionTemp));
+                            operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
                     }
                     else
                     {
-                        SetResponseData(() =>
+                        SetResponseParamters(() =>
                         {
-                            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                            operationResponse.ReturnCode = (short)ReturnCode.Fail;
                         });
                     }
                 }
             }
 
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriallianceConstruction, nHCriterialliance);
-
+            return operationResponse;
         }
     }
 }

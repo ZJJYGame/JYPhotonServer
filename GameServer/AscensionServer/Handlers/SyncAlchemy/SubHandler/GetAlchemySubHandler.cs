@@ -10,42 +10,41 @@ using AscensionServer.Model;
 using Cosmos;
 namespace AscensionServer
 {
-   public class GetAlchemySubHandler:SyncAlchemySubHandler
+    public class GetAlchemySubHandler : SyncAlchemySubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        //public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
-              public override OperationResponse EncodeMessage(OperationRequest operationRequest)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
-            string alchemyJson = Convert.ToString(Utility.GetValue(dict,(byte)ParameterCode.JobAlchemy));
+            var dict = ParseSubParameters(operationRequest);
+            string alchemyJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobAlchemy));
             var alchemyObj = Utility.Json.ToObject<AlchemyDTO>(alchemyJson);
             NHCriteria nHCriteriaalchemy = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", alchemyObj.RoleID);
             var alchemytemp = NHibernateQuerier.CriteriaSelect<Alchemy>(nHCriteriaalchemy);
-            if (alchemytemp!=null)
+            if (alchemytemp != null)
             {
                 if (!string.IsNullOrEmpty(alchemytemp.Recipe_Array))
                 {
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
                         alchemyObj.JobLevel = alchemytemp.JobLevel;
                         alchemyObj.JobLevelExp = alchemytemp.JobLevelExp;
                         alchemyObj.Recipe_Array = Utility.Json.ToObject<HashSet<int>>(alchemytemp.Recipe_Array);
                         alchemyObj.RoleID = alchemytemp.RoleID;
-     
-                        SubDict.Add((byte)ParameterCode.JobAlchemy, Utility.Json.ToJson(alchemyObj));
-                       opResponseData.ReturnCode = (short)ReturnCode.Success;
+
+                        subResponseParameters.Add((byte)ParameterCode.JobAlchemy, Utility.Json.ToJson(alchemyObj));
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
             }
             else
             {
-                opResponseData.ReturnCode = (short)ReturnCode.Fail;
-                SubDict.Add((byte)ParameterCode.JobAlchemy, Utility.Json.ToJson(new List<string>()));
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
+               subResponseParameters.Add((byte)ParameterCode.JobAlchemy, Utility.Json.ToJson(new List<string>()));
             }
             GameManager.ReferencePoolManager.Despawns(nHCriteriaalchemy);
-            return opResponseData;
+            return operationResponse;
         }
 
-       
+
     }
 }

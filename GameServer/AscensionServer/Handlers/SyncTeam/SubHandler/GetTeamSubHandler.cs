@@ -15,7 +15,7 @@ namespace AscensionServer
     public class GetTeamSubHandler : SyncTeamSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             ResetResponseData(operationRequest);
             var teamData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role) as string;
@@ -44,16 +44,15 @@ namespace AscensionServer
                     default:
                         break;
                 }
-                Owner.ResponseData.Add((byte)ParameterCode.RoleTeam, Utility.Json.ToJson(AscensionServer.Instance._teamTOModel));
-                Owner.ResponseData.Add((byte)ParameterCode.Role, Utility.Json.ToJson(AscensionServer.Instance._playerIdToTeamIdDict));
-                Owner.OpResponseData.Parameters = Owner.ResponseData;
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                subResponseParameters.Add((byte)ParameterCode.RoleTeam, Utility.Json.ToJson(AscensionServer.Instance._teamTOModel));
+                subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(AscensionServer.Instance._playerIdToTeamIdDict));
+                operationResponse.Parameters = subResponseParameters;
+                operationResponse.ReturnCode = (short)ReturnCode.Success;
             }
             else
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
-
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
             GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
+            return operationResponse;
         }
     }
 }

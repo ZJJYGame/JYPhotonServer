@@ -16,7 +16,8 @@ namespace AscensionServer
     public class GetInventorySubHandler : SyncInventorySubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             ResetResponseData(operationRequest);
             var InventoryRoleData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role) as string;
@@ -33,16 +34,16 @@ namespace AscensionServer
             if (exist && existRing)
             {
                 var ringServerArray = NHibernateQuerier.CriteriaSelect<Ring>(nHCriteriaRingID);
-                Owner.ResponseData.Add((byte)ParameterCode.Inventory, ringServerArray.RingItems);
-                Owner.ResponseData.Add((byte)ParameterCode.MessageQueue, ringServerArray.RingMagicDictServer);
-                Owner.ResponseData.Add((byte)ParameterCode.RoleTemInventory, ringServerArray.RingAdorn);
-                Owner.OpResponseData.Parameters = Owner.ResponseData;
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                subResponseParameters.Add((byte)ParameterCode.Inventory, ringServerArray.RingItems);
+                subResponseParameters.Add((byte)ParameterCode.MessageQueue, ringServerArray.RingMagicDictServer);
+                subResponseParameters.Add((byte)ParameterCode.RoleTemInventory, ringServerArray.RingAdorn);
+                operationResponse.Parameters = subResponseParameters;
+                operationResponse.ReturnCode = (short)ReturnCode.Success;
             }
             else
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
             GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
+            return operationResponse;
         }
     }
 }

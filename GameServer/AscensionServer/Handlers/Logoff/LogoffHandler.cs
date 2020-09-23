@@ -25,18 +25,18 @@ namespace AscensionServer
             string userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.User));
             var userObj = Utility.Json.ToObject<User>(userJson);
             responseParameters.Clear();
-            //bool verified = peer.PeerCache.EqualUser(userObj)&&peer.PeerCache.IsLogged==true;
-            opResponseData.OperationCode = operationRequest.OperationCode;
+            //bool verified = peer.PeerCache.EqualUser(userObj) && peer.PeerCache.IsLogged == true;
+            operationResponse.OperationCode = operationRequest.OperationCode;
             //if (verified)
             //{
-            //    OpResponse.ReturnCode = (short)ReturnCode.Success;
+            //    operationResponse.ReturnCode = (short)ReturnCode.Success;
             //    OpCodeEventCore.Instance.Dispatch(operationRequest.OperationCode, userObj);
             //}
             //else
             //{
-            //    OpResponse.ReturnCode = (short)ReturnCode.Fail;
+            //    operationResponse.ReturnCode = (short)ReturnCode.Fail;
             //}
-            return opResponseData;
+            return operationResponse;
         }
     }
 }

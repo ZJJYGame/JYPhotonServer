@@ -26,7 +26,7 @@ namespace AscensionServer
             var allianceNameTemp = NHibernateQuerier.CriteriaSelect<AllianceStatus>(nHCriteriaAlliance);
             var allianceStatusTemp = AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", allianceStatusObj.ID);
             var roleAssetsTemp = AlliancelogicManager.Instance.GetNHCriteria<RoleAssets>("RoleID", roleAssetsObj.RoleID);
-            opResponseData.OperationCode = operationRequest.OperationCode;
+            operationResponse.OperationCode = operationRequest.OperationCode;
             if (roleAssetsTemp != null)
             {
                 if (roleAssetsTemp.SpiritStonesLow >= roleAssetsObj.SpiritStonesLow)
@@ -41,20 +41,20 @@ namespace AscensionServer
 
                         RedisHelper.Hash.HashSet<RoleAssets>("RoleAssets", roleAssetsObj.RoleID.ToString(), new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesLow = roleAssetsTemp.SpiritStonesLow, XianYu = roleAssetsTemp.XianYu });
                         responseParameters.Add((byte)ParameterCode.AllianceName, Utility.Json.ToJson(allianceStatusTemp));
-                        opResponseData.ReturnCode = (short)ReturnCode.Success;//返回成功
-                        opResponseData.Parameters = responseParameters;
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;//返回成功
+                        operationResponse.Parameters = responseParameters;
                     }
                     else
-                        opResponseData.ReturnCode = (short)ReturnCode.Fail;
+                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 }
                 else
-                    opResponseData.ReturnCode = (short)ReturnCode.Fail;
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
             }
             else
-                opResponseData.ReturnCode = (short)ReturnCode.Fail;
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
 
             GameManager.ReferencePoolManager.Despawns(nHCriteriaAlliance);
-            return opResponseData;
+            return operationResponse;
         }
     }
 }

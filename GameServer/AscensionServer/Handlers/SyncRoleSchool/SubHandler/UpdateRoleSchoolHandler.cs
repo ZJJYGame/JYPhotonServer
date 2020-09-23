@@ -13,9 +13,10 @@ namespace AscensionServer
     public class UpdateRoleSchoolHandler : SyncRoleSchoolSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string roleschoolJson = Convert.ToString(Utility.GetValue(dict,(byte)ParameterCode.RoleSchool));
             var roleschoolObj = Utility.Json.ToObject<RoleSchool>(roleschoolJson);
 
@@ -41,7 +42,7 @@ namespace AscensionServer
                 }
                 roleschooltmep.RoleSchoolHatred = Utility.Json.ToJson(hatredDict);
             }
-
+            return operationResponse;
         }
     }
 }

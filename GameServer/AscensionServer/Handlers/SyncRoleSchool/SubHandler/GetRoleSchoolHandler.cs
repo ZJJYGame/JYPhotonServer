@@ -14,10 +14,10 @@ namespace AscensionServer
     public class GetRoleSchoolHandler : SyncRoleSchoolSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
-        {
 
-            var dict = ParseSubDict(operationRequest);
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
+        {
+            var dict = ParseSubParameters(operationRequest);
             string roleListJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleSchool));
             var roleobj = Utility.Json.ToObject<List<int>>(roleListJson);
             Dictionary<int, School> schoolDict = new Dictionary<int, School>();
@@ -43,39 +43,32 @@ namespace AscensionServer
                     }
                     else
                     {
-
-                        SetResponseData(() =>
+                        SetResponseParamters(() =>
                         {
-                            Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
+                         operationResponse.ReturnCode = (byte)ReturnCode.Fail;
                         });
-                        peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
-                        return;
                     }
                     GameManager.ReferencePoolManager.Despawns(nHCriteriarole);
-                    
                 }
              
                 if (schoolDict.Count == roleobj.Count)
                 {
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-
-                        SubDict.Add((byte)ParameterCode.RoleSchool, Utility.Json.ToJson(schoolDict));
-
-                        Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
+                        subResponseParameters.Add((byte)ParameterCode.RoleSchool, Utility.Json.ToJson(schoolDict));
+                        operationResponse.ReturnCode = (byte)ReturnCode.Success;
                     });
                 }
                 else
                 {
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-                        Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
+                        operationResponse.ReturnCode = (byte)ReturnCode.Fail;
                     });
                 }
             }
             Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>..发送加入的宗门" + Utility.Json.ToJson(schoolDict));
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
-
+            return operationResponse;
         }
     }
 }

@@ -17,9 +17,10 @@ namespace AscensionServer
     public  class UpdateApplyForAllianceSubHandler : SyncApplyForAllianceSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
 
             string allianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ApplyForAlliance));
             var allianceObj = Utility.Json.ToObject<AllianceMemberDTO>(allianceJson);
@@ -56,46 +57,42 @@ namespace AscensionServer
                         roleAllianceTemp.JoinTime= DateTime.Now.ToShortDateString().ToString();
                         //roleAllianceTemp.JoinOffline =
                         roleAllianceTemp.ApplyForAlliance = "[]";
-                       await NHibernateQuerier.UpdateAsync(roleAllianceTemp);
+                       NHibernateQuerier.Update(roleAllianceTemp);
                         var Role = AlliancelogicManager.Instance.GetNHCriteria<Role>("RoleID", roleidList[i]);
                         RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { RoleID = roleAllianceTemp.RoleID, ApplyForAlliance = new List<int>(), AllianceID = roleAllianceTemp.AllianceID, ReputationHistroy = roleAllianceTemp.ReputationHistroy, AllianceJob = roleAllianceTemp.AllianceJob, JoinOffline = roleAllianceTemp.JoinOffline, JoinTime = roleAllianceTemp.JoinTime, Reputation = roleAllianceTemp.Reputation, ReputationMonth = roleAllianceTemp.ReputationMonth, RoleName = roleAllianceTemp.RoleName,RoleSchool= roleAllianceTemp.RoleSchool ,RoleLevel= Role .RoleLevel};
                         roleAllianceDTOs.Add(roleAllianceDTO);
-
                         allianceStatusTemp.AllianceNumberPeople++;
-
                         applyList.Remove(roleidList[i]);
-
                         memberList.Add(roleidList[i]);
                         if (NHibernateQuerier.CriteriaSelectAsync<RoleAllianceSkill>(nHCriteriRoleAlliance).Result==null)
                         {
                             RoleAllianceSkill roleAllianceSkill = new RoleAllianceSkill() { RoleID = roleAllianceTemp.RoleID };
-                            await NHibernateQuerier.InsertAsync(roleAllianceSkill);
+                            NHibernateQuerier.Insert(roleAllianceSkill);
                         }
                     }
                 }
                 allianceMemberTemp.ApplyforMember = Utility.Json.ToJson(applyList);
                 allianceMemberTemp.Member = Utility.Json.ToJson(memberList);
-
-                await NHibernateQuerier.UpdateAsync(allianceMemberTemp);
-                await NHibernateQuerier.UpdateAsync(allianceStatusTemp);
+                NHibernateQuerier.Update(allianceMemberTemp);
+                NHibernateQuerier.Update(allianceStatusTemp);
             }
             if (roleAllianceDTOs.Count>0)
             {
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                     {
-                        SubDict.Add((byte)ParameterCode.ApplyForAlliance, Utility.Json.ToJson(roleAllianceDTOs));
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                        subResponseParameters.Add((byte)ParameterCode.ApplyForAlliance, Utility.Json.ToJson(roleAllianceDTOs));
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
                     });
             }
             else
             {
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                     {
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     });
             }
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(NHCriterias);
+            return operationResponse;
         }
     }
 }

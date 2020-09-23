@@ -39,7 +39,7 @@ namespace AscensionServer
             //    Utility.Debug.LogInfo("派发刷新商店的事件给服务器1》》》》》》》》》》》》》》》》" + schoolJson);
             //    Utility.Debug.LogInfo("派发刷新商店的事件给服务器2》》》》》》》》》》》》》》》》" + roleJson);
             //}
-            return opResponseData;
+            return operationResponse;
         }
     }
 }

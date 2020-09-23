@@ -16,9 +16,10 @@ namespace AscensionServer
     public class GetVareityShopSubHandler : SyncVareityShopSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string vareityJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.VareityShop));
             var vareityObj = Utility.Json.ToObject<VareityShopDTO>(vareityJson);
             string vareitypurchaseJson= Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.VareityPurchase));
@@ -42,7 +43,7 @@ namespace AscensionServer
                     if (!string.IsNullOrEmpty(vareitycontentTemp.VareityPurchasedCount))
                     {
                         //Utility.Debug.LogInfo("储存进数据库成功了杂货铺" + vareityname + "内容是" + vareitycontentTemp.VareityPurchasedCount);
-                    await   RedisHelper.String.StringSetAsync(vareityname, vareitycontentTemp.VareityPurchasedCount);
+                     RedisHelper.String.StringSet(vareityname, vareitycontentTemp.VareityPurchasedCount);
                         VareityPurchaseRecordDTO vareityPurchaseRecordDTO = new VareityPurchaseRecordDTO()
                         {
                             RoleID = vareitypurchaseObj.RoleID,
@@ -71,7 +72,7 @@ namespace AscensionServer
                 {
                     if (!string.IsNullOrEmpty(vareityTemp.AllGoods))
                         {
-                       await RedisHelper.String.StringSetAsync(name, vareityTemp.AllGoods);
+                       RedisHelper.String.StringSet(name, vareityTemp.AllGoods);
                         AllGoodsList = Utility.Json.ToObject<Dictionary<int, List<GoodsStatus>>>(vareityTemp.AllGoods);
                         VareityShopDTO vareityShopDTO = new VareityShopDTO() { VareityshopID = vareityObj.VareityshopID, AllGoods = AllGoodsList };
                         shopDIct.Add("VareityShop", Utility.Json.ToJson(vareityShopDTO));
@@ -86,13 +87,12 @@ namespace AscensionServer
                 VareityShopDTO vareityShopDTO = new VareityShopDTO() { VareityshopID = vareityObj.VareityshopID, AllGoods = AllGoodsList };
                 shopDIct.Add("VareityShop", Utility.Json.ToJson(vareityShopDTO));
             }
-            SetResponseData(() =>
+            SetResponseParamters(() =>
             {
-                SubDict.Add((byte)ParameterCode.VareityShop, Utility.Json.ToJson(shopDIct));
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                subResponseParameters.Add((byte)ParameterCode.VareityShop, Utility.Json.ToJson(shopDIct));
+                operationResponse.ReturnCode = (short)ReturnCode.Success;
             });
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
-            
+            return operationResponse;
         }
     
     }

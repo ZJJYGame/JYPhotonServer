@@ -14,9 +14,10 @@ namespace AscensionServer
     public class UpdateSutrasAtticmHandler : SyncSutrasAtticmSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string sutrasAtticJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.SutrasAtticm));
             string schoolJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.School));
 
@@ -65,35 +66,32 @@ namespace AscensionServer
                     var sSendObj = NHibernateQuerier.CriteriaSelect<School>(nHCriteriaschool);
                     DOdict.Add("SutrasAttic", Utility.Json.ToJson(new SutrasAtticDTO() { ID = saSendObj.ID, SutrasRedeemedDictl = Utility.Json.ToObject<Dictionary<int, int>>(saSendObj.SutrasRedeemedDictl) }));
                     DOdict.Add("School", Utility.Json.ToJson(sSendObj));
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-
-                        SubDict.Add((byte)ParameterCode.SutrasAtticm, Utility.Json.ToJson(DOdict));
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                        subResponseParameters.Add((byte)ParameterCode.SutrasAtticm, Utility.Json.ToJson(DOdict));
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
                 else
                 {
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
                         Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>传回到的藏宝阁s失败");
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     });
                 }
-
             }
             else
             {
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
                     Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>传回到的藏宝阁s失败");
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
-
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriasutrasAttic, nHCriteriaschool);
             Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>传回到的藏宝阁" + Utility.Json.ToJson(DOdict));
+            return operationResponse;
         }
     }
 }

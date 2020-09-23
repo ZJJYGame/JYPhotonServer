@@ -8,24 +8,23 @@ using Photon.SocketServer;
 using AscensionServer.Model;
 using Cosmos;
 using AscensionProtocol.DTO;
-
 namespace AscensionServer
 {
     public class AddAlchemySubHandler : SyncAlchemySubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
-            string alchemyJson = Convert.ToString(Utility.GetValue(dict,(byte)ParameterCode.JobAlchemy));
+            var dict = ParseSubParameters(operationRequest);
+            string alchemyJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobAlchemy));
             var alchemyObj = Utility.Json.ToObject<AlchemyDTO>(alchemyJson);
             NHCriteria nHCriteriaAlchemy = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", alchemyObj.RoleID);
             var alchemyTemp = NHibernateQuerier.CriteriaSelect<Alchemy>(nHCriteriaAlchemy);
-            HashSet<int> alchemyHash=new HashSet<int>();
-            if (alchemyTemp!=null)
-            {             
+            HashSet<int> alchemyHash = new HashSet<int>();
+            if (alchemyTemp != null)
+            {
                 if (string.IsNullOrEmpty(alchemyTemp.Recipe_Array))
-                {                 
+                {
                     alchemyTemp.Recipe_Array = Utility.Json.ToJson(alchemyObj.Recipe_Array);
                     NHibernateQuerier.Update(alchemyTemp);
                 }
@@ -36,19 +35,18 @@ namespace AscensionServer
                     alchemyTemp.Recipe_Array = Utility.Json.ToJson(alchemyHash);
                     NHibernateQuerier.Update(alchemyTemp);
                 }
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    alchemyObj = new AlchemyDTO() {RoleID= alchemyTemp.RoleID,JobLevel= alchemyTemp.JobLevel,JobLevelExp= alchemyTemp.JobLevelExp, Recipe_Array = alchemyHash };
-
-                    SubDict.Add((byte)ParameterCode.JobAlchemy, alchemyObj);
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    alchemyObj = new AlchemyDTO() { RoleID = alchemyTemp.RoleID, JobLevel = alchemyTemp.JobLevel, JobLevelExp = alchemyTemp.JobLevelExp, Recipe_Array = alchemyHash };
+                    subResponseParameters.Add((byte)ParameterCode.JobAlchemy, alchemyObj);
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
 
                 });
             }
             else
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
             GameManager.ReferencePoolManager.Despawns(nHCriteriaAlchemy);
+            return operationResponse;
         }
     }
 }

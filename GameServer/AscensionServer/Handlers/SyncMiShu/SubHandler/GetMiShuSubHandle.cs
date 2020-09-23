@@ -12,10 +12,10 @@ namespace AscensionServer
     public class GetMiShuSubHandle : SyncMiShuSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
-        {
 
-            var dict = ParseSubDict(operationRequest);
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
+        {
+            var dict = ParseSubParameters(operationRequest);
             string roleMSJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.MiShu));
             var roleMiShuObj = Utility.Json.ToObject<RoleMiShu>(roleMSJson);
             NHCriteria nHCriteriamishu = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleMiShuObj.RoleID);
@@ -40,25 +40,24 @@ namespace AscensionServer
                         nHCriteriaslist.Add(tmpcriteria);
                     }
                 }
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.MiShu, Utility.Json.ToJson(miShuIdList));
-                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.MiShu, Utility.Json.ToJson(miShuIdList));
+                    operationResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
                 GameManager.ReferencePoolManager.Despawns(nHCriteriaslist);
             }
             else
             {
-              SetResponseData(() =>
+              SetResponseParamters(() =>
                 {
                     Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收到获取秘术的id为空");
-                    SubDict.Add((byte)ParameterCode.MiShu, Utility.Json.ToJson(new List<string>()));
-                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
+                    subResponseParameters.Add((byte)ParameterCode.MiShu, Utility.Json.ToJson(new List<string>()));
+                    operationResponse.ReturnCode = (byte)ReturnCode.Fail;
                 });
             }
-
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriamishu);
+            return operationResponse;
         }
     }
 }

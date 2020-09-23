@@ -13,9 +13,9 @@ namespace AscensionServer
     public class UpdateRoleSubHandler : SyncRoleSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string roleJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role));
 
 
@@ -26,24 +26,21 @@ namespace AscensionServer
             if (roleTemp != null)
             {
                 roleTemp.RoleLevel = roleObj.RoleLevel;
-              await  NHibernateQuerier.UpdateAsync(roleTemp);
-                SetResponseData(() =>
+              NHibernateQuerier.Update(roleTemp);
+                SetResponseParamters(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.Role, Utility.Json.ToJson(roleTemp));
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(roleTemp));
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
             else
             {
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
-
-
-
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+            return operationResponse;
         }
     }
 }

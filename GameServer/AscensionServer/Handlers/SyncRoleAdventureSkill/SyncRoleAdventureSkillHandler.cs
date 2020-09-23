@@ -30,16 +30,16 @@ namespace AscensionServer
             //}
             var roleSetJson = Utility.Json.ToJson(roleSet);
             responseParameters.Add((byte)ParameterCode.RoleAdventureStartSkill, roleAdventureSkillJson);
-            opResponseData.OperationCode = operationRequest.OperationCode;
-            opResponseData.ReturnCode = (short)ReturnCode.Success;
-            opResponseData.Parameters = responseParameters;
+            operationResponse.OperationCode = operationRequest.OperationCode;
+            operationResponse.ReturnCode = (short)ReturnCode.Success;
+            operationResponse.Parameters = responseParameters;
             //广播事件
-            threadEventParameter.Clear();
-            threadEventParameter.Add((byte)ParameterCode.RoleAdventureStartSkill, roleAdventureSkillJson);
+            //threadEventParameter.Clear();
+            //threadEventParameter.Add((byte)ParameterCode.RoleAdventureStartSkill, roleAdventureSkillJson);
             //QueueThreadEvent(peerSet, EventCode.RoleAdventureStartSkill, threadEventParameter);
             //SkillBuffEnd(peer.PeerCache.RoleAdventureSkill.BuffeInterval, peer);
             //CDIntervalMethod(peer.PeerCache.RoleAdventureSkill.CDInterval, peer, peer.PeerCache.RoleAdventureSkill.SkillID);
-            return opResponseData;
+            return operationResponse;
         }
 
         #region 删除

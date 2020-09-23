@@ -31,19 +31,19 @@ namespace AscensionServer
                     schooltemp.ContributionNow += schoolObj.GetContributions;
                     schooltemp.IsSignin = schoolObj.IsSignin;
                     NHibernateQuerier.Update<School>(schooltemp);
-                    opResponseData.ReturnCode = (byte)ReturnCode.Success;
+                    operationResponse.ReturnCode = (byte)ReturnCode.Success;
                     responseParameters.Add((byte)ParameterCode.SchoolRefresh, Utility.Json.ToJson(schooltemp));
-                    opResponseData.OperationCode = operationRequest.OperationCode;
-                    opResponseData.Parameters = responseParameters;
+                    operationResponse.OperationCode = operationRequest.OperationCode;
+                    operationResponse.Parameters = responseParameters;
                 }
                 else
                 {
-                   opResponseData.ReturnCode = (byte)ReturnCode.Fail;
+                   operationResponse.ReturnCode = (byte)ReturnCode.Fail;
                 }
             }
             Utility.Debug.LogInfo("更新后的宗门信息" + Utility.Json.ToJson(schooltemp));
             GameManager.ReferencePoolManager.Despawns(nHCriteriaschool);
-            return opResponseData;
+            return operationResponse;
         }
     }
 }

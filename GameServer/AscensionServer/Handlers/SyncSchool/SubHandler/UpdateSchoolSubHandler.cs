@@ -15,9 +15,9 @@ namespace AscensionServer
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
 
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string schoolJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.School));
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
             NHCriteria  nHCriteriaschool= GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
@@ -29,23 +29,23 @@ namespace AscensionServer
                     schooltemp.ContributionNow += schoolObj.GetContributions;
                     schooltemp.IsSignin= schoolObj.IsSignin;
                    NHibernateQuerier.Update<School>(schooltemp);
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-                        SubDict.Add((byte)ParameterCode.School, Utility.Json.ToJson(schooltemp));
-                        Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
+                        subResponseParameters.Add((byte)ParameterCode.School, Utility.Json.ToJson(schooltemp));
+                        operationResponse.ReturnCode = (byte)ReturnCode.Success;
                     });
                 }
                 else
                 {
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-                        Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
+                        operationResponse.ReturnCode = (byte)ReturnCode.Fail;
                     });
                 }
             }
             Utility.Debug.LogInfo("更新后的宗门信息" + Utility.Json.ToJson(schooltemp));
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaschool);
+            return operationResponse;
         }
     }
 }

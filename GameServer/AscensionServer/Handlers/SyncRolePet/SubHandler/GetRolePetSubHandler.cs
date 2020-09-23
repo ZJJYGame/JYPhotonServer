@@ -14,10 +14,10 @@ namespace AscensionServer
     public class GetRolePetSubHandler : SyncRolePetSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
 
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string rolepet = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RolePet));
 
             var rolepetObj = Utility.Json.ToObject<RolePet>(rolepet);
@@ -47,10 +47,10 @@ namespace AscensionServer
                 }
                 DODict.Add("Pet", Utility.Json.ToJson(petlist));        
                 DODict.Add("RolePet", Utility.Json.ToJson(rolePetTemp));
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(DODict));
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(DODict));
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
                 GameManager.ReferencePoolManager.Despawns(nHCriteriasList);
                 #endregion
@@ -81,26 +81,25 @@ namespace AscensionServer
                     }
                     DODict.Add("Pet", Utility.Json.ToJson(petlist));
                     DODict.Add("RolePet", Utility.Json.ToJson(rpetObj));
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-                        SubDict.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(DODict));
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                        subResponseParameters.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(DODict));
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                     GameManager.ReferencePoolManager.Despawns(nHCriteriasList);
                 }
                 else
                 {
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-                        SubDict.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(new List<string>()));
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                        subResponseParameters.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(new List<string>()));
+                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     });
                 }
                 #endregion
             }
-
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRolePet);
+            return operationResponse;
         }
     }
 }

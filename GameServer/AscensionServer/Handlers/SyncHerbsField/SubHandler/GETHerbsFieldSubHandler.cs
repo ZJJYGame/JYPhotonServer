@@ -14,9 +14,9 @@ namespace AscensionServer.Handlers
     public class GetHerbsFieldSubHandler : SyncHerbsFieldSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string herbsfieldJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobHerbsField));
             var hfObj = Utility.Json.ToObject<HerbsField>(herbsfieldJson);
 
@@ -25,19 +25,19 @@ namespace AscensionServer.Handlers
             var hfTemp = NHibernateQuerier.CriteriaSelect<HerbsField>(nHCriteriahf);
             if (hfTemp!=null)
             {
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
                     Utility.Debug.LogInfo("發送的霛田信息" + herbsfieldJson);
                     HerbsFieldDTO herbsFieldDTO = new HerbsFieldDTO() { RoleID= hfTemp .RoleID,jobLevel= hfTemp .jobLevel};
                     herbsFieldDTO.AllHerbs = Utility.Json.ToObject<List<HerbFieldStatus>>(hfTemp.AllHerbs);
-                    SubDict.Add((byte)ParameterCode.JobHerbsField, Utility.Json.ToJson(herbsFieldDTO));
-                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.JobHerbsField, Utility.Json.ToJson(herbsFieldDTO));
+                    operationResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
             }
             else
-                Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+                operationResponse.ReturnCode = (byte)ReturnCode.Fail;
             GameManager.ReferencePoolManager.Despawns(nHCriteriahf);
+            return operationResponse;
         }
     }
 }

@@ -16,16 +16,17 @@ namespace AscensionServer
     public class RemoveApplyForAllianceSubHandler : SyncApplyForAllianceSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Remove;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
 
             string allianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ApplyForAlliance));
             var allianceObj = Utility.Json.ToObject<AllianceMemberDTO>(allianceJson);
             List<int> roleidList = new List<int>();
             roleidList = allianceObj.ApplyforMember;
             NHCriteria nHCriteriallianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceObj.AllianceID);
-            var alliancememberTemp =NHibernateQuerier.CriteriaSelectAsync<AllianceMember>(nHCriteriallianceMember).Result;
+            var alliancememberTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceMember>(nHCriteriallianceMember).Result;
 
             List<NHCriteria> NHCriterias = new List<NHCriteria>();
             NHCriterias.Add(nHCriteriallianceMember);
@@ -48,21 +49,21 @@ namespace AscensionServer
                     var roleApplyList = Utility.Json.ToObject<List<int>>(roleAllianceTemp.ApplyForAlliance);
                     roleApplyList.Remove(allianceObj.AllianceID);
                     roleAllianceTemp.ApplyForAlliance = Utility.Json.ToJson(roleApplyList);
-                  await   NHibernateQuerier.UpdateAsync(roleAllianceTemp);
+                    NHibernateQuerier.Update(roleAllianceTemp);
 
 
                     Utility.Debug.LogError("进来的查找所有成员的数据 " + roleidList[i]);
                     applyList.Remove(roleidList[i]);
                 }
             }
-            alliancememberTemp.ApplyforMember=Utility.Json.ToJson(applyList);
-          await  NHibernateQuerier.UpdateAsync(alliancememberTemp);
-            SetResponseData(() =>
+            alliancememberTemp.ApplyforMember = Utility.Json.ToJson(applyList);
+            NHibernateQuerier.Update(alliancememberTemp);
+            SetResponseParamters(() =>
             {
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                operationResponse.ReturnCode = (short)ReturnCode.Success;
             });
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
-                GameManager.ReferencePoolManager.Despawns(NHCriterias);
-            }
+            GameManager.ReferencePoolManager.Despawns(NHCriterias);
+            return operationResponse;
         }
     }
+}

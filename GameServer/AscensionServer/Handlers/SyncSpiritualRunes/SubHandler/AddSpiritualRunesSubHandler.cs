@@ -14,9 +14,10 @@ namespace AscensionServer
     public class AddSpiritualRunesSubHandler : SyncSpiritualRuneSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string spiritualRuneJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobSpiritualRunes));
             var spiritualRuneObj = Utility.Json.ToObject<SpiritualRunesDTO>(spiritualRuneJson);
             NHCriteria nHCriteriaspiritualRune = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", spiritualRuneObj.RoleID);
@@ -36,18 +37,18 @@ namespace AscensionServer
                     spiritualRuneTemp.Recipe_Array = Utility.Json.ToJson(spiritualRuneHash);
                     NHibernateQuerier.Update(spiritualRuneTemp);
                 }
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
                     spiritualRuneObj = new SpiritualRunesDTO() { RoleID = spiritualRuneTemp.RoleID, JobLevel = spiritualRuneTemp.JobLevel, JobLevelExp = spiritualRuneTemp.JobLevelExp, Recipe_Array = spiritualRuneHash };
 
-                    SubDict.Add((byte)ParameterCode.JobSpiritualRunes, spiritualRuneObj);
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.JobSpiritualRunes, spiritualRuneObj);
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
             else
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
             GameManager.ReferencePoolManager.Despawns(nHCriteriaspiritualRune);
+            return operationResponse;
         }
     }
 }

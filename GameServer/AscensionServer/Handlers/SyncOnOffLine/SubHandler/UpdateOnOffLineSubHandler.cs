@@ -17,10 +17,9 @@ namespace AscensionServer
    public class UpdateOnOffLineSubHandler : SyncOnOffLineSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string subDataJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.OnOffLine));
             var onofflinetemp = Utility.Json.ToObject<OnOffLine>(subDataJson);
             NHCriteria nHCriteriaOnoff = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
@@ -30,17 +29,17 @@ namespace AscensionServer
                 obj.MsGfID = onofflinetemp.MsGfID;
                 obj.ExpType = onofflinetemp.ExpType;
                 NHibernateQuerier.Update(obj);
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
+                    operationResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
             }
             else
             {
                 NHibernateQuerier.Insert(onofflinetemp);
             }
-            //peer.SendOperationResponse(Owner.OpResponse, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaOnoff);
+            return operationResponse;
         }
     }
 }

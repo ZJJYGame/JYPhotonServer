@@ -14,9 +14,10 @@ namespace AscensionServer
    public  class AddForgeSubHandler:SyncForgeSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string forgeJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobForge));
             var forgeObj = Utility.Json.ToObject<ForgeDTO>(forgeJson);
             NHCriteria nHCriteriaforge = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", forgeObj.RoleID);
@@ -37,18 +38,17 @@ namespace AscensionServer
                     forgeTemp.Recipe_Array = Utility.Json.ToJson(forgeHash);
                     NHibernateQuerier.Update(forgeTemp);
                 }
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
                     forgeObj = new ForgeDTO() { RoleID = forgeTemp.RoleID, JobLevel = forgeTemp.JobLevel, JobLevelExp = forgeTemp.JobLevelExp, Recipe_Array = forgeHash };
-                    SubDict.Add((byte)ParameterCode.JobForge, Utility.Json.ToJson(forgeObj));
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.JobForge, Utility.Json.ToJson(forgeObj));
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
             else
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
             GameManager.ReferencePoolManager.Despawns(nHCriteriaforge);
+            return operationResponse;
         }
-
     }
 }

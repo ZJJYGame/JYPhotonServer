@@ -16,9 +16,10 @@ namespace AscensionServer
     public class AddApplyForAllianceSubHandler : SyncApplyForAllianceSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string roleAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ApplyForAlliance));
             var roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(roleAllianceJson);
             Utility.Debug.LogInfo("收到的加入仙盟的请求"+ roleAllianceJson);
@@ -40,27 +41,25 @@ namespace AscensionServer
 
                         applyList.Add(roleAllianceObj.ApplyForAlliance[i]);
                         roleAllianceTemp.ApplyForAlliance = Utility.Json.ToJson(applyList);
-                     await   NHibernateQuerier.UpdateAsync(roleAllianceTemp);
+                     NHibernateQuerier.Update(roleAllianceTemp);
                         NHCriteria nHCriteriaroleAllianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", roleAllianceObj.ApplyForAlliance[i]);
                         NHCriterias.Add(nHCriteriaroleAllianceMember);
                         var allianceMemberTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceMember>(nHCriteriaroleAllianceMember).Result;
                         var applyer = Utility.Json.ToObject<List<int>>(allianceMemberTemp.ApplyforMember);
                         applyer.Add(roleAllianceObj.RoleID);
                         allianceMemberTemp.ApplyforMember = Utility.Json.ToJson(applyer);
-                      await  NHibernateQuerier.UpdateAsync(allianceMemberTemp);
+                      NHibernateQuerier.Update(allianceMemberTemp);
                     }
-
-
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
                         roleAllianceObj.ApplyForAlliance = applyList;
-                        SubDict.Add((byte)ParameterCode.ApplyForAlliance, Utility.Json.ToJson(roleAllianceObj));
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                        subResponseParameters.Add((byte)ParameterCode.ApplyForAlliance, Utility.Json.ToJson(roleAllianceObj));
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
             }
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters); 
             GameManager.ReferencePoolManager.Despawns(NHCriterias);
+            return operationResponse;
         }
     }
 }

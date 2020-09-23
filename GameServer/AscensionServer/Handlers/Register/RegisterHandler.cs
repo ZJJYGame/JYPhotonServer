@@ -21,7 +21,7 @@ namespace AscensionServer
             NHCriteria nHCriteriaAccount = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
             bool isExist = NHibernateQuerier.Verify<User>(nHCriteriaAccount);
             responseParameters.Clear();
-            opResponseData.OperationCode = operationRequest.OperationCode;
+            operationResponse.OperationCode = operationRequest.OperationCode;
             if (!isExist)
             {
                 Utility.Debug.LogInfo("==========\n  before add UUID ：" +userJson +"\n"+ userObj.UUID + "\n================");
@@ -36,16 +36,16 @@ namespace AscensionServer
                     var userRole = new UserRole() { UUID = userObj.UUID };
                     NHibernateQuerier.Insert(userRole);
                 }
-            opResponseData.ReturnCode = (short)ReturnCode.Success;//返回成功
+            operationResponse.ReturnCode = (short)ReturnCode.Success;//返回成功
                 GameManager.ReferencePoolManager.Despawns(nHCriteriaUUID);
             }
             else//否者这个用户被注册了
             {
-                opResponseData.ReturnCode = (short)ReturnCode.Fail;//返回失败
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;//返回失败
             }
             // 把上面的结果给客户端
             GameManager.ReferencePoolManager.Despawns(nHCriteriaAccount);
-            return opResponseData;
+            return operationResponse;
         }
     }
 }

@@ -13,9 +13,10 @@ namespace AscensionServer
     public class GetTreasureatticHandler : SyncTreasureatticSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-           
+            return operationResponse;
         }
     }
 }

@@ -13,18 +13,16 @@ namespace AscensionServer
     public class GetRoleStatusSubHandler : SyncRoleStatusSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
-        {
 
-            var dict = ParseSubDict(operationRequest);
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
+        {
+            var dict = ParseSubParameters(operationRequest);
             string roleJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role));
             
             var roleObj = Utility.Json.ToObject<Role>(roleJson);
             if (RedisHelper.Hash.HashExistAsync("Role", roleObj.RoleID.ToString()).Result&& RedisHelper.Hash.HashExistAsync("RoleStatus", roleObj.RoleID.ToString()).Result)
             {
               var roleStatus=  RedisHelper.Hash.HashGetAsync<RoleStatus>("RoleStatus", roleObj.RoleID.ToString());
-
-
             }
             else
             {
@@ -39,16 +37,15 @@ namespace AscensionServer
                     Utility.Debug.LogInfo("------------------------------------GetRoleStatusSubHandler\n" + "RoleStatus  : " + roleStatus + "\nGetRoleStatusSubHandler---------------------------------------");
                     string roleStatusJson = Utility.Json.ToJson(roleStatus);
                     RoleRing roleRing = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleId);
-                    SetResponseData(() => { SubDict.Add((byte)ParameterCode.RoleStatus, roleStatusJson); SubDict.Add((byte)ParameterCode.Inventory, Utility.Json.ToObject<Dictionary<int, int>>(roleRing.RingIdArray)); });
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    SetResponseParamters(() => { subResponseParameters.Add((byte)ParameterCode.RoleStatus, roleStatusJson); subResponseParameters.Add((byte)ParameterCode.Inventory, Utility.Json.ToObject<Dictionary<int, int>>(roleRing.RingIdArray)); });
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
                     GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleId);
                 }
                 else
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 #endregion
             }
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
-
+            return operationResponse;
         }
     }
 }

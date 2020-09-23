@@ -15,9 +15,10 @@ namespace AscensionServer
     public class GetApplyForAllianceSubHandler : SyncApplyForAllianceSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string alliancememberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ApplyForAlliance));
             var alliancememberObj = Utility.Json.ToObject<AllianceMemberDTO>(alliancememberJson);
 
@@ -34,17 +35,14 @@ namespace AscensionServer
 
                 applyForAllianceList.Add(AlliancelogicManager.Instance.JointDate(roleObj, schoolObj));
             }
-
-
-            SetResponseData(() =>
+            SetResponseParamters(() =>
             {
                 Utility.Debug.LogInfo("获得申请加仙盟的列表" + Utility.Json.ToJson(applyForAllianceList));
-                SubDict.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(applyForAllianceList));
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                subResponseParameters.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(applyForAllianceList));
+                operationResponse.ReturnCode = (short)ReturnCode.Success;
             });
-
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaalliancemember);
+            return operationResponse;
         }
     }
 }

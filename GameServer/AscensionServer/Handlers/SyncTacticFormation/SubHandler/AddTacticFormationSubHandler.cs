@@ -14,9 +14,10 @@ namespace AscensionServer
     public class AddTacticFormationSubHandler : SyncTacticFormationSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string tacticFormationJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobTacticFormation));
             Utility.Debug.LogInfo("得到的阵法为"+tacticFormationJson);
             var tacticFormationObj = Utility.Json.ToObject<TacticFormationDTO>(tacticFormationJson);
@@ -37,18 +38,17 @@ namespace AscensionServer
                     tacticFormatioTemp.Recipe_Array = Utility.Json.ToJson(tacticFormationHash);
                     NHibernateQuerier.Update(tacticFormatioTemp);
                 }
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
                     tacticFormationObj = new TacticFormationDTO() { RoleID = tacticFormatioTemp.RoleID, JobLevel = tacticFormatioTemp.JobLevel, JobLevelExp = tacticFormatioTemp.JobLevelExp, Recipe_Array = tacticFormationHash };
-
-                    SubDict.Add((byte)ParameterCode.JobTacticFormation, tacticFormationObj);
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.JobTacticFormation, tacticFormationObj);
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
             else
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
             GameManager.ReferencePoolManager.Despawns(nHCriteriatacticFormation);
+            return operationResponse;
         }
     }
 }

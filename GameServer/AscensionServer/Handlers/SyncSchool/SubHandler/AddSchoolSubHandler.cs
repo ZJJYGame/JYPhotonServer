@@ -14,10 +14,9 @@ namespace AscensionServer
     public class AddSchoolSubHandler : SyncSchoolSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string schoolJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.School));
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
 
@@ -57,19 +56,18 @@ namespace AscensionServer
                 schoolTemp.SchoolJob = schoolObj.SchoolJob;
                 NHibernateQuerier.Update(schoolTemp);
                 var schoolSendObj = NHibernateQuerier.CriteriaSelect<School>(nHCriteriaSchool);
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
                     Utility.Debug.LogInfo(">>>>>>>返回加入宗门的数据" + Utility.Json.ToJson(schoolSendObj));
-                    SubDict.Add((byte)ParameterCode.School, Utility.Json.ToJson(schoolSendObj));
-                    Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.School, Utility.Json.ToJson(schoolSendObj));
+                    operationResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
             }
             else
-                SetResponseData(() =>{Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail; });
+                SetResponseParamters(() =>{operationResponse.ReturnCode = (byte)ReturnCode.Fail; });
             Utility.Debug.LogInfo(">>>>>>>加入宗门的请求收到了2" + schoolTemp.SchoolID);
-
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaSchool, nHCriteriaTreasureattic, nHCriteriasutrasAttic);
+            return operationResponse;
         }
     }
 }

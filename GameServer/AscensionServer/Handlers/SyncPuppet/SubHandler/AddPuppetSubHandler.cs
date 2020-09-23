@@ -14,9 +14,9 @@ namespace AscensionServer
     public class AddPuppetSubHandler : SyncPuppetSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string puppetJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobPuppet));
             Utility.Debug.LogInfo("得到的傀儡为" + puppetJson);
             var puppetObj = Utility.Json.ToObject<PuppetDTO>(puppetJson);
@@ -37,18 +37,18 @@ namespace AscensionServer
                     puppetTemp.Recipe_Array = Utility.Json.ToJson(puppetHash);
                     NHibernateQuerier.Update(puppetTemp);
                 }
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
                     puppetObj = new PuppetDTO() { RoleID = puppetTemp.RoleID, JobLevel = puppetTemp.JobLevel, JobLevelExp = puppetTemp.JobLevelExp, Recipe_Array = puppetHash };
 
-                    SubDict.Add((byte)ParameterCode.JobPuppet, puppetObj);
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.JobPuppet, puppetObj);
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
             else
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
             GameManager.ReferencePoolManager.Despawns(nHCriteriaPuppet);
+            return operationResponse;
         }
     }
 }

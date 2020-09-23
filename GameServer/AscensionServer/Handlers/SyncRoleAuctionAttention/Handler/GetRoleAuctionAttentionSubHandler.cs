@@ -16,10 +16,10 @@ namespace AscensionServer
     public class GetRoleAuctionAttentionSubHandler : SyncRoleAuctionAttentionSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             ResetResponseData(operationRequest);
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             int roleID= Convert.ToInt32(Utility.GetValue(dict, (byte)ParameterCode.RoleAuctionItems));
 
             List<AuctionGoodsDTO> resultAuctionGoodsList = new List<AuctionGoodsDTO>();
@@ -34,7 +34,7 @@ namespace AscensionServer
                         guidList.RemoveAt(i);
                     }
                 }
-                await RedisHelper.Hash.HashSetAsync("RoleAuctionAttention", roleID.ToString(), guidList);
+                RedisHelper.Hash.HashSet("RoleAuctionAttention", roleID.ToString(), guidList);
                 for (int i = 0; i < guidList.Count; i++)
                 {
                     if (RedisHelper.Hash.HashExistAsync("AuctionGoodsData", guidList[i]).Result)
@@ -44,10 +44,10 @@ namespace AscensionServer
                     }
                 }
             }
-            Owner.ResponseData.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(resultAuctionGoodsList));
-            Owner.OpResponseData.Parameters = Owner.ResponseData;
-            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+            subResponseParameters.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(resultAuctionGoodsList));
+            operationResponse.Parameters = subResponseParameters;
+            operationResponse.ReturnCode = (short)ReturnCode.Success;
+            return operationResponse;
         }
     }
 }

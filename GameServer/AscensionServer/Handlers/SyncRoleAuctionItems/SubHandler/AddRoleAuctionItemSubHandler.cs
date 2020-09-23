@@ -16,13 +16,14 @@ namespace AscensionServer
     public class AddRoleAuctionItemSubHandler : SyncRoleAuctionItemsSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             bool isSuccess = true;
 
             ResetResponseData(operationRequest);
 
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string auctionGoodsDTOJson= Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAuctionItems));
             AuctionGoodsDTO auctionGoodsDTO = Utility.Json.ToObject<AuctionGoodsDTO>(auctionGoodsDTOJson);
 
@@ -30,7 +31,7 @@ namespace AscensionServer
             if (RedisHelper.Hash.HashExistAsync("AuctionGoodsData", auctionGoodsDTO.GUID).Result&&isSuccess)
             {
                 Utility.Debug.LogInfo("重新设置数据表");
-                await RedisHelper.Hash.HashSetAsync("AuctionGoodsData", auctionGoodsDTO.GUID.ToString(), auctionGoodsDTO);
+                RedisHelper.Hash.HashSet("AuctionGoodsData", auctionGoodsDTO.GUID.ToString(), auctionGoodsDTO);
             }
             else
             {
@@ -52,9 +53,8 @@ namespace AscensionServer
             if (isSuccess)
             {
                 Utility.Debug.LogInfo("重新添加标记索引");
-                await RedisHelper.String.StringSetAsync("AuctionGoods_" + auctionGoodsDTO.GUID, "");
+                RedisHelper.String.StringSet("AuctionGoods_" + auctionGoodsDTO.GUID, "");
             }
-
             //获取个人拍卖品列表
             List<RoleAuctionItem> roleAuctionItemList = new List<RoleAuctionItem>();
             if (RedisHelper.Hash.HashExistAsync("RoleAuctionItems", auctionGoodsDTO.RoleID.ToString()).Result)
@@ -84,18 +84,18 @@ namespace AscensionServer
             if (isSuccess)
             {
                 Utility.Debug.LogInfo("重新上架成功");
-                Owner.ResponseData.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(roleAuctionItemList));
-                Owner.ResponseData.Add((byte)ParameterCode.Auction, Utility.Json.ToJson(auctionGoodsDTO));
-                Owner.OpResponseData.Parameters = Owner.ResponseData;
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                subResponseParameters.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(roleAuctionItemList));
+                subResponseParameters.Add((byte)ParameterCode.Auction, Utility.Json.ToJson(auctionGoodsDTO));
+                operationResponse.Parameters=subResponseParameters;
+                operationResponse.ReturnCode = (short)ReturnCode.Success;
             }
             else
             {
                 Utility.Debug.LogInfo("重新上架失败");
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
             }
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             Utility.Debug.LogInfo("重新上架事件结束");
+            return operationResponse;
         }
     }
 }

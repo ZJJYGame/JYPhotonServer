@@ -16,9 +16,10 @@ namespace AscensionServer
    public class GetAllianceMemberSubHandler : SyncAllianceMemberSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string allianceMemberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
             var allianceMemberObj = Utility.Json.ToObject<AllianceMemberDTO>(allianceMemberJson);
             NHCriteria nHCriteriallianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceMemberObj.AllianceID);
@@ -44,23 +45,23 @@ namespace AscensionServer
                         allianceMembers.Add(roleAllianceDTO);
                     }
 
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
                         Utility.Debug.LogInfo("发送的仙盟的所有成员"+ Utility.Json.ToJson(allianceMembers));
-                        SubDict.Add((byte)ParameterCode.AllianceMember, Utility.Json.ToJson(allianceMembers));
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                        subResponseParameters.Add((byte)ParameterCode.AllianceMember, Utility.Json.ToJson(allianceMembers));
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
                 else
                 {
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     });
                 }
             }
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriterias);
+            return operationResponse;
         }
     }
 }

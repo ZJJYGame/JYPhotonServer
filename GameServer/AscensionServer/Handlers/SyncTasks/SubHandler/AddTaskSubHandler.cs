@@ -14,7 +14,8 @@ namespace AscensionServer
     public class AddTaskSubHandler : SyncTaskSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             ResetResponseData(operationRequest);
             string roletask = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Task));
@@ -36,16 +37,16 @@ namespace AscensionServer
                             Dic.Add(client_n.Key, client_n.Value);
                             NHibernateQuerier.Update(new RoleTaskProgress() { RoleID = roletaskobj.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(Dic) });
                         }else
-                            Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                            operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     }
-                    Owner.OpResponseData.Parameters = Owner.ResponseData;
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    operationResponse.Parameters = subResponseParameters;
+                    operationResponse .ReturnCode= (short)ReturnCode.Success;
                 }
                 else
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
             }
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
+            return operationResponse;
         }
     }
 }

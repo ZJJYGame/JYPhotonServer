@@ -18,9 +18,10 @@ namespace AscensionServer
    public  class GetSyncOnOffLineSubHandler : SyncOnOffLineSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string subDataJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.OnOffLine));
             var onofflinetemp = Utility.Json.ToObject<OnOffLine>(subDataJson);
             Bottleneck bottleneck = new Bottleneck() {RoleID= onofflinetemp.RoleID };
@@ -49,10 +50,10 @@ namespace AscensionServer
                     }else
                         date.Add(0);
                     Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>得到的离线时间1" + Exptypeobj.MsGfID+"id"+ Exptypeobj.ExpType);
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-                        SubDict.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                        subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
                 else if (Exptypeobj.ExpType==2)
@@ -70,29 +71,29 @@ namespace AscensionServer
                     else
                         date.Add(0);
                     Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>得到的离线时间2" + Exptypeobj.MsGfID + "id" + Exptypeobj.ExpType);
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-                        SubDict.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                        subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
                 else
                 {
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-                        SubDict.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(new List<string>()));
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                        subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(new List<string>()));
+                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     });
                 }
                 }else{
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                SubDict.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(new List<string>()));
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(new List<string>()));
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
                 }
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRole);
+            return operationResponse;
         }
     }
     }

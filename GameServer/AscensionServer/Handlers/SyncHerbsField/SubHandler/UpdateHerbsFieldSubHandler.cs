@@ -15,9 +15,10 @@ namespace AscensionServer.Handlers
     public class UpdateHerbsFieldSubHandler : SyncHerbsFieldSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string herbsfieldJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobHerbsField));
             var hfObj = Utility.Json.ToObject<HerbsFieldDTO>(herbsfieldJson);
             NHCriteria nHCriteriahf = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", hfObj.RoleID);
@@ -29,12 +30,10 @@ namespace AscensionServer.Handlers
                 hfList = Utility.Json.ToObject<List<HerbFieldStatus>>(hfTemp.AllHerbs);
                 if (hfList.Count<hfObj.AllHerbs[0].ArrayID)
                 {
-                    SetResponseData(() =>
+                    SetResponseParamters(() =>
                     {
-                        Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Fail;
-                        peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+                        operationResponse.ReturnCode = (byte)ReturnCode.Fail;
                         GameManager.ReferencePoolManager.Despawns(nHCriteriahf);
-                        return;
                     });                  
                 }else
                 {
@@ -52,17 +51,17 @@ namespace AscensionServer.Handlers
                         {
                             hfObj.AllHerbs[j].IsStratPlant = false;
                         }
-                        SetResponseData(() =>
+                        SetResponseParamters(() =>
                         {                     
-                            SubDict.Add((byte)ParameterCode.RoleSchool, Utility.Json.ToJson(hfObj));
+                            subResponseParameters.Add((byte)ParameterCode.RoleSchool, Utility.Json.ToJson(hfObj));
                             Utility.Debug.LogInfo("的霛田信息" + Utility.Json.ToJson(hfObj));
-                            Owner.OpResponseData.ReturnCode = (byte)ReturnCode.Success;
+                            operationResponse.ReturnCode = (byte)ReturnCode.Success;
                         });
                     }            
                 }
             }
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
             GameManager.ReferencePoolManager.Despawns(nHCriteriahf);
+            return operationResponse;
         }
     }
 }

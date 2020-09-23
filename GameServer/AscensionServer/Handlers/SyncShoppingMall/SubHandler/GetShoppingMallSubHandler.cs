@@ -14,9 +14,9 @@ namespace AscensionServer
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
 
-        public override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string shoppingmallJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ShoppingMall));
             var shoppingmallObj = Utility.Json.ToObject<ShoppingMallDTO>(shoppingmallJson);
             string rolepurchaseJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RolePurchase));
@@ -49,17 +49,16 @@ namespace AscensionServer
                     RolePurchaseRecordDTO rolePurchaseRecordDTO = new RolePurchaseRecordDTO() { RoleID = rolepurchasetemp.RoleID };
                     shopDIct.Add("RolePurchaseRecord", Utility.Json.ToJson(rolePurchaseRecordDTO));
                 }
-                SetResponseData(() =>
+                SetResponseParamters(() =>
                 {
-                    SubDict.Add((byte)ParameterCode.ShoppingMall, Utility.Json.ToJson(shopDIct));
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.ShoppingMall, Utility.Json.ToJson(shopDIct));
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
             else
-                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
-
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
             GameManager.ReferencePoolManager.Despawns(nHCriteriashoppingmall);
+            return operationResponse;
         }
     }
 }

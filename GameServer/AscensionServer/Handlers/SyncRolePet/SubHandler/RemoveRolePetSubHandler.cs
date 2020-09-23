@@ -14,9 +14,9 @@ namespace AscensionServer
     public class RemoveRolePetSubHandler : SyncRolePetSubHandler
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Remove;
-        public async override void Handler(OperationRequest operationRequest, SendParameters sendParameters, AscensionPeer peer)
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = ParseSubDict(operationRequest);
+            var dict = ParseSubParameters(operationRequest);
             string rpJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RolePet));
             string pJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Pet));
 
@@ -54,7 +54,7 @@ namespace AscensionServer
                         }
                         rolepetList.Remove(pObj.ID);
                         NHibernateQuerier.Update<RolePet>(new RolePet() { RoleID = rpObj.RoleID, PetIDDict = Utility.Json.ToJson(rolepetList) });
-                        Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
                         GameManager.ReferencePoolManager.Despawns(nHCriteriapet, nHCriteriapetstatus);
                     }
                     if (RedisHelper.Hash.HashExistAsync("RolePet", rpObj.RoleID.ToString()).Result)
@@ -70,14 +70,11 @@ namespace AscensionServer
                             if (rolepetList.ContainsKey(pObj.ID))
                             {
 
-                              await   RedisHelper.Hash.HashDeleteAsync("PET", pObj.ID.ToString());
-                              await   RedisHelper.Hash.HashDeleteAsync("PetStatus", pObj.ID.ToString());
-
+                              RedisHelper.Hash.HashDelete("PET", pObj.ID.ToString());
+                              RedisHelper.Hash.HashDelete("PetStatus", pObj.ID.ToString());
                                 rolepetList.Remove(pObj.ID);
-                              await   RedisHelper.Hash.HashSetAsync<RolePet>("RolePet", rpObj.RoleID.ToString(), new RolePet() { RoleID = rpObj.RoleID, PetIDDict = Utility.Json.ToJson(rolepetList) });
-
-                                Owner.OpResponseData.ReturnCode = (short)ReturnCode.Success;
-
+                              RedisHelper.Hash.HashSet<RolePet>("RolePet", rpObj.RoleID.ToString(), new RolePet() { RoleID = rpObj.RoleID, PetIDDict = Utility.Json.ToJson(rolepetList) });
+                                operationResponse.ReturnCode = (short)ReturnCode.Success;
                             }
                         }
                         #endregion
@@ -89,12 +86,10 @@ namespace AscensionServer
 
                 }
                 else
-                    Owner.OpResponseData.ReturnCode = (short)ReturnCode.Fail;
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
             }
             GameManager.ReferencePoolManager.Despawns(nHCriteriarolepet);
-
-            peer.SendOperationResponse(Owner.OpResponseData, sendParameters);
-
+            return operationResponse;
         }
     }
 }
