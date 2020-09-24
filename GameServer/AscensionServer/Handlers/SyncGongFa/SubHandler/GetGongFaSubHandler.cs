@@ -62,15 +62,18 @@ namespace AscensionServer
                         }
                         GameManager.ReferencePoolManager.Despawns(nHCriteriaGongFa);
                     }
+                SetResponseParamters(() => {
                     operationResponse.Parameters = subResponseParameters;
                     subResponseParameters.Add((byte)ParameterCode.GongFa, Utility.Json.ToJson(gongFaDic));
                     operationResponse.ReturnCode = (short)ReturnCode.Success;
+                });
+                    //operationResponse.Parameters = subResponseParameters;
+                    //subResponseParameters.Add((byte)ParameterCode.GongFa, Utility.Json.ToJson(gongFaDic));
+                    //operationResponse.ReturnCode = (short)ReturnCode.Success;
                 Utility.Debug.LogWarning(Utility.Json.ToJson(gongFaDic), "subResponseParameters测试");
                 }
                 else
-                {
                     operationResponse.ReturnCode = (short)ReturnCode.Fail;
-                }
             return operationResponse;
         }
     }
