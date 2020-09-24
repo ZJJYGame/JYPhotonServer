@@ -37,7 +37,6 @@ namespace AscensionServer
         }
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            ResetResponseData(operationRequest);
             var InventoryRoleData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role) as string;
             var InventoryData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Inventory) as string;
 			

@@ -15,7 +15,6 @@ namespace AscensionServer
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            ResetResponseData(operationRequest);
             string roleAssetsJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleAssets));
             Utility.Debug.LogInfo(">>>>>>>>>>>>>更新财产相关信息：" + roleAssetsJson + ">>>>>>>>>>>>>>>>>>>>>>");
             var roleAssetsObj = Utility.Json.ToObject<RoleAssets>(roleAssetsJson);

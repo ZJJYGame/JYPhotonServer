@@ -16,7 +16,6 @@ namespace AscensionServer
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Verify;
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            ResetResponseData(operationRequest);
             var InventoryRoleData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role) as string;
             var InventoryData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Inventory) as string;
             Utility.Debug.LogInfo(">>>>>背包移除 roleId" + InventoryRoleData + ">>>>>>>>>>>>>");

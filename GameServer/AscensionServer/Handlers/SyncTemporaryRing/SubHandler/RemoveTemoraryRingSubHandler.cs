@@ -15,7 +15,6 @@ namespace AscensionServer
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Remove;
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            ResetResponseData(operationRequest);
             var TemRingRoleData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleTemInventory) as string;
             Utility.Debug.LogInfo(">>>>>Remove 临时背包" + TemRingRoleData + ">>>>>>>>>>>>>");
             var TemRingRoleObj = Utility.Json.ToObject<TemporaryRingDTO>(TemRingRoleData);

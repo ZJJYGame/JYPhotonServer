@@ -16,7 +16,6 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            ResetResponseData(operationRequest);
             string roleAssetsJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleAssets));
 
             var roleAssetsObj = Utility.Json.ToObject<RoleAssets>(roleAssetsJson);

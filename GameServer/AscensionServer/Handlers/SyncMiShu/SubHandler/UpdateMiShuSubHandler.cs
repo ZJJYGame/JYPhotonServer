@@ -15,7 +15,6 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            ResetResponseData(operationRequest);
             var receivedRoleData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
             var receivedData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.MiShu));
             Utility.Debug.LogInfo(">>>>>>>>>>>>接收秘术数据：" + receivedRoleData + ">>>>>>>>>>>>>>>>>>>>>>");

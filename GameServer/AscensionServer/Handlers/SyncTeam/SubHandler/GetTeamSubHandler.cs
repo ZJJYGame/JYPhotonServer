@@ -17,7 +17,6 @@ namespace AscensionServer
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            ResetResponseData(operationRequest);
             var teamData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role) as string;
             Utility.Debug.LogInfo(">>>>>创建队伍" + teamData + ">>>>>>>>>>>>>");
             var RoleObj = Utility.Json.ToObject<RoleDTO>(teamData);
