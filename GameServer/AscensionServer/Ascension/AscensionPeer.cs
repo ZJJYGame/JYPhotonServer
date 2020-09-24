@@ -17,8 +17,8 @@ namespace AscensionServer
             add { receiveMessage += value; }
             remove
             {
-                try{receiveMessage -= value;}
-                catch (Exception e){Utility.Debug.LogError(e);}
+                try { receiveMessage -= value; }
+                catch (Exception e) { Utility.Debug.LogError(e); }
             }
         }
         SendParameters sendParam = new SendParameters();
@@ -26,7 +26,11 @@ namespace AscensionServer
         Action<byte[]> receiveMessage;
         #endregion
         #region Methods
-        public AscensionPeer(InitRequest initRequest) : base(initRequest) { Handle = this; }
+        public AscensionPeer(InitRequest initRequest, uint sessionId) : base(initRequest)
+        {
+            Handle = this; this.SessionId = sessionId;
+            Utility.Debug.LogWarning($"SessionId : {SessionId}  is OnConnect");
+        }
         /// <summary>
         /// 外部接口的发送消息；
         /// </summary>
@@ -58,7 +62,8 @@ namespace AscensionServer
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             ed.Parameters = data;
             GameManager.CustomeModule<PeerManager>().TryRemove(SessionId);
-            var t = GameManager.CustomeModule<PeerManager>().BroadcastEventAsync((byte)OperationCode.Logoff, ed);
+            Utility.Debug.LogWarning($"SessionId : {SessionId}   OnDisconnect");
+            var task = GameManager.CustomeModule<PeerManager>().BroadcastEventAsync((byte)reasonCode, ed);
         }
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
         {

@@ -1,4 +1,4 @@
-ï»¿<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -173,8 +173,6 @@
     <Compile Include="AlliancelogicManager\AlliancelogicManager.cs" />
     <Compile Include="AreaHandlers\EnterAdventureSceneHandler.cs" />
     <Compile Include="AreaHandlers\ExitAdventureSceneHandler.cs" />
-    <Compile Include="Ascension\AscensionServer.Battle.cs" />
-    <Compile Include="Ascension\AscensionServer.Team.cs" />
     <Compile Include="Ascension\Core\Base\Actor\ActorManager.cs" />
     <Compile Include="Ascension\Core\Base\Actor\ActorTypeEnum.cs" />
     <Compile Include="Ascension\Core\Base\Attribute\InheritedAttribute.cs" />
@@ -205,6 +203,7 @@
     <Compile Include="Ascension\Core\RunTime\Scene\SceneEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Scene\SceneManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Team\Base\TeamEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\Team\ServerTeamManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Team\TeamManager.cs" />
     <Compile Include="Concurrent\ConcurrentInt.cs" />
     <Compile Include="DOMap\AllianceConstructionMap.cs" />
@@ -624,7 +623,7 @@
   <Import Project="..\packages\Grpc.Core.2.23.0\build\net45\Grpc.Core.targets" Condition="Exists('..\packages\Grpc.Core.2.23.0\build\net45\Grpc.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
-      <ErrorText>è¿™å°è®¡ç®—æœºä¸Šç¼ºå°‘æ­¤é¡¹ç›®å¼•ç”¨çš„ NuGet ç¨‹åºåŒ…ã€‚ä½¿ç”¨â€œNuGet ç¨‹åºåŒ…è¿˜åŽŸâ€å¯ä¸‹è½½è¿™äº›ç¨‹åºåŒ…ã€‚æœ‰å…³æ›´å¤šä¿¡æ¯ï¼Œè¯·å‚è§ http://go.microsoft.com/fwlink/?LinkID=322105ã€‚ç¼ºå°‘çš„æ–‡ä»¶æ˜¯ {0}ã€‚</ErrorText>
+      <ErrorText>ÕâÌ¨¼ÆËã»úÉÏÈ±ÉÙ´ËÏîÄ¿ÒýÓÃµÄ NuGet ³ÌÐò°ü¡£Ê¹ÓÃ¡°NuGet ³ÌÐò°ü»¹Ô­¡±¿ÉÏÂÔØÕâÐ©³ÌÐò°ü¡£ÓÐ¹Ø¸ü¶àÐÅÏ¢£¬Çë²Î¼û http://go.microsoft.com/fwlink/?LinkID=322105¡£È±ÉÙµÄÎÄ¼þÊÇ {0}¡£</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Grpc.Core.2.23.0\build\net45\Grpc.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Grpc.Core.2.23.0\build\net45\Grpc.Core.targets'))" />
   </Target>
