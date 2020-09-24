@@ -14,6 +14,7 @@ namespace AscensionServer
 {
     public class NHibernateQuerier
     {
+        public static void Init() { NHibernateHelper.SessionFactory.ToString(); }
         #region Sync
         /// <summary>
         /// 可覆写非空虚函数;

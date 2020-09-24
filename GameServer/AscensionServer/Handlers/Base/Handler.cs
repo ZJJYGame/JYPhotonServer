@@ -52,7 +52,10 @@ namespace AscensionServer
                     ISubHandler subHandler;
                     var result = subHandlerDict.TryGetValue(subCode, out subHandler);
                     if (result)
-                         return subHandler.EncodeMessage(operationRequest);
+                    {
+                        return subHandler.EncodeMessage(operationRequest);
+                    }
+                       
                 }
                 catch
                 {
