@@ -21,7 +21,7 @@ namespace AscensionServer
         }
         void InitHelper()
         {
-            var helper = Utility.Assembly.GetInstanceByAttribute<TargetHelperAttribute, INetworkMessageHelper>();
+            var helper = Utility.Assembly.GetInstanceByAttribute<TargetHelperAttribute, INetworkMessageHelper>(true);
             messageHelper = helper;
         }
     }

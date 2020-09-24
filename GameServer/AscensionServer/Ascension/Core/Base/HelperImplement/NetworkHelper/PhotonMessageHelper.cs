@@ -1,6 +1,6 @@
 ﻿using AscensionProtocol;
 using Cosmos;
-using ExitGames.Client.Photon;
+using Photon.SocketServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +30,7 @@ namespace AscensionServer
         }
         void InitHandler()
         {
-            var handlers = Utility.Assembly.GetInstancesByAttribute<InheritedAttribute, Handler>();
+            var handlers = Utility.Assembly.GetInstancesByAttribute<InheritedAttribute, IHandler>(true);
             int length = handlers.Length;
             for (int i = 0; i < length; i++)
             {

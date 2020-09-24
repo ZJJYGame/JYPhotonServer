@@ -32,7 +32,6 @@ namespace AscensionServer
         {
             ++peerSession;
             var peer = new AscensionPeer(initRequest,peerSession);
-            Utility.Debug.LogInfo($"Peer connect , sessionId : {peerSession}");
            var peerEntity= PeerEntity.Create(peer);
             GameManager.CustomeModule<PeerManager>().TryAdd(peerEntity);
             return peer;

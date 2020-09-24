@@ -29,7 +29,7 @@ namespace AscensionServer
         public AscensionPeer(InitRequest initRequest, uint sessionId) : base(initRequest)
         {
             Handle = this; this.SessionId = sessionId;
-            Utility.Debug.LogWarning($"SessionId : {SessionId}  is OnConnect");
+            Utility.Debug.LogInfo($"SessionId : {SessionId}  Available . RemoteAdress:{initRequest.RemoteIP}:{initRequest.RemotePort}");
         }
         /// <summary>
         /// 外部接口的发送消息；
@@ -62,11 +62,12 @@ namespace AscensionServer
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             ed.Parameters = data;
             GameManager.CustomeModule<PeerManager>().TryRemove(SessionId);
-            Utility.Debug.LogWarning($"SessionId : {SessionId}   Unavailable");
+            Utility.Debug.LogInfo($"SessionId : {SessionId}   Unavailable . RemoteAdress:{RemoteIPAddress}:{RemotePort}");
             var task = GameManager.CustomeModule<PeerManager>().BroadcastEventAsync((byte)reasonCode, ed);
         }
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
         {
+            Utility.Debug.LogWarning((OperationCode)operationRequest.OperationCode);
             object responseData = GameManager.CustomeModule<NetworkManager>().EncodeMessage(operationRequest);
             SendOperationResponse(responseData as OperationResponse, sendParameters);
         }
