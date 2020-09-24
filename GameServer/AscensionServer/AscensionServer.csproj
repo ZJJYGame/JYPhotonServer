@@ -1,4 +1,4 @@
-ï»¿<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -20,7 +20,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -623,7 +623,7 @@
   <Import Project="..\packages\Grpc.Core.2.23.0\build\net45\Grpc.Core.targets" Condition="Exists('..\packages\Grpc.Core.2.23.0\build\net45\Grpc.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
-      <ErrorText>è¿™å°è®¡ç®—æœºä¸Šç¼ºå°‘æ­¤é¡¹ç›®å¼•ç”¨çš„ NuGet ç¨‹åºåŒ…ã€‚ä½¿ç”¨â€œNuGet ç¨‹åºåŒ…è¿˜åŸâ€å¯ä¸‹è½½è¿™äº›ç¨‹åºåŒ…ã€‚æœ‰å…³æ›´å¤šä¿¡æ¯ï¼Œè¯·å‚è§ http://go.microsoft.com/fwlink/?LinkID=322105ã€‚ç¼ºå°‘çš„æ–‡ä»¶æ˜¯ {0}ã€‚</ErrorText>
+      <ErrorText>ÕâÌ¨¼ÆËã»úÉÏÈ±ÉÙ´ËÏîÄ¿ÒıÓÃµÄ NuGet ³ÌĞò°ü¡£Ê¹ÓÃ¡°NuGet ³ÌĞò°ü»¹Ô­¡±¿ÉÏÂÔØÕâĞ©³ÌĞò°ü¡£ÓĞ¹Ø¸ü¶àĞÅÏ¢£¬Çë²Î¼û http://go.microsoft.com/fwlink/?LinkID=322105¡£È±ÉÙµÄÎÄ¼şÊÇ {0}¡£</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Grpc.Core.2.23.0\build\net45\Grpc.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Grpc.Core.2.23.0\build\net45\Grpc.Core.targets'))" />
   </Target>

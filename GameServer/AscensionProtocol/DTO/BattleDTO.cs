@@ -57,6 +57,9 @@ namespace AscensionProtocol.DTO
         /// 所有参战宠物的列表
         /// </summary>
         public virtual List<PetDTO> petUnits { get; set; }
+
+
+
         /// <summary>
         /// 所有参战敌人的列表
         /// </summary>
@@ -75,9 +78,50 @@ namespace AscensionProtocol.DTO
         /// </summary>
         public virtual List<PetDTO> remainingPetUnits { get; set; }
         */
+
+        public virtual string RoleName { set; get; }
+
+
+
         public override void Clear()
         {
             throw new NotImplementedException();
         }
     }
+
+
+    /// <summary>
+    /// 战斗传输 
+    /// </summary>
+    interface BattleTransferData
+    {
+        string ObjectName { get; set; }
+    }
+
+    public class RoleBattleDataDTO: BattleTransferData
+    {
+        public string ObjectName { get; set ; }
+
+        public virtual RoleStatusDTO RoleStatusDTO { get; set; }
+    }
+
+    public class PetBattleDataDTO: BattleTransferData
+    {
+        public string ObjectName { get; set; }
+        public virtual PetStatusDTO PetStatusDTO { get; set; }
+    }
+
+    public class EnemyBattleDataDTO: BattleTransferData
+    {
+        public string ObjectName { get; set; }
+        public virtual EnemyStatusDTO  EnemyStatusDTO { get; set; }
+    }
+
+    //TODO  敌人的属性
+    public class EnemyStatusDTO
+    {
+
+    }
+
+
 }
