@@ -17,7 +17,13 @@ namespace AscensionServer
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Get;
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
+
+            Utility.Debug.LogInfo("老陆  奥利给");
             var dict = operationRequest.Parameters;
+            foreach (var item in dict)
+            {
+                Utility.Debug.LogInfo("老陆  "+ item.Key.ToString() +"<>"+ item.Value.ToString());
+            }
             string roleGFJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.GongFa));
             var roleGongFaObj = Utility.Json.ToObject<List<int>>(roleGFJson);
             List<CultivationMethod> gongFaIdList;
@@ -59,6 +65,7 @@ namespace AscensionServer
                     operationResponse.Parameters = subResponseParameters;
                     subResponseParameters.Add((byte)ParameterCode.GongFa, Utility.Json.ToJson(gongFaDic));
                     operationResponse.ReturnCode = (short)ReturnCode.Success;
+                Utility.Debug.LogWarning(Utility.Json.ToJson(gongFaDic), "subResponseParameters测试");
                 }
                 else
                 {

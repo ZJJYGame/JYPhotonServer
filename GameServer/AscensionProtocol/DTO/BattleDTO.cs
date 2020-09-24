@@ -91,7 +91,7 @@ namespace AscensionProtocol.DTO
 
 
     /// <summary>
-    /// 战斗传输 
+    /// 战斗传输 初始化
     /// </summary>
     interface BattleTransferData
     {

@@ -69,7 +69,10 @@ namespace AscensionServer
         {
             Utility.Debug.LogWarning((OperationCode)operationRequest.OperationCode);
             object responseData = GameManager.CustomeModule<NetworkManager>().EncodeMessage(operationRequest);
-            SendOperationResponse(responseData as OperationResponse, sendParameters);
+            var op = responseData as OperationResponse;
+            op.OperationCode = operationRequest.OperationCode;
+            Utility.Debug.LogError((OperationCode)op.OperationCode,"编码完成，发生消息到客户端");
+            SendOperationResponse(op, sendParameters);
         }
         protected override void OnReceive(byte[] data, SendParameters sendParameters)
         {

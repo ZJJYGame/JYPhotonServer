@@ -56,6 +56,7 @@ namespace AscensionServer
             //syncRefreshResourcesEvent.OnInitialization();
             //ThreadPool.QueueUserWorkItem(syncRefreshResourcesEvent.Handler);
             #endregion
+            NHibernateQuerier.Init();
             GameManager.InitCustomeModule(this.GetType().Assembly);
             RedisDotNet.RedisManager.Instance.OnInitialization();
         }
