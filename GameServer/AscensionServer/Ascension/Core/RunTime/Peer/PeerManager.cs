@@ -26,6 +26,15 @@ namespace AscensionServer
             OpCodeEventCore.Instance.AddEventListener((byte)OperationCode.Logoff, PeerDisconnect);
             OpCodeEventCore.Instance.AddEventListener((byte)OperationCode.Login, PeerConnect);
         }
+        public bool TryAdd(PeerEntity peer)
+        {
+            var result = peerDict.TryAdd(peer.SessionId, peer);
+            if (result)
+            {
+                broadcastEvent += peer.SendEventMessage;
+            }
+            return result;
+        }
         public bool TryAdd(long sessionId, PeerEntity peer)
         {
             var result = peerDict.TryAdd(sessionId, peer);

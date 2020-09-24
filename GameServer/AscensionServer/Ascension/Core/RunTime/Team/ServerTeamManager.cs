@@ -1,9 +1,4 @@
-﻿/*
-*Author : xianren
-*Since 	:2020-09-11
-*Description  : 服务器 组队
-*/
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,11 +20,16 @@ using AscensionRegion;
 using System.Threading;
 namespace AscensionServer
 {
-    public partial class AscensionServer :ApplicationBase
+    /// <summary>
+    /// 待完善
+    /// 未统一的服务器端组队功能；
+    /// </summary>
+    [CustomeModule]
+    public class ServerTeamManager:Module<ServerTeamManager>
     {
-       /// <summary>
-       /// 玩家id 和队伍id 之间的映射
-       /// </summary>
+        /// <summary>
+        /// 玩家id 和队伍id 之间的映射
+        /// </summary>
         public Dictionary<int, int> _playerIdToTeamIdDict = new Dictionary<int, int>();
         /// <summary>
         /// 队伍id 和队伍信息模型映射
@@ -47,7 +47,7 @@ namespace AscensionServer
         /// </summary>
         /// <param name="roleDTO"></param>
         /// <param name="levelLimint"></param>
-        public void CreateTeam(RoleDTO role , int [] levelLimint)
+        public void CreateTeam(RoleDTO role, int[] levelLimint)
         {
             int playerId = role.RoleID;
             //Utility.Debug.LogInfo(playerId + "<>");
@@ -58,7 +58,7 @@ namespace AscensionServer
             roleDTOs.Add(role);
 
             TeamDTO teamDto;
-            if (_oldTeamList.Count>0)
+            if (_oldTeamList.Count > 0)
             {
                 int teamId = _oldTeamList[0];
                 teamDto = _teamTOModel[teamId];
@@ -115,14 +115,14 @@ namespace AscensionServer
         /// </summary>
         /// <param name="roleDTO"></param>
         /// <returns></returns>
-        public void ApplyJoinTeam(RoleDTO  roleDTO,int teamId)
+        public void ApplyJoinTeam(RoleDTO roleDTO, int teamId)
         {
 
             int playerId = roleDTO.RoleID;
             if (IsLeader(playerId)) //该玩家是不是自己组个队，并且在队伍中
                 return;
             TeamDTO teamDTO = _teamTOModel[teamId]; //取出队伍信息
-            if (teamDTO.TeamLevelDown< roleDTO.RoleLevel || teamDTO.TeamLevelUp >roleDTO.RoleLevel) //玩家是否符合入队条件。 等级必须够
+            if (teamDTO.TeamLevelDown < roleDTO.RoleLevel || teamDTO.TeamLevelUp > roleDTO.RoleLevel) //玩家是否符合入队条件。 等级必须够
             {
                 Utility.Debug.LogInfo("等级不符合队伍要求");
                 return;
@@ -153,10 +153,7 @@ namespace AscensionServer
                 return true;
             return false;
         }
-
-
-
-        /// <summary>
+        //// <summary>
         /// 返回所有申请入队的人员信息
         /// </summary>
         /// <param name="roleDTO"></param>
@@ -169,7 +166,7 @@ namespace AscensionServer
             foreach (var id in teamDTO.ApplyMebers)
             {
                 //TODO  需要处理一下
-               //applyList.Add(id);
+                //applyList.Add(id);
             }
         }
         /// <summary>
@@ -216,7 +213,7 @@ namespace AscensionServer
             {
                 teamMemberIdList.Add(dto.RoleID);
             }
-            Utility.Debug.LogInfo(" 离开了队伍！");   
+            Utility.Debug.LogInfo(" 离开了队伍！");
         }
         /// <summary>
         /// 离开队伍
@@ -225,7 +222,7 @@ namespace AscensionServer
         public void LeaveTeam(RoleDTO roleDTO)
         {
             int teamId = _playerIdToTeamIdDict[roleDTO.RoleID];
-            TeamDTO teamDTO =  _teamTOModel[teamId];
+            TeamDTO teamDTO = _teamTOModel[teamId];
             if (teamDTO.LeaderId == roleDTO.RoleID)
             {
                 //队长离开队伍
