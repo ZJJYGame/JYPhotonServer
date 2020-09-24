@@ -18,9 +18,9 @@ namespace AscensionServer
     {
         #region Properties
         public abstract byte OpCode { get;  }
-        protected Dictionary<byte, object> responseParameters;
-        protected OperationResponse operationResponse;
-        Dictionary<byte, ISubHandler> subHandlerDict;
+        protected Dictionary<byte, object> responseParameters=new Dictionary<byte, object>();
+        protected OperationResponse operationResponse=new OperationResponse();
+        Dictionary<byte, ISubHandler> subHandlerDict=new Dictionary<byte, ISubHandler>();
         #endregion
         #region Methods
         public object EncodeMessage(object message)
@@ -28,15 +28,19 @@ namespace AscensionServer
             OperationRequest operationRequest = message as OperationRequest;
             return OnOperationRequest(operationRequest);
         }
+        /// <summary>
+        /// 非空虚函数
+        /// </summary>
         public virtual void OnInitialization()
         {
-            operationResponse = new OperationResponse();
-            responseParameters = new Dictionary<byte, object>();
-            subHandlerDict = new Dictionary<byte, ISubHandler>();
+            operationResponse.Parameters = responseParameters;
         }
+        /// <summary>
+        /// 非空虚函数
+        /// </summary>
         public virtual void OnTermination()
         {
-            OnSubHandlerTermination();
+            subHandlerDict.Clear();
         }
         protected virtual OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
@@ -67,35 +71,11 @@ namespace AscensionServer
                 if (subHandlerType.IsAssignableFrom(types[i]) && types[i].IsClass && !types[i].IsAbstract)
                 {
                     var subHandlerResult = Utility.Assembly.GetTypeInstance(types[i]) as T;
-                    RegisterSubHandler(subHandlerResult);
+                    var result = subHandlerDict.TryAdd(subHandlerResult.SubOpCode, subHandlerResult);
+                    if (!result)
+                        Utility.Debug.LogError("重复键值：\n" + subHandlerResult.ToString() + "\n:" + subHandlerResult.SubOpCode.ToString() + "\n结束");
                 }
             }
-        }
-        protected virtual void OnSubHandlerTermination()
-        {
-            foreach (var handler in subHandlerDict)
-            {
-                DeregisterSubHandler(handler.Value);
-            }
-        }
-        /// <summary>
-        /// 非空虚函数
-        /// </summary>
-        /// <param name="operationRequest"></param>
-        protected void SetRequestData(OperationRequest operationRequest)
-        {
-            responseParameters.Clear();
-            operationResponse.OperationCode = operationRequest.OperationCode;
-        }
-        void RegisterSubHandler(ISubHandler handler)
-        {
-           var result= subHandlerDict.TryAdd(handler.SubOpCode, handler);
-            if(!result)
-                Utility.Debug.LogError("重复键值：\n" + handler.ToString() + "\n:" + handler.SubOpCode.ToString() + "\n结束");
-        }
-        void DeregisterSubHandler(ISubHandler handler)
-        {
-            subHandlerDict.Remove((byte)handler.SubOpCode);
         }
         #endregion
     }

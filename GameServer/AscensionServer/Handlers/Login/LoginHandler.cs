@@ -41,7 +41,6 @@ namespace AscensionServer
                 //var pe = PeerEntity.Create(peer);
                 //GameManager.CustomeModule<PeerManager>().TryAdd(pe.SessionId, pe);
                 responseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(userObj));
-                operationResponse.Parameters = responseParameters;
             }
             else
             {
