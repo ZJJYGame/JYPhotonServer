@@ -62,7 +62,7 @@ namespace AscensionServer
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             ed.Parameters = data;
             GameManager.CustomeModule<PeerManager>().TryRemove(SessionId);
-            Utility.Debug.LogWarning($"SessionId : {SessionId}   OnDisconnect");
+            Utility.Debug.LogWarning($"SessionId : {SessionId}   Unavailable");
             var task = GameManager.CustomeModule<PeerManager>().BroadcastEventAsync((byte)reasonCode, ed);
         }
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
