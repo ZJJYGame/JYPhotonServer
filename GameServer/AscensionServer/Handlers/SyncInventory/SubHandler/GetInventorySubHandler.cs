@@ -33,14 +33,23 @@ namespace AscensionServer
             if (exist && existRing)
             {
                 var ringServerArray = NHibernateQuerier.CriteriaSelect<Ring>(nHCriteriaRingID);
-                subResponseParameters.Add((byte)ParameterCode.Inventory, ringServerArray.RingItems);
-                subResponseParameters.Add((byte)ParameterCode.MessageQueue, ringServerArray.RingMagicDictServer);
-                subResponseParameters.Add((byte)ParameterCode.RoleTemInventory, ringServerArray.RingAdorn);
-                operationResponse.Parameters = subResponseParameters;
-                operationResponse.ReturnCode = (short)ReturnCode.Success;
+              
+                SetResponseParamters(() =>
+                {
+                    subResponseParameters.Add((byte)ParameterCode.Inventory, ringServerArray.RingItems);
+                    subResponseParameters.Add((byte)ParameterCode.MessageQueue, ringServerArray.RingMagicDictServer);
+                    subResponseParameters.Add((byte)ParameterCode.RoleTemInventory, ringServerArray.RingAdorn);
+                    operationResponse.Parameters = subResponseParameters;
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
+                });
             }
             else
-                operationResponse.ReturnCode = (short)ReturnCode.Fail;
+            {
+                SetResponseParamters(() =>
+                {
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                });
+            }
             GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
             return operationResponse;
         }

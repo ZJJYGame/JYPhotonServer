@@ -47,11 +47,19 @@ namespace AscensionServer
                     var sortDict = ServerDict.OrderByDescending(s => s.Key.ToString().Substring(0, 5)).ToDictionary(s => s.Key, s => s.Value);
 
                     NHibernateQuerier.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(sortDict), RingMagicDictServer = Utility.Json.ToJson(ServerMagicDic), RingAdorn = Utility.Json.ToJson(ServerDictAdorn) });
-                    operationResponse.Parameters = subResponseParameters;
-                    operationResponse.ReturnCode = (short)ReturnCode.Success;
+                    SetResponseParamters(() =>
+                    {
+                        operationResponse.Parameters = subResponseParameters;
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
+                    });
                 }
             }
-            else operationResponse.ReturnCode = (short)ReturnCode.Fail;
+            else {
+                SetResponseParamters(() =>
+                {
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                });
+            } 
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID, nHCriteriaRingID);
             return operationResponse;
         }

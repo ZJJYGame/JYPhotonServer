@@ -18,6 +18,7 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
+
             string roletask = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Task));
             Utility.Debug.LogInfo(">>>>>>>>>>>>>获得任务相关信息：" + roletask + ">>>>>>>>>>>>>>>>>>>>>>");
             var roletaskobj = Utility.Json.ToObject<RoleTaskProgressDTO>(roletask);
@@ -26,13 +27,21 @@ namespace AscensionServer
             if (exist)
             {
                 var roleTaskInfo = NHibernateQuerier.CriteriaSelect<RoleTaskProgress>(nHCriteriaRoleID);
-                if (roleTaskInfo.RoleTaskInfoDic != null)
-                    subResponseParameters.Add((byte)ParameterCode.Task, roleTaskInfo.RoleTaskInfoDic);
-                operationResponse.Parameters = subResponseParameters;
-                operationResponse.ReturnCode = (short)ReturnCode.Success;
+                SetResponseParamters(() => {
+                    if (roleTaskInfo.RoleTaskInfoDic != null)
+                        subResponseParameters.Add((byte)ParameterCode.Task, roleTaskInfo.RoleTaskInfoDic);
+                    operationResponse.Parameters = subResponseParameters;
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
+                });
+              
             }
             else
-                operationResponse.ReturnCode = (short)ReturnCode.Fail;
+            {
+                SetResponseParamters(() =>
+                {
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                });
+            }
             GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
             return operationResponse;
         }
