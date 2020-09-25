@@ -20,11 +20,14 @@ namespace AscensionProtocol
         /// 同步当前角色的位置信息，position&rotation 
         /// </summary>
         SyncRoleTransform = 5,
+    /// <summary>
+    /// 登录角色
+    /// </summary>
+        LoginRole=6,
         /// <summary>
-        /// 同步自己当前账号的所有角色信息
+        /// 登出角色
         /// </summary>
-        SyncSelfRoles=6,
-        SyncSelfRoleTransform=7,
+        LogoffRole=7,
         SyncRoleStatus=8,
         SyncRoleAssets=9,
         SyncInventory=10,

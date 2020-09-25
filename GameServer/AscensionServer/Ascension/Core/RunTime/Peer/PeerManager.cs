@@ -32,8 +32,6 @@ namespace AscensionServer
         public override void OnInitialization()
         {
             peerDict = new ConcurrentDictionary<long, PeerEntity>();
-            OpCodeEventCore.Instance.AddEventListener((byte)OperationCode.Logoff, PeerDisconnect);
-            OpCodeEventCore.Instance.AddEventListener((byte)OperationCode.Login, PeerConnect);
         }
         public bool TryAdd(PeerEntity peer)
         {
@@ -132,19 +130,6 @@ namespace AscensionServer
         public async Task BroadcastEventAsync(byte opCode, object userData, Action callback = null)
         {
             await Task.Run(() => { broadcastEventMessage?.Invoke(opCode, userData); callback?.Invoke(); });
-        }
-        /// <summary>
-        /// peer连接到此photon
-        /// </summary>
-        /// <param name="data"></param>
-        void PeerDisconnect(object data)
-        {
-            var t = BroadcastEventAsync((byte)OperationCode.Logoff, data);
-        }
-        // peer与此photon断开连接
-        void PeerConnect(object data)
-        {
-            var t = BroadcastEventAsync((byte)OperationCode.Login, data);
         }
     }
 }

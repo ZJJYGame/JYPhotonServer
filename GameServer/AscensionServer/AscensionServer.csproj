@@ -210,6 +210,8 @@
     <Compile Include="DO\AllianceConstruction.cs" />
     <Compile Include="DO\RoleAllianceSkill.cs" />
     <Compile Include="DO\RoleAuctionItems.cs" />
+    <Compile Include="Handlers\RoleLogon\LoginRoleHandler.cs" />
+    <Compile Include="Handlers\RoleLogon\LogoffRoleHandler.cs" />
     <Compile Include="Handlers\SyncAllianceAlchemy\SubHandler\GetAllianceAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceAlchemy\SubHandler\SyncAllianceAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceAlchemy\SubHandler\UpdateAllianceAlchemySubHandler.cs" />
@@ -457,8 +459,6 @@
     <Compile Include="Handlers\SyncRole\SubHandler\VerifyRoleSubHandler.cs" />
     <Compile Include="Handlers\SyncRole\SubHandler\SyncRoleSubHandler.cs" />
     <Compile Include="Handlers\HeartBeat\HeartBeatHandler.cs" />
-    <Compile Include="Handlers\Login\LoginHandler.cs" />
-    <Compile Include="Handlers\Logoff\LogoffHandler.cs" />
     <Compile Include="Handlers\Register\RegisterHandler.cs" />
     <Compile Include="Handlers\SyncRoleAssets\SyncRoleAssetsHandler.cs" />
     <Compile Include="Handlers\SyncRoleStatus\SyncRoleStatusHandler.cs" />
