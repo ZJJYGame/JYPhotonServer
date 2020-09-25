@@ -12,27 +12,27 @@ namespace AscensionServer
     /// <summary>
     /// Peer实体对象，保存了peer的具体引用
     /// </summary>
-    public class PeerEntity :  IKeyValue<Type, NetVariable>, IReference
+    public class PeerEntity : IKeyValue<Type, object>, IReference
     {
         public long SessionId { get { return Handle.SessionId; } }
         public bool Available { get { return Handle.Available; } }
         public IRole RoleEntity { get; private set; }
         public IPeer Handle { get; private set; }
-        public ICollection<NetVariable> DataCollection { get { return dataDict.Values; } }
-        ConcurrentDictionary<Type, NetVariable> dataDict;
+        public ICollection<object> DataCollection { get { return dataDict.Values; } }
+        ConcurrentDictionary<Type, object> dataDict;
         public PeerEntity()
         {
-            dataDict = new ConcurrentDictionary<Type, NetVariable>();
+            dataDict = new ConcurrentDictionary<Type, object>();
         }
         public PeerEntity(IPeer handle) : this()
         {
-            this.Handle= handle;
+            this.Handle = handle;
         }
         public void OnInit(IPeer handle)
         {
-            this.Handle= handle;
+            this.Handle = handle;
         }
-        public bool TryGetValue(Type key, out NetVariable value)
+        public bool TryGetValue(Type key, out object value)
         {
             return dataDict.TryGetValue(key, out value);
         }
@@ -42,18 +42,18 @@ namespace AscensionServer
         }
         public bool TryRemove(Type Key)
         {
-            NetVariable netVar;
+            object netVar;
             return dataDict.TryRemove(Key, out netVar);
         }
-        public bool TryRemove(Type key, out NetVariable value)
+        public bool TryRemove(Type key, out object value)
         {
             return dataDict.TryRemove(key, out value);
         }
-        public bool TryAdd(Type key, NetVariable Value)
+        public bool TryAdd(Type key, object Value)
         {
             return dataDict.TryAdd(key, Value);
         }
-        public bool TryUpdate(Type key, NetVariable newValue, NetVariable comparsionValue)
+        public bool TryUpdate(Type key, object newValue, object comparsionValue)
         {
             return dataDict.TryUpdate(key, newValue, comparsionValue);
         }
@@ -77,12 +77,12 @@ namespace AscensionServer
         }
         public void Clear()
         {
-            Handle= null;
+            Handle = null;
             dataDict.Clear();
         }
-        public static PeerEntity Create(IPeer handle , params NetVariable[] netVars)
+        public static PeerEntity Create(IPeer handle, params object[] netVars)
         {
-            if (handle== null)
+            if (handle == null)
                 throw new ArgumentNullException("Peer is invalid");
             PeerEntity pe = GameManager.ReferencePoolManager.Spawn<PeerEntity>();
             pe.OnInit(handle);
@@ -93,9 +93,9 @@ namespace AscensionServer
             }
             return pe;
         }
-        public static PeerEntity Create(IPeer handle , List<NetVariable> netVars)
+        public static PeerEntity Create(IPeer handle, List<object> netVars)
         {
-            if (handle== null)
+            if (handle == null)
                 throw new ArgumentNullException("Peer is invalid");
             PeerEntity pe = GameManager.ReferencePoolManager.Spawn<PeerEntity>();
             pe.OnInit(handle);

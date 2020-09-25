@@ -7,7 +7,10 @@
     {
         HeartBeat = 0,
         ForcedOffline = 1,
-        MessageQueue=2,
+        /// <summary>
+        /// 服务器会话ID；
+        /// </summary>
+        SessionId=2,
         /// <summary>
         /// 包含账户信息以及设备号的数据
         /// </summary>
