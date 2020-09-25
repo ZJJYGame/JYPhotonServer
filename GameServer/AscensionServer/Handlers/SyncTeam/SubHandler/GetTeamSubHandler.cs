@@ -45,11 +45,19 @@ namespace AscensionServer
                 }
                 subResponseParameters.Add((byte)ParameterCode.RoleTeam, Utility.Json.ToJson(GameManager.CustomeModule<ServerTeamManager>()._teamTOModel));
                 subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(GameManager.CustomeModule<ServerTeamManager>()._playerIdToTeamIdDict));
-                operationResponse.Parameters = subResponseParameters;
-                operationResponse.ReturnCode = (short)ReturnCode.Success;
+                SetResponseParamters(() =>
+                {
+                    operationResponse.Parameters = subResponseParameters;
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
+                });
             }
             else
-                operationResponse.ReturnCode = (short)ReturnCode.Fail;
+            {
+                SetResponseParamters(() =>
+                {
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                });
+            }
             GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
             return operationResponse;
         }

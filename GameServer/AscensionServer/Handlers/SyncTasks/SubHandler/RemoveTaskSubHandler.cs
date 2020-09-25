@@ -34,14 +34,22 @@ namespace AscensionServer
                         {
                             Dic.Remove(client_p.Key);
                             NHibernateQuerier.Update(new RoleTaskProgress() { RoleID = roletaskobj.RoleID, RoleTaskInfoDic = Utility.Json.ToJson(Dic) });
-                            operationResponse.Parameters = subResponseParameters;
-                            operationResponse.ReturnCode = (short)ReturnCode.Success;
+                            SetResponseParamters(() =>
+                            {
+                                operationResponse.Parameters = subResponseParameters;
+                                operationResponse.ReturnCode = (short)ReturnCode.Success;
+                            });
                         }
                     }
                 }
             }
             else
-                operationResponse.ReturnCode = (short)ReturnCode.Fail;
+            {
+                SetResponseParamters(() =>
+                {
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                });
+            }
             GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
             return operationResponse;
         }
