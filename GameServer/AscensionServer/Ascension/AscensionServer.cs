@@ -1,7 +1,7 @@
 ﻿/*
 *Author : Don
 *Since 	:2020-04-18
-*Description  : 服务器应用
+*Description  : 服务器入口类
 */
 using System;
 using System.Collections.Generic;
@@ -23,16 +23,12 @@ namespace AscensionServer
 {
     public partial class AscensionServer : ApplicationBase
     {
-        uint peerSession=1000;
-        /// <summary>
-        /// 当一个客户端请求连接的时候，服务器就会调用这个方法
-        /// 我们使用peerbase，表示和一个客户端的连接，然后photon就会把链接管理起来
-        /// </summary>
+        uint peerSession = 1000;
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
             ++peerSession;
-            var peer = new AscensionPeer(initRequest,peerSession);
-           var peerEntity= PeerEntity.Create(peer);
+            var peer = new AscensionPeer(initRequest, peerSession);
+            var peerEntity = PeerEntity.Create(peer);
             GameManager.CustomeModule<PeerManager>().TryAdd(peerEntity);
             return peer;
         }
@@ -48,14 +44,6 @@ namespace AscensionServer
                 XmlConfigurator.ConfigureAndWatch(configFileInfo);//让log4net读取配置文件
                 Utility.Debug.LogInfo("Server Start Running");
             }
-            #region Legacy
-            //var syncRoleTransEvent = new SyncRoleTransformEvent();
-            //syncRoleTransEvent.OnInitialization();
-            //ThreadPool.QueueUserWorkItem(syncRoleTransEvent.Handler);
-            //var syncRefreshResourcesEvent = new SyncRefreshResourcesEvent();
-            //syncRefreshResourcesEvent.OnInitialization();
-            //ThreadPool.QueueUserWorkItem(syncRefreshResourcesEvent.Handler);
-            #endregion
             NHibernateQuerier.Init();
             GameManager.InitCustomeModule(this.GetType().Assembly);
             RedisDotNet.RedisManager.Instance.OnInitialization();

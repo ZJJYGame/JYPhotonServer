@@ -7,14 +7,26 @@ using System.Collections.Concurrent;
 using Cosmos;
 namespace AscensionServer
 {
-    public class RoomEntity : IReference,ISimpleKeyValue<long,PeerEntity>
+    public class RoomEntity : IReference, IKeyValue<long, PeerEntity>
     {
         #region Properties
         public uint RoomId { get; private set; }
         /// <summary>
         /// 当前房间对象是否可用
         /// </summary>
-        public bool Available{ get; private set; }
+        public bool Available { get; private set; }
+        /// <summary>
+        /// 广播消息事件委托；
+        /// </summary>
+        public event Action<byte, object> BroadcastBattleMessag
+        {
+            add { broadcastBattleMessage += value; }
+            remove
+            {
+                try { broadcastBattleMessage -= value; }
+                catch (Exception e) { Utility.Debug.LogError($"无法移除发送消息的委托:{e}"); }
+            }
+        }
         /// <summary>
         /// 倒计时秒
         /// </summary>
@@ -27,8 +39,9 @@ namespace AscensionServer
         /// 当前房间内战斗的回合数
         /// </summary>
         protected int roundCount = 0;
-        protected ConcurrentDictionary<long, PeerEntity> peerDict = new ConcurrentDictionary<long, PeerEntity>();
-        protected Action<byte,object> broadcastBattleMessage;
+        protected ConcurrentDictionary<long, PeerEntity> peerDict 
+            = new ConcurrentDictionary<long, PeerEntity>();
+        protected Action<byte, object> broadcastBattleMessage;
         protected object battleResultdata;
         #endregion
 
@@ -40,14 +53,15 @@ namespace AscensionServer
         /// <param name="roomId">分配的房间ID</param>
         public virtual void OnInit(uint roomId)
         {
-            Available= true;
+            Available = true;
             this.RoomId = roomId;
         }
         public virtual void Clear()
         {
             peerDict.Clear();
             canCacheCmd = true;
-            Available= false;
+            Available = false;
+            broadcastBattleMessage = null;
         }
         public bool TryGetValue(long key, out PeerEntity value)
         {
@@ -60,27 +74,35 @@ namespace AscensionServer
         public bool TryRemove(long key)
         {
             PeerEntity peer;
-            var result= peerDict.TryRemove(key, out peer);
+            var result = peerDict.TryRemove(key, out peer);
             if (result)
-            {
-                try
-                {
-                    broadcastBattleMessage -= peer.SendEventMessage;
-                }
-                catch (Exception e)
-                {
-                    Utility.Debug.LogError($"无法移除发送消息的委托:{peer.Handle.ToString()},{e}");
-                }
-            }
+                BroadcastBattleMessag -= peer.SendEventMessage;
             return result;
         }
         public bool TryAdd(long key, PeerEntity Value)
         {
             if (Value == null)
-                throw new ArgumentNullException("PeerEntity is invaild ! ");
-            var result= peerDict.TryAdd(key, Value);
+               throw new ArgumentNullException("PeerEntity is invaild ! ");
+            var result = peerDict.TryAdd(key, Value);
             if (result)
-                broadcastBattleMessage += Value.SendEventMessage;
+                BroadcastBattleMessag += Value.SendEventMessage;
+            return result;
+        }
+        public bool TryRemove(long key, out PeerEntity peer)
+        {
+            var result = peerDict.TryRemove(key, out peer);
+            if (result)
+                BroadcastBattleMessag -= peer.SendEventMessage;
+            return result;
+        }
+        public bool TryUpdate(long key, PeerEntity newValue, PeerEntity comparsionValue)
+        {
+            var result = peerDict.TryUpdate(key, newValue, comparsionValue);
+            if (result)
+            {
+                BroadcastBattleMessag -= comparsionValue.SendEventMessage;
+                BroadcastBattleMessag += newValue.SendEventMessage;
+            }
             return result;
         }
         /// <summary>
@@ -98,6 +120,42 @@ namespace AscensionServer
             //await BroadcastMessageAsync(null);
         }
         /// <summary>
+        /// 通过peer实体生成房间实体；
+        /// </summary>
+        /// <param name="peers">peer的数组</param>
+        /// <returns>生成的房间实体</returns>
+        public static RoomEntity Create(params PeerEntity[] peers)
+        {
+            var length = peers.Length;
+            var re = GameManager.ReferencePoolManager.Spawn<RoomEntity>();
+            for (int i = 0; i < length; i++)
+            {
+                re.TryAdd(peers[i].SessionId, peers[i]);
+            }
+            return re;
+        }
+        /// <summary>
+        /// 通过sessionId生成roomEntity;
+        /// 若传入的任意sessionId无效，则房间实体生成失败，返回空；
+        /// </summary>
+        /// <param name="sessionIds">用户会话Id数组</param>
+        /// <returns>生成的房间实体</returns>
+        public static RoomEntity Create(params long[] sessionIds)
+        {
+            List<PeerEntity> peerSet = new List<PeerEntity>();
+            var length = sessionIds.Length;
+            for (int i = 0; i < length; i++)
+            {
+                PeerEntity peer;
+                var result = GameManager.CustomeModule<PeerManager>().TryGetValue(sessionIds[i], out peer);
+                if (result)
+                    peerSet.Add(peer);
+                else
+                    return null;
+            }
+           return Create(peerSet.ToArray());
+        }
+        /// <summary>
         /// 开始回合；
         /// 收集指令；
         /// </summary>
@@ -107,16 +165,14 @@ namespace AscensionServer
             canCacheCmd = true;
             CountDown();
         }
-
-        protected virtual void BroadcastMessage(byte opCode,object data)
+        protected virtual void BroadcastMessage(byte opCode, object data)
         {
-            Task t= BroadcastMessageAsync(opCode,data);
+            Task t = BroadcastMessageAsync(opCode, data);
         }
         protected virtual async Task BroadcastMessageAsync(byte opCode, object data)
         {
-            await Task.Run(() => broadcastBattleMessage?.Invoke(opCode,data));
+            await Task.Run(() => broadcastBattleMessage?.Invoke(opCode, data));
         }
-        
         #endregion
     }
 }

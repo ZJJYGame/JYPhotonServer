@@ -11,62 +11,64 @@ namespace AscensionServer
     /// <summary>
     /// 房间管理器，用于处理战斗相关
     /// </summary>
-    public sealed class RoomManager:Module<RoomManager>
+    public sealed class RoomManager : Module<RoomManager>, IKeyValue<uint, RoomEntity>
     {
         /// <summary>
         /// 房间ID长度
         /// </summary>
-        readonly int _IDLenth = 7;
+        uint roomId= 10000;
+        ConcurrentDictionary<uint, RoomEntity> roomDict 
+            = new ConcurrentDictionary<uint, RoomEntity>();
+        //public RoomEntity CreateRoom()
+        //{
+        //    var room = GameManager.ReferencePoolManager.Spawn<RoomEntity>();
+        //    uint roomId;
+        //    if (roomDict.ContainsKey(roomId))
+        //    {
+        //        room.OnInit(roomId);
+        //    }
+        //    return room;
+        //}
         /// <summary>
-        /// 生成房间时最小取值范围
+        /// 为roomEntity分配房间号；
         /// </summary>
-        readonly int _MinValue = 1000000;
-        /// <summary>
-        /// 成功房间时最大取值范围
-        /// </summary>
-        readonly int _MaxValue = 99999999;
-        ConcurrentDictionary<uint, RoomEntity> roomDict = new ConcurrentDictionary<uint, RoomEntity>();
-        public bool AddRoom(RoomEntity roomCache)
+        /// <param name="room">传入的房间对象</param>
+        public void Allocate(ref RoomEntity room)
         {
-            return roomDict.TryAdd(roomCache.RoomId, roomCache);
+            TryAdd(room.RoomId, room);
         }
-        public RoomEntity CreateRoom()
+        public bool TryGetValue(uint key, out RoomEntity value)
         {
-            var room= GameManager.ReferencePoolManager.Spawn<RoomEntity>();
-            uint roomId = CreateRoomId();
-            if (roomDict.ContainsKey(roomId))
-            {
-                room.OnInit(roomId);
-            }
-            return room;
+            return roomDict.TryGetValue(key, out value);
         }
-        public bool RemoveRoom(uint roomId)
+        public bool ContainsKey(uint key)
         {
-            RoomEntity rc;
-            return roomDict.TryRemove(roomId, out rc);
+            return roomDict.ContainsKey(key);
         }
-        public RoomEntity  GetRoom(uint roomId)
+        public bool TryRemove(uint key)
         {
-            RoomEntity rc;
-            roomDict.TryGetValue(roomId, out rc);
-            return rc;
+            RoomEntity re;
+            return roomDict.TryRemove(key,out re);
+        }
+        public bool TryRemove(uint key, out RoomEntity value)
+        {
+            return roomDict.TryRemove(key, out value);
+        }
+        public bool TryAdd(uint key, RoomEntity value)
+        {
+            return roomDict.TryAdd(key, value);
+        }
+        public bool TryUpdate(uint key, RoomEntity newValue, RoomEntity comparsionValue)
+        {
+            return roomDict.TryUpdate(key, newValue,comparsionValue);
         }
         public void CloseAll()
         {
-            foreach (var  room in roomDict.Values)
+            foreach (var room in roomDict.Values)
             {
                 GameManager.ReferencePoolManager.Despawn(room);
             }
             roomDict.Clear();
         }
-        uint CreateRoomId()
-        {
-            uint id =Convert.ToUInt32( Utility.Algorithm.CreateRandomInt(_MinValue, _MaxValue));
-            if (!roomDict.ContainsKey(id))
-                return id;
-            else
-                return CreateRoomId();
-        }
-
     }
 }

@@ -31,7 +31,7 @@ namespace AscensionServer
         /// <summary>
         /// 接收二进制流数据委托；
         /// </summary>
-        event Action<byte[]> ReceiveMessage;
+        event Action<byte[]> OnReceiveMessage;
         /// <summary>
         /// 发送消息到remotePeer
         /// </summary>

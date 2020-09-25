@@ -12,18 +12,21 @@ namespace AscensionServer
         public long SessionId { get; private set; }
         public bool Available { get; private set; }
         public object Handle { get; private set; }
-        public event Action<byte[]> ReceiveMessage
+        /// <summary>
+        /// 接收消息事件委托
+        /// </summary>
+        public event Action<byte[]> OnReceiveMessage
         {
-            add { receiveMessage += value; }
+            add { onReceiveMessage += value; }
             remove
             {
-                try { receiveMessage -= value; }
+                try { onReceiveMessage -= value; }
                 catch (Exception e) { Utility.Debug.LogError(e); }
             }
         }
         SendParameters sendParam = new SendParameters();
         EventData eventData = new EventData();
-        Action<byte[]> receiveMessage;
+        Action<byte[]> onReceiveMessage;
         #endregion
         #region Methods
         public AscensionPeer(InitRequest initRequest, uint sessionId) : base(initRequest)
@@ -62,22 +65,20 @@ namespace AscensionServer
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             ed.Parameters = data;
             GameManager.CustomeModule<PeerManager>().TryRemove(SessionId);
-            Utility.Debug.LogInfo($"SessionId : {SessionId}   Unavailable . RemoteAdress:{RemoteIPAddress}:{RemotePort}");
+            Utility.Debug.LogInfo($"SessionId : {SessionId}   Unavailable . RemoteAdress:{RemoteIPAddress}");
             var task = GameManager.CustomeModule<PeerManager>().BroadcastEventAsync((byte)reasonCode, ed);
         }
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
         {
-            Utility.Debug.LogWarning((OperationCode)operationRequest.OperationCode);
             object responseData = GameManager.CustomeModule<NetworkManager>().EncodeMessage(operationRequest);
             var op = responseData as OperationResponse;
             op.OperationCode = operationRequest.OperationCode;
-            Utility.Debug.LogError((OperationCode)op.OperationCode,"编码完成，发生消息到客户端");
             SendOperationResponse(op, sendParameters);
         }
         protected override void OnReceive(byte[] data, SendParameters sendParameters)
         {
             base.OnReceive(data, sendParameters);
-            receiveMessage?.Invoke(data);
+            onReceiveMessage?.Invoke(data);
         }
         #endregion
     }

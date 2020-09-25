@@ -1,12 +1,7 @@
 ﻿using AscensionProtocol;
 using Cosmos;
 using Photon.SocketServer;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace AscensionServer
 {
     [TargetHelper]
@@ -20,8 +15,6 @@ namespace AscensionServer
         }
         public object EncodeMessage(object message)
         {
-            if (message is OperationRequest)
-                Utility.Debug.LogInfo("EncodeMessage 验证成功");
             OperationRequest request = message as OperationRequest;
             IHandler handler;
             var result = handlerDict.TryGetValue(request.OperationCode, out handler);

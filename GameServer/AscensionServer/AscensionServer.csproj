@@ -169,8 +169,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlliancelogicManager\AllianceEventCore.cs" />
-    <Compile Include="AlliancelogicManager\AlliancelogicManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Alliancelogic\AllianceEventCore.cs" />
+    <Compile Include="Ascension\Core\RunTime\Alliancelogic\AlliancelogicManager.cs" />
     <Compile Include="AreaHandlers\EnterAdventureSceneHandler.cs" />
     <Compile Include="AreaHandlers\ExitAdventureSceneHandler.cs" />
     <Compile Include="Ascension\Core\Base\Actor\ActorManager.cs" />
@@ -185,7 +185,6 @@
     <Compile Include="Ascension\Core\Base\Role\IRole.cs" />
     <Compile Include="Ascension\Core\Base\Role\RoleEntity.cs" />
     <Compile Include="Ascension\Core\Base\Variable\IKeyValue.cs" />
-    <Compile Include="Ascension\Core\Base\Variable\ISimpleKeyValue.cs" />
     <Compile Include="Ascension\Core\Base\Variable\NetVariable.cs" />
     <Compile Include="Ascension\Core\Base\Variable\TokenVar.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\BattleManager.cs" />
@@ -205,7 +204,7 @@
     <Compile Include="Ascension\Core\RunTime\Team\Base\TeamEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Team\ServerTeamManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Team\TeamManager.cs" />
-    <Compile Include="Concurrent\ConcurrentInt.cs" />
+    <Compile Include="Ascension\Core\Base\Concurrent\ConcurrentInt.cs" />
     <Compile Include="DOMap\AllianceConstructionMap.cs" />
     <Compile Include="DOMap\RoleAllianceSkillMap.cs" />
     <Compile Include="DO\AllianceConstruction.cs" />
@@ -408,12 +407,9 @@
     <Compile Include="Handlers\SyncTreasureattic\SubHandler\UpdateTreasureatticHandler.cs" />
     <Compile Include="Handlers\SyncTreasureattic\SubHandler\VerifyTreasureAtticHandler.cs" />
     <Compile Include="Handlers\SyncTreasureattic\SyncTreasureatticHandler.cs" />
-    <Compile Include="Caching\Cache.cs" />
     <Compile Include="Ascension\Core\Base\Application\ApplicationBuilder.cs" />
     <Compile Include="Ascension\AscensionPeer.cs" />
     <Compile Include="Ascension\AscensionServer.cs" />
-    <Compile Include="Caching\ConcurrencyCache.cs" />
-    <Compile Include="Caching\PeerCache.cs" />
     <Compile Include="Handlers\Base\Handler.cs" />
     <Compile Include="Handlers\Base\IHandler.cs" />
     <Compile Include="Handlers\Base\ISubHandler.cs" />
@@ -587,10 +583,6 @@
     <Content Include="Plugin\PhotonHostRuntimeInterfaces.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AscensionCalculate\AscensionCalculator.csproj">
-      <Project>{a71709ea-e11c-4e7b-b8b7-28a57eff49ef}</Project>
-      <Name>AscensionCalculator</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AscensionData\AscensionData.csproj">
       <Project>{baf68e5b-51c2-438a-8680-0c689deaedc8}</Project>
       <Name>AscensionData</Name>

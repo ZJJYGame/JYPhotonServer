@@ -18,7 +18,16 @@ namespace AscensionServer
         /// <summary>
         /// 广播消息 
         /// </summary>
-        Action<byte,object> broadcastEvent;
+        public event Action<byte, object> BroadcastEventMessage
+        {
+            add { broadcastEventMessage += value; }
+            remove
+            {
+                try { broadcastEventMessage -= value; }
+                catch (Exception e) { Utility.Debug.LogError($"无法移除发送消息的委托:{e}"); }
+            }
+        }
+        Action<byte, object> broadcastEventMessage;
         ConcurrentDictionary<long, PeerEntity> peerDict;
         public override void OnInitialization()
         {
@@ -31,7 +40,7 @@ namespace AscensionServer
             var result = peerDict.TryAdd(peer.SessionId, peer);
             if (result)
             {
-                broadcastEvent += peer.SendEventMessage;
+                broadcastEventMessage += peer.SendEventMessage;
             }
             return result;
         }
@@ -40,7 +49,7 @@ namespace AscensionServer
             var result = peerDict.TryAdd(sessionId, peer);
             if (result)
             {
-                broadcastEvent += peer.SendEventMessage;
+                broadcastEventMessage += peer.SendEventMessage;
             }
             return result;
         }
@@ -52,7 +61,23 @@ namespace AscensionServer
             {
                 try
                 {
-                    broadcastEvent -= peer.SendEventMessage;
+                    broadcastEventMessage -= peer.SendEventMessage;
+                }
+                catch (Exception e)
+                {
+                    Utility.Debug.LogError($"无法移除发送消息的委托:{peer.Handle},{e}");
+                }
+            }
+            return result;
+        }
+        public bool TryRemove(long sessionId, out PeerEntity peer)
+        {
+            var result = peerDict.TryRemove(sessionId, out peer);
+            if (result)
+            {
+                try
+                {
+                    broadcastEventMessage -= peer.SendEventMessage;
                 }
                 catch (Exception e)
                 {
@@ -75,8 +100,8 @@ namespace AscensionServer
             {
                 try
                 {
-                    broadcastEvent -= comparisonPeer.SendEventMessage;
-                    broadcastEvent += newPeer.SendEventMessage;
+                    broadcastEventMessage -= comparisonPeer.SendEventMessage;
+                    broadcastEventMessage += newPeer.SendEventMessage;
                 }
                 catch (Exception e)
                 {
@@ -94,9 +119,9 @@ namespace AscensionServer
         /// 此方法会对所有在线且Available的peer对象进行消息广播；
         /// </summary>
         /// <param name="userData">用户自定义数据</param>
-        public void BroadcastEvent(byte opCode,object userData)
+        public void BroadcastEvent(byte opCode, object userData)
         {
-            broadcastEvent?.Invoke(opCode,userData);
+            broadcastEventMessage?.Invoke(opCode, userData);
         }
         /// <summary>
         /// 异步广播事件
@@ -104,9 +129,9 @@ namespace AscensionServer
         /// <param name="userData">用户自定义数据</param>
         /// <param name="callback">广播结束后的回调</param>
         /// <returns>线程Task</returns>
-        public async Task BroadcastEventAsync(byte opCode,object userData, Action callback = null)
+        public async Task BroadcastEventAsync(byte opCode, object userData, Action callback = null)
         {
-            await Task.Run(() => { broadcastEvent?.Invoke(opCode,userData); callback?.Invoke(); });
+            await Task.Run(() => { broadcastEventMessage?.Invoke(opCode, userData); callback?.Invoke(); });
         }
         /// <summary>
         /// peer连接到此photon
@@ -114,13 +139,12 @@ namespace AscensionServer
         /// <param name="data"></param>
         void PeerDisconnect(object data)
         {
-           var t= BroadcastEventAsync((byte)OperationCode.Logoff, data);
+            var t = BroadcastEventAsync((byte)OperationCode.Logoff, data);
         }
         // peer与此photon断开连接
         void PeerConnect(object data)
         {
             var t = BroadcastEventAsync((byte)OperationCode.Login, data);
-
         }
     }
 }

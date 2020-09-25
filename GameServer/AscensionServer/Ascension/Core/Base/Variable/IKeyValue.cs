@@ -11,6 +11,7 @@ namespace AscensionServer
         bool TryGetValue(TKey key,out KValue value);
         bool ContainsKey(TKey key);
         bool TryRemove(TKey key);
+        bool TryRemove(TKey key,out KValue value);
         bool TryAdd(TKey key,KValue value);
         bool TryUpdate(TKey key,KValue newValue,KValue comparsionValue);
     }

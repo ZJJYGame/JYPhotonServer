@@ -87,13 +87,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FemalePersion.cs" />
-    <Compile Include="HumanPersion.cs" />
     <Compile Include="InheritedAttribute.cs" />
     <Compile Include="NetworkHandlerAttribute.cs" />
     <Compile Include="NewtonjsonHelper.cs" />
-    <Compile Include="IPersion.cs" />
-    <Compile Include="Persion.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
