@@ -83,7 +83,7 @@ namespace Cosmos.Reference
                 return;
             for (int i = 0; i < refers.Count; i++)
             {
-                referenceDict[type].Despawn(refers.ForEach(i));
+                referenceDict[type].Despawn(refers[i]);
             }
             refers.Clear();
         }

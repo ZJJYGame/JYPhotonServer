@@ -45,6 +45,10 @@ namespace AscensionServer
             NetVariable netVar;
             return dataDict.TryRemove(Key, out netVar);
         }
+        public bool TryRemove(Type key, out NetVariable value)
+        {
+            return dataDict.TryRemove(key, out value);
+        }
         public bool TryAdd(Type key, NetVariable Value)
         {
             return dataDict.TryAdd(key, Value);
@@ -102,5 +106,6 @@ namespace AscensionServer
             }
             return pe;
         }
+
     }
 }

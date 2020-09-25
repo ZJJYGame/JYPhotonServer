@@ -42,6 +42,10 @@ namespace AscensionServer
             PeerEntity peerEntity;
             return peerDict.TryRemove(key, out peerEntity);
         }
+        public bool TryRemove(long key, out PeerEntity value)
+        {
+            return peerDict.TryRemove(key, out value);
+        }
         public bool TryUpdate(long key, PeerEntity newValue, PeerEntity comparsionValue)
         {
             return peerDict.TryUpdate(key, newValue, comparsionValue);
@@ -74,5 +78,7 @@ namespace AscensionServer
             }
             return se;
         }
+
+
     }
 }

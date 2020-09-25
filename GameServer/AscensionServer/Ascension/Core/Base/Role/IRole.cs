@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-    public interface IRole : ISimpleKeyValue<byte, object>
+    public interface IRole 
     {
         /// <summary>
         /// roleId，由peer缓存
