@@ -37,7 +37,7 @@ namespace AscensionServer
                 SetResponseParamters(() =>
                 {
                     subResponseParameters.Add((byte)ParameterCode.Inventory, ringServerArray.RingItems);
-                    subResponseParameters.Add((byte)ParameterCode.MessageQueue, ringServerArray.RingMagicDictServer);
+                    subResponseParameters.Add((byte)ParameterCode.RoleRingMagic, ringServerArray.RingMagicDictServer);
                     subResponseParameters.Add((byte)ParameterCode.RoleTemInventory, ringServerArray.RingAdorn);
                     operationResponse.Parameters = subResponseParameters;
                     operationResponse.ReturnCode = (short)ReturnCode.Success;

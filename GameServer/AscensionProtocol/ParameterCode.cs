@@ -154,5 +154,7 @@
         /// 组队
         /// </summary>
         RoleTeam =90,
+        RoleRingMagic = 91
+
     }
 }
