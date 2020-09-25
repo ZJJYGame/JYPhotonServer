@@ -28,10 +28,19 @@ namespace AscensionServer
             {
                 var ringServer = NHibernateQuerier.CriteriaSelect<TemporaryRing>(nHCriteriaRoleID);
                 subResponseParameters.Add((byte)ParameterCode.RoleTemInventory, ringServer.RingItems);
-                operationResponse.Parameters = subResponseParameters;
-                operationResponse.ReturnCode = (short)ReturnCode.Success;
+                SetResponseParamters(() =>
+                {
+                    operationResponse.Parameters = subResponseParameters;
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
+                });
             }
-            else operationResponse.ReturnCode = (short)ReturnCode.Fail;
+            else
+            {
+                SetResponseParamters(() =>
+                {
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                });
+            }
             GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
             return operationResponse;
         }

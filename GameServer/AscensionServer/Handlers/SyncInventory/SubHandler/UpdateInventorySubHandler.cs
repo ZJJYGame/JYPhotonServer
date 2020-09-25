@@ -320,12 +320,21 @@ namespace AscensionServer
                     */
 
                     #endregion
-                    operationResponse.Parameters = subResponseParameters;
-                    operationResponse.ReturnCode = (short)ReturnCode.Success;
+                    SetResponseParamters(() =>
+                    {
+                        operationResponse.Parameters = subResponseParameters;
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
+                    });
                 }
 
             }
-            else operationResponse.ReturnCode = (short)ReturnCode.Fail;
+            else
+            {
+                SetResponseParamters(() =>
+                {
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                });
+            }
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID, nHCriteriaRingID);
             return operationResponse;
         }

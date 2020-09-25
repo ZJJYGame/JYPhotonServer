@@ -46,10 +46,19 @@ namespace AscensionServer
                     NHibernateQuerier.Update(new TemporaryRing() { RoleID = TemRingRoleObj.RoleID, RingItems = Utility.Json.ToJson(tempRing) });
 
                 }
-                operationResponse.Parameters = subResponseParameters;
-                operationResponse.ReturnCode = (short)ReturnCode.Success;
+                SetResponseParamters(() =>
+                {
+                    operationResponse.Parameters = subResponseParameters;
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
+                });
             }
-            else operationResponse.ReturnCode = (short)ReturnCode.Fail;
+            else
+            {
+                SetResponseParamters(() =>
+                {
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                });
+            }
             GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
             return operationResponse;
         }

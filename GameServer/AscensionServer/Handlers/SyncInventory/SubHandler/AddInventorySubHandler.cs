@@ -417,12 +417,21 @@ namespace AscensionServer
                     #endregion
 
                     NHibernateQuerier.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDict), RingMagicDictServer = ringServerArray.RingMagicDictServer , RingAdorn =Utility.Json.ToJson(ServerDictAdorn) });
-                    operationResponse.Parameters = subResponseParameters;
-                    operationResponse.ReturnCode = (short)ReturnCode.Success;
+                    SetResponseParamters(() =>
+                    {
+                        operationResponse.Parameters = subResponseParameters;
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
+                    });
                 }
             }
             else
-                operationResponse.ReturnCode = (short)ReturnCode.Fail;
+            {
+                SetResponseParamters(() =>
+                {
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                });
+            }
+               
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID, nHCriteriaRingID);
             return operationResponse;
         }

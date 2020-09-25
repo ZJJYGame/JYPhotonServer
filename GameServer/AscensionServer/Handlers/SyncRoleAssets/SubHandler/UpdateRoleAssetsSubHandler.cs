@@ -44,10 +44,10 @@ namespace AscensionServer
                 NHibernateQuerier.Update<RoleAssets>(new RoleAssets() { RoleID = roleAssetsObj.RoleID,  SpiritStonesLow = assetsServer.SpiritStonesLow,XianYu = assetsServer.XianYu });
 
                RedisHelper.Hash.HashSet<RoleAssets>("RoleAssets", roleAssetsObj.RoleID.ToString(), new RoleAssets() { RoleID = roleAssetsObj.RoleID, SpiritStonesLow = assetsServer.SpiritStonesLow, XianYu = assetsServer.XianYu });
-                operationResponse.ReturnCode = (byte)ReturnCode.Success;
+                SetResponseParamters(() => { operationResponse.ReturnCode = (byte)ReturnCode.Success; });
             }
             else
-                operationResponse.ReturnCode = (byte)ReturnCode.Fail;
+                SetResponseParamters(() => { operationResponse.ReturnCode = (byte)ReturnCode.Fail; });
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
             return operationResponse;
         }
