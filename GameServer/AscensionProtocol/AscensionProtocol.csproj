@@ -51,6 +51,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Custome\DataSreamQueue.cs" />
+    <Compile Include="Custome\DataStream.cs" />
     <Compile Include="DTO\AlchemyDTO.cs" />
     <Compile Include="DTO\AllianceAlchemyNumDTO.cs" />
     <Compile Include="DTO\AllianceConstructionDTO.cs" />
