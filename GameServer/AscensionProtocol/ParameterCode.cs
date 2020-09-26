@@ -152,12 +152,12 @@
         RoleAllianceCave=87,
         AllianceSignin=88,
         RoleAllianceAlchemy = 89,
-        AllianceName = 91,
+        AllianceName = 90,
         /// <summary>
         /// 组队
         /// </summary>
-        RoleTeam =90,
-        RoleRingMagic = 91
+        RoleTeam =91,
+        RoleRingMagic = 92
 
     }
 }
