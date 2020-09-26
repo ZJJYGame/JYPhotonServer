@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class BattleDTO : DataTransferObject
+    public class BattleInitDTO : DataTransferObject
     {
         //public virtual
         /*
@@ -52,19 +52,19 @@ namespace AscensionProtocol.DTO
         /// <summary>
         /// 所有参战玩家的列表
         /// </summary>
-        public virtual List<RoleDTO> playerUnits { get; set; }
+        public virtual List<RoleBattleDataDTO> playerUnits { get; set; }
         /// <summary>
         /// 所有参战宠物的列表
         /// </summary>
-        public virtual List<PetDTO> petUnits { get; set; }
-
-
-
+        public virtual List<PetBattleDataDTO> petUnits { get; set; }
         /// <summary>
         /// 所有参战敌人的列表
         /// </summary>
+       public virtual List<EnemyBattleDataDTO> enemyUnits { get; set; }
+
+
+
         /*
-       public virtual List<int> enemyUnits { get; set; }
         /// <summary>
         /// 剩余参战对敌人的列表
         /// </summary>
@@ -79,10 +79,6 @@ namespace AscensionProtocol.DTO
         public virtual List<PetDTO> remainingPetUnits { get; set; }
         */
 
-        public virtual string RoleName { set; get; }
-
-
-
         public override void Clear()
         {
             throw new NotImplementedException();
@@ -93,33 +89,80 @@ namespace AscensionProtocol.DTO
     /// <summary>
     /// 战斗传输 初始化
     /// </summary>
-    interface BattleTransferData
+    interface IBattleTransferData
     {
         string ObjectName { get; set; }
     }
 
-    public class RoleBattleDataDTO: BattleTransferData
+    public class RoleBattleDataDTO: IBattleTransferData
     {
         public string ObjectName { get; set ; }
 
         public virtual RoleStatusDTO RoleStatusDTO { get; set; }
     }
 
-    public class PetBattleDataDTO: BattleTransferData
+    public class PetBattleDataDTO: IBattleTransferData
     {
         public string ObjectName { get; set; }
         public virtual PetStatusDTO PetStatusDTO { get; set; }
     }
 
-    public class EnemyBattleDataDTO: BattleTransferData
+    public class EnemyBattleDataDTO: IBattleTransferData
     {
         public string ObjectName { get; set; }
         public virtual EnemyStatusDTO  EnemyStatusDTO { get; set; }
     }
 
-    //TODO  敌人的属性
+    //TODO  敌人的属性  可以直接用 玩家的数据模型   建议不使用
     public class EnemyStatusDTO
     {
+
+    }
+
+
+
+    /// <summary>
+    /// 战斗传输数据DTO
+    /// </summary>
+    public class BattleTransferDTO
+    {
+
+        //所有玩家行动之前结算buff造成伤害
+        /*
+         buufid_1:{{roleid,damage},.....}
+         buufid:_2{{roleid,damage},.....}
+         */
+
+
+        //列表，按玩家出手顺序排序
+        //1. 指令类型
+        //2. 指令id列表
+        //行者ID
+        //3.行为目标i信息  列表：
+        /*目标信息集合：
+         * 目标id
+         * 目标血量伤害
+         * 目标蓝量伤害
+         * 目标神魂伤害 
+         * 目标护盾值
+         * 自身血量伤害
+         * 自身蓝量伤害
+         * 自身神魂伤害 
+         * 自身护盾值
+         * 给目标施加buff
+         *触发技能反应枚举（如反击，守护，闪避，反震，格挡等）
+         *触发数值
+         *
+         */
+        //给自身的buff
+
+        //所有玩家行动结束buff造成伤害
+        /*
+         buufid_1:{{roleid,damage},.....}
+         buufid:_2{{roleid,damage},.....}
+         */
+        //所有玩家行动结束后结算护盾值
+        //Dict<(int)roleID,(int)护盾值>
 
     }
 
