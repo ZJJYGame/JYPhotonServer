@@ -48,9 +48,12 @@ namespace AscensionServer
 
 
             Utility.Debug.LogInfo("我的上架数据" + Utility.Json.ToJson(roleAuctionItemList));
-            subResponseParameters.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(roleAuctionItemList));
-            operationResponse.Parameters = subResponseParameters;
-            operationResponse.ReturnCode = (short)ReturnCode.Success;
+            SetResponseParamters(() =>
+            {
+                subResponseParameters.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(roleAuctionItemList));
+                operationResponse.ReturnCode = (short)ReturnCode.Success;
+            });
+         
             return operationResponse;
         }
     }

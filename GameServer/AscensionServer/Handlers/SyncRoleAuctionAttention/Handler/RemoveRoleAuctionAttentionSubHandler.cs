@@ -34,7 +34,10 @@ namespace AscensionServer
                 }
                 else
                 {
-                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                    SetResponseParamters(() =>
+                    {
+                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                    });
                 }
             }
             operationResponse.Parameters = subResponseParameters;
@@ -48,7 +51,12 @@ namespace AscensionServer
                         resultList.Add(RedisHelper.Hash.HashGetAsync<AuctionGoodsDTO>("AuctionGoodsData", guidList[i]).Result);
                     }
                 }
-                subResponseParameters.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(resultList));
+
+                SetResponseParamters(() =>
+                {
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
+                    subResponseParameters.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(resultList));
+                });
             }
             return operationResponse;
         }

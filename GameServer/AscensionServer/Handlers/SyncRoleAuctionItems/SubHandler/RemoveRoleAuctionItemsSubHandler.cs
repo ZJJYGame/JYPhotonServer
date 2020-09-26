@@ -94,16 +94,21 @@ namespace AscensionServer
             {
                 Utility.Debug.LogInfo("移除成功"+ Utility.Json.ToJson(removeRoleAuctionItem));
                 Utility.Debug.LogInfo("移除成功"+ Utility.Json.ToJson(roleAuctionItemList));
-                subResponseParameters.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson (removeRoleAuctionItem));
-                subResponseParameters.Add((byte)ParameterCode.Auction, Utility.Json.ToJson(roleAuctionItemList));
-                operationResponse.Parameters = subResponseParameters;
-                operationResponse.ReturnCode = (short)ReturnCode.Success;
-              
+
+                SetResponseParamters(() =>
+                {
+                    subResponseParameters.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(removeRoleAuctionItem));
+                    subResponseParameters.Add((byte)ParameterCode.Auction, Utility.Json.ToJson(roleAuctionItemList));
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
+                });
             }
             else
             {
                 Utility.Debug.LogInfo("移除失败");
-                operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                SetResponseParamters(() =>
+                {
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                });
             }
             Utility.Debug.LogInfo("移除事件结束");
             return operationResponse;

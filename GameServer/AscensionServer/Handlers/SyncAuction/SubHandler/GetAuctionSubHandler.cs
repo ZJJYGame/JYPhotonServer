@@ -45,7 +45,6 @@ namespace AscensionServer
                 Utility.Debug.LogInfo("sdsfa");
                 if (startIndex < result.Count)
                 {
-                    Utility.Debug.LogInfo(11111);
                     for (int i = 0; i < result.Count; i++)
                     {
                         string auctionGoodsJson = RedisHelper.String.StringGetAsync("AuctionGoods_" + result[i].RedisKey).Result;
@@ -55,9 +54,7 @@ namespace AscensionServer
                             newResult.Add(result[i]);
                         }
                     }
-                    Utility.Debug.LogInfo(22222);
                     RedisHelper.Hash.HashSet<List<AuctionGoodsIndex>>("AuctionIndex", auctionGoodsID.ToString(), newResult);
-                    Utility.Debug.LogInfo(33333);
                     goodsCount = newResult.Count;
                     if (startIndex + count <= goodsCount)
                     {
