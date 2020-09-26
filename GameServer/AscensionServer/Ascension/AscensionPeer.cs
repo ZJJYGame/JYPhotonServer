@@ -4,6 +4,8 @@ using PhotonHostRuntimeInterfaces;
 using System.Collections.Generic;
 using Cosmos;
 using System;
+using System.Text;
+
 namespace AscensionServer
 {
     public class AscensionPeer : ClientPeer, IPeer
@@ -15,7 +17,7 @@ namespace AscensionServer
         /// <summary>
         /// 接收消息事件委托
         /// </summary>
-        public event Action<byte[]> OnReceiveMessage
+        public event Action<object> OnReceiveMessage
         {
             add { onReceiveMessage += value; }
             remove
@@ -26,7 +28,7 @@ namespace AscensionServer
         }
         SendParameters sendParam = new SendParameters();
         EventData eventData = new EventData();
-        Action<byte[]> onReceiveMessage;
+        Action<object> onReceiveMessage;
         #endregion
         #region Methods
         public AscensionPeer(InitRequest initRequest) : base(initRequest)
@@ -35,23 +37,23 @@ namespace AscensionServer
             Utility.Debug.LogInfo($"Photon SessionId : {SessionId} Available . RemoteAdress:{initRequest.RemoteIP}");
         }
         /// <summary>
-        /// 外部接口的发送消息；
+        /// 发送事件消息;
+        /// 传输的数据类型限定为Dictionary<byte,object>类型；
         /// </summary>
-        /// <param name="userData">用户自定义数据</param>
-        public void SendEventMessage(byte opCode, object userData)
+        /// <param name="data">用户自定义数据</param>
+        public void SendEventMessage(byte opCode, object data)
         {
-            var data = userData as Dictionary<byte, object>;
             eventData.Code = opCode;
-            eventData.Parameters = data;
+            eventData.Parameters = data as Dictionary<byte,object>;
             SendEvent(eventData, sendParam);
         }
         /// <summary>
         /// 发送消息到remotePeer
         /// </summary>
-        /// <param name="buffer">缓冲数据</param>
-        public void SendMessage(byte[] buffer)
+        /// <param name="message">缓冲数据</param>
+        public void SendMessage(object message)
         {
-            SendData(buffer, sendParam);
+            base.SendMessage(message, sendParam);
         }
         public void Clear()
         {
@@ -66,19 +68,20 @@ namespace AscensionServer
             ed.Parameters = data;
             GameManager.CustomeModule<PeerManager>().TryRemove(SessionId);
             Utility.Debug.LogError($"Photon SessionId : {SessionId} Unavailable . RemoteAdress:{RemoteIPAddress}");
-            var task = GameManager.CustomeModule<PeerManager>().BroadcastEventAsync((byte)reasonCode, ed);
+            var task = GameManager.CustomeModule<PeerManager>().BroadcastEventMessageToAllAsync((byte)reasonCode, ed);
         }
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
         {
             object responseData = GameManager.CustomeModule<NetworkManager>().EncodeMessage(operationRequest);
             var op = responseData as OperationResponse;
             op.OperationCode = operationRequest.OperationCode;
+            //this.SendMessage("服务器锟斤拷666");
             SendOperationResponse(op, sendParameters);
         }
-        protected override void OnReceive(byte[] data, SendParameters sendParameters)
+        protected override void OnMessage(object message, SendParameters sendParameters)
         {
-            base.OnReceive(data, sendParameters);
-            onReceiveMessage?.Invoke(data);
+            onReceiveMessage?.Invoke(message);
+            Utility.Debug.LogWarning(message);
         }
         #endregion
     }
