@@ -68,12 +68,11 @@ namespace AscensionServer
         }
         /// <summary>
         /// 发送网络消息到peer；
-        /// 传输自定义的数据缓冲流；
         /// </summary>
-        /// <param name="buffer">缓冲数据</param>
-        public void SendMessage(byte[] buffer)
+        /// <param name="message">普通数据</param>
+        public void SendMessage(object message)
         {
-            Handle.SendMessage(buffer);
+            Handle.SendMessage(message);
         }
         public void Clear()
         {
@@ -106,6 +105,5 @@ namespace AscensionServer
             }
             return pe;
         }
-
     }
 }
