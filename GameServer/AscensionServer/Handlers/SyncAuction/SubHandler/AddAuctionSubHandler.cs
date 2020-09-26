@@ -75,9 +75,12 @@ namespace AscensionServer
                 roleAuctionItemList.Add(auctionGoodsObj.GUID);
                 RedisHelper.Hash.HashSet("RoleAuctionItems", auctionGoodsObj.RoleID.ToString(), roleAuctionItemList);
             }
-            subResponseParameters.Add((byte)ParameterCode.AddAuctionGoods, Utility.Json.ToJson(auctionGoodsObj));
-            operationResponse.Parameters = subResponseParameters;
-            operationResponse.ReturnCode = (short)ReturnCode.Success;
+
+            SetResponseParamters(() =>
+            {
+                subResponseParameters.Add((byte)ParameterCode.AddAuctionGoods, Utility.Json.ToJson(auctionGoodsObj));
+                operationResponse.ReturnCode = (short)ReturnCode.Success;
+            });
             return operationResponse;
         }
     }

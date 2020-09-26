@@ -173,24 +173,29 @@ namespace AscensionServer
 
                     Utility.Debug.LogError(roleID + "添加");
                     Utility.Debug.LogInfo(roleID + "购买物品成功");
-                    subResponseParameters.Add((byte)ParameterCode.AddAuctionGoods, Utility.Json.ToJson(resultDict));
-                    operationResponse.Parameters = subResponseParameters;
-                    operationResponse.ReturnCode = (short)ReturnCode.Success;
-
+                    SetResponseParamters(() =>
+                    {
+                        subResponseParameters.Add((byte)ParameterCode.AddAuctionGoods, Utility.Json.ToJson(resultDict));
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
+                    });
                     break;
                 case BuyAuctionTypeEnum.Empty:
                     Utility.Debug.LogError(roleID + "添加");
                     Utility.Debug.LogInfo(roleID + "找不到该商品");
-                    subResponseParameters.Add((byte)ParameterCode.Inventory, Utility.Json.ToJson(resultDict));
-                    operationResponse.Parameters = subResponseParameters;
-                    operationResponse.ReturnCode = (short)ReturnCode.Empty;
+                    SetResponseParamters(() =>
+                    {
+                        subResponseParameters.Add((byte)ParameterCode.Inventory, Utility.Json.ToJson(resultDict));
+                        operationResponse.ReturnCode = (short)ReturnCode.Empty;
+                    });
                     break;
                 case BuyAuctionTypeEnum.NotEnougth:
                     Utility.Debug.LogError(roleID + "添加");
                     Utility.Debug.LogInfo(roleID + "物品数量不足");
-                    subResponseParameters.Add((byte)ParameterCode.Auction, Utility.Json.ToJson(resultDict));
-                    operationResponse.Parameters = subResponseParameters;
-                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                    SetResponseParamters(() =>
+                    {
+                        subResponseParameters.Add((byte)ParameterCode.Auction, Utility.Json.ToJson(resultDict));
+                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                    });
                     break;
                 case BuyAuctionTypeEnum.Default:
                     Utility.Debug.LogInfo("拍卖行判断出现异常");
@@ -198,6 +203,20 @@ namespace AscensionServer
             }
             Utility.Debug.LogInfo(roleID + "更新拍卖行事件结束");
             return operationResponse;
+        }
+
+        void AddRoleAssets(AuctionGoodsDTO buyAuctionGoodsDTO)
+        {
+            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", buyAuctionGoodsDTO.RoleID);
+            bool roleExist = NHibernateQuerier.Verify<Role>(nHCriteriaRoleID);
+            bool roleAssetsExist = NHibernateQuerier.Verify<RoleAssets>(nHCriteriaRoleID);
+            if (roleExist && roleAssetsExist)
+            {
+                var assetsServer = NHibernateQuerier.CriteriaSelect<RoleAssets>(nHCriteriaRoleID);
+                assetsServer.SpiritStonesLow += buyAuctionGoodsDTO.Price * buyAuctionGoodsDTO.Count * 100;
+                NHibernateQuerier.Update<RoleAssets>(new RoleAssets() { RoleID = buyAuctionGoodsDTO.RoleID, SpiritStonesLow = assetsServer.SpiritStonesLow, XianYu = assetsServer.XianYu });
+                RedisHelper.Hash.HashSet<RoleAssets>("RoleAssets", buyAuctionGoodsDTO.RoleID.ToString(), new RoleAssets() { RoleID = buyAuctionGoodsDTO.RoleID, SpiritStonesLow = assetsServer.SpiritStonesLow, XianYu = assetsServer.XianYu });
+            }
         }
 
         List<AuctionGoodsDTO> GetReturnGoodsList(int id, ref int startIndex, int count, ref int allGoodsCount)

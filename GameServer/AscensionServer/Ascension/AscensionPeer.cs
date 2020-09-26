@@ -29,10 +29,10 @@ namespace AscensionServer
         Action<byte[]> onReceiveMessage;
         #endregion
         #region Methods
-        public AscensionPeer(InitRequest initRequest, uint sessionId) : base(initRequest)
+        public AscensionPeer(InitRequest initRequest) : base(initRequest)
         {
-            Handle = this; this.SessionId = sessionId;
-            Utility.Debug.LogInfo($"SessionId : {SessionId}  Available . RemoteAdress:{initRequest.RemoteIP}:{initRequest.RemotePort}");
+            Handle = this; this.SessionId = ConnectionId;
+            Utility.Debug.LogInfo($"Photon SessionId : {SessionId} Available . RemoteAdress:{initRequest.RemoteIP}");
         }
         /// <summary>
         /// 外部接口的发送消息；
@@ -65,7 +65,7 @@ namespace AscensionServer
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             ed.Parameters = data;
             GameManager.CustomeModule<PeerManager>().TryRemove(SessionId);
-            Utility.Debug.LogInfo($"SessionId : {SessionId}   Unavailable . RemoteAdress:{RemoteIPAddress}");
+            Utility.Debug.LogError($"Photon SessionId : {SessionId} Unavailable . RemoteAdress:{RemoteIPAddress}");
             var task = GameManager.CustomeModule<PeerManager>().BroadcastEventAsync((byte)reasonCode, ed);
         }
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)

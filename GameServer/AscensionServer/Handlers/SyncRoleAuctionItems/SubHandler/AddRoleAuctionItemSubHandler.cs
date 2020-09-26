@@ -82,15 +82,21 @@ namespace AscensionServer
             if (isSuccess)
             {
                 Utility.Debug.LogInfo("重新上架成功");
-                subResponseParameters.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(roleAuctionItemList));
-                subResponseParameters.Add((byte)ParameterCode.Auction, Utility.Json.ToJson(auctionGoodsDTO));
-                operationResponse.Parameters=subResponseParameters;
-                operationResponse.ReturnCode = (short)ReturnCode.Success;
+                SetResponseParamters(() =>
+                {
+                    subResponseParameters.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(roleAuctionItemList));
+                    subResponseParameters.Add((byte)ParameterCode.Auction, Utility.Json.ToJson(auctionGoodsDTO));
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
+                });  
             }
             else
             {
                 Utility.Debug.LogInfo("重新上架失败");
-                operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                SetResponseParamters(() =>
+                {
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                });
+                
             }
             Utility.Debug.LogInfo("重新上架事件结束");
             return operationResponse;

@@ -43,9 +43,12 @@ namespace AscensionServer
                     }
                 }
             }
-            subResponseParameters.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(resultAuctionGoodsList));
-            operationResponse.Parameters = subResponseParameters;
-            operationResponse.ReturnCode = (short)ReturnCode.Success;
+
+            SetResponseParamters(() =>
+            {
+                subResponseParameters.Add((byte)ParameterCode.RoleAuctionItems, Utility.Json.ToJson(resultAuctionGoodsList));
+                operationResponse.ReturnCode = (short)ReturnCode.Success;
+            });
             return operationResponse;
         }
     }

@@ -23,11 +23,9 @@ namespace AscensionServer
 {
     public partial class AscensionServer : ApplicationBase
     {
-        uint peerSession = 1000;
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
-            ++peerSession;
-            var peer = new AscensionPeer(initRequest, peerSession);
+            var peer = new AscensionPeer(initRequest);
             var peerEntity = PeerEntity.Create(peer);
             GameManager.CustomeModule<PeerManager>().TryAdd(peerEntity);
             return peer;
