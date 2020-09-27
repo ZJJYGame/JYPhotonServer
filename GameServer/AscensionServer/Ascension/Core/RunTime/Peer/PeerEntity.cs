@@ -16,18 +16,18 @@ namespace AscensionServer
     {
         public long SessionId { get { return Handle.SessionId; } }
         public bool Available { get { return Handle.Available; } }
-        public IPeer Handle { get; private set; }
+        public ICustomePeer Handle { get; private set; }
         public ICollection<object> DataCollection { get { return dataDict.Values; } }
         ConcurrentDictionary<Type, object> dataDict;
         public PeerEntity()
         {
             dataDict = new ConcurrentDictionary<Type, object>();
         }
-        public PeerEntity(IPeer handle) : this()
+        public PeerEntity(ICustomePeer handle) : this()
         {
             this.Handle = handle;
         }
-        public void OnInit(IPeer handle)
+        public void OnInit(ICustomePeer handle)
         {
             this.Handle = handle;
         }
@@ -78,7 +78,7 @@ namespace AscensionServer
             Handle = null;
             dataDict.Clear();
         }
-        public static PeerEntity Create(IPeer handle, params object[] netVars)
+        public static PeerEntity Create(ICustomePeer handle, params object[] netVars)
         {
             if (handle == null)
                 throw new ArgumentNullException("Peer is invalid");
@@ -91,7 +91,7 @@ namespace AscensionServer
             }
             return pe;
         }
-        public static PeerEntity Create(IPeer handle, List<object> netVars)
+        public static PeerEntity Create(ICustomePeer handle, List<object> netVars)
         {
             if (handle == null)
                 throw new ArgumentNullException("Peer is invalid");

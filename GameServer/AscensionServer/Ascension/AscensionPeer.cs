@@ -8,7 +8,7 @@ using System.Text;
 
 namespace AscensionServer
 {
-    public class AscensionPeer : ClientPeer, IPeer
+    public class AscensionPeer : ClientPeer, ICustomePeer
     {
         #region Properties
         public long SessionId { get; private set; }

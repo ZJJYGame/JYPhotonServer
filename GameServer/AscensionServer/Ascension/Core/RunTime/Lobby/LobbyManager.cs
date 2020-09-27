@@ -13,11 +13,7 @@ namespace AscensionServer
     /// </summary>
     public sealed class LobbyManager:Module<LobbyManager>
     {
-        HashSet<uint> peerSet;
-        public override void OnInitialization()
-        {
-            peerSet = new HashSet<uint>();
-        }
+        HashSet<uint> peerSet=new HashSet<uint>();
         public bool TryAdd(uint conv)
         {
             return peerSet.Add(conv);

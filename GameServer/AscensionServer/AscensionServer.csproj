@@ -186,11 +186,9 @@
     <Compile Include="Ascension\Core\RunTime\Data\Data.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\DataManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\IDataProvider.cs" />
-    <Compile Include="Ascension\Core\RunTime\Peer\IPeer.cs" />
+    <Compile Include="Ascension\Core\RunTime\Peer\ICustomePeer.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\PeerEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\PeerManager.cs" />
-    <Compile Include="Ascension\Core\Base\Role\IRole.cs" />
-    <Compile Include="Ascension\Core\Base\Role\RoleEntity.cs" />
     <Compile Include="Ascension\Core\Base\Variable\IKeyValue.cs" />
     <Compile Include="Ascension\Core\Base\Variable\NetVariable.cs" />
     <Compile Include="Ascension\Core\Base\Variable\TokenVar.cs" />
@@ -199,8 +197,10 @@
     <Compile Include="Ascension\Core\RunTime\Network\INetworkMessageHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Network\NetworkManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Record\RecordManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\RedisData\RedisData.Initialize.cs" />
+    <Compile Include="Ascension\Core\Base\RedisData\RedisData.Initialize.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\GameResourceManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Role\RoleEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\Role\RoleManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\Base\BattleInputData.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\Base\BattleRoomEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\Base\RoomBattleInputC2S.cs" />
