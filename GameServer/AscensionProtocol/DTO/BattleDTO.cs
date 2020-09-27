@@ -119,13 +119,116 @@ namespace AscensionProtocol.DTO
 
     }
 
-
-
     /// <summary>
-    /// 战斗传输数据DTO
+    /// 战斗传输数据DTO   列表 ， 出手速度  是按照玩家speed 排列的
     /// </summary>
     public class BattleTransferDTO
     {
+        /// <summary>
+        /// 战斗指令
+        /// </summary>
+        public virtual BattleCmd SendBattleCmd { get; set; }
+
+        public virtual int CmdId { get; set; }
+        /// <summary>
+        /// 战斗指令列表
+        /// </summary>
+        public enum BattleCmd
+        {
+            /// <summary>
+            /// 使用道具指令
+            /// </summary>
+            PropsInstruction,
+            /// <summary>
+            /// 使用技能指令
+            /// </summary>
+            SkillInstruction,
+            /// <summary>
+            /// 逃跑指令
+            /// </summary>
+            RunAwayInstruction
+
+        }
+        /// <summary>
+        /// 目标行为信息 列表：
+        /// </summary>
+        public virtual List<TargetInfoDTO> TargetInfos { get; set; }
+        /// <summary>
+        /// 自身行为信息 列表
+        /// </summary>
+        public virtual List<TargetInfoDTO> OwnInfos { get; set; }
+        /// <summary>
+        /// 触发技能指令
+        /// </summary>
+        public virtual SkillReactionCmd SendSkillReactionCmd { set; get; }
+        /// <summary>
+        /// 触发技能数值
+        /// </summary>
+        public virtual int SkillReactionValue { get; set; }
+        /// <summary>
+        /// 触发技能反应列表
+        /// </summary>
+        public enum SkillReactionCmd
+        {
+            /// <summary>
+            /// 反击
+            /// </summary>
+            BeatBack,
+            /// <summary>
+            /// 守护
+            /// </summary>
+            Guard,
+            /// <summary>
+            /// 闪避
+            /// </summary>
+            Dodge,
+            /// <summary>
+            /// 反震
+            /// </summary>
+            Shock,
+            /// <summary>
+            /// 格挡
+            /// </summary>
+            Parry
+        }
+
+        /// <summary>
+        /// 目标值和  自身值 传递的都是一样的
+        /// </summary>
+        public class TargetInfoDTO
+        {
+            /// <summary>
+            /// 目标id
+            /// </summary>
+            public virtual  int TargetID { get; set; }
+            /// <summary>
+            /// 目标血量伤害
+            /// </summary>
+            public virtual int TargetHPDamage { set; get; }
+
+            /// <summary>
+            /// 目标蓝量伤害
+            /// </summary>
+            public virtual int TargetMPDamage { set; get; }
+            /// <summary>
+            /// 目标神魂伤害
+            /// </summary>
+            public virtual int TargetShenHunDamage { set; get; }
+            /// <summary>
+            /// 目标护盾值
+            /// </summary>
+            public virtual int TargetShieldVaule { get; set; }
+            /// <summary>
+            /// 目标Buff
+            /// </summary>
+            public virtual int TargetBuff { get; set; }
+
+        }
+        /// <summary>
+        /// 所有玩家行动结束后结算护盾值
+        /// </summary>
+        public virtual Dictionary<int,int> RoleIdShieldValueDict { get; set; }
+        #region 设计
 
         //所有玩家行动之前结算buff造成伤害
         /*
@@ -145,11 +248,13 @@ namespace AscensionProtocol.DTO
          * 目标蓝量伤害
          * 目标神魂伤害 
          * 目标护盾值
+         * 自身id
          * 自身血量伤害
          * 自身蓝量伤害
          * 自身神魂伤害 
          * 自身护盾值
          * 给目标施加buff
+         * 
          *触发技能反应枚举（如反击，守护，闪避，反震，格挡等）
          *触发数值
          *
@@ -163,8 +268,6 @@ namespace AscensionProtocol.DTO
          */
         //所有玩家行动结束后结算护盾值
         //Dict<(int)roleID,(int)护盾值>
-
+        #endregion
     }
-
-
 }
