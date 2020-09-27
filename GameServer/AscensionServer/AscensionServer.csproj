@@ -20,7 +20,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -585,7 +585,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="JsonData\Pet.txt" />
+    <Content Include="JsonData\Pet.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="JsonData\Region_0.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

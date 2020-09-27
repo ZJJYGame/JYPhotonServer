@@ -10,7 +10,7 @@ namespace AscensionServer
     [TargetHelper]
     public class GateDataProvider : IDataProvider
     {
-        string folderPath = Environment.CurrentDirectory + "/ConfigData";
+        string folderPath = Environment.CurrentDirectory + "/JsonData";
         Dictionary<string, string> jsonDict = new Dictionary<string, string>();
         Dictionary<Type, object> objectDict = new Dictionary<Type, object>();
         public object LoadData()
@@ -22,7 +22,7 @@ namespace AscensionServer
                 var str = Utility.IO.ReadTextFileContent(folderPath, f.Name);
                 jsonDict.Add(f.Name, str);
 #if DEBUG
-                Utility.Debug.LogInfo($"\n{f.Name}\n{str}\n");
+                //Utility.Debug.LogInfo($"\n{f.Name}\n{str}\n");
 #endif
             }
             return jsonDict;
@@ -34,7 +34,7 @@ namespace AscensionServer
             for (int i = 0; i < datSet.Length; i++)
             {
                 string json;
-                var fullName = Utility.Text.Append(datSet[i].GetType().Name, ".json");
+                var fullName = Utility.Text.Append(datSet[i].GetType().Name, ".txt");
                 if (jsonDict.TryGetValue(fullName, out json))
                 {
                     try
