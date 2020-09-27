@@ -169,6 +169,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ascension\Core\Base\Attribute\ConfigDataAttribute.cs" />
+    <Compile Include="Ascension\Core\Base\HelperImplement\DataHelper\GateDataProvider.cs" />
     <Compile Include="Ascension\Core\Base\Stream\DataStream.cs" />
     <Compile Include="Ascension\Core\Base\Stream\DataStreamQueue.cs" />
     <Compile Include="Ascension\Core\RunTime\Alliancelogic\AllianceEventCore.cs" />
@@ -181,6 +183,9 @@
     <Compile Include="Ascension\Core\Base\EventCore\OpCodeEventCore.cs" />
     <Compile Include="Ascension\Core\Base\Input\IInputData.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\NetworkHelper\PhotonMessageHelper.cs" />
+    <Compile Include="Ascension\Core\RunTime\Data\Data.cs" />
+    <Compile Include="Ascension\Core\RunTime\Data\DataManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Data\IDataProvider.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\IPeer.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\PeerEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\PeerManager.cs" />
@@ -195,7 +200,7 @@
     <Compile Include="Ascension\Core\RunTime\Network\NetworkManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Record\RecordManager.cs" />
     <Compile Include="Ascension\Core\RunTime\RedisData\RedisData.Initialize.cs" />
-    <Compile Include="Ascension\Core\RunTime\Resource\ResourceManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Resource\GameResourceManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\Base\BattleInputData.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\Base\BattleRoomEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\Base\RoomBattleInputC2S.cs" />
@@ -580,6 +585,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="JsonData\Pet.txt" />
+    <EmbeddedResource Include="JsonData\Region_0.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="Plugin\ExitGames.Logging.Log4Net.dll" />
     <Content Include="Plugin\ExitGames.Logging.Log4Net.XML" />
     <Content Include="Plugin\ExitGamesLibs.dll" />

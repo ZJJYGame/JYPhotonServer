@@ -11,7 +11,7 @@ using AscensionProtocol.DTO;
 namespace AscensionServer
 {
     [CustomeModule]
-    public class ResourceManager : Module<ResourceManager>
+    public class GameResourceManager : Module<GameResourceManager>
     {
         /// <summary>
         /// 资源单位集合的字典

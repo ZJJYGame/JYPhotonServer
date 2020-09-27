@@ -16,7 +16,6 @@ namespace AscensionServer
     {
         public long SessionId { get { return Handle.SessionId; } }
         public bool Available { get { return Handle.Available; } }
-        public IRole RoleEntity { get; private set; }
         public IPeer Handle { get; private set; }
         public ICollection<object> DataCollection { get { return dataDict.Values; } }
         ConcurrentDictionary<Type, object> dataDict;
