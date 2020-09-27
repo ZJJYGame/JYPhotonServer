@@ -169,6 +169,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ascension\Core\Base\Stream\DataStream.cs" />
+    <Compile Include="Ascension\Core\Base\Stream\DataStreamQueue.cs" />
     <Compile Include="Ascension\Core\RunTime\Alliancelogic\AllianceEventCore.cs" />
     <Compile Include="Ascension\Core\RunTime\Alliancelogic\AlliancelogicManager.cs" />
     <Compile Include="AreaHandlers\EnterAdventureSceneHandler.cs" />

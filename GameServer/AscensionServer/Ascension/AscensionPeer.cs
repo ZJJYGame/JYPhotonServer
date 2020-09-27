@@ -29,12 +29,21 @@ namespace AscensionServer
         SendParameters sendParam = new SendParameters();
         EventData eventData = new EventData();
         Action<object> onReceiveMessage;
+        //string[] str = new string[] { "服务器锟斤拷666", "服务器锟斤拷999" };
+        //int[] stint = new int[] { 999,666};
         #endregion
         #region Methods
         public AscensionPeer(InitRequest initRequest) : base(initRequest)
         {
             Handle = this; this.SessionId = ConnectionId;
             Utility.Debug.LogInfo($"Photon SessionId : {SessionId} Available . RemoteAdress:{initRequest.RemoteIP}");
+        }
+        /// <summary>
+        /// 发送消息到remotePeer
+        /// </summary>
+        public void SendMessage(object message)
+        {
+            base.SendMessage(message, sendParam);
         }
         /// <summary>
         /// 发送事件消息;
@@ -46,14 +55,6 @@ namespace AscensionServer
             eventData.Code = opCode;
             eventData.Parameters = data as Dictionary<byte,object>;
             SendEvent(eventData, sendParam);
-        }
-        /// <summary>
-        /// 发送消息到remotePeer
-        /// </summary>
-        /// <param name="message">缓冲数据</param>
-        public void SendMessage(object message)
-        {
-            base.SendMessage(message, sendParam);
         }
         public void Clear()
         {
@@ -75,7 +76,7 @@ namespace AscensionServer
             object responseData = GameManager.CustomeModule<NetworkManager>().EncodeMessage(operationRequest);
             var op = responseData as OperationResponse;
             op.OperationCode = operationRequest.OperationCode;
-            //this.SendMessage("服务器锟斤拷666");
+            //this.SendMessage(stint);
             SendOperationResponse(op, sendParameters);
         }
         protected override void OnMessage(object message, SendParameters sendParameters)
