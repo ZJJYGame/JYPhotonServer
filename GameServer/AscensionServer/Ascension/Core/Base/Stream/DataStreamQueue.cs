@@ -48,8 +48,8 @@ namespace AscensionServer
         }
         public void WriteNext(object obj)
         {
-            if (objectSet.Count > 0 && objectPerPacket < 0)
-                objectPerPacket = objectSet.Count;
+            if (Utility.Time.MillisecondTimeStamp() != ts)
+                WritePackage();
             ts = Utility.Time.MillisecondTimeStamp();
             if (isWriting)
                 objectSet.Add(obj);
