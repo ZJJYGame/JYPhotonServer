@@ -130,6 +130,7 @@ namespace AscensionProtocol.DTO
         public virtual BattleCmd SendBattleCmd { get; set; }
 
         public virtual int CmdId { get; set; }
+
         /// <summary>
         /// 战斗指令列表
         /// </summary>
@@ -153,10 +154,10 @@ namespace AscensionProtocol.DTO
         /// 目标行为信息 列表：
         /// </summary>
         public virtual List<TargetInfoDTO> TargetInfos { get; set; }
-        /// <summary>
-        /// 自身行为信息 列表
-        /// </summary>
-        public virtual List<TargetInfoDTO> OwnInfos { get; set; }
+        ///// <summary>
+        ///// 自身行为信息 列表
+        ///// </summary>
+        //public virtual List<TargetInfoDTO> OwnInfos { get; set; }
         /// <summary>
         /// 触发技能指令
         /// </summary>
