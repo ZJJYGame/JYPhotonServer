@@ -16,6 +16,39 @@ namespace AscensionServer
     {
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
 
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
+        {
+            var dict = operationRequest.Parameters;
+            string dailyMessageJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.DailyMessage));
+            var dailyMessageObj = Utility.Json.ToObject<DailyMessageDTO>(dailyMessageJson);
+            NHCriteria nHCriteriadailyMessage = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleName", dailyMessageObj.Name);
+            var dailyMessageTemp = NHibernateQuerier.CriteriaSelect<RoleAlliance>(nHCriteriadailyMessage);
+            List<DailyMessageDTO> dailyMessages = new List<DailyMessageDTO>();
+            if (dailyMessageTemp != null)
+            {
+                if (RedisHelper.Hash.HashExistAsync("DailyMessage", dailyMessageTemp.AllianceID.ToString()).Result)
+                {
+                    dailyMessages = RedisHelper.Hash.HashGetAsync<List<DailyMessageDTO>>("DailyMessage", dailyMessageTemp.AllianceID.ToString()).Result;
+                    dailyMessages.Add(dailyMessageObj);
+                    RedisHelper.Hash.HashSet<List<DailyMessageDTO>>("DailyMessage", dailyMessageTemp.AllianceID.ToString(), dailyMessages);
+                    SetResponseParamters(() =>
+                    {
+                        subResponseParameters.Add((byte)ParameterCode.DailyMessage, Utility.Json.ToJson(dailyMessages));
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
+                    });
+                }
+                else
+                    dailyMessages.Add(dailyMessageObj);
+                RedisHelper.Hash.HashSet<List<DailyMessageDTO>>("DailyMessage", dailyMessageTemp.AllianceID.ToString(), dailyMessages);
+                SetResponseParamters(() => {
+                    subResponseParameters.Add((byte)ParameterCode.DailyMessage, Utility.Json.ToJson(dailyMessages));
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
+                });
+            }
+            else
+                SetResponseParamters(() => { operationResponse.ReturnCode = (short)ReturnCode.Fail; });
 
+            return operationResponse;
+        }
     }
 }
