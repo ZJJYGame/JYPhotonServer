@@ -68,6 +68,7 @@
     <Compile Include="DTO\BattleDTO.cs" />
     <Compile Include="DTO\BottleneckDTO.cs" />
     <Compile Include="DTO\CultivationMethodDTO.cs" />
+    <Compile Include="DTO\DailyMessageDTO.cs" />
     <Compile Include="DTO\ForgeDTO.cs" />
     <Compile Include="DTO\HerbsFieldDTO.cs" />
     <Compile Include="DTO\RoleAllianceDTO.cs" />
