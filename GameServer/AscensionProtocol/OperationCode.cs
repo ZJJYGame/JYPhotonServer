@@ -132,6 +132,10 @@ namespace AscensionProtocol
        /// 同步个人拍卖行关注列表
        /// </summary>
        SyncRoleAuctionAttention=58,
+        /// <summary>
+        /// 发送日常通知的消息
+        /// </summary>
+        SyncDailyMessage=59,
         EnterAdventureScene = 111,
         ExitAdventureScene=112,
         /// <summary>

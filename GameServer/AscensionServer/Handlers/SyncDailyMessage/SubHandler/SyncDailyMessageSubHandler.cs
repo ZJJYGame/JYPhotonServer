@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AscensionProtocol
+namespace AscensionServer
 {
-    /// <summary>
-    /// 数据流队列
-    /// </summary>
-    public class DataSreamQueue
+    public abstract class SyncDailyMessageSubHandler:SubHandler
     {
     }
 }

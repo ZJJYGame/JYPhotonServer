@@ -8,6 +8,7 @@ using AscensionProtocol;
 namespace AscensionServer
 {
     /// <summary>
+    /// <see cref="AscensionPeer"/>
     /// photon所有登录的peer都存储在此；
     /// SessionId在具体的Peer中，由服务器分配；
     /// 其余各个模块都是从此通过SessionID取得Peer对象；

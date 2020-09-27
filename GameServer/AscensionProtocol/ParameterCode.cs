@@ -157,7 +157,10 @@
         /// 组队
         /// </summary>
         RoleTeam =91,
-        RoleRingMagic = 92
-
+        RoleRingMagic = 92,
+        /// <summary>
+        /// 广播的日常消息
+        /// </summary>
+        DailyMessage=93
     }
 }
