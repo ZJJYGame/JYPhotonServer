@@ -170,7 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ascension\Core\Base\Attribute\ConfigDataAttribute.cs" />
-    <Compile Include="Ascension\Core\Base\HelperImplement\DataHelper\GateDataProvider.cs" />
+    <Compile Include="Ascension\Core\Base\HelperImplement\DataImpl\GateDataProvider.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\RoleHelper\RoleOperationHelper.cs" />
     <Compile Include="Ascension\Core\Base\Stream\DataStream.cs" />
     <Compile Include="Ascension\Core\Base\Stream\DataStreamQueue.cs" />
@@ -186,13 +186,14 @@
     <Compile Include="Ascension\Core\Base\HelperImplement\NetworkHelper\PhotonMessageHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\Data.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\DataManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Data\DataToObject\GongFa.cs" />
-    <Compile Include="Ascension\Core\RunTime\Data\DataToObject\GongFaBook.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\GongFa.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\GongFaBook.cs" />
+    <Compile Include="Ascension\Core\RunTime\Data\IDataConvertor.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\IDataProvider.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\INetworkPeer.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\IPeerAgent.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\NetworkPeerAgent.cs" />
-    <Compile Include="Ascension\Core\RunTime\Data\ServerDataManager.cs" />
+    <Compile Include="Ascension\Core\Base\HelperImplement\DataImpl\ServerDataConvertor.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\PeerManager.cs" />
     <Compile Include="Ascension\Core\Base\Variable\IKeyValue.cs" />
     <Compile Include="Ascension\Core\Base\Variable\NetVariable.cs" />

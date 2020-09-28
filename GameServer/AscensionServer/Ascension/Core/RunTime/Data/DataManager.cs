@@ -24,7 +24,15 @@ namespace AscensionServer
         public override void OnInitialization()
         {
             InitProvider();
-            latestRefreshTime = Utility.Time.SecondNow()+intervalSec;
+            latestRefreshTime = Utility.Time.SecondNow() + intervalSec;
+        }
+        public override void OnPreparatory()
+        {
+            var objs = Utility.Assembly.GetInstancesByAttribute<TargetHelperAttribute, IDataConvertor>();
+            for (int i = 0; i < objs.Length; i++)
+            {
+                objs[i].ConvertData();
+            }
         }
         /// <summary>
         /// 覆写轮询函数；
@@ -39,7 +47,7 @@ namespace AscensionServer
             {
                 jsonDict = dataProvider?.LoadData() as Dictionary<string, string>;
                 dataDict = dataProvider?.ParseData() as Dictionary<Type, object>;
-                latestRefreshTime = now+intervalSec;
+                latestRefreshTime = now + intervalSec;
             }
         }
         public bool ContainsKey(Type key)
@@ -101,9 +109,28 @@ namespace AscensionServer
         {
             return jsonDict.TryAdd(key, value);
         }
+        /// <summary>
+        /// 通过类名获取json数据；
+        /// typeof(Data).Name可作为key；
+        /// </summary>
+        /// <param name="key">类名</param>
+        /// <param name="value">json数据</param>
+        /// <returns>是否获取成功</returns>
         public bool TryGetValue(string key, out string value)
         {
             return jsonDict.TryGetValue(key, out value);
+        }
+        public bool TryGetObjectValue<T>(string key, out T value)
+            where T : class
+        {
+            value = default;
+            string json;
+            var result = jsonDict.TryGetValue(key, out json);
+            if (result)
+            {
+                value= Utility.Json.ToObject<T>(json);
+            }
+            return result;
         }
         public bool TryRemove(string key)
         {
@@ -121,8 +148,8 @@ namespace AscensionServer
         {
             var obj = Utility.Assembly.GetInstanceByAttribute<TargetHelperAttribute>(typeof(IDataProvider));
             dataProvider = obj as IDataProvider;
-           jsonDict= dataProvider?.LoadData() as Dictionary<string,string>;
-           dataDict= dataProvider?.ParseData() as Dictionary<Type,object>;
+            jsonDict = dataProvider?.LoadData() as Dictionary<string, string>;
+            dataDict = dataProvider?.ParseData() as Dictionary<Type, object>;
         }
     }
 }
