@@ -47,7 +47,7 @@ namespace AscensionServer
             if (_oldBattleList.Count > 0 )
             {
                 int roomid = _oldBattleList[0];
-                //battleInit = 
+                battleInit = _teamIdToBattleInit[roomid];
             }
         }
 

@@ -34,17 +34,21 @@ namespace AscensionServer
             if (isExisted)
                 Utility.Debug.LogInfo("----------------------------  Role >>Role name:+" + roleTmp.RoleName + " already exist !!!  ---------------------------------");
             Role role = NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRoleName);//根据username查询数据
-            //TODO AddRoleSubHandler查询uuid未处理
-            string str_uuid = "";
+           //TODO AddRoleSubHandler查询uuid未处理
+            string userJsonTmp = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.User));
+            User userTmp = Utility.Json.ToObject<User>(userJsonTmp);
+            string str_uuid = userTmp.UUID;
             NHCriteria nHCriteriaUUID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("UUID", str_uuid);
             var userRole = NHibernateQuerier.CriteriaSelect<UserRole>(nHCriteriaUUID);
             string roleJson = userRole.RoleIDArray;
             string roleStatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleStatus));
+            Utility.Debug.LogInfo("yzqData添加新角色" + userRole.UUID);
             Dictionary<int, int> idRing = new Dictionary<int, int>();
             Dictionary<int, int> initialSchool = new Dictionary<int, int>();
-            Ring ring = null;
-            //如果没有查询到代表角色没被注册过可用
 
+            Ring ring = null;
+            Utility.Debug.LogInfo("yzqData添加新角色2" );
+            //如果没有查询到代表角色没被注册过可用
             if (role == null)
             {
                 List<string> roleList = new List<string>();
@@ -204,12 +208,18 @@ namespace AscensionServer
                 DOdict.Add("School", Utility.Json.ToJson(school));
                 DOdict.Add("MiShu", Utility.Json.ToJson(miShu));
                 DOdict.Add("RoleAlliance", Utility.Json.ToJson(roleAllianceDTO));
-                subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(DOdict));
-                operationResponse.Parameters = subResponseParameters;
+                SetResponseParamters(() => {
+                    subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(DOdict));
+                    operationResponse.Parameters = subResponseParameters;
+                });
+
             }
             else
             {
-                operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                SetResponseParamters(() => {
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                });
+
             }
             //把上面的回应给客户端
             GameManager.ReferencePoolManager.Despawns(nHCriteriaUUID, nHCriteriaRoleName);

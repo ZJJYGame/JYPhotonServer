@@ -186,10 +186,13 @@
     <Compile Include="Ascension\Core\Base\HelperImplement\NetworkHelper\PhotonMessageHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\Data.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\DataManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Data\DataToObject\GongFa.cs" />
+    <Compile Include="Ascension\Core\RunTime\Data\DataToObject\GongFaBook.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\IDataProvider.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\INetworkPeer.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\IPeerAgent.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\NetworkPeerAgent.cs" />
+    <Compile Include="Ascension\Core\RunTime\Data\ServerDataManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\PeerManager.cs" />
     <Compile Include="Ascension\Core\Base\Variable\IKeyValue.cs" />
     <Compile Include="Ascension\Core\Base\Variable\NetVariable.cs" />
@@ -239,6 +242,7 @@
     <Compile Include="Handlers\SyncAllianceSignin\SubHandler\SyncAllianceSigninSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceSignin\SubHandler\UpdateAllianceSigninSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceSignin\SyncAllianceSigninHandler.cs" />
+    <Compile Include="Handlers\SyncDailyMessage\SubHandler\AddDailyMessageSubHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\GetDailyMessageSubHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\SyncDailyMessageSubHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\UpdateDailyMessageSubHandler.cs" />
@@ -590,6 +594,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="JsonData\GongFaBook.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\GongFa.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="JsonData\Pet.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

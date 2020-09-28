@@ -22,7 +22,7 @@ namespace AscensionServer
                 var str = Utility.IO.ReadTextFileContent(folderPath, f.Name);
                 jsonDict.Add(f.Name, str);
 #if DEBUG
-                //Utility.Debug.LogInfo($"\n{f.Name}\n{str}\n");
+                Utility.Debug.LogInfo($"\n{f.Name}\n{str}\n");
 #endif
             }
             return jsonDict;
