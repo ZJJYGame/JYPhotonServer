@@ -21,18 +21,24 @@ namespace AscensionServer
             var dict = operationRequest.Parameters;
             string dailyMessageJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.DailyMessage));
             var dailyMessageObj = Utility.Json.ToObject<DailyMessageDTO>(dailyMessageJson);
+            string indexJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceName));
+            var index = Utility.Json.ToObject<int>(indexJson);
+            string countJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
+            var count = Utility.Json.ToObject<int>(countJson);
+
             NHCriteria nHCriteriadailyMessage = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleName", dailyMessageObj.Name);
             var dailyMessageTemp = NHibernateQuerier.CriteriaSelect<RoleAlliance>(nHCriteriadailyMessage);
             List<DailyMessageDTO> dailyMessages = new List<DailyMessageDTO>();
-
-                if (dailyMessageTemp != null)
+        
+            if (dailyMessageTemp != null)
             {
                 Utility.Debug.LogInfo("yzqData" + "收到消息了"+ dailyMessageJson);
                 if (RedisHelper.Hash.HashExistAsync("DailyMessage", dailyMessageTemp.AllianceID.ToString()).Result)
                 {
-                    dailyMessages = RedisHelper.Hash.HashGetAsync<List<DailyMessageDTO>>("DailyMessage", dailyMessageTemp.AllianceID.ToString()).Result;
+
+                    dailyMessages = RedisHelper.Hash.HashGetAsync<List<DailyMessageDTO>>("DailyMessage", dailyMessageTemp.AllianceID.ToString()).Result.GetRange(0, 1);
                     SetResponseParamters(() =>
-                    {
+                    {                     
                         subResponseParameters.Add((byte)ParameterCode.DailyMessage, Utility.Json.ToJson(dailyMessages));
                         operationResponse.ReturnCode = (short)ReturnCode.Success;
                     }
