@@ -11,42 +11,42 @@ namespace AscensionServer
     /// <summary>
     /// 场景实体对象
     /// </summary>
-    public class SceneEntity : IKeyValue<long, PeerEntity>, IReference
+    public class SceneEntity : IKeyValue<int, IPeerAgent>, IReference
     {
         public uint SceneId { get; private set; }
         public bool Available { get; private set; }
-        ConcurrentDictionary<long, PeerEntity> peerDict;
+        ConcurrentDictionary<int, IPeerAgent> peerDict;
         public SceneEntity()
         {
-            peerDict = new ConcurrentDictionary<long, PeerEntity>();
+            peerDict = new ConcurrentDictionary<int , IPeerAgent>();
         }
         public void OnInit(uint sceneId)
         {
             this.SceneId = sceneId;
             this.Available = true;
         }
-        public bool ContainsKey(long key)
+        public bool ContainsKey(int  key)
         {
             return peerDict.ContainsKey(key);
         }
-        public bool TryAdd(long key, PeerEntity Value)
+        public bool TryAdd(int key, IPeerAgent Value)
         {
             return peerDict.TryAdd(key, Value);
         }
-        public bool TryGetValue(long key, out PeerEntity value)
+        public bool TryGetValue(int key, out IPeerAgent value)
         {
             return peerDict.TryGetValue(key, out value);
         }
-        public bool TryRemove(long key)
+        public bool TryRemove(int key)
         {
-            PeerEntity peerEntity;
+            IPeerAgent peerEntity;
             return peerDict.TryRemove(key, out peerEntity);
         }
-        public bool TryRemove(long key, out PeerEntity value)
+        public bool TryRemove(int key, out IPeerAgent value)
         {
             return peerDict.TryRemove(key, out value);
         }
-        public bool TryUpdate(long key, PeerEntity newValue, PeerEntity comparsionValue)
+        public bool TryUpdate(int key, IPeerAgent newValue, IPeerAgent comparsionValue)
         {
             return peerDict.TryUpdate(key, newValue, comparsionValue);
         }
@@ -56,7 +56,7 @@ namespace AscensionServer
             this.SceneId = 0;
             this.Available = false;
         }
-        public static SceneEntity Create(uint sceneId, params PeerEntity[] peerEntities)
+        public static SceneEntity Create(uint sceneId, params IPeerAgent[] peerEntities)
         {
             SceneEntity se = new SceneEntity();
             se.OnInit(sceneId);
@@ -67,7 +67,7 @@ namespace AscensionServer
             }
             return se;
         }
-        public static SceneEntity Create(uint sceneId, List<PeerEntity> peerEntities)
+        public static SceneEntity Create(uint sceneId, List<IPeerAgent> peerEntities)
         {
             SceneEntity se = new SceneEntity();
             se.OnInit(sceneId);

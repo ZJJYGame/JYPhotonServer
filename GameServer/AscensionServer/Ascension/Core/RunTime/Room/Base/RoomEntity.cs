@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 using Cosmos;
 namespace AscensionServer
 {
-    public class RoomEntity : IReference, IKeyValue<long, PeerEntity>
+    public class RoomEntity : IReference, IKeyValue<long, IPeerAgent>
     {
         #region Properties
         public uint RoomId { get; private set; }
@@ -39,8 +39,8 @@ namespace AscensionServer
         /// 当前房间内战斗的回合数
         /// </summary>
         protected int roundCount = 0;
-        protected ConcurrentDictionary<long, PeerEntity> peerDict 
-            = new ConcurrentDictionary<long, PeerEntity>();
+        protected ConcurrentDictionary<long, IPeerAgent> peerDict 
+            = new ConcurrentDictionary<long, IPeerAgent>();
         protected Action<byte, object> broadcastBattleMessage;
         protected object battleResultdata;
         #endregion
@@ -63,7 +63,7 @@ namespace AscensionServer
             Available = false;
             broadcastBattleMessage = null;
         }
-        public bool TryGetValue(long key, out PeerEntity value)
+        public bool TryGetValue(long key, out IPeerAgent value)
         {
             return peerDict.TryGetValue(key, out value);
         }
@@ -73,13 +73,13 @@ namespace AscensionServer
         }
         public bool TryRemove(long key)
         {
-            PeerEntity peer;
+            IPeerAgent peer;
             var result = peerDict.TryRemove(key, out peer);
             if (result)
                 BroadcastBattleMessag -= peer.SendEventMessage;
             return result;
         }
-        public bool TryAdd(long key, PeerEntity Value)
+        public bool TryAdd(long key, IPeerAgent Value)
         {
             if (Value == null)
                throw new ArgumentNullException("PeerEntity is invaild ! ");
@@ -88,14 +88,14 @@ namespace AscensionServer
                 BroadcastBattleMessag += Value.SendEventMessage;
             return result;
         }
-        public bool TryRemove(long key, out PeerEntity peer)
+        public bool TryRemove(long key, out IPeerAgent peer)
         {
             var result = peerDict.TryRemove(key, out peer);
             if (result)
                 BroadcastBattleMessag -= peer.SendEventMessage;
             return result;
         }
-        public bool TryUpdate(long key, PeerEntity newValue, PeerEntity comparsionValue)
+        public bool TryUpdate(long key, IPeerAgent newValue, IPeerAgent comparsionValue)
         {
             var result = peerDict.TryUpdate(key, newValue, comparsionValue);
             if (result)
@@ -124,7 +124,7 @@ namespace AscensionServer
         /// </summary>
         /// <param name="peers">peer的数组</param>
         /// <returns>生成的房间实体</returns>
-        public static RoomEntity Create(params PeerEntity[] peers)
+        public static RoomEntity Create(params IPeerAgent[] peers)
         {
             var length = peers.Length;
             var re = GameManager.ReferencePoolManager.Spawn<RoomEntity>();
@@ -140,13 +140,13 @@ namespace AscensionServer
         /// </summary>
         /// <param name="sessionIds">用户会话Id数组</param>
         /// <returns>生成的房间实体</returns>
-        public static RoomEntity Create(params long[] sessionIds)
+        public static RoomEntity Create(params  int[] sessionIds)
         {
-            List<PeerEntity> peerSet = new List<PeerEntity>();
+            List<IPeerAgent> peerSet = new List<IPeerAgent>();
             var length = sessionIds.Length;
             for (int i = 0; i < length; i++)
             {
-                PeerEntity peer;
+                IPeerAgent peer;
                 var result = GameManager.CustomeModule<PeerManager>().TryGetValue(sessionIds[i], out peer);
                 if (result)
                     peerSet.Add(peer);

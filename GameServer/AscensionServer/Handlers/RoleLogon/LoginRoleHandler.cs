@@ -10,17 +10,19 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-    public class LoginRoleHandler:Handler
+    public class LoginRoleHandler : Handler
     {
         public override byte OpCode { get { return (byte)OperationCode.LoginRole; } }
         protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
-            var json=Convert.ToString( Utility.GetValue(operationResponse.Parameters, (byte)ParameterCode.Role));
+            var json = Convert.ToString(Utility.GetValue(operationResponse.Parameters, (byte)ParameterCode.Role));
             var roleObj = Utility.Json.ToObject<RoleDTO>(json);
-            RoleEntity.Create(Convert.ToUInt32( roleObj.RoleID));
-            PeerEntity peer;
-            var result= GameManager.CustomeModule<PeerManager>().TryGetValue(roleObj.RoleID, out peer);
-            operationResponse.ReturnCode = (byte)ReturnCode.Success;
+            var role = RoleEntity.Create(roleObj.RoleID, roleObj);
+            var result = GameManager.CustomeModule<RoleManager>().TryAdd(role.RoleId, role);
+            if (result)
+                operationResponse.ReturnCode = (byte)ReturnCode.Success;
+            else
+                operationResponse.ReturnCode = (byte)ReturnCode.ItemAlreadyExists;
             return operationResponse;
         }
     }

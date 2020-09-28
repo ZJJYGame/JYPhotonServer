@@ -17,7 +17,7 @@ namespace AscensionServer
         {
             var json = Convert.ToString(Utility.GetValue(operationResponse.Parameters, (byte)ParameterCode.Role));
             var roleObj = Utility.Json.ToObject<RoleDTO>(json);
-            RoleEntity.Create(Convert.ToUInt32(roleObj.RoleID));
+            RoleEntity.Create(roleObj.RoleID);
             operationResponse.ReturnCode = (byte)ReturnCode.Success;
             return operationResponse;
         }

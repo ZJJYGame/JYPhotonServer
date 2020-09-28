@@ -4,12 +4,12 @@ using Cosmos;
 using System;
 namespace AscensionServer
 {
-    public class RoleEntity : IKeyValue<Type, object>,IReference
+    public class RoleEntity : IRoleEntity
     {
-        public uint RoleId { get; private set; }
+        public int RoleId { get; private set; }
         public int DataCount { get { return dataDict.Count; } }
         Dictionary<Type, object> dataDict = new Dictionary<Type, object>();
-        public void OnInit(uint roleId)
+        public void OnInit(int roleId)
         {
             this.RoleId = roleId;
         }
@@ -63,7 +63,7 @@ namespace AscensionServer
                 return false;
             return entity.RoleId == this.RoleId;
         }
-        public static RoleEntity Create(uint roleId, params object[] datas)
+        public static RoleEntity Create(int roleId, params object[] datas)
         {
             var entity = GameManager.ReferencePoolManager.Spawn<RoleEntity>();
             entity.OnInit(roleId);

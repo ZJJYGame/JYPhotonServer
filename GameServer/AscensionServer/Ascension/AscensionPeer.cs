@@ -8,14 +8,15 @@ using System.Text;
 
 namespace AscensionServer
 {
-    public class AscensionPeer : ClientPeer, ICustomePeer
+    public class AscensionPeer : ClientPeer, INetworkPeer
     {
         #region Properties
-        public long SessionId { get; private set; }
+        public int SessionId { get; private set; }
         public bool Available { get; private set; }
         public object Handle { get; private set; }
         /// <summary>
-        /// 接收消息事件委托
+        /// 接收消息事件委托；
+        /// 此类消息为非Opcode类型；
         /// </summary>
         public event Action<object> OnReceiveMessage
         {
@@ -29,8 +30,6 @@ namespace AscensionServer
         SendParameters sendParam = new SendParameters();
         EventData eventData = new EventData();
         Action<object> onReceiveMessage;
-        //string[] str = new string[] { "服务器锟斤拷666", "服务器锟斤拷999" };
-        //int[] stint = new int[] { 999,666};
         #endregion
         #region Methods
         public AscensionPeer(InitRequest initRequest) : base(initRequest)
@@ -53,7 +52,7 @@ namespace AscensionServer
         public void SendEventMessage(byte opCode, object data)
         {
             eventData.Code = opCode;
-            eventData.Parameters = data as Dictionary<byte,object>;
+            eventData.Parameters = data as Dictionary<byte, object>;
             SendEvent(eventData, sendParam);
         }
         public void Clear()
@@ -76,13 +75,12 @@ namespace AscensionServer
             object responseData = GameManager.CustomeModule<NetworkManager>().EncodeMessage(operationRequest);
             var op = responseData as OperationResponse;
             op.OperationCode = operationRequest.OperationCode;
-            //this.SendMessage(stint);
+            OpCodeEventCore.Instance.Dispatch(operationRequest.OperationCode, this, operationRequest.Parameters);
             SendOperationResponse(op, sendParameters);
         }
         protected override void OnMessage(object message, SendParameters sendParameters)
         {
             onReceiveMessage?.Invoke(message);
-            Utility.Debug.LogWarning(message);
         }
         #endregion
     }

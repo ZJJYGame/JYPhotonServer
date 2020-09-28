@@ -24,26 +24,26 @@ namespace AscensionServer
         /// </summary>
         readonly int _MaxValue = 99999999;
         CancellationToken cancelToken = new CancellationToken();
-        ConcurrentDictionary<uint, TeamEntity> teamDict = new ConcurrentDictionary<uint, TeamEntity>();
-        HashSet<uint>matchingQueue = new HashSet<uint>();
-        public TeamEntity CreateTeam(uint createrID)
+        ConcurrentDictionary<int, TeamEntity> teamDict = new ConcurrentDictionary<int, TeamEntity>();
+        HashSet<int>matchingQueue = new HashSet<int>();
+        public TeamEntity CreateTeam(int createrId)
         {
-            if (teamDict.ContainsKey(createrID))
+            if (teamDict.ContainsKey(createrId))
                 return null;
             var tc = GameManager.ReferencePoolManager.Spawn<TeamEntity>();
-            tc.Oninit(createrID, CreateTeamID());
+            tc.Oninit(createrId, CreateTeamID());
             return tc;
         }
-        public bool LeaveMatchQueue(uint peerID)
+        public bool LeaveMatchQueue(int roleId)
         {
-            return matchingQueue.Remove(peerID);
+            return matchingQueue.Remove(roleId);
         }
         /// <summary>
         ///加入随机匹配队列
         /// </summary>
-        public bool JoinMatchQueue(uint peerID)
+        public bool JoinMatchQueue(int roleId)
         {
-            return matchingQueue.Add(peerID);
+            return matchingQueue.Add(roleId);
         }
         public override void OnRefresh()
         {
@@ -63,25 +63,25 @@ namespace AscensionServer
                 {
                     if (teamDict.Count <= 0 || matchingQueue.Count <= 0)
                         return;
-                    HashSet<uint> removeIDSet = new HashSet<uint>();
-                    uint teamID = 0;
+                    HashSet<int> removeIdSet = new HashSet<int>();
+                    int teamId = 0;
                     foreach (var team in teamDict.Values)
                     {
                         if (!team.IsFull)
-                            teamID = team.TeamID;
+                            teamId = team.TeamID;
                     }
                     await Task.Run(() =>
                     {
                         foreach (var id in matchingQueue)
                         {
-                            if (teamID == 0)
+                            if (teamId == 0)
                                 continue;
                             TeamEntity tc;
-                            teamDict.TryGetValue(teamID, out tc);
+                            teamDict.TryGetValue(teamId, out tc);
                             tc.JoinTeam(id);
-                            removeIDSet.Add(id);
+                            removeIdSet.Add(id);
                         }
-                        foreach (var id in removeIDSet)
+                        foreach (var id in removeIdSet)
                         {
                             matchingQueue.Remove(id);
                         }
@@ -93,24 +93,24 @@ namespace AscensionServer
         /// 加入指定的小队
         /// </summary>
         /// <param name="teamID">小队ID</param>
-        /// <param name="peerID">peerID</param>
+        /// <param name="roleId">peerID</param>
         /// <returns>是否加入成功</returns>
-        public bool JoinTeam(uint teamID, uint peerID)
+        public bool JoinTeam(int teamID, int roleId)
         {
             TeamEntity gc;
             if (!teamDict.TryGetValue(teamID, out gc))
                 return false;
             else
-                return gc.JoinTeam(peerID);
+                return gc.JoinTeam(roleId);
         }
         /// <summary>
         /// 生成队伍ID；
         /// 尾递归检测是否生成了同样的key
         /// </summary>
         /// <returns>生成后的ID</returns>
-        uint CreateTeamID()
+        int CreateTeamID()
         {
-            uint id = Convert.ToUInt32( Utility.Algorithm.CreateRandomInt(_MinValue, _MaxValue));
+            int id =  Utility.Algorithm.CreateRandomInt(_MinValue, _MaxValue);
             if (!teamDict.ContainsKey(id))
                 return id;
             else

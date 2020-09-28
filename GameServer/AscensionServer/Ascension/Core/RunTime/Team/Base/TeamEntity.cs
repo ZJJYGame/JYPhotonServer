@@ -12,58 +12,55 @@ namespace AscensionServer
         /// <summary>
         /// 队长ID
         /// </summary>
-        public uint CaptainID{ get; set; }
+        public int CaptainId{ get; set; }
         /// <summary>
         /// 系统分配的队伍ID
         /// </summary>
-        public uint TeamID { get; set; }
+        public int TeamID { get; set; }
         /// <summary>
         /// 是否队伍满员
         /// </summary>
         public bool IsFull { get { return peerDict.Count >=_TeamCapacity; } }
         readonly ushort _TeamCapacity = 5;
-        ConcurrentDictionary<uint, PeerEntity> peerDict = new ConcurrentDictionary<uint, PeerEntity>();
-        PeerEntity captain;
+        ConcurrentDictionary<int, IRoleEntity> peerDict = new ConcurrentDictionary<int, IRoleEntity>();
+        IPeerAgent captain;
         /// <summary>
         /// 初始化队伍
         /// </summary>
-        /// <param name="createrID">创建者的ID</param>
-        public void Oninit(uint createrID,uint teamID)
+        /// <param name="createrId">创建者的ID</param>
+        public void Oninit(int createrId,int teamID)
         {
             TeamID = teamID;
-            CaptainID = createrID;
+            CaptainId = createrId;
         }
         /// <summary>
         /// 加入队伍
         /// </summary>
-        /// <param name="peerID">peerID</param>
-        /// <param name="peer">peer对象</param>
+        /// <param name="roleId">peerID</param>
         /// <returns>是否加入成功</returns>
-        public bool JoinTeam(uint peerID)
+        public bool JoinTeam(int roleId)
         {
-            //var peer = RoleManager.Instance.GetPeer(peerID);
-            return peerDict.TryAdd(peerID,null);
+            return peerDict.TryAdd(roleId,null);
         }
         /// <summary>
         /// 主动离队
         /// </summary>
-        /// <param name="peerID"></param>
+        /// <param name="roleId"></param>
         /// <returns>是否离队成功</returns>
-        public bool LeaveTeam(uint peerID)
+        public bool LeaveTeam(int roleId)
         {
-            PeerEntity peer;
-            return peerDict.TryRemove(peerID, out peer);
+            IRoleEntity peer;
+            return peerDict.TryRemove(roleId, out peer);
         }
         /// <summary>
         /// 被请离队伍；
         /// 值一队长有权限
         /// </summary>
-        /// <param name="peerID"></param>
-        public bool KickOutOfTeam(uint cmdInputterID,uint peerID)
+        public bool KickOutOfTeam(int cmdInputterID,int  roleId)
         {
-            if (cmdInputterID != CaptainID)
+            if (cmdInputterID != CaptainId)
                 return false;
-            return LeaveTeam(peerID);
+            return LeaveTeam(roleId);
         }
         /// <summary>
         /// 解散队伍
@@ -80,18 +77,17 @@ namespace AscensionServer
         /// 提升为队长；
         /// 只有前队长才进行的命令;
         /// </summary>
-        /// <param name=""></param>
-        public void PreferredToCaptain(uint cmdInputterID,uint peerID)
+        public void PreferredToCaptain(uint cmdInputterID,int roleId)
         {
-            if (cmdInputterID != CaptainID)
+            if (cmdInputterID != CaptainId)
                 return;
-            CaptainID = peerID;
+            CaptainId = roleId;
             // 广播成为队长事件
         }
         public void Clear()
         {
             peerDict.Clear();
-            CaptainID = 0;
+            CaptainId = 0;
             captain = null;
         }
     }

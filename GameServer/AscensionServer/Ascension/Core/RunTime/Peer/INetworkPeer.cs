@@ -14,12 +14,12 @@ namespace AscensionServer
     /// conversation at a time, but one session can support many conversations in 
     /// sequence.
     /// </summary>
-    public interface ICustomePeer: IReference
+    public interface INetworkPeer: IReference
     {
         /// <summary>
         /// 会话ID
         /// </summary>
-        long SessionId { get; }
+        int SessionId { get; }
         /// <summary>
         /// 是否存活；
         /// </summary>
