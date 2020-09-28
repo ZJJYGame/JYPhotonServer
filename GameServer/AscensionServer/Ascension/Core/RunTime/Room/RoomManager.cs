@@ -19,20 +19,6 @@ namespace AscensionServer
         uint roomId= 10000;
         ConcurrentDictionary<uint, RoomEntity> roomDict 
             = new ConcurrentDictionary<uint, RoomEntity>();
-        //public RoomEntity CreateRoom()
-        //{
-        //    var room = GameManager.ReferencePoolManager.Spawn<RoomEntity>();
-        //    uint roomId;
-        //    if (roomDict.ContainsKey(roomId))
-        //    {
-        //        room.OnInit(roomId);
-        //    }
-        //    return room;
-        //}
-        /// <summary>
-        /// 为roomEntity分配房间号；
-        /// </summary>
-        /// <param name="room">传入的房间对象</param>
         public void Allocate(ref RoomEntity room)
         {
             TryAdd(room.RoomId, room);

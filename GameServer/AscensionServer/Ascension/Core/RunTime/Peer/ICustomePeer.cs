@@ -14,7 +14,7 @@ namespace AscensionServer
     /// conversation at a time, but one session can support many conversations in 
     /// sequence.
     /// </summary>
-    public interface IPeer: IReference
+    public interface ICustomePeer: IReference
     {
         /// <summary>
         /// 会话ID

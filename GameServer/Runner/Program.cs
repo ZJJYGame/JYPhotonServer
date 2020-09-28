@@ -25,6 +25,7 @@ namespace Runner
             //            Console.WriteLine(types[i] + " false\n");
             //    }
             //}
+            Console.WriteLine((typeof(InheritedAttribute).Name));
             Console.ReadKey();
         }
     }
