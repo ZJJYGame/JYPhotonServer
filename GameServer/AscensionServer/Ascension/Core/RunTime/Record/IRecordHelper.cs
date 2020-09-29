@@ -8,6 +8,6 @@ namespace AscensionServer
 {
     public interface IRecordHelper
     {
-        void Record(object sender,object data);
+        void RecordRole(int roleId,object data);
     }
 }

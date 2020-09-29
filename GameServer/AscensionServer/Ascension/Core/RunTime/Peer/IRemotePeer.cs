@@ -14,7 +14,7 @@ namespace AscensionServer
     /// conversation at a time, but one session can support many conversations in 
     /// sequence.
     /// </summary>
-    public interface INetworkPeer: IReference
+    public interface IRemotePeer: IReference
     {
         /// <summary>
         /// 会话ID
@@ -31,7 +31,7 @@ namespace AscensionServer
         /// <summary>
         /// 接收二进制流数据委托；
         /// </summary>
-        event Action<object> OnReceiveMessage;
+        event Action<object> OnMessageReceive;
         /// <summary>
         /// 发送消息到remotePeer
         /// </summary>

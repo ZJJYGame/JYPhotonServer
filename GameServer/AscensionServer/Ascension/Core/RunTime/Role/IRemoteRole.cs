@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-    public interface IRoleEntity: IKeyValue<Type, object>, IReference
+    public interface IRemoteRole: IKeyValue<Type, object>, IReference
     {
         int RoleId { get; }
         object[] Find(Predicate<object> handler);

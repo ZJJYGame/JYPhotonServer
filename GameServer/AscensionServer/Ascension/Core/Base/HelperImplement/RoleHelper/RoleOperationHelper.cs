@@ -1,6 +1,7 @@
 ﻿using AscensionProtocol;
 using Cosmos;
 using MySqlX.XDevAPI.Common;
+using NHibernate.Hql.Ast.ANTLR.Tree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,18 +16,19 @@ namespace AscensionServer
     {
         public void LoginHandler(object sender, object data)
         {
-            var peer = sender as INetworkPeer;
-            IPeerAgent agent;
-            var result = GameManager.CustomeModule<PeerManager>().TryGetValue(peer.SessionId, out agent);
+            var peer = sender as IRemotePeer;
+            IPeerAgent agentPeer;
+            var result = GameManager.CustomeModule<PeerManager>().TryGetValue(peer.SessionId, out agentPeer);
             if (result)
             {
-
+                var parameters= data as Dictionary<byte,object>;
+                //RemoteRole role = RemoteRole.Create();
+                //agentPeer.RemoteRole;
             }
-            //agent.SendEventMessage((byte)EventCode.NewPlayer,)
         }
         public void LogoffHandler(object sender, object data)
         {
-            var peer = sender as INetworkPeer;
+            var peer = sender as IRemotePeer;
             IPeerAgent agent;
             var result = GameManager.CustomeModule<PeerManager>().TryGetValue(peer.SessionId, out agent);
             if (result)

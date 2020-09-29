@@ -190,9 +190,9 @@
     <Compile Include="Ascension\Core\Base\DataObject\GongFaBook.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\IDataConvertor.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\IDataProvider.cs" />
-    <Compile Include="Ascension\Core\RunTime\Peer\INetworkPeer.cs" />
+    <Compile Include="Ascension\Core\RunTime\Peer\IRemotePeer.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\IPeerAgent.cs" />
-    <Compile Include="Ascension\Core\RunTime\Peer\NetworkPeerAgent.cs" />
+    <Compile Include="Ascension\Core\RunTime\Peer\RemotePeerAgent.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\DataImpl\ServerDataConvertor.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\PeerManager.cs" />
     <Compile Include="Ascension\Core\Base\Variable\IKeyValue.cs" />
@@ -206,9 +206,9 @@
     <Compile Include="Ascension\Core\RunTime\Record\RecordManager.cs" />
     <Compile Include="Ascension\Core\Base\RedisData\RedisData.Initialize.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\GameResourceManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Role\IRoleEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\Role\IRemoteRole.cs" />
     <Compile Include="Ascension\Core\RunTime\Role\IRoleOperationHelper.cs" />
-    <Compile Include="Ascension\Core\RunTime\Role\RoleEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\Role\RemoteRole.cs" />
     <Compile Include="Ascension\Core\RunTime\Role\RoleManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\Base\BattleInputData.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\Base\BattleRoomEntity.cs" />

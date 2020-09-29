@@ -15,10 +15,20 @@ namespace AscensionServer
         public override byte OpCode { get { return (byte)OperationCode.LogoffRole; } }
         protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
+            IRemotePeer peer = Utility.GetValue(operationResponse.Parameters, (byte)ParameterCode.ClientPeer) as IRemotePeer;
             var json = Convert.ToString(Utility.GetValue(operationResponse.Parameters, (byte)ParameterCode.Role));
             var roleObj = Utility.Json.ToObject<RoleDTO>(json);
-            RoleEntity.Create(roleObj.RoleID);
-            operationResponse.ReturnCode = (byte)ReturnCode.Success;
+            var result = GameManager.CustomeModule<RoleManager>().TryRemove(roleObj.RoleID);
+            if (result)
+            {
+                GameManager.CustomeModule<RecordManager>().RecordTime(roleObj.RoleID, null);
+
+                operationResponse.ReturnCode = (byte)ReturnCode.Success;
+            }
+            else
+            {
+                operationResponse.ReturnCode = (byte)ReturnCode.ItemNotFound;
+            }
             return operationResponse;
         }
     }

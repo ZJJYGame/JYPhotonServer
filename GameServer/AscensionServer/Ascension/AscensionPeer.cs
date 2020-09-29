@@ -8,7 +8,7 @@ using System.Text;
 
 namespace AscensionServer
 {
-    public class AscensionPeer : ClientPeer, INetworkPeer
+    public class AscensionPeer : ClientPeer, IRemotePeer
     {
         #region Properties
         public int SessionId { get; private set; }
@@ -18,18 +18,18 @@ namespace AscensionServer
         /// 接收消息事件委托；
         /// 此类消息为非Opcode类型；
         /// </summary>
-        public event Action<object> OnReceiveMessage
+        public event Action<object> OnMessageReceive
         {
-            add { onReceiveMessage += value; }
+            add { onMessageReceive += value; }
             remove
             {
-                try { onReceiveMessage -= value; }
+                try { onMessageReceive -= value; }
                 catch (Exception e) { Utility.Debug.LogError(e); }
             }
         }
         SendParameters sendParam = new SendParameters();
         EventData eventData = new EventData();
-        Action<object> onReceiveMessage;
+        Action<object> onMessageReceive;
         #endregion
         #region Methods
         public AscensionPeer(InitRequest initRequest) : base(initRequest)
@@ -72,15 +72,15 @@ namespace AscensionServer
         }
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
         {
+            operationRequest.Parameters.Add((byte)ParameterCode.ClientPeer,this);
             object responseData = GameManager.CustomeModule<NetworkManager>().EncodeMessage(operationRequest);
             var op = responseData as OperationResponse;
             op.OperationCode = operationRequest.OperationCode;
-            OpCodeEventCore.Instance.Dispatch(operationRequest.OperationCode, this, operationRequest.Parameters);
             SendOperationResponse(op, sendParameters);
         }
         protected override void OnMessage(object message, SendParameters sendParameters)
         {
-            onReceiveMessage?.Invoke(message);
+            onMessageReceive?.Invoke(message);
         }
         #endregion
     }
