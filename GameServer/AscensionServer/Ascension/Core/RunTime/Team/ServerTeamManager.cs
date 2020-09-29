@@ -84,7 +84,7 @@ namespace AscensionServer
                 teamDto.ApplyMebers = new List<int>();
                 _teamTOModel.Add(teamDto.TeamId, teamDto);
                 _playerIdToTeamIdDict.Add(playerId, teamDto.TeamId);
-                Utility.Debug.LogInfo(teamDto.TeamId + "<>");
+                //Utility.Debug.LogInfo(teamDto.TeamId + "<>");
             }
         }
         /// <summary>

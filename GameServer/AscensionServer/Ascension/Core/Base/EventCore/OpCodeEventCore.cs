@@ -10,7 +10,7 @@ namespace AscensionServer
     /// key为short类型约束的枚举；
     /// value为object类型的对象
     /// </summary>
-    public class OpCodeEventCore:ConcurrentStandardEventCore<ushort,object,OpCodeEventCore>
+    public class OpCodeEventCore : ConcurrentStandardEventCore<ushort, object, OpCodeEventCore>
     {
     }
 }

@@ -155,6 +155,10 @@ namespace AscensionProtocol
         /// </summary>
         SyncRoleTeam = 125,
         /// <summary>
+        /// 初始化战斗
+        /// </summary>
+        SyncBattle = 126,
+        /// <summary>
         /// 测试消息队列
         /// </summary>
         MessageQueue =137,
