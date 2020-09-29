@@ -7,10 +7,10 @@ using System.Collections.Concurrent;
 using Cosmos;
 namespace AscensionServer
 {
-    public class RoomEntity : IReference, IKeyValue<long, IPeerAgent>
+    public class RoomEntity : IReference, IKeyValue<int, IPeerAgent>
     {
         #region Properties
-        public uint RoomId { get; private set; }
+        public int RoomId { get; private set; }
         /// <summary>
         /// 当前房间对象是否可用
         /// </summary>
@@ -18,7 +18,7 @@ namespace AscensionServer
         /// <summary>
         /// 广播消息事件委托；
         /// </summary>
-        public event Action<byte, object> BroadcastBattleMessag
+        public event Action<byte, object> BroadcastBattleMessage
         {
             add { broadcastBattleMessage += value; }
             remove
@@ -39,8 +39,8 @@ namespace AscensionServer
         /// 当前房间内战斗的回合数
         /// </summary>
         protected int roundCount = 0;
-        protected ConcurrentDictionary<long, IPeerAgent> peerDict 
-            = new ConcurrentDictionary<long, IPeerAgent>();
+        protected ConcurrentDictionary<int, IPeerAgent> peerDict 
+            = new ConcurrentDictionary<int, IPeerAgent>();
         protected Action<byte, object> broadcastBattleMessage;
         protected object battleResultdata;
         #endregion
@@ -51,7 +51,7 @@ namespace AscensionServer
         /// 分配ID给当前房间
         /// </summary>
         /// <param name="roomId">分配的房间ID</param>
-        public virtual void OnInit(uint roomId)
+        public virtual void OnInit(int roomId)
         {
             Available = true;
             this.RoomId = roomId;
@@ -63,45 +63,45 @@ namespace AscensionServer
             Available = false;
             broadcastBattleMessage = null;
         }
-        public bool TryGetValue(long key, out IPeerAgent value)
+        public bool TryGetValue(int key, out IPeerAgent value)
         {
             return peerDict.TryGetValue(key, out value);
         }
-        public bool ContainsKey(long key)
+        public bool ContainsKey(int key)
         {
             return peerDict.ContainsKey(key);
         }
-        public bool TryRemove(long key)
+        public bool TryRemove(int key)
         {
             IPeerAgent peer;
             var result = peerDict.TryRemove(key, out peer);
             if (result)
-                BroadcastBattleMessag -= peer.SendEventMessage;
+                BroadcastBattleMessage -= peer.SendEventMessage;
             return result;
         }
-        public bool TryAdd(long key, IPeerAgent Value)
+        public bool TryAdd(int key, IPeerAgent Value)
         {
             if (Value == null)
                throw new ArgumentNullException("PeerEntity is invaild ! ");
             var result = peerDict.TryAdd(key, Value);
             if (result)
-                BroadcastBattleMessag += Value.SendEventMessage;
+                BroadcastBattleMessage += Value.SendEventMessage;
             return result;
         }
-        public bool TryRemove(long key, out IPeerAgent peer)
+        public bool TryRemove(int key, out IPeerAgent peer)
         {
             var result = peerDict.TryRemove(key, out peer);
             if (result)
-                BroadcastBattleMessag -= peer.SendEventMessage;
+                BroadcastBattleMessage -= peer.SendEventMessage;
             return result;
         }
-        public bool TryUpdate(long key, IPeerAgent newValue, IPeerAgent comparsionValue)
+        public bool TryUpdate(int key, IPeerAgent newValue, IPeerAgent comparsionValue)
         {
             var result = peerDict.TryUpdate(key, newValue, comparsionValue);
             if (result)
             {
-                BroadcastBattleMessag -= comparsionValue.SendEventMessage;
-                BroadcastBattleMessag += newValue.SendEventMessage;
+                BroadcastBattleMessage -= comparsionValue.SendEventMessage;
+                BroadcastBattleMessage += newValue.SendEventMessage;
             }
             return result;
         }
@@ -165,9 +165,9 @@ namespace AscensionServer
             canCacheCmd = true;
             CountDown();
         }
-        protected virtual void BroadcastMessage(byte opCode, object data)
+        protected virtual void  BroadcastMessage(byte opCode, object data)
         {
-            Task t = BroadcastMessageAsync(opCode, data);
+            var task= BroadcastMessageAsync(opCode, data);
         }
         protected virtual async Task BroadcastMessageAsync(byte opCode, object data)
         {
