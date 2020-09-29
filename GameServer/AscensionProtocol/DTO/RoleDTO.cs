@@ -36,10 +36,14 @@ namespace AscensionProtocol.DTO
         /// </summary>
         public enum BattleCmd
         {
-         /// <summary>
-        /// 初始化
-        /// </summary>
+            /// <summary>
+            /// 初始化战斗
+            /// </summary>
             Init,
+            /// <summary>
+            /// 准备战斗指令
+            /// </summary>
+            Prepare,
             /// <summary>
             /// 使用道具指令
             /// </summary>

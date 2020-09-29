@@ -27,7 +27,6 @@ namespace AscensionServer
             var battleTransferObj = Utility.Json.ToObject<BattleTransferDTO>(battleTransferData);
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", RoleObj.RoleID);
             bool exist = NHibernateQuerier.Verify<RoleRing>(nHCriteriaRoleID);
-
             if (exist)
             {
                 switch (RoleObj.SendBattleCmd)
@@ -37,14 +36,30 @@ namespace AscensionServer
                             GameManager.CustomeModule<ServerBattleManager>().EntryBattle(RoleObj.BattleInitDTO, RoleObj.teamDTO);
                         break;
                     case RoleDTO.BattleCmd.PropsInstruction:
+
                         break;
                     case RoleDTO.BattleCmd.SkillInstruction:
+
                         break;
                     case RoleDTO.BattleCmd.RunAwayInstruction:
+
                         break;
                     default:
                         break;
                 }
+                SetResponseParamters(() =>
+                {
+                    subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit));
+                    subResponseParameters.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._roomidToBattleTransfer));
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
+                });
+            }
+            else
+            {
+                SetResponseParamters(() =>
+                {
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                });
             }
             return null;
         }

@@ -109,6 +109,8 @@ namespace AscensionProtocol.DTO
 
     public class EnemyBattleDataDTO: IBattleTransferData
     {
+        public virtual int GlobalId { get; set; }
+
         public string ObjectName { get; set; }
         public virtual EnemyStatusDTO  EnemyStatusDTO { get; set; }
     }
@@ -116,7 +118,12 @@ namespace AscensionProtocol.DTO
     //TODO  敌人的属性  可以直接用 玩家的数据模型   建议不使用
     public class EnemyStatusDTO
     {
-
+        public virtual int EnemyId { get; set; }
+        public virtual string EnemyName { get; set; }
+        public virtual int EnemyHP { get; set; }
+        public virtual int EnemyMP { get; set; }
+        public virtual int EnemyShenHun { get; set; }
+        public virtual int EnemyJingXue { get; set; }
     }
 
     /// <summary>
@@ -124,7 +131,10 @@ namespace AscensionProtocol.DTO
     /// </summary>
     public class BattleTransferDTO
     {
-       
+        /// <summary>
+        /// 是否开始战斗
+        /// </summary>
+        public  bool IsStart = false;
         /// <summary>
         /// 目标行为信息 列表：
         /// </summary>
