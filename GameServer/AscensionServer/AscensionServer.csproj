@@ -185,6 +185,7 @@
     <Compile Include="Ascension\Core\Base\Input\IInputData.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\NetworkHelper\PhotonMessageHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\IBattleAlgorithmProvider.cs" />
+    <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\Data.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\DataManager.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\GongFa.cs" />
@@ -242,6 +243,9 @@
     <Compile Include="Handlers\SyncAllianceSignin\SubHandler\SyncAllianceSigninSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceSignin\SubHandler\UpdateAllianceSigninSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceSignin\SyncAllianceSigninHandler.cs" />
+    <Compile Include="Handlers\SyncBattle\SubHandler\GetBattleSubHandler.cs" />
+    <Compile Include="Handlers\SyncBattle\SubHandler\SyncBattleSubHandler.cs" />
+    <Compile Include="Handlers\SyncBattle\SyncRoleBattleHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\AddDailyMessageSubHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\GetDailyMessageSubHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\SyncDailyMessageSubHandler.cs" />

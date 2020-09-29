@@ -23,11 +23,11 @@ namespace AscensionServer
         /// <summary>
         /// 队伍id， 战斗初始化对象
         /// </summary>
-        Dictionary<int, BattleInitDTO> _teamIdToBattleInit = new Dictionary<int, BattleInitDTO>();
+        public Dictionary<int, BattleInitDTO> _teamIdToBattleInit = new Dictionary<int, BattleInitDTO>();
         /// <summary>
         /// 房间id， 战斗传输数据对象
         /// </summary>
-        Dictionary<int, List<BattleTransferDTO>> _roomidToBattleTransfer = new Dictionary<int, List<BattleTransferDTO>>();
+        public Dictionary<int, List<BattleTransferDTO>> _roomidToBattleTransfer = new Dictionary<int, List<BattleTransferDTO>>();
         /// <summary>
         /// 回收房间
         /// </summary>
@@ -41,15 +41,36 @@ namespace AscensionServer
         /// <summary>
         /// 进入战斗
         /// </summary>
-        public void EntryBattle(BattleInitDTO battleInitDTO)
+        public void EntryBattle(BattleInitDTO battleInitDTO,TeamDTO teamid)
         {
             BattleInitDTO battleInit;
             if (_oldBattleList.Count > 0 )
             {
-                int roomid = _oldBattleList[0];
-                battleInit = _teamIdToBattleInit[roomid];
+                //int roomid = _oldBattleList[0];
+                //battleInit = _teamIdToBattleInit[roomid];
+
+            }
+            else
+            {
+                battleInit = new BattleInitDTO();
+                battleInit.RoomId = _roomId++;
+                battleInit.countDownSec = 15;
+                battleInit.roundCount = battleInitDTO.roundCount;
+                battleInit.playerUnits = battleInitDTO.playerUnits;
+                battleInit.petUnits = battleInitDTO.petUnits;
+                battleInit.enemyUnits = battleInitDTO.enemyUnits;
+                battleInit.battleUnits = battleInitDTO.battleUnits;
+                battleInit.maxRoundCount = battleInitDTO.maxRoundCount;
+                _teamIdToBattleInit.Add(teamid.TeamId, battleInit);
+                _roomidToBattleTransfer.Add(battleInit.RoomId, new List<BattleTransferDTO>());
             }
         }
+
+        public void  Battle(List<BattleTransferDTO> battleTransferDTOs)
+        {
+
+        }
+
 
     }
 }

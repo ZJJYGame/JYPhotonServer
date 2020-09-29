@@ -161,6 +161,10 @@
         /// <summary>
         /// 广播的日常消息
         /// </summary>
-        DailyMessage=93
+        DailyMessage=93,
+        /// <summary>
+        /// 战斗
+        /// </summary>
+        RoleBattle = 94 ,
     }
 }

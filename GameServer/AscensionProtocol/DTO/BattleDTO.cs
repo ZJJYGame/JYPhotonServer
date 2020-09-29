@@ -124,32 +124,7 @@ namespace AscensionProtocol.DTO
     /// </summary>
     public class BattleTransferDTO
     {
-        /// <summary>
-        /// 战斗指令
-        /// </summary>
-        public virtual BattleCmd SendBattleCmd { get; set; }
-
-        public virtual int CmdId { get; set; }
-
-        /// <summary>
-        /// 战斗指令列表
-        /// </summary>
-        public enum BattleCmd
-        {
-            /// <summary>
-            /// 使用道具指令
-            /// </summary>
-            PropsInstruction,
-            /// <summary>
-            /// 使用技能指令
-            /// </summary>
-            SkillInstruction,
-            /// <summary>
-            /// 逃跑指令
-            /// </summary>
-            RunAwayInstruction
-
-        }
+       
         /// <summary>
         /// 目标行为信息 列表：
         /// </summary>
