@@ -7,19 +7,14 @@ using Cosmos;
 namespace AscensionServer
 {
     /// <summary>
-    /// What is session and conversation?
-    /// Just as a session is a logical connection between the LUs, a conversation is a 
-    /// logical connection between two transaction programs. ... LU 6.2 treats a session as a 
-    /// reusable connection between two LUs. One session can support only one 
-    /// conversation at a time, but one session can support many conversations in 
-    /// sequence.
+    /// 用于适配的Peer接口，管理一个具体实现的client peer 对象
     /// </summary>
-    public interface ICustomePeer: IReference
+    public interface IRemotePeer: IReference
     {
         /// <summary>
         /// 会话ID
         /// </summary>
-        long SessionId { get; }
+        int SessionId { get; }
         /// <summary>
         /// 是否存活；
         /// </summary>
@@ -31,7 +26,7 @@ namespace AscensionServer
         /// <summary>
         /// 接收二进制流数据委托；
         /// </summary>
-        event Action<object> OnReceiveMessage;
+        event Action<object> OnMessageReceive;
         /// <summary>
         /// 发送消息到remotePeer
         /// </summary>

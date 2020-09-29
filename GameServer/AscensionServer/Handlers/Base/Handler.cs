@@ -76,7 +76,7 @@ namespace AscensionServer
                     var subHandlerResult = Utility.Assembly.GetTypeInstance(types[i]) as T;
                     var result = subHandlerDict.TryAdd(subHandlerResult.SubOpCode, subHandlerResult);
                     if (!result)
-                        Utility.Debug.LogError("重复键值：\n" + subHandlerResult.ToString() + "\n:" + subHandlerResult.SubOpCode.ToString() + "\n结束");
+                        Utility.Debug.LogError($"重复键值：\n{ subHandlerResult}\n:{subHandlerResult.SubOpCode} \n结束");
                 }
             }
         }

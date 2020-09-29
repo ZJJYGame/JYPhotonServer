@@ -170,7 +170,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ascension\Core\Base\Attribute\ConfigDataAttribute.cs" />
-    <Compile Include="Ascension\Core\Base\HelperImplement\DataHelper\GateDataProvider.cs" />
+    <Compile Include="Ascension\Core\Base\HelperImplement\DataImpl\GateDataProvider.cs" />
+    <Compile Include="Ascension\Core\Base\HelperImplement\RecordHelper\RecordHelper.cs" />
     <Compile Include="Ascension\Core\Base\Stream\DataStream.cs" />
     <Compile Include="Ascension\Core\Base\Stream\DataStreamQueue.cs" />
     <Compile Include="Ascension\Core\RunTime\Alliancelogic\AllianceEventCore.cs" />
@@ -183,11 +184,18 @@
     <Compile Include="Ascension\Core\Base\EventCore\OpCodeEventCore.cs" />
     <Compile Include="Ascension\Core\Base\Input\IInputData.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\NetworkHelper\PhotonMessageHelper.cs" />
+    <Compile Include="Ascension\Core\RunTime\Battle\IBattleAlgorithmProvider.cs" />
+    <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\Data.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\DataManager.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\GongFa.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\GongFaBook.cs" />
+    <Compile Include="Ascension\Core\RunTime\Data\IDataConvertor.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\IDataProvider.cs" />
-    <Compile Include="Ascension\Core\RunTime\Peer\ICustomePeer.cs" />
-    <Compile Include="Ascension\Core\RunTime\Peer\PeerEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\Peer\IRemotePeer.cs" />
+    <Compile Include="Ascension\Core\RunTime\Peer\IPeerAgent.cs" />
+    <Compile Include="Ascension\Core\RunTime\Peer\RemotePeerAgent.cs" />
+    <Compile Include="Ascension\Core\Base\HelperImplement\DataImpl\ServerDataConvertor.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\PeerManager.cs" />
     <Compile Include="Ascension\Core\Base\Variable\IKeyValue.cs" />
     <Compile Include="Ascension\Core\Base\Variable\NetVariable.cs" />
@@ -196,11 +204,12 @@
     <Compile Include="Ascension\Core\RunTime\Lobby\LobbyManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Network\INetworkMessageHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Network\NetworkManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Record\IRecordHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Record\RecordManager.cs" />
     <Compile Include="Ascension\Core\Base\RedisData\RedisData.Initialize.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\GameResourceManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Role\RoleEntity.cs" />
-    <Compile Include="Ascension\Core\RunTime\Role\RoleManager.cs" />
+    <Compile Include="Ascension\Core\Base\Role\IRemoteRole.cs" />
+    <Compile Include="Ascension\Core\Base\Role\RemoteRole.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\Base\BattleInputData.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\Base\BattleRoomEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\Base\RoomBattleInputC2S.cs" />
@@ -234,6 +243,9 @@
     <Compile Include="Handlers\SyncAllianceSignin\SubHandler\SyncAllianceSigninSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceSignin\SubHandler\UpdateAllianceSigninSubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceSignin\SyncAllianceSigninHandler.cs" />
+    <Compile Include="Handlers\SyncBattle\SubHandler\GetBattleSubHandler.cs" />
+    <Compile Include="Handlers\SyncBattle\SubHandler\SyncBattleSubHandler.cs" />
+    <Compile Include="Handlers\SyncBattle\SyncRoleBattleHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\AddDailyMessageSubHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\GetDailyMessageSubHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\SyncDailyMessageSubHandler.cs" />
@@ -586,6 +598,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="JsonData\GongFaBook.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\GongFa.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="JsonData\Pet.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -26,7 +26,7 @@ namespace AscensionServer
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
             var peer = new AscensionPeer(initRequest);
-            var peerEntity = PeerEntity.Create(peer);
+            var peerEntity = RemotePeerAgent.Create(peer);
             GameManager.CustomeModule<PeerManager>().TryAdd(peerEntity);
             return peer;
         }

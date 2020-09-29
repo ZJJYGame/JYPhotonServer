@@ -13,41 +13,41 @@ namespace AscensionServer
     /// </summary>
     public sealed class LobbyManager:Module<LobbyManager>
     {
-        HashSet<uint> peerSet=new HashSet<uint>();
-        public bool TryAdd(uint conv)
+        HashSet<int> peerSet=new HashSet<int>();
+        public bool TryAdd(int sessionId)
         {
-            return peerSet.Add(conv);
+            return peerSet.Add(sessionId);
         }
         /// <summary>
         /// 离开大厅；
         /// 这个离开可能玩家进行了进入探索界面，或者副本
         /// </summary>
-        /// <param name="conv">peerID</param>
+        /// <param name="sessionId">peerID</param>
         /// <returns>是否离开成功</returns>
-        public bool TryRemove(uint conv)
+        public bool TryRemove(int sessionId)
         {
-            return peerSet.Remove(conv);
+            return peerSet.Remove(sessionId);
         }
         /// <summary>
         /// 是否在大厅中
         /// </summary>
-        /// <param name="conv">id</param>
+        /// <param name="sessionId">id</param>
         /// <returns>是否存在</returns>
-        public bool Contains(uint conv)
+        public bool Contains(int sessionId)
         {
-            return peerSet.Contains(conv);
+            return peerSet.Contains(sessionId);
         }
         /// <summary>
         /// 在大厅中通过ID查找Peer
         /// </summary>
-        /// <param name="peerID">id</param>
+        /// <param name="sessionId">id</param>
         /// <returns>查找到的对象</returns>
-        public bool TryGetValue(uint conv,out PeerEntity peer)
+        public bool TryGetValue(int sessionId, out IPeerAgent peer)
         {
             peer = default;
-            if (!Contains(conv))
+            if (!Contains(sessionId))
                 return false;
-            return PeerManager.Instance.TryGetValue(conv, out peer);
+            return PeerManager.Instance.TryGetValue(sessionId, out peer);
         }
     }
 }

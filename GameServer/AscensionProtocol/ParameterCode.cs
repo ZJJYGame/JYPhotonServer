@@ -10,7 +10,7 @@
         /// <summary>
         /// 服务器会话ID；
         /// </summary>
-        SessionId=2,
+        ClientPeer=2,
         /// <summary>
         /// 包含账户信息以及设备号的数据
         /// </summary>
@@ -161,6 +161,10 @@
         /// <summary>
         /// 广播的日常消息
         /// </summary>
-        DailyMessage=93
+        DailyMessage=93,
+        /// <summary>
+        /// 战斗
+        /// </summary>
+        RoleBattle = 94 ,
     }
 }

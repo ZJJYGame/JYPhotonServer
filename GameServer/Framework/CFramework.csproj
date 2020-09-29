@@ -101,6 +101,8 @@
     <Compile Include="CosmosFramework\Core\RunTime\Coroutine\AsyncCoroutine.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Event\ConcurrentEventCore.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Event\EventCore.cs" />
+    <Compile Include="CosmosFramework\Core\RunTime\Event\ConcurrentStandardEventCore.cs" />
+    <Compile Include="CosmosFramework\Core\RunTime\Event\StandardEventCore.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Main\GameManager.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Main\GameManager.External.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Main\GameManagerAgent.cs" />

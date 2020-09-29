@@ -4,12 +4,12 @@ using Cosmos;
 using System;
 namespace AscensionServer
 {
-    public class RoleEntity : IKeyValue<Type, object>,IReference
+    public class RemoteRole : IRemoteRole
     {
-        public uint RoleId { get; private set; }
+        public int RoleId { get; private set; }
         public int DataCount { get { return dataDict.Count; } }
         Dictionary<Type, object> dataDict = new Dictionary<Type, object>();
-        public void OnInit(uint roleId)
+        public void OnInit(int roleId)
         {
             this.RoleId = roleId;
         }
@@ -58,14 +58,14 @@ namespace AscensionServer
         }
         public override bool Equals(object obj)
         {
-            var entity = obj as RoleEntity;
+            var entity = obj as RemoteRole;
             if (entity==null)
                 return false;
             return entity.RoleId == this.RoleId;
         }
-        public static RoleEntity Create(uint roleId, params object[] datas)
+        public static RemoteRole Create(int roleId, params object[] datas)
         {
-            var entity = GameManager.ReferencePoolManager.Spawn<RoleEntity>();
+            var entity = GameManager.ReferencePoolManager.Spawn<RemoteRole>();
             entity.OnInit(roleId);
             for (int i = 0; i < datas.Length; i++)
             {

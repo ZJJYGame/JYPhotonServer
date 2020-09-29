@@ -33,13 +33,14 @@ namespace AscensionServer
         /// serial number
         ///当前 data序号
         /// </summary>
-        int pos; 
+        int pos;
         public DataStream(bool write, object[] incomingData)
         {
-            this.CanWrite= write;
+            this.CanWrite = write;
             if (!write && incomingData != null)
                 this.readData = incomingData;
         }
+        public DataStream(){}
         /// <summary>
         /// 设置读取的流
         /// </summary>
@@ -98,6 +99,13 @@ namespace AscensionServer
         {
             readData = null;
             writeData = null;
+        }
+        public void Clear()
+        {
+            readData = null;
+            writeData .Clear();
+            pos = 0;
+            CanWrite = true;
         }
     }
 }

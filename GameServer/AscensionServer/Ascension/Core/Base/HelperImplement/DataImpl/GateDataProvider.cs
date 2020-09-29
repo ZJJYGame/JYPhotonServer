@@ -17,12 +17,14 @@ namespace AscensionServer
         {
             jsonDict.Clear();
             DirectoryInfo dir = new DirectoryInfo(folderPath);
+            char[] ch = ".txt".ToCharArray();
             foreach (var f in dir.GetFiles())
             {
                 var str = Utility.IO.ReadTextFileContent(folderPath, f.Name);
-                jsonDict.Add(f.Name, str);
+                var pureStr = f.Name.TrimEnd(ch);
+                jsonDict.Add(pureStr, str);
 #if DEBUG
-                //Utility.Debug.LogInfo($"\n{f.Name}\n{str}\n");
+                //Utility.Debug.LogInfo($"\n{pureStr}\n{str}\n");
 #endif
             }
             return jsonDict;
