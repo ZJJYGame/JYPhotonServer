@@ -8,7 +8,5 @@ namespace AscensionServer
 {
     public interface IRoleOperationHelper
     {
-        void LoginHandler(object sender,object data);
-        void LogoffHandler(object sender,object data);
     }
 }

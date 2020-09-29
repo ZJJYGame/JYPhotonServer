@@ -12,23 +12,23 @@ namespace AscensionServer
     /// <summary>
     /// 具体的peer代理类对象；可适配任意实现了INetworkPeer的对象；
     /// </summary>
-    public class NetworkPeerAgent: IPeerAgent
+    public class RemotePeerAgent: IPeerAgent
     {
         public int SessionId { get { return Handle.SessionId; } }
         public bool Available { get { return Handle.Available; } }
-        public INetworkPeer Handle { get; private set; }
-        public IRoleEntity RoleEntity { get; private set; }
+        public IRemotePeer Handle { get;set; }
+        public IRemoteRole RemoteRole { get; private set; }
         public ICollection<object> DataCollection { get { return dataDict.Values; } }
         ConcurrentDictionary<Type, object> dataDict;
-        public NetworkPeerAgent()
+        public RemotePeerAgent()
         {
             dataDict = new ConcurrentDictionary<Type, object>();
         }
-        public NetworkPeerAgent(INetworkPeer handle) : this()
+        public RemotePeerAgent(IRemotePeer handle) : this()
         {
             this.Handle = handle;
         }
-        public void OnInit(INetworkPeer handle)
+        public void OnInit(IRemotePeer handle)
         {
             this.Handle = handle;
         }
@@ -79,11 +79,11 @@ namespace AscensionServer
             Handle = null;
             dataDict.Clear();
         }
-        public static NetworkPeerAgent Create(INetworkPeer handle, params object[] netVars)
+        public static RemotePeerAgent Create(IRemotePeer handle, params object[] netVars)
         {
             if (handle == null)
                 throw new ArgumentNullException("Peer is invalid");
-            NetworkPeerAgent pe = GameManager.ReferencePoolManager.Spawn<NetworkPeerAgent>();
+            RemotePeerAgent pe = GameManager.ReferencePoolManager.Spawn<RemotePeerAgent>();
             pe.OnInit(handle);
             ushort length = Convert.ToUInt16(netVars.Length);
             for (int i = 0; i < length; i++)
@@ -92,11 +92,11 @@ namespace AscensionServer
             }
             return pe;
         }
-        public static NetworkPeerAgent Create(INetworkPeer handle, List<object> netVars)
+        public static RemotePeerAgent Create(IRemotePeer handle, List<object> netVars)
         {
             if (handle == null)
                 throw new ArgumentNullException("Peer is invalid");
-            NetworkPeerAgent pe = GameManager.ReferencePoolManager.Spawn<NetworkPeerAgent>();
+            RemotePeerAgent pe = GameManager.ReferencePoolManager.Spawn<RemotePeerAgent>();
             pe.OnInit(handle);
             ushort length = Convert.ToUInt16(netVars.Count);
             for (int i = 0; i < length; i++)
