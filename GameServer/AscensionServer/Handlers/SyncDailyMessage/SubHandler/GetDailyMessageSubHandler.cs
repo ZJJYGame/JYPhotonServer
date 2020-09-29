@@ -32,17 +32,30 @@ namespace AscensionServer
         
             if (dailyMessageTemp != null)
             {
-                Utility.Debug.LogInfo("yzqData" + "收到消息了"+ dailyMessageJson);
+                Utility.Debug.LogInfo("yzqData" + "收到的消息仙盟id为" + dailyMessageTemp.AllianceID + "长度为" + count);
                 if (RedisHelper.Hash.HashExistAsync("DailyMessage", dailyMessageTemp.AllianceID.ToString()).Result)
                 {
-
-                    dailyMessages = RedisHelper.Hash.HashGetAsync<List<DailyMessageDTO>>("DailyMessage", dailyMessageTemp.AllianceID.ToString()).Result.GetRange(0, 1);
-                    SetResponseParamters(() =>
-                    {                     
-                        subResponseParameters.Add((byte)ParameterCode.DailyMessage, Utility.Json.ToJson(dailyMessages));
-                        operationResponse.ReturnCode = (short)ReturnCode.Success;
-                    }
-                    );
+                    dailyMessages = RedisHelper.Hash.HashGetAsync<List<DailyMessageDTO>>("DailyMessage", dailyMessageTemp.AllianceID.ToString()).Result;
+                    if (dailyMessages.Count> index)
+                    {
+                        if (dailyMessages.Count> count)
+                        {
+                            SetResponseParamters(() =>
+                            {
+                                subResponseParameters.Add((byte)ParameterCode.DailyMessage, Utility.Json.ToJson(dailyMessages.GetRange(index, count)));
+                                operationResponse.ReturnCode = (short)ReturnCode.Success;
+                            });
+                        }
+                        else
+                        {
+                            SetResponseParamters(() =>
+                            {
+                                subResponseParameters.Add((byte)ParameterCode.DailyMessage, Utility.Json.ToJson(dailyMessages.GetRange(index, dailyMessages.Count)));
+                                operationResponse.ReturnCode = (short)ReturnCode.Success;
+                            });
+                        }
+                    }else
+                        SetResponseParamters(() => { operationResponse.ReturnCode = (short)ReturnCode.Empty; });
                 }
                 else
                     SetResponseParamters(() =>
@@ -50,10 +63,9 @@ namespace AscensionServer
                         subResponseParameters.Add((byte)ParameterCode.DailyMessage, Utility.Json.ToJson(dailyMessages));
                         operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     });
-
             }
             else
-                SetResponseParamters(() => { operationResponse.ReturnCode = (short)ReturnCode.Fail; });
+                SetResponseParamters(() => { operationResponse.ReturnCode = (short)ReturnCode.Empty; });
             return operationResponse;
         }
     }

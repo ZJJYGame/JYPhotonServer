@@ -20,7 +20,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -171,7 +171,7 @@
   <ItemGroup>
     <Compile Include="Ascension\Core\Base\Attribute\ConfigDataAttribute.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\DataImpl\GateDataProvider.cs" />
-    <Compile Include="Ascension\Core\Base\HelperImplement\RoleHelper\RoleOperationHelper.cs" />
+    <Compile Include="Ascension\Core\Base\HelperImplement\RecordHelper\RecordHelper.cs" />
     <Compile Include="Ascension\Core\Base\Stream\DataStream.cs" />
     <Compile Include="Ascension\Core\Base\Stream\DataStreamQueue.cs" />
     <Compile Include="Ascension\Core\RunTime\Alliancelogic\AllianceEventCore.cs" />
@@ -184,6 +184,7 @@
     <Compile Include="Ascension\Core\Base\EventCore\OpCodeEventCore.cs" />
     <Compile Include="Ascension\Core\Base\Input\IInputData.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\NetworkHelper\PhotonMessageHelper.cs" />
+    <Compile Include="Ascension\Core\RunTime\Battle\IBattleAlgorithmProvider.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\Data.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\DataManager.cs" />
@@ -207,10 +208,8 @@
     <Compile Include="Ascension\Core\RunTime\Record\RecordManager.cs" />
     <Compile Include="Ascension\Core\Base\RedisData\RedisData.Initialize.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\GameResourceManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Role\IRemoteRole.cs" />
-    <Compile Include="Ascension\Core\RunTime\Role\IRoleOperationHelper.cs" />
-    <Compile Include="Ascension\Core\RunTime\Role\RemoteRole.cs" />
-    <Compile Include="Ascension\Core\RunTime\Role\RoleManager.cs" />
+    <Compile Include="Ascension\Core\Base\Role\IRemoteRole.cs" />
+    <Compile Include="Ascension\Core\Base\Role\RemoteRole.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\Base\BattleInputData.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\Base\BattleRoomEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\Base\RoomBattleInputC2S.cs" />

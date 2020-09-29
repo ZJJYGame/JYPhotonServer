@@ -7,12 +7,7 @@ using Cosmos;
 namespace AscensionServer
 {
     /// <summary>
-    /// What is session and conversation?
-    /// Just as a session is a logical connection between the LUs, a conversation is a 
-    /// logical connection between two transaction programs. ... LU 6.2 treats a session as a 
-    /// reusable connection between two LUs. One session can support only one 
-    /// conversation at a time, but one session can support many conversations in 
-    /// sequence.
+    /// 用于适配的Peer接口，管理一个具体实现的client peer 对象
     /// </summary>
     public interface IRemotePeer: IReference
     {

@@ -15,11 +15,13 @@ namespace AscensionServer
     /// </summary>
     public sealed class BattleManager : Module<BattleManager>
     {
+        IBattleAlgorithmProvider algorithmProvider;
         ConcurrentDictionary<int, RoomEntity> roomDict = new ConcurrentDictionary<int, RoomEntity>();
-
-        public void StartBattle()
+        public override void OnInitialization()
         {
-            var rc = GameManager.ReferencePoolManager.Spawn<RoomEntity>();
+            algorithmProvider = Utility.Assembly.GetInstanceByAttribute<TargetHelperAttribute, IBattleAlgorithmProvider>();
+            if (algorithmProvider == null)
+                Utility.Debug.LogError($"{this.GetType()} has no helper instance ,base type: {typeof(IBattleAlgorithmProvider)}");
         }
         /// <summary>
         /// 转发战斗消息
@@ -32,32 +34,15 @@ namespace AscensionServer
                 return false;
             RoomEntity rc;
             var result = roomDict.TryGetValue(rbiCmd.RoomID, out rc);
-            //if (result)
-            //    rc.CacheInputCmdC2S(rbiCmd);
             return result;
         }
         /// <summary>
-        /// 释放并回收战斗房间
+        /// 压入战斗数据；
+        /// 包含指令集等；
         /// </summary>
-        public void ReleaseBattleRoom(int roomID)
+        public void EnqueueMessage(int peerId,object data)
         {
-            RoomEntity rc;
-            roomDict.TryRemove(roomID, out rc);
-            GameManager.ReferencePoolManager.Despawn(rc);
-        }
-        public RoomEntity GetBattleRoom(int roomID)
-        {
-            RoomEntity rc;
-            roomDict.TryGetValue(roomID, out rc);
-            return rc;
-        }
-        public void CloseAll()
-        {
-            foreach (var room in roomDict.Values)
-            {
-                room.Clear();
-            }
-            roomDict.Clear();
+
         }
     }
 }

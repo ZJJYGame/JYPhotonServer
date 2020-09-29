@@ -17,7 +17,7 @@ namespace AscensionServer
             if(recordHelper==null)
                 Utility.Debug.LogError($"{this.GetType()} has no helper instance ,base type: {typeof(IRecordHelper)}");
         }
-        public void RecordTime(int roleId,object data)
+        public void RecordRole(int roleId,object data)
         {
             recordHelper.RecordRole(roleId,data);
         }

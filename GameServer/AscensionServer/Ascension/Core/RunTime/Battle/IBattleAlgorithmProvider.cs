@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-    public interface IRoleOperationHelper
+    /// <summary>
+    /// 战斗算法提供者；
+    /// </summary>
+    public interface IBattleAlgorithmProvider
     {
     }
 }
