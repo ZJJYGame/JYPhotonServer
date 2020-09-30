@@ -208,8 +208,10 @@
     <Compile Include="Ascension\Core\RunTime\Record\RecordManager.cs" />
     <Compile Include="Ascension\Core\Base\RedisData\RedisData.Initialize.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\GameResourceManager.cs" />
-    <Compile Include="Ascension\Core\Base\Role\IRemoteRole.cs" />
-    <Compile Include="Ascension\Core\Base\Role\RemoteRole.cs" />
+    <Compile Include="Ascension\Core\RunTime\Role\IRemoteRole.cs" />
+    <Compile Include="Ascension\Core\RunTime\Role\IRoleOperationHelper.cs" />
+    <Compile Include="Ascension\Core\RunTime\Role\RemoteRole.cs" />
+    <Compile Include="Ascension\Core\RunTime\Role\RoleManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\Base\BattleInputData.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\Base\BattleRoomEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\Base\RoomBattleInputC2S.cs" />

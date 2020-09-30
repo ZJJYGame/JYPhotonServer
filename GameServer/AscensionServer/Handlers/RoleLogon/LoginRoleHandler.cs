@@ -22,12 +22,21 @@ namespace AscensionServer
             IRemotePeer peer = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.ClientPeer) as IRemotePeer;
             var json = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
             var roleObj = Utility.Json.ToObject<RoleDTO>(json);
-            var role = RemoteRole.Create(roleObj.RoleID, roleObj);
+            var role = RemoteRole.Create(roleObj.RoleID, peer.SessionId, roleObj);
+
+            IRemoteRole remoteRole;
+            var roleExist = GameManager.CustomeModule<RoleManager>().TryGetValue(roleObj.RoleID, out remoteRole);
+            if (roleExist)
+            {
+                IPeerAgent pa;
+                GameManager.CustomeModule<PeerManager>().TryGetValue(remoteRole.SessionId, out pa);
+                //pa.SendEventMessage();从这里发送挤下线消息；
+            }
             IPeerAgent peerAgent;
             var result = GameManager.CustomeModule<PeerManager>().TryGetValue(peer.SessionId, out peerAgent);
             if (result)
             {
-                Utility.Debug.LogInfo("yzqData" + "验证登录的Sessionid:"+ peer.SessionId);
+                Utility.Debug.LogInfo("yzqData" + "验证登录的Sessionid:" + peer.SessionId);
                 var remoteRoleType = typeof(IRemoteRole);
                 var exist = peerAgent.ContainsKey(remoteRoleType);
                 if (!exist)
