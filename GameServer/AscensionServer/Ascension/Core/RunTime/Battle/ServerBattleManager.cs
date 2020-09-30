@@ -22,9 +22,9 @@ namespace AscensionServer
          * 1.需要怎么存，怎么管理*/
 
         /// <summary>
-        /// 队伍id， 战斗初始化对象
+        /// 角色id， 战斗初始化对象
         /// </summary>
-        public Dictionary<int, BattleInitDTO> _teamIdToBattleInit = new Dictionary<int, BattleInitDTO>();
+        public Dictionary<BattleInitDTO, int> _teamIdToBattleInit = new Dictionary<BattleInitDTO, int>();
         /// <summary>
         /// 房间id， 每回合战斗传输数据对象
         /// </summary>
@@ -40,10 +40,17 @@ namespace AscensionServer
 
 
         /// <summary>
-        /// 初始化战斗数据
+        /// 初始化战斗数据  
         /// </summary>
-        public void EntryBattle(BattleInitDTO battleInitDTO,TeamDTO teamid)
+        public void EntryBattle(BattleInitDTO battleInitDTO)
         {
+            var team = GameManager.CustomeModule<ServerTeamManager>()._teamTOModel.Values.ToList().Find(x => x.TeamMembers.Find(q => q.RoleID == battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID) != null);
+            if (team != null && team.LeaderId != battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID)
+            {
+                Utility.Debug.LogInfo("有自己的队伍,但不是队长！！");
+                return;
+            }
+
             BattleInitDTO battleInit;
             if (_oldBattleList.Count > 0 )
             {
@@ -61,7 +68,7 @@ namespace AscensionServer
                 battleInit.enemyUnits = battleInitDTO.enemyUnits;
                 battleInit.battleUnits = battleInitDTO.battleUnits;
                 battleInit.maxRoundCount = battleInitDTO.maxRoundCount;
-                _teamIdToBattleInit.Add(teamid.TeamId, battleInit);
+                _teamIdToBattleInit.Add(battleInit, battleInit.RoomId);
                 _roomidToBattleTransfer.Add(battleInit.RoomId, new List<BattleTransferDTO>());
             }
         }
@@ -77,41 +84,10 @@ namespace AscensionServer
             //当前 是不是组队
             if (team == null)
             {
-                roleData[0].ObjectName = MsqInfo<Role>(roleId).RoleName;
                 var status = MsqInfo<RoleStatus>(roleId);
-                roleData[0].RoleStatusDTO = new RoleStatusDTO()
-                {
-                    RoleID = status.RoleID,
-                    RoleHP = status.RoleHP,
-                    RoleAttackDamage = status.RoleAttackDamage,
-                    RoleAttackPower = status.RoleAttackPower,
-                    RoleCrit = (byte)status.RoleCrit,
-                    RoleCritResistance = (byte)status.RoleCritResistance,
-                    RoleDormant = status.RoleDormant,
-                    RoleJingXue = status.RoleJingXue,
-                    RoleKillingIntent = status.RoleKillingIntent,
-                    RoleMaxHP = status.RoleMaxHP,
-                    RoleMaxJingXue = status.RoleMaxJingXue,
-                    RoleMaxMP = status.RoleMaxMP,
-                    RoleMaxShenhun = status.RoleMaxShenhun,
-                    RoleMP = status.RoleMP,
-                    RoleResistanceDamage = status.RoleResistanceDamage,
-                    RoleResistancePower = status.RoleResistancePower,
-                    RoleShenhun = status.RoleShenhun,
-                    RoleShenHunDamage = status.RoleShenHunDamage,
-                    RoleShenHunResistance = status.RoleShenHunResistance,
-                    RoleSpeedAttack = status.RoleSpeedAttack,
-                    RoleVileSpawn = status.RoleVileSpawn,
-                    RoleVitality = status.RoleVitality
-                };
-            }
-            else
-            {
-                for (int i = 0; i < team.TeamMembers.Count; i++)
-                {
-                    roleData[i].ObjectName = team.TeamMembers[i].RoleName;
-                    var status = MsqInfo<RoleStatus>(roleId);
-                    roleData[i].RoleStatusDTO = new RoleStatusDTO()
+                roleData.Add(new RoleBattleDataDTO(){  
+                    ObjectName = MsqInfo<Role>(roleId).RoleName,
+                    RoleStatusDTO = new RoleStatusDTO()
                     {
                         RoleID = status.RoleID,
                         RoleHP = status.RoleHP,
@@ -135,7 +111,43 @@ namespace AscensionServer
                         RoleSpeedAttack = status.RoleSpeedAttack,
                         RoleVileSpawn = status.RoleVileSpawn,
                         RoleVitality = status.RoleVitality
-                    };
+                    }
+                });
+            }
+            else
+            {
+                for (int i = 0; i < team.TeamMembers.Count; i++)
+                {
+                    var status = MsqInfo<RoleStatus>(roleId);
+                    roleData.Add(new RoleBattleDataDTO()
+                    {
+                        ObjectName = team.TeamMembers[i].RoleName,
+                         RoleStatusDTO  = new RoleStatusDTO()
+                         {
+                             RoleID = status.RoleID,
+                             RoleHP = status.RoleHP,
+                             RoleAttackDamage = status.RoleAttackDamage,
+                             RoleAttackPower = status.RoleAttackPower,
+                             RoleCrit = (byte)status.RoleCrit,
+                             RoleCritResistance = (byte)status.RoleCritResistance,
+                             RoleDormant = status.RoleDormant,
+                             RoleJingXue = status.RoleJingXue,
+                             RoleKillingIntent = status.RoleKillingIntent,
+                             RoleMaxHP = status.RoleMaxHP,
+                             RoleMaxJingXue = status.RoleMaxJingXue,
+                             RoleMaxMP = status.RoleMaxMP,
+                             RoleMaxShenhun = status.RoleMaxShenhun,
+                             RoleMP = status.RoleMP,
+                             RoleResistanceDamage = status.RoleResistanceDamage,
+                             RoleResistancePower = status.RoleResistancePower,
+                             RoleShenhun = status.RoleShenhun,
+                             RoleShenHunDamage = status.RoleShenHunDamage,
+                             RoleShenHunResistance = status.RoleShenHunResistance,
+                             RoleSpeedAttack = status.RoleSpeedAttack,
+                             RoleVileSpawn = status.RoleVileSpawn,
+                             RoleVitality = status.RoleVitality
+                         }
+                    });
                 }
             }
             return roleData;
@@ -149,7 +161,6 @@ namespace AscensionServer
         public T MsqInfo<T>(int roleId)
         {
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
-            bool existStatus = NHibernateQuerier.Verify<T>(nHCriteriaRoleID);
             return NHibernateQuerier.CriteriaSelect<T>(nHCriteriaRoleID);
         }
 

@@ -31,9 +31,14 @@ namespace AscensionServer
             {
                 switch (RoleObj.SendBattleCmd)
                 {
+                    //TODO  ，明天 改一下 
                     case RoleDTO.BattleCmd.Init:
-                        if (!GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.ContainsKey(RoleObj.teamDTO.TeamId))
-                            GameManager.CustomeModule<ServerBattleManager>().EntryBattle(RoleObj.BattleInitDTO, RoleObj.teamDTO);
+                        GameManager.CustomeModule<ServerBattleManager>().EntryBattle(RoleObj.BattleInitDTO);
+                        //if (!GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.ContainsKey(RoleObj.RoleID))
+                        //{
+                        //}
+
+
                         break;
                     case RoleDTO.BattleCmd.PropsInstruction:
 
@@ -49,6 +54,8 @@ namespace AscensionServer
                 }
                 SetResponseParamters(() =>
                 {
+                    Utility.Debug.LogInfo("返回成功！！");
+
                     subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit));
                     subResponseParameters.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._roomidToBattleTransfer));
                     operationResponse.ReturnCode = (short)ReturnCode.Success;

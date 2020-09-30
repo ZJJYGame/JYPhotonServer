@@ -86,28 +86,27 @@ namespace AscensionProtocol.DTO
     }
 
 
-    /// <summary>
-    /// 战斗传输 初始化
-    /// </summary>
-    interface IBattleTransferData
+    ///// <summary>
+    ///// 战斗传输 初始化
+    ///// </summary>
+    //public abstract class BattleTransferData
+    //{
+    //    public  string ObjectName { get; set; }
+    //}
+    [Serializable]
+    public class RoleBattleDataDTO
     {
-        string ObjectName { get; set; }
-    }
-
-    public class RoleBattleDataDTO: IBattleTransferData
-    {
-        public string ObjectName { get; set ; }
-
+        public string ObjectName { get; set; }
         public virtual RoleStatusDTO RoleStatusDTO { get; set; }
     }
-
-    public class PetBattleDataDTO: IBattleTransferData
+    [Serializable]
+    public class PetBattleDataDTO
     {
         public string ObjectName { get; set; }
         public virtual PetStatusDTO PetStatusDTO { get; set; }
     }
-
-    public class EnemyBattleDataDTO: IBattleTransferData
+    [Serializable]
+    public class EnemyBattleDataDTO
     {
         public virtual int GlobalId { get; set; }
 
@@ -116,6 +115,7 @@ namespace AscensionProtocol.DTO
     }
 
     //TODO  敌人的属性  可以直接用 玩家的数据模型   建议不使用
+    [Serializable]
     public class EnemyStatusDTO
     {
         public virtual int EnemyId { get; set; }
