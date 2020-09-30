@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol.DTO;
+using AscensionServer.Model;
 using Cosmos;
 namespace AscensionServer
 {
@@ -25,7 +26,7 @@ namespace AscensionServer
         /// </summary>
         public Dictionary<int, BattleInitDTO> _teamIdToBattleInit = new Dictionary<int, BattleInitDTO>();
         /// <summary>
-        /// 房间id， 战斗传输数据对象
+        /// 房间id， 每回合战斗传输数据对象
         /// </summary>
         public Dictionary<int, List<BattleTransferDTO>> _roomidToBattleTransfer = new Dictionary<int, List<BattleTransferDTO>>();
         /// <summary>
@@ -39,7 +40,7 @@ namespace AscensionServer
 
 
         /// <summary>
-        /// 进入战斗
+        /// 初始化战斗数据
         /// </summary>
         public void EntryBattle(BattleInitDTO battleInitDTO,TeamDTO teamid)
         {
@@ -48,7 +49,6 @@ namespace AscensionServer
             {
                 //int roomid = _oldBattleList[0];
                 //battleInit = _teamIdToBattleInit[roomid];
-
             }
             else
             {
@@ -56,7 +56,7 @@ namespace AscensionServer
                 battleInit.RoomId = _roomId++;
                 battleInit.countDownSec = 15;
                 battleInit.roundCount = battleInitDTO.roundCount;
-                battleInit.playerUnits = battleInitDTO.playerUnits;
+                battleInit.playerUnits = RoleInfo(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);
                 battleInit.petUnits = battleInitDTO.petUnits;
                 battleInit.enemyUnits = battleInitDTO.enemyUnits;
                 battleInit.battleUnits = battleInitDTO.battleUnits;
@@ -66,11 +66,122 @@ namespace AscensionServer
             }
         }
 
-        public void  Battle(List<BattleTransferDTO> battleTransferDTOs)
+        /// <summary>
+        /// 玩家id
+        /// </summary>
+        /// <param name="roleId"></param>
+        public List<RoleBattleDataDTO> RoleInfo(int roleId)
+        {
+            List<RoleBattleDataDTO> roleData = new List<RoleBattleDataDTO>();
+            var team = GameManager.CustomeModule<ServerTeamManager>()._teamTOModel.Values.ToList().Find(x => x.TeamMembers.Find(q => q.RoleID == roleId) != null);
+            //当前 是不是组队
+            if (team == null)
+            {
+                roleData[0].ObjectName = MsqInfo<Role>(roleId).RoleName;
+                var status = MsqInfo<RoleStatus>(roleId);
+                roleData[0].RoleStatusDTO = new RoleStatusDTO()
+                {
+                    RoleID = status.RoleID,
+                    RoleHP = status.RoleHP,
+                    RoleAttackDamage = status.RoleAttackDamage,
+                    RoleAttackPower = status.RoleAttackPower,
+                    RoleCrit = (byte)status.RoleCrit,
+                    RoleCritResistance = (byte)status.RoleCritResistance,
+                    RoleDormant = status.RoleDormant,
+                    RoleJingXue = status.RoleJingXue,
+                    RoleKillingIntent = status.RoleKillingIntent,
+                    RoleMaxHP = status.RoleMaxHP,
+                    RoleMaxJingXue = status.RoleMaxJingXue,
+                    RoleMaxMP = status.RoleMaxMP,
+                    RoleMaxShenhun = status.RoleMaxShenhun,
+                    RoleMP = status.RoleMP,
+                    RoleResistanceDamage = status.RoleResistanceDamage,
+                    RoleResistancePower = status.RoleResistancePower,
+                    RoleShenhun = status.RoleShenhun,
+                    RoleShenHunDamage = status.RoleShenHunDamage,
+                    RoleShenHunResistance = status.RoleShenHunResistance,
+                    RoleSpeedAttack = status.RoleSpeedAttack,
+                    RoleVileSpawn = status.RoleVileSpawn,
+                    RoleVitality = status.RoleVitality
+                };
+            }
+            else
+            {
+                for (int i = 0; i < team.TeamMembers.Count; i++)
+                {
+                    roleData[i].ObjectName = team.TeamMembers[i].RoleName;
+                    var status = MsqInfo<RoleStatus>(roleId);
+                    roleData[i].RoleStatusDTO = new RoleStatusDTO()
+                    {
+                        RoleID = status.RoleID,
+                        RoleHP = status.RoleHP,
+                        RoleAttackDamage = status.RoleAttackDamage,
+                        RoleAttackPower = status.RoleAttackPower,
+                        RoleCrit = (byte)status.RoleCrit,
+                        RoleCritResistance = (byte)status.RoleCritResistance,
+                        RoleDormant = status.RoleDormant,
+                        RoleJingXue = status.RoleJingXue,
+                        RoleKillingIntent = status.RoleKillingIntent,
+                        RoleMaxHP = status.RoleMaxHP,
+                        RoleMaxJingXue = status.RoleMaxJingXue,
+                        RoleMaxMP = status.RoleMaxMP,
+                        RoleMaxShenhun = status.RoleMaxShenhun,
+                        RoleMP = status.RoleMP,
+                        RoleResistanceDamage = status.RoleResistanceDamage,
+                        RoleResistancePower = status.RoleResistancePower,
+                        RoleShenhun = status.RoleShenhun,
+                        RoleShenHunDamage = status.RoleShenHunDamage,
+                        RoleShenHunResistance = status.RoleShenHunResistance,
+                        RoleSpeedAttack = status.RoleSpeedAttack,
+                        RoleVileSpawn = status.RoleVileSpawn,
+                        RoleVitality = status.RoleVitality
+                    };
+                }
+            }
+            return roleData;
+        }
+        /// <summary>
+        /// 映射  Msq
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public T MsqInfo<T>(int roleId)
+        {
+            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
+            bool existStatus = NHibernateQuerier.Verify<T>(nHCriteriaRoleID);
+            return NHibernateQuerier.CriteriaSelect<T>(nHCriteriaRoleID);
+        }
+
+
+
+
+
+        /// <summary>
+        /// 准备指令战斗 
+        /// </summary>
+        public void PrepareBattle(int roomId)
+        {
+            if (_roomidToBattleTransfer.ContainsKey(roomId))
+            {
+                _roomidToBattleTransfer[roomId][0].IsStart= true;
+            }
+        }
+
+        /// <summary>
+        /// 开始战斗   -->  开始战斗个回合
+        /// </summary>
+        public void BattleStart(int roomId)
         {
 
         }
+        /// <summary>
+        /// 战斗结束
+        /// </summary>
+        public void BattleEnd()
+        {
 
+        }
 
     }
 }
