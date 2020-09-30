@@ -68,7 +68,8 @@ namespace AscensionServer
                     operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
-            return null;
+            GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
+            return operationResponse;
         }
     }
 }
