@@ -10,6 +10,7 @@ namespace AscensionServer
     public interface IRemoteRole: IKeyValue<Type, object>, IReference
     {
         int RoleId { get; }
+        int SessionId { get; }
         object[] Find(Predicate<object> handler);
     }
 }

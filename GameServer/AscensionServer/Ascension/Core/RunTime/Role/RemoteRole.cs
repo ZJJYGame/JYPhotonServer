@@ -7,11 +7,13 @@ namespace AscensionServer
     public class RemoteRole : IRemoteRole
     {
         public int RoleId { get; private set; }
+        public int SessionId{ get; private set; }
         public int DataCount { get { return dataDict.Count; } }
         Dictionary<Type, object> dataDict = new Dictionary<Type, object>();
-        public void OnInit(int roleId)
+        public void OnInit(int roleId,int sessionId)
         {
             this.RoleId = roleId;
+            this.SessionId= sessionId;
         }
         public object[] Find(Predicate<object> handler)
         {
@@ -63,10 +65,10 @@ namespace AscensionServer
                 return false;
             return entity.RoleId == this.RoleId;
         }
-        public static RemoteRole Create(int roleId, params object[] datas)
+        public static RemoteRole Create(int roleId,int sessionId, params object[] datas)
         {
             var entity = GameManager.ReferencePoolManager.Spawn<RemoteRole>();
-            entity.OnInit(roleId);
+            entity.OnInit(roleId,sessionId);
             for (int i = 0; i < datas.Length; i++)
             {
                 entity.TryAdd(datas[i].GetType(), datas[i]);
