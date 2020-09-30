@@ -22,9 +22,9 @@ namespace AscensionServer
          * 1.需要怎么存，怎么管理*/
 
         /// <summary>
-        /// 角色id， 战斗初始化对象
+        /// 初始化 DTO  对应的房间id
         /// </summary>
-        public Dictionary<BattleInitDTO, int> _teamIdToBattleInit = new Dictionary<BattleInitDTO, int>();
+        public Dictionary<int, BattleInitDTO> _teamIdToBattleInit = new Dictionary<int, BattleInitDTO>();
         /// <summary>
         /// 房间id， 每回合战斗传输数据对象
         /// </summary>
@@ -68,7 +68,7 @@ namespace AscensionServer
                 battleInit.enemyUnits = battleInitDTO.enemyUnits;
                 battleInit.battleUnits = battleInitDTO.battleUnits;
                 battleInit.maxRoundCount = battleInitDTO.maxRoundCount;
-                _teamIdToBattleInit.Add(battleInit, battleInit.RoomId);
+                _teamIdToBattleInit.Add( battleInit.RoomId, battleInit);
                 _roomidToBattleTransfer.Add(battleInit.RoomId, new List<BattleTransferDTO>());
             }
         }

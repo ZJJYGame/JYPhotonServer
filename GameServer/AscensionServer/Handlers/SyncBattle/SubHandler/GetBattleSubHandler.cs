@@ -54,8 +54,7 @@ namespace AscensionServer
                 }
                 SetResponseParamters(() =>
                 {
-                    Utility.Debug.LogInfo("返回成功！！");
-
+                    Utility.Debug.LogInfo("返回成功！！"+ Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit));
                     subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit));
                     subResponseParameters.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._roomidToBattleTransfer));
                     operationResponse.ReturnCode = (short)ReturnCode.Success;
