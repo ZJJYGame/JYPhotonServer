@@ -186,6 +186,7 @@
     <Compile Include="Ascension\Core\Base\HelperImplement\NetworkHelper\PhotonMessageHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\IBattleAlgorithmProvider.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.Init.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\Data.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\DataManager.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\GongFa.cs" />

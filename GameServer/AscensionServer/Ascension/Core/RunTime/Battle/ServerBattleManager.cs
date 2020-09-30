@@ -12,32 +12,24 @@ namespace AscensionServer
     /// 没统一的服务器战斗功能
     /// </summary>
     [CustomeModule]
-    public class ServerBattleManager : Module<ServerBattleManager>
+    public partial class ServerBattleManager : Module<ServerBattleManager>
     {
-        //public Dictionary<int,int> 
         /*
          * 
-         * 3.
-         * 2.加载resource json数据表
-         * 1.需要怎么存，怎么管理*/
-
+         * 
+         * 
+         * */
         /// <summary>
-        /// 初始化 DTO  对应的房间id
+        /// 映射  Msq
         /// </summary>
-        public Dictionary<int, BattleInitDTO> _teamIdToBattleInit = new Dictionary<int, BattleInitDTO>();
-        /// <summary>
-        /// 房间id， 每回合战斗传输数据对象
-        /// </summary>
-        public Dictionary<int, List<BattleTransferDTO>> _roomidToBattleTransfer = new Dictionary<int, List<BattleTransferDTO>>();
-        /// <summary>
-        /// 回收房间
-        /// </summary>
-        public List<int> _oldBattleList = new List<int>();
-        /// <summary>
-        /// 房间id
-        /// </summary>
-        int _roomId = 1000;
-
+        /// <typeparam name="T"></typeparam>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public T MsqInfo<T>(int roleId)
+        {
+            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
+            return NHibernateQuerier.CriteriaSelect<T>(nHCriteriaRoleID);
+        }
 
         /// <summary>
         /// 初始化战斗数据  
@@ -68,13 +60,14 @@ namespace AscensionServer
                 battleInit.enemyUnits = battleInitDTO.enemyUnits;
                 battleInit.battleUnits = battleInitDTO.battleUnits;
                 battleInit.maxRoundCount = battleInitDTO.maxRoundCount;
-                _teamIdToBattleInit.Add( battleInit.RoomId, battleInit);
+                _teamIdToBattleInit.Add(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, battleInit);
                 _roomidToBattleTransfer.Add(battleInit.RoomId, new List<BattleTransferDTO>());
+
             }
         }
 
         /// <summary>
-        /// 玩家id
+        /// 获取玩家
         /// </summary>
         /// <param name="roleId"></param>
         public List<RoleBattleDataDTO> RoleInfo(int roleId)
@@ -152,21 +145,20 @@ namespace AscensionServer
             }
             return roleData;
         }
+        
         /// <summary>
-        /// 映射  Msq
+        /// 获取宠物
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="roleId"></param>
         /// <returns></returns>
-        public T MsqInfo<T>(int roleId)
+        public List<PetaPtitudeDTO> PetInfo(int roleId)
         {
-            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
-            return NHibernateQuerier.CriteriaSelect<T>(nHCriteriaRoleID);
+            List<PetaPtitudeDTO> petData = new List<PetaPtitudeDTO>();
+            var team = GameManager.CustomeModule<ServerTeamManager>()._teamTOModel.Values.ToList().Find(x => x.TeamMembers.Find(q => q.RoleID == roleId) != null);
+            //当前 是不是组队
+
+            return null;
         }
-
-
-
-
 
         /// <summary>
         /// 准备指令战斗 
@@ -182,7 +174,7 @@ namespace AscensionServer
         /// <summary>
         /// 开始战斗   -->  开始战斗个回合
         /// </summary>
-        public void BattleStart(int roomId)
+        public void BattleStart(int roomId,List<BattleTransferDTO> battleTransferDTOs)
         {
 
         }

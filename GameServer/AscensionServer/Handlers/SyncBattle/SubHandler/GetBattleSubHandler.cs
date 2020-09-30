@@ -31,14 +31,14 @@ namespace AscensionServer
             {
                 switch (RoleObj.SendBattleCmd)
                 {
-                    //TODO  ，明天 改一下 
                     case RoleDTO.BattleCmd.Init:
-                        GameManager.CustomeModule<ServerBattleManager>().EntryBattle(RoleObj.BattleInitDTO);
-                        //if (!GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.ContainsKey(RoleObj.RoleID))
-                        //{
-                        //}
-
-
+                        if (!GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.ContainsKey(RoleObj.RoleID))
+                            GameManager.CustomeModule<ServerBattleManager>().EntryBattle(RoleObj.BattleInitDTO);
+                        else
+                        {
+                            GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.Remove(RoleObj.RoleID);
+                            GameManager.CustomeModule<ServerBattleManager>().EntryBattle(RoleObj.BattleInitDTO);
+                        }
                         break;
                     case RoleDTO.BattleCmd.PropsInstruction:
 
@@ -55,8 +55,8 @@ namespace AscensionServer
                 SetResponseParamters(() =>
                 {
                     Utility.Debug.LogInfo("返回成功！！"+ Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit));
-                    subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit));
-                    subResponseParameters.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._roomidToBattleTransfer));
+                    subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit[RoleObj.RoleID]));
+                    subResponseParameters.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._roomidToBattleTransfer[GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit[RoleObj.RoleID].RoomId]));
                     operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
