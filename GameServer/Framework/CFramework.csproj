@@ -81,6 +81,7 @@
     <Compile Include="CosmosFramework\Core\Base\Singleton\Singleton.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Helper\DebugHelper\IDebugHelper.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Helper\JsonHelper\IJsonHelper.cs" />
+    <Compile Include="CosmosFramework\Core\Base\Utility\Helper\MessagePackHelper\IMessagePackHelper.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Algorithm.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Assembly.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Assert.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Global.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.IO.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Json.cs" />
+    <Compile Include="CosmosFramework\Core\Base\Utility\Utility.MessagePack.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Text.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Time.cs" />
     <Compile Include="CosmosFramework\Core\Base\Variable\Variable.cs" />
@@ -100,8 +102,8 @@
     <Compile Include="CosmosFramework\Core\RunTime\Config\ConfigManager.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Coroutine\AsyncCoroutine.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Event\ConcurrentEventCore.cs" />
-    <Compile Include="CosmosFramework\Core\RunTime\Event\EventCore.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Event\ConcurrentStandardEventCore.cs" />
+    <Compile Include="CosmosFramework\Core\RunTime\Event\EventCore.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Event\StandardEventCore.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Main\GameManager.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Main\GameManager.External.cs" />

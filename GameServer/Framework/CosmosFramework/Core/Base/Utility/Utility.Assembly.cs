@@ -141,7 +141,7 @@ namespace Cosmos
             /// <param name="type">基类</param>
             /// <param name="inherit">是否检查基类特性</param>
             /// <returns>生成的对象</returns>
-            public static object GetInstanceByAttribute<T>(Type type,bool inherit=false)
+            public static object GetInstanceByAttribute<T>(Type type, bool inherit = false)
                 where T : Attribute
             {
                 object obj = default;
@@ -149,7 +149,7 @@ namespace Cosmos
                 int length = types.Length;
                 for (int i = 0; i < length; i++)
                 {
-                    if (types[i].GetCustomAttributes(typeof(T),inherit).Length>0)
+                    if (types[i].GetCustomAttributes(typeof(T), inherit).Length > 0)
                     {
                         obj = GetTypeInstance(types[i]);
                         return obj;
@@ -164,7 +164,7 @@ namespace Cosmos
             /// <typeparam name="K">基类，new()约束</typeparam>
             /// <param name="inherit">是否检查基类特性</param>
             /// <returns>生成的对象</returns>
-            public static K GetInstanceByAttribute<T, K>(bool inherit=false)
+            public static K GetInstanceByAttribute<T, K>(bool inherit = false)
                 where T : Attribute
                 where K : class
             {
@@ -173,7 +173,7 @@ namespace Cosmos
                 int length = types.Length;
                 for (int i = 0; i < length; i++)
                 {
-                    if (types[i].GetCustomAttributes(typeof(T), inherit).Length>0)
+                    if (types[i].GetCustomAttributes(typeof(T), inherit).Length > 0)
                     {
                         obj = GetTypeInstance(types[i]) as K;
                         return obj;
@@ -188,7 +188,7 @@ namespace Cosmos
             /// <param name="type">基类</param>
             /// <param name="inherit">是否检查基类特性</param>
             /// <returns>生成的对象数组</returns>
-            public static object[] GetInstancesByAttribute<T>(Type type,bool inherit=false)
+            public static object[] GetInstancesByAttribute<T>(Type type, bool inherit = false)
                 where T : Attribute
             {
                 List<object> set = new List<object>();
@@ -211,7 +211,7 @@ namespace Cosmos
             /// <typeparam name="K">基类，new()约束</typeparam>
             /// <param name="inherit">是否检查基类特性</param>
             /// <returns>生成的对象数组</returns>
-            public static K[] GetInstancesByAttribute<T, K>(bool inherit=false)
+            public static K[] GetInstancesByAttribute<T, K>(bool inherit = false)
                 where T : Attribute
                 where K : class
             {
@@ -220,7 +220,7 @@ namespace Cosmos
                 int length = types.Length;
                 for (int i = 0; i < length; i++)
                 {
-                    if (types[i].GetCustomAttributes<T>(inherit).Count()> 0)
+                    if (types[i].GetCustomAttributes<T>(inherit).Count() > 0)
                     {
                         set.Add(GetTypeInstance(types[i]) as K);
                     }

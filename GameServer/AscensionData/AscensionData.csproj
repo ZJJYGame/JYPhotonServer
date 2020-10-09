@@ -61,10 +61,6 @@
       <Project>{142ced7d-c56d-43b2-a11f-9dc0f302bd80}</Project>
       <Name>AscensionProtocol</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AscensionRegion\AscensionRegion.csproj">
-      <Project>{a9e692bc-924b-47a8-86d0-dd263e1aa85b}</Project>
-      <Name>AscensionRegion</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Framework\CFramework.csproj">
       <Project>{81a14e63-385f-4b83-b403-a6b7d6fc94d8}</Project>
       <Name>CFramework</Name>
