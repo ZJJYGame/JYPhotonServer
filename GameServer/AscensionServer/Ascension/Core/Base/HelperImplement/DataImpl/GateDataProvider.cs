@@ -24,7 +24,7 @@ namespace AscensionServer
                 var pureStr = f.Name.TrimEnd(ch);
                 jsonDict.Add(pureStr, str);
 #if DEBUG
-                //Utility.Debug.LogInfo($"\n{pureStr}\n{str}\n");
+                Utility.Debug.LogInfo($"\n{pureStr}\n{str}\n");
 #endif
             }
             return jsonDict;

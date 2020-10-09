@@ -34,8 +34,13 @@ namespace AscensionServer
             List<GongFa> gongfaList;
             GameManager.CustomeModule<DataManager>().TryGetObjectValue(typeof(GongFa).Name, out gongfaList);
             var gongfaDict = gongfaList.ToDictionary(key => key.Gongfa_ID, value => value);
+            List<MonsterDatas> monsterDatas;
+            GameManager.CustomeModule<DataManager>().TryGetObjectValue(typeof(MonsterDatas).Name, out monsterDatas);
+            var monsterDatasDict = monsterDatas.ToDictionary(key => key.Monster_ID, value => value);
             GameManager.CustomeModule<DataManager>().TryAdd(gongfaDict);
             GameManager.CustomeModule<DataManager>().TryAdd(gongfaBookDict);
+            GameManager.CustomeModule<DataManager>().TryAdd(monsterDatasDict);
+            Utility.Debug.LogInfo("<DataManager>" + monsterDatasDict.Count);
         }
     }
 }
