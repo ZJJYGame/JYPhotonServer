@@ -171,6 +171,7 @@
   <ItemGroup>
     <Compile Include="Ascension\Core\Base\Attribute\ConfigDataAttribute.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\DataImpl\GateDataProvider.cs" />
+    <Compile Include="Ascension\Core\Base\HelperImplement\MessagePackHelper\ImplMessagePackHelper.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\RecordHelper\RecordHelper.cs" />
     <Compile Include="Ascension\Core\Base\Stream\DataStream.cs" />
     <Compile Include="Ascension\Core\Base\Stream\DataStreamQueue.cs" />

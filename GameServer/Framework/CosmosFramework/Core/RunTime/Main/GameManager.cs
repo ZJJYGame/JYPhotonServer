@@ -8,14 +8,14 @@ using System.Text;
 
 namespace Cosmos
 {
-   public sealed partial class GameManager:ConcurrentSingleton<GameManager>, IControllable, IRefreshable
+    public sealed partial class GameManager : ConcurrentSingleton<GameManager>, IControllable, IRefreshable
     {
         #region Properties
         public bool IsPause { get; private set; }
         /// <summary>
         /// 轮询更新委托
         /// </summary>
-       internal Action refreshHandler;
+        internal Action refreshHandler;
         internal Action terminationHandler;
         int moduleCount = 0;
         static Dictionary<ModuleEnum, IModule> moduleDict;
@@ -46,7 +46,7 @@ namespace Cosmos
                 return networkManager;
             }
         }
-        static PollingManager  pollingManager;
+        static PollingManager pollingManager;
         public static PollingManager PollingManager
         {
             get
@@ -115,7 +115,7 @@ namespace Cosmos
             }
             else
             {
-               Utility.Debug.LogError( new ArgumentException($"Module : {module} is already exist!")); 
+                Utility.Debug.LogError(new ArgumentException($"Module : {module} is already exist!"));
             }
         }
         internal void DeregisterModule(ModuleEnum module)
@@ -126,12 +126,12 @@ namespace Cosmos
                 refreshHandler -= m.OnRefresh;
                 moduleDict.Remove(module);
                 moduleCount--;
-                try{terminationHandler -= m.OnTermination;}
-                catch {}
+                try { terminationHandler -= m.OnTermination; }
+                catch { }
                 Utility.Debug.LogInfo($"Module :{module} is OnTermination", MessageColor.DARKBLUE);
             }
             else
-                Utility.Debug.LogError( new ArgumentException($"Module : {module} is not exist!"));
+                Utility.Debug.LogError(new ArgumentException($"Module : {module} is not exist!"));
         }
         internal bool HasModule(ModuleEnum module)
         {

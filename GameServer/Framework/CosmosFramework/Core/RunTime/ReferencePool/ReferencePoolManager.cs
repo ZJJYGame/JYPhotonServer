@@ -9,7 +9,7 @@ namespace Cosmos.Reference
         /// <summary>
         /// 单个引用池上线
         /// </summary>
-        internal static readonly short _ReferencePoolCapcity= 20000;
+        internal static readonly short _ReferencePoolCapcity= 5000;
         Dictionary<Type, ReferenceSpawnPool> referenceDict = new Dictionary<Type, ReferenceSpawnPool>();
         #endregion
 
