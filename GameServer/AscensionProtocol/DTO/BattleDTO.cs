@@ -61,8 +61,10 @@ namespace AscensionProtocol.DTO
         /// 所有参战敌人的列表
         /// </summary>
        public virtual List<EnemyBattleDataDTO> enemyUnits { get; set; }
-
-
+        /// <summary>
+        /// 所有参战宠物的列表
+        /// </summary>
+        public virtual List<PetBattleDataDTO> enemyPetUnits { get; set; }
 
         /*
         /// <summary>
@@ -103,6 +105,7 @@ namespace AscensionProtocol.DTO
     public class PetBattleDataDTO
     {
         public string ObjectName { get; set; }
+        public int RoleId { get; set; }
         public virtual PetStatusDTO PetStatusDTO { get; set; }
     }
     [Serializable]
@@ -113,6 +116,7 @@ namespace AscensionProtocol.DTO
         public string ObjectName { get; set; }
         public virtual EnemyStatusDTO  EnemyStatusDTO { get; set; }
     }
+
 
     //TODO  敌人的属性  可以直接用 玩家的数据模型   建议不使用
     [Serializable]
@@ -135,6 +139,10 @@ namespace AscensionProtocol.DTO
         /// 是否开始战斗
         /// </summary>
         public  bool IsStart = false;
+        /// <summary>
+        /// 是否刷新
+        /// </summary>
+        public bool isFinish { get; set; }
         /// <summary>
         /// 目标行为信息 列表：
         /// </summary>

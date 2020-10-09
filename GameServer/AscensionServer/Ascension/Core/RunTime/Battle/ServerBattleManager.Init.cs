@@ -142,6 +142,7 @@ namespace AscensionServer
                 petData.Add(new PetBattleDataDTO()
                 {
                     ObjectName = MsqInfo<Pet>(roleId).PetName,
+                     RoleId = roleId,
                     PetStatusDTO = new PetStatusDTO()
                     {
                         PetID = statusPet.PetID,
@@ -169,6 +170,7 @@ namespace AscensionServer
                     petData.Add(new PetBattleDataDTO()
                     {
                         ObjectName = team.TeamMembers[i].RoleName,
+                        RoleId = roleId,
                         PetStatusDTO = new PetStatusDTO()
                         {
                             PetID = statusPet.PetID,
@@ -192,5 +194,33 @@ namespace AscensionServer
             }
             return petData;
         }
+
+        int enemyGlobleId = 10000000;
+        public List<EnemyBattleDataDTO> EnemyInfo(List<EnemyBattleDataDTO> enemyId)
+        {
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MonsterDatas>>(out var monsterDict);
+            List<EnemyBattleDataDTO> enemyData = new List<EnemyBattleDataDTO>();
+            for (int i = 0; i < enemyId.Count; i++)
+            {
+                if (monsterDict.ContainsKey(enemyId[i].GlobalId))
+                {
+                    enemyData.Add(new EnemyBattleDataDTO()
+                    {
+                        GlobalId = enemyId[i].GlobalId,
+                        ObjectName = monsterDict[enemyId[i].GlobalId].Monster_name,
+                        EnemyStatusDTO = new EnemyStatusDTO()
+                        {
+                            EnemyId = enemyGlobleId++,
+                            EnemyHP = monsterDict[enemyId[i].GlobalId].Role_HP,
+                            EnemyMP = monsterDict[enemyId[i].GlobalId].Role_MP,
+                            EnemyShenHun = monsterDict[enemyId[i].GlobalId].Role_soul,
+                            EnemyJingXue = 0
+                        }
+                    });
+                }
+            }
+            return enemyData;
+        }
+
     }
 }

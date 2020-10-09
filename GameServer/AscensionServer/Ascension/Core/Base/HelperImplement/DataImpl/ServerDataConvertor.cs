@@ -28,19 +28,43 @@ namespace AscensionServer
     {
         public void ConvertData()
         {
-            List<GongFaBook> gongfaBookList;
-            GameManager.CustomeModule<DataManager>().TryGetObjectValue(typeof(GongFaBook).Name, out gongfaBookList);
-            var gongfaBookDict = gongfaBookList.ToDictionary(key => key.Book_ID, value => value);
-            List<GongFa> gongfaList;
-            GameManager.CustomeModule<DataManager>().TryGetObjectValue(typeof(GongFa).Name, out gongfaList);
-            var gongfaDict = gongfaList.ToDictionary(key => key.Gongfa_ID, value => value);
-            List<MonsterDatas> monsterDatas;
-            GameManager.CustomeModule<DataManager>().TryGetObjectValue(typeof(MonsterDatas).Name, out monsterDatas);
-            var monsterDatasDict = monsterDatas.ToDictionary(key => key.Monster_ID, value => value);
-            GameManager.CustomeModule<DataManager>().TryAdd(gongfaDict);
-            GameManager.CustomeModule<DataManager>().TryAdd(gongfaBookDict);
-            GameManager.CustomeModule<DataManager>().TryAdd(monsterDatasDict);
-            Utility.Debug.LogInfo("<DataManager>" + monsterDatasDict.Count);
+            //Utility.Debug.LogInfo("<DataManager> 测试 ConvertData");
+            try
+            {
+               GameManager.CustomeModule<DataManager>().TryGetValue(typeof(GongFaBook).Name, out var gongfaBookSet);
+                var gfbDict = TransObject<List<GongFaBook>>(gongfaBookSet).ToDictionary(key => key.Book_ID, value => value);
+               
+
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(GongFa).Name, out var gongfaSet);
+                var gfDict = TransObject<List<GongFa>>(gongfaSet).ToDictionary(key => key.Gongfa_ID, value => value);
+
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(MonsterDatas).Name, out var monsterDatasSet);
+                var monsterDict = TransObject<List<MonsterDatas>>(monsterDatasSet).ToDictionary(key => key.Monster_ID, value => value);
+
+                GameManager.CustomeModule<DataManager>().TryAdd(gfbDict);
+                GameManager.CustomeModule<DataManager>().TryAdd(gfDict);
+                GameManager.CustomeModule<DataManager>().TryAdd(monsterDict);
+                GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MonsterDatas>>(out var set);
+                //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + set[22001].Monster_describe);
+            }
+            catch (Exception e)
+            {
+                Utility.Debug.LogError(e);
+            }
+            Utility.Debug.LogInfo("<DataManager> 测试 ConvertData Step0211111111111");
         }
+
+        /// <summary>
+        /// 转换为对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public T TransObject <T>(string data)
+        {
+            return Utility.Json.ToObject<T>(data);
+        } 
+
+
     }
 }

@@ -8,6 +8,7 @@ namespace AscensionServer
 {
     /*功法书的实体类*/
     [Serializable]
+    [ConfigData]
     public class GongFaBook 
     {
          public int Book_ID { get; set; }

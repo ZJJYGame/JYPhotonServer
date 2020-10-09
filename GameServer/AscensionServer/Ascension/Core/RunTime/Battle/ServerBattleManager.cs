@@ -45,8 +45,9 @@ namespace AscensionServer
                 battleInit.countDownSec = 15;
                 battleInit.roundCount = battleInitDTO.roundCount;
                 battleInit.playerUnits = RoleInfo(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);
-                battleInit.petUnits = battleInitDTO.petUnits;
-                battleInit.enemyUnits = battleInitDTO.enemyUnits;
+                battleInit.petUnits = PetInfo(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);
+                battleInit.enemyUnits = EnemyInfo(battleInitDTO.enemyUnits);
+                battleInit.enemyPetUnits = PetInfo(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);
                 battleInit.battleUnits = battleInitDTO.battleUnits;
                 battleInit.maxRoundCount = battleInitDTO.maxRoundCount;
                 _teamIdToBattleInit.Add(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, battleInit);
@@ -70,16 +71,20 @@ namespace AscensionServer
         /// <summary>
         /// 开始战斗   -->  开始战斗个回合
         /// </summary>
-        public void BattleStart(int roomId,List<BattleTransferDTO> battleTransferDTOs)
+        public void BattleStart(int roomId,BattleTransferDTO battleTransferDTOs)
         {
             if (_roomidToBattleTransfer.ContainsKey(roomId))
             {
-                for (int i = 0; i < battleTransferDTOs.Count; i++)
-                {
-                    //battleTransferDTOs[i].TargetInfos
-                }
+                _roomidToBattleTransfer[roomId].Add(battleTransferDTOs);
             }
            
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public void isFinishMethod()
+        {
+
         }
         /// <summary>
         /// 战斗结束
@@ -87,6 +92,19 @@ namespace AscensionServer
         public void BattleEnd()
         {
 
+        }
+
+        bool isFinish = false;
+
+        /// <summary>
+        /// 每回合 倒计时
+        /// </summary>
+        public override void OnRefresh()
+        {
+            if (isFinish)
+            {
+
+            }
         }
 
     }

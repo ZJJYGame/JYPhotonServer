@@ -8,6 +8,7 @@ namespace AscensionServer
 {
     /*怪物的实体类*/
     [Serializable]
+    [ConfigData]
     public class MonsterDatas
     {
         public int ID { get; set; }
