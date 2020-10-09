@@ -16,7 +16,6 @@ using ExitGames.Concurrency.Fibers;
 using Cosmos;
 using AscensionServer.Model;
 using AscensionData;
-using AscensionRegion;
 using System.Threading;
 
 namespace AscensionServer

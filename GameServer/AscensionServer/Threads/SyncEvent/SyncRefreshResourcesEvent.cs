@@ -12,8 +12,8 @@ using Photon.SocketServer;
 using EventData = Photon.SocketServer.EventData;
 using System.Threading;
 using Cosmos;
-using AscensionRegion;
 using AscensionData;
+using UnityEngine;
 
 namespace AscensionServer.Threads
 {
@@ -58,9 +58,9 @@ namespace AscensionServer.Threads
                     if (currentDictObj.ResUnitDict.TryGetValue(occupiedUnitObj.ResID, out resourceUnitDTO))
                     {
                         resourceUnitDTO.Occupied = false;
-                        var randonVector = ConcurrentSingleton<ResourceCreator>.Instance.GetRandomVector2(Vector2.Zero, border);
-                        var randonRotate = ConcurrentSingleton<ResourceCreator>.Instance.GetRandomVector3(Vector3.Zero, new Vector3(0, 360000, 0));
-                        resourceUnitDTO.Position = new TransformDTO() { PositionX = randonVector.X, PositionY = 0, PositionZ = randonVector.Y, RotationX = 0, RotationY = randonRotate.Y, RotationZ = 0 };
+                        var randonVector = ConcurrentSingleton<ResourceCreator>.Instance.GetRandomVector2(Vector2.zero, border);
+                        var randonRotate = ConcurrentSingleton<ResourceCreator>.Instance.GetRandomVector3(Vector3.zero, new Vector3(0, 360000, 0));
+                        resourceUnitDTO.Position = new TransformDTO() { PositionX = randonVector.x, PositionY = 0, PositionZ = randonVector.y, RotationX = 0, RotationY = randonRotate.y, RotationZ = 0 };
                         occupiedUnitObj.Position = resourceUnitDTO.Position;
                     }
                 }

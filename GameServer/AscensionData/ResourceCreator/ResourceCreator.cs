@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cosmos;
 using AscensionProtocol.DTO;
-using AscensionRegion;
+using UnityEngine;
 using MathNet.Numerics;
 using MathNet.Numerics.Random;
 namespace AscensionData
@@ -33,11 +33,11 @@ namespace AscensionData
             int count = GetRandomNumber(resVariable.Count, (int)resVariable.CountOffset);
             for (int i = 0; i < count; i++)
             {
-                var randonVector = GetRandomVector2(Vector2.Zero, border);
-               var randonRotate =  GetRandomVector3(Vector3.Zero, new Vector3(0, 360000, 0));
+                var randonVector = GetRandomVector2(Vector2.zero, border);
+               var randonRotate =  GetRandomVector3(Vector3.zero, new Vector3(0, 360000, 0));
                 int FlowValue = GetRandomNumber(resVariable.FlowValue, (int)resVariable.FlowValueOffset);
                 ResourceUnitDTO resUnit = new ResourceUnitDTO()
-                { ID = i, FlowValue = FlowValue, Position = new TransformDTO() { PositionX= randonVector.X, PositionY = 0, PositionZ =  randonVector.Y, RotationX = 0, RotationY = randonRotate.Y, RotationZ = 0 } };
+                { ID = i, FlowValue = FlowValue, Position = new TransformDTO() { PositionX= randonVector.x, PositionY = 0, PositionZ =  randonVector.y, RotationX = 0, RotationY = randonRotate.y, RotationZ = 0 } };
                 resSetDTO.AddResUnit(resUnit);
             }
             return resSetDTO;
@@ -50,15 +50,15 @@ namespace AscensionData
         /// <returns></returns>
         public Vector3 GetRandomVector3(Vector3 min,Vector3 max)
         {
-            var x = random.Next((int)Math.Ceiling( min.X),(int)Math.Ceiling( max.X))*GetRandomSymbol();
-            var y = random.Next((int)Math.Ceiling( min.Y),(int)Math.Ceiling( max.Y))*GetRandomSymbol();
-            var z = random.Next((int)Math.Ceiling( min.Z),(int)Math.Ceiling( max.Z))*GetRandomSymbol();
+            var x = random.Next((int)Math.Ceiling( min.x),(int)Math.Ceiling( max.x))*GetRandomSymbol();
+            var y = random.Next((int)Math.Ceiling( min.y),(int)Math.Ceiling( max.y))*GetRandomSymbol();
+            var z = random.Next((int)Math.Ceiling( min.z),(int)Math.Ceiling( max.z))*GetRandomSymbol();
             return new Vector3(x, y, z);
         }
        public  Vector2 GetRandomVector2(Vector2 min, Vector2 max)
         {
-            var x = random.Next((int)Math.Ceiling(min.X), (int)Math.Ceiling(max.X)) * GetRandomSymbol();
-            var y = random.Next((int)Math.Ceiling(min.Y), (int)Math.Ceiling(max.Y)) * GetRandomSymbol();
+            var x = random.Next((int)Math.Ceiling(min.x), (int)Math.Ceiling(max.x)) * GetRandomSymbol();
+            var y = random.Next((int)Math.Ceiling(min.y), (int)Math.Ceiling(max.y)) * GetRandomSymbol();
             return new Vector2(x, y);
         }
 

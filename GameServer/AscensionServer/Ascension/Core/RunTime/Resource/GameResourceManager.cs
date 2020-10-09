@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AscensionRegion;
 using AscensionData;
 using AscensionProtocol.DTO;
+using UnityEngine;
 
 namespace AscensionServer
 {
