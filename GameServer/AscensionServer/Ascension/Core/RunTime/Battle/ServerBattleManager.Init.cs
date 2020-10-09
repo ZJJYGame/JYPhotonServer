@@ -15,7 +15,7 @@ namespace AscensionServer
     public partial class ServerBattleManager
     {
         /// <summary>
-        /// 初始化 DTO  对应的房间id
+        ///  角色id 和对应的 房间数据对象
         /// </summary>
         public Dictionary<int, BattleInitDTO> _teamIdToBattleInit = new Dictionary<int, BattleInitDTO>();
         /// <summary>
@@ -31,9 +31,166 @@ namespace AscensionServer
         /// </summary>
         int _roomId = 1000;
 
+        /// <summary>
+        /// 映射  Msq
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public T MsqInfo<T>(int roleId)
+        {
+            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
+            return NHibernateQuerier.CriteriaSelect<T>(nHCriteriaRoleID);
+        }
 
 
+        /// <summary>
+        /// 获取玩家
+        /// </summary>
+        /// <param name="roleId"></param>
+        public List<RoleBattleDataDTO> RoleInfo(int roleId)
+        {
+            List<RoleBattleDataDTO> roleData = new List<RoleBattleDataDTO>();
+            var team = GameManager.CustomeModule<ServerTeamManager>()._teamTOModel.Values.ToList().Find(x => x.TeamMembers.Find(q => q.RoleID == roleId) != null);
+            //当前 是不是组队
+            if (team == null)
+            {
+                var status = MsqInfo<RoleStatus>(roleId);
+                roleData.Add(new RoleBattleDataDTO()
+                {
+                    ObjectName = MsqInfo<Role>(roleId).RoleName,
+                    RoleStatusDTO = new RoleStatusDTO()
+                    {
+                        RoleID = status.RoleID,
+                        RoleHP = status.RoleHP,
+                        RoleAttackDamage = status.RoleAttackDamage,
+                        RoleAttackPower = status.RoleAttackPower,
+                        RoleCrit = (byte)status.RoleCrit,
+                        RoleCritResistance = (byte)status.RoleCritResistance,
+                        RoleDormant = status.RoleDormant,
+                        RoleJingXue = status.RoleJingXue,
+                        RoleKillingIntent = status.RoleKillingIntent,
+                        RoleMaxHP = status.RoleMaxHP,
+                        RoleMaxJingXue = status.RoleMaxJingXue,
+                        RoleMaxMP = status.RoleMaxMP,
+                        RoleMaxShenhun = status.RoleMaxShenhun,
+                        RoleMP = status.RoleMP,
+                        RoleResistanceDamage = status.RoleResistanceDamage,
+                        RoleResistancePower = status.RoleResistancePower,
+                        RoleShenhun = status.RoleShenhun,
+                        RoleShenHunDamage = status.RoleShenHunDamage,
+                        RoleShenHunResistance = status.RoleShenHunResistance,
+                        RoleSpeedAttack = status.RoleSpeedAttack,
+                        RoleVileSpawn = status.RoleVileSpawn,
+                        RoleVitality = status.RoleVitality
+                    }
+                }) ;
+            }
+            else
+            {
+                for (int i = 0; i < team.TeamMembers.Count; i++)
+                {
+                    var status = MsqInfo<RoleStatus>(roleId);
+                    roleData.Add(new RoleBattleDataDTO()
+                    {
+                        ObjectName = team.TeamMembers[i].RoleName,
+                        RoleStatusDTO = new RoleStatusDTO()
+                        {
+                            RoleID = status.RoleID,
+                            RoleHP = status.RoleHP,
+                            RoleAttackDamage = status.RoleAttackDamage,
+                            RoleAttackPower = status.RoleAttackPower,
+                            RoleCrit = (byte)status.RoleCrit,
+                            RoleCritResistance = (byte)status.RoleCritResistance,
+                            RoleDormant = status.RoleDormant,
+                            RoleJingXue = status.RoleJingXue,
+                            RoleKillingIntent = status.RoleKillingIntent,
+                            RoleMaxHP = status.RoleMaxHP,
+                            RoleMaxJingXue = status.RoleMaxJingXue,
+                            RoleMaxMP = status.RoleMaxMP,
+                            RoleMaxShenhun = status.RoleMaxShenhun,
+                            RoleMP = status.RoleMP,
+                            RoleResistanceDamage = status.RoleResistanceDamage,
+                            RoleResistancePower = status.RoleResistancePower,
+                            RoleShenhun = status.RoleShenhun,
+                            RoleShenHunDamage = status.RoleShenHunDamage,
+                            RoleShenHunResistance = status.RoleShenHunResistance,
+                            RoleSpeedAttack = status.RoleSpeedAttack,
+                            RoleVileSpawn = status.RoleVileSpawn,
+                            RoleVitality = status.RoleVitality
+                        }
+                    }); 
+                }
+            }
+            return roleData;
+        }
 
+        /// <summary>
+        /// 获取宠物
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public List<PetBattleDataDTO> PetInfo(int roleId)
+        {
+            List<PetBattleDataDTO> petData = new List<PetBattleDataDTO>();
+            var team = GameManager.CustomeModule<ServerTeamManager>()._teamTOModel.Values.ToList().Find(x => x.TeamMembers.Find(q => q.RoleID == roleId) != null);
+            var statusPet = MsqInfo<PetStatus>(roleId);
 
+            //当前 是不是组队
+            if (team == null)
+            {
+                petData.Add(new PetBattleDataDTO()
+                {
+                    ObjectName = MsqInfo<Pet>(roleId).PetName,
+                    PetStatusDTO = new PetStatusDTO()
+                    {
+                        PetID = statusPet.PetID,
+                        PetAbilityPower = statusPet.PetAbilityPower,
+                        PetAttackDamage = statusPet.PetAttackDamage,
+                        PetHP = statusPet.PetHP,
+                        PetMaxHP = statusPet.PetMaxHP,
+                        PetMaxMP = statusPet.PetMaxMP,
+                        PetMaxShenhun = statusPet.PetMaxShenhun,
+                        PetMP = statusPet.PetMP,
+                        PetResistanceAttack = statusPet.PetResistanceAttack,
+                        PetResistancePower = statusPet.PetResistancePower,
+                        PetShenhun = statusPet.PetShenhun,
+                        PetShenhunDamage = statusPet.PetShenhunDamage,
+                        PetShenhunResistance = statusPet.PetShenhunResistance,
+                        PetSpeed = statusPet.PetSpeed,
+                        PetTalent = statusPet.PetTalent
+                    }
+                });
+            }
+            else
+            {
+                for (int i = 0; i < team.TeamMembers.Count; i++)
+                {
+                    petData.Add(new PetBattleDataDTO()
+                    {
+                        ObjectName = team.TeamMembers[i].RoleName,
+                        PetStatusDTO = new PetStatusDTO()
+                        {
+                            PetID = statusPet.PetID,
+                            PetAbilityPower = statusPet.PetAbilityPower,
+                            PetAttackDamage = statusPet.PetAttackDamage,
+                            PetHP = statusPet.PetHP,
+                            PetMaxHP = statusPet.PetMaxHP,
+                            PetMaxMP = statusPet.PetMaxMP,
+                            PetMaxShenhun = statusPet.PetMaxShenhun,
+                            PetMP = statusPet.PetMP,
+                            PetResistanceAttack = statusPet.PetResistanceAttack,
+                            PetResistancePower = statusPet.PetResistancePower,
+                            PetShenhun = statusPet.PetShenhun,
+                            PetShenhunDamage = statusPet.PetShenhunDamage,
+                            PetShenhunResistance = statusPet.PetShenhunResistance,
+                            PetSpeed = statusPet.PetSpeed,
+                            PetTalent = statusPet.PetTalent
+                        }
+                    });
+                }
+            }
+            return petData;
+        }
     }
 }
