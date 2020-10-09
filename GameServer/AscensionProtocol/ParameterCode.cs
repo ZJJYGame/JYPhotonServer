@@ -166,5 +166,6 @@
         /// 战斗
         /// </summary>
         RoleBattle = 94 ,
+        RoleBattleCmd = 95,
     }
 }

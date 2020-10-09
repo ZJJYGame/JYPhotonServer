@@ -27,6 +27,10 @@ namespace AscensionServer
         /// </summary>
         public List<int> _oldBattleList = new List<int>();
         /// <summary>
+        /// 收集每个回合的传输数据
+        /// </summary>
+        List<BattleTransferDTO> teamSet = new List<BattleTransferDTO>();
+        /// <summary>
         /// 房间id
         /// </summary>
         int _roomId = 1000;
@@ -41,6 +45,15 @@ namespace AscensionServer
         {
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
             return NHibernateQuerier.CriteriaSelect<T>(nHCriteriaRoleID);
+        }
+        /// <summary>
+        /// 判断是不是在队伍中
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public TeamDTO IsTeamDto(int roleId)
+        {
+            return GameManager.CustomeModule<ServerTeamManager>()._teamTOModel.Values.ToList().Find(x => x.TeamMembers.Find(q => q.RoleID == roleId) != null);
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using AscensionProtocol.DTO;
 using AscensionServer.Model;
 using Cosmos;
+using UnityEngine;
 namespace AscensionServer
 {
     /// <summary>
@@ -60,27 +62,68 @@ namespace AscensionServer
         /// <summary>
         /// 准备指令战斗 
         /// </summary>
-        public void PrepareBattle(int roomId)
+        public void PrepareBattle(int roleId)
         {
-            if (_roomidToBattleTransfer.ContainsKey(roomId))
+            if (IsTeamDto(roleId) == null)
+                return;
+            else
             {
-                _roomidToBattleTransfer[roomId][0].IsStart= true;
+
             }
         }
 
         /// <summary>
-        /// 开始战斗   -->  开始战斗个回合
+        /// 开始战斗   -->  开始战斗的回合
         /// </summary>
         public void BattleStart(int roomId,BattleTransferDTO battleTransferDTOs)
         {
+           
+
             if (_roomidToBattleTransfer.ContainsKey(roomId))
             {
-                _roomidToBattleTransfer[roomId].Add(battleTransferDTOs);
+                teamSet.Add(battleTransferDTOs);
+                //缺少一个倒计时
+                isFinish = true;
             }
-           
+
+
+
+            for (int i = 0; i < teamSet.Count; i++)
+            {
+                switch (GetSendSkillReactionCmd(roomId, i))
+                {
+                    case BattleTransferDTO.SkillReactionCmd.BeatBack:
+                        break;
+                    case BattleTransferDTO.SkillReactionCmd.Guard:
+                        break;
+                    case BattleTransferDTO.SkillReactionCmd.Dodge:
+                        break;
+                    case BattleTransferDTO.SkillReactionCmd.Shock:
+                        break;
+                    case BattleTransferDTO.SkillReactionCmd.Parry:
+                        break;
+                    default:
+                        break;
+                }
+
+                //_roomidToBattleTransfer[roomId].Add(teamSet[i]);
+            }
+            teamSet.Clear();
         }
+
+
+        private BattleTransferDTO.SkillReactionCmd GetSendSkillReactionCmd(int roomId, int i)
+        {
+            return _roomidToBattleTransfer[roomId][i].SendSkillReactionCmd;
+        }
+        private int GetSkillReactionValue(int roomId, int i)
+        {
+            return _roomidToBattleTransfer[roomId][i].SkillReactionValue;
+        }
+
+
         /// <summary>
-        /// 
+        /// 处理每回合
         /// </summary>
         public void isFinishMethod()
         {
@@ -94,17 +137,25 @@ namespace AscensionServer
 
         }
 
-        bool isFinish = false;
+        public int TotalTime = 15;
 
+        public bool isFinish = false;
         /// <summary>
         /// 每回合 倒计时
         /// </summary>
         public override void OnRefresh()
         {
+            //var now =  Utility.Time.SecondNow();
             if (isFinish)
             {
-
+                TotalTime--;
+                if (TotalTime == 0)
+                {
+                    TotalTime = 15;
+                    isFinish = false;
+                }
             }
+
         }
 
     }

@@ -39,6 +39,22 @@ namespace AscensionServer
                             GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.Remove(RoleObj.RoleID);
                             GameManager.CustomeModule<ServerBattleManager>().EntryBattle(RoleObj.BattleInitDTO);
                         }
+                        SetResponseParamters(() =>
+                        {
+                            Utility.Debug.LogInfo("返回成功！！" + Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit));
+                            subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit[RoleObj.RoleID]));
+                            subResponseParameters.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._roomidToBattleTransfer[GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit[RoleObj.RoleID].RoomId]));
+                            subResponseParameters.Add((byte)ParameterCode.RoleBattleCmd, RoleDTO.BattleCmd.Init);
+                            operationResponse.ReturnCode = (short)ReturnCode.Success;
+                        });
+                        break;
+                    case RoleDTO.BattleCmd.Prepare:
+                        GameManager.CustomeModule<ServerBattleManager>().PrepareBattle(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);
+                        SetResponseParamters(() =>
+                        {
+                            subResponseParameters.Add((byte)ParameterCode.RoleBattleCmd, RoleDTO.BattleCmd.Prepare);
+                            operationResponse.ReturnCode = (short)ReturnCode.Success;
+                        });
                         break;
                     case RoleDTO.BattleCmd.PropsInstruction:
 
@@ -52,13 +68,6 @@ namespace AscensionServer
                     default:
                         break;
                 }
-                SetResponseParamters(() =>
-                {
-                    Utility.Debug.LogInfo("返回成功！！"+ Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit));
-                    subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit[RoleObj.RoleID]));
-                    subResponseParameters.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._roomidToBattleTransfer[GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit[RoleObj.RoleID].RoomId]));
-                    operationResponse.ReturnCode = (short)ReturnCode.Success;
-                });
             }
             else
             {
