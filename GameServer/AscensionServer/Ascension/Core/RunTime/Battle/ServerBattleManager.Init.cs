@@ -35,6 +35,10 @@ namespace AscensionServer
         /// </summary>
         List<int> teamIdList = new List<int>();
         /// <summary>
+        ///玩家的行动目标
+        /// </summary>
+        List<int> TargetID = new List<int>();
+        /// <summary>
         /// 房间id
         /// </summary>
         int _roomId = 1000;
