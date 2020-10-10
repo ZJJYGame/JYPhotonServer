@@ -41,11 +41,21 @@ namespace AscensionServer
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(MonsterDatas).Name, out var monsterDatasSet);
                 var monsterDict = TransObject<List<MonsterDatas>>(monsterDatasSet).ToDictionary(key => key.Monster_ID, value => value);
 
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(SkillGongFaDatas).Name, out var skillGongFaDatasSet);
+                var skillGongFaDict = TransObject<List<SkillGongFaDatas>>(skillGongFaDatasSet).ToDictionary(key => key.Skill_ID, value => value);
+
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(SkillMiShuDatas).Name, out var skillMiShuDatasSet);
+                var skillMiShuDict = TransObject<List<SkillMiShuDatas>>(skillMiShuDatasSet).ToDictionary(key => key.Skill_ID, value => value);
+
                 GameManager.CustomeModule<DataManager>().TryAdd(gfbDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(gfDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(monsterDict);
-                GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MonsterDatas>>(out var set);
-                //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + set[22001].Monster_describe);
+                GameManager.CustomeModule<DataManager>().TryAdd(skillGongFaDict);
+                GameManager.CustomeModule<DataManager>().TryAdd(skillMiShuDict);
+
+                //GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MonsterDatas>>(out var set);
+                //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + skillGongFaDict[21001].Skill_Describe);
+                //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + skillMiShuDict[21009].Skill_Describe);
             }
             catch (Exception e)
             {

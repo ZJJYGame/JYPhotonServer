@@ -159,32 +159,7 @@ namespace AscensionProtocol.DTO
         /// 触发技能数值
         /// </summary>
         public virtual int SkillReactionValue { get; set; }
-        /// <summary>
-        /// 触发技能反应列表
-        /// </summary>
-        public enum SkillReactionCmd
-        {
-            /// <summary>
-            /// 反击
-            /// </summary>
-            BeatBack,
-            /// <summary>
-            /// 守护
-            /// </summary>
-            Guard,
-            /// <summary>
-            /// 闪避
-            /// </summary>
-            Dodge,
-            /// <summary>
-            /// 反震
-            /// </summary>
-            Shock,
-            /// <summary>
-            /// 格挡
-            /// </summary>
-            Parry
-        }
+       
 
         /// <summary>
         /// 目标值和  自身值 传递的都是一样的
@@ -264,4 +239,33 @@ namespace AscensionProtocol.DTO
         //Dict<(int)roleID,(int)护盾值>
         #endregion
     }
+
+}
+
+
+/// <summary>
+/// 触发技能反应列表
+/// </summary>
+public enum SkillReactionCmd
+{
+    /// <summary>
+    /// 反击
+    /// </summary>
+    BeatBack,
+    /// <summary>
+    /// 守护
+    /// </summary>
+    Guard,
+    /// <summary>
+    /// 闪避
+    /// </summary>
+    Dodge,
+    /// <summary>
+    /// 反震
+    /// </summary>
+    Shock,
+    /// <summary>
+    /// 格挡
+    /// </summary>
+    Parry
 }

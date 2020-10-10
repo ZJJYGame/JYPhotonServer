@@ -31,6 +31,10 @@ namespace AscensionServer
         /// </summary>
         List<BattleTransferDTO> teamSet = new List<BattleTransferDTO>();
         /// <summary>
+        /// 收集准备战斗指令
+        /// </summary>
+        List<int> teamIdList = new List<int>();
+        /// <summary>
         /// 房间id
         /// </summary>
         int _roomId = 1000;

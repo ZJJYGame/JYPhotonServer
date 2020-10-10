@@ -44,7 +44,7 @@ namespace AscensionServer
                             Utility.Debug.LogInfo("返回成功！！" + Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit));
                             subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit[RoleObj.RoleID]));
                             subResponseParameters.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._roomidToBattleTransfer[GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit[RoleObj.RoleID].RoomId]));
-                            subResponseParameters.Add((byte)ParameterCode.RoleBattleCmd, RoleDTO.BattleCmd.Init);
+                            subResponseParameters.Add((byte)ParameterCode.RoleBattleCmd, (byte)RoleDTO.BattleCmd.Init);
                             operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
                         break;
@@ -52,7 +52,7 @@ namespace AscensionServer
                         GameManager.CustomeModule<ServerBattleManager>().PrepareBattle(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);
                         SetResponseParamters(() =>
                         {
-                            subResponseParameters.Add((byte)ParameterCode.RoleBattleCmd, RoleDTO.BattleCmd.Prepare);
+                            subResponseParameters.Add((byte)ParameterCode.RoleBattleCmd, (byte)RoleDTO.BattleCmd.Prepare);
                             operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
                         break;
@@ -60,7 +60,7 @@ namespace AscensionServer
 
                         break;
                     case RoleDTO.BattleCmd.SkillInstruction:
-
+                        GameManager.CustomeModule<ServerBattleManager>().BattleStart(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID,100,null);
                         break;
                     case RoleDTO.BattleCmd.RunAwayInstruction:
 

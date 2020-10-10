@@ -47,14 +47,13 @@ namespace AscensionServer
                 battleInit.countDownSec = 15;
                 battleInit.roundCount = battleInitDTO.roundCount;
                 battleInit.playerUnits = RoleInfo(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);
-                battleInit.petUnits = PetInfo(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);
+                battleInit.petUnits = battleInitDTO.petUnits;//PetInfo(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);
                 battleInit.enemyUnits = EnemyInfo(battleInitDTO.enemyUnits);
-                battleInit.enemyPetUnits = PetInfo(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);
+                battleInit.enemyPetUnits = battleInitDTO.enemyPetUnits;// PetInfo(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);
                 battleInit.battleUnits = battleInitDTO.battleUnits;
                 battleInit.maxRoundCount = battleInitDTO.maxRoundCount;
                 _teamIdToBattleInit.Add(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, battleInit);
                 _roomidToBattleTransfer.Add(battleInit.RoomId, new List<BattleTransferDTO>());
-
             }
         }
 
@@ -68,53 +67,71 @@ namespace AscensionServer
                 return;
             else
             {
+                //TODO  缺少 针对组队
+                teamIdList.Add(roleId);
+                for (int i = 0; i < teamIdList.Count; i++)
+                {
+                    if (teamIdList[i] == IsTeamDto(roleId).TeamMembers[i].RoleID)
+                    {
 
+                    }
+                }
+                teamIdList.Clear();
             }
         }
 
         /// <summary>
         /// 开始战斗   -->  开始战斗的回合
         /// </summary>
-        public void BattleStart(int roomId,BattleTransferDTO battleTransferDTOs)
+        public void BattleStart(int roleId, int roomId, BattleTransferDTO battleTransferDTOs)
         {
-           
+            if (!_roomidToBattleTransfer.ContainsKey(roomId))
+                return;
 
-            if (_roomidToBattleTransfer.ContainsKey(roomId))
+            if (IsTeamDto(roleId) == null)
             {
-                teamSet.Add(battleTransferDTOs);
-                //缺少一个倒计时
-                isFinish = true;
-            }
-
-
-
-            for (int i = 0; i < teamSet.Count; i++)
-            {
-                switch (GetSendSkillReactionCmd(roomId, i))
+                switch (battleTransferDTOs.SendSkillReactionCmd)
                 {
-                    case BattleTransferDTO.SkillReactionCmd.BeatBack:
+                    case SkillReactionCmd.BeatBack:
                         break;
-                    case BattleTransferDTO.SkillReactionCmd.Guard:
+                    case SkillReactionCmd.Guard:
                         break;
-                    case BattleTransferDTO.SkillReactionCmd.Dodge:
+                    case SkillReactionCmd.Dodge:
                         break;
-                    case BattleTransferDTO.SkillReactionCmd.Shock:
+                    case SkillReactionCmd.Shock:
                         break;
-                    case BattleTransferDTO.SkillReactionCmd.Parry:
-                        break;
-                    default:
+                    case SkillReactionCmd.Parry:
                         break;
                 }
-
-                //_roomidToBattleTransfer[roomId].Add(teamSet[i]);
             }
-            teamSet.Clear();
+            else
+            {
+                //teamSet.Add(battleTransferDTOs);
+                //for (int i = 0; i < teamSet.Count; i++)
+                //{
+                //    switch (GetSendSkillReactionCmd(roomId,i))
+                //    {
+                //        case BattleTransferDTO.SkillReactionCmd.BeatBack:
+                //            break;
+                //        case BattleTransferDTO.SkillReactionCmd.Guard:
+                //            break;
+                //        case BattleTransferDTO.SkillReactionCmd.Dodge:
+                //            break;
+                //        case BattleTransferDTO.SkillReactionCmd.Shock:
+                //            break;
+                //        case BattleTransferDTO.SkillReactionCmd.Parry:
+                //            break;
+                //    }
+                //}
+            }
+                //_roomidToBattleTransfer[roomId].Add(teamSet[i]);
+            //teamSet.Clear();
         }
 
 
-        private BattleTransferDTO.SkillReactionCmd GetSendSkillReactionCmd(int roomId, int i)
+        private SkillReactionCmd GetSendSkillReactionCmd(int roomId, int i)
         {
-            return _roomidToBattleTransfer[roomId][i].SendSkillReactionCmd;
+            return  _roomidToBattleTransfer[roomId][i].SendSkillReactionCmd;
         }
         private int GetSkillReactionValue(int roomId, int i)
         {
