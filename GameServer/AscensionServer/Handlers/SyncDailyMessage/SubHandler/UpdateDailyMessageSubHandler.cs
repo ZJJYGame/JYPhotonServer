@@ -35,22 +35,22 @@ namespace AscensionServer
                     dailyMessages = RedisHelper.Hash.HashGetAsync<List<DailyMessageDTO>>("DailyMessage", dailyMessageTemp.AllianceID.ToString()).Result;
                     if (dailyMessages.Count > index)
                     {
-                        Utility.Debug.LogInfo("yzqData" + "当前的redis长度为" + dailyMessages.Count + "长度为" + index + "下表为" + count);
-                        if (dailyMessages.Count > count)
+                        //Utility.Debug.LogInfo("yzqData" + "当前的redis长度为" + dailyMessages.Count + "长度为" + index + "下表为" + count);
+                        if (dailyMessages.Count- index > count)
                         {
-                            Utility.Debug.LogInfo("yzqData" + "1收到的消息返回成功" + Utility.Json.ToJson(dailyMessages.GetRange(index, count)));
+                            //Utility.Debug.LogInfo("yzqData" + "1收到的消息返回成功" + Utility.Json.ToJson(dailyMessages.GetRange(index,count- index)));
                             SetResponseParamters(() =>
                             {
-                                subResponseParameters.Add((byte)ParameterCode.DailyMessage, Utility.Json.ToJson(dailyMessages.GetRange(index, count)));
+                                subResponseParameters.Add((byte)ParameterCode.DailyMessage, Utility.Json.ToJson(dailyMessages.GetRange(index, count-index)));
                                 operationResponse.ReturnCode = (short)ReturnCode.Success;
                             });
                         }
                         else
                         {
-                            Utility.Debug.LogInfo("yzqData" + "2收到的消息返回成功"+Utility.Json.ToJson(dailyMessages.GetRange(index, dailyMessages.Count)));
+                            //Utility.Debug.LogInfo("yzqData" + "2收到的消息返回成功"+ dailyMessages.GetRange(index, dailyMessages.Count-index).Count);
                             SetResponseParamters(() =>
-                            {
-                                subResponseParameters.Add((byte)ParameterCode.DailyMessage, Utility.Json.ToJson(dailyMessages.GetRange(index, dailyMessages.Count)));
+                            {                            
+                                subResponseParameters.Add((byte)ParameterCode.DailyMessage, Utility.Json.ToJson(dailyMessages.GetRange(index, dailyMessages.Count - index)));
                                 operationResponse.ReturnCode = (short)ReturnCode.Success;
                             });
                         }
