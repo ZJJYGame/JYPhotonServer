@@ -90,6 +90,63 @@ namespace AscensionServer
 
             if (IsTeamDto(roleId) == null)
             {
+                GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, SkillGongFaDatas>>(out var skillGongFaDict);
+                GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, SkillMiShuDatas>>(out var skillMiShuDict);
+
+                for (int i = 0; i < battleTransferDTOs.TargetInfos.Count; i++)
+                {
+                    if (skillGongFaDict.ContainsKey(battleTransferDTOs.ClientCmdId))
+                    {
+                        while (TargetID.Count != skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Number)
+                        {
+                            if (TargetID.Count == skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Number)
+                                break;
+                            //TODO 缺少判断  是不是死亡
+
+                            var index = new Random().Next(0, _teamIdToBattleInit[roleId].enemyUnits.Count);
+                            if (TargetID.Contains(_teamIdToBattleInit[roleId].enemyUnits[index].GlobalId))
+                                continue;
+                            TargetID.Add(_teamIdToBattleInit[roleId].enemyUnits[index].GlobalId);
+                        }
+
+                        //一次性攻击
+                        if (skillGongFaDict[battleTransferDTOs.ClientCmdId].AttackProcess_Type  == AttackProcess_Type.SingleUse)
+                        {
+                            for (int p = 0; p < skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor.Count; p++)
+                            {
+                                for (int k = 0; k < TargetID.Count; k++)
+                                {
+                                    if (_teamIdToBattleInit[roleId].enemyUnits[k].GlobalId == TargetID[k])
+                                    {
+                                        //需要判断 当前血量是不是满足条件
+                                        _teamIdToBattleInit[roleId].enemyUnits[k].EnemyStatusDTO.EnemyHP -= skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[p];
+                                    }
+                                }
+                            }
+
+                        }//多段攻击
+                        else if(skillGongFaDict[battleTransferDTOs.ClientCmdId].AttackProcess_Type == AttackProcess_Type.Staged)
+                        {
+                            for (int k = 0; k < TargetID.Count; k++)
+                            {
+                                if (_teamIdToBattleInit[roleId].enemyUnits[k].GlobalId == TargetID[k])
+                                {
+                                    for (int o = 0; o < skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor.Count; o++)
+                                    {
+                                        //需要判断 当前血量是不是满足条件
+                                        _teamIdToBattleInit[roleId].enemyUnits[k].EnemyStatusDTO.EnemyHP -= skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[o];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (skillMiShuDict.ContainsKey(battleTransferDTOs.TargetInfos[i].TargetID))
+                    {
+
+                    }
+                }
+               
+
                 switch (battleTransferDTOs.SendSkillReactionCmd)
                 {
                     case SkillReactionCmd.BeatBack:

@@ -144,6 +144,10 @@ namespace AscensionProtocol.DTO
         /// </summary>
         public bool isFinish { get; set; }
         /// <summary>
+        /// 客户端目标id
+        /// </summary>
+        public int ClientCmdId { get; set; }
+        /// <summary>
         /// 目标行为信息 列表：
         /// </summary>
         public virtual List<TargetInfoDTO> TargetInfos { get; set; }
