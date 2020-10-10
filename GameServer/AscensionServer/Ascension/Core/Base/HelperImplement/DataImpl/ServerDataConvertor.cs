@@ -23,7 +23,7 @@ namespace AscensionServer
     /// <summary>
     /// 服务器数据转换
     /// </summary>
-    [TargetHelper]
+    [ImplementProvider]
     public class ServerDataConvertor : IDataConvertor
     {
         public void ConvertData()

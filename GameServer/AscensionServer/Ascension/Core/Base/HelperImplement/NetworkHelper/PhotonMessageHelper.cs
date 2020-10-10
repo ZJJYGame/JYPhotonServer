@@ -4,7 +4,7 @@ using Photon.SocketServer;
 using System.Collections.Generic;
 namespace AscensionServer
 {
-    [TargetHelper]
+    [ImplementProvider]
     public class PhotonMessageHelper : INetworkMessageHelper
     {
         Dictionary<byte, IHandler> handlerDict;
