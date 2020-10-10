@@ -7,7 +7,7 @@ using Pipelines.Sockets.Unofficial.Arenas;
 
 namespace AscensionServer
 {
-    [TargetHelper]
+    [ImplementProvider]
     public class GateDataProvider : IDataProvider
     {
         string folderPath = Environment.CurrentDirectory + "/JsonData";

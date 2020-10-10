@@ -19,7 +19,7 @@ namespace AscensionServer
         ConcurrentDictionary<int, RoomEntity> roomDict = new ConcurrentDictionary<int, RoomEntity>();
         public override void OnInitialization()
         {
-            algorithmProvider = Utility.Assembly.GetInstanceByAttribute<TargetHelperAttribute, IBattleAlgorithmProvider>();
+            algorithmProvider = Utility.Assembly.GetInstanceByAttribute<ImplementProviderAttribute, IBattleAlgorithmProvider>();
             if (algorithmProvider == null)
                 Utility.Debug.LogError($"{this.GetType()} has no helper instance ,base type: {typeof(IBattleAlgorithmProvider)}");
         }

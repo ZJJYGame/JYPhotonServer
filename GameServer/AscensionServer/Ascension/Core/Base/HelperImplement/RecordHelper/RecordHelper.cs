@@ -9,7 +9,7 @@ using AscensionServer.Model;
 using RedisDotNet;
 namespace AscensionServer
 {
-    [TargetHelper]
+    [ImplementProvider]
     public class RecordHelper : IRecordHelper
     {/// <summary>
     /// 记录离线时间

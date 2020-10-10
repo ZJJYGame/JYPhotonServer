@@ -12,7 +12,7 @@ namespace AscensionServer
         IRoleOperationHelper roleOpHelper;
         public override void OnInitialization()
         {
-            roleOpHelper = Utility.Assembly.GetInstanceByAttribute<TargetHelperAttribute, IRoleOperationHelper>();
+            roleOpHelper = Utility.Assembly.GetInstanceByAttribute<ImplementProviderAttribute, IRoleOperationHelper>();
             if (roleOpHelper == null)
                 Utility.Debug.LogError($"{this.GetType()} has no helper instance ,base type: {typeof(IRoleOperationHelper)}");
         }

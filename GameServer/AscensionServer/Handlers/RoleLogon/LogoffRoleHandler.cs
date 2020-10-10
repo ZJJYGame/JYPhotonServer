@@ -29,11 +29,12 @@ namespace AscensionServer
             {
                 var remoteRoleType = typeof(IRemoteRole);
                 object remoteRoleObj;
-                var removeResult= peerAgent.TryRemove(remoteRoleType, out remoteRoleObj);
+                var removeResult = peerAgent.TryRemove(remoteRoleType, out remoteRoleObj);
                 if (removeResult)
                 {
                     var remoteRole = remoteRoleObj as IRemoteRole;
                     GameManager.ReferencePoolManager.Despawn(remoteRole);//回收这个RemoteRole对象
+                    GameManager.CustomeModule<RoleManager>().TryRemove(roleObj.RoleID);
                 }
                 operationResponse.ReturnCode = (byte)ReturnCode.Success;
                 GameManager.CustomeModule<RecordManager>().RecordRole(roleObj.RoleID, roleObj);

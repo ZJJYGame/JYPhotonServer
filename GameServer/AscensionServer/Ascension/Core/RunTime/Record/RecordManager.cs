@@ -13,7 +13,7 @@ namespace AscensionServer
         IRecordHelper recordHelper;
         public override void OnInitialization()
         {
-            recordHelper = Utility.Assembly.GetInstanceByAttribute<TargetHelperAttribute, IRecordHelper>();
+            recordHelper = Utility.Assembly.GetInstanceByAttribute<ImplementProviderAttribute, IRecordHelper>();
             if(recordHelper==null)
                 Utility.Debug.LogError($"{this.GetType()} has no helper instance ,base type: {typeof(IRecordHelper)}");
         }
