@@ -60,7 +60,15 @@ namespace AscensionServer
 
                         break;
                     case RoleDTO.BattleCmd.SkillInstruction:
-                        GameManager.CustomeModule<ServerBattleManager>().BattleStart(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID,100,null);
+                        GameManager.CustomeModule<ServerBattleManager>().BattleStart(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, RoleObj.BattleInitDTO.RoomId, battleTransferObj);
+                        SetResponseParamters(() =>
+                        {
+                            Utility.Debug.LogInfo("返回成功！！   使用技能伤害");
+                            subResponseParameters.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>().teamSet));
+                            subResponseParameters.Add((byte)ParameterCode.RoleBattleCmd, (byte)RoleDTO.BattleCmd.SkillInstruction);
+                            operationResponse.ReturnCode = (short)ReturnCode.Success;
+                            GameManager.CustomeModule<ServerBattleManager>().teamSet.Clear();
+                        });
                         break;
                     case RoleDTO.BattleCmd.RunAwayInstruction:
 

@@ -136,13 +136,13 @@ namespace AscensionProtocol.DTO
     public class BattleTransferDTO
     {
         /// <summary>
-        /// 是否开始战斗
-        /// </summary>
-        public  bool IsStart = false;
-        /// <summary>
         /// 是否刷新
         /// </summary>
         public bool isFinish { get; set; }
+        /// <summary>
+        /// 角色id
+        /// </summary>
+        public int RoleId { get; set; }
         /// <summary>
         /// 客户端目标id
         /// </summary>
@@ -163,13 +163,19 @@ namespace AscensionProtocol.DTO
         /// 触发技能数值
         /// </summary>
         public virtual int SkillReactionValue { get; set; }
-       
-
+       /// <summary>
+       /// 每回合战斗指令
+       /// </summary>
+        public virtual RoleDTO.BattleCmd BattleCmd { get; set; }
         /// <summary>
         /// 目标值和  自身值 传递的都是一样的
         /// </summary>
         public class TargetInfoDTO
         {
+            /// <summary>
+            /// 全局id
+            /// </summary>
+            public virtual int GlobalId { get; set; }
             /// <summary>
             /// 目标id
             /// </summary>

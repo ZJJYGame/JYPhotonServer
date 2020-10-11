@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AscensionProtocol.DTO;
 using AscensionServer.Model;
 using Cosmos;
+using NHibernate.Linq.Clauses;
 
 namespace AscensionServer
 {
@@ -29,15 +30,27 @@ namespace AscensionServer
         /// <summary>
         /// 收集每个回合的传输数据
         /// </summary>
-        List<BattleTransferDTO> teamSet = new List<BattleTransferDTO>();
+        public List<BattleTransferDTO> teamSet = new List<BattleTransferDTO>();
+        /// <summary>
+        /// 收集每个回合 每个目标的传输数据
+        /// </summary>
+        List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+        /// <summary>
+        /// 收集每个回合 玩家传输数据
+        /// </summary>
+        List<BattleTransferDTO.TargetInfoDTO> PlayerInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
         /// <summary>
         /// 收集准备战斗指令
         /// </summary>
         List<int> teamIdList = new List<int>();
         /// <summary>
-        ///玩家的行动目标
+        ///玩家的行动目标  怪物的唯一id 对应全局id
         /// </summary>
-        List<int> TargetID = new List<int>();
+        Dictionary<int, int> TargetID = new Dictionary<int, int>();
+        /// <summary>
+        /// 记录过程伤害
+        /// </summary>
+        //public List<int> ProcessDamageSet = new List<int>();
         /// <summary>
         /// 房间id
         /// </summary>
