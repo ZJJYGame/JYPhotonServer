@@ -3,6 +3,7 @@ using AscensionProtocol.DTO;
 using Cosmos;
 using Photon.SocketServer;
 using System;
+using AscensionServer.Model;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace AscensionServer
     public class LoginRoleHandler : Handler
     {
         public override byte OpCode { get { return (byte)OperationCode.LoginRole; } }
-        protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
+        protected  override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
             IRemotePeer peer = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.ClientPeer) as IRemotePeer;
             var json = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
@@ -44,6 +45,15 @@ namespace AscensionServer
                 {
                     GameManager.CustomeModule<RoleManager>().TryAdd(roleObj.RoleID, role);
                     Utility.Debug.LogInfo("yzqData" + "进入角色判断只有一个账号选择角色");
+                    #region 
+                    NHCriteria nHCriteriaOnOff = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
+                    var roleAllianceobj = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriaOnOff).Result;
+                    if (roleAllianceobj != null)
+                    {
+                        roleAllianceobj.JoinOffline = "在线";
+                        NHibernateQuerier.Update(roleAllianceobj);
+                    }
+                    #endregion
                     peerAgent.TryAdd(remoteRoleType, role);
                     operationResponse.ReturnCode = (byte)ReturnCode.Success;
                 }
@@ -57,7 +67,15 @@ namespace AscensionServer
                     if (updateResult)
                     {
                         Utility.Debug.LogInfo("yzqData" + "已有账号登陆角色，替换相同角色成功");
-
+                        #region 
+                        NHCriteria nHCriteriaOnOff = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
+                        var roleAllianceobj = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriaOnOff).Result;
+                        if (roleAllianceobj != null)
+                        {
+                            roleAllianceobj.JoinOffline = "在线";
+                             NHibernateQuerier.Update(roleAllianceobj);
+                        }
+                        #endregion
                         GameManager.CustomeModule<RoleManager>().TryRemove(roleObj.RoleID);
                         GameManager.CustomeModule<RoleManager>().TryAdd(roleObj.RoleID, role);
                         operationResponse.ReturnCode = (byte)ReturnCode.Success;//登录成功

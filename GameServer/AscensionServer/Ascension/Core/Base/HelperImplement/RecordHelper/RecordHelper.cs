@@ -16,7 +16,7 @@ namespace AscensionServer
     /// </summary>
     /// <param name="roleId">离线账号</param>
     /// <param name="data">新上线账号</param>
-        public void RecordRole(int roleId, object data)
+        public async void RecordRole(int roleId, object data)
         {
             Utility.Debug.LogInfo("yzqData" + "同步离线时间成功" + "原来的角色id为" + roleId);
             RoleDTO newrole = data as RoleDTO;
@@ -29,6 +29,12 @@ namespace AscensionServer
             }
             NHCriteria nHCriteriaOnOff = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
             var obj = NHibernateQuerier.CriteriaSelectAsync<OffLineTime>(nHCriteriaOnOff).Result;
+            var roleAllianceobj = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriaOnOff).Result;
+            if (roleAllianceobj != null)
+            {
+                roleAllianceobj.JoinOffline = DateTime.Now.ToString();
+                await NHibernateQuerier.UpdateAsync(roleAllianceobj);
+            }
             if (obj != null)
             {
                 obj.OffTime = DateTime.Now.ToString();
@@ -47,5 +53,7 @@ namespace AscensionServer
             //Utility.Debug.LogInfo("yzqData同步离线时间成功"+"原来的角色id为"+ roleId + "新的角色id"+ newrole.RoleID);
             #endregion
         }
+
+       
     }
 }
