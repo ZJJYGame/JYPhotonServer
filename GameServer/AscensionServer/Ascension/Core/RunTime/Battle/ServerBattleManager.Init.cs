@@ -229,9 +229,9 @@ namespace AscensionServer
             return petData;
         }
 
-        int enemyGlobleId = 10000000;
         public List<EnemyBattleDataDTO> EnemyInfo(List<EnemyBattleDataDTO> enemyId)
         {
+            int enemyGlobleId = 10000000;
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MonsterDatas>>(out var monsterDict);
             List<EnemyBattleDataDTO> enemyData = new List<EnemyBattleDataDTO>();
             for (int i = 0; i < enemyId.Count; i++)
@@ -248,12 +248,43 @@ namespace AscensionServer
                             EnemyHP = monsterDict[enemyId[i].GlobalId].Role_HP,
                             EnemyMP = monsterDict[enemyId[i].GlobalId].Role_MP,
                             EnemyShenHun = monsterDict[enemyId[i].GlobalId].Role_soul,
-                            EnemyJingXue = 0
+                            EnemyAlert_Area = monsterDict[enemyId[i].GlobalId].Alert_area,
+                            EnemyAttact_Physical = monsterDict[enemyId[i].GlobalId].Attact_physical,
+                            EnemyAttact_Power = monsterDict[enemyId[i].GlobalId].Attact_power,
+                            EnemyAttact_Soul = monsterDict[enemyId[i].GlobalId].Attact_soul,
+                            EnemyAttact_Speed = monsterDict[enemyId[i].GlobalId].Attact_speed,
+                            EnemyBest_Blood = monsterDict[enemyId[i].GlobalId].Best_blood,
+                            EnemyDefence_Physical = monsterDict[enemyId[i].GlobalId].Defence_physical,
+                            EnemyDefend_Power = monsterDict[enemyId[i].GlobalId].Defence_power,
+                            EnemyDefend_Soul = monsterDict[enemyId[i].GlobalId].Defence_soul,
+                            EnemyDescribe = monsterDict[enemyId[i].GlobalId].Monster_describe,
+                            EnemyDown_Double = monsterDict[enemyId[i].GlobalId].Down_double,
+                            EnemyDrop_Array = monsterDict[enemyId[i].GlobalId].Drop_array,
+                            EnemyDrop_Rate = monsterDict[enemyId[i].GlobalId].Drop_rate,
+                            EnemyLevel = monsterDict[enemyId[i].GlobalId].Monster_level,
+                            EnemyMonster_Icon = monsterDict[enemyId[i].GlobalId].Monster_icon,
+                            EnemyMoster_Model = monsterDict[enemyId[i].GlobalId].Moster_model,
+                            EnemyMove_Speed = monsterDict[enemyId[i].GlobalId].Move_speed,
+                            EnemyName = monsterDict[enemyId[i].GlobalId].Monster_name,
+                            EnemyPet_ID = monsterDict[enemyId[i].GlobalId].Pet_ID,
+                            EnemyPet_Level_ID = monsterDict[enemyId[i].GlobalId].Pet_Level_ID,
+                            EnemySkill_Array = monsterDict[enemyId[i].GlobalId].Skill_array,
+                            EnemyUp_Double = monsterDict[enemyId[i].GlobalId].UP_double,
+                            EnemyValue_Flow = monsterDict[enemyId[i].GlobalId].Value_flow,
+                            EnemyValue_Hide = monsterDict[enemyId[i].GlobalId].Value_hide
                         }
                     });
                 }
             }
             return enemyData;
+        }
+
+        /// <summary>
+        /// 出手速度
+        /// </summary>
+        public void ReleaseToSpeed()
+        {
+
         }
 
     }

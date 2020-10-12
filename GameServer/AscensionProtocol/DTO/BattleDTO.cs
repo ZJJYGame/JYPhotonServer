@@ -46,9 +46,10 @@ namespace AscensionProtocol.DTO
         /// </summary>
         public virtual int maxRoundCount { get; set; }
         /// <summary>
-        /// 所有参战对象的ID列表
+        /// 所有参战对象的列表
         /// </summary>
-        public virtual List<int> battleUnits { get; set; }
+        //public virtual AllBattleDataDTO battleUnits { get; set; }
+        //public virtual List<object> battleUnits { get; set; }
         /// <summary>
         /// 所有参战玩家的列表
         /// </summary>
@@ -66,20 +67,6 @@ namespace AscensionProtocol.DTO
         /// </summary>
         public virtual List<PetBattleDataDTO> enemyPetUnits { get; set; }
 
-        /*
-        /// <summary>
-        /// 剩余参战对敌人的列表
-        /// </summary>
-        public virtual List<int> remainingEnemyUnits { get; set; }
-        /// <summary>
-        /// 剩余参战对玩家的列表
-        /// </summary>
-        public virtual List<RoleDTO> remainingPlayerUnits { get; set; }
-        /// <summary>
-        /// 剩余参战对宠物的列表
-        /// </summary>
-        public virtual List<PetDTO> remainingPetUnits { get; set; }
-        */
 
         public override void Clear()
         {
@@ -91,25 +78,40 @@ namespace AscensionProtocol.DTO
     ///// <summary>
     ///// 战斗传输 初始化
     ///// </summary>
-    //public abstract class BattleTransferData
-    //{
-    //    public  string ObjectName { get; set; }
-    //}
+    /// 所有参战的列表
+    /// </summary>
     [Serializable]
-    public class RoleBattleDataDTO
+    public class AllBattleDataDTO
+    {
+        public List<RoleBattleDataDTO> roleBattleDataDTO { get; set; }
+        public List<PetBattleDataDTO>   petBattleDataDTO { get; set; }
+        public List<EnemyBattleDataDTO>  enemyBattleDataDTO { get; set; }
+        public List<PetBattleDataDTO> enemypetBattleDataDTO { get; set; }
+    }
+
+    /// <summary>
+    /// 基类
+    /// </summary>
+    public class BattleDataBase
+    {
+
+    }
+
+    [Serializable]
+    public class RoleBattleDataDTO:BattleDataBase
     {
         public string ObjectName { get; set; }
         public virtual RoleStatusDTO RoleStatusDTO { get; set; }
     }
     [Serializable]
-    public class PetBattleDataDTO
+    public class PetBattleDataDTO: BattleDataBase
     {
         public string ObjectName { get; set; }
         public int RoleId { get; set; }
         public virtual PetStatusDTO PetStatusDTO { get; set; }
     }
     [Serializable]
-    public class EnemyBattleDataDTO
+    public class EnemyBattleDataDTO: BattleDataBase
     {
         public virtual int GlobalId { get; set; }
 
@@ -127,7 +129,30 @@ namespace AscensionProtocol.DTO
         public virtual int EnemyHP { get; set; }
         public virtual int EnemyMP { get; set; }
         public virtual int EnemyShenHun { get; set; }
-        public virtual int EnemyJingXue { get; set; }
+        public virtual string EnemyDescribe { get; set; }
+        public virtual string EnemyLevel { get; set; }
+        public virtual int EnemyGig_Level { get; set; }
+        public virtual float EnemyAttact_Speed { get; set; }
+        public virtual int EnemyAttact_Physical { get; set; }
+        public virtual int EnemyDefence_Physical { get; set; }
+        public virtual int EnemyAttact_Power { get; set; }
+        public virtual int EnemyDefend_Power { get; set; }
+        public virtual int EnemyAttact_Soul { get; set; }
+        public virtual int EnemyDefend_Soul { get; set; }
+        public virtual int EnemyUp_Double { get; set; }
+        public virtual int EnemyDown_Double { get; set; }
+        public virtual int EnemyValue_Flow { get; set; }
+        public virtual int EnemyAlert_Area { get; set; }
+        public virtual int EnemyMove_Speed { get; set; }
+        public virtual int EnemyValue_Hide { get; set; }
+        public virtual int EnemyBest_Blood { get; set; }
+        public virtual List<int> EnemySkill_Array { get; set; }
+        public virtual List<int> EnemyDrop_Array { get; set; }
+        public virtual List<int> EnemyDrop_Rate { get; set; }
+        public virtual string EnemyMonster_Icon { get; set; }
+        public virtual string EnemyMoster_Model { get; set; }
+        public virtual int EnemyPet_ID { get; set; }
+        public virtual int EnemyPet_Level_ID { get; set; }
     }
 
     /// <summary>
@@ -135,10 +160,7 @@ namespace AscensionProtocol.DTO
     /// </summary>
     public class BattleTransferDTO
     {
-        /// <summary>
-        /// 是否刷新
-        /// </summary>
-        public bool isFinish { get; set; }
+        
         /// <summary>
         /// 角色id
         /// </summary>
@@ -201,6 +223,10 @@ namespace AscensionProtocol.DTO
             /// 目标Buff
             /// </summary>
             public virtual int TargetBuff { get; set; }
+            /// <summary>
+            /// 是否结束
+            /// </summary>
+            public bool isFinish { get; set; }
 
         }
         /// <summary>
