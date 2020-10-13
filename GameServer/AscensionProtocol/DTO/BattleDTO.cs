@@ -48,8 +48,7 @@ namespace AscensionProtocol.DTO
         /// <summary>
         /// 所有参战对象的列表
         /// </summary>
-        //public virtual AllBattleDataDTO battleUnits { get; set; }
-        //public virtual List<object> battleUnits { get; set; }
+        public virtual List<BattleDataBase> battleUnits { get; set; }
         /// <summary>
         /// 所有参战玩家的列表
         /// </summary>
@@ -80,33 +79,37 @@ namespace AscensionProtocol.DTO
     ///// </summary>
     /// 所有参战的列表
     /// </summary>
-    [Serializable]
-    public class AllBattleDataDTO
-    {
-        public List<RoleBattleDataDTO> roleBattleDataDTO { get; set; }
-        public List<PetBattleDataDTO>   petBattleDataDTO { get; set; }
-        public List<EnemyBattleDataDTO>  enemyBattleDataDTO { get; set; }
-        public List<PetBattleDataDTO> enemypetBattleDataDTO { get; set; }
-    }
 
     /// <summary>
     /// 基类
     /// </summary>
+    ///  [Serializable].
+    [Serializable]
     public class BattleDataBase
     {
-
+        /// <summary>
+        /// 代表是全局id 
+        /// </summary>
+        public virtual int ObjectID { get; set; }
+        /// <summary>
+        /// AI 针对 的唯一id
+        /// </summary>
+        public virtual int ObjectId { get; set; }
+        public virtual string ObjectName { get; set; }
+        public virtual int ObjectHP { get; set; }
+        public virtual int ObjectMP { get; set; }
+        public virtual int ObjectSpeed { get; set; }
     }
 
+
     [Serializable]
-    public class RoleBattleDataDTO:BattleDataBase
+    public class RoleBattleDataDTO: BattleDataBase
     {
-        public string ObjectName { get; set; }
         public virtual RoleStatusDTO RoleStatusDTO { get; set; }
     }
     [Serializable]
     public class PetBattleDataDTO: BattleDataBase
     {
-        public string ObjectName { get; set; }
         public int RoleId { get; set; }
         public virtual PetStatusDTO PetStatusDTO { get; set; }
     }
@@ -115,7 +118,6 @@ namespace AscensionProtocol.DTO
     {
         public virtual int GlobalId { get; set; }
 
-        public string ObjectName { get; set; }
         public virtual EnemyStatusDTO  EnemyStatusDTO { get; set; }
     }
 
@@ -160,7 +162,11 @@ namespace AscensionProtocol.DTO
     /// </summary>
     public class BattleTransferDTO
     {
-        
+        /// <summary>
+        /// 是否结束
+        /// </summary>
+        public bool isFinish { get; set; }
+
         /// <summary>
         /// 角色id
         /// </summary>
@@ -223,10 +229,7 @@ namespace AscensionProtocol.DTO
             /// 目标Buff
             /// </summary>
             public virtual int TargetBuff { get; set; }
-            /// <summary>
-            /// 是否结束
-            /// </summary>
-            public bool isFinish { get; set; }
+           
 
         }
         /// <summary>
