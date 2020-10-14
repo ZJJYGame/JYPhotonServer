@@ -25,8 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>AscensionServer.xml</DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>7.1</LangVersion>
   </PropertyGroup>
@@ -214,9 +213,8 @@
     <Compile Include="Ascension\Core\RunTime\Record\RecordManager.cs" />
     <Compile Include="Ascension\Core\Base\RedisData\RedisData.Initialize.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\GameResourceManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Role\IRemoteRole.cs" />
-    <Compile Include="Ascension\Core\RunTime\Role\IRoleOperationHelper.cs" />
-    <Compile Include="Ascension\Core\RunTime\Role\RemoteRole.cs" />
+    <Compile Include="Ascension\Core\RunTime\Role\IRoleEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\Role\RoleEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Role\RoleManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\Base\BattleInputData.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\Base\BattleRoomEntity.cs" />
