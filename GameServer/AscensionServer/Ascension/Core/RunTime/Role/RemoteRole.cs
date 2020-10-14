@@ -4,7 +4,10 @@ using Cosmos;
 using System;
 namespace AscensionServer
 {
-    public class RemoteRole : IRemoteRole
+    /// <summary>
+    /// 游戏中的角色实体对象；
+    /// </summary>
+    public class RoleEntity : IRoleEntity
     {
         public int RoleId { get; private set; }
         public int SessionId{ get; private set; }
@@ -60,14 +63,14 @@ namespace AscensionServer
         }
         public override bool Equals(object obj)
         {
-            var entity = obj as RemoteRole;
+            var entity = obj as RoleEntity;
             if (entity==null)
                 return false;
             return entity.RoleId == this.RoleId;
         }
-        public static RemoteRole Create(int roleId,int sessionId, params object[] datas)
+        public static RoleEntity Create(int roleId,int sessionId, params object[] datas)
         {
-            var entity = GameManager.ReferencePoolManager.Spawn<RemoteRole>();
+            var entity = GameManager.ReferencePoolManager.Spawn<RoleEntity>();
             entity.OnInit(roleId,sessionId);
             for (int i = 0; i < datas.Length; i++)
             {
