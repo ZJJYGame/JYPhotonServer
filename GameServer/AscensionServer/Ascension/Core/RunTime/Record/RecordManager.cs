@@ -33,6 +33,7 @@ namespace AscensionServer
                 latestTime = now + updateInterval;
                 Utility.Debug.LogWarning("RecordManager OnRefresh");
             }
+
         }
     }
 }

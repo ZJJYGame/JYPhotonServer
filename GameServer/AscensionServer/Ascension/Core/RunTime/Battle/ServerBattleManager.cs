@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using AscensionProtocol.DTO;
+using Cosmos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AscensionProtocol.DTO;
-using AscensionServer.Model;
-using Cosmos;
-using Org.BouncyCastle.Asn1.X509.Qualified;
-using UnityEngine;
 namespace AscensionServer
 {
     /// <summary>
@@ -36,7 +30,7 @@ namespace AscensionServer
             }
 
             BattleInitDTO battleInit;
-            if (_oldBattleList.Count > 0 )
+            if (_oldBattleList.Count > 0)
             {
                 //int roomid = _oldBattleList[0];
                 //battleInit = _teamIdToBattleInit[roomid];
@@ -113,10 +107,10 @@ namespace AscensionServer
                             _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP -= enemyStatusData.EnemyAttact_Power;
                             BattleTransferDTO.TargetInfoDTO tempTransEnemy = new BattleTransferDTO.TargetInfoDTO();
                             tempTransEnemy.TargetID = roleId;
-                            tempTransEnemy.TargetHPDamage = - skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
+                            tempTransEnemy.TargetHPDamage = -skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
 
                             PlayerInfosSet.Add(tempTransEnemy);
-                            teamSet.Add(new BattleTransferDTO() { BattleCmd = RoleDTO.BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
+                            teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = RoleDTO.BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
                             break;
                         case "RoleStatusDTO":
                             ///传输的目标
@@ -147,20 +141,66 @@ namespace AscensionServer
                                             {
                                                 if (_teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyId == TargetID.ToList()[k].Key)
                                                 {
-                                                    //需要判断 当前血量是不是满足条件
-                                                    _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP -= skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
-                                                    //ProcessDamageSet.Add(skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[p]);
-                                                    BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
-                                                    tempTrans.TargetID = _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyId;
-                                                    tempTrans.TargetHPDamage = -skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
+                                                    if (_teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP > 0)
+                                                    {
+                                                        //需要判断 当前血量是不是满足条件
+                                                        _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP -= skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
+                                                        if (_teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP <= 0)
+                                                            _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP = 0;
+                                                        //ProcessDamageSet.Add(skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[p]);
+                                                        BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+                                                        tempTrans.TargetID = _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyId;
+                                                        tempTrans.TargetHPDamage = -skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
 
+                                                        TargetInfosSet.Add(tempTrans);
+                                                        teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = RoleDTO.BattleCmd.SkillInstruction, RoleId = roleId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+                                                    }
+                                                    else
+                                                    {
+
+                                                        BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+                                                        while (true)
+                                                        {
+                                                            var index = new Random().Next(0, _teamIdToBattleInit[roleId].enemyUnits.Count);
+                                                            if (_teamIdToBattleInit[roleId].enemyUnits[index].EnemyStatusDTO.EnemyHP >= 0)
+                                                            {
+                                                                tempTrans.TargetID = _teamIdToBattleInit[roleId].enemyUnits[index].EnemyStatusDTO.EnemyId;
+                                                                break;
+                                                            }
+                                                        }
+                                                        tempTrans.TargetHPDamage = -skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
+                                                        TargetInfosSet.Add(tempTrans);
+                                                        teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = RoleDTO.BattleCmd.SkillInstruction, RoleId = roleId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                ///多段伤害
+                                else if (skillGongFaDict[battleTransferDTOs.ClientCmdId].AttackProcess_Type == AttackProcess_Type.Staged)
+                                {
+                                    for (int k = 0; k < TargetID.Count; k++)
+                                    {
+                                        TargetInfosSet.Clear();
+                                        for (int b = 0; b < _teamIdToBattleInit[roleId].enemyUnits.Count; b++)
+                                        {
+                                            if (_teamIdToBattleInit[roleId].enemyUnits[b].EnemyStatusDTO.EnemyId == TargetID[k])
+                                            {
+                                                for (int o = 0; o < skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor.Count; o++)
+                                                {
+                                                    //需要判断 当前血量是不是满足条件
+                                                    _teamIdToBattleInit[roleId].enemyUnits[b].EnemyStatusDTO.EnemyHP -= skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[o];
+                                                    //ProcessDamageSet.Add(skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[o]);
+                                                    BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+                                                    tempTrans.TargetID = TargetID[k];
+                                                    tempTrans.TargetHPDamage = skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[o];
                                                     TargetInfosSet.Add(tempTrans);
                                                     teamSet.Add(new BattleTransferDTO() { BattleCmd = RoleDTO.BattleCmd.SkillInstruction, RoleId = roleId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
                                                 }
                                             }
                                         }
                                     }
-
                                 }
                             }
                             break;
@@ -191,7 +231,7 @@ namespace AscensionServer
 
                         //一次性攻击
                         if (skillGongFaDict[battleTransferDTOs.ClientCmdId].AttackProcess_Type  == AttackProcess_Type.SingleUse)
-                        {
+                        {0
                             for (int p = 0; p < skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor.Count; p++)
                             {
                                 for (int k = 0; k < TargetID.Count; k++)
@@ -262,29 +302,16 @@ namespace AscensionServer
                     }
                 }*/
                 #endregion
-
-                switch (battleTransferDTOs.SendSkillReactionCmd)
-                {
-                    case SkillReactionCmd.BeatBack:
-                        break;
-                    case SkillReactionCmd.Guard:
-                        break;
-                    case SkillReactionCmd.Dodge:
-                        break;
-                    case SkillReactionCmd.Shock:
-                        break;
-                    case SkillReactionCmd.Parry:
-                        break;
-                }
             }
             else
-            {
-            }
+            { }
+            
+
         }
 
         private SkillReactionCmd GetSendSkillReactionCmd(int roomId, int i)
         {
-            return  _roomidToBattleTransfer[roomId][i].SendSkillReactionCmd;
+            return _roomidToBattleTransfer[roomId][i].SendSkillReactionCmd;
         }
         private int GetSkillReactionValue(int roomId, int i)
         {
@@ -307,24 +334,14 @@ namespace AscensionServer
 
         }
 
-        public int TotalTime = 15;
-
-        public bool isFinish = false;
         /// <summary>
         /// 每回合 倒计时
         /// </summary>
         public override void OnRefresh()
         {
             //var now =  Utility.Time.SecondNow();
-            if (isFinish)
-            {
-                TotalTime--;
-                if (TotalTime == 0)
-                {
-                    TotalTime = 15;
-                    isFinish = false;
-                }
-            }
+            Utility.Debug.LogInfo(" =>老陆_currentTime");
+            timer.UpdateTimer(0.2f);
 
         }
 

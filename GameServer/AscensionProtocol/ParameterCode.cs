@@ -167,5 +167,13 @@
         /// </summary>
         RoleBattle = 94 ,
         RoleBattleCmd = 95,
+        /// <summary>
+        /// 固定的时间
+        /// </summary>
+        RoleBattleTime = 96,
+        /// <summary>
+        /// 时间戳
+        /// </summary>
+        RoleBattleTimeStamp = 97
     }
 }
