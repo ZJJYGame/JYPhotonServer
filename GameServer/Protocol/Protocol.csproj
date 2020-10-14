@@ -71,13 +71,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnityEngine\Mathf.cs" />
-    <Compile Include="UnityEngine\Matrix3x3.cs" />
-    <Compile Include="UnityEngine\Matrix4x4.cs" />
-    <Compile Include="UnityEngine\Quaternion.cs" />
-    <Compile Include="UnityEngine\Vector2.cs" />
-    <Compile Include="UnityEngine\Vector3.cs" />
-    <Compile Include="UnityEngine\Vector4.cs" />
+    <Compile Include="Protocol\Model\Base\DataParameters.cs" />
+    <Compile Include="Protocol\Model\Base\IDataContract.cs" />
+    <Compile Include="Protocol\Model\Base\OperationData.cs" />
+    <Compile Include="Protocol\Model\FixInput.cs" />
+    <Compile Include="Protocol\Model\FixInputSet.cs" />
+    <Compile Include="Protocol\Model\FixPlayer.cs" />
+    <Compile Include="Protocol\Model\FixPlayerSet.cs" />
+    <Compile Include="Protocol\Model\FixRoom.cs" />
+    <Compile Include="Protocol\Model\FixRoomEntity.cs" />
+    <Compile Include="Protocol\Model\FixRoomPlayer.cs" />
+    <Compile Include="Protocol\Model\FixVector3.cs" />
+    <Compile Include="Protocol\ProtocolDefine.cs" />
+    <Compile Include="ThirdParty\UnityEngine\Mathf.cs" />
+    <Compile Include="ThirdParty\UnityEngine\Matrix3x3.cs" />
+    <Compile Include="ThirdParty\UnityEngine\Matrix4x4.cs" />
+    <Compile Include="ThirdParty\UnityEngine\Quaternion.cs" />
+    <Compile Include="ThirdParty\UnityEngine\Vector2.cs" />
+    <Compile Include="ThirdParty\UnityEngine\Vector3.cs" />
+    <Compile Include="ThirdParty\UnityEngine\Vector4.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -17,7 +17,7 @@ namespace AscensionServer
         public int SessionId { get { return Handle.SessionId; } }
         public bool Available { get { return Handle.Available; } }
         public IRemotePeer Handle { get;set; }
-        public IRemoteRole RemoteRole { get; private set; }
+        public IRoleEntity RemoteRole { get; private set; }
         public ICollection<object> DataCollection { get { return dataDict.Values; } }
         ConcurrentDictionary<Type, object> dataDict;
         public RemotePeerAgent()

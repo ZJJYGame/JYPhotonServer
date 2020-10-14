@@ -5,26 +5,21 @@ using AscensionProtocol;
 namespace AscensionServer
 {
     [CustomeModule]
-    public class RoleManager:Module<RoleManager>, IKeyValue<int,IRemoteRole >
+    public class RoleManager:Module<RoleManager>, IKeyValue<int,IRoleEntity >
     {
         public int RoleCount { get { return roleDict.Count; } }
-        Dictionary<int, IRemoteRole> roleDict = new Dictionary<int, IRemoteRole>();
-        IRoleOperationHelper roleOpHelper;
-        public override void OnInitialization()
-        {
-            roleOpHelper = Utility.Assembly.GetInstanceByAttribute<ImplementProviderAttribute, IRoleOperationHelper>();
-            if (roleOpHelper == null)
-                Utility.Debug.LogError($"{this.GetType()} has no helper instance ,base type: {typeof(IRoleOperationHelper)}");
-        }
+        Dictionary<int, IRoleEntity> roleDict = new Dictionary<int, IRoleEntity>();
+        Queue<IRoleEntity> playerPoolQueue = new Queue<IRoleEntity>();
+
         public bool ContainsKey(int key)
         {
             return roleDict.ContainsKey(key);
         }
-        public bool TryAdd(int key, IRemoteRole value)
+        public bool TryAdd(int key, IRoleEntity value)
         {
             return roleDict.TryAdd(key, value);
         }
-        public bool TryGetValue(int key, out IRemoteRole value)
+        public bool TryGetValue(int key, out IRoleEntity value)
         {
             return roleDict.TryGetValue(key, out value);
         }
@@ -32,11 +27,11 @@ namespace AscensionServer
         {
             return roleDict.Remove(key);
         }
-        public bool TryRemove(int key, out IRemoteRole value)
+        public bool TryRemove(int key, out IRoleEntity value)
         {
             return roleDict.Remove(key,out value);
         }
-        public bool TryUpdate(int key, IRemoteRole newValue, IRemoteRole comparsionValue)
+        public bool TryUpdate(int key, IRoleEntity newValue, IRoleEntity comparsionValue)
         {
             if (!newValue.Equals(comparsionValue))
                 return false;
