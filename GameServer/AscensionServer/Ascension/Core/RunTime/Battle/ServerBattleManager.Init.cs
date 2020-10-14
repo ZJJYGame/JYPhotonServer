@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AscensionProtocol.DTO;
 using AscensionServer.Model;
 using Cosmos;
+using Google.Protobuf.WellKnownTypes;
 using NHibernate.Linq.Clauses;
 
 namespace AscensionServer
@@ -56,6 +57,7 @@ namespace AscensionServer
         /// </summary>
         int _roomId = 1000;
 
+        public int RoleBattleTime = 20;
         /// <summary>
         /// 映射  Msq
         /// </summary>
@@ -332,6 +334,15 @@ namespace AscensionServer
             if (_teamIdToBattleInit[roleId].enemyUnits.Find(t => (t.EnemyStatusDTO.EnemyId == objectId)) != null)
                 return _teamIdToBattleInit[roleId].enemyUnits.Find(t => (t.EnemyStatusDTO.EnemyId == objectId)).EnemyStatusDTO;
             return null;
+        }
+
+        /// <summary>
+        /// 开始倒计时
+        /// </summary>
+        public int Timestamp()
+        {
+            
+            return 0;
         }
 
     }
