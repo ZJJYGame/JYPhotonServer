@@ -12,13 +12,14 @@ namespace AscensionServer.Model
         public virtual int ID { get; set; }
         public virtual string ItemAmountDict { get; set; }
         public virtual string ItemRedeemedDict { get; set; }
+        public virtual string ItemNotRefreshDict { get; set; }
 
         public override void Clear()
         {
             ID = -1;
             ItemAmountDict = null;
             ItemRedeemedDict = null;
-
+            ItemNotRefreshDict = null;
         }
     }
 }

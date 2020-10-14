@@ -26,9 +26,9 @@ namespace AscensionServer
                 NHCriteria nHCriteriallianceConstruction = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceConstructionObj.AllianceID);
 
 
-                Utility.Debug.LogError("獲得的得到的仙盟建設" + allianceConstructionJson);
+                Utility.Debug.LogError("yzqData獲得的得到的仙盟建設" + allianceConstructionObj.AllianceID);
                 var allianceConstructionTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceConstruction>(nHCriteriallianceConstruction).Result;
-                Utility.Debug.LogError("2獲得的得到的仙盟建設" + Utility.Json.ToJson(allianceConstructionTemp));
+                Utility.Debug.LogError("yzqData2獲得的得到的仙盟建設" + Utility.Json.ToJson(allianceConstructionTemp));
                 if (allianceConstructionTemp != null)
                 {
                     SetResponseParamters(() =>

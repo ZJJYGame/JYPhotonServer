@@ -14,6 +14,7 @@ namespace AscensionServer
             Id(x => x.ID).GeneratedBy.Increment().Column("id");
             Map(x => x.ItemAmountDict).Column("item_amount_dict");
             Map(x => x.ItemRedeemedDict).Column("item_redeemed_dict");
+            Map(x => x.ItemNotRefreshDict).Column("item_notrefresh_dict");
             Table("treasureattic");
 
         }

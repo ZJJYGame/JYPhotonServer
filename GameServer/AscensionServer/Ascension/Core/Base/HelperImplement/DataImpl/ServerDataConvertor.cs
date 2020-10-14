@@ -46,12 +46,18 @@ namespace AscensionServer
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(SkillMiShuDatas).Name, out var skillMiShuDatasSet);
                 var skillMiShuDict = TransObject<List<SkillMiShuDatas>>(skillMiShuDatasSet).ToDictionary(key => key.Skill_ID, value => value);
 
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(FactionItemData).Name, out var factionitemdata);
+                var factionitemDataDict = TransObject<List<FactionItemData>>(factionitemdata).ToDictionary(key => key.FactionItemId, value => value.FactionItem);
+
+
+
+                GameManager.CustomeModule<DataManager>().TryAdd(factionitemDataDict);
+
                 GameManager.CustomeModule<DataManager>().TryAdd(gfbDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(gfDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(monsterDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(skillGongFaDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(skillMiShuDict);
-
                 //GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MonsterDatas>>(out var set);
                 //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + skillGongFaDict[21001].Skill_Describe);
                 //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + skillMiShuDict[21009].Skill_Describe);

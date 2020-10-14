@@ -15,13 +15,14 @@ namespace AscensionProtocol.DTO
 
         public virtual Dictionary<int, int> ItemAmountDict { get; set; }
         public virtual Dictionary<int, int> ItemRedeemedDict { get; set; }
-
+        public virtual Dictionary<int, int> ItemNotRefreshDict { get; set; }
+    
         public override void Clear()
         {
             ID = -1;
             ItemAmountDict=null;
             ItemRedeemedDict= null;
-
+            ItemNotRefreshDict = null;
         }
     }
 }

@@ -50,6 +50,16 @@ namespace AscensionServer
                     var roleAllianceobj = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriaOnOff).Result;
                     if (roleAllianceobj != null)
                     {
+                        NHCriteria nHCriteriaAllianceStatus = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleAllianceobj.AllianceID);
+                        Utility.Debug.LogInfo("yzqData判断仙盟查找到了" + roleAllianceobj.AllianceID);
+                        var allianceStatusobj = NHibernateQuerier.CriteriaSelectAsync<AllianceStatus>(nHCriteriaAllianceStatus).Result;
+
+                        if (allianceStatusobj != null)
+                        {
+                            allianceStatusobj.OnLineNum++;
+                            NHibernateQuerier.Update(allianceStatusobj);
+                        }
+                        GameManager.ReferencePoolManager.Despawn(nHCriteriaAllianceStatus);
                         roleAllianceobj.JoinOffline = "在线";
                         NHibernateQuerier.Update(roleAllianceobj);
                     }
@@ -72,6 +82,16 @@ namespace AscensionServer
                         var roleAllianceobj = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriaOnOff).Result;
                         if (roleAllianceobj != null)
                         {
+                            NHCriteria nHCriteriaAllianceStatus = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleAllianceobj.AllianceID);
+                            Utility.Debug.LogInfo("yzqData判断仙盟查找到了" + roleAllianceobj.AllianceID);
+                            var allianceStatusobj = NHibernateQuerier.CriteriaSelectAsync<AllianceStatus>(nHCriteriaAllianceStatus).Result;
+
+                            if (allianceStatusobj != null)
+                            {
+                                allianceStatusobj.OnLineNum++;
+                                NHibernateQuerier.Update(allianceStatusobj);
+                            }
+                            GameManager.ReferencePoolManager.Despawn(nHCriteriaAllianceStatus);
                             roleAllianceobj.JoinOffline = "在线";
                              NHibernateQuerier.Update(roleAllianceobj);
                         }
