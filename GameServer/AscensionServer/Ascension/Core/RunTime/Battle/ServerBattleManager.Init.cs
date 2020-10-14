@@ -118,7 +118,7 @@ namespace AscensionServer
                         RoleVileSpawn = status.RoleVileSpawn,
                         RoleVitality = status.RoleVitality
                     }
-                }) ;
+                });
             }
             else
             {
@@ -153,7 +153,7 @@ namespace AscensionServer
                             RoleVileSpawn = status.RoleVileSpawn,
                             RoleVitality = status.RoleVitality
                         }
-                    }); 
+                    });
                 }
             }
             return roleData;
@@ -176,7 +176,7 @@ namespace AscensionServer
                 petData.Add(new PetBattleDataDTO()
                 {
                     ObjectName = MsqInfo<Pet>(roleId).PetName,
-                     RoleId = roleId,
+                    RoleId = roleId,
                     PetStatusDTO = new PetStatusDTO()
                     {
                         PetID = statusPet.PetID,
@@ -279,12 +279,59 @@ namespace AscensionServer
             return enemyData;
         }
 
+
+
+        /// <summary>
+        /// 初始化所有信息
+        /// </summary>
+        /// <returns></returns>
+        public List<BattleDataBase> AllBattleDataDTOsInfo(int roleId, BattleInitDTO battleInitDTO)
+        {
+            int enemyGlobleId = 10000000;
+            List<BattleDataBase> allDataBase = new List<BattleDataBase>();
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MonsterDatas>>(out var monsterDict);
+            var status = MsqInfo<RoleStatus>(roleId);
+            if (IsTeamDto(roleId) == null)
+            {
+                allDataBase.Add(new BattleDataBase() { ObjectName = MsqInfo<Role>(roleId).RoleName, ObjectHP = status.RoleHP, ObjectID = status.RoleID, ObjectMP = status.RoleMP, ObjectSpeed = status.RoleSpeedAttack });
+                for (int i = 0; i < battleInitDTO.enemyUnits.Count; i++)
+                {
+                    allDataBase.Add(new BattleDataBase()
+                    {
+                        ObjectId = enemyGlobleId++,
+                        ObjectID = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Monster_ID,
+                        ObjectHP = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Role_HP,
+                        ObjectMP = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Role_MP,
+                        ObjectName = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Monster_name,
+                        ObjectSpeed = (int)monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Attact_speed,
+                    });
+                }
+            }
+            return allDataBase;
+        }
+
+
         /// <summary>
         /// 出手速度
         /// </summary>
-        public void ReleaseToSpeed()
+        public void ReleaseToSpeed(int roleId)
         {
+            if (_teamIdToBattleInit.ContainsKey(roleId))
+                _teamIdToBattleInit[roleId].battleUnits = _teamIdToBattleInit[roleId].battleUnits.OrderByDescending(t => t.ObjectSpeed).ToList();
+        }
 
+        /// <summary>
+        /// 返回一个出手拥有者 
+        /// </summary>
+        /// <returns></returns>
+        public object ReleaseToOwner(int objectID, int objectId, int roleId)
+        {
+            //Utility.Debug.LogInfo("<出手速度>" + objectID + "<>" + objectId + "<>" + roleId);
+            if (_teamIdToBattleInit[roleId].playerUnits.Find(t => (t.RoleStatusDTO.RoleID == objectID)) != null)
+                return _teamIdToBattleInit[roleId].playerUnits.Find(t => (t.RoleStatusDTO.RoleID == objectID)).RoleStatusDTO;
+            if (_teamIdToBattleInit[roleId].enemyUnits.Find(t => (t.EnemyStatusDTO.EnemyId == objectId)) != null)
+                return _teamIdToBattleInit[roleId].enemyUnits.Find(t => (t.EnemyStatusDTO.EnemyId == objectId)).EnemyStatusDTO;
+            return null;
         }
 
     }
