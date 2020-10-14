@@ -20,7 +20,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -197,9 +197,9 @@
     <Compile Include="Ascension\Core\Base\DataObject\GongFaBook.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\IDataConvertor.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\IDataProvider.cs" />
-    <Compile Include="Ascension\Core\RunTime\Peer\IRemotePeer.cs" />
+    <Compile Include="Ascension\Core\RunTime\Peer\IAscensionPeer.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\IPeerAgent.cs" />
-    <Compile Include="Ascension\Core\RunTime\Peer\RemotePeerAgent.cs" />
+    <Compile Include="Ascension\Core\RunTime\Peer\PeerAgent.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\DataImpl\ServerDataConvertor.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\PeerManager.cs" />
     <Compile Include="Ascension\Core\Base\Variable\IKeyValue.cs" />

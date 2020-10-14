@@ -26,7 +26,7 @@ namespace AscensionServer
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
             var peer = new AscensionPeer(initRequest);
-            var peerEntity = RemotePeerAgent.Create(peer);
+            var peerEntity = PeerAgent.Create(peer);
             GameManager.CustomeModule<PeerManager>().TryAdd(peerEntity);
             return peer;
         }
@@ -45,6 +45,7 @@ namespace AscensionServer
             NHibernateQuerier.Init();
             GameManager.InitCustomeModule(this.GetType().Assembly);
             RedisDotNet.RedisManager.Instance.OnInitialization();
+            Task.Run(() => GameManagerAgent.Instance.OnRefresh());
         }
         protected override void TearDown()
         {

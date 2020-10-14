@@ -19,7 +19,7 @@ namespace AscensionServer
         public override byte OpCode { get { return (byte)OperationCode.LogoffRole; } }
         protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
-            IRemotePeer peer = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.ClientPeer) as IRemotePeer;
+            IAscensionPeer peer = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.ClientPeer) as IAscensionPeer;
             var json = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
             var roleObj = Utility.Json.ToObject<RoleDTO>(json);
             Utility.Debug.LogInfo("yzqData" + json);

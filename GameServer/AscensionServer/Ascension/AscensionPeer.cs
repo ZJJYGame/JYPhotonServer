@@ -8,7 +8,7 @@ using System.Text;
 
 namespace AscensionServer
 {
-    public class AscensionPeer : ClientPeer, IRemotePeer
+    public class AscensionPeer : ClientPeer, IAscensionPeer
     {
         #region Properties
         public int SessionId { get; private set; }
@@ -49,11 +49,11 @@ namespace AscensionServer
         /// 传输的数据类型限定为Dictionary<byte,object>类型；
         /// </summary>
         /// <param name="data">用户自定义数据</param>
-        public void SendEventMessage(byte opCode, object data)
+       public void SendEventMsg(byte opCode, object data)
         {
             eventData.Code = opCode;
             eventData.Parameters = data as Dictionary<byte, object>;
-            SendEvent(eventData, sendParam);
+            base.SendEvent(eventData, sendParam);
         }
         public void Clear()
         {
@@ -68,7 +68,7 @@ namespace AscensionServer
             ed.Parameters = data;
             GameManager.CustomeModule<PeerManager>().TryRemove(SessionId);
             Utility.Debug.LogError($"Photon SessionId : {SessionId} Unavailable . RemoteAdress:{RemoteIPAddress}");
-            var task = GameManager.CustomeModule<PeerManager>().BroadcastEventMessageToAllAsync((byte)reasonCode, ed);
+            var task = GameManager.CustomeModule<PeerManager>().BroadcastEventToAllAsync((byte)reasonCode, ed);
         }
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
         {
@@ -78,8 +78,12 @@ namespace AscensionServer
             op.OperationCode = operationRequest.OperationCode;
             SendOperationResponse(op, sendParameters);
         }
+        /// <summary>
+        /// 接收到客户端消息；
+        /// </summary>
         protected override void OnMessage(object message, SendParameters sendParameters)
         {
+            //接收到客户端消息后，进行委托广播；
             onMessageReceive?.Invoke(message);
         }
         #endregion

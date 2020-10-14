@@ -76,7 +76,7 @@ namespace AscensionServer
             IPeerAgent peer;
             var result = peerDict.TryRemove(key, out peer);
             if (result)
-                BroadcastBattleMessage -= peer.SendEventMessage;
+                BroadcastBattleMessage -= peer.SendEvent;
             return result;
         }
         public bool TryAdd(int key, IPeerAgent Value)
@@ -85,14 +85,14 @@ namespace AscensionServer
                throw new ArgumentNullException("PeerEntity is invaild ! ");
             var result = peerDict.TryAdd(key, Value);
             if (result)
-                BroadcastBattleMessage += Value.SendEventMessage;
+                BroadcastBattleMessage += Value.SendEvent;
             return result;
         }
         public bool TryRemove(int key, out IPeerAgent peer)
         {
             var result = peerDict.TryRemove(key, out peer);
             if (result)
-                BroadcastBattleMessage -= peer.SendEventMessage;
+                BroadcastBattleMessage -= peer.SendEvent;
             return result;
         }
         public bool TryUpdate(int key, IPeerAgent newValue, IPeerAgent comparsionValue)
@@ -100,8 +100,8 @@ namespace AscensionServer
             var result = peerDict.TryUpdate(key, newValue, comparsionValue);
             if (result)
             {
-                BroadcastBattleMessage -= comparsionValue.SendEventMessage;
-                BroadcastBattleMessage += newValue.SendEventMessage;
+                BroadcastBattleMessage -= comparsionValue.SendEvent;
+                BroadcastBattleMessage += newValue.SendEvent;
             }
             return result;
         }

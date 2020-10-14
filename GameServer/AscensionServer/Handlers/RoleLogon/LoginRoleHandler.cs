@@ -20,7 +20,7 @@ namespace AscensionServer
         public override byte OpCode { get { return (byte)OperationCode.LoginRole; } }
         protected  override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
-            IRemotePeer peer = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.ClientPeer) as IRemotePeer;
+            IAscensionPeer peer = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.ClientPeer) as IAscensionPeer;
             var json = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
             var roleObj = Utility.Json.ToObject<RoleDTO>(json);
             var role = RoleEntity.Create(roleObj.RoleID, peer.SessionId, roleObj);
@@ -31,7 +31,7 @@ namespace AscensionServer
             {
                 IPeerAgent pa;
                 GameManager.CustomeModule<PeerManager>().TryGetValue(remoteRole.SessionId, out pa);
-                pa.SendEventMessage((byte)EventCode.ReplacePlayer, null);//从这里发送挤下线消息；
+                pa.SendEvent((byte)EventCode.ReplacePlayer, null);//从这里发送挤下线消息；
                 GameManager.CustomeModule<RoleManager>().TryRemove(roleObj.RoleID);
             }
             IPeerAgent peerAgent;

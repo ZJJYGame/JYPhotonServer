@@ -357,39 +357,39 @@
             <param name="value">json数据</param>
             <returns>是否获取成功</returns>
         </member>
-        <member name="T:AscensionServer.IRemotePeer">
+        <member name="T:AscensionServer.IAscensionPeer">
             <summary>
             用于适配的Peer接口，管理一个具体实现的client peer 对象
             </summary>
         </member>
-        <member name="P:AscensionServer.IRemotePeer.SessionId">
+        <member name="P:AscensionServer.IAscensionPeer.SessionId">
             <summary>
             会话ID
             </summary>
         </member>
-        <member name="P:AscensionServer.IRemotePeer.Available">
+        <member name="P:AscensionServer.IAscensionPeer.Available">
             <summary>
             是否存活；
             </summary>
         </member>
-        <member name="P:AscensionServer.IRemotePeer.Handle">
+        <member name="P:AscensionServer.IAscensionPeer.Handle">
             <summary>
             peer对象Handle
             </summary>
         </member>
-        <member name="E:AscensionServer.IRemotePeer.OnMessageReceive">
+        <member name="E:AscensionServer.IAscensionPeer.OnMessageReceive">
             <summary>
             接收二进制流数据委托；
             </summary>
         </member>
-        <member name="M:AscensionServer.IRemotePeer.SendEventMessage(System.Byte,System.Object)">
+        <member name="M:AscensionServer.IAscensionPeer.SendEventMsg(System.Byte,System.Object)">
             <summary>
             发送消息到remotePeer
             </summary>
             <param name="opCode">操作码</param>
             <param name="userData">用户自定义的数据字典</param>
         </member>
-        <member name="M:AscensionServer.IRemotePeer.SendMessage(System.Object)">
+        <member name="M:AscensionServer.IAscensionPeer.SendMessage(System.Object)">
             <summary>
             发送消息到remotePeer
             </summary>
@@ -400,19 +400,19 @@
             具体的peer代理接口；
             </summary>
         </member>
-        <member name="T:AscensionServer.RemotePeerAgent">
+        <member name="T:AscensionServer.PeerAgent">
             <summary>
             具体的peer代理类对象；可适配任意实现了INetworkPeer的对象；
             </summary>
         </member>
-        <member name="M:AscensionServer.RemotePeerAgent.SendEventMessage(System.Byte,System.Object)">
+        <member name="M:AscensionServer.PeerAgent.SendEvent(System.Byte,System.Object)">
             <summary>
             发送网络消息到peer；
             </summary>
             <param name="opCode">操作码</param>
             <param name="userData">用户数据</param>
         </member>
-        <member name="M:AscensionServer.RemotePeerAgent.SendMessage(System.Object)">
+        <member name="M:AscensionServer.PeerAgent.SendMessage(System.Object)">
             <summary>
             发送网络消息到peer；
             </summary>
@@ -439,7 +439,7 @@
             其余各个模块都是从此通过SessionID取得Peer对象；
             </summary>
         </member>
-        <member name="E:AscensionServer.PeerManager.BroadcastEventMessage">
+        <member name="E:AscensionServer.PeerManager.BroadcastEvent">
             <summary>
             广播事件消息 ;
             </summary>
@@ -454,22 +454,43 @@
             将指定键的现有值与指定值进行比较，如果相等，则用第三个值更新该键。
             </summary>
         </member>
-        <member name="M:AscensionServer.PeerManager.BroadcastEventMessageToAll(System.Byte,System.Object)">
+        <member name="M:AscensionServer.PeerManager.SendEvent(System.Int32,System.Byte,System.Object)">
+             <summary>
+            发送事件(EVENT)到具体的sessionId； 
+            若不存在session对象，则不发送，并返回false；
+             </summary>
+        </member>
+        <member name="M:AscensionServer.PeerManager.BroadcastEventToAll(System.Byte,System.Object)">
             <summary>
-            同步广播事件；
+            同步广播事件(EVENT)；
             此方法会对所有在线且Available的peer对象进行消息广播；
             </summary>
             <param name="userData">用户自定义数据</param>
         </member>
+        <member name="M:AscensionServer.PeerManager.SendMessage(System.Int32,System.Object)">
+             <summary>
+            发送消息到具体的SessionId 
+             </summary>
+        </member>
         <member name="M:AscensionServer.PeerManager.BroadcastMessageToAll(System.Object)">
             <summary>
-            通过广播普通消息；
+            通过广播普通消息(MSG)；
             </summary>
             <param name="message">普通消息</param>
         </member>
-        <member name="M:AscensionServer.PeerManager.BroadcastEventMessageToAllAsync(System.Byte,System.Object,System.Action)">
+        <member name="M:AscensionServer.PeerManager.SendMessageAsync(System.Int32,System.Object)">
+             <summary>
+            异步发送消息到具体的SessionId 
+             </summary>
+        </member>
+        <member name="M:AscensionServer.PeerManager.SendEventAsync(System.Int32,System.Byte,System.Object)">
+             <summary>
+            异步广播消息到具体的sessionId 
+             </summary>
+        </member>
+        <member name="M:AscensionServer.PeerManager.BroadcastEventToAllAsync(System.Byte,System.Object,System.Action)">
             <summary>
-            异步广播事件消息；
+            异步广播事件消息(EVENT)；
             </summary>
             <param name="userData">用户自定义数据</param>
             <param name="callback">广播结束后的回调</param>
@@ -477,7 +498,7 @@
         </member>
         <member name="M:AscensionServer.PeerManager.BroadcastMessageToAllAsync(System.Object,System.Action)">
             <summary>
-            异步广播普通消息；
+            异步广播普通消息(MSG)；
             </summary>
             <param name="message">普通消息</param>
             <param name="callback">消息广播完成后的回调</param>
@@ -975,6 +996,17 @@
             同步资源刷新的时间间隔
             </summary>
         </member>
+        <member name="F:AscensionServer.ApplicationBuilder.TICKRATE">
+            <summary>
+            服务器帧数；
+            换算成毫秒为125ms/tick;
+            </summary>
+        </member>
+        <member name="F:AscensionServer.ApplicationBuilder._MSPerTick">
+            <summary>
+            每个tick所持续的毫秒；
+            </summary>
+        </member>
         <member name="E:AscensionServer.AscensionPeer.OnMessageReceive">
             <summary>
             接收消息事件委托；
@@ -986,7 +1018,12 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMessage(System.Byte,System.Object)" -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Object)" -->
+        <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
+            <summary>
+            接收到客户端消息；
+            </summary>
+        </member>
         <member name="M:AscensionServer.Handler.OnInitialization">
             <summary>
             非空虚函数

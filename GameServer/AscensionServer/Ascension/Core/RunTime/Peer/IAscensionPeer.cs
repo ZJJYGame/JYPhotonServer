@@ -9,7 +9,7 @@ namespace AscensionServer
     /// <summary>
     /// 用于适配的Peer接口，管理一个具体实现的client peer 对象
     /// </summary>
-    public interface IRemotePeer: IReference
+    public interface IAscensionPeer: IReference
     {
         /// <summary>
         /// 会话ID
@@ -32,7 +32,7 @@ namespace AscensionServer
         /// </summary>
         /// <param name="opCode">操作码</param>
         /// <param name="userData">用户自定义的数据字典</param>
-        void SendEventMessage(byte opCode,object userData);
+        void SendEventMsg(byte opCode,object userData);
         /// <summary>
         /// 发送消息到remotePeer
         /// </summary>

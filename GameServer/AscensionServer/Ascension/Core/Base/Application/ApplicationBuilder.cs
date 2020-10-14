@@ -18,5 +18,18 @@ namespace AscensionServer
         public const int SyncRoleMoveStasus = 1000;
 
         public const int SyncResourceInterval = 300000;
+        /// <summary>
+        /// 服务器帧数；
+        /// 换算成毫秒为125ms/tick;
+        /// </summary>
+        public const int TICKRATE = 2;
+        /// <summary>
+        /// 每个tick所持续的毫秒；
+        /// </summary>
+        public static readonly int _MSPerTick;
+        static ApplicationBuilder()
+        {
+            _MSPerTick = 1000 / TICKRATE;
+        }
     }
 }

@@ -14,10 +14,10 @@ namespace AscensionServer
     {
         int SessionId { get; }
         bool Available { get ; }
-        IRemotePeer Handle { get; set; }
+        IAscensionPeer Handle { get; set; }
         IRoleEntity RemoteRole { get; }
         ICollection<object> DataCollection { get; }
         void SendMessage(object message);
-        void SendEventMessage(byte opCode, object userData);
+        void SendEvent(byte opCode, object userData);
     }
 }

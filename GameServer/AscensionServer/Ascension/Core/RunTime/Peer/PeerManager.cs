@@ -19,12 +19,12 @@ namespace AscensionServer
         /// <summary>
         /// 广播事件消息 ;
         /// </summary>
-        public event Action<byte, object> BroadcastEventMessage
+        public event Action<byte, object> BroadcastEvent
         {
-            add { broadcastEventMessage += value; }
+            add { broadcastEvent += value; }
             remove
             {
-                try { broadcastEventMessage -= value; }
+                try { broadcastEvent -= value; }
                 catch (Exception e) { Utility.Debug.LogError($"无法移除发送消息的委托:{e}"); }
             }
         }
@@ -40,7 +40,7 @@ namespace AscensionServer
                 catch (Exception e) { Utility.Debug.LogError($"无法移除发送消息的委托:{e}"); }
             }
         }
-        Action<byte, object> broadcastEventMessage;
+        Action<byte, object> broadcastEvent;
         Action<object> broadcastMessage;
         ConcurrentDictionary<int, IPeerAgent> peerDict;
         public override void OnInitialization()
@@ -52,7 +52,7 @@ namespace AscensionServer
             var result = peerDict.TryAdd(peer.SessionId, peer);
             if (result)
             {
-                BroadcastEventMessage += peer.SendEventMessage;
+                BroadcastEvent += peer.SendEvent;
                 BroadcastMessage += peer.SendMessage;
             }
             return result;
@@ -62,7 +62,7 @@ namespace AscensionServer
             var result = peerDict.TryAdd(sessionId, peer);
             if (result)
             {
-                BroadcastEventMessage += peer.SendEventMessage;
+                BroadcastEvent += peer.SendEvent;
                 BroadcastMessage += peer.SendMessage;
             }
             return result;
@@ -73,7 +73,7 @@ namespace AscensionServer
             var result = peerDict.TryRemove(sessionId, out peer);
             if (result)
             {
-                BroadcastEventMessage -= peer.SendEventMessage;
+                BroadcastEvent -= peer.SendEvent;
                 BroadcastMessage -= peer.SendMessage;
             }
             return result;
@@ -83,7 +83,7 @@ namespace AscensionServer
             var result = peerDict.TryRemove(sessionId, out peer);
             if (result)
             {
-                BroadcastEventMessage -= peer.SendEventMessage;
+                BroadcastEvent -= peer.SendEvent;
                 BroadcastMessage -= peer.SendMessage;
             }
             return result;
@@ -100,8 +100,8 @@ namespace AscensionServer
             var result = peerDict.TryUpdate(sessionId, newPeer, comparisonPeer);
             if (result)
             {
-                BroadcastEventMessage -= comparisonPeer.SendEventMessage;
-                BroadcastEventMessage += newPeer.SendEventMessage;
+                BroadcastEvent -= comparisonPeer.SendEvent;
+                BroadcastEvent += newPeer.SendEvent;
                 BroadcastMessage -= comparisonPeer.SendMessage;
                 BroadcastMessage += newPeer.SendMessage;
             }
@@ -112,16 +112,37 @@ namespace AscensionServer
             return peerDict.TryGetValue(sessionId, out peer);
         }
         /// <summary>
-        /// 同步广播事件；
+        ///发送事件(EVENT)到具体的sessionId； 
+        ///若不存在session对象，则不发送，并返回false；
+        /// </summary>
+        public bool SendEvent(int sessionId,byte opCode, object userData)
+        {
+            var result = TryGetValue(sessionId, out var peer);
+            if(result)
+                peer.SendEvent(opCode, userData);
+            return result;
+        }
+        /// <summary>
+        /// 同步广播事件(EVENT)；
         /// 此方法会对所有在线且Available的peer对象进行消息广播；
         /// </summary>
         /// <param name="userData">用户自定义数据</param>
-        public void BroadcastEventMessageToAll(byte opCode, object userData)
+        public void BroadcastEventToAll(byte opCode, object userData)
         {
-            broadcastEventMessage?.Invoke(opCode, userData);
+            broadcastEvent?.Invoke(opCode, userData);
         }
         /// <summary>
-        /// 通过广播普通消息；
+        ///发送消息到具体的SessionId 
+        /// </summary>
+        public bool SendMessage(int sessionId,  object message)
+        {
+            var result = TryGetValue(sessionId, out var peer);
+            if (result)
+                peer.SendMessage(message);
+            return result;
+        }
+        /// <summary>
+        /// 通过广播普通消息(MSG)；
         /// </summary>
         /// <param name="message">普通消息</param>
         public void BroadcastMessageToAll(object message)
@@ -129,18 +150,32 @@ namespace AscensionServer
             broadcastMessage?.Invoke(message);
         }
         /// <summary>
-        /// 异步广播事件消息；
+        ///异步发送消息到具体的SessionId 
+        /// </summary>
+        public async Task<bool> SendMessageAsync(int sessionId, object message)
+        {
+            return await Task.Run(() => { return SendMessage(sessionId, message); });
+        }
+        /// <summary>
+        ///异步广播消息到具体的sessionId 
+        /// </summary>
+        public async Task<bool> SendEventAsync(int sessionId,byte opCode, object userData)
+        {
+            return await Task.Run(() => { return SendEvent(sessionId, opCode,userData); });
+        }
+        /// <summary>
+        /// 异步广播事件消息(EVENT)；
         /// </summary>
         /// <param name="userData">用户自定义数据</param>
         /// <param name="callback">广播结束后的回调</param>
         /// <returns>线程Task</returns>
-        public async Task BroadcastEventMessageToAllAsync(byte opCode, object userData, Action callback = null)
+        public async Task BroadcastEventToAllAsync(byte opCode, object userData, Action callback = null)
         {
-            await Task.Run(() => { broadcastEventMessage?.Invoke(opCode, userData); });
+            await Task.Run(() => { broadcastEvent?.Invoke(opCode, userData); });
             callback?.Invoke();
         }
         /// <summary>
-        /// 异步广播普通消息；
+        /// 异步广播普通消息(MSG)；
         /// </summary>
         /// <param name="message">普通消息</param>
         /// <param name="callback">消息广播完成后的回调</param>

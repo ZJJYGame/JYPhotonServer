@@ -56,6 +56,10 @@ namespace AscensionServer
             }
             return false;
         }
+        public void SendMessage(byte opCode, object data)
+        {
+            GameManager.CustomeModule<PeerManager>().SendEvent(SessionId, opCode, data);
+        }
         public void Clear()
         {
             RoleId = 0;
