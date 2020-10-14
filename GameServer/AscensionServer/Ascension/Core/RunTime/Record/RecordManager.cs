@@ -21,5 +21,9 @@ namespace AscensionServer
         {
             recordHelper.RecordRole(roleId,data);
         }
+        public override void OnRefresh()
+        {
+            Utility.Debug.LogError("RecordManager OnRefresh");
+        }
     }
 }

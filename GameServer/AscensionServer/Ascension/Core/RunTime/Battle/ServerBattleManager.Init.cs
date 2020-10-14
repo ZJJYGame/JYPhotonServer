@@ -336,13 +336,14 @@ namespace AscensionServer
             return null;
         }
 
+        public Timer timer;
         /// <summary>
         /// 开始倒计时
         /// </summary>
-        public int Timestamp()
+        public void Timestamp()
         {
-            
-            return 0;
+            timer = new Timer(10);
+            timer.StartTimer();
         }
 
     }

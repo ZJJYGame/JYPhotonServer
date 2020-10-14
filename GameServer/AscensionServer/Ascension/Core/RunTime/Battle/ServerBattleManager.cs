@@ -304,8 +304,9 @@ namespace AscensionServer
                 #endregion
             }
             else
-            {
-            }
+            { }
+            
+
         }
 
         private SkillReactionCmd GetSendSkillReactionCmd(int roomId, int i)
@@ -333,24 +334,14 @@ namespace AscensionServer
 
         }
 
-        public int TotalTime = 15;
-
-        public bool isFinish = false;
         /// <summary>
         /// 每回合 倒计时
         /// </summary>
         public override void OnRefresh()
         {
             //var now =  Utility.Time.SecondNow();
-            if (isFinish)
-            {
-                TotalTime--;
-                if (TotalTime == 0)
-                {
-                    TotalTime = 15;
-                    isFinish = false;
-                }
-            }
+            Utility.Debug.LogInfo(" =>老陆_currentTime");
+            timer.UpdateTimer(0.2f);
 
         }
 

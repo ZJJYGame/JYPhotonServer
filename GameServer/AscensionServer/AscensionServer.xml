@@ -292,6 +292,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.Timestamp">
+            <summary>
+            开始倒计时
+            </summary>
+        </member>
         <member name="T:AscensionServer.TargetType">
             <summary>
             技能目标类型
@@ -326,6 +331,58 @@
             <summary>
             分阶段打完伤害
             </summary>
+        </member>
+        <member name="T:AscensionServer.Timer">
+            <summary>
+            定时器类
+            </summary>
+        </member>
+        <member name="F:AscensionServer.Timer._isTicking">
+            <summary>
+            是否在计时中
+            </summary>
+        </member>
+        <member name="F:AscensionServer.Timer._currentTime">
+            <summary>
+            当前时间
+            </summary>
+        </member>
+        <member name="F:AscensionServer.Timer._endTime">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="M:AscensionServer.Timer.StartTimer">
+            <summary>
+            开始计时
+            </summary>
+        </member>
+        <member name="M:AscensionServer.Timer.UpdateTimer(System.Single)">
+            <summary>
+            更新中
+            </summary>
+            <param name="delteTime"></param>
+        </member>
+        <member name="M:AscensionServer.Timer.StopTimer">
+            <summary>
+            停止计时
+            </summary>
+        </member>
+        <member name="M:AscensionServer.Timer.ContinueTimer">
+            <summary>
+            持续计时
+            </summary>
+        </member>
+        <member name="M:AscensionServer.Timer.ReStartTimer">
+            <summary>
+            重新计时
+            </summary>
+        </member>
+        <member name="M:AscensionServer.Timer.ResetEndTimer(System.Single)">
+            <summary>
+            重新设定计时器
+            </summary>
+            <param name="second"></param>
         </member>
         <member name="F:AscensionServer.DataManager.intervalSec">
             <summary>
