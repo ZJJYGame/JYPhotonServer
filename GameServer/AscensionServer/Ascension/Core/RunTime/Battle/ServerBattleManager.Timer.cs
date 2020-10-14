@@ -31,6 +31,60 @@ namespace AscensionServer
             _currentTime = 0;
             _endTime = second;
         }
+        /// <summary>
+        /// 开始计时
+        /// </summary>
+        public void StartTimer()
+        {
+            _isTicking = true;
+        }
+        /// <summary>
+        /// 更新中
+        /// </summary>
+        /// <param name="delteTime"></param>
+        public void UpdateTimer(float delteTime)
+        {
+            if (_isTicking)
+            {
+                _currentTime += delteTime;
+                if (_currentTime> _endTime)
+                {
+                    _isTicking = false;
+                }
+            }
+        }
+        /// <summary>
+        /// 停止计时
+        /// </summary>
+        public void StopTimer()
+        {
+            _isTicking = false;
+        }
+
+        /// <summary>
+        /// 持续计时
+        /// </summary>
+        public void ContinueTimer()
+        {
+            _isTicking = true;
+        }
+
+        /// <summary>
+        /// 重新计时
+        /// </summary>
+        public void ReStartTimer()
+        {
+            _isTicking = true;
+            _currentTime = 0;
+        }
+        /// <summary>
+        /// 重新设定计时器
+        /// </summary>
+        /// <param name="second"></param>
+        public void ResetEndTimer(float second)
+        {
+            _endTime = second;
+        }
 
 
     }

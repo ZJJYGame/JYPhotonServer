@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using AscensionProtocol.DTO;
+using Cosmos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AscensionProtocol.DTO;
-using AscensionServer.Model;
-using Cosmos;
-using Org.BouncyCastle.Asn1.X509.Qualified;
-using UnityEngine;
 namespace AscensionServer
 {
     /// <summary>
@@ -36,7 +30,7 @@ namespace AscensionServer
             }
 
             BattleInitDTO battleInit;
-            if (_oldBattleList.Count > 0 )
+            if (_oldBattleList.Count > 0)
             {
                 //int roomid = _oldBattleList[0];
                 //battleInit = _teamIdToBattleInit[roomid];
@@ -113,7 +107,7 @@ namespace AscensionServer
                             _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP -= enemyStatusData.EnemyAttact_Power;
                             BattleTransferDTO.TargetInfoDTO tempTransEnemy = new BattleTransferDTO.TargetInfoDTO();
                             tempTransEnemy.TargetID = roleId;
-                            tempTransEnemy.TargetHPDamage = - skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
+                            tempTransEnemy.TargetHPDamage = -skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
 
                             PlayerInfosSet.Add(tempTransEnemy);
                             teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = RoleDTO.BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
@@ -316,7 +310,7 @@ namespace AscensionServer
 
         private SkillReactionCmd GetSendSkillReactionCmd(int roomId, int i)
         {
-            return  _roomidToBattleTransfer[roomId][i].SendSkillReactionCmd;
+            return _roomidToBattleTransfer[roomId][i].SendSkillReactionCmd;
         }
         private int GetSkillReactionValue(int roomId, int i)
         {
