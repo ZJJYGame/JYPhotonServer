@@ -21,5 +21,4 @@ namespace AscensionServer
         {
             recordHelper.RecordRole(roleId,data);
         }
-    }
 }

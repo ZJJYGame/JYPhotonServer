@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Cosmos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 /*
- * 战斗的映射
- * Since : 2020 - 09 -22
- * Author : xianren*/
+* 战斗的映射
+* Since : 2020 - 09 -22
+* Author : xianren*/
 namespace AscensionProtocol.DTO
 {
     [Serializable]
@@ -37,6 +39,8 @@ namespace AscensionProtocol.DTO
         /// 倒计时秒
         /// </summary>
         public virtual int countDownSec { get; set; }
+
+
         /// <summary>
         /// 当前房间内战斗的回合数
         /// </summary>
@@ -162,6 +166,11 @@ namespace AscensionProtocol.DTO
     /// </summary>
     public class BattleTransferDTO
     {
+        /// <summary>
+        /// 控制每回合的时间
+        /// </summary>
+        //public virtual TimerManager timer { get; set; }
+
         /// <summary>
         /// 是否结束
         /// </summary>
@@ -308,3 +317,86 @@ public enum SkillReactionCmd
     /// </summary>
     Parry
 }
+
+/*
+/// <summary>
+/// 定时器类
+/// </summary>
+public class TimerManager
+{
+    /// <summary>
+    /// 是否在计时中
+    /// </summary>
+    bool _isTicking;
+    /// <summary>
+    /// 当前时间
+    /// </summary>
+    public float _currentTime;
+    /// <summary>
+    /// 结束时间
+    /// </summary>
+    public float _endTime;
+
+    public delegate void EvnentHander();
+
+    public TimerManager(float second)
+    {
+        _currentTime = 0;
+        _endTime = second;
+    }
+    /// <summary>
+    /// 开始计时
+    /// </summary>
+    public void StartTimer()
+    {
+        _isTicking = true;
+    }
+    /// <summary>
+    /// 更新中
+    /// </summary>
+    /// <param name="delteTime"></param>
+    public void UpdateTimer(float delteTime)
+    {
+        if (_isTicking)
+        {
+            _currentTime += delteTime;
+            if (_currentTime > _endTime)
+            {
+                _isTicking = false;
+            }
+        }
+    }
+    /// <summary>
+    /// 停止计时
+    /// </summary>
+    public void StopTimer()
+    {
+        _isTicking = false;
+    }
+
+    /// <summary>
+    /// 持续计时
+    /// </summary>
+    public void ContinueTimer()
+    {
+        _isTicking = true;
+    }
+
+    /// <summary>
+    /// 重新计时
+    /// </summary>
+    public void ReStartTimer()
+    {
+        _isTicking = true;
+        _currentTime = 0;
+    }
+    /// <summary>
+    /// 重新设定计时器
+    /// </summary>
+    /// <param name="second"></param>
+    public void ResetEndTimer(float second)
+    {
+        _endTime = second;
+    }
+
+}*/

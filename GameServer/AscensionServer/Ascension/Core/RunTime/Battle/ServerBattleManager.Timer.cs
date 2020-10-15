@@ -10,13 +10,15 @@ using NHibernate.Linq.Clauses;
 using AscensionProtocol.DTO;
 using Renci.SshNet.Security;
 using Cosmos;
+using System.Security.Cryptography;
+using System.Timers;
 
 namespace AscensionServer
 {
     /// <summary>
     /// 定时器类
     /// </summary>
-    public class Timer
+    public class TimerManager
     {
         /// <summary>
         /// 是否在计时中
@@ -33,7 +35,7 @@ namespace AscensionServer
 
         public delegate void EvnentHander();
 
-        public Timer(float second)
+        public TimerManager(float second)
         {
             _currentTime = 0;
             _endTime = second;
@@ -94,6 +96,58 @@ namespace AscensionServer
             _endTime = second;
         }
 
-
     }
+
+
+    #region 正在使用的倒计时
+
+    public class TimerToManager
+    {
+        public MyDelegateHandle myDelegateHandle;
+
+        System.Timers.Timer Mytimer;
+
+        public TimerToManager(int second)
+        {
+            Mytimer = new System.Timers.Timer(second);
+        }
+
+        public void StartTimer()
+        {
+            Mytimer.Enabled = true;
+            Mytimer.Start();
+            Mytimer.Elapsed += new ElapsedEventHandler(BattleMethodCallBack);
+            Mytimer.AutoReset = false;
+        }
+
+        /// <summary>
+        /// 绑定的回调事件
+        /// </summary>
+        public void BattleMethodCallBack(object sender, ElapsedEventArgs args)
+        {
+            myDelegateHandle += CallBackMethod;
+            myDelegateHandle?.Invoke();
+        }
+
+        /// <summary>
+        /// 停止时间
+        /// </summary>
+        public void StopTimer()
+        {
+            myDelegateHandle -= CallBackMethod;
+            Mytimer.Stop();
+        }
+
+        /// <summary>
+        /// 处理回调
+        /// </summary>
+        public void CallBackMethod()
+        {
+            Utility.Debug.LogInfo("老陆   不确定是又粗又长");
+        }
+
+
+        #endregion
+    }
+
 }
