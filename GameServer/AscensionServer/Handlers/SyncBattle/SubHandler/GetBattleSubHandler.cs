@@ -64,7 +64,7 @@ namespace AscensionServer
                         SetResponseParamters(() =>
                         {
                             Utility.Debug.LogInfo("返回成功！！   使用技能伤害");
-                            GameManager.CustomeModule<ServerBattleManager>().Timestamp();
+                            GameManager.CustomeModule<ServerBattleManager>().Timestamp(RoleObj.BattleInitDTO.RoomId);
                             subResponseParameters.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>().teamSet));
                             subResponseParameters.Add((byte)ParameterCode.RoleBattleCmd, (byte)RoleDTO.BattleCmd.SkillInstruction);
                             subResponseParameters.Add((byte)ParameterCode.RoleBattleTimeStamp, Utility.Json.ToJson(Utility.Time.MillisecondTimeStamp()));

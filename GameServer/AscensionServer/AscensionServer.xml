@@ -4,7 +4,7 @@
         <name>AscensionServer</name>
     </assembly>
     <members>
-        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -207,11 +207,6 @@
             战斗结束
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.OnRefresh">
-            <summary>
-            每回合 倒计时
-            </summary>
-        </member>
         <member name="F:AscensionServer.ServerBattleManager._teamIdToBattleInit">
             <summary>
              角色id 和对应的 房间数据对象
@@ -220,6 +215,11 @@
         <member name="F:AscensionServer.ServerBattleManager._roomidToBattleTransfer">
             <summary>
             房间id， 每回合战斗传输数据对象
+            </summary>
+        </member>
+        <member name="F:AscensionServer.ServerBattleManager._roomidToTimer">
+            <summary>
+            房间id，对应每回合的倒计时
             </summary>
         </member>
         <member name="F:AscensionServer.ServerBattleManager._oldBattleList">
@@ -302,7 +302,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.Timestamp">
+        <member name="M:AscensionServer.ServerBattleManager.Timestamp(System.Int32)">
             <summary>
             开始倒计时
             </summary>
@@ -342,57 +342,67 @@
             分阶段打完伤害
             </summary>
         </member>
-        <member name="T:AscensionServer.Timer">
+        <member name="T:AscensionServer.TimerManager">
             <summary>
             定时器类
             </summary>
         </member>
-        <member name="F:AscensionServer.Timer._isTicking">
+        <member name="F:AscensionServer.TimerManager._isTicking">
             <summary>
             是否在计时中
             </summary>
         </member>
-        <member name="F:AscensionServer.Timer._currentTime">
+        <member name="F:AscensionServer.TimerManager._currentTime">
             <summary>
             当前时间
             </summary>
         </member>
-        <member name="F:AscensionServer.Timer._endTime">
+        <member name="F:AscensionServer.TimerManager._endTime">
             <summary>
             结束时间
             </summary>
         </member>
-        <member name="M:AscensionServer.Timer.StartTimer">
+        <member name="M:AscensionServer.TimerManager.StartTimer">
             <summary>
             开始计时
             </summary>
         </member>
-        <member name="M:AscensionServer.Timer.UpdateTimer(System.Single)">
+        <member name="M:AscensionServer.TimerManager.UpdateTimer(System.Single)">
             <summary>
             更新中
             </summary>
             <param name="delteTime"></param>
         </member>
-        <member name="M:AscensionServer.Timer.StopTimer">
+        <member name="M:AscensionServer.TimerManager.StopTimer">
             <summary>
             停止计时
             </summary>
         </member>
-        <member name="M:AscensionServer.Timer.ContinueTimer">
+        <member name="M:AscensionServer.TimerManager.ContinueTimer">
             <summary>
             持续计时
             </summary>
         </member>
-        <member name="M:AscensionServer.Timer.ReStartTimer">
+        <member name="M:AscensionServer.TimerManager.ReStartTimer">
             <summary>
             重新计时
             </summary>
         </member>
-        <member name="M:AscensionServer.Timer.ResetEndTimer(System.Single)">
+        <member name="M:AscensionServer.TimerManager.ResetEndTimer(System.Single)">
             <summary>
             重新设定计时器
             </summary>
             <param name="second"></param>
+        </member>
+        <member name="M:AscensionServer.TimerToManager.TestFun(System.Object,System.Timers.ElapsedEventArgs)">
+            <summary>
+            绑定的回调事件
+            </summary>
+        </member>
+        <member name="M:AscensionServer.TimerToManager.StopTimer">
+            <summary>
+            停止时间
+            </summary>
         </member>
         <member name="F:AscensionServer.DataManager.intervalSec">
             <summary>
@@ -924,7 +934,7 @@
             <param name="playerId"></param>
             <returns></returns>
         </member>
-        <!-- 对于成员“M:AscensionServer.ServerTeamManager.GetApplyListInfo(AscensionProtocol.DTO.RoleDTO)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerTeamManager.GetApplyListInfo(AscensionProtocol.DTO.RoleDTO)" -->
         <member name="M:AscensionServer.ServerTeamManager.GetTeamList(AscensionProtocol.DTO.RoleDTO)">
             <summary>
             返回所有队伍信息
@@ -1085,7 +1095,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Object)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Object)" -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；

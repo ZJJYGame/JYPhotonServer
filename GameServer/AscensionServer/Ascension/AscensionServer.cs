@@ -46,6 +46,7 @@ namespace AscensionServer
             GameManager.InitCustomeModule(this.GetType().Assembly);
             RedisDotNet.RedisManager.Instance.OnInitialization();
             Task.Run(() => GameManagerAgent.Instance.OnRefresh());
+            GameManagerAgent.Instance.Pause = true;
         }
         protected override void TearDown()
         {

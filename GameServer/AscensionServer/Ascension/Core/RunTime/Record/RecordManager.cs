@@ -23,7 +23,6 @@ namespace AscensionServer
         }
         int updateInterval = ApplicationBuilder._MSPerTick;
         long latestTime;
-        int roomIndex;
         public override void OnRefresh()
         {
             var now = Utility.Time.MillisecondTimeStamp();
@@ -33,7 +32,6 @@ namespace AscensionServer
                 latestTime = now + updateInterval;
                 Utility.Debug.LogWarning("RecordManager OnRefresh");
             }
-
         }
     }
 }

@@ -25,6 +25,10 @@ namespace AscensionServer
         /// </summary>
         public Dictionary<int, List<BattleTransferDTO>> _roomidToBattleTransfer = new Dictionary<int, List<BattleTransferDTO>>();
         /// <summary>
+        /// 房间id，对应每回合的倒计时
+        /// </summary>
+        public Dictionary<int, TimerToManager> _roomidToTimer = new Dictionary<int, TimerToManager>();
+        /// <summary>
         /// 回收房间
         /// </summary>
         public List<int> _oldBattleList = new List<int>();
@@ -336,14 +340,13 @@ namespace AscensionServer
             return null;
         }
 
-        public Timer timer;
+        //public TimerManager timer;
         /// <summary>
         /// 开始倒计时
         /// </summary>
-        public void Timestamp()
+        public void Timestamp(int roomId)
         {
-            timer = new Timer(10);
-            timer.StartTimer();
+            _roomidToTimer[roomId].StartTimer();
         }
 
     }

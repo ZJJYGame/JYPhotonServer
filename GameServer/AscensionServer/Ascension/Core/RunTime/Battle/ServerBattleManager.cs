@@ -49,6 +49,7 @@ namespace AscensionServer
                 battleInit.battleUnits = AllBattleDataDTOsInfo(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, battleInitDTO);
                 _teamIdToBattleInit.Add(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, battleInit);
                 _roomidToBattleTransfer.Add(battleInit.RoomId, new List<BattleTransferDTO>());
+                _roomidToTimer.Add(battleInit.RoomId, new TimerToManager(20000));
             }
         }
 
@@ -334,16 +335,38 @@ namespace AscensionServer
 
         }
 
+
+        public override void OnPreparatory()
+        {
+            OnPause();
+        }
+
+        public override void OnRefresh()
+        {
+            if (IsPause)
+                return;
+            Utility.Debug.LogWarning("=>老陆_currentTime OnRefresh");
+
+        }
+        /*
         /// <summary>
         /// 每回合 倒计时
         /// </summary>
+        int updateInterval = ApplicationBuilder._MSPerTick;
+        long latestTime;
         public override void OnRefresh()
         {
-            //var now =  Utility.Time.SecondNow();
-            Utility.Debug.LogInfo(" =>老陆_currentTime");
-            timer.UpdateTimer(0.2f);
+            if (IsPause)
+                return;
+            var now = Utility.Time.MillisecondTimeStamp();
+            if (now >= latestTime)
+            {
+                //广播当前帧，并进入下一帧；
+                latestTime = now + updateInterval;
 
-        }
+                Utility.Debug.LogWarning("=>老陆_currentTime OnRefresh");
+            }
+        }*/
 
     }
 }
