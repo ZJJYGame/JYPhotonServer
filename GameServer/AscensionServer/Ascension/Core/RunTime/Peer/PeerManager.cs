@@ -19,7 +19,7 @@ namespace AscensionServer
         /// <summary>
         /// 广播事件消息 ;
         /// </summary>
-        public event Action<byte, object> BroadcastEvent
+        public event Action<byte, Dictionary<byte, object>> BroadcastEvent
         {
             add { broadcastEvent += value; }
             remove
@@ -40,7 +40,7 @@ namespace AscensionServer
                 catch (Exception e) { Utility.Debug.LogError($"无法移除发送消息的委托:{e}"); }
             }
         }
-        Action<byte, object> broadcastEvent;
+        Action<byte, Dictionary<byte, object>> broadcastEvent;
         Action<object> broadcastMessage;
         ConcurrentDictionary<int, IPeerAgent> peerDict;
         public override void OnInitialization()
@@ -115,7 +115,7 @@ namespace AscensionServer
         ///发送事件(EVENT)到具体的sessionId； 
         ///若不存在session对象，则不发送，并返回false；
         /// </summary>
-        public bool SendEvent(int sessionId,byte opCode, object userData)
+        public bool SendEvent(int sessionId,byte opCode, Dictionary<byte,object> userData)
         {
             var result = TryGetValue(sessionId, out var peer);
             if(result)
@@ -127,14 +127,14 @@ namespace AscensionServer
         /// 此方法会对所有在线且Available的peer对象进行消息广播；
         /// </summary>
         /// <param name="userData">用户自定义数据</param>
-        public void BroadcastEventToAll(byte opCode, object userData)
+        public void BroadcastEventToAll(byte opCode, Dictionary<byte, object> userData)
         {
             broadcastEvent?.Invoke(opCode, userData);
         }
         /// <summary>
         ///发送消息到具体的SessionId 
         /// </summary>
-        public bool SendMessage(int sessionId,  object message)
+        public bool SendMessage(int sessionId, object message)
         {
             var result = TryGetValue(sessionId, out var peer);
             if (result)
@@ -159,7 +159,7 @@ namespace AscensionServer
         /// <summary>
         ///异步广播消息到具体的sessionId 
         /// </summary>
-        public async Task<bool> SendEventAsync(int sessionId,byte opCode, object userData)
+        public async Task<bool> SendEventAsync(int sessionId,byte opCode, Dictionary<byte, object> userData)
         {
             return await Task.Run(() => { return SendEvent(sessionId, opCode,userData); });
         }
@@ -169,7 +169,7 @@ namespace AscensionServer
         /// <param name="userData">用户自定义数据</param>
         /// <param name="callback">广播结束后的回调</param>
         /// <returns>线程Task</returns>
-        public async Task BroadcastEventToAllAsync(byte opCode, object userData, Action callback = null)
+        public async Task BroadcastEventToAllAsync(byte opCode, Dictionary<byte,object> userData, Action callback = null)
         {
             await Task.Run(() => { broadcastEvent?.Invoke(opCode, userData); });
             callback?.Invoke();

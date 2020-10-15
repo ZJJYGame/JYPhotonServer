@@ -49,10 +49,10 @@ namespace AscensionServer
         /// 传输的数据类型限定为Dictionary<byte,object>类型；
         /// </summary>
         /// <param name="data">用户自定义数据</param>
-       public void SendEventMsg(byte opCode, object data)
+       public void SendEventMsg(byte opCode, Dictionary<byte, object> data)
         {
             eventData.Code = opCode;
-            eventData.Parameters = data as Dictionary<byte, object>;
+            eventData.Parameters = data;
             base.SendEvent(eventData, sendParam);
         }
         public void Clear()
@@ -68,7 +68,7 @@ namespace AscensionServer
             ed.Parameters = data;
             GameManager.CustomeModule<PeerManager>().TryRemove(SessionId);
             Utility.Debug.LogError($"Photon SessionId : {SessionId} Unavailable . RemoteAdress:{RemoteIPAddress}");
-            var task = GameManager.CustomeModule<PeerManager>().BroadcastEventToAllAsync((byte)reasonCode, ed);
+            var task = GameManager.CustomeModule<PeerManager>().BroadcastEventToAllAsync((byte)reasonCode, ed.Parameters);
         }
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
         {
@@ -85,6 +85,9 @@ namespace AscensionServer
         {
             //接收到客户端消息后，进行委托广播；
             onMessageReceive?.Invoke(message);
+            {
+                this.SendMessage("手抓饼通哥；");
+            }
         }
         #endregion
     }

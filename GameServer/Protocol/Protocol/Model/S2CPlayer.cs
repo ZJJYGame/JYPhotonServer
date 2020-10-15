@@ -4,10 +4,11 @@ using System.Text;
 using MessagePack;
 namespace Protocol
 {
+    [Serializable]
     [MessagePackObject]
-    public class FixRoom: IDataContract
+    public class S2CPlayer: IDataContract
     {
         [Key(0)]
-        public int RoomId { get; set; }
+        public List<C2SPlayer> PlayerList { get; set; }
     }
 }

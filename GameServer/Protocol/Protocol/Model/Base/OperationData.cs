@@ -4,6 +4,7 @@ using System.Text;
 using MessagePack;
 namespace Protocol
 {
+    [Serializable]
     [MessagePackObject]
     public class OperationData : IDisposable
     {

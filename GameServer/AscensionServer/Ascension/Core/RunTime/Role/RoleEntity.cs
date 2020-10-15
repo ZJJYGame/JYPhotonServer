@@ -56,7 +56,11 @@ namespace AscensionServer
             }
             return false;
         }
-        public void SendMessage(byte opCode, object data)
+        public void SendMessage(object data)
+        {
+            GameManager.CustomeModule<PeerManager>().SendMessage(SessionId,  data);
+        }
+        public void SendEvent(byte opCode, Dictionary<byte, object> data)
         {
             GameManager.CustomeModule<PeerManager>().SendEvent(SessionId, opCode, data);
         }
@@ -82,5 +86,7 @@ namespace AscensionServer
             }
             return entity;
         }
+
+     
     }
 }

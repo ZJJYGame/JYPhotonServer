@@ -12,5 +12,7 @@ namespace AscensionServer
         int RoleId { get; }
         int SessionId { get; }
         object[] Find(Predicate<object> handler);
+        void SendMessage(object data);
+        void SendEvent(byte opCode, Dictionary<byte,object> data);
     }
 }

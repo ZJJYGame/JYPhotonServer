@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Debug\Protocol.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -74,14 +75,13 @@
     <Compile Include="Protocol\Model\Base\DataParameters.cs" />
     <Compile Include="Protocol\Model\Base\IDataContract.cs" />
     <Compile Include="Protocol\Model\Base\OperationData.cs" />
-    <Compile Include="Protocol\Model\FixInput.cs" />
-    <Compile Include="Protocol\Model\FixInputSet.cs" />
-    <Compile Include="Protocol\Model\FixPlayer.cs" />
-    <Compile Include="Protocol\Model\FixPlayerSet.cs" />
-    <Compile Include="Protocol\Model\FixRoom.cs" />
-    <Compile Include="Protocol\Model\FixRoomEntity.cs" />
-    <Compile Include="Protocol\Model\FixRoomPlayer.cs" />
-    <Compile Include="Protocol\Model\FixVector3.cs" />
+    <Compile Include="Protocol\Model\C2SInput.cs" />
+    <Compile Include="Protocol\Model\S2CInput.cs" />
+    <Compile Include="Protocol\Model\C2SPlayer.cs" />
+    <Compile Include="Protocol\Model\S2CPlayer.cs" />
+    <Compile Include="Protocol\Model\S2CEntityContainer.cs" />
+    <Compile Include="Protocol\Model\C2SEntityContainer.cs" />
+    <Compile Include="Protocol\Model\Fix\FixVector3.cs" />
     <Compile Include="Protocol\ProtocolDefine.cs" />
     <Compile Include="ThirdParty\UnityEngine\Mathf.cs" />
     <Compile Include="ThirdParty\UnityEngine\Matrix3x3.cs" />

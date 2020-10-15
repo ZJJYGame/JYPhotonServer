@@ -18,6 +18,6 @@ namespace AscensionServer
         IRoleEntity RemoteRole { get; }
         ICollection<object> DataCollection { get; }
         void SendMessage(object message);
-        void SendEvent(byte opCode, object userData);
+        void SendEvent(byte opCode, Dictionary<byte,object> userData);
     }
 }

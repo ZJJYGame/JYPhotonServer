@@ -62,7 +62,7 @@ namespace AscensionServer
         /// </summary>
         /// <param name="opCode">操作码</param>
         /// <param name="userData">用户数据</param>
-        public void SendEvent(byte opCode, object userData)
+        public void SendEvent(byte opCode, Dictionary<byte, object> userData)
         {
             Handle.SendEventMsg(opCode, userData);
         }

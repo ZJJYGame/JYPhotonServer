@@ -18,12 +18,12 @@ namespace AscensionServer
         /// <summary>
         /// 广播消息事件委托；
         /// </summary>
-        public event Action<byte, object> BroadcastBattleMessage
+        public event Action<byte, Dictionary<byte,object>> BroadcastBattleEvent
         {
-            add { broadcastBattleMessage += value; }
+            add { broadcastBattleEvent += value; }
             remove
             {
-                try { broadcastBattleMessage -= value; }
+                try { broadcastBattleEvent -= value; }
                 catch (Exception e) { Utility.Debug.LogError($"无法移除发送消息的委托:{e}"); }
             }
         }
@@ -41,7 +41,7 @@ namespace AscensionServer
         protected int roundCount = 0;
         protected ConcurrentDictionary<int, IPeerAgent> peerDict 
             = new ConcurrentDictionary<int, IPeerAgent>();
-        protected Action<byte, object> broadcastBattleMessage;
+        protected Action<byte, Dictionary<byte,object>> broadcastBattleEvent;
         protected object battleResultdata;
         #endregion
 
@@ -61,7 +61,7 @@ namespace AscensionServer
             peerDict.Clear();
             canCacheCmd = true;
             Available = false;
-            broadcastBattleMessage = null;
+            broadcastBattleEvent = null;
         }
         public bool TryGetValue(int key, out IPeerAgent value)
         {
@@ -76,7 +76,7 @@ namespace AscensionServer
             IPeerAgent peer;
             var result = peerDict.TryRemove(key, out peer);
             if (result)
-                BroadcastBattleMessage -= peer.SendEvent;
+                BroadcastBattleEvent -= peer.SendEvent;
             return result;
         }
         public bool TryAdd(int key, IPeerAgent Value)
@@ -85,14 +85,14 @@ namespace AscensionServer
                throw new ArgumentNullException("PeerEntity is invaild ! ");
             var result = peerDict.TryAdd(key, Value);
             if (result)
-                BroadcastBattleMessage += Value.SendEvent;
+                BroadcastBattleEvent += Value.SendEvent;
             return result;
         }
         public bool TryRemove(int key, out IPeerAgent peer)
         {
             var result = peerDict.TryRemove(key, out peer);
             if (result)
-                BroadcastBattleMessage -= peer.SendEvent;
+                BroadcastBattleEvent -= peer.SendEvent;
             return result;
         }
         public bool TryUpdate(int key, IPeerAgent newValue, IPeerAgent comparsionValue)
@@ -100,8 +100,8 @@ namespace AscensionServer
             var result = peerDict.TryUpdate(key, newValue, comparsionValue);
             if (result)
             {
-                BroadcastBattleMessage -= comparsionValue.SendEvent;
-                BroadcastBattleMessage += newValue.SendEvent;
+                BroadcastBattleEvent -= comparsionValue.SendEvent;
+                BroadcastBattleEvent += newValue.SendEvent;
             }
             return result;
         }
@@ -165,13 +165,13 @@ namespace AscensionServer
             canCacheCmd = true;
             CountDown();
         }
-        protected virtual void  BroadcastMessage(byte opCode, object data)
+        protected virtual void  BroadcastEvent(byte opCode, Dictionary<byte,object> data)
         {
-            var task= BroadcastMessageAsync(opCode, data);
+            var task= BroadcastEventAsync(opCode, data);
         }
-        protected virtual async Task BroadcastMessageAsync(byte opCode, object data)
+        protected virtual async Task BroadcastEventAsync(byte opCode, Dictionary<byte,object> data)
         {
-            await Task.Run(() => broadcastBattleMessage?.Invoke(opCode, data));
+            await Task.Run(() => broadcastBattleEvent?.Invoke(opCode, data));
         }
         #endregion
     }

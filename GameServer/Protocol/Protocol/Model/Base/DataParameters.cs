@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 namespace Protocol
 {
+
+    [Serializable]
     /// <summary>
     /// ProtocolDefine 4319 请求通道的数据类型；
     /// </summary>

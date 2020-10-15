@@ -21,19 +21,5 @@ namespace AscensionServer
         {
             recordHelper.RecordRole(roleId,data);
         }
-        int updateInterval = ApplicationBuilder._MSPerTick;
-        long latestTime;
-        int roomIndex;
-        public override void OnRefresh()
-        {
-            var now = Utility.Time.MillisecondTimeStamp();
-            if (now >= latestTime)
-            {
-                //广播当前帧，并进入下一帧；
-                latestTime = now + updateInterval;
-                Utility.Debug.LogWarning("RecordManager OnRefresh");
-            }
-
-        }
     }
 }

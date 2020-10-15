@@ -5,12 +5,13 @@ using System.Text;
 
 namespace Protocol
 {
+    [Serializable]
     [MessagePackObject]
-    public class FixRoomPlayer: IDataContract
+    public class C2SEntityContainer: IDataContract
     {
         [Key(0)]
-        public int RoomId { get; set; }
+        public int EntityContainerId { get; set; }
         [Key(1)]
-        public FixPlayer Player { get; set; }
+        public C2SPlayer Player { get; set; }
     }
 }

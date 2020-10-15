@@ -4,8 +4,9 @@ using System.Text;
 using MessagePack;
 namespace Protocol
 {
+    [Serializable]
     [MessagePackObject]
-    public class FixPlayer : IDataContract, IDisposable
+    public class C2SPlayer : IDataContract, IDisposable
     {
         [Key(0)]
         public int SessionId { get; set; }
