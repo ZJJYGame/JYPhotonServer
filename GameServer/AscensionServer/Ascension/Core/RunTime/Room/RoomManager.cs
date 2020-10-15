@@ -29,19 +29,19 @@ namespace AscensionServer
         {
             if (IsPause)
                 return;
-            var nowSec = Utility.Time.SecondNow();
-            if (latestTime <= nowSec)
-            {
-                latestTime = nowSec;
-                foreach (var room in roomDict.Values)
-                {
-                    if (!room.Available)
-                    {
-                        RoomEntity roomEntity;
-                        roomDict.TryRemove(room.RoomId, out roomEntity);
-                    }
-                }
-            }
+            //var nowSec = Utility.Time.SecondNow();
+            //if (latestTime <= nowSec)
+            //{
+            //    latestTime = nowSec;
+            //    foreach (var room in roomDict.Values)
+            //    {
+            //        if (!room.Available)
+            //        {
+            //            RoomEntity roomEntity;
+            //            roomDict.TryRemove(room.RoomId, out roomEntity);
+            //        }
+            //    }
+            //}
         }
         public bool TryGetValue(int key, out RoomEntity value)
         {

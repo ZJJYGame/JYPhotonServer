@@ -14,7 +14,7 @@ namespace AscensionServer
     /// 其余各个模块都是从此通过SessionID取得Peer对象；
     /// </summary>
     [CustomeModule]
-    public class PeerManager : Module<PeerManager>, IKeyValue<int, IPeerAgent>
+    public class PeerManager : Module<PeerManager>, IKeyValue<int, IPeerEntity>
     {
         /// <summary>
         /// 广播事件消息 ;
@@ -42,48 +42,47 @@ namespace AscensionServer
         }
         Action<byte, Dictionary<byte, object>> broadcastEvent;
         Action<object> broadcastMessage;
-        ConcurrentDictionary<int, IPeerAgent> peerDict;
+        ConcurrentDictionary<int, IPeerEntity> peerDict;
         public override void OnInitialization()
         {
-            peerDict = new ConcurrentDictionary<int, IPeerAgent>();
+            peerDict = new ConcurrentDictionary<int, IPeerEntity>();
         }
-        public bool TryAdd(IPeerAgent peer)
+        public bool TryAdd(IPeerEntity peer)
         {
             var result = peerDict.TryAdd(peer.SessionId, peer);
             if (result)
             {
-                BroadcastEvent += peer.SendEvent;
+                BroadcastEvent += peer.SendEventMsg;
                 BroadcastMessage += peer.SendMessage;
             }
             return result;
         }
-        public bool TryAdd(int sessionId, IPeerAgent peer)
+        public bool TryAdd(int sessionId, IPeerEntity peer)
         {
             var result = peerDict.TryAdd(sessionId, peer);
             if (result)
             {
-                BroadcastEvent += peer.SendEvent;
+                BroadcastEvent += peer.SendEventMsg;
                 BroadcastMessage += peer.SendMessage;
             }
             return result;
         }
         public bool TryRemove(int sessionId)
         {
-            IPeerAgent peer;
-            var result = peerDict.TryRemove(sessionId, out peer);
+            var result = peerDict.TryRemove(sessionId, out var peer);
             if (result)
             {
-                BroadcastEvent -= peer.SendEvent;
+                BroadcastEvent -= peer.SendEventMsg;
                 BroadcastMessage -= peer.SendMessage;
             }
             return result;
         }
-        public bool TryRemove(int sessionId, out IPeerAgent peer)
+        public bool TryRemove(int sessionId, out IPeerEntity peer)
         {
             var result = peerDict.TryRemove(sessionId, out peer);
             if (result)
             {
-                BroadcastEvent -= peer.SendEvent;
+                BroadcastEvent -= peer.SendEventMsg;
                 BroadcastMessage -= peer.SendMessage;
             }
             return result;
@@ -95,19 +94,19 @@ namespace AscensionServer
         /// <summary>
         /// 将指定键的现有值与指定值进行比较，如果相等，则用第三个值更新该键。
         /// </summary>
-        public bool TryUpdate(int sessionId, IPeerAgent newPeer, IPeerAgent comparisonPeer)
+        public bool TryUpdate(int sessionId, IPeerEntity newPeer, IPeerEntity comparisonPeer)
         {
             var result = peerDict.TryUpdate(sessionId, newPeer, comparisonPeer);
             if (result)
             {
-                BroadcastEvent -= comparisonPeer.SendEvent;
-                BroadcastEvent += newPeer.SendEvent;
+                BroadcastEvent -= comparisonPeer.SendEventMsg;
+                BroadcastEvent += newPeer.SendEventMsg;
                 BroadcastMessage -= comparisonPeer.SendMessage;
                 BroadcastMessage += newPeer.SendMessage;
             }
             return result;
         }
-        public bool TryGetValue(int sessionId, out IPeerAgent peer)
+        public bool TryGetValue(int sessionId, out IPeerEntity peer)
         {
             return peerDict.TryGetValue(sessionId, out peer);
         }
@@ -119,7 +118,7 @@ namespace AscensionServer
         {
             var result = TryGetValue(sessionId, out var peer);
             if(result)
-                peer.SendEvent(opCode, userData);
+                peer.SendEventMsg(opCode, userData);
             return result;
         }
         /// <summary>

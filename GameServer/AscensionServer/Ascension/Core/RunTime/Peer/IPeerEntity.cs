@@ -9,7 +9,7 @@ namespace AscensionServer
     /// <summary>
     /// 用于适配的Peer接口，管理一个具体实现的client peer 对象
     /// </summary>
-    public interface IAscensionPeer: IReference
+    public interface IPeerEntity: IReference
     {
         /// <summary>
         /// 会话ID

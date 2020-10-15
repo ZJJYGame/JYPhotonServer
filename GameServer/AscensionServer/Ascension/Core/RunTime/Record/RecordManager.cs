@@ -8,17 +8,18 @@ using Cosmos;
 namespace AscensionServer
 {
     [CustomeModule]
-    public class RecordManager:Module<RecordManager>
+    public class RecordManager : Module<RecordManager>
     {
         IRecordHelper recordHelper;
         public override void OnInitialization()
         {
             recordHelper = Utility.Assembly.GetInstanceByAttribute<ImplementProviderAttribute, IRecordHelper>();
-            if(recordHelper==null)
+            if (recordHelper == null)
                 Utility.Debug.LogError($"{this.GetType()} has no helper instance ,base type: {typeof(IRecordHelper)}");
         }
-        public void RecordRole(int roleId,object data)
+        public void RecordRole(int roleId, object data)
         {
-            recordHelper.RecordRole(roleId,data);
+            recordHelper.RecordRole(roleId, data);
         }
+    }
 }

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace AscensionServer
 {
-    public class AscensionPeer : ClientPeer, IAscensionPeer
+    public class AscensionPeer : ClientPeer, IPeerEntity
     {
         #region Properties
         public int SessionId { get; private set; }
@@ -30,12 +30,36 @@ namespace AscensionServer
         SendParameters sendParam = new SendParameters();
         EventData eventData = new EventData();
         Action<object> onMessageReceive;
+
+        public ICollection<object> DataCollection { get { return dataDict.Values; } }
+        Dictionary<Type, object> dataDict=new Dictionary<Type, object>();
         #endregion
         #region Methods
         public AscensionPeer(InitRequest initRequest) : base(initRequest)
         {
             Handle = this; this.SessionId = ConnectionId;
+            GameManager.CustomeModule<PeerManager>().TryAdd(this);
             Utility.Debug.LogInfo($"Photon SessionId : {SessionId} Available . RemoteAdress:{initRequest.RemoteIP}");
+        }
+        public bool TryGetValue(Type key, out object value)
+        {
+            return dataDict.TryGetValue(key, out value);
+        }
+        public bool ContainsKey(Type key)
+        {
+            return dataDict.ContainsKey(key);
+        }
+        public bool TryRemove(Type Key)
+        {
+            return dataDict.Remove(Key, out _ );
+        }
+        public bool TryRemove(Type key, out object value)
+        {
+            return dataDict.Remove(key, out value);
+        }
+        public bool TryAdd(Type key, object Value)
+        {
+            return dataDict.TryAdd(key, Value);
         }
         /// <summary>
         /// 发送消息到remotePeer
@@ -59,7 +83,7 @@ namespace AscensionServer
         {
             SessionId = 0;
             Available = false;
-            Handle = null;
+            dataDict.Clear();
         }
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {

@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 using Cosmos;
 namespace AscensionServer
 {
-    public class RoomEntity : IReference, IKeyValue<int, IPeerAgent>
+    public class RoomEntity : IReference, IKeyValue<int, IRoleEntity>
     {
         #region Properties
         public int RoomId { get; private set; }
@@ -39,8 +39,8 @@ namespace AscensionServer
         /// 当前房间内战斗的回合数
         /// </summary>
         protected int roundCount = 0;
-        protected ConcurrentDictionary<int, IPeerAgent> peerDict 
-            = new ConcurrentDictionary<int, IPeerAgent>();
+        protected ConcurrentDictionary<int, IRoleEntity> roleDict 
+            = new ConcurrentDictionary<int, IRoleEntity>();
         protected Action<byte, Dictionary<byte,object>> broadcastBattleEvent;
         protected object battleResultdata;
         #endregion
@@ -58,60 +58,51 @@ namespace AscensionServer
         }
         public virtual void Clear()
         {
-            peerDict.Clear();
+            roleDict.Clear();
             canCacheCmd = true;
             Available = false;
             broadcastBattleEvent = null;
         }
-        public bool TryGetValue(int key, out IPeerAgent value)
+        public bool TryGetValue(int roleId, out IRoleEntity role )
         {
-            return peerDict.TryGetValue(key, out value);
+            return roleDict.TryGetValue(roleId, out role);
         }
-        public bool ContainsKey(int key)
+        public bool ContainsKey(int roleId)
         {
-            return peerDict.ContainsKey(key);
+            return roleDict.ContainsKey(roleId);
         }
-        public bool TryRemove(int key)
+        public bool TryRemove(int roleId)
         {
-            IPeerAgent peer;
-            var result = peerDict.TryRemove(key, out peer);
+            var result = roleDict.TryRemove(roleId, out var role);
             if (result)
-                BroadcastBattleEvent -= peer.SendEvent;
+                BroadcastBattleEvent -= role.SendEvent;
             return result;
         }
-        public bool TryAdd(int key, IPeerAgent Value)
+        public bool TryAdd(int roleId, IRoleEntity role)
         {
-            if (Value == null)
+            if (role == null)
                throw new ArgumentNullException("PeerEntity is invaild ! ");
-            var result = peerDict.TryAdd(key, Value);
+            var result = roleDict.TryAdd(roleId, role);
             if (result)
-                BroadcastBattleEvent += Value.SendEvent;
+                BroadcastBattleEvent += role.SendEvent;
             return result;
         }
-        public bool TryRemove(int key, out IPeerAgent peer)
+        public bool TryRemove(int roleId, out IRoleEntity role)
         {
-            var result = peerDict.TryRemove(key, out peer);
+            var result = roleDict.TryRemove(roleId, out role);
             if (result)
-                BroadcastBattleEvent -= peer.SendEvent;
+                BroadcastBattleEvent -= role.SendEvent;
             return result;
         }
-        public bool TryUpdate(int key, IPeerAgent newValue, IPeerAgent comparsionValue)
+        public bool TryUpdate(int roleId, IRoleEntity newRole, IRoleEntity comparsionRole)
         {
-            var result = peerDict.TryUpdate(key, newValue, comparsionValue);
+            var result = roleDict.TryUpdate(roleId, newRole, comparsionRole);
             if (result)
             {
-                BroadcastBattleEvent -= comparsionValue.SendEvent;
-                BroadcastBattleEvent += newValue.SendEvent;
+                BroadcastBattleEvent -= comparsionRole.SendEvent;
+                BroadcastBattleEvent += newRole.SendEvent;
             }
             return result;
-        }
-        /// <summary>
-        /// 缓存从客户端传来的指令
-        /// </summary>
-        public virtual void CacheInputCmd(IInputData msg)
-        {
-            if (!canCacheCmd)
-                return;
         }
         public async void CountDown()
         {
@@ -122,15 +113,15 @@ namespace AscensionServer
         /// <summary>
         /// 通过peer实体生成房间实体；
         /// </summary>
-        /// <param name="peers">peer的数组</param>
+        /// <param name="roles">peer的数组</param>
         /// <returns>生成的房间实体</returns>
-        public static RoomEntity Create(params IPeerAgent[] peers)
+        public static RoomEntity Create(params IRoleEntity [] roles)
         {
-            var length = peers.Length;
+            var length = roles.Length;
             var re = GameManager.ReferencePoolManager.Spawn<RoomEntity>();
             for (int i = 0; i < length; i++)
             {
-                re.TryAdd(peers[i].SessionId, peers[i]);
+                re.TryAdd(roles[i].RoleId, roles[i]);
             }
             return re;
         }
@@ -138,22 +129,21 @@ namespace AscensionServer
         /// 通过sessionId生成roomEntity;
         /// 若传入的任意sessionId无效，则房间实体生成失败，返回空；
         /// </summary>
-        /// <param name="sessionIds">用户会话Id数组</param>
+        /// <param name="roleIds">用户会话Id数组</param>
         /// <returns>生成的房间实体</returns>
-        public static RoomEntity Create(params  int[] sessionIds)
+        public static RoomEntity Create(params  int[] roleIds)
         {
-            List<IPeerAgent> peerSet = new List<IPeerAgent>();
-            var length = sessionIds.Length;
+            List<IRoleEntity> roleSet = new List<IRoleEntity>();
+            var length = roleIds.Length;
             for (int i = 0; i < length; i++)
             {
-                IPeerAgent peer;
-                var result = GameManager.CustomeModule<PeerManager>().TryGetValue(sessionIds[i], out peer);
+                var result = GameManager.CustomeModule<RoleManager>().TryGetValue(roleIds[i], out var  role);
                 if (result)
-                    peerSet.Add(peer);
+                    roleSet.Add(role);
                 else
                     return null;
             }
-           return Create(peerSet.ToArray());
+           return Create(roleSet.ToArray());
         }
         /// <summary>
         /// 开始回合；
@@ -167,7 +157,7 @@ namespace AscensionServer
         }
         protected virtual void  BroadcastEvent(byte opCode, Dictionary<byte,object> data)
         {
-            var task= BroadcastEventAsync(opCode, data);
+            broadcastBattleEvent?.Invoke(opCode, data);
         }
         protected virtual async Task BroadcastEventAsync(byte opCode, Dictionary<byte,object> data)
         {

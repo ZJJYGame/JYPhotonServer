@@ -11,43 +11,53 @@ namespace AscensionServer
     /// <summary>
     /// 场景实体对象
     /// </summary>
-    public class SceneEntity :  IReference,IRefreshable
+    public class LevelEntity : IReference, IRefreshable
     {
         public int SceneId { get; private set; }
         public bool Available { get; private set; }
-        Dictionary <int, IRoleEntity> peerDict;
+        Dictionary<int, IRoleEntity> roleDict;
         Action<object> roleSendMsgHandler;
-        event Action<object> RoleSendMsgHandler 
+        event Action<object> RoleSendMsgHandler
         {
             add { roleSendMsgHandler += value; }
             remove
             {
-                try{roleSendMsgHandler -= value;}
-                catch (Exception e){Utility.Debug.LogError(e);}
+                try { roleSendMsgHandler -= value; }
+#if SERVER
+                catch (Exception e) { Utility.Debug.LogError(e); }
+#else
+                catch (Exception e) { Utility.DebugError(e); }
+#endif
             }
         }
-        long currentTick;
-        public Dictionary<long, Dictionary<int, C2SInput>> roleInputCmdDict 
-            = new Dictionary<long, Dictionary<int, C2SInput>>();
+#if SERVER
+        Dictionary<long, Dictionary<int, C2SInput>> roleInputCmdDict
+        = new Dictionary<long, Dictionary<int, C2SInput>>();
         S2CInput InputSet = new S2CInput();
-        public int PlayerCount { get { return peerDict.Count; } }
-        public SceneEntity()
+        long currentTick;
+#else
+        Dictionary<int, C2SInput> roleInputCmdDict=new Dictionary<int, C2SInput>();
+#endif
+        public int PlayerCount { get { return roleDict.Count; } }
+        public LevelEntity()
         {
-            peerDict = new Dictionary<int, IRoleEntity>();
+            roleDict = new Dictionary<int, IRoleEntity>();
         }
         public void OnInit(int sceneId)
         {
             this.SceneId = sceneId;
             this.Available = true;
+#if SERVER
             this.InputSet.EntityContainerId = sceneId;
+#endif
         }
-        public bool ContainsKey(int  roleId)
+        public bool ContainsKey(int roleId)
         {
-            return peerDict.ContainsKey(roleId);
+            return roleDict.ContainsKey(roleId);
         }
         public bool TryAdd(int roleId, IRoleEntity role)
         {
-            var result= peerDict.TryAdd(roleId, role);
+            var result = roleDict.TryAdd(roleId, role);
             if (result)
             {
                 RoleSendMsgHandler += role.SendMessage;
@@ -56,7 +66,7 @@ namespace AscensionServer
         }
         public bool TryAdd(IRoleEntity role)
         {
-            var result = peerDict.TryAdd(role.RoleId, role);
+            var result = roleDict.TryAdd(role.RoleId, role);
             if (result)
             {
                 RoleSendMsgHandler += role.SendMessage;
@@ -65,11 +75,11 @@ namespace AscensionServer
         }
         public bool TryGetValue(int roleId, out IRoleEntity role)
         {
-            return peerDict.TryGetValue(roleId, out role);
+            return roleDict.TryGetValue(roleId, out role);
         }
         public bool TryRemove(int roleId)
         {
-            var result= peerDict.Remove(roleId, out var role );
+            var result = roleDict.Remove(roleId, out var role);
             if (result)
             {
                 RoleSendMsgHandler -= role.SendMessage;
@@ -78,7 +88,7 @@ namespace AscensionServer
         }
         public bool TryRemove(int roleId, out IRoleEntity role)
         {
-            var result= peerDict.Remove(roleId, out role);
+            var result = roleDict.Remove(roleId, out role);
             if (result)
             {
                 RoleSendMsgHandler -= role.SendMessage;
@@ -88,7 +98,8 @@ namespace AscensionServer
         /// <summary>
         ///接收到消息后直接存储，不考虑顺序 
         /// </summary>
-        public void OnPlayerInput(IDataContract data )
+#if SERVER
+        public void OnPlayerInputC2S(IDataContract data)
         {
             if (data == null)
                 return;
@@ -99,9 +110,16 @@ namespace AscensionServer
                 roleCmdDict.TryAdd(input.PlayerId, input);
             }
         }
+#else
+        public void OnPlayerInputS2C(IDataContract data)
+        {
+            roleSendMsgHandler?.Invoke(data);
+        }
+#endif
         public void OnRefresh()
         {
-            var result= roleInputCmdDict.TryGetValue(currentTick,out var roleCmds);
+#if SERVER
+            var result = roleInputCmdDict.TryGetValue(currentTick, out var roleCmds);
             if (result)
             {
                 InputSet.InputDict = roleCmds;
@@ -111,19 +129,26 @@ namespace AscensionServer
                 roleInputCmdDict.Remove(currentTick--);
             }
             currentTick++;
+#else
+
+#endif
         }
         public void Clear()
         {
-            peerDict.Clear();
+            roleDict.Clear();
             this.SceneId = 0;
             this.Available = false;
             roleInputCmdDict.Clear();
-            InputSet.Clear();
             roleSendMsgHandler = null;
+#if SERVER
+            InputSet.Clear();
+#endif
         }
-        public static SceneEntity Create(int sceneId, params IRoleEntity[] peerEntities)
+#if SERVER
+
+        public static LevelEntity Create(int sceneId, params IRoleEntity[] peerEntities)
         {
-            SceneEntity se = GameManager.ReferencePoolManager.Spawn<SceneEntity>();
+            LevelEntity se = GameManager.ReferencePoolManager.Spawn<LevelEntity>();
             se.OnInit(sceneId);
             int length = peerEntities.Length;
             for (int i = 0; i < length; i++)
@@ -132,9 +157,9 @@ namespace AscensionServer
             }
             return se;
         }
-        public static SceneEntity Create(int sceneId, List<IRoleEntity> peerEntities)
+        public static LevelEntity Create(int sceneId, List<IRoleEntity> peerEntities)
         {
-            SceneEntity se = GameManager.ReferencePoolManager.Spawn<SceneEntity>();
+            LevelEntity se = GameManager.ReferencePoolManager.Spawn<LevelEntity>();
             se.OnInit(sceneId);
             int length = peerEntities.Count;
             for (int i = 0; i < length; i++)
@@ -143,12 +168,12 @@ namespace AscensionServer
             }
             return se;
         }
-        public static SceneEntity Create(int sceneId)
+        public static LevelEntity Create(int sceneId)
         {
-            SceneEntity se = GameManager.ReferencePoolManager.Spawn<SceneEntity>();
+            LevelEntity se = GameManager.ReferencePoolManager.Spawn<LevelEntity>();
             se.OnInit(sceneId);
             return se;
         }
-
+#endif
     }
 }
