@@ -25,7 +25,6 @@ namespace AscensionServer
                 catch (Exception e){Utility.Debug.LogError(e);}
             }
         }
-        PeerManager peerMgrInstance;
         RoleManager roleMgrInstance;
         public override void OnPreparatory()
         {
@@ -68,8 +67,26 @@ namespace AscensionServer
             }
             return result;
         }
-        public void EnterScene(int sceneId,IRoleEntity role)
+        public bool EnterScene(int sceneId,IRoleEntity role)
         {
+            bool result = false;
+            var hasScene = sceneEntityDict.TryGetValue(sceneId, out var sceneEntity);
+            if (hasScene)
+            {
+                if (roleMgrInstance.ContainsKey(role.RoleId))
+                {
+                    result = sceneEntity.TryAdd(role.RoleId, role);
+                }
+            }
+            else
+            {
+                sceneEntity = SceneEntity.Create(sceneId);
+                if (roleMgrInstance.ContainsKey(role.RoleId))
+                {
+                    result = sceneEntity.TryAdd(role.RoleId, role);
+                }
+            }
+            return result;
         }
         public bool ExitScene(int sceneId,int roleId)
         {
@@ -82,7 +99,24 @@ namespace AscensionServer
                     result = sceneEntity.TryRemove(roleId);
                     if (sceneEntity.PlayerCount <= 0)
                     {
-
+                        GameManager.ReferencePoolManager.Despawn(sceneEntity);
+                    }
+                }
+            }
+            return result;
+        }
+        public bool ExitScene(int sceneId, IRoleEntity role)
+        {
+            bool result = false;
+            var hasScene = sceneEntityDict.TryGetValue(sceneId, out var sceneEntity);
+            if (hasScene)
+            {
+                if (roleMgrInstance.ContainsKey(role.RoleId))
+                {
+                    result = sceneEntity.TryRemove(role.RoleId);
+                    if (sceneEntity.PlayerCount <= 0)
+                    {
+                        GameManager.ReferencePoolManager.Despawn(sceneEntity);
                     }
                 }
             }

@@ -16,7 +16,7 @@ namespace AscensionServer
     public sealed class BattleManager : Module<BattleManager>
     {
         IBattleAlgorithmProvider algorithmProvider;
-        ConcurrentDictionary<int, RoomEntity> roomDict = new ConcurrentDictionary<int, RoomEntity>();
+        Dictionary<int, RoomEntity> roomDict = new Dictionary<int, RoomEntity>();
         public override void OnInitialization()
         {
             algorithmProvider = Utility.Assembly.GetInstanceByAttribute<ImplementProviderAttribute, IBattleAlgorithmProvider>();

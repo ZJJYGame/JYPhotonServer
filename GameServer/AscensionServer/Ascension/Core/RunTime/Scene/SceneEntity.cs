@@ -117,10 +117,13 @@ namespace AscensionServer
             peerDict.Clear();
             this.SceneId = 0;
             this.Available = false;
+            roleInputCmdDict.Clear();
+            InputSet.Clear();
+            roleSendMsgHandler = null;
         }
         public static SceneEntity Create(int sceneId, params IRoleEntity[] peerEntities)
         {
-            SceneEntity se = new SceneEntity();
+            SceneEntity se = GameManager.ReferencePoolManager.Spawn<SceneEntity>();
             se.OnInit(sceneId);
             int length = peerEntities.Length;
             for (int i = 0; i < length; i++)
@@ -131,7 +134,7 @@ namespace AscensionServer
         }
         public static SceneEntity Create(int sceneId, List<IRoleEntity> peerEntities)
         {
-            SceneEntity se = new SceneEntity();
+            SceneEntity se = GameManager.ReferencePoolManager.Spawn<SceneEntity>();
             se.OnInit(sceneId);
             int length = peerEntities.Count;
             for (int i = 0; i < length; i++)
@@ -142,7 +145,7 @@ namespace AscensionServer
         }
         public static SceneEntity Create(int sceneId)
         {
-            SceneEntity se = new SceneEntity();
+            SceneEntity se = GameManager.ReferencePoolManager.Spawn<SceneEntity>();
             se.OnInit(sceneId);
             return se;
         }

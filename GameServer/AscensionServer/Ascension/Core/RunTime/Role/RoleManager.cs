@@ -20,7 +20,7 @@ namespace AscensionServer
         /// <summary>
         /// 广播事件消息 ;
         /// </summary>
-        public event Action<byte, Dictionary<byte, object>> BroadcastEvent
+        event Action<byte, Dictionary<byte, object>> BroadcastEvent
         {
             add { broadcastEvent += value; }
             remove
@@ -32,7 +32,7 @@ namespace AscensionServer
         /// <summary>
         /// 广播普通消息;
         /// </summary>
-        public event Action<object> BroadcastMessage
+        event Action<object> BroadcastMessage
         {
             add { broadcastMessage += value; }
             remove
