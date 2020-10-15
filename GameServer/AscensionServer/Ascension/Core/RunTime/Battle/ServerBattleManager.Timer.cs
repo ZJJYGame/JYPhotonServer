@@ -99,8 +99,12 @@ namespace AscensionServer
     }
 
 
+    #region 正在使用的倒计时
+
     public class TimerToManager
     {
+        public MyDelegateHandle myDelegateHandle;
+
         System.Timers.Timer Mytimer;
 
         public TimerToManager(int second)
@@ -121,7 +125,8 @@ namespace AscensionServer
         /// </summary>
         public void BattleMethodCallBack(object sender, ElapsedEventArgs args)
         {
-            Utility.Debug.LogInfo("老陆    又粗又长");
+            myDelegateHandle += CallBackMethod;
+            myDelegateHandle?.Invoke();
         }
 
         /// <summary>
@@ -129,9 +134,20 @@ namespace AscensionServer
         /// </summary>
         public void StopTimer()
         {
+            myDelegateHandle -= CallBackMethod;
             Mytimer.Stop();
         }
 
+        /// <summary>
+        /// 处理回调
+        /// </summary>
+        public void CallBackMethod()
+        {
+            Utility.Debug.LogInfo("老陆   不确定是又粗又长");
+        }
+
+
+        #endregion
     }
 
 }

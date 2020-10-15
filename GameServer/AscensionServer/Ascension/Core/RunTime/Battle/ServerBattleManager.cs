@@ -49,7 +49,7 @@ namespace AscensionServer
                 battleInit.battleUnits = AllBattleDataDTOsInfo(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, battleInitDTO);
                 _teamIdToBattleInit.Add(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, battleInit);
                 _roomidToBattleTransfer.Add(battleInit.RoomId, new List<BattleTransferDTO>());
-                _roomidToTimer.Add(battleInit.RoomId, new TimerToManager(20000));
+                _roomidToTimer.Add(battleInit.RoomId, new TimerToManager(RoleBattleTime));
             }
         }
 
@@ -207,7 +207,6 @@ namespace AscensionServer
                             break;
                     }
                 }
-
                 #region ob
 
                 /*
@@ -306,8 +305,6 @@ namespace AscensionServer
             }
             else
             { }
-            
-
         }
 
         private SkillReactionCmd GetSendSkillReactionCmd(int roomId, int i)

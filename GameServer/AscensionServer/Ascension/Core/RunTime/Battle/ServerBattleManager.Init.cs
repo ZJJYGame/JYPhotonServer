@@ -60,8 +60,10 @@ namespace AscensionServer
         /// 房间id
         /// </summary>
         int _roomId = 1000;
-
-        public int RoleBattleTime = 20;
+        /// <summary>
+        /// 代表的是倒计时  毫秒
+        /// </summary>
+        public int RoleBattleTime = 20000;
         /// <summary>
         /// 映射  Msq
         /// </summary>
@@ -340,6 +342,12 @@ namespace AscensionServer
             return null;
         }
 
+
+
+
+ 
+
+
         //public TimerManager timer;
         /// <summary>
         /// 开始倒计时
@@ -351,3 +359,10 @@ namespace AscensionServer
 
     }
 }
+
+
+
+/// <summary>
+///针对 倒计时结束 回调方法 
+/// </summary>
+public delegate void MyDelegateHandle();

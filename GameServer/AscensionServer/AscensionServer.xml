@@ -257,6 +257,11 @@
             房间id
             </summary>
         </member>
+        <member name="F:AscensionServer.ServerBattleManager.RoleBattleTime">
+            <summary>
+            代表的是倒计时  毫秒
+            </summary>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.MsqInfo``1(System.Int32)">
             <summary>
             映射  Msq
@@ -394,7 +399,7 @@
             </summary>
             <param name="second"></param>
         </member>
-        <member name="M:AscensionServer.TimerToManager.TestFun(System.Object,System.Timers.ElapsedEventArgs)">
+        <member name="M:AscensionServer.TimerToManager.BattleMethodCallBack(System.Object,System.Timers.ElapsedEventArgs)">
             <summary>
             绑定的回调事件
             </summary>
@@ -3386,6 +3391,11 @@
             线程的同步事件；
             若无特殊线程，例如同步玩家位置信息这类特殊线程事件，其余都统一使用此线程同步事件
             </summary>
+        </member>
+        <member name="T:MyDelegateHandle">
+             <summary>
+            针对 倒计时结束 回调方法 
+             </summary>
         </member>
     </members>
 </doc>
