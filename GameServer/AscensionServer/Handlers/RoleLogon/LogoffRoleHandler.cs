@@ -23,7 +23,7 @@ namespace AscensionServer
             var json = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
             var roleObj = Utility.Json.ToObject<RoleDTO>(json);
             Utility.Debug.LogInfo("yzqData" + json);
-            IPeerAgent peerAgent;
+            IPeerEntity peerAgent;
             var result = GameManager.CustomeModule<PeerManager>().TryGetValue(peer.SessionId, out peerAgent);
             if (result)
             {

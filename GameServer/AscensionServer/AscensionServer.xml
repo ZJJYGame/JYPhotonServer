@@ -14,6 +14,12 @@
             其他区
             </summary>
         </member>
+        <member name="T:AscensionServer.CommandEventCore">
+            <summary>
+            指令事件EventCore；
+            byte表示 ProtocolDefine.OPERATION中的操作码
+            </summary>
+        </member>
         <member name="M:AscensionServer.RecordHelper.RecordRole(System.Int32,System.Object)">
             <summary>
             记录离线时间
@@ -449,66 +455,43 @@
             <param name="value">json数据</param>
             <returns>是否获取成功</returns>
         </member>
-        <member name="T:AscensionServer.IAscensionPeer">
+        <member name="T:AscensionServer.IPeerEntity">
             <summary>
             用于适配的Peer接口，管理一个具体实现的client peer 对象
             </summary>
         </member>
-        <member name="P:AscensionServer.IAscensionPeer.SessionId">
+        <member name="P:AscensionServer.IPeerEntity.SessionId">
             <summary>
             会话ID
             </summary>
         </member>
-        <member name="P:AscensionServer.IAscensionPeer.Available">
+        <member name="P:AscensionServer.IPeerEntity.Available">
             <summary>
             是否存活；
             </summary>
         </member>
-        <member name="P:AscensionServer.IAscensionPeer.Handle">
+        <member name="P:AscensionServer.IPeerEntity.Handle">
             <summary>
             peer对象Handle
             </summary>
         </member>
-        <member name="E:AscensionServer.IAscensionPeer.OnMessageReceive">
+        <member name="E:AscensionServer.IPeerEntity.OnMessageReceive">
             <summary>
             接收二进制流数据委托；
             </summary>
         </member>
-        <member name="M:AscensionServer.IAscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
+        <member name="M:AscensionServer.IPeerEntity.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
             <summary>
             发送消息到remotePeer
             </summary>
             <param name="opCode">操作码</param>
             <param name="userData">用户自定义的数据字典</param>
         </member>
-        <member name="M:AscensionServer.IAscensionPeer.SendMessage(System.Object)">
+        <member name="M:AscensionServer.IPeerEntity.SendMessage(System.Object)">
             <summary>
             发送消息到remotePeer
             </summary>
             <param name="message">消息数据</param>
-        </member>
-        <member name="T:AscensionServer.IPeerAgent">
-            <summary>
-            具体的peer代理接口；
-            </summary>
-        </member>
-        <member name="T:AscensionServer.PeerAgent">
-            <summary>
-            具体的peer代理类对象；可适配任意实现了INetworkPeer的对象；
-            </summary>
-        </member>
-        <member name="M:AscensionServer.PeerAgent.SendEvent(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
-            <summary>
-            发送网络消息到peer；
-            </summary>
-            <param name="opCode">操作码</param>
-            <param name="userData">用户数据</param>
-        </member>
-        <member name="M:AscensionServer.PeerAgent.SendMessage(System.Object)">
-            <summary>
-            发送网络消息到peer；
-            </summary>
-            <param name="message">普通数据</param>
         </member>
         <member name="T:AscensionServer.ServerDataConvertor">
             <summary>
@@ -541,7 +524,7 @@
             广播普通消息;
             </summary>
         </member>
-        <member name="M:AscensionServer.PeerManager.TryUpdate(System.Int32,AscensionServer.IPeerAgent,AscensionServer.IPeerAgent)">
+        <member name="M:AscensionServer.PeerManager.TryUpdate(System.Int32,AscensionServer.IPeerEntity,AscensionServer.IPeerEntity)">
             <summary>
             将指定键的现有值与指定值进行比较，如果相等，则用第三个值更新该键。
             </summary>
@@ -606,13 +589,6 @@
             string类型的token
             </summary>
         </member>
-        <member name="M:AscensionServer.BattleManager.ForwardingBattleCmd(AscensionServer.RoomBattleInputC2S)">
-            <summary>
-            转发战斗消息
-            </summary>
-            <param name="rbiCmd">房间战斗消息命令</param>
-            <returns>战斗系统是否能够成功转发消息</returns>
-        </member>
         <member name="M:AscensionServer.BattleManager.EnqueueMessage(System.Int32,System.Object)">
             <summary>
             压入战斗数据；
@@ -634,7 +610,7 @@
             <param name="sessionId">id</param>
             <returns>是否存在</returns>
         </member>
-        <member name="M:AscensionServer.LobbyManager.TryGetValue(System.Int32,AscensionServer.IPeerAgent@)">
+        <member name="M:AscensionServer.LobbyManager.TryGetValue(System.Int32,AscensionServer.IPeerEntity@)">
             <summary>
             在大厅中通过ID查找Peer
             </summary>
@@ -741,86 +717,6 @@
             <param name="callback">消息广播完成后的回调</param>
             <returns></returns>
         </member>
-        <member name="T:AscensionServer.BattleInputData">
-            <summary>
-            战斗输入指令对象
-            </summary>
-        </member>
-        <member name="P:AscensionServer.BattleInputData.InputCmdType">
-            <summary>
-            指令输入的类型
-            移动、使用道具、攻击、技能、添加好友等
-            参考 OperationCode的类型;
-            </summary>
-        </member>
-        <member name="P:AscensionServer.BattleInputData.CmdInputterType">
-            <summary>
-            指令输入者类型;
-            0：玩家；
-            1：宠物；
-            2：AI类型01
-            3：AI类型02
-                 etc . . . 
-            </summary>
-        </member>
-        <member name="P:AscensionServer.BattleInputData.CmdInputterID">
-            <summary>
-            指令输入者ID
-            </summary>
-        </member>
-        <member name="P:AscensionServer.BattleInputData.CmdID">
-            <summary>
-            指令ID；
-            例如使用功法秘术技能，或使用道具是不同的指令；
-            </summary>
-        </member>
-        <member name="P:AscensionServer.BattleInputData.CmdFieldID">
-            <summary>
-            指令字段ID；
-            当前指令下，例如使用了道具的具体ID，技能的具体ID；
-            </summary>
-        </member>
-        <member name="P:AscensionServer.BattleInputData.TargetID">
-            <summary>
-            目标ID
-            </summary>
-        </member>
-        <member name="P:AscensionServer.BattleInputData.TargetGlobalID">
-            <summary>
-            目标的全局ID
-            </summary>
-        </member>
-        <member name="T:AscensionServer.BattleRoomEntity">
-            <summary>
-            战斗房间容器；
-            此对象由系统进行分配，多客户端战斗时候缓存战斗操作数据，
-            由服务器计算后返回给客户端进行展示；
-            </summary>
-        </member>
-        <member name="M:AscensionServer.BattleRoomEntity.Clear">
-            <summary>
-            1.功法/秘术
-            2.法宝
-            3.道具
-            4.捕捉
-            5.逃跑
-            </summary>
-        </member>
-        <member name="T:AscensionServer.RoomBattleInputC2S">
-            <summary>
-            战斗房间内的输入指令
-            </summary>
-        </member>
-        <member name="P:AscensionServer.RoomBattleInputC2S.RoomID">
-            <summary>
-            房间ID
-            </summary>
-        </member>
-        <member name="P:AscensionServer.RoomBattleInputC2S.BattleInputC2S">
-            <summary>
-            当前房间内的单个指令
-            </summary>
-        </member>
         <member name="P:AscensionServer.RoomEntity.Available">
             <summary>
             当前房间对象是否可用
@@ -853,16 +749,11 @@
             </summary>
             <param name="roomId">分配的房间ID</param>
         </member>
-        <member name="M:AscensionServer.RoomEntity.CacheInputCmd(AscensionServer.IInputData)">
-            <summary>
-            缓存从客户端传来的指令
-            </summary>
-        </member>
-        <member name="M:AscensionServer.RoomEntity.Create(AscensionServer.IPeerAgent[])">
+        <member name="M:AscensionServer.RoomEntity.Create(AscensionServer.IRoleEntity[])">
             <summary>
             通过peer实体生成房间实体；
             </summary>
-            <param name="peers">peer的数组</param>
+            <param name="roles">peer的数组</param>
             <returns>生成的房间实体</returns>
         </member>
         <member name="M:AscensionServer.RoomEntity.Create(System.Int32[])">
@@ -870,7 +761,7 @@
             通过sessionId生成roomEntity;
             若传入的任意sessionId无效，则房间实体生成失败，返回空；
             </summary>
-            <param name="sessionIds">用户会话Id数组</param>
+            <param name="roleIds">用户会话Id数组</param>
             <returns>生成的房间实体</returns>
         </member>
         <member name="M:AscensionServer.RoomEntity.StartRound">
@@ -884,22 +775,22 @@
             周期轮询释放无用的房间对象；
             </summary>
         </member>
-        <member name="T:AscensionServer.SceneEntity">
+        <member name="T:AscensionServer.LevelEntity">
             <summary>
             场景实体对象
             </summary>
         </member>
-        <member name="M:AscensionServer.SceneEntity.OnPlayerInput(Protocol.IDataContract)">
+        <member name="M:AscensionServer.LevelEntity.OnPlayerInputC2S(Protocol.IDataContract)">
              <summary>
             接收到消息后直接存储，不考虑顺序 
              </summary>
         </member>
-        <member name="T:AscensionServer.SceneManager">
+        <member name="T:AscensionServer.LevelManager">
             <summary>
             场景管理器，管理野外高同步的数据；
             </summary>
         </member>
-        <member name="M:AscensionServer.SceneManager.EnterScene(System.Int32,System.Int32)">
+        <member name="M:AscensionServer.LevelManager.EnterScene(System.Int32,System.Int32)">
              <summary>
             玩家或peer进入场景 
              </summary>

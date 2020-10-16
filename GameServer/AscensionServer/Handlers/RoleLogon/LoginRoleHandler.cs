@@ -29,12 +29,12 @@ namespace AscensionServer
             var roleExist = GameManager.CustomeModule<RoleManager>().TryGetValue(roleObj.RoleID, out remoteRole);
             if (roleExist)
             {
-                IPeerAgent pa;
+                IPeerEntity pa;
                 GameManager.CustomeModule<PeerManager>().TryGetValue(remoteRole.SessionId, out pa);
-                pa.SendEvent((byte)EventCode.ReplacePlayer, null);//从这里发送挤下线消息；
+                pa.SendEventMsg((byte)EventCode.ReplacePlayer, null);//从这里发送挤下线消息；
                 GameManager.CustomeModule<RoleManager>().TryRemove(roleObj.RoleID);
             }
-            IPeerAgent peerAgent;
+            IPeerEntity peerAgent;
             var result = GameManager.CustomeModule<PeerManager>().TryGetValue(peer.SessionId, out peerAgent);
             if (result)
             {

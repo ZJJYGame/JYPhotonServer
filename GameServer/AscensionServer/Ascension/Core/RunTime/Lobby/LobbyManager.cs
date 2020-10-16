@@ -42,7 +42,7 @@ namespace AscensionServer
         /// </summary>
         /// <param name="sessionId">id</param>
         /// <returns>查找到的对象</returns>
-        public bool TryGetValue(int sessionId, out IPeerAgent peer)
+        public bool TryGetValue(int sessionId, out IPeerEntity peer)
         {
             peer = default;
             if (!Contains(sessionId))

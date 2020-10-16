@@ -50,7 +50,7 @@ namespace AscensionServer
         readonly ushort _TeamCapacity = 5;
         ConcurrentDictionary<int, IRoleEntity> peerDict
             = new ConcurrentDictionary<int, IRoleEntity>();
-        IPeerAgent captain;
+        IPeerEntity captain;
 
         Action<byte, object> eventMessage;
         Action<object> message;

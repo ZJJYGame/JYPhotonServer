@@ -23,19 +23,19 @@ namespace AscensionServer
             if (algorithmProvider == null)
                 Utility.Debug.LogError($"{this.GetType()} has no helper instance ,base type: {typeof(IBattleAlgorithmProvider)}");
         }
-        /// <summary>
-        /// 转发战斗消息
-        /// </summary>
-        /// <param name="rbiCmd">房间战斗消息命令</param>
-        /// <returns>战斗系统是否能够成功转发消息</returns>
-        public bool ForwardingBattleCmd(RoomBattleInputC2S rbiCmd)
-        {
-            if (rbiCmd == null)
-                return false;
-            RoomEntity rc;
-            var result = roomDict.TryGetValue(rbiCmd.RoomID, out rc);
-            return result;
-        }
+        ///// <summary>
+        ///// 转发战斗消息
+        ///// </summary>
+        ///// <param name="rbiCmd">房间战斗消息命令</param>
+        ///// <returns>战斗系统是否能够成功转发消息</returns>
+        ////public bool ForwardingBattleCmd(RoomBattleInputC2S rbiCmd)
+        ////{
+        ////    if (rbiCmd == null)
+        ////        return false;
+        ////    RoomEntity rc;
+        ////    var result = roomDict.TryGetValue(rbiCmd.RoomID, out rc);
+        ////    return result;
+        ////}
         /// <summary>
         /// 压入战斗数据；
         /// 包含指令集等；

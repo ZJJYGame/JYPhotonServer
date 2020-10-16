@@ -61,6 +61,17 @@ namespace AscensionServer
         {
             return dataDict.TryAdd(key, Value);
         }
+        public bool TryUpdate(Type key, object newValue, object comparsionValue)
+        {
+            if (dataDict.ContainsKey(key))
+            {
+                var equal= dataDict[key].Equals(comparsionValue);
+                if (equal)
+                    dataDict[key] = newValue;
+                return equal;
+            }
+            return false;
+        }
         /// <summary>
         /// 发送消息到remotePeer
         /// </summary>
@@ -113,6 +124,8 @@ namespace AscensionServer
                 this.SendMessage("手抓饼通哥；");
             }
         }
+
+
         #endregion
     }
 }
