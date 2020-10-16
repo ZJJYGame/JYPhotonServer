@@ -151,7 +151,11 @@ namespace AscensionServer
             dp.Messages.Add((byte)ParameterCode.RoleBattle, "老陆   是一个好人");
 
             GameManager.CustomeModule<RoleManager>().SendMessage(firstKey, Utility.Json.ToJson(dp));
+            StopTimer();
         }
+
+
+
 
         #endregion
     }

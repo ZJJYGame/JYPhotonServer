@@ -323,6 +323,24 @@
             开始倒计时
             </summary>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.AIToHPMethod(System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.EnemyBattleDataDTO})">
+            <summary>
+            针对AI  血量 >0
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.AIToRelease(AscensionProtocol.DTO.BattleTransferDTO,AscensionProtocol.DTO.EnemyStatusDTO,System.Int32,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.SkillGongFaDatas})">
+            <summary>
+            处理AI 判断玩家是不是死亡 和要选择能出手的Ai                ??? TODO第四个参数有待完善
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.SkillGongFaDatas})">
+            <summary>
+            处理玩家  判断Al出手之前 是不是死亡 换取目标
+            </summary>
+            <param name="battleTransferDTOs"></param>
+            <param name="roleId"></param>
+            <param name="skillGongFaDict"></param>
+        </member>
         <member name="T:AscensionServer.TargetType">
             <summary>
             技能目标类型
