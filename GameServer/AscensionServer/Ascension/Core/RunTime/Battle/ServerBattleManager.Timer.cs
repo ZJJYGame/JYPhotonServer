@@ -151,12 +151,11 @@ namespace AscensionServer
             //dp.Messages.Add((byte)ParameterCode.RoleBattle, "老陆   是一个好人");
             OperationData opData = new OperationData();
             opData.DataMessage= "老陆   是一个好人";
-            opData.OperationCode = 1;
+            opData.OperationCode = (byte)OperationCode.SyncBattle;
             GameManager.CustomeModule<RoleManager>().SendMessage(firstKey, opData);
             //GameManager.CustomeModule<RoleManager>().SendMessage(firstKey, Utility.Json.ToJson(dp));
-            //GameManager.CustomeModule<RoleManager>().SendMessage(firstKey, dp);
 
-            //StopTimer();
+            StopTimer();
         }
 
         #endregion

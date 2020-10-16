@@ -115,11 +115,11 @@ namespace AscensionServer
             op.OperationCode = operationRequest.OperationCode;
             SendOperationResponse(op, sendParameters);
 
-            OperationData opData = new OperationData();
-            opData.DataMessage = "测试发送消息，DONN";
-            opData.DataContract = null;
-            this.SendMessage(opData);
-            Utility.Debug.LogWarning("测试消息发送");
+            //OperationData opData = new OperationData();
+            //opData.DataMessage = "测试发送消息，DONN";
+            //opData.DataContract = null;
+            //this.SendMessage(opData);
+            //Utility.Debug.LogWarning("测试消息发送");
         }
         /// <summary>
         /// 接收到客户端消息；
