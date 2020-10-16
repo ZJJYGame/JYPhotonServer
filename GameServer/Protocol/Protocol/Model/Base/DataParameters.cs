@@ -32,7 +32,9 @@ namespace Protocol
         public Dictionary<byte, object> Messages { get; set; }
         [Key(2)]
         public short ReturnCode { get; set; }
-        public DataParameters() { }
+        public DataParameters() {
+            Messages = new Dictionary<byte, object>();
+        }
         public DataParameters(byte operationCode)
         {
             this.OperationCode = operationCode;

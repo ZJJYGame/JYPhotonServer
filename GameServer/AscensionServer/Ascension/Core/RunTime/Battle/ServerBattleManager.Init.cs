@@ -64,6 +64,11 @@ namespace AscensionServer
         /// 代表的是倒计时  毫秒
         /// </summary>
         public int RoleBattleTime = 20000;
+
+        /// <summary>
+        /// 记录房间id
+        /// </summary>
+        public Queue<int> RecordRoomId = new System.Collections.Generic.Queue<int>();
         /// <summary>
         /// 映射  Msq
         /// </summary>
@@ -342,12 +347,6 @@ namespace AscensionServer
             return null;
         }
 
-
-
-
- 
-
-
         //public TimerManager timer;
         /// <summary>
         /// 开始倒计时
@@ -359,8 +358,6 @@ namespace AscensionServer
 
     }
 }
-
-
 
 /// <summary>
 ///针对 倒计时结束 回调方法 

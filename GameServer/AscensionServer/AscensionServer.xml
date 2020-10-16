@@ -262,6 +262,11 @@
             代表的是倒计时  毫秒
             </summary>
         </member>
+        <member name="F:AscensionServer.ServerBattleManager.RecordRoomId">
+            <summary>
+            记录房间id
+            </summary>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.MsqInfo``1(System.Int32)">
             <summary>
             映射  Msq
@@ -407,6 +412,11 @@
         <member name="M:AscensionServer.TimerToManager.StopTimer">
             <summary>
             停止时间
+            </summary>
+        </member>
+        <member name="M:AscensionServer.TimerToManager.CallBackMethod">
+            <summary>
+            处理回调
             </summary>
         </member>
         <member name="F:AscensionServer.DataManager.intervalSec">
