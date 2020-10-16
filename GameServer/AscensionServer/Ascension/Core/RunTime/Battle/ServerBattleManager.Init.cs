@@ -9,6 +9,12 @@ using Cosmos;
 using Google.Protobuf.WellKnownTypes;
 using NHibernate.Linq.Clauses;
 
+
+/// <summary>
+///针对 倒计时结束 回调方法 
+/// </summary>
+public delegate void MyDelegateHandle();
+
 namespace AscensionServer
 {
     /// <summary>
@@ -494,7 +500,3 @@ namespace AscensionServer
     }
 }
 
-/// <summary>
-///针对 倒计时结束 回调方法 
-/// </summary>
-public delegate void MyDelegateHandle();
