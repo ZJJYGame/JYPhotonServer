@@ -4,6 +4,7 @@ using Cosmos;
 using AscensionProtocol;
 using System;
 using System.Threading.Tasks;
+using Protocol;
 
 namespace AscensionServer
 {
@@ -12,7 +13,7 @@ namespace AscensionServer
     /// key为RoleId或者PlayerId
     /// </summary>
     [CustomeModule]
-    public class RoleManager:Module<RoleManager>, IKeyValue<int,IRoleEntity >
+    public class RoleManager : Module<RoleManager>
     {
         public int RoleCount { get { return roleDict.Count; } }
         Dictionary<int, IRoleEntity> roleDict = new Dictionary<int, IRoleEntity>();
@@ -26,7 +27,11 @@ namespace AscensionServer
             remove
             {
                 try { broadcastEvent -= value; }
+#if SERVER
                 catch (Exception e) { Utility.Debug.LogError($"无法移除发送消息的委托:{e}"); }
+#else
+                catch (Exception e) { Utility.DebugError($"无法移除发送消息的委托:{e}"); }
+#endif
             }
         }
         /// <summary>
@@ -38,22 +43,45 @@ namespace AscensionServer
             remove
             {
                 try { broadcastMessage -= value; }
+#if SERVER
                 catch (Exception e) { Utility.Debug.LogError($"无法移除发送消息的委托:{e}"); }
+#else
+                catch (Exception e) { Utility.DebugError($"无法移除发送消息的委托:{e}"); }
+#endif
             }
         }
         Action<byte, Dictionary<byte, object>> broadcastEvent;
         Action<object> broadcastMessage;
+#if !SERVER
+        Action refreshHandler;
+        event Action RefreshHandler
+        {
+            add { refreshHandler += value; }
+            remove
+            {
+                try{refreshHandler -= value;}
+                catch (global::System.Exception e){Utility.DebugError(e);}
+            }
+        }
+#endif
+        public override void OnPreparatory()
+        {
+            CommandEventCore.Instance.AddEventListener(ProtocolDefine.PORT_CHAT, OnChatMessage);
+        }
         public bool ContainsKey(int roleId)
         {
             return roleDict.ContainsKey(roleId);
         }
         public bool TryAdd(int roleId, IRoleEntity role)
         {
-            var result= roleDict.TryAdd(roleId, role);
+            var result = roleDict.TryAdd(roleId, role);
             if (result)
             {
                 BroadcastEvent += role.SendEvent;
-                broadcastMessage += role.SendMessage;
+                BroadcastMessage += role.SendMessage;
+#if !SERVER
+                RefreshHandler += role.OnRefresh;
+#endif
             }
             return result;
         }
@@ -63,11 +91,14 @@ namespace AscensionServer
         }
         public bool TryRemove(int roleId)
         {
-            var result= roleDict.Remove(roleId,out var role);
+            var result = roleDict.Remove(roleId, out var role);
             if (result)
             {
                 BroadcastEvent -= role.SendEvent;
-                broadcastMessage -=role.SendMessage;
+                BroadcastMessage -= role.SendMessage;
+#if !SERVER
+                RefreshHandler -= role.OnRefresh;
+#endif
             }
             return result;
         }
@@ -77,7 +108,10 @@ namespace AscensionServer
             if (result)
             {
                 BroadcastEvent -= role.SendEvent;
-                broadcastMessage -= role.SendMessage;
+                BroadcastMessage -= role.SendMessage;
+#if !SERVER
+                RefreshHandler -= role.OnRefresh;
+#endif
             }
             return result;
         }
@@ -85,20 +119,30 @@ namespace AscensionServer
         {
             if (!newRole.Equals(comparsionRole))
                 return false;
-            if(roleDict.ContainsKey(roleId))
+            if (roleDict.ContainsKey(roleId))
             {
 
                 var oldRole = roleDict[roleId];
                 {
                     BroadcastEvent += newRole.SendEvent;
-                    broadcastMessage += newRole.SendMessage;
+                    BroadcastMessage += newRole.SendMessage;
                     BroadcastEvent -= oldRole.SendEvent;
-                    broadcastMessage -= oldRole.SendMessage;
+                    BroadcastMessage -= oldRole.SendMessage;
+#if !SERVER
+                    RefreshHandler -= oldRole.OnRefresh;
+                    RefreshHandler += newRole.OnRefresh;
+#endif
                 }
                 roleDict[roleId] = newRole;
                 return true;
             }
             return false;
+        }
+        public override void OnRefresh()
+        {
+#if !SERVER
+            refreshHandler?.Invoke();
+#endif
         }
         public bool SendEvent(int roleId, byte opCode, Dictionary<byte, object> userData)
         {
@@ -169,6 +213,10 @@ namespace AscensionServer
         {
             await Task.Run(() => { broadcastMessage?.Invoke(message); });
             callback?.Invoke();
+        }
+        void OnChatMessage(OperationData opData)
+        {
+
         }
     }
 }

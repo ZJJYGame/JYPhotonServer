@@ -9,13 +9,13 @@ namespace Protocol
     public class OperationData : IDisposable
     {
         [Key(0)]
-        public byte OperationCode { get; set; }
+        public ushort OperationCode { get; set; }
         [Key(1)]
         public IDataContract DataContract { get; set; }
         [Key(2)]
         public short ReturnCode { get; set; }
         public OperationData() { }
-        public OperationData(byte operationCode)
+        public OperationData(ushort operationCode)
         {
             OperationCode = operationCode;
         }

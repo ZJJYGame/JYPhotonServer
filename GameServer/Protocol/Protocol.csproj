@@ -75,6 +75,7 @@
     <Compile Include="Protocol\Model\Base\DataParameters.cs" />
     <Compile Include="Protocol\Model\Base\IDataContract.cs" />
     <Compile Include="Protocol\Model\Base\OperationData.cs" />
+    <Compile Include="Protocol\Model\C2SChatMessage.cs" />
     <Compile Include="Protocol\Model\C2SInput.cs" />
     <Compile Include="Protocol\Model\S2CInput.cs" />
     <Compile Include="Protocol\Model\C2SPlayer.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Protocol\Model\C2SEntityContainer.cs" />
     <Compile Include="Protocol\Model\Fix\FixVector3.cs" />
     <Compile Include="Protocol\ProtocolDefine.cs" />
+    <Compile Include="Protocol\Model\S2CChatMessage.cs" />
     <Compile Include="ThirdParty\UnityEngine\Mathf.cs" />
     <Compile Include="ThirdParty\UnityEngine\Matrix3x3.cs" />
     <Compile Include="ThirdParty\UnityEngine\Matrix4x4.cs" />

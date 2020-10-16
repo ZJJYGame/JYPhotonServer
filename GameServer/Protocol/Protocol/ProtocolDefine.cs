@@ -2,17 +2,24 @@
 
 namespace Protocol
 {
+    /// <summary>
+    /// 注意；协议数字范围为一个ushort的取值区间；
+    /// </summary>
     public class ProtocolDefine
     {
         #region Port  Range[4096 , 4224] ; Count:128;
         /// <summary>
-        /// 请求通道；
+        /// 请求端口；
         /// </summary>
         public const ushort PORT_REQUEST = 4319;
         /// <summary>
-        /// 输入同步通道；
+        /// 输入同步端口；
         /// </summary>
         public const ushort PORT_INPUT = 4320;
+        /// <summary>
+        /// 聊天端口
+        /// </summary>
+        public const ushort PORT_CHAT = 4321;
         #endregion
 
         #region CMD Range[0 , 15] ; Count:16;

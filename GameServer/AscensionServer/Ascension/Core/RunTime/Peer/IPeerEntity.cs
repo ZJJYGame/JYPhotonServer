@@ -24,10 +24,6 @@ namespace AscensionServer
         /// </summary>
         object Handle { get; }
         /// <summary>
-        /// 接收二进制流数据委托；
-        /// </summary>
-        event Action<object> OnMessageReceive;
-        /// <summary>
         /// 发送消息到remotePeer
         /// </summary>
         /// <param name="opCode">操作码</param>

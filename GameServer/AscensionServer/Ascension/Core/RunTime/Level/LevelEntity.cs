@@ -99,7 +99,7 @@ namespace AscensionServer
         ///接收到消息后直接存储，不考虑顺序 
         /// </summary>
 #if SERVER
-        public void OnPlayerInputC2S(IDataContract data)
+        public void OnCommandC2S(IDataContract data)
         {
             if (data == null)
                 return;
@@ -111,7 +111,7 @@ namespace AscensionServer
             }
         }
 #else
-        public void OnPlayerInputS2C(IDataContract data)
+        public void OnCommandS2C(IDataContract data)
         {
             roleSendMsgHandler?.Invoke(data);
         }

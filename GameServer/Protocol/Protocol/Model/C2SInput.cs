@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 namespace Protocol
 {
+    [Serializable]
     /// <summary>
-    /// 测试用输入协议；
+    /// 输入协议；
     /// </summary>
     [MessagePackObject]
     public class C2SInput : IDataContract

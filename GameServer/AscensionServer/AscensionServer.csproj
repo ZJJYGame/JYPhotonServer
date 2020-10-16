@@ -194,6 +194,7 @@
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.enum.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.Init.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.Timer.cs" />
+    <Compile Include="Ascension\Core\RunTime\Chat\ChatManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\Data.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\DataManager.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\GongFa.cs" />
@@ -219,8 +220,8 @@
     <Compile Include="Ascension\Core\RunTime\Role\RoleManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\RoomEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\RoomManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Scene\LevelEntity.cs" />
-    <Compile Include="Ascension\Core\RunTime\Scene\LevelManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Level\LevelEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\Level\LevelManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Team\TeamEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Team\ServerTeamManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Team\TeamManager.cs" />

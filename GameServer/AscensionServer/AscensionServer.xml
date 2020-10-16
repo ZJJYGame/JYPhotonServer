@@ -780,7 +780,7 @@
             场景实体对象
             </summary>
         </member>
-        <member name="M:AscensionServer.LevelEntity.OnPlayerInputC2S(Protocol.IDataContract)">
+        <member name="M:AscensionServer.LevelEntity.OnCommandC2S(Protocol.IDataContract)">
              <summary>
             接收到消息后直接存储，不考虑顺序 
              </summary>

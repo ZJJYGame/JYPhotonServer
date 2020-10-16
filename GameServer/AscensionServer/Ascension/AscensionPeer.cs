@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Cosmos;
 using System;
 using System.Text;
+using Protocol;
 
 namespace AscensionServer
 {
@@ -18,7 +19,7 @@ namespace AscensionServer
         /// 接收消息事件委托；
         /// 此类消息为非Opcode类型；
         /// </summary>
-        public event Action<object> OnMessageReceive
+        event Action<object> OnMessageReceive
         {
             add { onMessageReceive += value; }
             remove
@@ -77,14 +78,15 @@ namespace AscensionServer
         /// </summary>
         public void SendMessage(object message)
         {
-            base.SendMessage(message, sendParam);
+            var data= Utility.MessagePack.ToByteArray(message);
+            base.SendMessage(data, sendParam);
         }
         /// <summary>
         /// 发送事件消息;
         /// 传输的数据类型限定为Dictionary<byte,object>类型；
         /// </summary>
         /// <param name="data">用户自定义数据</param>
-       public void SendEventMsg(byte opCode, Dictionary<byte, object> data)
+        public void SendEventMsg(byte opCode, Dictionary<byte, object> data)
         {
             eventData.Code = opCode;
             eventData.Parameters = data;
@@ -119,13 +121,10 @@ namespace AscensionServer
         protected override void OnMessage(object message, SendParameters sendParameters)
         {
             //接收到客户端消息后，进行委托广播；
-            onMessageReceive?.Invoke(message);
-            {
-                this.SendMessage("手抓饼通哥；");
-            }
+            //onMessageReceive?.Invoke(message);
+            var opData = Utility.MessagePack.ToObject<OperationData>(message.ToString());
+            CommandEventCore.Instance.Dispatch(ProtocolDefine.PORT_CHAT,opData);
         }
-
-
         #endregion
     }
 }

@@ -30,7 +30,7 @@ namespace AscensionServer
         }
         PeerManager peerMgrInstance;
 #else
-        SceneEntity sceneEntity = new SceneEntity();
+        LevelEntity levelEntity = new LevelEntity();
 #endif
         RoleManager roleMgrInstance;
         public override void OnPreparatory()
@@ -39,10 +39,10 @@ namespace AscensionServer
             latestTime = Utility.Time.MillisecondNow() + updateInterval;
             peerMgrInstance = GameManager.CustomeModule<PeerManager>();
             roleMgrInstance = GameManager.CustomeModule<RoleManager>();
-            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAERINPUT, OnPlayerInputC2S);
+            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAERINPUT, OnCommandC2S);
 #else
             roleMgrInstance = Facade.CustomeModule<RoleManager>();
-            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAERINPUT, OnPlayerInputS2C);
+            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAERINPUT, OnCommandS2C);
 #endif
         }
         public override void OnRefresh()
@@ -61,23 +61,22 @@ namespace AscensionServer
 #endif
         }
 #if SERVER
-        public void OnPlayerInputC2S(OperationData opData)
+        public void OnCommandC2S(OperationData opData)
         {
             var input = opData.DataContract as C2SInput;
             if (input != null)
             {
                 if (sceneEntityDict.TryGetValue(input.EntityContainerId, out var sceneEntity))
                 {
-                    sceneEntity.OnPlayerInputC2S(input);
+                    sceneEntity.OnCommandC2S(input);
                 }
             }
         }
 #else
-        public void OnPlayerInputS2C(OperationData opData)
+        public void OnCommandS2C(OperationData opData)
         {
-            sceneEntity?.OnPlayerInputS2C(opData.DataContract);
+            levelEntity?.OnCommandS2C(opData.DataContract);
         }
-
 #endif
         /// <summary>
         ///玩家或peer进入场景 

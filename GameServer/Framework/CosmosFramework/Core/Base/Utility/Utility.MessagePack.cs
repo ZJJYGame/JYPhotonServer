@@ -60,6 +60,21 @@ namespace Cosmos {
                     throw new ArgumentNullException(Utility.Text.Format("Can not convert to ByteArray with exception '{0}", exception.ToString()), exception);
                 }
             }
+            public static T ToObject<T>(string json)
+            {
+                if (messagePackHelper == null)
+                {
+                    throw new ArgumentNullException("messagePackHelper is invalid");
+                }
+                try
+                {
+                    return messagePackHelper.ToObject<T>(json);
+                }
+                catch (Exception exception)
+                {
+                    throw new ArgumentNullException(Utility.Text.Format("Can not convert to ByteArray with exception '{0}", exception.ToString()), exception);
+                }
+            }
             public static object ToObject(byte[] buffer, Type objectType)
             {
                 if (messagePackHelper == null)
@@ -69,6 +84,21 @@ namespace Cosmos {
                 try
                 {
                     return messagePackHelper.ToObject(buffer,objectType);
+                }
+                catch (Exception exception)
+                {
+                    throw new ArgumentNullException(Utility.Text.Format("Can not convert to ByteArray with exception '{0}", exception.ToString()), exception);
+                }
+            }
+            public static object ToObject(string json, Type objectType)
+            {
+                if (messagePackHelper == null)
+                {
+                    throw new ArgumentNullException("messagePackHelper is invalid");
+                }
+                try
+                {
+                    return messagePackHelper.ToObject(json, objectType);
                 }
                 catch (Exception exception)
                 {
