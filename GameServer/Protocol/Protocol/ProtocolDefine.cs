@@ -22,44 +22,6 @@ namespace Protocol
         public const ushort PORT_CHAT = 4321;
         #endregion
 
-        #region CMD Range[0 , 15] ; Count:16;
-        /// <summary>
-        /// CMD指令;
-        /// 若无必要，勿动；
-        /// </summary>
-        public const byte CMD_MSG = 1;
-        public const byte CMD_SYN = 2;
-        public const byte CMD_ACK = 3;
-        public const byte CMD_FIN = 4;
-        #endregion
-
-        #region Operation Range[16 , 255] ; Count:240;
-        /// <summary>
-        /// 测试通道；
-        /// </summary>
-        public const byte OPERATION_TESTCAHNNEL = 16;
-        /// <summary>
-        /// PlayerInput;
-        /// </summary>
-        public const byte OPERATION_PLYAERINPUT = 17;
-        /// <summary>
-        /// EnterRoom;
-        /// </summary>
-        public const byte OPERATION_ENTERROOM = 18;
-        /// <summary>
-        /// ExitRoom;
-        /// </summary>
-        public const byte OPERATION_EXITROOM = 19;
-        /// <summary>
-        /// PlayerEnter
-        /// </summary>
-        public const byte OPERATION_PLAYERENTER = 20;
-        /// <summary>
-        /// PlayerExit
-        /// </summary>
-        public const byte OPERATION_PLAYEREXIT = 21;
-        #endregion
-
         #region ReturnCode  Range[256 , 319] ; Count:64;
         /// <summary>
         /// 成功；
@@ -93,6 +55,44 @@ namespace Protocol
         /// 未查询到条款（Item）；
         /// </summary>
         public const short RETURN_NOTFOUND = 264;
+        #endregion
+
+        #region CMD Range[320 , 335] ; Count:16;
+        /// <summary>
+        /// CMD指令;
+        /// 若无必要，勿动；
+        /// </summary>
+        public const ushort CMD_MSG = 320;
+        public const ushort CMD_SYN = 321;
+        public const ushort CMD_ACK = 322;
+        public const ushort CMD_FIN = 323;
+        #endregion
+
+        #region Operation Range[336 , 367] ; Count:32;
+        /// <summary>
+        /// 测试通道；
+        /// </summary>
+        public const ushort OPERATION_TESTCAHNNEL = 336;
+        /// <summary>
+        /// PlayerInput;
+        /// </summary>
+        public const ushort OPERATION_PLYAERINPUT = 337;
+        /// <summary>
+        /// EnterRoom;
+        /// </summary>
+        public const ushort OPERATION_ENTERROOM = 338;
+        /// <summary>
+        /// ExitRoom;
+        /// </summary>
+        public const ushort OPERATION_EXITROOM = 339;
+        /// <summary>
+        /// PlayerEnter
+        /// </summary>
+        public const ushort OPERATION_PLAYERENTER = 340;
+        /// <summary>
+        /// PlayerExit
+        /// </summary>
+        public const  ushort OPERATION_PLAYEREXIT = 341;
         #endregion
     }
 }
