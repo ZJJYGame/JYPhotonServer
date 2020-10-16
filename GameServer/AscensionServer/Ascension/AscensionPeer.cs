@@ -76,7 +76,7 @@ namespace AscensionServer
         /// <summary>
         /// 发送消息到remotePeer
         /// </summary>
-        public void SendCommandMessage(OperationData opData)
+        public void SendMessage(OperationData opData)
         {
             var data= Utility.MessagePack.ToJson(opData);
             base.SendMessage(data, sendParam);
@@ -118,7 +118,7 @@ namespace AscensionServer
             OperationData opData = new OperationData();
             opData.DataMessage = "测试发送消息，DONN";
             opData.DataContract = null;
-            this.SendCommandMessage(opData);
+            this.SendMessage(opData);
             Utility.Debug.LogWarning("测试消息发送");
         }
         /// <summary>

@@ -35,6 +35,6 @@ namespace AscensionServer
         /// 发送消息到remotePeer
         /// </summary>
         /// <param name="opData">消息数据</param>
-        void SendCommandMessage(OperationData  opData);
+        void SendMessage(OperationData  opData);
     }
 }
