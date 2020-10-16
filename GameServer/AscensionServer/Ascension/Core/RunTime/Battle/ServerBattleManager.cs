@@ -158,17 +158,15 @@ namespace AscensionServer
                                                     }
                                                     else
                                                     {
-
                                                         BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
-                                                        while (true)
+                                                        if (AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits).Count == 0)
                                                         {
-                                                            var index = new Random().Next(0, _teamIdToBattleInit[roleId].enemyUnits.Count);
-                                                            if (_teamIdToBattleInit[roleId].enemyUnits[index].EnemyStatusDTO.EnemyHP >= 0)
-                                                            {
-                                                                tempTrans.TargetID = _teamIdToBattleInit[roleId].enemyUnits[index].EnemyStatusDTO.EnemyId;
-                                                                break;
-                                                            }
+                                                            Utility.Debug.LogError("AI  全部死亡");
+
+                                                            return;
                                                         }
+                                                        var index = new Random().Next(0, AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits).Count);
+                                                        tempTrans.TargetID = AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits)[index].EnemyStatusDTO.EnemyId;
                                                         tempTrans.TargetHPDamage = -skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
                                                         TargetInfosSet.Add(tempTrans);
                                                         teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = RoleDTO.BattleCmd.SkillInstruction, RoleId = roleId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });

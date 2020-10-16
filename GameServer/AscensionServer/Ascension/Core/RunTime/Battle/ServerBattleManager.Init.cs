@@ -356,6 +356,22 @@ namespace AscensionServer
             _roomidToTimer[roomId].StartTimer();
         }
 
+
+        /// <summary>
+        /// 针对AI  血量 >0
+        /// </summary>
+        public List<EnemyBattleDataDTO> AIToHPMethod(int roleId,List<EnemyBattleDataDTO> enemyBattleDatas)
+        {
+            List<EnemyBattleDataDTO> tempDataSet = new List<EnemyBattleDataDTO>();
+            for (int i = 0; i < enemyBattleDatas.Count; i++)
+            {
+                if (_teamIdToBattleInit[roleId].enemyUnits[i].EnemyStatusDTO.EnemyHP > 0)
+                {
+                    tempDataSet.Add(_teamIdToBattleInit[roleId].enemyUnits[i]);
+                }
+            }
+            return tempDataSet;
+        }
     }
 }
 
