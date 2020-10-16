@@ -37,7 +37,7 @@ namespace AscensionServer
         /// <summary>
         /// 广播普通消息;
         /// </summary>
-        event Action<object> BroadcastMessage
+        event Action<OperationData> BroadcastMessage
         {
             add { broadcastMessage += value; }
             remove
@@ -51,7 +51,7 @@ namespace AscensionServer
             }
         }
         Action<byte, Dictionary<byte, object>> broadcastEvent;
-        Action<object> broadcastMessage;
+        Action<OperationData> broadcastMessage;
 #if !SERVER
         Action refreshHandler;
         event Action RefreshHandler
@@ -163,7 +163,7 @@ namespace AscensionServer
         /// <summary>
         ///发送消息到具体的SessionId 
         /// </summary>
-        public bool SendMessage(int roleId, object message)
+        public bool SendMessage(int roleId, OperationData message)
         {
             var result = TryGetValue(roleId, out var role);
             if (result)
@@ -181,7 +181,7 @@ namespace AscensionServer
         /// <summary>
         ///异步发送消息到具体的SessionId 
         /// </summary>
-        public async Task<bool> SendMessageAsync(int roleId, object message)
+        public async Task<bool> SendMessageAsync(int roleId, OperationData message)
         {
             return await Task.Run(() => { return SendMessage(roleId, message); });
         }

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Cosmos;
 using System;
+using Protocol;
+
 namespace AscensionServer
 {
     /// <summary>
@@ -56,7 +58,7 @@ namespace AscensionServer
             }
             return false;
         }
-        public void SendMessage(object data)
+        public void SendMessage(OperationData data)
         {
             GameManager.CustomeModule<PeerManager>().SendMessage(SessionId,  data);
         }

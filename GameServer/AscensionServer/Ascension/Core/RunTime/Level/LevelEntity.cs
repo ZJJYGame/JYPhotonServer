@@ -16,8 +16,8 @@ namespace AscensionServer
         public int SceneId { get; private set; }
         public bool Available { get; private set; }
         Dictionary<int, IRoleEntity> roleDict;
-        Action<object> roleSendMsgHandler;
-        event Action<object> RoleSendMsgHandler
+        Action<OperationData> roleSendMsgHandler;
+        event Action<OperationData> RoleSendMsgHandler
         {
             add { roleSendMsgHandler += value; }
             remove
@@ -38,10 +38,12 @@ namespace AscensionServer
 #else
         Dictionary<int, C2SInput> roleInputCmdDict=new Dictionary<int, C2SInput>();
 #endif
+        OperationData opData = new OperationData();
         public int PlayerCount { get { return roleDict.Count; } }
         public LevelEntity()
         {
             roleDict = new Dictionary<int, IRoleEntity>();
+            opData.OperationCode = ProtocolDefine.OPERATION_PLYAERINPUT;
         }
         public void OnInit(int sceneId)
         {
@@ -124,7 +126,8 @@ namespace AscensionServer
             {
                 InputSet.InputDict = roleCmds;
                 InputSet.Tick = (int)currentTick;
-                roleSendMsgHandler?.Invoke(InputSet);
+                opData.DataContract = InputSet;
+                roleSendMsgHandler?.Invoke(opData);
                 //若当前帧发送成功，则移除上一个逻辑帧数据；服务器当前不存储数据，仅负责转发；
                 roleInputCmdDict.Remove(currentTick--);
             }

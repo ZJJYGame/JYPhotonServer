@@ -76,9 +76,9 @@ namespace AscensionServer
         /// <summary>
         /// 发送消息到remotePeer
         /// </summary>
-        public void SendMessage(object message)
+        public void SendMessage(OperationData opData)
         {
-            var data= Utility.MessagePack.ToByteArray(message);
+            var data= Utility.MessagePack.ToByteArray(opData);
             base.SendMessage(data, sendParam);
         }
         /// <summary>
@@ -122,8 +122,8 @@ namespace AscensionServer
         {
             //接收到客户端消息后，进行委托广播；
             //onMessageReceive?.Invoke(message);
-            var opData = Utility.MessagePack.ToObject<OperationData>(message.ToString());
-            CommandEventCore.Instance.Dispatch(ProtocolDefine.PORT_CHAT,opData);
+            var opData = Utility.MessagePack.ToObject<OperationData>(message as byte[]);
+            CommandEventCore.Instance.Dispatch(opData.OperationCode,opData);
         }
         #endregion
     }

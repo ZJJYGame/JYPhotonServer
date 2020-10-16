@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cosmos;
+using Protocol;
+
 namespace AscensionServer
 {
     /// <summary>
@@ -32,7 +34,7 @@ namespace AscensionServer
         /// <summary>
         /// 发送消息到remotePeer
         /// </summary>
-        /// <param name="message">消息数据</param>
-        void SendMessage(object message);
+        /// <param name="opData">消息数据</param>
+        void SendMessage(OperationData  opData);
     }
 }

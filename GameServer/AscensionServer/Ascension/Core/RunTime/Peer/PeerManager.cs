@@ -5,6 +5,8 @@ using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using System.Threading;
 using AscensionProtocol;
+using Protocol;
+
 namespace AscensionServer
 {
     /// <summary>
@@ -31,7 +33,7 @@ namespace AscensionServer
         /// <summary>
         /// 广播普通消息;
         /// </summary>
-        event Action<object> BroadcastMessage
+        event Action<OperationData> BroadcastMessage
         {
             add { broadcastMessage += value; }
             remove
@@ -41,7 +43,7 @@ namespace AscensionServer
             }
         }
         Action<byte, Dictionary<byte, object>> broadcastEvent;
-        Action<object> broadcastMessage;
+        Action<OperationData> broadcastMessage;
         ConcurrentDictionary<int, IPeerEntity> peerDict;
         public override void OnInitialization()
         {
@@ -133,7 +135,7 @@ namespace AscensionServer
         /// <summary>
         ///发送消息到具体的SessionId 
         /// </summary>
-        public bool SendMessage(int sessionId, object message)
+        public bool SendMessage(int sessionId,OperationData message)
         {
             var result = TryGetValue(sessionId, out var peer);
             if (result)
@@ -141,17 +143,17 @@ namespace AscensionServer
             return result;
         }
         /// <summary>
-        /// 通过广播普通消息(MSG)；
+        /// 通过广播消息(MSG)；
         /// </summary>
         /// <param name="message">普通消息</param>
-        public void BroadcastMessageToAll(object message)
+        public void BroadcastMessageToAll(OperationData message)
         {
             broadcastMessage?.Invoke(message);
         }
         /// <summary>
         ///异步发送消息到具体的SessionId 
         /// </summary>
-        public async Task<bool> SendMessageAsync(int sessionId, object message)
+        public async Task<bool> SendMessageAsync(int sessionId, OperationData message)
         {
             return await Task.Run(() => { return SendMessage(sessionId, message); });
         }
@@ -174,12 +176,12 @@ namespace AscensionServer
             callback?.Invoke();
         }
         /// <summary>
-        /// 异步广播普通消息(MSG)；
+        /// 异步广播消息(MSG)；
         /// </summary>
         /// <param name="message">普通消息</param>
         /// <param name="callback">消息广播完成后的回调</param>
         /// <returns></returns>
-        public async Task BroadcastMessageToAllAsync(object message, Action callback = null)
+        public async Task BroadcastMessageToAllAsync(OperationData message, Action callback = null)
         {
             await Task.Run(() => { broadcastMessage?.Invoke(message); });
             callback?.Invoke();

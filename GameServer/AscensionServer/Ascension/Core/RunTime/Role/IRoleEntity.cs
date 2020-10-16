@@ -1,4 +1,5 @@
 ﻿using Cosmos;
+using Protocol;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace AscensionServer
         int RoleId { get; }
         int SessionId { get; }
         object[] Find(Predicate<object> handler);
-        void SendMessage(object data);
+        void SendMessage(OperationData data);
         void SendEvent(byte opCode, Dictionary<byte,object> data);
     }
 }
