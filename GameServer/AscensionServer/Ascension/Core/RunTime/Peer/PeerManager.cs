@@ -55,7 +55,7 @@ namespace AscensionServer
             if (result)
             {
                 BroadcastEvent += peer.SendEventMsg;
-                BroadcastMessage += peer.SendMessage;
+                BroadcastMessage += peer.SendCommandMessage;
             }
             return result;
         }
@@ -65,7 +65,7 @@ namespace AscensionServer
             if (result)
             {
                 BroadcastEvent += peer.SendEventMsg;
-                BroadcastMessage += peer.SendMessage;
+                BroadcastMessage += peer.SendCommandMessage;
             }
             return result;
         }
@@ -75,7 +75,7 @@ namespace AscensionServer
             if (result)
             {
                 BroadcastEvent -= peer.SendEventMsg;
-                BroadcastMessage -= peer.SendMessage;
+                BroadcastMessage -= peer.SendCommandMessage;
             }
             return result;
         }
@@ -85,7 +85,7 @@ namespace AscensionServer
             if (result)
             {
                 BroadcastEvent -= peer.SendEventMsg;
-                BroadcastMessage -= peer.SendMessage;
+                BroadcastMessage -= peer.SendCommandMessage;
             }
             return result;
         }
@@ -103,8 +103,8 @@ namespace AscensionServer
             {
                 BroadcastEvent -= comparisonPeer.SendEventMsg;
                 BroadcastEvent += newPeer.SendEventMsg;
-                BroadcastMessage -= comparisonPeer.SendMessage;
-                BroadcastMessage += newPeer.SendMessage;
+                BroadcastMessage -= comparisonPeer.SendCommandMessage;
+                BroadcastMessage += newPeer.SendCommandMessage;
             }
             return result;
         }
@@ -139,7 +139,7 @@ namespace AscensionServer
         {
             var result = TryGetValue(sessionId, out var peer);
             if (result)
-                peer.SendMessage(message);
+                peer.SendCommandMessage(message);
             return result;
         }
         /// <summary>

@@ -505,7 +505,7 @@
             <param name="opCode">操作码</param>
             <param name="userData">用户自定义的数据字典</param>
         </member>
-        <member name="M:AscensionServer.IPeerEntity.SendMessage(Protocol.OperationData)">
+        <member name="M:AscensionServer.IPeerEntity.SendCommandMessage(Protocol.OperationData)">
             <summary>
             发送消息到remotePeer
             </summary>
@@ -1089,7 +1089,7 @@
             此类消息为非Opcode类型；
             </summary>
         </member>
-        <member name="M:AscensionServer.AscensionPeer.SendMessage(Protocol.OperationData)">
+        <member name="M:AscensionServer.AscensionPeer.SendCommandMessage(Protocol.OperationData)">
             <summary>
             发送消息到remotePeer
             </summary>
