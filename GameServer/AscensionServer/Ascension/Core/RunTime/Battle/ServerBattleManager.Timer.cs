@@ -147,15 +147,17 @@ namespace AscensionServer
             Utility.Debug.LogInfo("老陆   是一个好人");
             int teamp =  GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Dequeue();
             var firstKey =  GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.FirstOrDefault(t => t.Value.RoomId == teamp).Key;
-            var dp = new DataParameters();
-            dp.Messages.Add((byte)ParameterCode.RoleBattle, "老陆   是一个好人");
+            //var dp = new DataParameters();
+            //dp.Messages.Add((byte)ParameterCode.RoleBattle, "老陆   是一个好人");
+            OperationData opData = new OperationData();
+            opData.DataMessage= "老陆   是一个好人";
+            opData.OperationCode = 1;
+            GameManager.CustomeModule<RoleManager>().SendMessage(firstKey, opData);
+            //GameManager.CustomeModule<RoleManager>().SendMessage(firstKey, Utility.Json.ToJson(dp));
+            //GameManager.CustomeModule<RoleManager>().SendMessage(firstKey, dp);
 
-            GameManager.CustomeModule<RoleManager>().SendMessage(firstKey, Utility.Json.ToJson(dp));
-            StopTimer();
+            //StopTimer();
         }
-
-
-
 
         #endregion
     }

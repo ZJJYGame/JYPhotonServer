@@ -188,6 +188,40 @@
             用于初始化 战斗数据 和管理 战斗的数据缓存
             </summary>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.Timestamp(System.Int32)">
+            <summary>
+            开始倒计时
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.ReleaseToSpeed(System.Int32)">
+            <summary>
+            出手速度
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.ReleaseToOwner(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            返回一个出手拥有者  玩家或者AI或者宠物
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.AIToHPMethod(System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.EnemyBattleDataDTO})">
+            <summary>
+            针对AI  血量 >0
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.AIToRelease(AscensionProtocol.DTO.BattleTransferDTO,AscensionProtocol.DTO.EnemyStatusDTO,System.Int32,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.SkillGongFaDatas})">
+            <summary>
+            处理AI 判断玩家是不是死亡 和要选择能出手的Ai                ??? TODO第四个参数有待完善
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.SkillGongFaDatas})">
+            <summary>
+            处理玩家  判断Al出手之前 是不是死亡 换取目标
+            </summary>
+            <param name="battleTransferDTOs"></param>
+            <param name="roleId"></param>
+            <param name="skillGongFaDict"></param>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.EntryBattle(AscensionProtocol.DTO.BattleInitDTO)">
             <summary>
             初始化战斗数据  
@@ -203,16 +237,7 @@
             开始战斗   -->  开始战斗的回合
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.isFinishMethod">
-            <summary>
-            处理每回合
-            </summary>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.BattleEnd">
-            <summary>
-            战斗结束
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="F:AscensionServer.ServerBattleManager._teamIdToBattleInit">
             <summary>
              角色id 和对应的 房间数据对象
@@ -290,56 +315,36 @@
         </member>
         <member name="M:AscensionServer.ServerBattleManager.RoleInfo(System.Int32)">
             <summary>
-            获取玩家
+            获取玩家 并初始化
             </summary>
             <param name="roleId"></param>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.PetInfo(System.Int32)">
             <summary>
-            获取宠物
+            获取宠物  并初始化
             </summary>
             <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.EnemyInfo(System.Collections.Generic.List{AscensionProtocol.DTO.EnemyBattleDataDTO})">
+            <summary>
+            获取AI 并初始化
+            </summary>
+            <param name="enemyId"></param>
             <returns></returns>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.AllBattleDataDTOsInfo(System.Int32,AscensionProtocol.DTO.BattleInitDTO)">
             <summary>
-            初始化所有信息
+            玩家宠物AI  初始化所有信息  应对出手速度
             </summary>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.ReleaseToSpeed(System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.PlayerBattleEndInfo(System.Int32,AscensionProtocol.DTO.RoleStatusDTO)">
             <summary>
-            出手速度
+            针对 玩家战斗结束的同步数据
             </summary>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.ReleaseToOwner(System.Int32,System.Int32,System.Int32)">
-            <summary>
-            返回一个出手拥有者 
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.Timestamp(System.Int32)">
-            <summary>
-            开始倒计时
-            </summary>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.AIToHPMethod(System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.EnemyBattleDataDTO})">
-            <summary>
-            针对AI  血量 >0
-            </summary>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.AIToRelease(AscensionProtocol.DTO.BattleTransferDTO,AscensionProtocol.DTO.EnemyStatusDTO,System.Int32,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.SkillGongFaDatas})">
-            <summary>
-            处理AI 判断玩家是不是死亡 和要选择能出手的Ai                ??? TODO第四个参数有待完善
-            </summary>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.SkillGongFaDatas})">
-            <summary>
-            处理玩家  判断Al出手之前 是不是死亡 换取目标
-            </summary>
-            <param name="battleTransferDTOs"></param>
             <param name="roleId"></param>
-            <param name="skillGongFaDict"></param>
+            <param name="roleStatusSever"></param>
         </member>
         <member name="T:AscensionServer.TargetType">
             <summary>
@@ -493,11 +498,6 @@
             peer对象Handle
             </summary>
         </member>
-        <member name="E:AscensionServer.IPeerEntity.OnMessageReceive">
-            <summary>
-            接收二进制流数据委托；
-            </summary>
-        </member>
         <member name="M:AscensionServer.IPeerEntity.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
             <summary>
             发送消息到remotePeer
@@ -505,11 +505,11 @@
             <param name="opCode">操作码</param>
             <param name="userData">用户自定义的数据字典</param>
         </member>
-        <member name="M:AscensionServer.IPeerEntity.SendMessage(System.Object)">
+        <member name="M:AscensionServer.IPeerEntity.SendMessage(Protocol.OperationData)">
             <summary>
             发送消息到remotePeer
             </summary>
-            <param name="message">消息数据</param>
+            <param name="opData">消息数据</param>
         </member>
         <member name="T:AscensionServer.ServerDataConvertor">
             <summary>
@@ -560,18 +560,18 @@
             </summary>
             <param name="userData">用户自定义数据</param>
         </member>
-        <member name="M:AscensionServer.PeerManager.SendMessage(System.Int32,System.Object)">
+        <member name="M:AscensionServer.PeerManager.SendMessage(System.Int32,Protocol.OperationData)">
              <summary>
             发送消息到具体的SessionId 
              </summary>
         </member>
-        <member name="M:AscensionServer.PeerManager.BroadcastMessageToAll(System.Object)">
+        <member name="M:AscensionServer.PeerManager.BroadcastMessageToAll(Protocol.OperationData)">
             <summary>
-            通过广播普通消息(MSG)；
+            通过广播消息(MSG)；
             </summary>
             <param name="message">普通消息</param>
         </member>
-        <member name="M:AscensionServer.PeerManager.SendMessageAsync(System.Int32,System.Object)">
+        <member name="M:AscensionServer.PeerManager.SendMessageAsync(System.Int32,Protocol.OperationData)">
              <summary>
             异步发送消息到具体的SessionId 
              </summary>
@@ -589,9 +589,9 @@
             <param name="callback">广播结束后的回调</param>
             <returns>线程Task</returns>
         </member>
-        <member name="M:AscensionServer.PeerManager.BroadcastMessageToAllAsync(System.Object,System.Action)">
+        <member name="M:AscensionServer.PeerManager.BroadcastMessageToAllAsync(Protocol.OperationData,System.Action)">
             <summary>
-            异步广播普通消息(MSG)；
+            异步广播消息(MSG)；
             </summary>
             <param name="message">普通消息</param>
             <param name="callback">消息广播完成后的回调</param>
@@ -698,18 +698,18 @@
             </summary>
             <param name="userData">用户自定义数据</param>
         </member>
-        <member name="M:AscensionServer.RoleManager.SendMessage(System.Int32,System.Object)">
+        <member name="M:AscensionServer.RoleManager.SendMessage(System.Int32,Protocol.OperationData)">
              <summary>
             发送消息到具体的SessionId 
              </summary>
         </member>
-        <member name="M:AscensionServer.RoleManager.BroadcastMessageToAll(System.Object)">
+        <member name="M:AscensionServer.RoleManager.BroadcastMessageToAll(Protocol.OperationData)">
             <summary>
             通过广播普通消息(MSG)；
             </summary>
             <param name="message">普通消息</param>
         </member>
-        <member name="M:AscensionServer.RoleManager.SendMessageAsync(System.Int32,System.Object)">
+        <member name="M:AscensionServer.RoleManager.SendMessageAsync(System.Int32,Protocol.OperationData)">
              <summary>
             异步发送消息到具体的SessionId 
              </summary>
@@ -727,7 +727,7 @@
             <param name="callback">广播结束后的回调</param>
             <returns>线程Task</returns>
         </member>
-        <member name="M:AscensionServer.RoleManager.BroadcastMessageToAllAsync(System.Object,System.Action)">
+        <member name="M:AscensionServer.RoleManager.BroadcastMessageToAllAsync(Protocol.OperationData,System.Action)">
             <summary>
             异步广播普通消息(MSG)；
             </summary>
@@ -1089,7 +1089,7 @@
             此类消息为非Opcode类型；
             </summary>
         </member>
-        <member name="M:AscensionServer.AscensionPeer.SendMessage(System.Object)">
+        <member name="M:AscensionServer.AscensionPeer.SendMessage(Protocol.OperationData)">
             <summary>
             发送消息到remotePeer
             </summary>

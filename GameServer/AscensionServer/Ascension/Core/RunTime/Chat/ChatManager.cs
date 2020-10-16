@@ -20,7 +20,7 @@ namespace AscensionServer
             try
             {
                 var chatMsg = Utility.Json.ToObject<C2SChatMessage>(msg.ToString());
-                GameManager.CustomeModule<PeerManager>().SendMessage(chatMsg.ReceiverSessionId, chatMsg.Message); ;
+                //GameManager.CustomeModule<PeerManager>().SendMessage(chatMsg.ReceiverSessionId, chatMsg.Message); ;
             }
             catch (Exception e)
             {

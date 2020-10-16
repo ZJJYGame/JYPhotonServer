@@ -174,7 +174,7 @@ namespace AscensionServer
         /// 通过广播普通消息(MSG)；
         /// </summary>
         /// <param name="message">普通消息</param>
-        public void BroadcastMessageToAll(object message)
+        public void BroadcastMessageToAll(OperationData message)
         {
             broadcastMessage?.Invoke(message);
         }
@@ -209,7 +209,7 @@ namespace AscensionServer
         /// <param name="message">普通消息</param>
         /// <param name="callback">消息广播完成后的回调</param>
         /// <returns></returns>
-        public async Task BroadcastMessageToAllAsync(object message, Action callback = null)
+        public async Task BroadcastMessageToAllAsync(OperationData message, Action callback = null)
         {
             await Task.Run(() => { broadcastMessage?.Invoke(message); });
             callback?.Invoke();

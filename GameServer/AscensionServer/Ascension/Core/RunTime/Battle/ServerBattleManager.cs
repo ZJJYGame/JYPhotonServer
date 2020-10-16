@@ -1,4 +1,5 @@
 ﻿using AscensionProtocol.DTO;
+using AscensionServer.Model;
 using Cosmos;
 using System;
 using System.Collections.Generic;
@@ -213,6 +214,19 @@ namespace AscensionServer
             { }
         }
 
+
+        /// 战斗结束
+        /// </summary>
+        public void BattleEnd(int RoomId)
+        {
+            var tempRoleId = GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.FirstOrDefault(t => t.Value.RoomId == RoomId).Key;
+            var roleStatusSever = _teamIdToBattleInit[tempRoleId].playerUnits[0].RoleStatusDTO;
+            PlayerBattleEndInfo(tempRoleId, roleStatusSever);
+        }
+
+
+
+
         private SkillReactionCmd GetSendSkillReactionCmd(int roomId, int i)
         {
             return _roomidToBattleTransfer[roomId][i].SendSkillReactionCmd;
@@ -222,35 +236,6 @@ namespace AscensionServer
             return _roomidToBattleTransfer[roomId][i].SkillReactionValue;
         }
 
-
-        /// <summary>
-        /// 处理每回合
-        /// </summary>
-        public void isFinishMethod()
-        {
-
-        }
-        /// <summary>
-        /// 战斗结束
-        /// </summary>
-        public void BattleEnd()
-        {
-
-        }
-
-
-        public override void OnPreparatory()
-        {
-            OnPause();
-        }
-
-        public override void OnRefresh()
-        {
-            if (IsPause)
-                return;
-            Utility.Debug.LogWarning("=>老陆_currentTime OnRefresh");
-
-        }
         /*
         /// <summary>
         /// 每回合 倒计时
