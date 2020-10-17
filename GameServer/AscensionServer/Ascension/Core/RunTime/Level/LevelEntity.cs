@@ -11,11 +11,11 @@ namespace AscensionServer
     /// <summary>
     /// 场景实体对象
     /// </summary>
-    public class LevelEntity : IReference, IRefreshable
+    public class LevelEntity : Entity, IReference, IRefreshable
     {
-        public int SceneId { get; private set; }
+        public int LevelId { get { return (int)Id; }set { Id = value; } }
         public bool Available { get; private set; }
-        Dictionary<int, IRoleEntity> roleDict;
+        Dictionary<int, RoleEntity> roleDict;
         Action<OperationData> roleSendMsgHandler;
         event Action<OperationData> RoleSendMsgHandler
         {
@@ -42,12 +42,12 @@ namespace AscensionServer
         public int PlayerCount { get { return roleDict.Count; } }
         public LevelEntity()
         {
-            roleDict = new Dictionary<int, IRoleEntity>();
-            opData.OperationCode = ProtocolDefine.OPERATION_PLYAERINPUT;
+            roleDict = new Dictionary<int, RoleEntity>();
+            opData.OperationCode = ProtocolDefine.OPERATION_PLYAER_INPUT;
         }
         public void OnInit(int sceneId)
         {
-            this.SceneId = sceneId;
+            this.LevelId = sceneId;
             this.Available = true;
 #if SERVER
             this.InputSet.EntityContainerId = sceneId;
@@ -57,25 +57,27 @@ namespace AscensionServer
         {
             return roleDict.ContainsKey(roleId);
         }
-        public bool TryAdd(int roleId, IRoleEntity role)
+        public bool TryAdd(int roleId, RoleEntity role)
         {
             var result = roleDict.TryAdd(roleId, role);
             if (result)
             {
                 RoleSendMsgHandler += role.SendMessage;
+                role.TryAdd(typeof(LevelEntity), this);
             }
             return result;
         }
-        public bool TryAdd(IRoleEntity role)
+        public bool TryAdd(RoleEntity role)
         {
             var result = roleDict.TryAdd(role.RoleId, role);
             if (result)
             {
                 RoleSendMsgHandler += role.SendMessage;
+                role.TryAdd(typeof(LevelEntity), this);
             }
             return result;
         }
-        public bool TryGetValue(int roleId, out IRoleEntity role)
+        public bool TryGetValue(int roleId, out RoleEntity role)
         {
             return roleDict.TryGetValue(roleId, out role);
         }
@@ -85,15 +87,17 @@ namespace AscensionServer
             if (result)
             {
                 RoleSendMsgHandler -= role.SendMessage;
+                role.TryRemove(typeof(LevelEntity));
             }
             return result;
         }
-        public bool TryRemove(int roleId, out IRoleEntity role)
+        public bool TryRemove(int roleId, out RoleEntity role)
         {
             var result = roleDict.Remove(roleId, out role);
             if (result)
             {
                 RoleSendMsgHandler -= role.SendMessage;
+                role.TryRemove(typeof(LevelEntity));
             }
             return result;
         }
@@ -139,7 +143,7 @@ namespace AscensionServer
         public void Clear()
         {
             roleDict.Clear();
-            this.SceneId = 0;
+            this.LevelId = 0;
             this.Available = false;
             roleInputCmdDict.Clear();
             roleSendMsgHandler = null;
@@ -149,7 +153,7 @@ namespace AscensionServer
         }
 #if SERVER
 
-        public static LevelEntity Create(int sceneId, params IRoleEntity[] peerEntities)
+        public static LevelEntity Create(int sceneId, params RoleEntity[] peerEntities)
         {
             LevelEntity se = GameManager.ReferencePoolManager.Spawn<LevelEntity>();
             se.OnInit(sceneId);
@@ -160,7 +164,7 @@ namespace AscensionServer
             }
             return se;
         }
-        public static LevelEntity Create(int sceneId, List<IRoleEntity> peerEntities)
+        public static LevelEntity Create(int sceneId, List<RoleEntity> peerEntities)
         {
             LevelEntity se = GameManager.ReferencePoolManager.Spawn<LevelEntity>();
             se.OnInit(sceneId);

@@ -12,7 +12,7 @@ namespace AscensionServer
 {
     public class ExitAdventureSceneHandler : Handler
     {
-        public override byte OpCode { get { return (byte)OperationCode.ExitAdventureScene; } }
+        public override byte OpCode { get { return (byte)OperationCode.ExitLevelCommand; } }
         protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
             //AscensionServer.Instance.ExitAdventureScene(peer);

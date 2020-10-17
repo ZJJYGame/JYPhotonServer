@@ -9,9 +9,9 @@ namespace AscensionServer
     /// <summary>
     /// 游戏中的角色实体对象；
     /// </summary>
-    public class RoleEntity : IRoleEntity
+    public class RoleEntity : Entity,IReference
     {
-        public int RoleId { get; private set; }
+        public int RoleId { get { return (int)Id; } set { Id = value; } }
         public int SessionId{ get; private set; }
         public int DataCount { get { return dataDict.Count; } }
         Dictionary<Type, object> dataDict = new Dictionary<Type, object>();

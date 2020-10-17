@@ -14,7 +14,7 @@ namespace AscensionServer
 {
     public class EnterAdventureSceneHandler : Handler
     {
-        public override byte OpCode { get { return (byte)OperationCode.EnterAdventureScene; } }
+        public override byte OpCode { get { return (byte)OperationCode.EnterLevelCommand; } }
         protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
             HashSet<Role> roleSet = new HashSet<Role>();

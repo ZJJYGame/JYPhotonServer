@@ -183,7 +183,6 @@
     <Compile Include="Ascension\Core\Base\Actor\ActorManager.cs" />
     <Compile Include="Ascension\Core\Base\Actor\ActorTypeEnum.cs" />
     <Compile Include="Ascension\Core\Base\Attribute\InheritedAttribute.cs" />
-    <Compile Include="Ascension\Core\Base\EventCore\OpCodeEventCore.cs" />
     <Compile Include="Ascension\Core\Base\Input\IInputData.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\NetworkHelper\PhotonMessageHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\IBattleAlgorithmProvider.cs" />
@@ -213,7 +212,6 @@
     <Compile Include="Ascension\Core\RunTime\Record\RecordManager.cs" />
     <Compile Include="Ascension\Core\Base\RedisData\RedisData.Initialize.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\GameResourceManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Role\IRoleEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Role\RoleEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Role\RoleManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\RoomEntity.cs" />

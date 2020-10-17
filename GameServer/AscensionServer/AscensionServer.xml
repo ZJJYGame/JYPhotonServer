@@ -20,7 +20,7 @@
             byte表示 ProtocolDefine.OPERATION中的操作码
             </summary>
         </member>
-        <member name="M:AscensionServer.RecordHelper.RecordRole(System.Int32,System.Object)">
+        <member name="M:AscensionServer.RecordHelper.RecordRole(AscensionServer.RoleEntity)">
             <summary>
             记录离线时间
             </summary>
@@ -166,14 +166,6 @@
             <param name="id"></param>
             <param name="peer"></param>
             <returns></returns>
-        </member>
-        <member name="T:AscensionServer.OpCodeEventCore">
-            <summary>
-            网络事件；
-            标准事件模型；
-            key为short类型约束的枚举；
-            value为object类型的对象
-            </summary>
         </member>
         <member name="T:AscensionServer.IBattleAlgorithmProvider">
             <summary>
@@ -772,7 +764,7 @@
             </summary>
             <param name="roomId">分配的房间ID</param>
         </member>
-        <member name="M:AscensionServer.RoomEntity.Create(AscensionServer.IRoleEntity[])">
+        <member name="M:AscensionServer.RoomEntity.Create(AscensionServer.RoleEntity[])">
             <summary>
             通过peer实体生成房间实体；
             </summary>

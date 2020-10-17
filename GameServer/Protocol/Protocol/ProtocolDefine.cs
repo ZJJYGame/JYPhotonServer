@@ -22,6 +22,37 @@ namespace Protocol
         public const ushort PORT_CHAT = 4321;
         #endregion
 
+        #region Operation Range[0 , 255] ; Count:256;
+        /// <summary>
+        /// 测试通道；
+        /// </summary>
+        public const ushort OPERATION_TESTCAHNNEL = 336;
+        /// <summary>
+        /// PlayerInput;
+        /// 玩家在高同步场景中的输入；
+        /// 例如探索界面，副本界面等；
+        /// </summary>
+        public const ushort OPERATION_PLYAER_INPUT = 5;
+        /// <summary>
+        /// 玩家的角色登录；注意区分账号登录；
+        /// </summary>
+        public const ushort OPERATION_PLYAER_LOGIN = 6;
+        /// <summary>
+        /// 玩家的角色登出；注意区分账号登录；
+        /// </summary>
+        public const ushort OPERATION_PLYAER_LOGOFF = 7;
+        /// <summary>
+        /// PlayerEnter；
+        /// 玩家进入高同步场景，例如探索界面，副本界面等；
+        /// </summary>
+        public const ushort OPERATION_PLAYER_ENTER = 111;
+        /// <summary>
+        /// PlayerExit
+        /// 玩家离开高同步场景，例如探索界面，副本界面等；
+        /// </summary>
+        public const ushort OPERATION_PLAYER_EXIT = 112;
+        #endregion
+
         #region ReturnCode  Range[256 , 319] ; Count:64;
         /// <summary>
         /// 成功；
@@ -66,33 +97,6 @@ namespace Protocol
         public const ushort CMD_SYN = 321;
         public const ushort CMD_ACK = 322;
         public const ushort CMD_FIN = 323;
-        #endregion
-
-        #region Operation Range[336 , 367] ; Count:32;
-        /// <summary>
-        /// 测试通道；
-        /// </summary>
-        public const ushort OPERATION_TESTCAHNNEL = 336;
-        /// <summary>
-        /// PlayerInput;
-        /// </summary>
-        public const ushort OPERATION_PLYAERINPUT = 337;
-        /// <summary>
-        /// EnterRoom;
-        /// </summary>
-        public const ushort OPERATION_ENTERROOM = 338;
-        /// <summary>
-        /// ExitRoom;
-        /// </summary>
-        public const ushort OPERATION_EXITROOM = 339;
-        /// <summary>
-        /// PlayerEnter
-        /// </summary>
-        public const ushort OPERATION_PLAYERENTER = 340;
-        /// <summary>
-        /// PlayerExit
-        /// </summary>
-        public const  ushort OPERATION_PLAYEREXIT = 341;
         #endregion
     }
 }

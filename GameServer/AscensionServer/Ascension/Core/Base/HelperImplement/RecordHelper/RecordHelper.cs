@@ -16,18 +16,16 @@ namespace AscensionServer
     /// </summary>
     /// <param name="roleId">离线账号</param>
     /// <param name="data">新上线账号</param>
-        public async void RecordRole(int roleId, object data)
+        public async void RecordRole(RoleEntity roleEntity)
         {
-            Utility.Debug.LogInfo("yzqData" + "同步离线时间成功" + "原来的角色id为" + roleId);
-            RoleDTO newrole = data as RoleDTO;
-
+            Utility.Debug.LogInfo("yzqData" + "同步离线时间成功" + "原来的角色id为" +roleEntity.RoleId);
             #region 记录离线时间
-            if (roleId == -1)
+            if (roleEntity.RoleId== -1)
             {
                 Utility.Debug.LogInfo("============AscensionPeer.RecordOnOffLine() : Can't RecordOnOffLine ============");
                 return;
             }
-            NHCriteria nHCriteriaOnOff = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
+            NHCriteria nHCriteriaOnOff = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID",roleEntity.RoleId);
             var obj = NHibernateQuerier.CriteriaSelectAsync<OffLineTime>(nHCriteriaOnOff).Result;
             var roleAllianceobj = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriaOnOff).Result;
             if (roleAllianceobj != null)
@@ -46,13 +44,13 @@ namespace AscensionServer
             if (obj != null)
             {
                 obj.OffTime = DateTime.Now.ToString();
-                obj.RoleID = roleId;
+                obj.RoleID = roleEntity.RoleId;
                 NHibernateQuerier.Update(obj);
             }
             else
             {
                 var offLineTimeTmp = GameManager.ReferencePoolManager.Spawn<OffLineTime>();
-                offLineTimeTmp.RoleID = roleId;
+                offLineTimeTmp.RoleID = roleEntity.RoleId;
                 offLineTimeTmp.OffTime = DateTime.Now.ToString();
                 NHibernateQuerier.Insert(offLineTimeTmp);
                 GameManager.ReferencePoolManager.Despawn(offLineTimeTmp);
