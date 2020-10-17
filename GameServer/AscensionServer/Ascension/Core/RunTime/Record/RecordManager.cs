@@ -23,13 +23,13 @@ namespace AscensionServer
         {
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAER_LOGOFF,OnPlayerLogoff);
         }
-        public void RecordRole(IRoleEntity roleEntity)
+        public void RecordRole(RoleEntity roleEntity)
         {
             recordHelper.RecordRole(roleEntity);
         }
         void OnPlayerLogoff(OperationData opData)
         {
-            var roleEntity = opData.DataMessage as IRoleEntity;
+            var roleEntity = opData.DataMessage as RoleEntity;
             recordHelper.RecordRole(roleEntity);
         }
     }

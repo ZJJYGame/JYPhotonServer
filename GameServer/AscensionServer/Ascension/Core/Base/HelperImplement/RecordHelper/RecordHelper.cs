@@ -16,7 +16,7 @@ namespace AscensionServer
     /// </summary>
     /// <param name="roleId">离线账号</param>
     /// <param name="data">新上线账号</param>
-        public async void RecordRole(IRoleEntity roleEntity)
+        public async void RecordRole(RoleEntity roleEntity)
         {
             Utility.Debug.LogInfo("yzqData" + "同步离线时间成功" + "原来的角色id为" +roleEntity.RoleId);
             #region 记录离线时间

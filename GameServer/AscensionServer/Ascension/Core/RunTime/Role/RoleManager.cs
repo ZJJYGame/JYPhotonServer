@@ -5,6 +5,7 @@ using AscensionProtocol;
 using System;
 using System.Threading.Tasks;
 using Protocol;
+using System.Collections.Concurrent;
 
 namespace AscensionServer
 {
@@ -16,8 +17,8 @@ namespace AscensionServer
     public class RoleManager : Module<RoleManager>
     {
         public int RoleCount { get { return roleDict.Count; } }
-        Dictionary<int, RoleEntity> roleDict = new Dictionary<int, RoleEntity>();
-        Queue<RoleEntity> playerPoolQueue = new Queue<RoleEntity>();
+        ConcurrentDictionary<int, RoleEntity> roleDict = new ConcurrentDictionary<int, RoleEntity>();
+        ConcurrentQueue<RoleEntity> playerPoolQueue = new ConcurrentQueue<RoleEntity>();
         /// <summary>
         /// 广播事件消息 ;
         /// </summary>
@@ -92,7 +93,7 @@ namespace AscensionServer
         }
         public bool TryRemove(int roleId)
         {
-            var result = roleDict.Remove(roleId, out var role);
+            var result = roleDict.TryRemove(roleId, out var role);
             if (result)
             {
                 BroadcastEvent -= role.SendEvent;
@@ -105,7 +106,7 @@ namespace AscensionServer
         }
         public bool TryRemove(int roleId, out RoleEntity role)
         {
-            var result = roleDict.Remove(roleId, out role);
+            var result = roleDict.TryRemove(roleId, out role);
             if (result)
             {
                 BroadcastEvent -= role.SendEvent;

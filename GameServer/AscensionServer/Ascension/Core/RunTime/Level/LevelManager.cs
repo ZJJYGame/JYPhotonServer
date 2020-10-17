@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace AscensionServer
     public class LevelManager : Module<LevelManager>
     {
 #if SERVER
-        Dictionary<int, LevelEntity> sceneEntityDict = new Dictionary<int, LevelEntity>();
+        ConcurrentDictionary<int, LevelEntity> sceneEntityDict = new ConcurrentDictionary<int, LevelEntity>();
         long latestTime;
         int updateInterval = ApplicationBuilder._MSPerTick;
         Action sceneRefreshHandler;
