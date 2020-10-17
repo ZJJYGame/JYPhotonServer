@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AscensionProtocol;
 using AscensionProtocol.DTO;
 using AscensionServer.Model;
 using Cosmos;
 using Google.Protobuf.WellKnownTypes;
 using NHibernate.Linq.Clauses;
+using Protocol;
 
 namespace AscensionServer
 {
@@ -30,6 +32,34 @@ namespace AscensionServer
             if (_teamIdToBattleInit.ContainsKey(roleId))
                 _teamIdToBattleInit[roleId].battleUnits = _teamIdToBattleInit[roleId].battleUnits.OrderByDescending(t => t.ObjectSpeed).ToList();
         }
+
+        /// <summary>
+        /// AI 玩家 是否死亡 战斗结束 发起事件
+        /// </summary>
+        public void BattleIsDie(int roomId)
+        {
+            var tempRoleId = GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.FirstOrDefault(t => t.Value.RoomId == roomId).Key;
+            var roleStatusSever = _teamIdToBattleInit[tempRoleId].playerUnits[0].RoleStatusDTO;
+
+            Utility.Debug.LogInfo("老陆   roleStatusSever"+ roleStatusSever.RoleHP);
+            if (roleStatusSever.RoleHP < 0)
+            {
+                OperationData opData = new OperationData();
+                opData.DataMessage = "战斗结束啦， over！";
+                //TODO 展示使用这个
+                opData.OperationCode = (byte)OperationCode.MessageQueue;
+                GameManager.CustomeModule<RoleManager>().SendMessage(tempRoleId, opData);
+                BattleEnd(roomId);
+            }
+            else
+            {
+                OperationData opData = new OperationData();
+                opData.DataMessage = "服务器 倒计时10 秒  over！ ";
+                opData.OperationCode = (byte)OperationCode.SyncBattle;
+                GameManager.CustomeModule<RoleManager>().SendMessage(tempRoleId, opData);
+            }
+        }
+
 
         /// <summary>
         /// 返回一个出手拥有者  玩家或者AI或者宠物
@@ -68,7 +98,7 @@ namespace AscensionServer
         {
             PlayerInfosSet.Clear();
             BattleTransferDTO.TargetInfoDTO tempTransEnemy = new BattleTransferDTO.TargetInfoDTO();
-            Utility.Debug.LogInfo("<enemyStatusData  老陆>" + _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP);
+            //Utility.Debug.LogInfo("<enemyStatusData  老陆>" + _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP);
 
             //if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
             {
@@ -137,6 +167,7 @@ namespace AscensionServer
                                         if (AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits).Count == 0)
                                         {
                                             Utility.Debug.LogError("AI  全部死亡");
+                                            //BattleEnd()
                                             return;
                                         }
                                         var index = new Random().Next(0, AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits).Count);

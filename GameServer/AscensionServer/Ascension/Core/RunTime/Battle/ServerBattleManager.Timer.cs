@@ -145,15 +145,8 @@ namespace AscensionServer
         public void CallBackMethod()
         {
             Utility.Debug.LogInfo("老陆   是一个好人");
-            int teamp =  GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Dequeue();
-            var firstKey =  GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.FirstOrDefault(t => t.Value.RoomId == teamp).Key;
-            //var dp = new DataParameters();
-            //dp.Messages.Add((byte)ParameterCode.RoleBattle, "老陆   是一个好人");
-            OperationData opData = new OperationData();
-            opData.DataMessage= "老陆   是一个好人";
-            opData.OperationCode = (byte)OperationCode.SyncBattle;
-            GameManager.CustomeModule<RoleManager>().SendMessage(firstKey, opData);
-            //GameManager.CustomeModule<RoleManager>().SendMessage(firstKey, Utility.Json.ToJson(dp));
+            int teamp = GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Dequeue();
+            GameManager.CustomeModule<ServerBattleManager>().BattleIsDie(teamp);
 
             StopTimer();
         }

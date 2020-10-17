@@ -198,6 +198,11 @@
             出手速度
             </summary>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.BattleIsDie(System.Int32)">
+            <summary>
+            AI 玩家 是否死亡 战斗结束 发起事件
+            </summary>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.ReleaseToOwner(System.Int32,System.Int32,System.Int32)">
             <summary>
             返回一个出手拥有者  玩家或者AI或者宠物

@@ -69,7 +69,7 @@ namespace AscensionServer
         /// <summary>
         /// 代表的是倒计时  毫秒
         /// </summary>
-        public int RoleBattleTime = 20000;
+        public int RoleBattleTime = 10000;
 
         /// <summary>
         /// 记录房间id
