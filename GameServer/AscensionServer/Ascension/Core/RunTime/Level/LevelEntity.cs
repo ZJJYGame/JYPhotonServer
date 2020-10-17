@@ -13,7 +13,7 @@ namespace AscensionServer
     /// </summary>
     public class LevelEntity : Entity, IReference, IRefreshable
     {
-        public int SceneId { get; private set; }
+        public int LevelId { get { return (int)Id; }set { Id = value; } }
         public bool Available { get; private set; }
         Dictionary<int, RoleEntity> roleDict;
         Action<OperationData> roleSendMsgHandler;
@@ -47,7 +47,7 @@ namespace AscensionServer
         }
         public void OnInit(int sceneId)
         {
-            this.SceneId = sceneId;
+            this.LevelId = sceneId;
             this.Available = true;
 #if SERVER
             this.InputSet.EntityContainerId = sceneId;
@@ -143,7 +143,7 @@ namespace AscensionServer
         public void Clear()
         {
             roleDict.Clear();
-            this.SceneId = 0;
+            this.LevelId = 0;
             this.Available = false;
             roleInputCmdDict.Clear();
             roleSendMsgHandler = null;

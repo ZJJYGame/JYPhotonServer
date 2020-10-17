@@ -42,6 +42,9 @@ namespace AscensionServer
             roleMgrInstance = GameManager.CustomeModule<RoleManager>();
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAER_INPUT, OnCommandC2S);
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAER_LOGOFF, OnPlayerLogoff);
+            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLAYER_EXIT, OnExitLevelC2S);
+            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLAYER_ENTER, OnEnterLevelC2S);
+
 #else
             roleMgrInstance = Facade.CustomeModule<RoleManager>();
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAERINPUT, OnCommandS2C);
@@ -185,7 +188,34 @@ namespace AscensionServer
                 {
                     var  levelEntity= entity as LevelEntity;
                     levelEntity.TryRemove(roleEntity.RoleId);
+                    Utility.Debug.LogWarning($"RoleId:{roleEntity} 由于强退，从Level:{levelEntity.LevelId}中移除");
                 }
+            }
+        }
+        void OnEnterLevelC2S(OperationData opData)
+        {
+            try
+            {
+                var entity = opData.DataContract as C2SEntityContainer;
+                EnterScene(entity.EntityContainerId, entity.Player.PlayerId);
+                Utility.Debug.LogWarning($"RoleId:{entity.Player.PlayerId}尝试进入Level：{entity.EntityContainerId}");
+            }
+            catch (Exception e)
+            {
+                Utility.Debug.LogError(e);
+            }
+        }
+        void OnExitLevelC2S(OperationData opData)
+        {
+            try
+            {
+                var entity = opData.DataContract as C2SEntityContainer;
+                ExitScene(entity.EntityContainerId, entity.Player.PlayerId);
+                Utility.Debug.LogWarning($"RoleId:{entity.Player.PlayerId}尝试离开Level：{entity.EntityContainerId}");
+            }
+            catch (Exception e)
+            {
+                Utility.Debug.LogError(e);
             }
         }
     }
