@@ -27,11 +27,13 @@ namespace Cosmos
         }
         public void OnRefresh()
         {
-            while (true)
-            {
-                if (!IsPause)
-                    GameManager.Instance.OnRefresh();
-            }
+            //while (true)
+            //{
+            //    if (!IsPause)
+            //        GameManager.Instance.OnRefresh();
+            //}
+            if (!IsPause)
+                GameManager.Instance.OnRefresh();
         }
         public void OnPause()
         {

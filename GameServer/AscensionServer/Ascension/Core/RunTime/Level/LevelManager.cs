@@ -16,7 +16,7 @@ namespace AscensionServer
     public class LevelManager : Module<LevelManager>
     {
 #if SERVER
-        ConcurrentDictionary<int, LevelEntity> sceneEntityDict = new ConcurrentDictionary<int, LevelEntity>();
+        ConcurrentDictionary<int, LevelEntity> levelEntityDict = new ConcurrentDictionary<int, LevelEntity>();
         long latestTime;
         int updateInterval = ApplicationBuilder._MSPerTick;
         Action sceneRefreshHandler;
@@ -25,7 +25,7 @@ namespace AscensionServer
             add { sceneRefreshHandler += value; }
             remove
             {
-                try { sceneRefreshHandler -= value; }
+                try { sceneRefreshHandler -= value; Utility.Debug.LogWarning("移除一个委托"); }
                 catch (Exception e) { Utility.Debug.LogError(e); }
             }
         }
@@ -42,8 +42,8 @@ namespace AscensionServer
             roleMgrInstance = GameManager.CustomeModule<RoleManager>();
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAER_INPUT, OnCommandC2S);
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAER_LOGOFF, OnPlayerLogoff);
-            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLAYER_EXIT, OnExitLevelC2S);
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLAYER_ENTER, OnEnterLevelC2S);
+            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLAYER_EXIT, OnExitLevelC2S);
 
 #else
             roleMgrInstance = Facade.CustomeModule<RoleManager>();
@@ -71,7 +71,7 @@ namespace AscensionServer
             var input = opData.DataContract as C2SInput;
             if (input != null)
             {
-                if (sceneEntityDict.TryGetValue(input.EntityContainerId, out var sceneEntity))
+                if (levelEntityDict.TryGetValue(input.EntityContainerId, out var sceneEntity))
                 {
                     sceneEntity.OnCommandC2S(input);
                 }
@@ -90,7 +90,7 @@ namespace AscensionServer
         {
             bool result = false;
 #if SERVER
-            var hasScene = sceneEntityDict.TryGetValue(sceneId, out var sceneEntity);
+            var hasScene = levelEntityDict.TryGetValue(sceneId, out var sceneEntity);
             if (hasScene)
             {
                 if (roleMgrInstance.TryGetValue(roleId, out var role))
@@ -100,9 +100,10 @@ namespace AscensionServer
             }
             else
             {
-                sceneEntity = LevelEntity.Create(sceneId);
                 if (roleMgrInstance.TryGetValue(roleId, out var role))
                 {
+                    sceneEntity = LevelEntity.Create(sceneId);
+                    SceneRefreshHandler += sceneEntity.OnRefresh;
                     result = sceneEntity.TryAdd(roleId, role);
                 }
             }
@@ -116,7 +117,7 @@ namespace AscensionServer
             bool result = false;
 #if SERVER
 
-            var hasScene = sceneEntityDict.TryGetValue(sceneId, out var sceneEntity);
+            var hasScene = levelEntityDict.TryGetValue(sceneId, out var sceneEntity);
             if (hasScene)
             {
                 if (roleMgrInstance.ContainsKey(role.RoleId))
@@ -126,9 +127,10 @@ namespace AscensionServer
             }
             else
             {
-                sceneEntity = LevelEntity.Create(sceneId);
                 if (roleMgrInstance.ContainsKey(role.RoleId))
                 {
+                    sceneEntity = LevelEntity.Create(sceneId);
+                    SceneRefreshHandler += sceneEntity.OnRefresh;
                     result = sceneEntity.TryAdd(role.RoleId, role);
                 }
             }
@@ -141,16 +143,23 @@ namespace AscensionServer
         {
             bool result = false;
 #if SERVER
-            var hasScene = sceneEntityDict.TryGetValue(sceneId, out var sceneEntity);
+            LevelEntity levelEntity;
+            var hasScene = levelEntityDict.TryGetValue(sceneId, out levelEntity);
             if (hasScene)
             {
-                if (roleMgrInstance.ContainsKey(roleId))
                 {
-                    result = sceneEntity.TryRemove(roleId);
-                    if (sceneEntity.PlayerCount <= 0)
+                    result = levelEntity.TryRemove(roleId);
+                    if (levelEntity.Empty)
                     {
-                        GameManager.ReferencePoolManager.Despawn(sceneEntity);
+                        Utility.Debug.LogWarning($"Level:{levelEntity.LevelId}无玩家，被回收");
+                        levelEntityDict.TryRemove(sceneId, out _);
+                        GameManager.ReferencePoolManager.Despawn(levelEntity);
+                        SceneRefreshHandler -= levelEntity.OnRefresh;
                     }
+                    if (roleMgrInstance.ContainsKey(roleId))
+                    {
+
+                    }        
                 }
             }
 #else
@@ -162,16 +171,21 @@ namespace AscensionServer
         {
             bool result = false;
 #if SERVER
-            var hasScene = sceneEntityDict.TryGetValue(sceneId, out var sceneEntity);
+            LevelEntity levelEntity;
+            var hasScene = levelEntityDict.TryGetValue(sceneId, out levelEntity);
             if (hasScene)
             {
+                result = levelEntity.TryRemove(role.RoleId);
+                if (levelEntity.Empty)
+                {
+                    Utility.Debug.LogWarning($"Level:{levelEntity.LevelId}无玩家，被回收");
+                    levelEntityDict.TryRemove(sceneId, out _);
+                    GameManager.ReferencePoolManager.Despawn(levelEntity);
+                    SceneRefreshHandler -= levelEntity.OnRefresh;
+                }
                 if (roleMgrInstance.ContainsKey(role.RoleId))
                 {
-                    result = sceneEntity.TryRemove(role.RoleId);
-                    if (sceneEntity.PlayerCount <= 0)
-                    {
-                        GameManager.ReferencePoolManager.Despawn(sceneEntity);
-                    }
+       
                 }
             }
 #else
@@ -184,11 +198,11 @@ namespace AscensionServer
             var roleEntity = opData.DataMessage as RoleEntity;
             if (roleEntity != null)
             {
-                if( roleEntity.TryGetValue(typeof(LevelEntity), out var entity))
+                if (roleEntity.TryGetValue(typeof(LevelEntity), out var entity))
                 {
-                    var  levelEntity= entity as LevelEntity;
+                    var levelEntity = entity as LevelEntity;
                     levelEntity.TryRemove(roleEntity.RoleId);
-                    Utility.Debug.LogWarning($"RoleId:{roleEntity} 由于强退，从Level:{levelEntity.LevelId}中移除");
+                    Utility.Debug.LogWarning($"RoleId:{roleEntity.RoleId} ;SessionId:{roleEntity.SessionId}由于强退，尝试从Level:{levelEntity.LevelId}中移除");
                 }
             }
         }
@@ -198,7 +212,7 @@ namespace AscensionServer
             {
                 var entity = opData.DataContract as C2SEntityContainer;
                 EnterScene(entity.EntityContainerId, entity.Player.PlayerId);
-                Utility.Debug.LogWarning($"RoleId:{entity.Player.PlayerId}尝试进入Level：{entity.EntityContainerId}");
+                Utility.Debug.LogWarning($"Command-->>RoleId:{entity.Player.PlayerId};SessionId:{entity.Player.SessionId}尝试进入Level：{entity.EntityContainerId}");
             }
             catch (Exception e)
             {
@@ -211,7 +225,7 @@ namespace AscensionServer
             {
                 var entity = opData.DataContract as C2SEntityContainer;
                 ExitScene(entity.EntityContainerId, entity.Player.PlayerId);
-                Utility.Debug.LogWarning($"RoleId:{entity.Player.PlayerId}尝试离开Level：{entity.EntityContainerId}");
+                Utility.Debug.LogWarning($"Command-->>RoleId:{entity.Player.PlayerId};SessionId:{entity.Player.SessionId}尝试离开Level：{entity.EntityContainerId}");
             }
             catch (Exception e)
             {

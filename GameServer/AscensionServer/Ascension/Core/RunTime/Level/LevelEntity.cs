@@ -15,7 +15,7 @@ namespace AscensionServer
     {
         public int LevelId { get { return (int)Id; }set { Id = value; } }
         public bool Available { get; private set; }
-        Dictionary<int, RoleEntity> roleDict;
+        ConcurrentDictionary<int, RoleEntity> roleDict;
         Action<OperationData> roleSendMsgHandler;
         event Action<OperationData> RoleSendMsgHandler
         {
@@ -40,9 +40,10 @@ namespace AscensionServer
 #endif
         OperationData opData = new OperationData();
         public int PlayerCount { get { return roleDict.Count; } }
+        public bool Empty { get { return roleDict.IsEmpty; } }
         public LevelEntity()
         {
-            roleDict = new Dictionary<int, RoleEntity>();
+            roleDict = new ConcurrentDictionary<int, RoleEntity>();
             opData.OperationCode = ProtocolDefine.OPERATION_PLYAER_INPUT;
         }
         public void OnInit(int sceneId)
@@ -62,6 +63,7 @@ namespace AscensionServer
             var result = roleDict.TryAdd(roleId, role);
             if (result)
             {
+                Utility.Debug.LogWarning($"RoleId:{roleId};SessionId:{role.SessionId}进入Level：{LevelId}");
                 RoleSendMsgHandler += role.SendMessage;
                 role.TryAdd(typeof(LevelEntity), this);
             }
@@ -72,6 +74,7 @@ namespace AscensionServer
             var result = roleDict.TryAdd(role.RoleId, role);
             if (result)
             {
+                Utility.Debug.LogWarning($"RoleId:{role.RoleId};SessionId:{role.SessionId}进入Level：{LevelId}");
                 RoleSendMsgHandler += role.SendMessage;
                 role.TryAdd(typeof(LevelEntity), this);
             }
@@ -83,9 +86,10 @@ namespace AscensionServer
         }
         public bool TryRemove(int roleId)
         {
-            var result = roleDict.Remove(roleId, out var role);
+            var result = roleDict.TryRemove(roleId, out var role);
             if (result)
             {
+                Utility.Debug.LogWarning($"RoleId:{roleId};SessionId:{role.SessionId}离开Level：{LevelId}");
                 RoleSendMsgHandler -= role.SendMessage;
                 role.TryRemove(typeof(LevelEntity));
             }
@@ -93,9 +97,10 @@ namespace AscensionServer
         }
         public bool TryRemove(int roleId, out RoleEntity role)
         {
-            var result = roleDict.Remove(roleId, out role);
+            var result = roleDict.TryRemove(roleId, out role);
             if (result)
             {
+                Utility.Debug.LogWarning($"RoleId:{role.RoleId};SessionId:{role.SessionId}离开Level：{LevelId}");
                 RoleSendMsgHandler -= role.SendMessage;
                 role.TryRemove(typeof(LevelEntity));
             }
@@ -125,6 +130,9 @@ namespace AscensionServer
         public void OnRefresh()
         {
 #if SERVER
+            if (!Available)
+                return;
+            Utility.Debug.LogInfo($"LevelId:{LevelId}刷新发送,PlayerCout:{PlayerCount}");
             var result = roleInputCmdDict.TryGetValue(currentTick, out var roleCmds);
             if (result)
             {
@@ -135,6 +143,12 @@ namespace AscensionServer
                 //若当前帧发送成功，则移除上一个逻辑帧数据；服务器当前不存储数据，仅负责转发；
                 roleInputCmdDict.Remove(currentTick--);
             }
+            else {
+                InputSet.InputDict = null;
+                InputSet.Tick = (int)currentTick;
+                opData.DataContract = InputSet;
+                roleSendMsgHandler?.Invoke(opData);
+            }
             currentTick++;
 #else
 
@@ -142,6 +156,7 @@ namespace AscensionServer
         }
         public void Clear()
         {
+            Utility.Debug.LogWarning($"Level:{LevelId}无玩家，Clear");
             roleDict.Clear();
             this.LevelId = 0;
             this.Available = false;
