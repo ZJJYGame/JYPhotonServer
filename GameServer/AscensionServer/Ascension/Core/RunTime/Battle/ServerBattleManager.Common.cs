@@ -42,14 +42,14 @@ namespace AscensionServer
             var roleStatusSever = _teamIdToBattleInit[tempRoleId].playerUnits[0].RoleStatusDTO;
 
             Utility.Debug.LogInfo("老陆   roleStatusSever"+ roleStatusSever.RoleHP);
-            if (roleStatusSever.RoleHP < 0)
+            if (roleStatusSever.RoleHP <= 0)
             {
                 OperationData opData = new OperationData();
                 opData.DataMessage = "战斗结束啦， over！";
                 //TODO 展示使用这个
                 opData.OperationCode = (byte)OperationCode.MessageQueue;
                 GameManager.CustomeModule<RoleManager>().SendMessage(tempRoleId, opData);
-                BattleEnd(roomId);
+                //BattleEnd(roomId);
             }
             else
             {
@@ -99,12 +99,11 @@ namespace AscensionServer
             PlayerInfosSet.Clear();
             BattleTransferDTO.TargetInfoDTO tempTransEnemy = new BattleTransferDTO.TargetInfoDTO();
             //Utility.Debug.LogInfo("<enemyStatusData  老陆>" + _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP);
-
             //if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
             {
-                _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP -= enemyStatusData.EnemyAttact_Power;
+                _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP -= skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0]; // enemyStatusData.EnemyAttact_Power;
                 tempTransEnemy.TargetID = roleId;
-                tempTransEnemy.TargetHPDamage = -skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
+                tempTransEnemy.TargetHPDamage =  -skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
                 PlayerInfosSet.Add(tempTransEnemy);
                 teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = RoleDTO.BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
             }

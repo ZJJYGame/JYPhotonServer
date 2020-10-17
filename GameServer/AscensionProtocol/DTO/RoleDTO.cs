@@ -55,7 +55,12 @@ namespace AscensionProtocol.DTO
             /// <summary>
             /// 逃跑指令
             /// </summary>
-            RunAwayInstruction
+            RunAwayInstruction,
+            /// <summary>
+            /// 战斗表演完成 
+            /// </summary>
+            PerformBattleComplete
+
         }
         public override void Clear()
         {
