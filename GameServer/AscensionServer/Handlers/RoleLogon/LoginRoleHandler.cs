@@ -99,7 +99,7 @@ namespace AscensionServer
                         GameManager.CustomeModule<RoleManager>().TryRemove(roleObj.RoleID);
                         GameManager.CustomeModule<RoleManager>().TryAdd(roleObj.RoleID, role);
                         operationResponse.ReturnCode = (byte)ReturnCode.Success;//登录成功
-                        GameManager.CustomeModule<RecordManager>().RecordRole(remoteRoleObj.RoleId, role);
+                        GameManager.CustomeModule<RecordManager>().RecordRole(remoteRoleObj);
                         GameManager.ReferencePoolManager.Despawn(remoteRoleObj);//回收这个RemoteRole对象
                     }
                     else

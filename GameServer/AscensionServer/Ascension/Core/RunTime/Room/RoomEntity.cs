@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 using Cosmos;
 namespace AscensionServer
 {
-    public class RoomEntity : IReference, IKeyValue<int, IRoleEntity>
+    public class RoomEntity : IReference, IKeyValue<int, RoleEntity>
     {
         #region Properties
         public int RoomId { get; private set; }
@@ -39,8 +39,8 @@ namespace AscensionServer
         /// 当前房间内战斗的回合数
         /// </summary>
         protected int roundCount = 0;
-        protected ConcurrentDictionary<int, IRoleEntity> roleDict 
-            = new ConcurrentDictionary<int, IRoleEntity>();
+        protected ConcurrentDictionary<int, RoleEntity> roleDict 
+            = new ConcurrentDictionary<int, RoleEntity>();
         protected Action<byte, Dictionary<byte,object>> broadcastBattleEvent;
         protected object battleResultdata;
         #endregion
@@ -63,7 +63,7 @@ namespace AscensionServer
             Available = false;
             broadcastBattleEvent = null;
         }
-        public bool TryGetValue(int roleId, out IRoleEntity role )
+        public bool TryGetValue(int roleId, out RoleEntity role )
         {
             return roleDict.TryGetValue(roleId, out role);
         }
@@ -78,7 +78,7 @@ namespace AscensionServer
                 BroadcastBattleEvent -= role.SendEvent;
             return result;
         }
-        public bool TryAdd(int roleId, IRoleEntity role)
+        public bool TryAdd(int roleId, RoleEntity role)
         {
             if (role == null)
                throw new ArgumentNullException("PeerEntity is invaild ! ");
@@ -87,14 +87,14 @@ namespace AscensionServer
                 BroadcastBattleEvent += role.SendEvent;
             return result;
         }
-        public bool TryRemove(int roleId, out IRoleEntity role)
+        public bool TryRemove(int roleId, out RoleEntity role)
         {
             var result = roleDict.TryRemove(roleId, out role);
             if (result)
                 BroadcastBattleEvent -= role.SendEvent;
             return result;
         }
-        public bool TryUpdate(int roleId, IRoleEntity newRole, IRoleEntity comparsionRole)
+        public bool TryUpdate(int roleId, RoleEntity newRole, RoleEntity comparsionRole)
         {
             var result = roleDict.TryUpdate(roleId, newRole, comparsionRole);
             if (result)
@@ -115,7 +115,7 @@ namespace AscensionServer
         /// </summary>
         /// <param name="roles">peer的数组</param>
         /// <returns>生成的房间实体</returns>
-        public static RoomEntity Create(params IRoleEntity [] roles)
+        public static RoomEntity Create(params RoleEntity [] roles)
         {
             var length = roles.Length;
             var re = GameManager.ReferencePoolManager.Spawn<RoomEntity>();
@@ -133,7 +133,7 @@ namespace AscensionServer
         /// <returns>生成的房间实体</returns>
         public static RoomEntity Create(params  int[] roleIds)
         {
-            List<IRoleEntity> roleSet = new List<IRoleEntity>();
+            List<RoleEntity> roleSet = new List<RoleEntity>();
             var length = roleIds.Length;
             for (int i = 0; i < length; i++)
             {

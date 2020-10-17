@@ -39,7 +39,8 @@ namespace AscensionServer
             latestTime = Utility.Time.MillisecondNow() + updateInterval;
             peerMgrInstance = GameManager.CustomeModule<PeerManager>();
             roleMgrInstance = GameManager.CustomeModule<RoleManager>();
-            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAERINPUT, OnCommandC2S);
+            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAER_INPUT, OnCommandC2S);
+            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAER_LOGOFF, OnPlayerLogoff);
 #else
             roleMgrInstance = Facade.CustomeModule<RoleManager>();
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAERINPUT, OnCommandS2C);
@@ -106,7 +107,7 @@ namespace AscensionServer
 #endif
             return result;
         }
-        public bool EnterScene(int sceneId, IRoleEntity role)
+        public bool EnterScene(int sceneId, RoleEntity role)
         {
             bool result = false;
 #if SERVER
@@ -153,7 +154,7 @@ namespace AscensionServer
 #endif
             return result;
         }
-        public bool ExitScene(int sceneId, IRoleEntity role)
+        public bool ExitScene(int sceneId, RoleEntity role)
         {
             bool result = false;
 #if SERVER
@@ -173,6 +174,18 @@ namespace AscensionServer
 
 #endif
             return result;
+        }
+        void OnPlayerLogoff(OperationData opData)
+        {
+            var roleEntity = opData.DataMessage as RoleEntity;
+            if (roleEntity != null)
+            {
+                if( roleEntity.TryGetValue(typeof(LevelEntity), out var entity))
+                {
+                    var  levelEntity= entity as LevelEntity;
+                    levelEntity.TryRemove(roleEntity.RoleId);
+                }
+            }
         }
     }
 }

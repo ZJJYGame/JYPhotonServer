@@ -6,6 +6,7 @@ using Cosmos;
 using System;
 using System.Text;
 using Protocol;
+using System.ServiceModel.Configuration;
 
 namespace AscensionServer
 {
@@ -103,6 +104,15 @@ namespace AscensionServer
             EventData ed = new EventData((byte)EventCode.DeletePlayer);
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             ed.Parameters = data;
+            //尝试获取负载的角色数据；
+            if( TryGetValue(typeof(RoleEntity), out var roleEntity))
+            {
+                //若存在，则广播到各个模块；
+                var opData = new OperationData();
+                opData.OperationCode = ProtocolDefine.OPERATION_PLYAER_LOGOFF;
+                opData.DataMessage = roleEntity;
+                var t= CommandEventCore.Instance.DispatchAsync(ProtocolDefine.OPERATION_PLYAER_LOGOFF,opData);
+            }
             GameManager.CustomeModule<PeerManager>().TryRemove(SessionId);
             Utility.Debug.LogError($"Photon SessionId : {SessionId} Unavailable . RemoteAdress:{RemoteIPAddress}");
             var task = GameManager.CustomeModule<PeerManager>().BroadcastEventToAllAsync((byte)reasonCode, ed.Parameters);
@@ -114,12 +124,6 @@ namespace AscensionServer
             var op = responseData as OperationResponse;
             op.OperationCode = operationRequest.OperationCode;
             SendOperationResponse(op, sendParameters);
-
-            //OperationData opData = new OperationData();
-            //opData.DataMessage = "测试发送消息，DONN";
-            //opData.DataContract = null;
-            //this.SendMessage(opData);
-            //Utility.Debug.LogWarning("测试消息发送");
         }
         /// <summary>
         /// 接收到客户端消息；

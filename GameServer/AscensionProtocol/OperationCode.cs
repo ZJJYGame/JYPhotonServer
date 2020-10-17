@@ -19,7 +19,7 @@ namespace AscensionProtocol
         /// <summary>
         /// 同步当前角色的位置信息，position&rotation 
         /// </summary>
-        SyncRoleTransform = 5,
+        PlayerInputCommand = 5,
     /// <summary>
     /// 登录角色
     /// </summary>
@@ -136,8 +136,14 @@ namespace AscensionProtocol
         /// 发送日常通知的消息
         /// </summary>
         SyncDailyMessage=59,
-        EnterAdventureScene = 111,
-        ExitAdventureScene=112,
+        /// <summary>
+        /// 进入高同步场景的指令
+        /// </summary>
+        EnterLevelCommand= 111,
+        /// <summary>
+        /// 离开高同步场景的指令
+        /// </summary>
+        ExitLevelCommand=112,
         /// <summary>
         /// 加入战斗
         /// </summary>

@@ -9,7 +9,7 @@ namespace AscensionServer
     /// <summary>
     /// 游戏中的角色实体对象；
     /// </summary>
-    public class RoleEntity : IRoleEntity
+    public class RoleEntity : Entity,IReference
     {
         public int RoleId { get; private set; }
         public int SessionId{ get; private set; }

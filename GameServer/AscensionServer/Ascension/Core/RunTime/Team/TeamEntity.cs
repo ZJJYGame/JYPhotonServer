@@ -48,8 +48,8 @@ namespace AscensionServer
             }
         }
         readonly ushort _TeamCapacity = 5;
-        ConcurrentDictionary<int, IRoleEntity> peerDict
-            = new ConcurrentDictionary<int, IRoleEntity>();
+        ConcurrentDictionary<int, RoleEntity> peerDict
+            = new ConcurrentDictionary<int, RoleEntity>();
         IPeerEntity captain;
 
         Action<byte, object> eventMessage;
@@ -80,7 +80,7 @@ namespace AscensionServer
         /// <returns>是否离队成功</returns>
         public bool LeaveTeam(int roleId)
         {
-            IRoleEntity peer;
+            RoleEntity peer;
             return peerDict.TryRemove(roleId, out peer);
         }
         /// <summary>

@@ -16,8 +16,8 @@ namespace AscensionServer
     public class RoleManager : Module<RoleManager>
     {
         public int RoleCount { get { return roleDict.Count; } }
-        Dictionary<int, IRoleEntity> roleDict = new Dictionary<int, IRoleEntity>();
-        Queue<IRoleEntity> playerPoolQueue = new Queue<IRoleEntity>();
+        Dictionary<int, RoleEntity> roleDict = new Dictionary<int, RoleEntity>();
+        Queue<RoleEntity> playerPoolQueue = new Queue<RoleEntity>();
         /// <summary>
         /// 广播事件消息 ;
         /// </summary>
@@ -67,12 +67,13 @@ namespace AscensionServer
         public override void OnPreparatory()
         {
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.PORT_CHAT, OnChatMessage);
+            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAER_LOGOFF, OnPlayerLogoff);
         }
         public bool ContainsKey(int roleId)
         {
             return roleDict.ContainsKey(roleId);
         }
-        public bool TryAdd(int roleId, IRoleEntity role)
+        public bool TryAdd(int roleId, RoleEntity role)
         {
             var result = roleDict.TryAdd(roleId, role);
             if (result)
@@ -85,7 +86,7 @@ namespace AscensionServer
             }
             return result;
         }
-        public bool TryGetValue(int roleId, out IRoleEntity role)
+        public bool TryGetValue(int roleId, out RoleEntity role)
         {
             return roleDict.TryGetValue(roleId, out role);
         }
@@ -102,7 +103,7 @@ namespace AscensionServer
             }
             return result;
         }
-        public bool TryRemove(int roleId, out IRoleEntity role)
+        public bool TryRemove(int roleId, out RoleEntity role)
         {
             var result = roleDict.Remove(roleId, out role);
             if (result)
@@ -115,7 +116,7 @@ namespace AscensionServer
             }
             return result;
         }
-        public bool TryUpdate(int roleId, IRoleEntity newRole, IRoleEntity comparsionRole)
+        public bool TryUpdate(int roleId, RoleEntity newRole, RoleEntity comparsionRole)
         {
             if (!newRole.Equals(comparsionRole))
                 return false;
@@ -217,6 +218,14 @@ namespace AscensionServer
         void OnChatMessage(OperationData opData)
         {
 
+        }
+        void OnPlayerLogoff(OperationData opData)
+        {
+            var roleEntity= opData.DataMessage as RoleEntity;
+            if (roleEntity != null)
+            {
+                TryRemove(roleEntity.RoleId);
+            }
         }
     }
 }

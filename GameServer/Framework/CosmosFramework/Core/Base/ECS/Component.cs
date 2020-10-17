@@ -13,6 +13,29 @@ namespace Cosmos
                 return this.InstanceId == 0;
             }
         }
+        private bool isFromPool;
+
+        public bool IsFromPool
+        {
+            get
+            {
+                return this.isFromPool;
+            }
+            set
+            {
+                this.isFromPool = value;
+
+                if (!this.isFromPool)
+                {
+                    return;
+                }
+
+                //if (this.InstanceId == 0)
+                //{
+                //    this.InstanceId = IdGenerater.GenerateInstanceId();
+                //}
+            }
+        }
         public long InstanceId { get; private set; }
         Component parent;
         public Component Parent { get { return parent; } set { parent = value; } }

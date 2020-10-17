@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol;
 using Cosmos;
+using Protocol;
+
 namespace AscensionServer
 {
     [CustomeModule]
@@ -17,9 +19,18 @@ namespace AscensionServer
             if (recordHelper == null)
                 Utility.Debug.LogError($"{this.GetType()} has no helper instance ,base type: {typeof(IRecordHelper)}");
         }
-        public void RecordRole(int roleId, object data)
+        public override void OnPreparatory()
         {
-            recordHelper.RecordRole(roleId, data);
+            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAER_LOGOFF,OnPlayerLogoff);
+        }
+        public void RecordRole(IRoleEntity roleEntity)
+        {
+            recordHelper.RecordRole(roleEntity);
+        }
+        void OnPlayerLogoff(OperationData opData)
+        {
+            var roleEntity = opData.DataMessage as IRoleEntity;
+            recordHelper.RecordRole(roleEntity);
         }
     }
 }
