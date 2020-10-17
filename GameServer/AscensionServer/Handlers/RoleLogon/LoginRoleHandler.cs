@@ -25,7 +25,7 @@ namespace AscensionServer
             var roleObj = Utility.Json.ToObject<RoleDTO>(json);
             var role = RoleEntity.Create(roleObj.RoleID, peer.SessionId, roleObj);
 
-            IRoleEntity remoteRole;
+            RoleEntity remoteRole;
             var roleExist = GameManager.CustomeModule<RoleManager>().TryGetValue(roleObj.RoleID, out remoteRole);
             if (roleExist)
             {
@@ -39,7 +39,7 @@ namespace AscensionServer
             if (result)
             {
                 Utility.Debug.LogInfo("yzqData" + "验证登录的Sessionid:" + peer.SessionId);
-                var remoteRoleType = typeof(IRoleEntity);
+                var remoteRoleType = typeof(RoleEntity);
                 var exist = peerAgent.ContainsKey(remoteRoleType);
                 if (!exist)
                 {
@@ -72,7 +72,7 @@ namespace AscensionServer
                     Utility.Debug.LogInfo("yzqData" + "已有账号登陆角色");
                     object legacyRole;
                     peerAgent.TryGetValue(remoteRoleType, out legacyRole);
-                    var remoteRoleObj = legacyRole as IRoleEntity;
+                    var remoteRoleObj = legacyRole as RoleEntity;
                     var updateResult = peerAgent.TryUpdate(remoteRoleType, role, legacyRole);
                     if (updateResult)
                     {
