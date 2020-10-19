@@ -4,6 +4,22 @@
         <name>AscensionServer</name>
     </assembly>
     <members>
+        <member name="T:AscensionServer.BottleneckData">
+            <summary>
+            角色等级 
+            灵根数
+            天雷类型
+            雷劫回合数
+            </summary>
+        </member>
+        <member name="T:AscensionServer.DemonData">
+            <summary>
+            角色等级
+            煞气值
+            触发几率
+            心魔ID
+            </summary>
+        </member>
         <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
