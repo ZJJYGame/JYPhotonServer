@@ -44,18 +44,9 @@ namespace AscensionServer
             NHibernateQuerier.Init();
             GameManager.InitCustomeModule(this.GetType().Assembly);
             RedisDotNet.RedisManager.Instance.OnInitialization();
-            //Task.Run(() =>
-            //{
-            //    while (true)
-            //    {
-            //        GameManagerAgent.Instance.OnRefresh();
-            //    }
-            //}
-            //);
-            //GameManagerAgent.Instance.OnRefresh();
+            Task.Run(() => GameManagerAgent.Instance.OnRefresh());
             GameManagerAgent.Instance.Pause = false;
         }
-        
         protected override void TearDown()
         {
             Utility.Debug.LogInfo("Server Shutdown");

@@ -25,7 +25,7 @@ namespace AscensionServer
             add { sceneRefreshHandler += value; }
             remove
             {
-                try { sceneRefreshHandler -= value; Utility.Debug.LogWarning("移除一个委托"); }
+                try { sceneRefreshHandler -= value; }
                 catch (Exception e) { Utility.Debug.LogError(e); }
             }
         }
@@ -104,7 +104,8 @@ namespace AscensionServer
                 {
                     sceneEntity = LevelEntity.Create(sceneId);
                     SceneRefreshHandler += sceneEntity.OnRefresh;
-                    result = sceneEntity.TryAdd(roleId, role);
+                    result = sceneEntity.TryAdd(role.RoleId, role);
+                    levelEntityDict.TryAdd(sceneEntity.LevelId, sceneEntity);
                 }
             }
 #else
@@ -132,6 +133,7 @@ namespace AscensionServer
                     sceneEntity = LevelEntity.Create(sceneId);
                     SceneRefreshHandler += sceneEntity.OnRefresh;
                     result = sceneEntity.TryAdd(role.RoleId, role);
+                    levelEntityDict.TryAdd(sceneEntity.LevelId, sceneEntity);
                 }
             }
 #else
@@ -151,7 +153,6 @@ namespace AscensionServer
                     result = levelEntity.TryRemove(roleId);
                     if (levelEntity.Empty)
                     {
-                        Utility.Debug.LogWarning($"Level:{levelEntity.LevelId}无玩家，被回收");
                         levelEntityDict.TryRemove(sceneId, out _);
                         GameManager.ReferencePoolManager.Despawn(levelEntity);
                         SceneRefreshHandler -= levelEntity.OnRefresh;
@@ -178,7 +179,6 @@ namespace AscensionServer
                 result = levelEntity.TryRemove(role.RoleId);
                 if (levelEntity.Empty)
                 {
-                    Utility.Debug.LogWarning($"Level:{levelEntity.LevelId}无玩家，被回收");
                     levelEntityDict.TryRemove(sceneId, out _);
                     GameManager.ReferencePoolManager.Despawn(levelEntity);
                     SceneRefreshHandler -= levelEntity.OnRefresh;
@@ -212,7 +212,6 @@ namespace AscensionServer
             {
                 var entity = opData.DataContract as C2SEntityContainer;
                 EnterScene(entity.EntityContainerId, entity.Player.PlayerId);
-                Utility.Debug.LogWarning($"Command-->>RoleId:{entity.Player.PlayerId};SessionId:{entity.Player.SessionId}尝试进入Level：{entity.EntityContainerId}");
             }
             catch (Exception e)
             {
@@ -225,7 +224,6 @@ namespace AscensionServer
             {
                 var entity = opData.DataContract as C2SEntityContainer;
                 ExitScene(entity.EntityContainerId, entity.Player.PlayerId);
-                Utility.Debug.LogWarning($"Command-->>RoleId:{entity.Player.PlayerId};SessionId:{entity.Player.SessionId}尝试离开Level：{entity.EntityContainerId}");
             }
             catch (Exception e)
             {
