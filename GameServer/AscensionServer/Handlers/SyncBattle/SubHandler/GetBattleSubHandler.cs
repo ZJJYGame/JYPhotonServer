@@ -50,11 +50,11 @@ namespace AscensionServer
                         break;
                     case RoleDTO.BattleCmd.Prepare:
                         GameManager.CustomeModule<ServerBattleManager>().PrepareBattle(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);
-                        SetResponseParamters(() =>
-                        {
-                            subResponseParameters.Add((byte)ParameterCode.RoleBattleCmd, (byte)RoleDTO.BattleCmd.Prepare);
-                            operationResponse.ReturnCode = (short)ReturnCode.Success;
-                        });
+                        //SetResponseParamters(() =>
+                        //{
+                        //    subResponseParameters.Add((byte)ParameterCode.RoleBattleCmd, (byte)RoleDTO.BattleCmd.Prepare);
+                        //    operationResponse.ReturnCode = (short)ReturnCode.Success;
+                        //});
                         break;
                     case RoleDTO.BattleCmd.PropsInstruction:
 
@@ -65,7 +65,7 @@ namespace AscensionServer
                         {
                             Utility.Debug.LogInfo("返回成功！！   使用技能伤害");
                             GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Enqueue(RoleObj.BattleInitDTO.RoomId);
-                            GameManager.CustomeModule<ServerBattleManager>().Timestamp(RoleObj.BattleInitDTO.RoomId);
+                            GameManager.CustomeModule<ServerBattleManager>().TimestampBattleEnd(RoleObj.BattleInitDTO.RoomId);
                             subResponseParameters.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>().teamSet));
                             subResponseParameters.Add((byte)ParameterCode.RoleBattleCmd, (byte)RoleDTO.BattleCmd.SkillInstruction);
                             subResponseParameters.Add((byte)ParameterCode.RoleBattleTimeStamp, Utility.Json.ToJson(Utility.Time.MillisecondTimeStamp()));

@@ -4,7 +4,7 @@
         <name>AscensionServer</name>
     </assembly>
     <members>
-        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -180,10 +180,16 @@
             用于初始化 战斗数据 和管理 战斗的数据缓存
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.Timestamp(System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.TimestampBattleEnd(System.Int32)">
+             <summary>
+            针对每回合  开始倒计时
+             </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.TimestampBattlePrepare(System.Int32)">
             <summary>
-            开始倒计时
+            针对初始化准备加载 倒计时
             </summary>
+            <param name="teamId"></param>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.ReleaseToSpeed(System.Int32)">
             <summary>
@@ -234,7 +240,7 @@
             开始战斗   -->  开始战斗的回合
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="F:AscensionServer.ServerBattleManager._teamIdToBattleInit">
             <summary>
              角色id 和对应的 房间数据对象
@@ -247,7 +253,12 @@
         </member>
         <member name="F:AscensionServer.ServerBattleManager._roomidToTimer">
             <summary>
-            房间id，对应每回合的倒计时
+            房间id，对应每回合的倒计时     这个是应对 每回合的战斗
+            </summary>
+        </member>
+        <member name="F:AscensionServer.ServerBattleManager._teamidToTimer">
+            <summary>
+            队伍id， 对应每个队伍的倒计时
             </summary>
         </member>
         <member name="F:AscensionServer.ServerBattleManager._oldBattleList">
@@ -293,6 +304,26 @@
         <member name="F:AscensionServer.ServerBattleManager.RecordRoomId">
             <summary>
             记录房间id
+            </summary>
+        </member>
+        <member name="F:AscensionServer.ServerBattleManager.RecordTeamId">
+            <summary>
+            记录队伍id
+            </summary>
+        </member>
+        <member name="F:AscensionServer.ServerBattleManager._teamIdToMemberDict">
+            <summary>
+            队伍id 和 队伍成员id
+            </summary>
+        </member>
+        <member name="F:AscensionServer.ServerBattleManager._roomIdToBattleTransferDict">
+             <summary>
+            缓存 房间id 每回合战斗传输的数据
+             </summary>
+        </member>
+        <member name="F:AscensionServer.ServerBattleManager._teamIdToRoomId">
+            <summary>
+            队伍id 和 房间id
             </summary>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.MsqInfo``1(System.Int32)">
@@ -430,19 +461,34 @@
             </summary>
             <param name="second"></param>
         </member>
+        <member name="M:AscensionServer.TimerToManager.StartTimer">
+            <summary>
+            应对 每回合战斗的开始时间
+            </summary>
+        </member>
         <member name="M:AscensionServer.TimerToManager.BattleMethodCallBack(System.Object,System.Timers.ElapsedEventArgs)">
             <summary>
             绑定的回调事件
             </summary>
         </member>
-        <member name="M:AscensionServer.TimerToManager.StopTimer">
+        <member name="M:AscensionServer.TimerToManager.BattleEndStopTimer">
             <summary>
             停止时间
             </summary>
         </member>
-        <member name="M:AscensionServer.TimerToManager.CallBackMethod">
+        <member name="M:AscensionServer.TimerToManager.BattleEndCallBackMethod">
             <summary>
             处理回调
+            </summary>
+        </member>
+        <member name="M:AscensionServer.TimerToManager.PrepareTimer">
+            <summary>
+            ，初始化 加载完毕  开始时间
+            </summary>
+        </member>
+        <member name="M:AscensionServer.TimerToManager.BattlePrepareStopTimer">
+            <summary>
+            准备 停止时间
             </summary>
         </member>
         <member name="F:AscensionServer.DataManager.intervalSec">
@@ -930,7 +976,7 @@
             <param name="playerId"></param>
             <returns></returns>
         </member>
-        <!-- 对于成员“M:AscensionServer.ServerTeamManager.GetApplyListInfo(AscensionProtocol.DTO.RoleDTO)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerTeamManager.GetApplyListInfo(AscensionProtocol.DTO.RoleDTO)" -->
         <member name="M:AscensionServer.ServerTeamManager.GetTeamList(AscensionProtocol.DTO.RoleDTO)">
             <summary>
             返回所有队伍信息
@@ -1091,7 +1137,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；
@@ -3383,10 +3429,20 @@
             若无特殊线程，例如同步玩家位置信息这类特殊线程事件，其余都统一使用此线程同步事件
             </summary>
         </member>
-        <member name="T:MyDelegateHandle">
+        <member name="T:BattleEndDelegateHandle">
              <summary>
-            针对 倒计时结束 回调方法 
+            针对 每回合战斗倒计时结束 回调方法 
              </summary>
+        </member>
+        <member name="T:BattlePrepareDelegateHandle">
+            <summary>
+            针对  战斗准备倒计时结束  
+            </summary>
+        </member>
+        <member name="T:BattleStartDelegateHandle">
+            <summary>
+            针对  组队 战斗开始的时候收集
+            </summary>
         </member>
     </members>
 </doc>
