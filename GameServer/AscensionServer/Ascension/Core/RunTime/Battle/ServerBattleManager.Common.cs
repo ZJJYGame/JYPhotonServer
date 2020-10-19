@@ -31,7 +31,10 @@ namespace AscensionServer
         {
             _teamidToTimer[teamId].PrepareTimer();
         }
-
+        /// <summary>
+        /// 针对组队 开始之前倒计时
+        /// </summary>
+        /// <param name="teamId"></param>
         public void TimestampBattleStart(int teamId)
         {
             _teamidToTimer[teamId].StartTimer();
