@@ -43,7 +43,7 @@ namespace AscensionServer
                     if (immortalsAllianceObj.AllIndex < alliances.Count)
                     {
 
-                        for (int i = immortalsAllianceObj.Index; i <= immortalsAllianceObj.AllIndex; i++)
+                        for (int i = immortalsAllianceObj.Index; i < immortalsAllianceObj.AllIndex; i++)
                         {
                             NHCriteria nHCriteriaimmortalsAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", alliances[i]);
                             var alliancestatusTemp = NHibernateQuerier.CriteriaSelect<AllianceStatus>(nHCriteriaimmortalsAlliance);
@@ -51,29 +51,34 @@ namespace AscensionServer
                             ImmortalsAllianceList.Add(allianceStatusDTO);
                             nhcriteriaList.Add(nHCriteriaimmortalsAlliance);
                         }
+                        SetResponseParamters(() =>
+                        {
+                            Utility.Debug.LogError("发送的所有仙盟列表" + Utility.Json.ToJson(ImmortalsAllianceList));
+                            subResponseParameters.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(ImmortalsAllianceList));
+                            operationResponse.ReturnCode = (short)ReturnCode.Success;
+                        });
                     }
                     else
                     {
                         Utility.Debug.LogInfo("2开始的下标" + immortalsAllianceObj.Index + "获得的仙盟列表数据" + immortalsAllianceObj.AllIndex + "数据库的总数" + alliances.Count);
-                        for (int i = immortalsAllianceObj.Index; i <= alliances.Count - 1; i++)
+                        for (int i = immortalsAllianceObj.Index; i <alliances.Count ; i++)
                         {
-
-                            Utility.Debug.LogInfo("发送的所有仙盟列表" + alliances[i]);
                             NHCriteria nHCriteriaimmortalsAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", alliances[i]);
                             var alliancestatusTemp = NHibernateQuerier.CriteriaSelect<AllianceStatus>(nHCriteriaimmortalsAlliance);
                             AllianceStatusDTO allianceStatusDTO = new AllianceStatusDTO() { ID = alliancestatusTemp.ID, AllianceLevel = alliancestatusTemp.AllianceLevel, AllianceMaster = alliancestatusTemp.AllianceMaster, AllianceName = alliancestatusTemp.AllianceName, AllianceNumberPeople = alliancestatusTemp.AllianceNumberPeople, AlliancePeopleMax = alliancestatusTemp.AlliancePeopleMax, Manifesto = alliancestatusTemp.Manifesto, Popularity = alliancestatusTemp.Popularity };
-
                             ImmortalsAllianceList.Add(allianceStatusDTO);
                             nhcriteriaList.Add(nHCriteriaimmortalsAlliance);
+
                         }
+                        SetResponseParamters(() =>
+                        {
+                            Utility.Debug.LogError("发送的所有仙盟列表" + Utility.Json.ToJson(ImmortalsAllianceList));
+                            subResponseParameters.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(ImmortalsAllianceList));
+                            operationResponse.ReturnCode = (short)ReturnCode.ItemAlreadyExists;
+                        });
                     }
                 }
-                SetResponseParamters(() =>
-                {
-                    Utility.Debug.LogError("发送的所有仙盟列表" + Utility.Json.ToJson(ImmortalsAllianceList));
-                    subResponseParameters.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(ImmortalsAllianceList));
-                    operationResponse.ReturnCode = (short)ReturnCode.Success;
-                });
+
                 GameManager.ReferencePoolManager.Despawns(nhcriteriaList);
                 #endregion
             }

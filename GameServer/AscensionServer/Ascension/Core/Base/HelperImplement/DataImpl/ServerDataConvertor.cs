@@ -49,10 +49,11 @@ namespace AscensionServer
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(FactionItemData).Name, out var factionitemdata);
                 var factionitemDataDict = TransObject<List<FactionItemData>>(factionitemdata).ToDictionary(key => key.FactionItemId, value => value.FactionItem);
 
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(FactionSkillData).Name, out var factionSkilldata);
+                var factionSkillDataDict = TransObject<List<FactionSkillData>>(factionSkilldata).ToDictionary(key => key.SchoolID, value => value.FactionSkill);
 
-
+                GameManager.CustomeModule<DataManager>().TryAdd(factionSkillDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(factionitemDataDict);
-
                 GameManager.CustomeModule<DataManager>().TryAdd(gfbDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(gfDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(monsterDict);

@@ -36,9 +36,9 @@ namespace AscensionServer
         /// <param name="role"></param>
         /// <param name="schoolDTO"></param>
         /// <returns></returns>
-        public ApplyForAllianceDTO JointDate( Role role  , RoleSchool schoolDTO)
+        public ApplyForAllianceDTO JointDate( Role role  , School schoolDTO)
         {
-            ApplyForAllianceDTO applyForAllianceDTO = new ApplyForAllianceDTO() { RoleID = role.RoleID,School= schoolDTO .RoleJoinedSchool,MemberName=role.RoleName,Level= role .RoleLevel};
+            ApplyForAllianceDTO applyForAllianceDTO = new ApplyForAllianceDTO() { RoleID = role.RoleID,School= schoolDTO.SchoolID,MemberName=role.RoleName,Level= role .RoleLevel};
             return applyForAllianceDTO;
         }
     }

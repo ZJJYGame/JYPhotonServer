@@ -8,7 +8,7 @@ using AscensionProtocol;
 using AscensionProtocol.DTO;
 using AscensionServer.Model;
 using Cosmos;
-
+using RedisDotNet;
 
 namespace AscensionServer
 {
@@ -20,8 +20,10 @@ namespace AscensionServer
         {
             var dict = operationRequest.Parameters;
             string roleallianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAlliance));
+            string dailyMagJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.DailyMessage));
             var roleallianceObj = Utility.Json.ToObject<RoleAllianceDTO>(roleallianceJson);
-            Utility.Debug.LogError("储存的成员" + roleallianceJson);
+            var dailyMagObj = Utility.Json.ToObject<DailyMessageDTO>(dailyMagJson);
+            Utility.Debug.LogError("储存的成员" + dailyMagJson);
             NHCriteria nHCriteriaroleAlliances = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceObj.RoleID);
             var roleallianceTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriaroleAlliances).Result;
             List<int> memberlist = new List<int>();
@@ -38,13 +40,17 @@ namespace AscensionServer
                     memberlist.Remove(roleallianceObj.RoleID);
                     allianceTemp.Member = Utility.Json.ToJson(memberlist);
                   NHibernateQuerier.Update(allianceTemp);
-                    roleallianceTemp.AllianceJob = 50;
+                    roleallianceTemp.AllianceJob = 4;
                     roleallianceTemp.AllianceID = 0;
                     roleallianceTemp.Reputation = 0;
                     roleallianceTemp.ReputationHistroy = 0;
                     roleallianceTemp.ReputationMonth = 0;
                   NHibernateQuerier.Update(roleallianceTemp);
                     RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { AllianceID = roleallianceTemp.AllianceID, AllianceJob = roleallianceTemp.AllianceJob, JoinTime = roleallianceTemp.JoinTime, ApplyForAlliance = Utility.Json.ToObject<List<int>>(roleallianceTemp.ApplyForAlliance), JoinOffline = roleallianceTemp.JoinOffline, Reputation = roleallianceTemp.Reputation, ReputationHistroy = roleallianceTemp.ReputationHistroy, ReputationMonth = roleallianceTemp.ReputationMonth, RoleID = roleallianceTemp.RoleID, RoleName = roleallianceTemp.RoleName };
+
+                   var  dailyMessages = RedisHelper.Hash.HashGetAsync<List<DailyMessageDTO>>("DailyMessage", roleallianceObj.AllianceID.ToString()).Result;
+                    dailyMessages.Add(dailyMagObj);
+                    RedisHelper.Hash.HashSet<List<DailyMessageDTO>>("DailyMessage", roleallianceObj.AllianceID.ToString(), dailyMessages);
                     SetResponseParamters(() =>
                     {
                         subResponseParameters.Add((byte)ParameterCode.RoleAlliance, Utility.Json.ToJson(roleAllianceDTO));

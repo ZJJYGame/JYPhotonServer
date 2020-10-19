@@ -21,7 +21,8 @@ namespace AscensionServer
             var dict = operationRequest.Parameters;
             string allianceMemberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
             var allianceMemberObj = Utility.Json.ToObject<AllianceMemberDTO>(allianceMemberJson);
-
+            string roleJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role));
+            var roleselfObj = Utility.Json.ToObject<RoleDTO>(roleJson);
 
             var allianceMemberTemp = AlliancelogicManager.Instance.GetNHCriteria<AllianceMember>("AllianceID", allianceMemberObj.AllianceID);
 
@@ -37,13 +38,17 @@ namespace AscensionServer
                         Utility.Debug.LogError("解散仙盟2" + allianceMemberTemp.AllianceID);
                         var roleObj = AlliancelogicManager.Instance.GetNHCriteria<RoleAlliance>("RoleID", memberlist[i]);
                         roleObj.AllianceID = 0;
-                        roleObj.AllianceJob = 50;
+                        roleObj.AllianceJob = 4;
+                        roleObj.Reputation = 0;
+                        roleObj.ReputationHistroy = 0;
+                        roleObj.ReputationMonth = 0;
+                        roleObj.JoinTime = null;
                         NHibernateQuerier.Update(roleObj);
                     }
                 }
                 if (!string.IsNullOrEmpty(allianceMemberTemp.ApplyforMember))
                 {
-                    Utility.Debug.LogError("解散仙盟3" + allianceMemberTemp.AllianceID);
+                    Utility.Debug.LogInfo("解散仙盟3" + allianceMemberTemp.AllianceID);
                     List<int> applylist = new List<int>();
                     applylist = Utility.Json.ToObject<List<int>>(allianceMemberTemp.ApplyforMember);
                     for (int i = 0; i < applylist.Count; i++)
@@ -60,16 +65,19 @@ namespace AscensionServer
                 alliancesList.Remove(allianceMemberObj.AllianceID);
                 alliances.AllianceList = Utility.Json.ToJson(alliancesList);
                 NHibernateQuerier.Update(alliances);
-                Utility.Debug.LogError("解散仙盟4" + allianceMemberTemp.AllianceID);
+                Utility.Debug.LogInfo("解散仙盟4" + allianceMemberTemp.AllianceID);
 
                 var allianceStatusObj = AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", allianceMemberObj.AllianceID);
                 var allianceConstructionObj = AlliancelogicManager.Instance.GetNHCriteria<AllianceConstruction>("AllianceID", allianceMemberObj.AllianceID);
                 NHibernateQuerier.Delete(allianceConstructionObj);
                 NHibernateQuerier.Delete(allianceStatusObj);
                 NHibernateQuerier.Delete(allianceMemberTemp);
+
+                var roleallianceTemp = AlliancelogicManager.Instance.GetNHCriteria<RoleAlliance>("RoleID", roleselfObj.RoleID);
+                RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { RoleID= roleallianceTemp.RoleID,RoleSchool= roleallianceTemp .RoleSchool,RoleName= roleallianceTemp .RoleName,ApplyForAlliance=new List<int>()};
                 SetResponseParamters(() =>
                    {
-                       Utility.Debug.LogError("解散仙盟5");
+                       subResponseParameters.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(roleAllianceDTO));
                        operationResponse.ReturnCode = (short)ReturnCode.Success;
                    });
             }

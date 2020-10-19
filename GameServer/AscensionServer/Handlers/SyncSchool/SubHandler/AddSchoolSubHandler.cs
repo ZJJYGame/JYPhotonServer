@@ -31,31 +31,31 @@ namespace AscensionServer
             NHCriteria nHCriteriaTreasureattic = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", treasureatticObj.ID);
             NHCriteria nHCriteriasutrasAttic = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", sutrasAtticObj.ID);
 
-
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, List<FactionItem>>>(out var factionItemDict);
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, List<FactionSkill>>>(out var factionSkillDict);
 
-            var todaynum = factionItemDict[schoolObj.SchoolID].ToDictionary(key => key.FactionItem_ID, value => value.FactionItem_TodayNum);
-
+            Utility.Debug.LogInfo("yzqData>>>>>>>加入宗门的请求收到了" + Utility.Json.ToJson(factionSkillDict));
+            var todayTNum = factionItemDict[schoolObj.SchoolID].ToDictionary(key => key.FactionItem_ID, value => value.FactionItem_TodayNum);
+            var todaySNum = factionSkillDict[schoolObj.SchoolID].ToDictionary(key => key.FactionItem_ID, value => value.FactionItem_TodayNum);
 
             var schoolTemp = NHibernateQuerier.CriteriaSelect<School>(nHCriteriaSchool);
             var treasureatticTemp = NHibernateQuerier.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
             var sutrasAtticTemp = NHibernateQuerier.CriteriaSelect<SutrasAttic>(nHCriteriasutrasAttic);
             Dictionary<string, string> DTOdict = new Dictionary<string, string>();
 
-
             if (schoolTemp != null)
             {
 
-                Utility.Debug.LogInfo("yzqData>>>>>>>加入宗门的请求收到了" + Utility.Json.ToJson(todaynum));
+                Utility.Debug.LogInfo("yzqData>>>>>>>加入宗门的请求收到了" + Utility.Json.ToJson(todayTNum));
                 if (treasureatticTemp != null)
                 {
                     treasureatticTemp.ID = treasureatticObj.ID;
-                    treasureatticTemp.ItemAmountDict = Utility.Json.ToJson(todaynum);
+                    treasureatticTemp.ItemAmountDict = Utility.Json.ToJson(todayTNum);
                     NHibernateQuerier.Update(treasureatticTemp);
                     #region 测试完成替换
-                    int h = 23 - DateTime.Now.Hour;
-                    int m = 59 - DateTime.Now.Minute;
-                    int s = 60 - DateTime.Now.Second;
+                    //int h = 23 - DateTime.Now.Hour;
+                    //int m = 59 - DateTime.Now.Minute;
+                    //int s = 60 - DateTime.Now.Second;
                     //await RedisHelper.String.StringSetAsync(redisKey, AllianceAlchemyJson, new TimeSpan(0, h, m, s));
                     #endregion
                     #region redis部分
@@ -65,7 +65,7 @@ namespace AscensionServer
                 if (sutrasAtticTemp != null)
                     {
                     sutrasAtticTemp.ID = sutrasAtticObj.ID;
-                    sutrasAtticTemp.SutrasAmountDict = Utility.Json.ToJson(sutrasAtticObj.SutrasAmountDict);
+                    sutrasAtticTemp.SutrasAmountDict = Utility.Json.ToJson(todaySNum);
                         NHibernateQuerier.Update(sutrasAtticTemp);
                     RedisHelper.Hash.HashSet<SutrasAttic>("SutrasAtticDTO", sutrasAtticTemp.ID.ToString(), sutrasAtticTemp);
                 }
@@ -79,6 +79,7 @@ namespace AscensionServer
                     Utility.Debug.LogInfo(">>>>>>>返回加入宗门的数据" + Utility.Json.ToJson(schoolSendObj));
                     subResponseParameters.Add((byte)ParameterCode.School, Utility.Json.ToJson(schoolSendObj));
                     subResponseParameters.Add((byte)ParameterCode.TreasureAttic, Utility.Json.ToJson(factionItemDict[schoolObj.SchoolID]));
+                    subResponseParameters.Add((byte)ParameterCode.SutrasAtticm, Utility.Json.ToJson(factionSkillDict[schoolObj.SchoolID]));
                     operationResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
             }
