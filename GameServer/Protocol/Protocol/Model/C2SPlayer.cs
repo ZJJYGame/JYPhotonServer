@@ -12,6 +12,12 @@ namespace Protocol
         public int SessionId { get; set; }
         [Key(1)]
         public int PlayerId { get; set; }
+        public C2SPlayer() { }
+        public C2SPlayer(int sessionId, int playerId)
+        {
+            SessionId = sessionId;
+            PlayerId = playerId;
+        }
         public void Dispose()
         {
             SessionId = 0;

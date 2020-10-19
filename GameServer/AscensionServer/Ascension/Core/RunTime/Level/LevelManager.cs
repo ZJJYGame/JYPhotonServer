@@ -203,6 +203,12 @@ namespace AscensionServer
                     var levelEntity = entity as LevelEntity;
                     levelEntity.TryRemove(roleEntity.RoleId);
                     Utility.Debug.LogWarning($"RoleId:{roleEntity.RoleId} ;SessionId:{roleEntity.SessionId}由于强退，尝试从Level:{levelEntity.LevelId}中移除");
+                    if (levelEntity.Empty)
+                    {
+                        levelEntityDict.TryRemove(levelEntity.LevelId, out _);
+                        GameManager.ReferencePoolManager.Despawn(levelEntity);
+                        SceneRefreshHandler -= levelEntity.OnRefresh;
+                    }
                 }
             }
         }

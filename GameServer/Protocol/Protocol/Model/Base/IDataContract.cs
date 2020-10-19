@@ -12,6 +12,7 @@ namespace Protocol
     [Union(5, typeof(S2CInput))]
     [Union(6, typeof(S2CEntityContainer))]
     [Union(7, typeof(DataParameters))]
+    [Union(8, typeof(S2CPlayer))]
     public interface IDataContract
     {
     }
