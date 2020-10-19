@@ -18,27 +18,33 @@ namespace AscensionServer
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             var dict = operationRequest.Parameters;
-            string treasureatticJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.TreasureAttic));
-            string schoolJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.School));
+            string treasureatticJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.School));
 
 
-            var treasureatticObj = Utility.Json.ToObject<TreasureatticDTO>(treasureatticJson);
-            NHCriteria nHCriteriaTreasureattic = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", treasureatticObj.ID);
+            var schoolObj = Utility.Json.ToObject<SchoolDTO>(treasureatticJson);
+            TreasureatticDTO treasureatticObj = new TreasureatticDTO();
+            NHCriteria nHCriteriaTreasureattic = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.TreasureAtticID);
 
-            var schoolObj = Utility.Json.ToObject<School>(schoolJson);
+  
             var treasureatticTemp = NHibernateQuerier.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
 
-            var content = RedisData.Initialize.GetData("Treasureattic");
-            var contentTreasureattic = RedisData.Initialize.GetData("TreasureatticDTO");
+            var content = RedisData.Initialize.GetData("TreasureatticDTO"+ treasureatticTemp.ID);
+
+            Utility.Debug.LogInfo("yzqData查找的key值" + "TreasureatticDTO" + treasureatticTemp.ID +"内容为"+ content);
             if (string.IsNullOrEmpty(content))
             {
-                treasureatticObj.ItemAmountDict=Utility.Json.ToObject<Dictionary<int,int>>(content);
-                treasureatticObj.ID = treasureatticTemp.ID;
-                treasureatticObj.ItemRedeemedDict = Utility.Json.ToObject<Dictionary<int, int>>(contentTreasureattic);
+                if (RedisHelper.Hash.HashExist("Treasureattic", treasureatticTemp.ID.ToString()))
+                {
+                    var contentTreasureattic = RedisHelper.Hash.HashGet<Dictionary<int, int>>("Treasureattic", treasureatticTemp.ID.ToString());
+                    treasureatticObj.ID = treasureatticTemp.ID;
+                    treasureatticObj.ItemRedeemedDict = contentTreasureattic;
+                    treasureatticObj.ItemNotRefreshDict = contentTreasureattic;
+                }
+
             }
             else
             {
-                treasureatticObj.ItemAmountDict = Utility.Json.ToObject<Dictionary<int, int>>(content);
+                treasureatticObj.ItemRedeemedDict = Utility.Json.ToObject<Dictionary<int, int>>(content);
                 treasureatticObj.ID = treasureatticTemp.ID;
             }
             SetResponseParamters(() =>

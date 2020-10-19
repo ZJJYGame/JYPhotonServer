@@ -8,6 +8,7 @@ using AscensionProtocol.DTO;
 using Photon.SocketServer;
 using AscensionServer.Model;
 using Cosmos;
+using RedisDotNet;
 
 namespace AscensionServer
 {
@@ -22,25 +23,29 @@ namespace AscensionServer
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
             NHCriteria  nHCriteriaschool= GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
             var schooltemp= NHibernateQuerier.CriteriaSelect<School>(nHCriteriaschool);
+            var content= RedisData.Initialize.GetData("School"+schooltemp.ID);
             if (schooltemp!=null)
             {
-                if (schoolObj.GetContributions>=0)
+                if (string.IsNullOrEmpty(content))
                 {
-                    schooltemp.ContributionNow += schoolObj.GetContributions;
-                    schooltemp.IsSignin= schoolObj.IsSignin;
-                   NHibernateQuerier.Update<School>(schooltemp);
-                    SetResponseParamters(() =>
+                    if (schoolObj.GetContributions >= 0)
                     {
-                        subResponseParameters.Add((byte)ParameterCode.School, Utility.Json.ToJson(schooltemp));
-                        operationResponse.ReturnCode = (byte)ReturnCode.Success;
-                    });
-                }
-                else
-                {
-                    SetResponseParamters(() =>
+                        schooltemp.ContributionNow += schoolObj.GetContributions;
+                        schooltemp.IsSignin = schoolObj.IsSignin;
+                        NHibernateQuerier.Update<School>(schooltemp);
+                        SetResponseParamters(() =>
+                        {
+                            subResponseParameters.Add((byte)ParameterCode.School, Utility.Json.ToJson(schooltemp));
+                            operationResponse.ReturnCode = (byte)ReturnCode.Success;
+                        });
+                    }
+                    else
                     {
-                        operationResponse.ReturnCode = (byte)ReturnCode.Fail;
-                    });
+                        SetResponseParamters(() =>
+                        {
+                            operationResponse.ReturnCode = (byte)ReturnCode.Fail;
+                        });
+                    }
                 }
             }
             Utility.Debug.LogInfo("更新后的宗门信息" + Utility.Json.ToJson(schooltemp));

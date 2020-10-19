@@ -46,7 +46,10 @@ namespace AscensionServer
                         NHCriterias.Add(nHCriteriaroleAllianceMember);
                         var allianceMemberTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceMember>(nHCriteriaroleAllianceMember).Result;
                         var applyer = Utility.Json.ToObject<List<int>>(allianceMemberTemp.ApplyforMember);
-                        applyer.Add(roleAllianceObj.RoleID);
+                        if (!applyer.Contains(roleAllianceObj.RoleID))
+                        {
+                            applyer.Add(roleAllianceObj.RoleID);
+                        }
                         allianceMemberTemp.ApplyforMember = Utility.Json.ToJson(applyer);
                       NHibernateQuerier.Update(allianceMemberTemp);
                     }

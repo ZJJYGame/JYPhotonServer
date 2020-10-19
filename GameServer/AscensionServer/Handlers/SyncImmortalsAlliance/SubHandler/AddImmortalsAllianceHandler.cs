@@ -47,7 +47,7 @@ namespace AscensionServer
                 var allianceTemp = NHibernateQuerier.CriteriaSelectAsync<Alliances>(nHCriteriaAllianceList).Result;
                 gangslist = Utility.Json.ToObject<List<int>>(allianceTemp.AllianceList);
 
-
+                alliancestatusObj.OnLineNum += 1;
                 var allianceslIstObj =NHibernateQuerier.Insert(alliancestatusObj);
 
                 AllianceConstruction allianceConstruction = new AllianceConstruction() { AllianceID = allianceslIstObj.ID};

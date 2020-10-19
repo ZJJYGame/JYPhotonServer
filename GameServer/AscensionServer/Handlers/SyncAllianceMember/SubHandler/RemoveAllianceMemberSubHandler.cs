@@ -44,7 +44,7 @@ namespace AscensionServer
                         NHibernateQuerier.Update(alliancestatus);
                         var MemberTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriMember).Result;
                         MemberTemp.AllianceID = 0;
-                        MemberTemp.AllianceJob = 50;
+                        MemberTemp.AllianceJob = 4;
                         NHibernateQuerier.Update(MemberTemp);
                         memberlist = Utility.Json.ToObject<List<int>>(allianceMemberTemp.Member);
                         memberlist.Remove(allianceMemberObj.Member[i]);

@@ -47,7 +47,10 @@ namespace AscensionServer
                 {
 
                     var roleApplyList = Utility.Json.ToObject<List<int>>(roleAllianceTemp.ApplyForAlliance);
-                    roleApplyList.Remove(allianceObj.AllianceID);
+                    if (roleApplyList.Contains(allianceObj.AllianceID))
+                    {
+                        roleApplyList.Remove(allianceObj.AllianceID);
+                    }
                     roleAllianceTemp.ApplyForAlliance = Utility.Json.ToJson(roleApplyList);
                     NHibernateQuerier.Update(roleAllianceTemp);
 

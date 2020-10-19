@@ -34,7 +34,10 @@ namespace AscensionServer
                 var allianceStatusobj = NHibernateQuerier.CriteriaSelectAsync<AllianceStatus>(nHCriteriaAllianceStatus).Result;
                 if (allianceStatusobj != null)
                 {
-                    allianceStatusobj.OnLineNum--;
+                    if (allianceStatusobj.OnLineNum>0)
+                    {
+                        allianceStatusobj.OnLineNum-=1;
+                    }
                     await NHibernateQuerier.UpdateAsync(allianceStatusobj);
                 }
                 GameManager.ReferencePoolManager.Despawn(nHCriteriaAllianceStatus);

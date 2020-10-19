@@ -56,8 +56,9 @@ namespace AscensionServer
 
                         if (allianceStatusobj != null)
                         {
-                            allianceStatusobj.OnLineNum++;
+                            allianceStatusobj.OnLineNum+=1;
                             NHibernateQuerier.Update(allianceStatusobj);
+                            Utility.Debug.LogInfo("yzqData仙盟在线人数增加了" + allianceStatusobj.OnLineNum);
                         }
                         GameManager.ReferencePoolManager.Despawn(nHCriteriaAllianceStatus);
                         roleAllianceobj.JoinOffline = "在线";
@@ -83,13 +84,14 @@ namespace AscensionServer
                         if (roleAllianceobj != null)
                         {
                             NHCriteria nHCriteriaAllianceStatus = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleAllianceobj.AllianceID);
-                            Utility.Debug.LogInfo("yzqData判断仙盟查找到了" + roleAllianceobj.AllianceID);
+                            //Utility.Debug.LogInfo("yzqData判断仙盟查找到了" + roleAllianceobj.AllianceID);
                             var allianceStatusobj = NHibernateQuerier.CriteriaSelectAsync<AllianceStatus>(nHCriteriaAllianceStatus).Result;
 
                             if (allianceStatusobj != null)
                             {
-                                allianceStatusobj.OnLineNum++;
+                                allianceStatusobj.OnLineNum+=1;
                                 NHibernateQuerier.Update(allianceStatusobj);
+                                Utility.Debug.LogInfo("yzqData仙盟在线人数增加了" + allianceStatusobj.OnLineNum);
                             }
                             GameManager.ReferencePoolManager.Despawn(nHCriteriaAllianceStatus);
                             roleAllianceobj.JoinOffline = "在线";
