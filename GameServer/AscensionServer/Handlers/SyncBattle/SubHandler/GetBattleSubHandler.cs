@@ -61,6 +61,7 @@ namespace AscensionServer
                         break;
                     case RoleDTO.BattleCmd.SkillInstruction:
                         GameManager.CustomeModule<ServerBattleManager>().BattleStart(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, RoleObj.BattleInitDTO.RoomId, battleTransferObj);
+                        /*
                         SetResponseParamters(() =>
                         {
                             Utility.Debug.LogInfo("返回成功！！   使用技能伤害");
@@ -72,7 +73,7 @@ namespace AscensionServer
                             subResponseParameters.Add((byte)ParameterCode.RoleBattleTime, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>().RoleBattleTime));
                             operationResponse.ReturnCode = (short)ReturnCode.Success;
                             GameManager.CustomeModule<ServerBattleManager>().teamSet.Clear();
-                        });
+                        });*/
                         break;
                     case RoleDTO.BattleCmd.RunAwayInstruction:
 

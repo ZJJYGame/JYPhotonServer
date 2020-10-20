@@ -54,6 +54,7 @@ namespace AscensionServer
                 _teamIdToBattleInit.Add(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, battleInit);
                 _roomidToBattleTransfer.Add(battleInit.RoomId, new List<BattleTransferDTO>());
                 _roomidToTimer.Add(battleInit.RoomId, new TimerToManager(RoleBattleTime));
+                
             }
         }
 
@@ -69,15 +70,15 @@ namespace AscensionServer
                 OperationData opData = new OperationData();
                 opData.DataMessage = roleId + "=>个人服务器 组队 准备完成， over！";
                 //TODO 展示使用这个
-                opData.OperationCode = (byte)OperationCode.SyncRole;
+                opData.OperationCode = (byte)OperationCode.SyncBattleMessagePrepare;
                 GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
             }
             else
             {
                 //判断当前队伍
-                if (_teamidToTimer.ContainsKey(IsTeamDto(roleId).LeaderId))
+                if (_teamidToTimer.ContainsKey(IsTeamDto(roleId).TeamId))
                 {
-                    _teamIdToMemberDict[IsTeamDto(roleId).LeaderId].Add(roleId);
+                    _teamIdToMemberDict[IsTeamDto(roleId).TeamId].Add(roleId);
                     return;
                 }
                 GameManager.CustomeModule<ServerBattleManager>().RecordTeamId.Enqueue(IsTeamDto(roleId).TeamId);
@@ -127,6 +128,13 @@ namespace AscensionServer
                             break;
                     }
                 }
+                OperationData opData = new OperationData();
+                opData.DataMessage = RoundServerToClient();
+                opData.OperationCode = (byte)OperationCode.SyncBattleTransfer;
+                GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
+                GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Enqueue(roomId);
+                GameManager.CustomeModule<ServerBattleManager>().TimestampBattleEnd(roomId);
+
                 #region ob
 
                 /*
@@ -225,17 +233,15 @@ namespace AscensionServer
             }
             else
             {
-                if (_roomIdToBattleTransferDict.ContainsKey(IsTeamDto(roleId).TeamId))
-                    _roomIdToBattleTransferDict[IsTeamDto(roleId).TeamId].Add(battleTransferDTOs);
-                else
+                if (_roomidToBattleTransfer.ContainsKey(roomId))
+                    _roomidToBattleTransfer[roomId].Add(battleTransferDTOs);
+                if (!GameManager.CustomeModule<ServerBattleManager>().RecordTeamRooomId.Contains(roomId))
                 {
-                    List<BattleTransferDTO> battleTransferSet = new List<BattleTransferDTO>();
-                    battleTransferSet.Add(battleTransferDTOs);
-                    _roomIdToBattleTransferDict.Add(IsTeamDto(roleId).TeamId, battleTransferSet);
                     _teamIdToRoomId.Add(IsTeamDto(roleId).TeamId, roomId);
-                    GameManager.CustomeModule<ServerBattleManager>().RecordTeamId.Enqueue(IsTeamDto(roleId).TeamId);
-                    //GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Enqueue(roomId);
+                    GameManager.CustomeModule<ServerBattleManager>().RecordTeamRooomId.Enqueue(roomId);
                 }
+                
+                Utility.Debug.LogInfo("老陆 ，开始战斗的时候收集客户端一个请求"+ _teamIdToRoomId.Count);
             }
 
         }
