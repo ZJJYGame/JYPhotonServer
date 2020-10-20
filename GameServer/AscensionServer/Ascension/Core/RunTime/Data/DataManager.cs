@@ -10,7 +10,7 @@ namespace AscensionServer
         /// <summary>
         /// 间隔秒；
         /// </summary>
-        int intervalSec = 1200;
+        int intervalSec = 3600;
         long latestRefreshTime;
         IDataProvider dataProvider;
         /// <summary>

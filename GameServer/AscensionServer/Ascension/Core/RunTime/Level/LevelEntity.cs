@@ -74,9 +74,9 @@ namespace AscensionServer
             if (result)
             {
                 Utility.Debug.LogWarning($"RoleId:{roleId};SessionId:{role.SessionId}进入Level：{LevelId}");
-                OnEnterLevelS2C(role);
                 var opData = opEnterLeveData.Clone();
-                 c2sPlayerDict.TryGetValue(role.RoleId, out var c2sPalyer);
+                OnEnterLevelS2C(role);
+                c2sPlayerDict.TryGetValue(role.RoleId, out var c2sPalyer);
                 opData.DataContract = c2sPalyer;
                 roleSendMsgHandler?.Invoke(opData);
                 RoleSendMsgHandler += role.SendMessage;
@@ -90,8 +90,8 @@ namespace AscensionServer
             if (result)
             {
                 Utility.Debug.LogWarning($"RoleId:{role.RoleId};SessionId:{role.SessionId}进入Level：{LevelId}");
-                OnEnterLevelS2C(role);
                 var opData = opEnterLeveData.Clone();
+                OnEnterLevelS2C(role);
                 c2sPlayerDict.TryGetValue(role.RoleId, out var c2sPalyer);
                 opData.DataContract = c2sPalyer;
                 roleSendMsgHandler?.Invoke(opData);
@@ -134,18 +134,18 @@ namespace AscensionServer
 #if SERVER
         public void OnCommandC2S(IDataContract data)
         {
-            Utility.Debug.LogWarning($"OnCommandC2S ，tick:{currentTick}");
             if (data == null)
                 return;
             var input = data as C2SInput;
-            var result = roleInputCmdDict.TryGetValue(input.Tick, out var roleCmdDict);
+            var result = roleInputCmdDict.TryGetValue(currentTick, out var roleCmdDict);
+            Utility.Debug.LogWarning($"OnCommandC2S ，RoleId:{input.PlayerId}, tick:{currentTick}");
             if (result)
             {
                 roleCmdDict.TryAdd(input.PlayerId, input);
             }
             else
             {
-                roleInputCmdDict.Add(currentTick, new Dictionary<int, C2SInput>());
+                roleInputCmdDict.TryAdd(currentTick, new Dictionary<int, C2SInput>());
                 roleInputCmdDict[currentTick].TryAdd(input.PlayerId, input);
             }
         }
@@ -174,7 +174,7 @@ namespace AscensionServer
             {
                 Utility.Debug.LogInfo($"LevelId:{LevelId}空帧,PlayerCout:{PlayerCount},Tick:{currentTick}");
             }
-            roleInputCmdDict.Remove(currentTick - 1);
+            roleInputCmdDict.Remove(currentTick - 1,out _);
             currentTick++;
 #else
 

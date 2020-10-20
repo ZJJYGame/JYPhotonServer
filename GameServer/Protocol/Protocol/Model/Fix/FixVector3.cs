@@ -24,7 +24,7 @@ namespace Protocol
         }
         public Vector3 GetVector()
         {
-            return new Vector3(X / 1000, Y / 1000, Z / 1000);
+            return new Vector3((float)X / 1000, (float)Y / 1000, (float)Z / 1000);
         }
     }
 }
