@@ -67,6 +67,7 @@ namespace AscensionServer
                 NHibernateQuerier.Insert(rolestatus);
                 NHibernateQuerier.Insert(new RoleAssets() { RoleID = rolestatus.RoleID });
                 NHibernateQuerier.Insert(new OnOffLine() { RoleID = rolestatus.RoleID });
+                NHibernateQuerier.Insert(new Bottleneck() { RoleID = rolestatus.RoleID });
                 #region 任务
                 roleTaskDic.Clear();
                 roleTaskDic.Add("1001001", new RoleTaskItemDTO() { RoleTaskType = "DialogSystem", RoleTaskAchieveState = "NoAchieveTask", RoleTaskAcceptState = "NoAcceptAbleTask", RoleTaskAbandonState = "NoAbandonTask", RoleTaskKind = "MainTask" });

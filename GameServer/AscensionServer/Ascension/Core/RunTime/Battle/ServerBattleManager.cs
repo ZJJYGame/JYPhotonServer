@@ -234,6 +234,7 @@ namespace AscensionServer
                     _roomIdToBattleTransferDict.Add(IsTeamDto(roleId).TeamId, battleTransferSet);
                     _teamIdToRoomId.Add(IsTeamDto(roleId).TeamId, roomId);
                     GameManager.CustomeModule<ServerBattleManager>().RecordTeamId.Enqueue(IsTeamDto(roleId).TeamId);
+                    //GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Enqueue(roomId);
                 }
             }
 

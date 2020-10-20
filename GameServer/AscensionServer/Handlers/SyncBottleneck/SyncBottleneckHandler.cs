@@ -8,30 +8,14 @@ using Cosmos;
 
 namespace AscensionServer
 {
-   public class SyncBottleneckHandler:Handler
+    public class SyncBottleneckHandler : Handler
     {
         public override byte OpCode { get { return (byte)OperationCode.SyncBottleneck; } }
-        protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
+
+        public override void OnInitialization()
         {
-            string roleJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleBottleneck));
-           // AscensionServer._Log.Info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>传过来的瓶颈状态" + roleJson);
-            var bottleneckObj = Utility.Json.ToObject<Bottleneck>(roleJson);
-            NHCriteria nHCriteriaBottleneck = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", bottleneckObj.RoleID);
-
-
-            Bottleneck bottleneck = NHibernateQuerier.CriteriaSelect<Bottleneck>(nHCriteriaBottleneck);
-            if (bottleneck != null)
-            {
-                NHibernateQuerier.Update(bottleneckObj);
-                operationResponse.ReturnCode = (short)ReturnCode.Success;
-            }
-            else
-            {
-                NHibernateQuerier.Insert(bottleneckObj);
-                operationResponse.ReturnCode = (short)ReturnCode.Success;
-            }
-            GameManager.ReferencePoolManager.Despawns(nHCriteriaBottleneck);
-            return operationResponse;
+            base.OnInitialization();
+            OnSubHandlerInitialization<SyncBottleneckSubHandler>();
         }
     }
 }
