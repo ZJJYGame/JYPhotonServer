@@ -17,11 +17,27 @@ namespace AscensionServer
     {
         //public TimerManager timer;
         /// <summary>
-        /// 开始倒计时
+        ///针对每回合  开始倒计时
         /// </summary>
-        public void Timestamp(int roomId)
+        public void TimestampBattleEnd(int roomId)
         {
             _roomidToTimer[roomId].StartTimer();
+        }
+        /// <summary>
+        /// 针对初始化准备加载 倒计时
+        /// </summary>
+        /// <param name="teamId"></param>
+        public void TimestampBattlePrepare(int teamId)
+        {
+            _teamidToTimer[teamId].PrepareTimer();
+        }
+        /// <summary>
+        /// 针对组队 开始之前倒计时
+        /// </summary>
+        /// <param name="teamId"></param>
+        public void TimestampBattleStart(int teamId)
+        {
+            _teamidToTimer[teamId].StartTimer();
         }
 
         /// <summary>
@@ -40,8 +56,8 @@ namespace AscensionServer
         {
             var tempRoleId = GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.FirstOrDefault(t => t.Value.RoomId == roomId).Key;
             var roleStatusSever = _teamIdToBattleInit[tempRoleId].playerUnits[0].RoleStatusDTO;
-
-            Utility.Debug.LogInfo("老陆   roleStatusSever"+ roleStatusSever.RoleHP);
+            // _teamIdToBattleInit[tempRoleId].enemyUnits.Find(t => t.EnemyStatusDTO.EnemyHP == 0).EnemyStatusDTO;
+            //Utility.Debug.LogInfo("老陆   roleStatusSever"+ roleStatusSever.RoleHP);
             if (roleStatusSever.RoleHP <= 0)
             {
                 OperationData opData = new OperationData();
@@ -99,11 +115,20 @@ namespace AscensionServer
             PlayerInfosSet.Clear();
             BattleTransferDTO.TargetInfoDTO tempTransEnemy = new BattleTransferDTO.TargetInfoDTO();
             //Utility.Debug.LogInfo("<enemyStatusData  老陆>" + _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP);
-            //if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
+            if ((IsTeamDto(roleId) == null))
             {
                 _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP -= skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0]; // enemyStatusData.EnemyAttact_Power;
                 tempTransEnemy.TargetID = roleId;
-                tempTransEnemy.TargetHPDamage =  -skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
+                tempTransEnemy.TargetHPDamage = -skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
+                PlayerInfosSet.Add(tempTransEnemy);
+                teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = RoleDTO.BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
+            }
+            else
+            {
+                ////TODO 传输玩家的id  可能会出现bug
+                _teamIdToBattleInit[roleId].playerUnits.Find(x => x.RoleStatusDTO.RoleID == battleTransferDTOs.RoleId).RoleStatusDTO.RoleHP -= skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
+                tempTransEnemy.TargetID = roleId;
+                tempTransEnemy.TargetHPDamage = -skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
                 PlayerInfosSet.Add(tempTransEnemy);
                 teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = RoleDTO.BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
             }
@@ -207,5 +232,6 @@ namespace AscensionServer
                 }
             }
         }
+
     }
 }

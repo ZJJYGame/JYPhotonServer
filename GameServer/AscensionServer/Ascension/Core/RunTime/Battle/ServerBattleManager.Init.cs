@@ -11,9 +11,18 @@ using NHibernate.Linq.Clauses;
 
 
 /// <summary>
-///针对 倒计时结束 回调方法 
+///针对 每回合战斗倒计时结束 回调方法 
 /// </summary>
-public delegate void MyDelegateHandle();
+public delegate void BattleEndDelegateHandle();
+/// <summary>
+/// 针对  战斗准备倒计时结束  
+/// </summary>
+public delegate void BattlePrepareDelegateHandle();
+
+/// <summary>
+/// 针对  组队 战斗开始的时候收集
+/// </summary>
+public delegate void BattleStartDelegateHandle();
 
 namespace AscensionServer
 {
@@ -31,9 +40,13 @@ namespace AscensionServer
         /// </summary>
         public Dictionary<int, List<BattleTransferDTO>> _roomidToBattleTransfer = new Dictionary<int, List<BattleTransferDTO>>();
         /// <summary>
-        /// 房间id，对应每回合的倒计时
+        /// 房间id，对应每回合的倒计时     这个是应对 每回合的战斗
         /// </summary>
         public Dictionary<int, TimerToManager> _roomidToTimer = new Dictionary<int, TimerToManager>();
+        /// <summary>
+        /// 队伍id， 对应每个队伍的倒计时
+        /// </summary>
+        public Dictionary<int, TimerToManager> _teamidToTimer = new Dictionary<int, TimerToManager>();
         /// <summary>
         /// 回收房间
         /// </summary>
@@ -75,6 +88,23 @@ namespace AscensionServer
         /// 记录房间id
         /// </summary>
         public Queue<int> RecordRoomId = new System.Collections.Generic.Queue<int>();
+        /// <summary>
+        /// 记录队伍id
+        /// </summary>
+        public Queue<int> RecordTeamId = new Queue<int>();
+        /// <summary>
+        /// 队伍id 和 队伍成员id
+        /// </summary>
+        public Dictionary<int, List<int>> _teamIdToMemberDict = new Dictionary<int, List<int>>();
+        /// <summary>
+        ///缓存 房间id 每回合战斗传输的数据
+        /// </summary>
+        public Dictionary<int, List<BattleTransferDTO>> _roomIdToBattleTransferDict = new Dictionary<int, List<BattleTransferDTO>>();
+        /// <summary>
+        /// 队伍id 和 房间id
+        /// </summary>
+        public Dictionary<int, int> _teamIdToRoomId = new Dictionary<int, int>();
+
         /// <summary>
         /// 映射  Msq
         /// </summary>
@@ -149,7 +179,7 @@ namespace AscensionServer
                         ObjectName = team.TeamMembers[i].RoleName,
                         RoleStatusDTO = new RoleStatusDTO()
                         {
-                            RoleID = status.RoleID,
+                            RoleID = team.TeamMembers[i].RoleID,
                             RoleHP = status.RoleHP,
                             RoleAttackDamage = status.RoleAttackDamage,
                             RoleAttackPower = status.RoleAttackPower,

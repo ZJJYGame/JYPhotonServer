@@ -52,6 +52,15 @@ namespace AscensionServer
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(FactionSkillData).Name, out var factionSkilldata);
                 var factionSkillDataDict = TransObject<List<FactionSkillData>>(factionSkilldata).ToDictionary(key => key.SchoolID, value => value.FactionSkill);
 
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(BottleneckData).Name, out var bottleneckData);          
+                var bottleneckDataDict = TransObject<List<BottleneckData>>(bottleneckData).ToDictionary(key => key.Level_ID, value => value);
+
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(DemonData).Name, out var demonData);
+                var demonDataDict = TransObject<List<DemonData>>(demonData).ToDictionary(key => key.Level_ID, value => value);
+
+
+                GameManager.CustomeModule<DataManager>().TryAdd(demonDataDict);
+                GameManager.CustomeModule<DataManager>().TryAdd(bottleneckDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(factionSkillDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(factionitemDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(gfbDict);
@@ -59,6 +68,7 @@ namespace AscensionServer
                 GameManager.CustomeModule<DataManager>().TryAdd(monsterDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(skillGongFaDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(skillMiShuDict);
+
                 //GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MonsterDatas>>(out var set);
                 //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + skillGongFaDict[21001].Skill_Describe);
                 //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + skillMiShuDict[21009].Skill_Describe);
