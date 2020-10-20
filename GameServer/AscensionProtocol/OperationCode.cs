@@ -165,6 +165,34 @@ namespace AscensionProtocol
         /// </summary>
         SyncBattle = 126,
         /// <summary>
+        /// 战斗数据传输
+        /// </summary>
+        SyncBattleTransfer = 127,
+        /// <summary>
+        /// 战斗倒计时每回合
+        /// </summary>
+        SyncBattleRound = 128,
+        /// <summary>
+        /// 战斗消息通知玩家
+        /// </summary>
+        SyncBattleMessageRole = 129,
+        /// <summary>
+        /// 战斗消息通知数据
+        /// </summary>
+        SyncBattleMessageData = 130,
+        /// <summary>
+        /// 战斗消息通知结束
+        /// </summary>
+        SyncBattleMessageEnd= 131,
+        /// <summary>
+        /// 战斗消息通知开始
+        /// </summary>
+        SyncBattleMessageStart = 132,
+        /// <summary>
+        /// 战斗消息通知准备
+        /// </summary>
+        SyncBattleMessagePrepare = 133,
+        /// <summary>
         /// 测试消息队列
         /// </summary>
         MessageQueue =137,

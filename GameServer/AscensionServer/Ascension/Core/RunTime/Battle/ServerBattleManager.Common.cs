@@ -62,8 +62,7 @@ namespace AscensionServer
             {
                 OperationData opData = new OperationData();
                 opData.DataMessage = "战斗结束啦， over！";
-                //TODO 展示使用这个
-                opData.OperationCode = (byte)OperationCode.MessageQueue;
+                opData.OperationCode = (byte)OperationCode.SyncBattleMessageEnd;
                 GameManager.CustomeModule<RoleManager>().SendMessage(tempRoleId, opData);
                 //BattleEnd(roomId);
             }
@@ -71,7 +70,7 @@ namespace AscensionServer
             {
                 OperationData opData = new OperationData();
                 opData.DataMessage = "服务器 倒计时10 秒  over！ ";
-                opData.OperationCode = (byte)OperationCode.SyncBattle;
+                opData.OperationCode = (byte)OperationCode.SyncBattleRound;
                 GameManager.CustomeModule<RoleManager>().SendMessage(tempRoleId, opData);
             }
         }

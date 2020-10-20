@@ -97,7 +97,7 @@ namespace AscensionServer
         /// </summary>
         public Dictionary<int, List<int>> _teamIdToMemberDict = new Dictionary<int, List<int>>();
         /// <summary>
-        ///缓存 房间id 每回合战斗传输的数据
+        ///缓存 房间id  或者队伍id 每回合战斗传输的数据
         /// </summary>
         public Dictionary<int, List<BattleTransferDTO>> _roomIdToBattleTransferDict = new Dictionary<int, List<BattleTransferDTO>>();
         /// <summary>
