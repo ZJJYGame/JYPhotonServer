@@ -34,7 +34,7 @@ namespace AscensionServer
         Action<object> onMessageReceive;
 
         public ICollection<object> DataCollection { get { return dataDict.Values; } }
-        Dictionary<Type, object> dataDict=new Dictionary<Type, object>();
+        Dictionary<Type, object> dataDict = new Dictionary<Type, object>();
         #endregion
         #region Methods
         public AscensionPeer(InitRequest initRequest) : base(initRequest)
@@ -53,7 +53,7 @@ namespace AscensionServer
         }
         public bool TryRemove(Type Key)
         {
-            return dataDict.Remove(Key, out _ );
+            return dataDict.Remove(Key, out _);
         }
         public bool TryRemove(Type key, out object value)
         {
@@ -67,7 +67,7 @@ namespace AscensionServer
         {
             if (dataDict.ContainsKey(key))
             {
-                var equal= dataDict[key].Equals(comparsionValue);
+                var equal = dataDict[key].Equals(comparsionValue);
                 if (equal)
                     dataDict[key] = newValue;
                 return equal;
@@ -79,7 +79,7 @@ namespace AscensionServer
         /// </summary>
         public void SendMessage(OperationData opData)
         {
-            var data= Utility.MessagePack.ToJson(opData);
+            var data = Utility.MessagePack.ToByteArray(opData);
             base.SendMessage(data, sendParam);
         }
         /// <summary>
@@ -105,13 +105,13 @@ namespace AscensionServer
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             ed.Parameters = data;
             //尝试获取负载的角色数据；
-            if( TryGetValue(typeof(RoleEntity), out var roleEntity))
+            if (TryGetValue(typeof(RoleEntity), out var roleEntity))
             {
                 //若存在，则广播到各个模块；
                 var opData = new OperationData();
                 opData.OperationCode = ProtocolDefine.OPERATION_PLYAER_LOGOFF;
                 opData.DataMessage = roleEntity;
-                var t= CommandEventCore.Instance.DispatchAsync(ProtocolDefine.OPERATION_PLYAER_LOGOFF,opData);
+                var t = CommandEventCore.Instance.DispatchAsync(ProtocolDefine.OPERATION_PLYAER_LOGOFF, opData);
             }
             GameManager.CustomeModule<PeerManager>().TryRemove(SessionId);
             Utility.Debug.LogError($"Photon SessionId : {SessionId} Unavailable . RemoteAdress:{RemoteIPAddress}");
@@ -119,7 +119,7 @@ namespace AscensionServer
         }
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
         {
-            operationRequest.Parameters.Add((byte)ParameterCode.ClientPeer,this);
+            operationRequest.Parameters.Add((byte)ParameterCode.ClientPeer, this);
             object responseData = GameManager.CustomeModule<NetworkManager>().EncodeMessage(operationRequest);
             var op = responseData as OperationResponse;
             op.OperationCode = operationRequest.OperationCode;
@@ -132,8 +132,8 @@ namespace AscensionServer
         {
             //接收到客户端消息后，进行委托广播；
             //onMessageReceive?.Invoke(message);
-            var opData = Utility.MessagePack.ToObject<OperationData>(message as byte[]);
-            CommandEventCore.Instance.Dispatch(opData.OperationCode,opData);
+            var opData = Utility.MessagePack.ToObject<OperationData>( message as byte[]);
+            CommandEventCore.Instance.Dispatch(opData.OperationCode, opData);
         }
         #endregion
     }

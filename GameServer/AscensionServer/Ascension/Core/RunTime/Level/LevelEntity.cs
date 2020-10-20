@@ -161,26 +161,21 @@ namespace AscensionServer
             if (!Available)
                 return;
             var result = roleInputCmdDict.TryGetValue(currentTick, out var roleCmds);
+            InputSet.InputDict = roleCmds;
+            InputSet.Tick = (int)currentTick;
+            opRefreshData.DataContract = InputSet;
+            roleSendMsgHandler?.Invoke(opRefreshData);
             if (result)
             {
-                InputSet.InputDict = roleCmds;
-                InputSet.Tick = (int)currentTick;
-                opRefreshData.DataContract = InputSet;
-                roleSendMsgHandler?.Invoke(opRefreshData);
                 //若当前帧发送成功，则移除上一个逻辑帧数据；服务器当前不存储数据，仅负责转发；
                 Utility.Debug.LogInfo($"LevelId:{LevelId}找到帧，发送,PlayerCout:{PlayerCount},Tick:{currentTick}");
-                roleInputCmdDict.Remove(currentTick - 1);
             }
             else
             {
-                InputSet.InputDict = null;
-                InputSet.Tick = (int)currentTick;
-                opRefreshData.DataContract = InputSet;
-                roleSendMsgHandler?.Invoke(opRefreshData);
                 Utility.Debug.LogInfo($"LevelId:{LevelId}空帧,PlayerCout:{PlayerCount},Tick:{currentTick}");
-                roleInputCmdDict.Remove(currentTick - 1);
             }
-            currentTick ++;
+            roleInputCmdDict.Remove(currentTick - 1);
+            currentTick++;
 #else
 
 #endif
