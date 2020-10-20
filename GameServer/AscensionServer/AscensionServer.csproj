@@ -250,6 +250,9 @@
     <Compile Include="Handlers\SyncBattle\SubHandler\GetBattleSubHandler.cs" />
     <Compile Include="Handlers\SyncBattle\SubHandler\SyncBattleSubHandler.cs" />
     <Compile Include="Handlers\SyncBattle\SyncRoleBattleHandler.cs" />
+    <Compile Include="Handlers\SyncBottleneck\SubHandler\AddBottleneckSubHandler.cs" />
+    <Compile Include="Handlers\SyncBottleneck\SubHandler\SyncBottleneckSubHandler.cs" />
+    <Compile Include="Handlers\SyncBottleneck\SubHandler\UpdateBottleneckSubHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\AddDailyMessageSubHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\GetDailyMessageSubHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\SyncDailyMessageSubHandler.cs" />
@@ -588,7 +591,6 @@
     <Compile Include="Threads\Base\SyncEvent.cs" />
     <Compile Include="Threads\SyncEvent\SyncAdventureSkillEvent.cs" />
     <Compile Include="Threads\SyncEvent\SyncRefreshResourcesEvent.cs" />
-    <Compile Include="Threads\SyncEvent\SyncRoleTransformEvent.cs" />
     <Compile Include="Threads\Base\ThreadEventData.cs" />
     <Compile Include="Threads\ThreadSyncEvent.cs" />
   </ItemGroup>

@@ -13,6 +13,14 @@ namespace AscensionServer
         {
             Id(x => x.RoleID).GeneratedBy.Assigned().Column("role_id");
             Map(x => x.IsBottleneck).Column("isbottleneck");
+            Map(x => x.IsThunder).Column("isthunder");
+            Map(x => x.SpiritualRootVaule).Column("spiritualroot_vaule");
+            Map(x => x.ThunderRound).Column("thunderround");
+            Map(x => x.BreakThroughVauleNow).Column("breakthrough_vaule_now");
+            Map(x => x.BreakThroughVauleMax).Column("breakthrough_vaule_max");
+            Map(x => x.CraryVaule).Column("craryvaule");
+            Map(x => x.DemonID).Column("demon_id");
+            Map(x => x.IsDemon).Column("isdemon");
             Table("role_bottleneck");
         }
     }

@@ -17,7 +17,7 @@ namespace AscensionServer
     [ConfigData]
    public class BottleneckData
     {
-        public int Index { get; set; }
+        public bool IsFinalLevel { get; set; }
         public int Level_ID { get; set; }
         public List<int> Spiritual_Root_1 { get; set; }
         public List<int> Spiritual_Root_2 { get; set; }

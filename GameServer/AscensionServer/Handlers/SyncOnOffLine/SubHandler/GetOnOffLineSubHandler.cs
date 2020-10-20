@@ -44,17 +44,24 @@ namespace AscensionServer
                     date.Add(AllExperience);
                     date.Add(Exptypeobj.MsGfID);
                     date.Add(Exptypeobj.ExpType);
-                    if (bottleneckObj!=null)
+                    if (bottleneckObj != null)
                     {
-                        date.Add(Convert.ToByte(bottleneckObj.IsBottleneck));
-                    }else
-                        date.Add(0);
-                    Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>得到的离线时间1" + Exptypeobj.MsGfID+"id"+ Exptypeobj.ExpType);
-                    SetResponseParamters(() =>
+                        SetResponseParamters(() =>
+                        {
+                            subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
+                            subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckObj));
+                            operationResponse.ReturnCode = (short)ReturnCode.Success;
+                        });
+                    }
+                    else
                     {
-                        subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
-                        operationResponse.ReturnCode = (short)ReturnCode.Success;
-                    });
+                        Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>得到的离线时间1" + Exptypeobj.MsGfID + "id" + Exptypeobj.ExpType);
+                        SetResponseParamters(() =>
+                        {
+                            subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
+                            operationResponse.ReturnCode = (short)ReturnCode.Success;
+                        });
+                    }
                 }
                 else if (Exptypeobj.ExpType==2)
 
@@ -66,16 +73,22 @@ namespace AscensionServer
                     date.Add(Exptypeobj.ExpType);
                     if (bottleneckObj != null)
                     {
-                        date.Add(Convert.ToByte(bottleneckObj.IsBottleneck));
+                        SetResponseParamters(() =>
+                        {
+                            subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
+                            subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckObj));
+                            operationResponse.ReturnCode = (short)ReturnCode.Success;
+                        });
                     }
                     else
-                        date.Add(0);
-                    Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>得到的离线时间2" + Exptypeobj.MsGfID + "id" + Exptypeobj.ExpType);
-                    SetResponseParamters(() =>
                     {
-                        subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
-                        operationResponse.ReturnCode = (short)ReturnCode.Success;
-                    });
+                        Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>得到的离线时间2" + Exptypeobj.MsGfID + "id" + Exptypeobj.ExpType);
+                        SetResponseParamters(() =>
+                        {
+                            subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
+                            operationResponse.ReturnCode = (short)ReturnCode.Success;
+                        });
+                    }
                 }
                 else
                 {

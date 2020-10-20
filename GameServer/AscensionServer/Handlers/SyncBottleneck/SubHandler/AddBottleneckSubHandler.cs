@@ -1,0 +1,136 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AscensionProtocol;
+using Photon.SocketServer;
+using AscensionServer.Model;
+using Cosmos;
+using AscensionProtocol.DTO;
+using RedisDotNet;
+
+
+namespace AscensionServer
+{
+    public class AddBottleneckSubHandler : SyncBottleneckSubHandler
+    {
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
+
+        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
+        {
+            var dict = operationRequest.Parameters;
+            string bottleneckJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleBottleneck));
+            var bottleneckObj = Utility.Json.ToObject<Bottleneck>(bottleneckJson);
+            NHCriteria nHCriteriabottleneck = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", bottleneckObj.RoleID);
+            var bottleneckTemp = NHibernateQuerier.CriteriaSelect<Bottleneck>(nHCriteriabottleneck);
+            Utility.Debug.LogInfo("yzqData传过来的瓶颈数据"+ bottleneckJson);
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, BottleneckData>>(out var bottleneckData);
+
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, DemonData>>(out var demonData);
+
+            BottleneckData bottleneckDataTemp;
+            //判断是否有瓶颈
+            List<int> rootPercentNum;
+            GetRootPercent(bottleneckData[bottleneckObj.RoleLevel], bottleneckObj.SpiritualRootVaule,out rootPercentNum);
+            Utility.Debug.LogInfo("yzqData得到的瓶颈值概率" + GetPercent(rootPercentNum[0]/ (float)10000));
+            if (GetPercent(rootPercentNum[0] / (float)10000))
+            {
+                bottleneckTemp.IsBottleneck = true;
+                bottleneckTemp.BreakThroughVauleMax = rootPercentNum[1];
+                if (bottleneckData[bottleneckObj.RoleLevel].IsFinalLevel)
+                {
+                    bottleneckTemp.IsThunder = true;
+                    bottleneckTemp.ThunderRound = bottleneckData[bottleneckObj.RoleLevel].Thunder_Round;
+                    int demonIndex = GetDemonPercent(demonData[bottleneckObj.RoleLevel], bottleneckTemp.CraryVaule);
+                    if (GetPercent(demonData[bottleneckObj.RoleLevel].Trigger_Chance[demonIndex] / (float)100))
+                    {
+                        bottleneckTemp.IsDemon = true;
+                        bottleneckTemp.DemonID = demonData[bottleneckObj.RoleLevel].Demon_ID[demonIndex];
+                    }
+                }
+                NHibernateQuerier.Update<Bottleneck>(bottleneckTemp);
+                SetResponseParamters(() => {
+                    subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckTemp));
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
+                });
+            }
+            else
+            {
+                bottleneckTemp.RoleLevel = bottleneckObj.RoleLevel;
+                NHibernateQuerier.Update<Bottleneck>(bottleneckTemp);
+                SetResponseParamters(() => {
+                    subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckTemp));
+                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                });
+            }
+            GameManager.ReferencePoolManager.Despawns(nHCriteriabottleneck);
+            return operationResponse;
+        }
+
+        //获取概率值
+        private bool GetPercent(float num)
+        {
+            Random random = new Random();
+            int randommNum = random.Next(1, 10001);
+            float percentNum = num * 10000;
+            Utility.Debug.LogInfo("yzqData概率值为" + percentNum + "当前值为" + randommNum);
+            if (randommNum <= (int)percentNum)
+            {
+                return true;
+            }else
+                return false;
+        }
+
+        /// <summary>
+        /// 获取零灵根概率
+        /// </summary>
+        /// <param name="bottleneckData"></param>
+        /// <param name="rootnum"></param>
+        /// <returns></returns>
+        private void GetRootPercent(BottleneckData bottleneckData,int rootnum,out List<int> num)
+        {
+            switch (rootnum)
+            {
+                case 1:
+                    num = bottleneckData.Spiritual_Root_1 ;
+                    break;
+                case 2:
+                    num = bottleneckData.Spiritual_Root_2;
+                    break  ;
+                case 3:
+                    num = bottleneckData.Spiritual_Root_3;
+                    break  ;
+                case 4:
+                    num = bottleneckData.Spiritual_Root_4;
+                    break  ;
+                case 5:
+                    num = bottleneckData.Spiritual_Root_5;
+                    break  ;
+                default:
+                    num =null;
+                    break  ;
+            }
+             
+        }
+        /// <summary>
+        /// 获取心魔对应数组的下标
+        /// </summary>
+        /// <param name="demonData"></param>
+        /// <param name="CraryVaule"></param>
+        /// <returns></returns>
+        private int GetDemonPercent(DemonData demonData, int CraryVaule)
+        {
+            int index=0;
+            for (int i = 0; i < demonData.Crary_Value.Count; i++)
+            {
+                if (CraryVaule>=demonData.Crary_Value[i]&& CraryVaule<= demonData.Crary_Value[i+1])
+                {
+                    index = i;
+                    break;
+                }
+            }
+            return index;
+        }
+    }
+}
