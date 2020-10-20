@@ -29,25 +29,21 @@ namespace AscensionServer
 
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, DemonData>>(out var demonData);
 
-            bool isBreak = false;
             BottleneckData bottleneckDataTemp;
-            //记录是否为大境界
-            if (!bottleneckData.ContainsKey(bottleneckObj.RoleLevel + 1))
-            {
-                isBreak = true;
-            }
             //判断是否有瓶颈
-            float rootPercentNum = GetRootPercent(bottleneckData[bottleneckObj.RoleLevel], bottleneckObj.SpiritualRootVaule);
-            Utility.Debug.LogInfo("yzqData得到的灵根概率" + rootPercentNum);
-            if (GetPercent(rootPercentNum))
+            List<int> rootPercentNum;
+            GetRootPercent(bottleneckData[bottleneckObj.RoleLevel], bottleneckObj.SpiritualRootVaule,out rootPercentNum);
+            Utility.Debug.LogInfo("yzqData得到的瓶颈值概率" + GetPercent(rootPercentNum[0]/ (float)10000));
+            if (GetPercent(rootPercentNum[0] / (float)10000))
             {
                 bottleneckTemp.IsBottleneck = true;
-                if (isBreak)
+                bottleneckTemp.BreakThroughVauleMax = rootPercentNum[1];
+                if (bottleneckData[bottleneckObj.RoleLevel].IsFinalLevel)
                 {
                     bottleneckTemp.IsThunder = true;
                     bottleneckTemp.ThunderRound = bottleneckData[bottleneckObj.RoleLevel].Thunder_Round;
-                    int demonIndex = GetDemonPercent(demonData[bottleneckObj.RoleLevel], bottleneckObj.CraryVaule);
-                    if (GetPercent(demonData[bottleneckObj.RoleLevel].Trigger_Chance[demonIndex] / 100))
+                    int demonIndex = GetDemonPercent(demonData[bottleneckObj.RoleLevel], bottleneckTemp.CraryVaule);
+                    if (GetPercent(demonData[bottleneckObj.RoleLevel].Trigger_Chance[demonIndex] / (float)100))
                     {
                         bottleneckTemp.IsDemon = true;
                         bottleneckTemp.DemonID = demonData[bottleneckObj.RoleLevel].Demon_ID[demonIndex];
@@ -64,10 +60,11 @@ namespace AscensionServer
                 bottleneckTemp.RoleLevel = bottleneckObj.RoleLevel;
                 NHibernateQuerier.Update<Bottleneck>(bottleneckTemp);
                 SetResponseParamters(() => {
+                    subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckTemp));
                     operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
-
+            GameManager.ReferencePoolManager.Despawns(nHCriteriabottleneck);
             return operationResponse;
         }
 
@@ -75,9 +72,11 @@ namespace AscensionServer
         private bool GetPercent(float num)
         {
             Random random = new Random();
-            if (random.Next(1,10001)<= (num * 10000))
+            int randommNum = random.Next(1, 10001);
+            float percentNum = num * 10000;
+            Utility.Debug.LogInfo("yzqData概率值为" + percentNum + "当前值为" + randommNum);
+            if (randommNum <= (int)percentNum)
             {
-                Utility.Debug.LogInfo("yzqData概率值为"+ (num * 10000) + "当前值为"+ random.Next(1, 10001));
                 return true;
             }else
                 return false;
@@ -89,29 +88,28 @@ namespace AscensionServer
         /// <param name="bottleneckData"></param>
         /// <param name="rootnum"></param>
         /// <returns></returns>
-        private float GetRootPercent(BottleneckData bottleneckData,int rootnum)
+        private void GetRootPercent(BottleneckData bottleneckData,int rootnum,out List<int> num)
         {
-            float num;
             switch (rootnum)
             {
                 case 1:
-                    return num = bottleneckData.Spiritual_Root_1[0] / 100;
+                    num = bottleneckData.Spiritual_Root_1 ;
                     break;
                 case 2:
-                    return num = bottleneckData.Spiritual_Root_2[0] / 100;
-                    break;
+                    num = bottleneckData.Spiritual_Root_2;
+                    break  ;
                 case 3:
-                    return num = bottleneckData.Spiritual_Root_3[0] / 100;
-                    break;
+                    num = bottleneckData.Spiritual_Root_3;
+                    break  ;
                 case 4:
-                    return num = bottleneckData.Spiritual_Root_4[0] / 100;
-                    break;
+                    num = bottleneckData.Spiritual_Root_4;
+                    break  ;
                 case 5:
-                    return num = bottleneckData.Spiritual_Root_5[0] / 100;
-                    break;
+                    num = bottleneckData.Spiritual_Root_5;
+                    break  ;
                 default:
-                    return num = 1;
-                    break;
+                    num =null;
+                    break  ;
             }
              
         }

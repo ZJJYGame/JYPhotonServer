@@ -1126,7 +1126,7 @@
             这里使用了类似ECS的结构，RemoteRole对象可以作为Peer的数据负载存在；
             </summary>
         </member>
-        <member name="M:AscensionServer.AddBottleneckSubHandler.GetRootPercent(AscensionServer.BottleneckData,System.Int32)">
+        <member name="M:AscensionServer.AddBottleneckSubHandler.GetRootPercent(AscensionServer.BottleneckData,System.Int32,System.Collections.Generic.List{System.Int32}@)">
             <summary>
             获取零灵根概率
             </summary>

@@ -27,7 +27,8 @@ namespace AscensionProtocol.DTO
         public virtual bool IsDemon { get; set; }
         public virtual int SpiritualRootVaule { get; set; }
         public virtual int ThunderRound { get; set; }
-        public virtual int BreakThroughVaule { get; set; }
+        public virtual int BreakThroughVauleNow { get; set; }
+        public virtual int BreakThroughVauleMax { get; set; }
         public virtual int CraryVaule { get; set; }
         public virtual int DemonID { get; set; }
         public override void Clear()
@@ -38,7 +39,8 @@ namespace AscensionProtocol.DTO
             IsThunder = false;
             SpiritualRootVaule = -1;
             ThunderRound = -1;
-            BreakThroughVaule = -1;
+            BreakThroughVauleNow = -1;
+            BreakThroughVauleMax = -1;
             CraryVaule = -1;
             DemonID = -1;
             IsDemon = false;
