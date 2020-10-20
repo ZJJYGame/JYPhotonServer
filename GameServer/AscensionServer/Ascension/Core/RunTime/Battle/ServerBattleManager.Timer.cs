@@ -240,10 +240,10 @@ namespace AscensionServer
             ///队伍id
             var tempTeamId = serverBattleManager.IsTeamDto(tempRole.Key).TeamId;
 
-            Utility.Debug.LogInfo("老陆 ，战斗开始结算111111111111=>房间id"+ teampRoomId);
-            Utility.Debug.LogInfo("老陆 ，战斗开始结算111111111111=>房间id" + tempRole.Key);
-            Utility.Debug.LogInfo("老陆 ，战斗开始结算111111111111=>队长id" + tempTeamId);
-
+            //Utility.Debug.LogInfo("老陆 ，战斗开始结算111111111111=>房间id"+ teampRoomId);
+            //Utility.Debug.LogInfo("老陆 ，战斗开始结算111111111111=>房间id" + tempRole.Key);
+            //Utility.Debug.LogInfo("老陆 ，战斗开始结算111111111111=>队长id" + tempTeamId);
+            Utility.Debug.LogInfo("老陆 ，战斗开始结算111111111111=>长度" + serverBattleManager._teamIdToMemberDict[tempTeamId].Count);
             if (GameManager.CustomeModule<ServerBattleManager>()._teamIdToMemberDict.ContainsKey(tempTeamId))
             {
                 ///先判断队伍中食是不是所有队员都发消息
@@ -270,6 +270,8 @@ namespace AscensionServer
                 }
                 ///排列一下出手速度
                 serverBattleManager.ReleaseToSpeed(tempRole.Key);
+                ///TODO  需要判断技能是不是多段伤害
+                int transfer = 0;
 
                 for (int speed = 0; speed < serverBattleManager._teamIdToBattleInit[tempRole.Key].battleUnits.Count; speed++)
                 {
@@ -278,33 +280,26 @@ namespace AscensionServer
                     switch (typeName)
                     {
                         case "EnemyStatusDTO":
-                            Utility.Debug.LogInfo("老陆 ，EnemyStatusDTOEnemyStatusDTO");
-
+                            //Utility.Debug.LogInfo("老陆 ，EnemyStatusDTOEnemyStatusDTO");
                             var enemyStatusData = objectOwner as EnemyStatusDTO;
                             //if (enemyStatusData.EnemyHP > 0 && _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
-                            for (int transfer = 0; transfer < serverBattleManager._roomidToBattleTransfer[teampRoomId].Count; transfer++)
-                            {
-                                int index = transfer;
-                                serverBattleManager.AIToRelease(serverBattleManager._roomidToBattleTransfer[teampRoomId][transfer], enemyStatusData, tempRole.Key, skillGongFaDict,index);
-
-                            }
-                            ////TODO
+                            ///TODO
+                            var EnemyIndex = new Random().Next(0, serverBattleManager._roomidToBattleTransfer[teampRoomId].Count);
+                            serverBattleManager.AIToRelease(serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex], enemyStatusData, tempRole.Key, skillGongFaDict, EnemyIndex);
                             break;
                         case "RoleStatusDTO":
-                            Utility.Debug.LogInfo("老陆 ，RoleStatusDTORoleStatusDTO");
-
+                            //Utility.Debug.LogInfo("老陆 ，RoleStatusDTORoleStatusDTO");
                             //if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
-                            for (int transfer = 0; transfer < serverBattleManager._roomidToBattleTransfer[teampRoomId].Count; transfer++)
-                            {
-                                int index = transfer;
-                                serverBattleManager.PlayerToRelease(serverBattleManager._roomidToBattleTransfer[teampRoomId][transfer], tempRole.Key, skillGongFaDict, index);
-                            }
-                             
+                            //for (int transfer = 0; transfer < serverBattleManager._roomidToBattleTransfer[teampRoomId].Count; transfer++)
+                            //{
+                            //    int index = transfer;
+                            // }
+                            serverBattleManager.PlayerToRelease(serverBattleManager._roomidToBattleTransfer[teampRoomId][transfer], tempRole.Key, skillGongFaDict, transfer);
+                            transfer++;
                             break;
                     }
                 }
             }
-
 
             ///通知所有玩家当前回合战斗计算完毕
             for (int op = 0; op < serverBattleManager._teamIdToMemberDict[tempTeamId].Count; op++)
@@ -321,6 +316,8 @@ namespace AscensionServer
             GameManager.CustomeModule<ServerBattleManager>()._teamidToTimer.Remove(tempTeamId);
             GameManager.CustomeModule<ServerBattleManager>()._teamIdToMemberDict.Remove(tempTeamId);
             GameManager.CustomeModule<ServerBattleManager>()._roomidToBattleTransfer.Remove(teampRoomId);
+            GameManager.CustomeModule<ServerBattleManager>().teamSet.Clear();
+
             BattleStartStopTimer();
         }
 

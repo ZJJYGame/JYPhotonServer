@@ -129,7 +129,7 @@ namespace AscensionServer
             }
             else
             {
-                //Utility.Debug.LogInfo("老陆 ，=>" + _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleID);
+                Utility.Debug.LogInfo("老陆 ，=>" + _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleID);
                 //Utility.Debug.LogInfo("老陆 ，=>" + _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleID);
                 ////TODO 传输玩家的id  可能会出现bug
                 //_teamIdToBattleInit[roleId].playerUnits.Find(x => x.RoleStatusDTO.RoleID == battleTransferDTOs.RoleId).RoleStatusDTO.RoleHP -= skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];

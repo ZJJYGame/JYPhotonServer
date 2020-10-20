@@ -20,7 +20,7 @@
             心魔ID
             </summary>
         </member>
-        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -262,7 +262,7 @@
             开始战斗   -->  开始战斗的回合
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="F:AscensionServer.ServerBattleManager._teamIdToBattleInit">
             <summary>
              角色id 和对应的 房间数据对象
@@ -343,11 +343,6 @@
             队伍id 和 队伍成员id
             </summary>
         </member>
-        <member name="F:AscensionServer.ServerBattleManager._roomIdToBattleTransferDict">
-             <summary>
-            缓存 房间id  或者队伍id 每回合战斗传输的数据
-             </summary>
-        </member>
         <member name="F:AscensionServer.ServerBattleManager._teamIdToRoomId">
             <summary>
             队伍id 和 房间id
@@ -400,6 +395,19 @@
             </summary>
             <param name="roleId"></param>
             <param name="roleStatusSever"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.InitBattle(System.Int32)">
+            <summary>
+            针对 单人和组队  服务器给客户端 发送初始化数据
+            </summary>
+            <param name="roleId"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.InitServerToClient(System.Int32)">
+            <summary>
+            战斗初始化 参数服务器 返回给客户端
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.RoundServerToClient">
             <summary>
@@ -1019,7 +1027,7 @@
             <param name="playerId"></param>
             <returns></returns>
         </member>
-        <!-- 对于成员“M:AscensionServer.ServerTeamManager.GetApplyListInfo(AscensionProtocol.DTO.RoleDTO)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerTeamManager.GetApplyListInfo(AscensionProtocol.DTO.RoleDTO)" -->
         <member name="M:AscensionServer.ServerTeamManager.GetTeamList(AscensionProtocol.DTO.RoleDTO)">
             <summary>
             返回所有队伍信息
@@ -1189,7 +1197,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；

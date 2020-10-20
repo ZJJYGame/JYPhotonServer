@@ -39,41 +39,15 @@ namespace AscensionServer
                             GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.Remove(RoleObj.RoleID);
                             GameManager.CustomeModule<ServerBattleManager>().EntryBattle(RoleObj.BattleInitDTO);
                         }
-                        SetResponseParamters(() =>
-                        {
-                            Utility.Debug.LogInfo("返回成功！！" + Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit));
-                            subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit[RoleObj.RoleID]));
-                            subResponseParameters.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._roomidToBattleTransfer[GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit[RoleObj.RoleID].RoomId]));
-                            subResponseParameters.Add((byte)ParameterCode.RoleBattleCmd, (byte)RoleDTO.BattleCmd.Init);
-                            operationResponse.ReturnCode = (short)ReturnCode.Success;
-                        });
                         break;
                     case RoleDTO.BattleCmd.Prepare:
                         GameManager.CustomeModule<ServerBattleManager>().PrepareBattle(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);
-                        //SetResponseParamters(() =>
-                        //{
-                        //    subResponseParameters.Add((byte)ParameterCode.RoleBattleCmd, (byte)RoleDTO.BattleCmd.Prepare);
-                        //    operationResponse.ReturnCode = (short)ReturnCode.Success;
-                        //});
                         break;
                     case RoleDTO.BattleCmd.PropsInstruction:
 
                         break;
                     case RoleDTO.BattleCmd.SkillInstruction:
                         GameManager.CustomeModule<ServerBattleManager>().BattleStart(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, RoleObj.BattleInitDTO.RoomId, battleTransferObj);
-                        /*
-                        SetResponseParamters(() =>
-                        {
-                            Utility.Debug.LogInfo("返回成功！！   使用技能伤害");
-                            GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Enqueue(RoleObj.BattleInitDTO.RoomId);
-                            GameManager.CustomeModule<ServerBattleManager>().TimestampBattleEnd(RoleObj.BattleInitDTO.RoomId);
-                            subResponseParameters.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>().teamSet));
-                            subResponseParameters.Add((byte)ParameterCode.RoleBattleCmd, (byte)RoleDTO.BattleCmd.SkillInstruction);
-                            subResponseParameters.Add((byte)ParameterCode.RoleBattleTimeStamp, Utility.Json.ToJson(Utility.Time.MillisecondTimeStamp()));
-                            subResponseParameters.Add((byte)ParameterCode.RoleBattleTime, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>().RoleBattleTime));
-                            operationResponse.ReturnCode = (short)ReturnCode.Success;
-                            GameManager.CustomeModule<ServerBattleManager>().teamSet.Clear();
-                        });*/
                         break;
                     case RoleDTO.BattleCmd.RunAwayInstruction:
 

@@ -9,7 +9,7 @@ using AscensionServer.Model;
 using Cosmos;
 using Google.Protobuf.WellKnownTypes;
 using NHibernate.Linq.Clauses;
-
+using Protocol;
 
 /// <summary>
 ///针对 每回合战斗倒计时结束 回调方法 
@@ -434,6 +434,45 @@ namespace AscensionServer
 
 
         #region 服务器返回给客户端   多参数的处理方式
+        /// <summary>
+        /// 针对 单人和组队  服务器给客户端 发送初始化数据
+        /// </summary>
+        /// <param name="roleId"></param>
+        public void InitBattle(int roleId)
+        {
+            if (IsTeamDto(roleId) == null)
+            {
+                OperationData opData = new OperationData();
+                opData.DataMessage = InitServerToClient(roleId);
+                opData.OperationCode = (byte)OperationCode.SyncBattleMessageRole;
+                GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
+            }
+            else
+            {
+                if (GameManager.CustomeModule<ServerTeamManager>()._teamTOModel.ContainsKey(IsTeamDto(roleId).TeamId))
+                {
+                    for (int ov = 0; ov < GameManager.CustomeModule<ServerTeamManager>()._teamTOModel[IsTeamDto(roleId).TeamId].TeamMembers.Count; ov++)
+                    {
+                        OperationData opData = new OperationData();
+                        opData.DataMessage = InitServerToClient(roleId);
+                        opData.OperationCode = (byte)OperationCode.SyncBattleMessageRole;
+                        GameManager.CustomeModule<RoleManager>().SendMessage(GameManager.CustomeModule<ServerTeamManager>()._teamTOModel[IsTeamDto(roleId).TeamId].TeamMembers[ov].RoleID, opData);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 战斗初始化 参数服务器 返回给客户端
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public Dictionary<byte,object> InitServerToClient(int roleId)
+        {
+            Dictionary<byte, object> subResponseParametersDict = new Dictionary<byte, object>();
+            subResponseParametersDict.Add((byte)ParameterCode.Role, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit[roleId]));
+            return subResponseParametersDict;
+        }
 
         /// <summary>
         /// 每回合 战斗 计算 参数服务器 返回给客户端
@@ -447,7 +486,6 @@ namespace AscensionServer
             subResponseParametersDict.Add((byte)ParameterCode.RoleBattleCmd, (byte)RoleDTO.BattleCmd.SkillInstruction);
             subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTimeStamp, Utility.Json.ToJson(Utility.Time.MillisecondTimeStamp()));
             subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTime, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>().RoleBattleTime));
-            GameManager.CustomeModule<ServerBattleManager>().teamSet.Clear();
 
             return subResponseParametersDict;
         }
