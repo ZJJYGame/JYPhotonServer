@@ -23,48 +23,89 @@ namespace AscensionServer
             string bottleneckJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleBottleneck));
             var bottleneckObj = Utility.Json.ToObject<Bottleneck>(bottleneckJson);
             NHCriteria nHCriteriabottleneck = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", bottleneckObj.RoleID);
-            var bottleneckTemp = NHibernateQuerier.CriteriaSelect<Bottleneck>(nHCriteriabottleneck);
-            Utility.Debug.LogInfo("yzqData传过来的瓶颈数据"+ bottleneckJson);
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, BottleneckData>>(out var bottleneckData);
-
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, DemonData>>(out var demonData);
 
-            BottleneckData bottleneckDataTemp;
-            //判断是否有瓶颈
-            List<int> rootPercentNum;
-            GetRootPercent(bottleneckData[bottleneckObj.RoleLevel], bottleneckObj.SpiritualRootVaule,out rootPercentNum);
-            Utility.Debug.LogInfo("yzqData得到的瓶颈值概率" + GetPercent(rootPercentNum[0]/ (float)10000));
-            if (GetPercent(rootPercentNum[0] / (float)10000))
+            if (RedisHelper.Hash.HashExist("Bottleneck", bottleneckObj.RoleID.ToString()))
             {
-                bottleneckTemp.IsBottleneck = true;
-                bottleneckTemp.BreakThroughVauleMax = rootPercentNum[1];
-                if (bottleneckData[bottleneckObj.RoleLevel].IsFinalLevel)
+                #region Redis 逻辑
+                var bottleneckRedis = RedisHelper.Hash.HashGet<Bottleneck>("Bottleneck", bottleneckObj.RoleID.ToString());
+                //判断是否有瓶颈
+                List<int> rootPercentNum;
+                GetRootPercent(bottleneckData[bottleneckObj.RoleLevel], bottleneckObj.SpiritualRootVaule, out rootPercentNum);
+                Utility.Debug.LogInfo("yzqData得到的瓶颈值概率" + GetPercent(rootPercentNum[0] / (float)100));
+                if (GetPercent(rootPercentNum[0] / (float)100))
                 {
-                    bottleneckTemp.IsThunder = true;
-                    bottleneckTemp.ThunderRound = bottleneckData[bottleneckObj.RoleLevel].Thunder_Round;
-                    int demonIndex = GetDemonPercent(demonData[bottleneckObj.RoleLevel], bottleneckTemp.CraryVaule);
-                    if (GetPercent(demonData[bottleneckObj.RoleLevel].Trigger_Chance[demonIndex] / (float)100))
+                    bottleneckRedis.IsBottleneck = true;
+                    bottleneckRedis.BreakThroughVauleMax = rootPercentNum[1];
+                    if (bottleneckData[bottleneckObj.RoleLevel].IsFinalLevel)
                     {
-                        bottleneckTemp.IsDemon = true;
-                        bottleneckTemp.DemonID = demonData[bottleneckObj.RoleLevel].Demon_ID[demonIndex];
+                        bottleneckRedis.IsThunder = true;
+                        bottleneckRedis.ThunderRound = bottleneckData[bottleneckObj.RoleLevel].Thunder_Round;
+                        int demonIndex = GetDemonPercent(demonData[bottleneckObj.RoleLevel], bottleneckRedis.CraryVaule);
+                        if (GetPercent(demonData[bottleneckObj.RoleLevel].Trigger_Chance[demonIndex] / (float)100))
+                        {
+                            bottleneckRedis.IsDemon = true;
+                            bottleneckRedis.DemonID = demonData[bottleneckObj.RoleLevel].Demon_ID[demonIndex];
+                        }
                     }
+                    RedisHelper.Hash.HashSet<Bottleneck>("Bottleneck", bottleneckObj.RoleID.ToString(), bottleneckRedis);
+                    SetResponseParamters(() => {
+                        subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckRedis));
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
+                    });
                 }
-                NHibernateQuerier.Update<Bottleneck>(bottleneckTemp);
-                SetResponseParamters(() => {
-                    subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckTemp));
-                    operationResponse.ReturnCode = (short)ReturnCode.Success;
-                });
+                else
+                {
+                    NHibernateQuerier.Update<Bottleneck>(bottleneckRedis);
+                    SetResponseParamters(() => {
+                        subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckRedis));
+                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                    });
+                    GameManager.ReferencePoolManager.Despawns(nHCriteriabottleneck);
+                }
+                #endregion
             }
             else
             {
-                bottleneckTemp.RoleLevel = bottleneckObj.RoleLevel;
-                NHibernateQuerier.Update<Bottleneck>(bottleneckTemp);
-                SetResponseParamters(() => {
-                    subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckTemp));
-                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
-                });
+                #region 数据库逻辑
+                var bottleneckTemp = NHibernateQuerier.CriteriaSelect<Bottleneck>(nHCriteriabottleneck);
+                //判断是否有瓶颈
+                List<int> rootPercentNum;
+                GetRootPercent(bottleneckData[bottleneckObj.RoleLevel], bottleneckObj.SpiritualRootVaule, out rootPercentNum);
+                Utility.Debug.LogInfo("yzqData得到的瓶颈值概率" + GetPercent(rootPercentNum[0] / (float)100));
+                if (GetPercent(rootPercentNum[0] / (float)100))
+                {
+                    bottleneckTemp.IsBottleneck = true;
+                    bottleneckTemp.BreakThroughVauleMax = rootPercentNum[1];
+                    if (bottleneckData[bottleneckObj.RoleLevel].IsFinalLevel)
+                    {
+                        bottleneckTemp.IsThunder = true;
+                        bottleneckTemp.ThunderRound = bottleneckData[bottleneckObj.RoleLevel].Thunder_Round;
+                        int demonIndex = GetDemonPercent(demonData[bottleneckObj.RoleLevel], bottleneckTemp.CraryVaule);
+                        if (GetPercent(demonData[bottleneckObj.RoleLevel].Trigger_Chance[demonIndex] / (float)100))
+                        {
+                            bottleneckTemp.IsDemon = true;
+                            bottleneckTemp.DemonID = demonData[bottleneckObj.RoleLevel].Demon_ID[demonIndex];
+                        }
+                    }
+                    NHibernateQuerier.Update<Bottleneck>(bottleneckTemp);
+                    SetResponseParamters(() => {
+                        subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckTemp));
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
+                    });
+                }
+                else
+                {
+                    RedisHelper.Hash.HashSet<Bottleneck>("Bottleneck", bottleneckObj.RoleID.ToString(), bottleneckTemp);
+                    SetResponseParamters(() => {
+                        subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckTemp));
+                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                    });
+                    GameManager.ReferencePoolManager.Despawns(nHCriteriabottleneck);
+                }
+                #endregion
             }
-            GameManager.ReferencePoolManager.Despawns(nHCriteriabottleneck);
             return operationResponse;
         }
 
@@ -81,7 +122,6 @@ namespace AscensionServer
             }else
                 return false;
         }
-
         /// <summary>
         /// 获取零灵根概率
         /// </summary>
