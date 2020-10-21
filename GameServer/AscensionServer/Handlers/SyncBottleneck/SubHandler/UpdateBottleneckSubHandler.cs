@@ -26,7 +26,7 @@ namespace AscensionServer
             if (bottleneckTemp!=null)
             {
                 bottleneckTemp.CraryVaule += bottleneckObj.CraryVaule;
-                bottleneckTemp.BreakThroughVaule += bottleneckObj.BreakThroughVaule;
+                bottleneckTemp.BreakThroughVauleNow += bottleneckObj.BreakThroughVauleNow;
                 bottleneckTemp.IsBottleneck = bottleneckObj.IsBottleneck;
                 bottleneckTemp.IsDemon = bottleneckObj.IsDemon;
                 bottleneckTemp.IsThunder = bottleneckObj.IsThunder;

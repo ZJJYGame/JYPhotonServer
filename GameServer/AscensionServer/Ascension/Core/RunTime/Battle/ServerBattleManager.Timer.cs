@@ -229,12 +229,21 @@ namespace AscensionServer
 
         public void BattleStartCallBackMethod()
         {
-            Utility.Debug.LogInfo("老陆 ，开始战斗的时候收集");
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, SkillGongFaDatas>>(out var skillGongFaDict);
-            var tempTeamId = GameManager.CustomeModule<ServerBattleManager>().RecordTeamId.Dequeue();
-            //int teampRoomId = GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Dequeue();
+            Utility.Debug.LogInfo("老陆 ，战斗开始结算");
             var serverBattleManager = GameManager.CustomeModule<ServerBattleManager>();
             var serverTeamManager = GameManager.CustomeModule<ServerTeamManager>();
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, SkillGongFaDatas>>(out var skillGongFaDict);
+            ///房间id
+            var teampRoomId = serverBattleManager.RecordTeamRooomId.Dequeue();
+            ///相当于队长
+            var tempRole = serverBattleManager._teamIdToBattleInit.ToList().Find(x => x.Value.RoomId == teampRoomId);
+            ///队伍id
+            var tempTeamId = serverBattleManager.IsTeamDto(tempRole.Key).TeamId;
+
+            //Utility.Debug.LogInfo("老陆 ，战斗开始结算111111111111=>房间id"+ teampRoomId);
+            //Utility.Debug.LogInfo("老陆 ，战斗开始结算111111111111=>房间id" + tempRole.Key);
+            //Utility.Debug.LogInfo("老陆 ，战斗开始结算111111111111=>队长id" + tempTeamId);
+            Utility.Debug.LogInfo("老陆 ，战斗开始结算111111111111=>长度" + serverBattleManager._teamIdToMemberDict[tempTeamId].Count);
             if (GameManager.CustomeModule<ServerBattleManager>()._teamIdToMemberDict.ContainsKey(tempTeamId))
             {
                 ///先判断队伍中食是不是所有队员都发消息
@@ -242,71 +251,72 @@ namespace AscensionServer
                 {
                     for (int i = 0; i < serverTeamManager._teamTOModel[tempTeamId].TeamMembers.Count; i++)
                     {
+                        //Utility.Debug.LogInfo("老陆 ，战斗开始结算222222222222==>" + serverTeamManager._teamTOModel[tempTeamId].TeamMembers[i]);
                         if (serverBattleManager._teamIdToMemberDict[tempTeamId].Contains(serverTeamManager._teamTOModel[tempTeamId].TeamMembers[i].RoleID))
                             continue;
                         serverBattleManager._teamIdToMemberDict[tempTeamId].Add(serverTeamManager._teamTOModel[tempTeamId].TeamMembers[i].RoleID);
                         //TODO  ////默认是用第一个战斗传输的数据
                         BattleTransferDTO battleTransfer = new BattleTransferDTO();
                         battleTransfer.RoleId = serverTeamManager._teamTOModel[tempTeamId].TeamMembers[i].RoleID;
-                        battleTransfer.isFinish = serverBattleManager._roomIdToBattleTransferDict[tempTeamId][0].isFinish;
-                        battleTransfer.BattleCmd = serverBattleManager._roomIdToBattleTransferDict[tempTeamId][0].BattleCmd;
-                        battleTransfer.ClientCmdId = serverBattleManager._roomIdToBattleTransferDict[tempTeamId][0].ClientCmdId;
-                        battleTransfer.TargetInfos = serverBattleManager._roomIdToBattleTransferDict[tempTeamId][0].TargetInfos;
-                        battleTransfer.SkillReactionValue = serverBattleManager._roomIdToBattleTransferDict[tempTeamId][0].SkillReactionValue;
-                        battleTransfer.SendSkillReactionCmd = serverBattleManager._roomIdToBattleTransferDict[tempTeamId][0].SendSkillReactionCmd;
-                        battleTransfer.RoleIdShieldValueDict = serverBattleManager._roomIdToBattleTransferDict[tempTeamId][0].RoleIdShieldValueDict;
-                        serverBattleManager._roomIdToBattleTransferDict[tempTeamId].Add(battleTransfer);
+                        battleTransfer.isFinish = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].isFinish;
+                        battleTransfer.BattleCmd = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].BattleCmd;
+                        battleTransfer.ClientCmdId = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].ClientCmdId;
+                        battleTransfer.TargetInfos = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].TargetInfos;
+                        battleTransfer.SkillReactionValue = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].SkillReactionValue;
+                        battleTransfer.SendSkillReactionCmd = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].SendSkillReactionCmd;
+                        battleTransfer.RoleIdShieldValueDict = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].RoleIdShieldValueDict;
+                        serverBattleManager._roomidToBattleTransfer[teampRoomId].Add(battleTransfer);
                     }
                 }
+                ///排列一下出手速度
+                serverBattleManager.ReleaseToSpeed(tempRole.Key);
+                ///TODO  需要判断技能是不是多段伤害
+                int transfer = 0;
 
-                for (int i = 0; i < GameManager.CustomeModule<ServerBattleManager>()._teamIdToMemberDict[tempTeamId].Count; i++)
+                for (int speed = 0; speed < serverBattleManager._teamIdToBattleInit[tempRole.Key].battleUnits.Count; speed++)
                 {
-                    var tryRoleId = GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.Keys.ToList().Find(x => x == GameManager.CustomeModule<ServerBattleManager>()._teamIdToMemberDict[tempTeamId][i]);
-                    if (GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.ContainsKey(tryRoleId))
+                    var objectOwner = serverBattleManager.ReleaseToOwner(serverBattleManager._teamIdToBattleInit[tempRole.Key].battleUnits[speed].ObjectID, serverBattleManager._teamIdToBattleInit[tempRole.Key].battleUnits[speed].ObjectId, tempRole.Key);
+                    var typeName = objectOwner.GetType().Name;
+                    switch (typeName)
                     {
-                        serverBattleManager.ReleaseToSpeed(tryRoleId);
-                        for (int speed = 0; speed < GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit[tryRoleId].battleUnits.Count; speed++)
-                        {
-                            var objectOwner = serverBattleManager.ReleaseToOwner(serverBattleManager._teamIdToBattleInit[tryRoleId].battleUnits[speed].ObjectID, serverBattleManager._teamIdToBattleInit[tryRoleId].battleUnits[speed].ObjectId, tryRoleId);
-                            var typeName = objectOwner.GetType().Name;
-                            switch (typeName)
-                            {
-                                case "EnemyStatusDTO":
-                                    var enemyStatusData = objectOwner as EnemyStatusDTO;
-                                    //if (enemyStatusData.EnemyHP > 0 && _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
-                                    for (int transfer = 0; transfer < serverBattleManager._roomIdToBattleTransferDict[tempTeamId].Count; transfer++)
-                                    {
-                                        serverBattleManager.AIToRelease(serverBattleManager._roomIdToBattleTransferDict[tempTeamId][transfer], enemyStatusData, tryRoleId, skillGongFaDict);
-                                    }
-                                    break;
-                                case "RoleStatusDTO":
-                                    //if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
-                                    for (int transfer = 0; transfer < serverBattleManager._roomIdToBattleTransferDict[tempTeamId].Count; transfer++)
-                                        serverBattleManager.PlayerToRelease(serverBattleManager._roomIdToBattleTransferDict[tempTeamId][transfer], tryRoleId, skillGongFaDict);
-                                    break;
-                            }
-                        }
+                        case "EnemyStatusDTO":
+                            //Utility.Debug.LogInfo("老陆 ，EnemyStatusDTOEnemyStatusDTO");
+                            var enemyStatusData = objectOwner as EnemyStatusDTO;
+                            //if (enemyStatusData.EnemyHP > 0 && _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
+                            ///TODO
+                            var EnemyIndex = new Random().Next(0, serverBattleManager._roomidToBattleTransfer[teampRoomId].Count);
+                            serverBattleManager.AIToRelease(serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex], enemyStatusData, tempRole.Key, skillGongFaDict, EnemyIndex);
+                            break;
+                        case "RoleStatusDTO":
+                            //Utility.Debug.LogInfo("老陆 ，RoleStatusDTORoleStatusDTO");
+                            //if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
+                            //for (int transfer = 0; transfer < serverBattleManager._roomidToBattleTransfer[teampRoomId].Count; transfer++)
+                            //{
+                            //    int index = transfer;
+                            // }
+                            serverBattleManager.PlayerToRelease(serverBattleManager._roomidToBattleTransfer[teampRoomId][transfer], tempRole.Key, skillGongFaDict, transfer);
+                            transfer++;
+                            break;
                     }
                 }
-                //GameManager.CustomeModule<ServerBattleManager>()._teamIdToRoomId[tempTeamId];
             }
-
 
             ///通知所有玩家当前回合战斗计算完毕
             for (int op = 0; op < serverBattleManager._teamIdToMemberDict[tempTeamId].Count; op++)
             {
+                Utility.Debug.LogInfo("发给客户端" + serverBattleManager._teamIdToMemberDict[tempTeamId][op]);
                 OperationData opData = new OperationData();
-                //opData.DataMessage = ;
+                opData.DataMessage = serverBattleManager.RoundServerToClient();
                 opData.OperationCode = (byte)OperationCode.SyncBattleTransfer;
                 GameManager.CustomeModule<RoleManager>().SendMessage(serverBattleManager._teamIdToMemberDict[tempTeamId][op], opData);
             }
 
-
-
-
+            GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Enqueue(tempTeamId);
+            GameManager.CustomeModule<ServerBattleManager>().TimestampBattleEnd(tempTeamId);
             GameManager.CustomeModule<ServerBattleManager>()._teamidToTimer.Remove(tempTeamId);
             GameManager.CustomeModule<ServerBattleManager>()._teamIdToMemberDict.Remove(tempTeamId);
-            GameManager.CustomeModule<ServerBattleManager>()._roomIdToBattleTransferDict.Remove(tempTeamId);
+            GameManager.CustomeModule<ServerBattleManager>()._roomidToBattleTransfer.Remove(teampRoomId);
+            GameManager.CustomeModule<ServerBattleManager>().teamSet.Clear();
 
             BattleStartStopTimer();
         }

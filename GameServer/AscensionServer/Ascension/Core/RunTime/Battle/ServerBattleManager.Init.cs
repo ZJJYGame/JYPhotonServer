@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AscensionProtocol;
 using AscensionProtocol.DTO;
 using AscensionServer.Model;
 using Cosmos;
 using Google.Protobuf.WellKnownTypes;
 using NHibernate.Linq.Clauses;
-
+using Protocol;
 
 /// <summary>
 ///针对 每回合战斗倒计时结束 回调方法 
@@ -85,7 +86,7 @@ namespace AscensionServer
         public int RoleBattleTime = 10000;
 
         /// <summary>
-        /// 记录房间id
+        /// 记录单人每回合 房间id
         /// </summary>
         public Queue<int> RecordRoomId = new System.Collections.Generic.Queue<int>();
         /// <summary>
@@ -93,13 +94,17 @@ namespace AscensionServer
         /// </summary>
         public Queue<int> RecordTeamId = new Queue<int>();
         /// <summary>
+        /// 记录组队的时候房间id
+        /// </summary>
+        public Queue<int> RecordTeamRooomId = new Queue<int>();
+        /// <summary>
         /// 队伍id 和 队伍成员id
         /// </summary>
         public Dictionary<int, List<int>> _teamIdToMemberDict = new Dictionary<int, List<int>>();
-        /// <summary>
-        ///缓存 房间id  或者队伍id 每回合战斗传输的数据
-        /// </summary>
-        public Dictionary<int, List<BattleTransferDTO>> _roomIdToBattleTransferDict = new Dictionary<int, List<BattleTransferDTO>>();
+        ///// <summary>
+        /////缓存 房间id  或者队伍id 每回合战斗传输的数据
+        ///// </summary>
+        //public Dictionary<int, List<BattleTransferDTO>> _roomIdToBattleTransferDict = new Dictionary<int, List<BattleTransferDTO>>();
         /// <summary>
         /// 队伍id 和 房间id
         /// </summary>
@@ -342,9 +347,10 @@ namespace AscensionServer
             int enemyGlobleId = 10000000;
             List<BattleDataBase> allDataBase = new List<BattleDataBase>();
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MonsterDatas>>(out var monsterDict);
-            var status = MsqInfo<RoleStatus>(roleId);
+           
             if (IsTeamDto(roleId) == null)
             {
+                var status = MsqInfo<RoleStatus>(roleId);
                 allDataBase.Add(new BattleDataBase() { ObjectName = MsqInfo<Role>(roleId).RoleName, ObjectHP = status.RoleHP, ObjectID = status.RoleID, ObjectMP = status.RoleMP, ObjectSpeed = status.RoleSpeedAttack });
                 for (int i = 0; i < battleInitDTO.enemyUnits.Count; i++)
                 {
@@ -358,6 +364,28 @@ namespace AscensionServer
                         ObjectSpeed = (int)monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Attact_speed,
                     });
                 }
+            }
+            else
+            {
+                for (int oc = 0; oc < IsTeamDto(roleId).TeamMembers.Count; oc++)
+                {
+                    var status = MsqInfo<RoleStatus>(IsTeamDto(roleId).TeamMembers[oc].RoleID);
+                    allDataBase.Add(new BattleDataBase() { ObjectName = MsqInfo<Role>(IsTeamDto(roleId).TeamMembers[oc].RoleID).RoleName, ObjectHP = status.RoleHP, ObjectID = status.RoleID, ObjectMP = status.RoleMP, ObjectSpeed = status.RoleSpeedAttack });
+                }
+                for (int i = 0; i < battleInitDTO.enemyUnits.Count; i++)
+                {
+                    allDataBase.Add(new BattleDataBase()
+                    {
+                        ObjectId = enemyGlobleId++,
+                        ObjectID = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Monster_ID,
+                        ObjectHP = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Role_HP,
+                        ObjectMP = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Role_MP,
+                        ObjectName = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Monster_name,
+                        ObjectSpeed = (int)monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Attact_speed,
+                    });
+                }
+
+
             }
             return allDataBase;
         }
@@ -404,6 +432,64 @@ namespace AscensionServer
 
         #endregion
 
+
+        #region 服务器返回给客户端   多参数的处理方式
+        /// <summary>
+        /// 针对 单人和组队  服务器给客户端 发送初始化数据
+        /// </summary>
+        /// <param name="roleId"></param>
+        public void InitBattle(int roleId)
+        {
+            if (IsTeamDto(roleId) == null)
+            {
+                OperationData opData = new OperationData();
+                opData.DataMessage = InitServerToClient(roleId);
+                opData.OperationCode = (byte)OperationCode.SyncBattleMessageRole;
+                GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
+            }
+            else
+            {
+                if (GameManager.CustomeModule<ServerTeamManager>()._teamTOModel.ContainsKey(IsTeamDto(roleId).TeamId))
+                {
+                    for (int ov = 0; ov < GameManager.CustomeModule<ServerTeamManager>()._teamTOModel[IsTeamDto(roleId).TeamId].TeamMembers.Count; ov++)
+                    {
+                        OperationData opData = new OperationData();
+                        opData.DataMessage = InitServerToClient(roleId);
+                        opData.OperationCode = (byte)OperationCode.SyncBattleMessageRole;
+                        GameManager.CustomeModule<RoleManager>().SendMessage(GameManager.CustomeModule<ServerTeamManager>()._teamTOModel[IsTeamDto(roleId).TeamId].TeamMembers[ov].RoleID, opData);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 战斗初始化 参数服务器 返回给客户端
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public Dictionary<byte,object> InitServerToClient(int roleId)
+        {
+            Dictionary<byte, object> subResponseParametersDict = new Dictionary<byte, object>();
+            subResponseParametersDict.Add((byte)ParameterCode.Role, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit[roleId]));
+            return subResponseParametersDict;
+        }
+
+        /// <summary>
+        /// 每回合 战斗 计算 参数服务器 返回给客户端
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<byte, object> RoundServerToClient()
+        {
+            ///返回给客户端
+            Dictionary<byte, object> subResponseParametersDict = new Dictionary<byte, object>();
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>().teamSet));
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleCmd, (byte)RoleDTO.BattleCmd.SkillInstruction);
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTimeStamp, Utility.Json.ToJson(Utility.Time.MillisecondTimeStamp()));
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTime, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>().RoleBattleTime));
+
+            return subResponseParametersDict;
+        }
+        #endregion
     }
 }
 

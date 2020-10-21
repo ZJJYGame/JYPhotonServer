@@ -234,12 +234,12 @@
             针对AI  血量 >0
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.AIToRelease(AscensionProtocol.DTO.BattleTransferDTO,AscensionProtocol.DTO.EnemyStatusDTO,System.Int32,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.SkillGongFaDatas})">
+        <member name="M:AscensionServer.ServerBattleManager.AIToRelease(AscensionProtocol.DTO.BattleTransferDTO,AscensionProtocol.DTO.EnemyStatusDTO,System.Int32,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.SkillGongFaDatas},System.Int32)">
             <summary>
             处理AI 判断玩家是不是死亡 和要选择能出手的Ai                ??? TODO第四个参数有待完善
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.SkillGongFaDatas})">
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.SkillGongFaDatas},System.Int32)">
             <summary>
             处理玩家  判断Al出手之前 是不是死亡 换取目标
             </summary>
@@ -325,7 +325,7 @@
         </member>
         <member name="F:AscensionServer.ServerBattleManager.RecordRoomId">
             <summary>
-            记录房间id
+            记录单人每回合 房间id
             </summary>
         </member>
         <member name="F:AscensionServer.ServerBattleManager.RecordTeamId">
@@ -333,15 +333,15 @@
             记录队伍id
             </summary>
         </member>
+        <member name="F:AscensionServer.ServerBattleManager.RecordTeamRooomId">
+            <summary>
+            记录组队的时候房间id
+            </summary>
+        </member>
         <member name="F:AscensionServer.ServerBattleManager._teamIdToMemberDict">
             <summary>
             队伍id 和 队伍成员id
             </summary>
-        </member>
-        <member name="F:AscensionServer.ServerBattleManager._roomIdToBattleTransferDict">
-             <summary>
-            缓存 房间id  或者队伍id 每回合战斗传输的数据
-             </summary>
         </member>
         <member name="F:AscensionServer.ServerBattleManager._teamIdToRoomId">
             <summary>
@@ -395,6 +395,25 @@
             </summary>
             <param name="roleId"></param>
             <param name="roleStatusSever"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.InitBattle(System.Int32)">
+            <summary>
+            针对 单人和组队  服务器给客户端 发送初始化数据
+            </summary>
+            <param name="roleId"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.InitServerToClient(System.Int32)">
+            <summary>
+            战斗初始化 参数服务器 返回给客户端
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.RoundServerToClient">
+            <summary>
+            每回合 战斗 计算 参数服务器 返回给客户端
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:AscensionServer.TargetType">
             <summary>
@@ -1126,7 +1145,7 @@
             这里使用了类似ECS的结构，RemoteRole对象可以作为Peer的数据负载存在；
             </summary>
         </member>
-        <member name="M:AscensionServer.AddBottleneckSubHandler.GetRootPercent(AscensionServer.BottleneckData,System.Int32)">
+        <member name="M:AscensionServer.AddBottleneckSubHandler.GetRootPercent(AscensionServer.BottleneckData,System.Int32,System.Collections.Generic.List{System.Int32}@)">
             <summary>
             获取零灵根概率
             </summary>
