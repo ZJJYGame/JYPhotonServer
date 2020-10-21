@@ -53,18 +53,6 @@ namespace AscensionServer
         }
         Action<byte, Dictionary<byte, object>> broadcastEvent;
         Action<OperationData> broadcastMessage;
-#if !SERVER
-        Action refreshHandler;
-        event Action RefreshHandler
-        {
-            add { refreshHandler += value; }
-            remove
-            {
-                try{refreshHandler -= value;}
-                catch (global::System.Exception e){Utility.DebugError(e);}
-            }
-        }
-#endif
         public override void OnPreparatory()
         {
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.PORT_CHAT, OnChatMessage);
@@ -81,9 +69,6 @@ namespace AscensionServer
             {
                 BroadcastEvent += role.SendEvent;
                 BroadcastMessage += role.SendMessage;
-#if !SERVER
-                RefreshHandler += role.OnRefresh;
-#endif
             }
             return result;
         }
@@ -98,9 +83,6 @@ namespace AscensionServer
             {
                 BroadcastEvent -= role.SendEvent;
                 BroadcastMessage -= role.SendMessage;
-#if !SERVER
-                RefreshHandler -= role.OnRefresh;
-#endif
             }
             return result;
         }
@@ -111,9 +93,6 @@ namespace AscensionServer
             {
                 BroadcastEvent -= role.SendEvent;
                 BroadcastMessage -= role.SendMessage;
-#if !SERVER
-                RefreshHandler -= role.OnRefresh;
-#endif
             }
             return result;
         }
@@ -130,21 +109,11 @@ namespace AscensionServer
                     BroadcastMessage += newRole.SendMessage;
                     BroadcastEvent -= oldRole.SendEvent;
                     BroadcastMessage -= oldRole.SendMessage;
-#if !SERVER
-                    RefreshHandler -= oldRole.OnRefresh;
-                    RefreshHandler += newRole.OnRefresh;
-#endif
                 }
                 roleDict[roleId] = newRole;
                 return true;
             }
             return false;
-        }
-        public override void OnRefresh()
-        {
-#if !SERVER
-            refreshHandler?.Invoke();
-#endif
         }
         public bool SendEvent(int roleId, byte opCode, Dictionary<byte, object> userData)
         {

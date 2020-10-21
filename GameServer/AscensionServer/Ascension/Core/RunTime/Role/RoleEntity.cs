@@ -15,10 +15,22 @@ namespace AscensionServer
         public int SessionId{ get; private set; }
         public int DataCount { get { return dataDict.Count; } }
         Dictionary<Type, object> dataDict = new Dictionary<Type, object>();
+#if !SERVER
+        RoleController roleController;
+        public RoleController RoleController { get { return roleController; } }
+#endif
         public void OnInit(int roleId,int sessionId)
         {
             this.RoleId = roleId;
             this.SessionId= sessionId;
+#if !SERVER
+            Facade.LoadResPrefabAsync<RoleController>((go) =>
+            {
+                roleController = go;
+                roleController.OnInit(this);
+            });
+            Facade.CustomeModule<RoleManager>().TryAdd(RoleId, this);
+#endif
         }
         public object[] Find(Predicate<object> handler)
         {
@@ -58,6 +70,12 @@ namespace AscensionServer
             }
             return false;
         }
+#if !SERVER
+        public void OnCommand(IDataContract data)
+        {
+            roleController.OnCommand(data);
+        }
+#endif
         public void SendMessage(OperationData data)
         {
             GameManager.CustomeModule<PeerManager>().SendMessage(SessionId,  data);
@@ -68,6 +86,10 @@ namespace AscensionServer
         }
         public void Clear()
         {
+#if !SERVER
+            roleController.Clear();
+            Facade.CustomeModule<RoleManager>().TryRemove(RoleId);
+#endif
             RoleId = 0;
             dataDict.Clear();
         }

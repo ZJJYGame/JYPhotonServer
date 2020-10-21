@@ -13,7 +13,7 @@ namespace AscensionServer
         /// 服务器帧数；
         /// 换算成毫秒1000/tick;
         /// </summary>
-        public const int TICKRATE = 8;
+        public const int TICKRATE = 4;
         /// <summary>
         /// 每个tick所持续的毫秒；
         /// </summary>
