@@ -240,7 +240,7 @@ namespace AscensionServer
             ///队伍id
             var tempTeamId = serverBattleManager.IsTeamDto(tempRole.Key).TeamId;
 
-            //Utility.Debug.LogInfo("老陆 ，战斗开始结算111111111111=>房间id"+ teampRoomId);
+            //Utility.Debug.LogInfo("老陆 ，战斗开始结算111111111111=>房间id" + teampRoomId);
             //Utility.Debug.LogInfo("老陆 ，战斗开始结算111111111111=>房间id" + tempRole.Key);
             //Utility.Debug.LogInfo("老陆 ，战斗开始结算111111111111=>队长id" + tempTeamId);
             Utility.Debug.LogInfo("老陆 ，战斗开始结算111111111111=>长度" + serverBattleManager._teamIdToMemberDict[tempTeamId].Count);
@@ -271,7 +271,7 @@ namespace AscensionServer
                 ///排列一下出手速度
                 serverBattleManager.ReleaseToSpeed(tempRole.Key);
                 ///TODO  需要判断技能是不是多段伤害
-                int transfer = 0;
+                //int transfer = 0;
 
                 for (int speed = 0; speed < serverBattleManager._teamIdToBattleInit[tempRole.Key].battleUnits.Count; speed++)
                 {
@@ -294,8 +294,9 @@ namespace AscensionServer
                             //{
                             //    int index = transfer;
                             // }
-                            serverBattleManager.PlayerToRelease(serverBattleManager._roomidToBattleTransfer[teampRoomId][transfer], tempRole.Key, skillGongFaDict, transfer);
-                            transfer++;
+                           var speedCuurentTransfer =  serverBattleManager._roomidToBattleTransfer[teampRoomId].Find(q => q.RoleId == serverBattleManager._teamIdToBattleInit[tempRole.Key].battleUnits[speed].ObjectID);
+                            serverBattleManager.PlayerToRelease(speedCuurentTransfer, tempRole.Key, skillGongFaDict, serverBattleManager._teamIdToBattleInit[tempRole.Key].battleUnits[speed].ObjectID);
+                            //transfer++;
                             break;
                     }
                 }
@@ -311,14 +312,13 @@ namespace AscensionServer
                 GameManager.CustomeModule<RoleManager>().SendMessage(serverBattleManager._teamIdToMemberDict[tempTeamId][op], opData);
             }
 
+            GameManager.CustomeModule<ServerBattleManager>()._teamidToTimer.Remove(tempTeamId);
+            //GameManager.CustomeModule<ServerBattleManager>()._teamIdToMemberDict.Remove(tempTeamId);
+            GameManager.CustomeModule<ServerBattleManager>()._roomidToBattleTransfer[teampRoomId] = new List<BattleTransferDTO>();
+            GameManager.CustomeModule<ServerBattleManager>().teamSet.Clear();
+            BattleStartStopTimer();
             GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Enqueue(tempTeamId);
             GameManager.CustomeModule<ServerBattleManager>().TimestampBattleEnd(tempTeamId);
-            GameManager.CustomeModule<ServerBattleManager>()._teamidToTimer.Remove(tempTeamId);
-            GameManager.CustomeModule<ServerBattleManager>()._teamIdToMemberDict.Remove(tempTeamId);
-            GameManager.CustomeModule<ServerBattleManager>()._roomidToBattleTransfer.Remove(teampRoomId);
-            GameManager.CustomeModule<ServerBattleManager>().teamSet.Clear();
-
-            BattleStartStopTimer();
         }
 
 
