@@ -20,6 +20,19 @@ namespace AscensionServer
          * 
          * 
          * */
+        /// <summary>
+        /// 注意 每次进去之前先保证之前的数据都清除掉
+        /// </summary>
+        /// <param name="roleId"></param>
+        public void BattleClear(int roleId)
+        {
+            if (_teamidToTimer.ContainsKey(IsTeamDto(roleId).TeamId))
+                _teamidToTimer.Remove(IsTeamDto(roleId).TeamId);
+            if (_teamIdToMemberDict.ContainsKey(IsTeamDto(roleId).TeamId))
+                _teamIdToMemberDict.Remove(IsTeamDto(roleId).TeamId);
+            TargetID.Clear();
+            teamSet.Clear();
+        }
 
         /// <summary>
         /// 初始化战斗数据  
@@ -56,13 +69,14 @@ namespace AscensionServer
                 _roomidToTimer.Add(battleInit.RoomId, new TimerToManager(RoleBattleTime));
             }
             InitBattle(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);
+            BattleClear(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);
         }
 
 
         /// <summary>
         /// 准备指令战斗 
         /// </summary>
-        public void PrepareBattle(int roleId)
+        public void PrepareBattle(int roleId,int roomId)
         {
             if (IsTeamDto(roleId) == null)
             {
@@ -79,15 +93,17 @@ namespace AscensionServer
                     _teamIdToMemberDict[IsTeamDto(roleId).TeamId].Add(roleId);
                     return;
                 }
-                _teamIdToMemberDict.Remove(IsTeamDto(roleId).TeamId);
+                
                 if (GameManager.CustomeModule<ServerBattleManager>().RecordTeamId.Contains(IsTeamDto(roleId).TeamId))
                     GameManager.CustomeModule<ServerBattleManager>().RecordTeamId.ToList().Remove(IsTeamDto(roleId).TeamId);
                  GameManager.CustomeModule<ServerBattleManager>().RecordTeamId.Enqueue(IsTeamDto(roleId).TeamId);
-                _teamidToTimer.Add(IsTeamDto(roleId).TeamId, new TimerToManager(10000));
+                _teamidToTimer.Add(IsTeamDto(roleId).TeamId, new TimerToManager(6000));
                 List<int> memberSet = new List<int>();
                 memberSet.Add(roleId);
                 _teamIdToMemberDict.Add(IsTeamDto(roleId).TeamId, memberSet);
                 GameManager.CustomeModule<ServerBattleManager>().TimestampBattlePrepare(IsTeamDto(roleId).TeamId);
+                if (_roomidToBattleTransfer.ContainsKey(roomId))
+                    _roomidToBattleTransfer[roomId] = new List<BattleTransferDTO>();
             }
         }
 

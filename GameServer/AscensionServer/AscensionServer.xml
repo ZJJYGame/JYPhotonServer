@@ -213,14 +213,20 @@
             </summary>
             <param name="teamId"></param>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.BattleIsDieCallBack(System.Int32)">
+             <summary>
+            每个回合倒计时 AI 玩家 是否死亡 战斗结束 发起事件 
+             </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.BattleTimerPrepareCallBack(System.Int32)">
+            <summary>
+            针对组队 战斗准备阶段倒计时  回调事件
+            </summary>
+            <param name="tempTeamId"></param>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.ReleaseToSpeed(System.Int32)">
             <summary>
             出手速度
-            </summary>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.BattleIsDie(System.Int32)">
-            <summary>
-            AI 玩家 是否死亡 战斗结束 发起事件
             </summary>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.ReleaseToOwner(System.Int32,System.Int32,System.Int32)">

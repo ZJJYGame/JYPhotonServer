@@ -15,6 +15,9 @@ namespace AscensionServer
 {
     public partial class ServerBattleManager
     {
+
+        #region 所有关于倒计时的开始和回调事件
+
         //public TimerManager timer;
         /// <summary>
         ///针对每回合  开始倒计时
@@ -41,23 +44,9 @@ namespace AscensionServer
         }
 
         /// <summary>
-        /// 出手速度
+        ///每个回合倒计时 AI 玩家 是否死亡 战斗结束 发起事件 
         /// </summary>
-        public void ReleaseToSpeed(int roleId)
-        {
-            if (_teamIdToBattleInit.ContainsKey(roleId))
-                _teamIdToBattleInit[roleId].battleUnits = _teamIdToBattleInit[roleId].battleUnits.OrderByDescending(t => t.ObjectSpeed).ToList();
-
-            foreach (var item in _teamIdToBattleInit[roleId].battleUnits)
-            {
-                Utility.Debug.LogInfo("老陆 ，出手速度"+ item.ObjectSpeed+"<>"+item.ObjectName);
-            }
-        }
-
-        /// <summary>
-        /// AI 玩家 是否死亡 战斗结束 发起事件
-        /// </summary>
-        public void BattleIsDie(int roomId)
+        public void BattleIsDieCallBack(int roomId)
         {
             var tempRoleId = GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.FirstOrDefault(t => t.Value.RoomId == roomId).Key;
             // _teamIdToBattleInit[tempRoleId].enemyUnits.Find(t => t.EnemyStatusDTO.EnemyHP == 0).EnemyStatusDTO;
@@ -112,7 +101,44 @@ namespace AscensionServer
                 }
             }
         }
+        /// <summary>
+        /// 针对组队 战斗准备阶段倒计时  回调事件
+        /// </summary>
+        /// <param name="tempTeamId"></param>
+        public void BattleTimerPrepareCallBack(int tempTeamId)
+        {
+            //TODO
+            if (GameManager.CustomeModule<ServerBattleManager>()._teamIdToMemberDict.ContainsKey(tempTeamId))
+            {
+                for (int i = 0; i < GameManager.CustomeModule<ServerTeamManager>()._teamTOModel[tempTeamId].TeamMembers.Count; i++)
+                {
+                    OperationData opData = new OperationData();
+                    opData.DataMessage = GameManager.CustomeModule<ServerBattleManager>()._teamIdToMemberDict[tempTeamId].Count + "个人服务器 组队 准备完成， over！";
+                    opData.OperationCode = (byte)OperationCode.SyncBattleMessagePrepare;
+                    GameManager.CustomeModule<RoleManager>().SendMessage(GameManager.CustomeModule<ServerTeamManager>()._teamTOModel[tempTeamId].TeamMembers[i].RoleID, opData);
+                }
 
+                GameManager.CustomeModule<ServerBattleManager>()._teamidToTimer.Remove(tempTeamId);
+                //GameManager.CustomeModule<ServerBattleManager>()._teamIdToMemberDict.Remove(tempTeamId);
+            }
+        }
+        #endregion
+
+
+        #region 出手速度 以及出手拥有者 以及对Ai的血量判断
+        /// <summary>
+        /// 出手速度
+        /// </summary>
+        public void ReleaseToSpeed(int roleId)
+        {
+            if (_teamIdToBattleInit.ContainsKey(roleId))
+                _teamIdToBattleInit[roleId].battleUnits = _teamIdToBattleInit[roleId].battleUnits.OrderByDescending(t => t.ObjectSpeed).ToList();
+
+            foreach (var item in _teamIdToBattleInit[roleId].battleUnits)
+            {
+                Utility.Debug.LogInfo("老陆 ，出手速度" + item.ObjectSpeed + "<>" + item.ObjectName);
+            }
+        }
 
         /// <summary>
         /// 返回一个出手拥有者  玩家或者AI或者宠物
@@ -143,6 +169,7 @@ namespace AscensionServer
             }
             return tempDataSet;
         }
+        #endregion
 
         /// <summary>
         /// 处理AI 判断玩家是不是死亡 和要选择能出手的Ai                ??? TODO第四个参数有待完善

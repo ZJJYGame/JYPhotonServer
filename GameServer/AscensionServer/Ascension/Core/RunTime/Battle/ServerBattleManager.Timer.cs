@@ -154,7 +154,7 @@ namespace AscensionServer
         {
             Utility.Debug.LogInfo("老陆 , 每回合倒计时结束 ！");
             int teamp = GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Dequeue();
-            GameManager.CustomeModule<ServerBattleManager>().BattleIsDie(teamp);
+            GameManager.CustomeModule<ServerBattleManager>().BattleIsDieCallBack(teamp);
             BattleEndStopTimer();
         }
         #endregion
@@ -180,22 +180,8 @@ namespace AscensionServer
         public void BattlePrepareCallBackMethod()
         {
             Utility.Debug.LogInfo("老陆 ，初始化 加载完毕 准备开始");
-
             var tempTeamId = GameManager.CustomeModule<ServerBattleManager>().RecordTeamId.Dequeue();
-            //TODO
-            if (GameManager.CustomeModule<ServerBattleManager>()._teamIdToMemberDict.ContainsKey(tempTeamId))
-            {
-                for (int i = 0; i < GameManager.CustomeModule<ServerTeamManager>()._teamTOModel[tempTeamId].TeamMembers.Count; i++)
-                {
-                    OperationData opData = new OperationData();
-                    opData.DataMessage = GameManager.CustomeModule<ServerBattleManager>()._teamIdToMemberDict[tempTeamId].Count + "个人服务器 组队 准备完成， over！";
-                    opData.OperationCode = (byte)OperationCode.SyncBattleMessagePrepare;
-                    GameManager.CustomeModule<RoleManager>().SendMessage(GameManager.CustomeModule<ServerTeamManager>()._teamTOModel[tempTeamId].TeamMembers[i].RoleID, opData);
-                }
-
-                GameManager.CustomeModule<ServerBattleManager>()._teamidToTimer.Remove(tempTeamId);
-                //GameManager.CustomeModule<ServerBattleManager>()._teamIdToMemberDict.Remove(tempTeamId);
-            }
+            GameManager.CustomeModule<ServerBattleManager>().BattleTimerPrepareCallBack(tempTeamId);
             BattlePrepareStopTimer();
             GameManager.CustomeModule<ServerBattleManager>()._teamidToTimer.Add(tempTeamId, new TimerToManager(10000));
             GameManager.CustomeModule<ServerBattleManager>().TimestampBattleStart(tempTeamId);
@@ -335,7 +321,6 @@ namespace AscensionServer
         }
 
         #endregion
-
 
 
         #endregion
