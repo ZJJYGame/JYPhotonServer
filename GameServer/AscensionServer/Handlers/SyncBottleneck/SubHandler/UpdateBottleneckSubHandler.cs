@@ -22,24 +22,51 @@ namespace AscensionServer
             string bottleneckJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleBottleneck));
             var bottleneckObj = Utility.Json.ToObject<Bottleneck>(bottleneckJson);
             NHCriteria nHCriteriabottleneck = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", bottleneckObj.RoleID);
-            var bottleneckTemp = NHibernateQuerier.CriteriaSelect<Bottleneck>(nHCriteriabottleneck);
-            if (bottleneckTemp!=null)
+
+            if (RedisHelper.Hash.HashExist("Bottleneck", bottleneckObj.RoleID.ToString()))
             {
+                #region Redis逻辑
+                var bottleneckRedis = RedisHelper.Hash.HashGet<Bottleneck>("Bottleneck", bottleneckObj.RoleID.ToString());
+                if ((bottleneckRedis.BreakThroughVauleNow + bottleneckObj.BreakThroughVauleNow) >= bottleneckRedis.BreakThroughVauleMax)
+                {
+                    bottleneckRedis.BreakThroughVauleNow = bottleneckRedis.BreakThroughVauleMax;
+
+                }
+                else
+                {
+                    bottleneckRedis.BreakThroughVauleNow += bottleneckObj.BreakThroughVauleNow;
+                }
+                bottleneckRedis.CraryVaule += bottleneckObj.CraryVaule;
+                NHibernateQuerier.Update<Bottleneck>(bottleneckRedis);
+                RedisHelper.Hash.HashSet<Bottleneck>("Bottleneck", bottleneckObj.RoleID.ToString(), bottleneckRedis);
+                SetResponseParamters(() => {
+                    subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckRedis));
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
+                });
+                #endregion
+            }
+            else
+            {
+                #region 数据库逻辑
+                var bottleneckTemp = NHibernateQuerier.CriteriaSelect<Bottleneck>(nHCriteriabottleneck); ;
+                if ((bottleneckTemp.BreakThroughVauleNow + bottleneckObj.BreakThroughVauleNow) >= bottleneckTemp.BreakThroughVauleMax)
+                {
+                    bottleneckTemp.BreakThroughVauleNow = bottleneckTemp.BreakThroughVauleMax;
+
+                }
+                else
+                {
+                    bottleneckTemp.BreakThroughVauleNow += bottleneckObj.BreakThroughVauleNow;
+                }
                 bottleneckTemp.CraryVaule += bottleneckObj.CraryVaule;
-                bottleneckTemp.BreakThroughVauleNow += bottleneckObj.BreakThroughVauleNow;
-                bottleneckTemp.IsBottleneck = bottleneckObj.IsBottleneck;
-                bottleneckTemp.IsDemon = bottleneckObj.IsDemon;
-                bottleneckTemp.IsThunder = bottleneckObj.IsThunder;
-                bottleneckTemp.RoleLevel += bottleneckObj.RoleLevel;
                 NHibernateQuerier.Update<Bottleneck>(bottleneckTemp);
+                RedisHelper.Hash.HashSet<Bottleneck>("Bottleneck", bottleneckObj.RoleID.ToString(), bottleneckTemp);
                 SetResponseParamters(() => {
                     subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckTemp));
                     operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
-            }else
-                SetResponseParamters(() => {
-                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
-                });
+                #endregion
+            }
             return operationResponse;
         }
     }

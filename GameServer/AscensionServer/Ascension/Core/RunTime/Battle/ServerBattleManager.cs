@@ -64,7 +64,6 @@ namespace AscensionServer
         /// </summary>
         public void PrepareBattle(int roleId)
         {
-
             if (IsTeamDto(roleId) == null)
             {
                 OperationData opData = new OperationData();
@@ -80,7 +79,10 @@ namespace AscensionServer
                     _teamIdToMemberDict[IsTeamDto(roleId).TeamId].Add(roleId);
                     return;
                 }
-                GameManager.CustomeModule<ServerBattleManager>().RecordTeamId.Enqueue(IsTeamDto(roleId).TeamId);
+                _teamIdToMemberDict.Remove(IsTeamDto(roleId).TeamId);
+                if (GameManager.CustomeModule<ServerBattleManager>().RecordTeamId.Contains(IsTeamDto(roleId).TeamId))
+                    GameManager.CustomeModule<ServerBattleManager>().RecordTeamId.ToList().Remove(IsTeamDto(roleId).TeamId);
+                 GameManager.CustomeModule<ServerBattleManager>().RecordTeamId.Enqueue(IsTeamDto(roleId).TeamId);
                 _teamidToTimer.Add(IsTeamDto(roleId).TeamId, new TimerToManager(10000));
                 List<int> memberSet = new List<int>();
                 memberSet.Add(roleId);
@@ -97,8 +99,6 @@ namespace AscensionServer
         {
             TargetID.Clear();
             teamSet.Clear();
-            PlayerInfosSet.Clear();
-            TargetInfosSet.Clear();
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, SkillGongFaDatas>>(out var skillGongFaDict);
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, SkillMiShuDatas>>(out var skillMiShuDict);
             if (!_roomidToBattleTransfer.ContainsKey(roomId))
@@ -235,7 +235,8 @@ namespace AscensionServer
                     _roomidToBattleTransfer[roomId].Add(battleTransferDTOs);
                 if (!GameManager.CustomeModule<ServerBattleManager>().RecordTeamRooomId.Contains(roomId))
                 {
-                    _teamIdToRoomId.Add(IsTeamDto(roleId).TeamId, roomId);
+                    if (!_teamIdToRoomId.ContainsKey(IsTeamDto(roleId).TeamId))
+                        _teamIdToRoomId.Add(IsTeamDto(roleId).TeamId, roomId);
                     GameManager.CustomeModule<ServerBattleManager>().RecordTeamRooomId.Enqueue(roomId);
                 }
                 

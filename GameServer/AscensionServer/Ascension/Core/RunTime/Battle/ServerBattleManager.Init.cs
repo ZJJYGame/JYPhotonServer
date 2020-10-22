@@ -59,11 +59,11 @@ namespace AscensionServer
         /// <summary>
         /// 收集每个回合 每个目标的传输数据
         /// </summary>
-        List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
-        /// <summary>
-        /// 收集每个回合 玩家传输数据
-        /// </summary>
-        List<BattleTransferDTO.TargetInfoDTO> PlayerInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+        //List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+        ///// <summary>
+        ///// 收集每个回合 玩家传输数据
+        ///// </summary>
+        //List<BattleTransferDTO.TargetInfoDTO> PlayerInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
         /// <summary>
         /// 收集准备战斗指令
         /// </summary>

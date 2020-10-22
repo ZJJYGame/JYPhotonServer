@@ -60,23 +60,53 @@ namespace AscensionServer
         public void BattleIsDie(int roomId)
         {
             var tempRoleId = GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.FirstOrDefault(t => t.Value.RoomId == roomId).Key;
-            var roleStatusSever = _teamIdToBattleInit[tempRoleId].playerUnits[0].RoleStatusDTO;
             // _teamIdToBattleInit[tempRoleId].enemyUnits.Find(t => t.EnemyStatusDTO.EnemyHP == 0).EnemyStatusDTO;
             //Utility.Debug.LogInfo("老陆   roleStatusSever"+ roleStatusSever.RoleHP);
-            if (roleStatusSever.RoleHP <= 0)
+            if (IsTeamDto(tempRoleId) == null)
             {
-                OperationData opData = new OperationData();
-                opData.DataMessage = "战斗结束啦， over！";
-                opData.OperationCode = (byte)OperationCode.SyncBattleMessageEnd;
-                GameManager.CustomeModule<RoleManager>().SendMessage(tempRoleId, opData);
-                //BattleEnd(roomId);
+                var roleStatusSever = _teamIdToBattleInit[tempRoleId].playerUnits[0].RoleStatusDTO;
+                if (roleStatusSever.RoleHP <= 0)
+                {
+                    OperationData opData = new OperationData();
+                    opData.DataMessage = "战斗结束啦， over！";
+                    opData.OperationCode = (byte)OperationCode.SyncBattleMessageEnd;
+                    GameManager.CustomeModule<RoleManager>().SendMessage(tempRoleId, opData);
+                    //BattleEnd(roomId);
+                }
+                else
+                {
+                    OperationData opData = new OperationData();
+                    opData.DataMessage = "服务器 倒计时10 秒  over！ ";
+                    opData.OperationCode = (byte)OperationCode.SyncBattleRound;
+                    GameManager.CustomeModule<RoleManager>().SendMessage(tempRoleId, opData);
+                }
             }
             else
             {
-                OperationData opData = new OperationData();
-                opData.DataMessage = "服务器 倒计时10 秒  over！ ";
-                opData.OperationCode = (byte)OperationCode.SyncBattleRound;
-                GameManager.CustomeModule<RoleManager>().SendMessage(tempRoleId, opData);
+                if (GameManager.CustomeModule<ServerTeamManager>()._teamTOModel.ContainsKey(IsTeamDto(tempRoleId).TeamId))
+                {
+                    for (int ob = 0; ob < GameManager.CustomeModule<ServerTeamManager>()._teamTOModel[IsTeamDto(tempRoleId).TeamId].TeamMembers.Count; ob++)
+                    {
+                        if (_teamIdToBattleInit[tempRoleId].playerUnits[ob].RoleStatusDTO.RoleHP <= 0)
+                        {
+                            OperationData opData = new OperationData();
+                            opData.DataMessage = "战斗结束啦， over！";
+                            opData.OperationCode = (byte)OperationCode.SyncBattleMessageEnd;
+                            GameManager.CustomeModule<RoleManager>().SendMessage(GameManager.CustomeModule<ServerTeamManager>()._teamTOModel[IsTeamDto(tempRoleId).TeamId].TeamMembers[ob].RoleID, opData);
+                            //BattleEnd(roomId);
+                        }
+                        else
+                        {
+                            OperationData opData = new OperationData();
+                            opData.DataMessage = "服务器 倒计时10 秒  over！ ";
+                            opData.OperationCode = (byte)OperationCode.SyncBattleRound;
+                            GameManager.CustomeModule<RoleManager>().SendMessage(GameManager.CustomeModule<ServerTeamManager>()._teamTOModel[IsTeamDto(tempRoleId).TeamId].TeamMembers[ob].RoleID, opData);
+                        }
+                    }
+                    Utility.Debug.LogInfo("老陆 , 每回合倒计时结束 ！===>"+ _teamidToTimer.Count);
+                    GameManager.CustomeModule<ServerBattleManager>()._teamidToTimer.Add(IsTeamDto(tempRoleId).TeamId, new TimerToManager(10000));
+                    GameManager.CustomeModule<ServerBattleManager>().TimestampBattleStart(IsTeamDto(tempRoleId).TeamId);
+                }
             }
         }
 
@@ -116,7 +146,6 @@ namespace AscensionServer
         /// </summary>
         public void AIToRelease(BattleTransferDTO battleTransferDTOs, EnemyStatusDTO enemyStatusData, int roleId, Dictionary<int, SkillGongFaDatas> skillGongFaDict,int  transfer = 0)
         {
-            PlayerInfosSet.Clear();
             BattleTransferDTO.TargetInfoDTO tempTransEnemy = new BattleTransferDTO.TargetInfoDTO();
             //Utility.Debug.LogInfo("<enemyStatusData  老陆>" + _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP);
             if ((IsTeamDto(roleId) == null))
@@ -124,6 +153,7 @@ namespace AscensionServer
                 _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP -= skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0]; // enemyStatusData.EnemyAttact_Power;
                 tempTransEnemy.TargetID = roleId;
                 tempTransEnemy.TargetHPDamage = -skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
+                List<BattleTransferDTO.TargetInfoDTO> PlayerInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
                 PlayerInfosSet.Add(tempTransEnemy);
                 teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = RoleDTO.BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
             }
@@ -136,6 +166,7 @@ namespace AscensionServer
                 _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP -= skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
                 tempTransEnemy.TargetID = _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleID;
                 tempTransEnemy.TargetHPDamage = -skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
+                List<BattleTransferDTO.TargetInfoDTO> PlayerInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
                 PlayerInfosSet.Add(tempTransEnemy);
                 teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = RoleDTO.BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
             }
@@ -148,7 +179,7 @@ namespace AscensionServer
         /// <param name="battleTransferDTOs"></param>
         /// <param name="roleId"></param>
         /// <param name="skillGongFaDict"></param>
-        public void PlayerToRelease(BattleTransferDTO battleTransferDTOs, int roleId, Dictionary<int, SkillGongFaDatas> skillGongFaDict,int transfer = 0)
+        public void PlayerToRelease(BattleTransferDTO battleTransferDTOs, int roleId, Dictionary<int, SkillGongFaDatas> skillGongFaDict)
         {
             //Utility.Debug.LogInfo("老陆 ，roleId =>" + battleTransferDTOs.RoleId);
             //Utility.Debug.LogInfo("老陆 ，roleId =>" + battleTransferDTOs.ClientCmdId);
@@ -176,15 +207,13 @@ namespace AscensionServer
                     {
                         for (int k = 0; k < TargetID.Count; k++)
                         {
-                            TargetInfosSet.Clear();
                             //Utility.Debug.LogInfo("老陆 ，TargetID=>" + TargetID.Count);
                             for (int n = 0; n < _teamIdToBattleInit[roleId].enemyUnits.Count; n++)
                             {
                                 if (_teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyId == TargetID.ToList()[k].Key)
                                 {
-                                    //if (_teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP > 0)
+                                    if (_teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP > 0)
                                     {
-                                        //Utility.Debug.LogInfo("老陆 ，TargetID=>7777777777777");
                                         //需要判断 当前血量是不是满足条件
                                         _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP -= skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
                                         if (_teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP <= 0)
@@ -193,26 +222,27 @@ namespace AscensionServer
                                         BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
                                         tempTrans.TargetID = _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyId;
                                         tempTrans.TargetHPDamage = -skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
-
+                                        List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
                                         TargetInfosSet.Add(tempTrans);
-                                        teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = RoleDTO.BattleCmd.SkillInstruction, RoleId = _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleID, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+                                        teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = RoleDTO.BattleCmd.SkillInstruction, RoleId = _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleID, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
                                     }
-                                //    else
-                                //    {
-
-                                //        BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
-                                //        if (AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits).Count == 0)
-                                //        {
-                                //            Utility.Debug.LogError("AI  全部死亡");
-                                //            //BattleEnd()
-                                //            return;
-                                //        }
-                                //        var index = new Random().Next(0, AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits).Count);
-                                //        tempTrans.TargetID = AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits)[index].EnemyStatusDTO.EnemyId;
-                                //        tempTrans.TargetHPDamage = -skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
-                                //        TargetInfosSet.Add(tempTrans);
-                                //        teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = RoleDTO.BattleCmd.SkillInstruction, RoleId = roleId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
-                                //    }
+                                    else
+                                    {
+                                        BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+                                        if (AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits).Count == 0)
+                                        {
+                                            Utility.Debug.LogError("AI  全部死亡");
+                                            //BattleEnd()
+                                            return;
+                                        }
+                                        var index = new Random().Next(0, AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits).Count);
+                                        tempTrans.TargetID = AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits)[index].EnemyStatusDTO.EnemyId;
+                                        tempTrans.TargetHPDamage = -skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
+                                        List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                                        TargetInfosSet.Add(tempTrans);
+                                        TargetInfosSet.Add(tempTrans);
+                                        teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = RoleDTO.BattleCmd.SkillInstruction, RoleId = roleId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+                                    }
                                 }
                             }
                         }
@@ -248,7 +278,90 @@ namespace AscensionServer
             }
         }
 
+        /// <summary>
+        /// 针对 组队计算  玩家出手
+        /// </summary>
+        /// <param name="battleTransferDTOs"></param>
+        /// <param name="roleId"></param>
+        /// <param name="skillGongFaDict"></param>
+        /// <param name="currentRole"></param>
+        /// <param name="transfer"></param>
+        public void PlayerToRelease(BattleTransferDTO battleTransferDTOs, int roleId, Dictionary<int, SkillGongFaDatas> skillGongFaDict, int currentRole,int transfer = 0)
+        {
+            //Utility.Debug.LogInfo("老陆 ，roleId =>" + battleTransferDTOs.RoleId);
+            //Utility.Debug.LogInfo("老陆 ，roleId =>" + battleTransferDTOs.ClientCmdId);
+            TargetID.Clear();
+            ///传输的目标
+            for (int info = 0; info < battleTransferDTOs.TargetInfos.Count; info++)
+            {
+                if (skillGongFaDict.ContainsKey(battleTransferDTOs.ClientCmdId))
+                {
+                    //Utility.Debug.LogInfo("老陆 ，TargetID=>" + battleTransferDTOs.TargetInfos[info].TargetID);
+                    TargetID.Add(battleTransferDTOs.TargetInfos[info].TargetID, battleTransferDTOs.TargetInfos[info].GlobalId);
+                    while (TargetID.Count != skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Number)
+                    {
+                        if (TargetID.Count == skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Number)
+                            break;
+                        //TODO 缺少判断  是不是死亡
 
+                        var index = new Random().Next(0, _teamIdToBattleInit[roleId].enemyUnits.Count);
+                        if (TargetID.ContainsKey(_teamIdToBattleInit[roleId].enemyUnits[index].EnemyStatusDTO.EnemyId))
+                            continue;
+                        TargetID.Add(_teamIdToBattleInit[roleId].enemyUnits[index].EnemyStatusDTO.EnemyId, _teamIdToBattleInit[roleId].enemyUnits[index].GlobalId);
+                    }
+                    ///一段伤害
+                    //Utility.Debug.LogInfo("老陆 ，battleTransferDTOs.ClientCmdId=>" + battleTransferDTOs.ClientCmdId);
+                    if (skillGongFaDict[battleTransferDTOs.ClientCmdId].AttackProcess_Type == AttackProcess_Type.SingleUse)
+                    {
+                        for (int k = 0; k < TargetID.Count; k++)
+                        {
+                            //Utility.Debug.LogInfo("老陆 ，TargetID=>" + TargetID.Count);
+                            for (int n = 0; n < _teamIdToBattleInit[roleId].enemyUnits.Count; n++)
+                            {
+                                if (_teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyId == TargetID.ToList()[k].Key)
+                                {
+                                    //Utility.Debug.LogInfo("老陆 ，TargetID=>" + _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyId);
+                                    //if (_teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP > 0)
+                                    {
+                                        //需要判断 当前血量是不是满足条件
+                                        _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP -= skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
+                                        if (_teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP <= 0)
+                                            _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP = 0;
+                                        BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+                                        tempTrans.TargetID = _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyId;
+                                        tempTrans.TargetHPDamage = -skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
+                                        List<BattleTransferDTO.TargetInfoDTO> TargetInfosTransSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                                        TargetInfosTransSet.Add(tempTrans);
+                                        teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = RoleDTO.BattleCmd.SkillInstruction, RoleId = currentRole, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosTransSet });
+                                    }
+                                    //else
+                                    //{
+
+                                    //    BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+                                    //    if (AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits).Count == 0)
+                                    //    {
+                                    //        Utility.Debug.LogError("AI  全部死亡");
+                                    //        //BattleEnd()
+                                    //        return;
+                                    //    }
+                                    //    var index = new Random().Next(0, AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits).Count);
+                                    //    tempTrans.TargetID = AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits)[index].EnemyStatusDTO.EnemyId;
+                                    //    tempTrans.TargetHPDamage = -skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
+                                    //    TargetInfosSet.Add(tempTrans);
+                                    //    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = RoleDTO.BattleCmd.SkillInstruction, RoleId = roleId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+                                    //}
+                                }
+                            }
+                        }
+                    }
+                }
+                ///多段伤害
+                else if (skillGongFaDict[battleTransferDTOs.ClientCmdId].AttackProcess_Type == AttackProcess_Type.Staged)
+                {
+
+                }
+            }
+        }
 
 
     }

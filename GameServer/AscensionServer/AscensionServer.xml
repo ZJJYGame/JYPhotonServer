@@ -20,7 +20,7 @@
             心魔ID
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
+        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -239,13 +239,23 @@
             处理AI 判断玩家是不是死亡 和要选择能出手的Ai                ??? TODO第四个参数有待完善
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.SkillGongFaDatas},System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.SkillGongFaDatas})">
             <summary>
             处理玩家  判断Al出手之前 是不是死亡 换取目标
             </summary>
             <param name="battleTransferDTOs"></param>
             <param name="roleId"></param>
             <param name="skillGongFaDict"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.SkillGongFaDatas},System.Int32,System.Int32)">
+            <summary>
+            针对 组队计算  玩家出手
+            </summary>
+            <param name="battleTransferDTOs"></param>
+            <param name="roleId"></param>
+            <param name="skillGongFaDict"></param>
+            <param name="currentRole"></param>
+            <param name="transfer"></param>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.EntryBattle(AscensionProtocol.DTO.BattleInitDTO)">
             <summary>
@@ -262,7 +272,7 @@
             开始战斗   -->  开始战斗的回合
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="F:AscensionServer.ServerBattleManager._teamIdToBattleInit">
             <summary>
              角色id 和对应的 房间数据对象
@@ -291,16 +301,6 @@
         <member name="F:AscensionServer.ServerBattleManager.teamSet">
             <summary>
             收集每个回合的传输数据
-            </summary>
-        </member>
-        <member name="F:AscensionServer.ServerBattleManager.TargetInfosSet">
-            <summary>
-            收集每个回合 每个目标的传输数据
-            </summary>
-        </member>
-        <member name="F:AscensionServer.ServerBattleManager.PlayerInfosSet">
-            <summary>
-            收集每个回合 玩家传输数据
             </summary>
         </member>
         <member name="F:AscensionServer.ServerBattleManager.teamIdList">
@@ -1027,7 +1027,7 @@
             <param name="playerId"></param>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerTeamManager.GetApplyListInfo(AscensionProtocol.DTO.RoleDTO)" -->
+        <!-- 对于成员“M:AscensionServer.ServerTeamManager.GetApplyListInfo(AscensionProtocol.DTO.RoleDTO)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.ServerTeamManager.GetTeamList(AscensionProtocol.DTO.RoleDTO)">
             <summary>
             返回所有队伍信息
@@ -1197,7 +1197,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
+        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；
