@@ -309,8 +309,8 @@ namespace AscensionServer
             GameManager.CustomeModule<ServerBattleManager>()._roomidToBattleTransfer[teampRoomId] = new List<BattleTransferDTO>();
             GameManager.CustomeModule<ServerBattleManager>().teamSet.Clear();
             BattleStartStopTimer();
-            GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Enqueue(tempTeamId);
-            GameManager.CustomeModule<ServerBattleManager>().TimestampBattleEnd(tempTeamId);
+            GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Enqueue(teampRoomId);
+            GameManager.CustomeModule<ServerBattleManager>().TimestampBattleEnd(teampRoomId);
         }
 
 
