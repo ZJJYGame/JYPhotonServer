@@ -23,15 +23,7 @@ namespace AscensionServer
         event Action<OperationData> RoleSendMsgHandler
         {
             add { roleSendMsgHandler += value; }
-            remove
-            {
-                try { roleSendMsgHandler -= value; }
-#if SERVER
-                catch (Exception e) { Utility.Debug.LogError(e); }
-#else
-                catch (Exception e) { Utility.DebugError(e); }
-#endif
-            }
+            remove{roleSendMsgHandler -= value;}
         }
 #if SERVER
         Dictionary<long, Dictionary<int, C2SInput>> roleInputCmdDict

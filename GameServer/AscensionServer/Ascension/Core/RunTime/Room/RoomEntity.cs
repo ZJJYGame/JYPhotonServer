@@ -21,11 +21,7 @@ namespace AscensionServer
         public event Action<byte, Dictionary<byte,object>> BroadcastBattleEvent
         {
             add { broadcastBattleEvent += value; }
-            remove
-            {
-                try { broadcastBattleEvent -= value; }
-                catch (Exception e) { Utility.Debug.LogError($"无法移除发送消息的委托:{e}"); }
-            }
+            remove{broadcastBattleEvent -= value;}
         }
         /// <summary>
         /// 倒计时秒
