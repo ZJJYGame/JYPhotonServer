@@ -263,12 +263,18 @@
             <param name="currentRole"></param>
             <param name="transfer"></param>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.BattleClear(System.Int32)">
+            <summary>
+            注意 每次进去之前先保证之前的数据都清除掉
+            </summary>
+            <param name="roleId"></param>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.EntryBattle(AscensionProtocol.DTO.BattleInitDTO)">
             <summary>
             初始化战斗数据  
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.PrepareBattle(System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.PrepareBattle(System.Int32,System.Int32)">
             <summary>
             准备指令战斗 
             </summary>

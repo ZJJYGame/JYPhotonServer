@@ -41,7 +41,7 @@ namespace AscensionServer
                         }
                         break;
                     case RoleDTO.BattleCmd.Prepare:
-                        GameManager.CustomeModule<ServerBattleManager>().PrepareBattle(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);
+                        GameManager.CustomeModule<ServerBattleManager>().PrepareBattle(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, RoleObj.BattleInitDTO.RoomId);
                         break;
                     case RoleDTO.BattleCmd.PropsInstruction:
 
