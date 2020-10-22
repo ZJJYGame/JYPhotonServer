@@ -23,11 +23,7 @@ namespace AscensionServer
         event Action SceneRefreshHandler
         {
             add { sceneRefreshHandler += value; }
-            remove
-            {
-                try { sceneRefreshHandler -= value; }
-                catch (Exception e) { Utility.Debug.LogError(e); }
-            }
+            remove{sceneRefreshHandler -= value;}
         }
         PeerManager peerMgrInstance;
 #else

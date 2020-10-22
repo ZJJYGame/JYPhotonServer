@@ -24,11 +24,7 @@ namespace AscensionServer
         event Action<byte, Dictionary<byte, object>> BroadcastEvent
         {
             add { broadcastEvent += value; }
-            remove
-            {
-                try { broadcastEvent -= value; }
-                catch (Exception e) { Utility.Debug.LogError($"无法移除发送消息的委托:{e}"); }
-            }
+            remove{broadcastEvent -= value;}
         }
         /// <summary>
         /// 广播普通消息;
@@ -36,11 +32,7 @@ namespace AscensionServer
         event Action<OperationData> BroadcastMessage
         {
             add { broadcastMessage += value; }
-            remove
-            {
-                try { broadcastMessage -= value; }
-                catch (Exception e) { Utility.Debug.LogError($"无法移除发送消息的委托:{e}"); }
-            }
+            remove{broadcastMessage -= value;}
         }
         Action<byte, Dictionary<byte, object>> broadcastEvent;
         Action<OperationData> broadcastMessage;
