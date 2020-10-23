@@ -107,7 +107,10 @@ namespace AscensionServer.Handlers
                         allianceConstructionTemp.AllianceAssets -= allianceConstructionObj.AllianceAssets;
                         NHibernateQuerier.Update(allianceConstructionTemp);
                         allianceStatusTemp.AllianceLevel += 1;
+                        GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, AllianceLevleUpData>>(out var allianceDict);
+                        allianceStatusTemp.AlliancePeopleMax = allianceDict[allianceStatusTemp.AllianceLevel].LevelUp_Describe;
                         NHibernateQuerier.Update(allianceStatusTemp);
+
                         SetResponseParamters(() =>
                         {
                             Utility.Debug.LogError("发送的升级仙盟数据为" + Utility.Json.ToJson(allianceConstructionTemp));

@@ -35,10 +35,6 @@ namespace AscensionServer
                 {
                     for (int i = 0; i < roleAllianceObj.ApplyForAlliance.Count; i++)
                     {
-                        #region 监听解散的请求
-                        //AllianceEvent.Instance.AddEventListener(roleAllianceObj.RoleID,AllianceEvent.Instance.RemoveAllianceStatus);
-                        #endregion
-
                         applyList.Add(roleAllianceObj.ApplyForAlliance[i]);
                         roleAllianceTemp.ApplyForAlliance = Utility.Json.ToJson(applyList);
                      NHibernateQuerier.Update(roleAllianceTemp);

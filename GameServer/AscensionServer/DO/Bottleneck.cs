@@ -20,6 +20,7 @@ namespace AscensionServer.Model
         public virtual int BreakThroughVauleMax { get; set; }
         public virtual int CraryVaule { get; set; }
         public virtual int DemonID { get; set; }
+        public virtual int DrugNum { get; set; }
         public override void Clear()
         {
             RoleID = -1;
@@ -32,6 +33,7 @@ namespace AscensionServer.Model
             BreakThroughVauleMax = -1;
             CraryVaule = -1;
             DemonID = -1;
+            DrugNum = -1;
             IsDemon = false;
         }
         public Bottleneck()
@@ -47,6 +49,7 @@ namespace AscensionServer.Model
             CraryVaule = 0;
             DemonID = 0;
             IsDemon = false;
+            DrugNum = 0;
         }
 
     }

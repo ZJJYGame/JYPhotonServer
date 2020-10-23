@@ -25,9 +25,9 @@ namespace AscensionServer
             NHCriteria nHCriteriabottleneck = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", bottleneckObj.RoleID);
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, BottleneckData>>(out var bottleneckData);
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, DemonData>>(out var demonData);
-            Utility.Debug.LogInfo("yzqData得到的瓶颈数据" + bottleneckJson);
             if (RedisHelper.Hash.HashExist("Bottleneck", bottleneckObj.RoleID.ToString()))
             {
+                Utility.Debug.LogInfo("yzqData得到的瓶颈数据，进入redis判断" + bottleneckJson);
                 #region Redis 逻辑
                 var bottleneckRedis = RedisHelper.Hash.HashGet<Bottleneck>("Bottleneck", bottleneckObj.RoleID.ToString());
                 //判断是否有瓶颈
@@ -69,6 +69,7 @@ namespace AscensionServer
             }
             else
             {
+                Utility.Debug.LogInfo("yzqData得到的瓶颈数据，进入数据判断" + bottleneckJson);
                 #region 数据库逻辑
                 var bottleneckTemp = NHibernateQuerier.CriteriaSelect<Bottleneck>(nHCriteriabottleneck);
                 //判断是否有瓶颈
