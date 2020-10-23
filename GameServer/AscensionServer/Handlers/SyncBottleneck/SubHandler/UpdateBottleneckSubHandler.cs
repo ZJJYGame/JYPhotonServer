@@ -30,11 +30,12 @@ namespace AscensionServer
                 if ((bottleneckRedis.BreakThroughVauleNow + bottleneckObj.BreakThroughVauleNow) >= bottleneckRedis.BreakThroughVauleMax)
                 {
                     bottleneckRedis.BreakThroughVauleNow = bottleneckRedis.BreakThroughVauleMax;
-
+                    bottleneckRedis.DrugNum += bottleneckRedis.DrugNum;
                 }
                 else
                 {
                     bottleneckRedis.BreakThroughVauleNow += bottleneckObj.BreakThroughVauleNow;
+                    bottleneckRedis.DrugNum += bottleneckRedis.DrugNum;
                 }
                 bottleneckRedis.CraryVaule += bottleneckObj.CraryVaule;
                 NHibernateQuerier.Update<Bottleneck>(bottleneckRedis);
