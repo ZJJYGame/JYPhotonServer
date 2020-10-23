@@ -220,28 +220,27 @@ namespace AscensionServer
             {
                 if (skillGongFaDict.ContainsKey(battleTransferDTOs.ClientCmdId))
                 {
-                    int enemyNumber = _teamIdToBattleInit[roleId].enemyUnits.Count;
-                    var indexNumber = _teamIdToBattleInit[roleId].enemyUnits.Count;
+                    var indexNumber = 0; //_teamIdToBattleInit[roleId].enemyUnits.Count;
+                    int survivalNumber = AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits).Count;
+                    //Utility.Debug.LogInfo("survivalNumber================ =>" + survivalNumber);
                     //TODO  需要细节的处理
                     TargetID.Add(battleTransferDTOs.TargetInfos[info].TargetID, battleTransferDTOs.TargetInfos[info].GlobalId);
                     while (TargetID.Count != skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Number)
                     {
-                        if (TargetID.Count == enemyNumber)
+                        if (TargetID.Count == survivalNumber || survivalNumber == 0)
                             break;
                         //TODO 缺少判断   数量不够 的情况下
-                        //var index = new Random().Next(0, _teamIdToBattleInit[roleId].enemyUnits.Count);
-                        indexNumber--;
-                        if (_teamIdToBattleInit[roleId].enemyUnits[indexNumber].EnemyStatusDTO.EnemyId <= 0)
-                        {
-                            enemyNumber--;
-                            continue;
-                        }
-
-                        if (TargetID.ContainsKey(_teamIdToBattleInit[roleId].enemyUnits[indexNumber].EnemyStatusDTO.EnemyId))
+                        indexNumber ++;
+                        //var index = new Random().Next(0, AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits).Count);
+                        if (AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits).Count == indexNumber-1)
+                            break;
+                        if (TargetID.ContainsKey(AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits)[indexNumber-1].EnemyStatusDTO.EnemyId))
                             continue;
                        
-                        TargetID.Add(_teamIdToBattleInit[roleId].enemyUnits[indexNumber].EnemyStatusDTO.EnemyId, _teamIdToBattleInit[roleId].enemyUnits[indexNumber].GlobalId);
+                        TargetID.Add(AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits)[indexNumber-1].EnemyStatusDTO.EnemyId, AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits)[indexNumber-1].GlobalId);
                     }
+                    //Utility.Debug.LogInfo("TargetID================ =>" + TargetID.Count);
+
                     ///一段伤害     先判断数量  在判断攻击模式 最后是伤害系数
                     ///单人 单段和多段伤害
                     if (skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Number == 1)
@@ -254,7 +253,7 @@ namespace AscensionServer
                                 if (_teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyId == TargetID.ToList()[k].Key)
                                 {
                                     ///换取目标打
-                                    if (_teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP > 0)
+                                    if (_teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP > 0)   
                                     {
                                         ///判断技能的伤害系数是一个还是多个
                                         if (skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor.Count !=1)
@@ -341,7 +340,7 @@ namespace AscensionServer
                     ///多段伤害
                     else if (skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Number > 1 )
                     {
-                        Utility.Debug.LogInfo("单人多个数量攻击伤害");
+                        //Utility.Debug.LogInfo("单人多个数量攻击伤害");
                         //var allEnemyHP = GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit[tempRoleId].enemyUnits.Find(q => q.EnemyStatusDTO.EnemyHP > 0);
                         ///TargetId 需要对目标出手的数量
                         ///TargetID
