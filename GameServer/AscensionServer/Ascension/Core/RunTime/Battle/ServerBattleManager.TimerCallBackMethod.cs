@@ -124,6 +124,86 @@ namespace AscensionServer
                 //GameManager.CustomeModule<ServerBattleManager>()._teamIdToMemberDict.Remove(tempTeamId);
             }
         }
+
+
+        /// <summary>
+        /// 针对 组队情况下的 不选取指令  随机分配一个默认指令     ??? 需要处理 不发消息的时候怎么办
+        /// </summary>
+        public void RoundTeamMember(int teampRoomId,int tempTeamId)
+        {
+            var serverBattleManager = GameManager.CustomeModule<ServerBattleManager>();
+            var serverTeamManager = GameManager.CustomeModule<ServerTeamManager>();
+
+            for (int i = 0; i < serverTeamManager._teamTOModel[tempTeamId].TeamMembers.Count; i++)
+            {
+                serverBattleManager._teamIdToMemberDict[tempTeamId].Add(serverTeamManager._teamTOModel[tempTeamId].TeamMembers[i].RoleID);
+                //TODO  ////默认是用第一个战斗传输的数据
+                BattleTransferDTO battleTransfer = new BattleTransferDTO();
+                battleTransfer.RoleId = serverTeamManager._teamTOModel[tempTeamId].TeamMembers[i].RoleID;
+                battleTransfer.isFinish = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].isFinish;
+                battleTransfer.BattleCmd = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].BattleCmd;
+                battleTransfer.ClientCmdId = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].ClientCmdId;
+                battleTransfer.TargetInfos = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].TargetInfos;
+                battleTransfer.SkillReactionValue = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].SkillReactionValue;
+                battleTransfer.SendSkillReactionCmd = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].SendSkillReactionCmd;
+                battleTransfer.RoleIdShieldValueDict = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].RoleIdShieldValueDict;
+                if (serverBattleManager._roomidToBattleTransfer[teampRoomId].Find(x => x.RoleId == serverTeamManager._teamTOModel[tempTeamId].TeamMembers[i].RoleID) != null)
+                    continue;
+                serverBattleManager._roomidToBattleTransfer[teampRoomId].Add(battleTransfer);
+            }
+        }
+        /// <summary>
+        /// 针对每回合组队 技能释放计算 并返回给客户端
+        /// </summary>
+        /// <param name="tempRole"></param>
+        /// <param name="teampRoomId"></param>
+        /// <param name="tempTeamId"></param>
+        public void RoundTeamSkillComplete(int tempRole,int teampRoomId , int tempTeamId)
+        {
+            var serverBattleManager = GameManager.CustomeModule<ServerBattleManager>();
+            var serverTeamManager = GameManager.CustomeModule<ServerTeamManager>();
+            for (int speed = 0; speed < serverBattleManager._teamIdToBattleInit[tempRole].battleUnits.Count; speed++)
+            {
+                var objectOwner = serverBattleManager.ReleaseToOwner(serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId, tempRole);
+                var typeName = objectOwner.GetType().Name;
+                switch (typeName)
+                {
+                    case "EnemyStatusDTO":
+                        //Utility.Debug.LogInfo("老陆 ，EnemyStatusDTOEnemyStatusDTO");
+                        var enemyStatusData = objectOwner as EnemyStatusDTO;
+                        ///返回一个当前要出手的人的个人属性   需要判断TODO
+                        var EnemyIndex = new Random().Next(0, serverBattleManager._roomidToBattleTransfer[teampRoomId].Count);
+
+                        var memberCuuentTranferEnemy = serverBattleManager._teamIdToBattleInit[tempRole].playerUnits.Find(x => x.RoleStatusDTO.RoleID == serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex].RoleId);
+
+                        if (enemyStatusData.EnemyHP > 0 && memberCuuentTranferEnemy.RoleStatusDTO.RoleHP > 0)
+                            serverBattleManager.AIToRelease(serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex], enemyStatusData, tempRole, EnemyIndex);
+                        break;
+                    case "RoleStatusDTO":
+                        //Utility.Debug.LogInfo("老陆 ，RoleStatusDTORoleStatusDTO");
+                        ///返回一个当前要出手的人的个人选择的传输的战斗数据
+                        var speedCuurentTransfer = serverBattleManager._roomidToBattleTransfer[teampRoomId].Find(q => q.RoleId == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID);
+                        ///返回一个当前要出手的人的个人属性
+                        var memberCuuentTranfer = serverBattleManager._teamIdToBattleInit[tempRole].playerUnits.Find(x => x.RoleStatusDTO.RoleID == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID);
+                        if (memberCuuentTranfer.RoleStatusDTO.RoleHP > 0)
+                            serverBattleManager.PlayerToRelease(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID);
+                        //transfer++;
+                        break;
+                }
+            }
+
+            ///通知所有玩家当前回合战斗计算完毕
+            for (int op = 0; op < serverBattleManager._teamIdToMemberDict[tempTeamId].Count; op++)
+            {
+                Utility.Debug.LogInfo("发给客户端" + serverBattleManager._teamIdToMemberDict[tempTeamId][op]);
+                OperationData opData = new OperationData();
+                opData.DataMessage = serverBattleManager.RoundServerToClient();
+                opData.OperationCode = (byte)OperationCode.SyncBattleTransfer;
+                GameManager.CustomeModule<RoleManager>().SendMessage(serverBattleManager._teamIdToMemberDict[tempTeamId][op], opData);
+            }
+        }
+
+      
         #endregion
     }
 }

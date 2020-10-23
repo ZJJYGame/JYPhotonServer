@@ -251,20 +251,28 @@
         </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32)">
             <summary>
-            针对单人的   处理玩家  判断Al出手之前 是不是死亡 换取目标
+            针对单人的功法秘术   处理玩家  判断Al出手之前 是不是死亡 换取目标
             </summary>
             <param name="battleTransferDTOs"></param>
             <param name="roleId"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.SkillGongFaDatas},System.Int32,System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32)">
             <summary>
             针对 技能组队 计算  and 玩家出手
             </summary>
             <param name="battleTransferDTOs"></param>
             <param name="roleId"></param>
-            <param name="skillGongFaDict"></param>
             <param name="currentRole"></param>
             <param name="transfer"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToSkillDamage(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.SkillGongFaDatas)">
+            <summary>
+            玩家组队技能伤害计算
+            </summary>
+            <param name="battleTransferDTOs"></param>
+            <param name="roleId"></param>
+            <param name="currentRole"></param>
+            <param name="skillGongFa"></param>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.BattleClear(System.Int32)">
             <summary>
@@ -456,6 +464,19 @@
             <summary>
             针对组队 战斗准备阶段倒计时  回调事件
             </summary>
+            <param name="tempTeamId"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.RoundTeamMember(System.Int32,System.Int32)">
+            <summary>
+            针对 组队情况下的 不选取指令  随机分配一个默认指令     ??? 需要处理 不发消息的时候怎么办
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.RoundTeamSkillComplete(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            针对每回合组队 技能释放计算 并返回给客户端
+            </summary>
+            <param name="tempRole"></param>
+            <param name="teampRoomId"></param>
             <param name="tempTeamId"></param>
         </member>
         <member name="F:AscensionServer.SkillStatus.Attack_Number">
