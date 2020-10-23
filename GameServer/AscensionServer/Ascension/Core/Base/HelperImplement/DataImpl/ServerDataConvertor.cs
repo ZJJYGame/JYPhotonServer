@@ -58,7 +58,10 @@ namespace AscensionServer
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(DemonData).Name, out var demonData);
                 var demonDataDict = TransObject<List<DemonData>>(demonData).ToDictionary(key => key.Level_ID, value => value);
 
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(AllianceLevleUpData).Name, out var alliancelevledata);
+                var alliancelevledataDict = TransObject<List<AllianceLevleUpData>>(alliancelevledata).ToDictionary(key => key.Building_Level, value => value);
 
+                GameManager.CustomeModule<DataManager>().TryAdd(alliancelevledataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(demonDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(bottleneckDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(factionSkillDataDict);

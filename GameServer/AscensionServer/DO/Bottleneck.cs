@@ -42,8 +42,8 @@ namespace AscensionServer.Model
             IsThunder = false;
             SpiritualRootVaule =0;
             ThunderRound = 0;
-            BreakThroughVauleNow = -1;
-            BreakThroughVauleMax = -1;
+            BreakThroughVauleNow = 0;
+            BreakThroughVauleMax = 0;
             CraryVaule = 0;
             DemonID = 0;
             IsDemon = false;

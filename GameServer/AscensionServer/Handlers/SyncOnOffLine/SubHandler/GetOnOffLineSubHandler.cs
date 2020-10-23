@@ -59,6 +59,7 @@ namespace AscensionServer
                         SetResponseParamters(() =>
                         {
                             subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
+                            subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(new BottleneckDTO()));
                             operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
                     }
@@ -86,6 +87,7 @@ namespace AscensionServer
                         SetResponseParamters(() =>
                         {
                             subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
+                            subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(new BottleneckDTO()));
                             operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
                     }
@@ -94,14 +96,12 @@ namespace AscensionServer
                 {
                     SetResponseParamters(() =>
                     {
-                        subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(new List<string>()));
                         operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     });
                 }
                 }else{
                 SetResponseParamters(() =>
                 {
-                subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(new List<string>()));
                 operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
                 }
