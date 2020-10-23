@@ -1188,6 +1188,11 @@
             仅在会导致程序奔溃的位置进行调用；
             </summary>
         </member>
+        <member name="M:AscensionServer.GetRoleAllianceSubHandler.GetPopularity(AscensionServer.Model.AllianceStatus,System.Int32,System.Int32)">
+            <summary>
+            判断人气不够解散的逻辑
+            </summary>
+        </member>
         <member name="T:AscensionServer.OccupiedResourceUnitHandler">
             <summary>
             占用资源单位请求；

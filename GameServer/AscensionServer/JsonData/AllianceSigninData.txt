@@ -1,0 +1,7 @@
+﻿[
+{"Role_Level":[1,10],"Role_Reward":1000,"Role_Contribution":10,"Alliance_Spirit_Stone":5000,"Alliance_Popularity":5},
+{"Role_Level":[11,14],"Role_Reward":2000,"Role_Contribution":20,"Alliance_Spirit_Stone":5000,"Alliance_Popularity":5},
+{"Role_Level":[21,24],"Role_Reward":4000,"Role_Contribution":39,"Alliance_Spirit_Stone":5000,"Alliance_Popularity":5},
+{"Role_Level":[31,34],"Role_Reward":5000,"Role_Contribution":40,"Alliance_Spirit_Stone":5000,"Alliance_Popularity":5},
+{"Role_Level":[41,44],"Role_Reward":10000,"Role_Contribution":50,"Alliance_Spirit_Stone":5000,"Alliance_Popularity":5}
+]
