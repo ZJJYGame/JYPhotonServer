@@ -25,7 +25,7 @@ namespace AscensionServer
             NHCriteria nHCriteriabottleneck = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", bottleneckObj.RoleID);
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, BottleneckData>>(out var bottleneckData);
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, DemonData>>(out var demonData);
-
+            Utility.Debug.LogInfo("yzqData得到的瓶颈数据" + bottleneckJson);
             if (RedisHelper.Hash.HashExist("Bottleneck", bottleneckObj.RoleID.ToString()))
             {
                 #region Redis 逻辑
@@ -33,7 +33,7 @@ namespace AscensionServer
                 //判断是否有瓶颈
                 List<int> rootPercentNum;
                 GetRootPercent(bottleneckData[bottleneckObj.RoleLevel], bottleneckObj.SpiritualRootVaule, out rootPercentNum);
-                Utility.Debug.LogInfo("yzqData得到的瓶颈值概率" + GetPercent(rootPercentNum[0] / (float)100));
+                Utility.Debug.LogInfo("yzqData得到的Redis瓶颈值概率" + GetPercent(rootPercentNum[0] / (float)100));
                 if (GetPercent(rootPercentNum[0] / (float)100))
                 {
                     bottleneckRedis.IsBottleneck = true;
@@ -51,6 +51,7 @@ namespace AscensionServer
                     }
                     RedisHelper.Hash.HashSet<Bottleneck>("Bottleneck", bottleneckObj.RoleID.ToString(), bottleneckRedis);
                     SetResponseParamters(() => {
+                        Utility.Debug.LogInfo("1yzqData返回的瓶颈值概率");
                         subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckRedis));
                         operationResponse.ReturnCode = (short)ReturnCode.Success;
                     });
@@ -73,8 +74,9 @@ namespace AscensionServer
                 //判断是否有瓶颈
                 List<int> rootPercentNum;
                 GetRootPercent(bottleneckData[bottleneckObj.RoleLevel], bottleneckObj.SpiritualRootVaule, out rootPercentNum);
-                Utility.Debug.LogInfo("yzqData得到的瓶颈值概率" + GetPercent(rootPercentNum[0] / (float)100));
-                if (GetPercent(rootPercentNum[0] / (float)100))
+                var percent = GetPercent(rootPercentNum[0] / (float)100);
+                Utility.Debug.LogInfo("yzqData得到的数据库逻辑瓶颈值概率" + percent);
+                if (percent)
                 {
                     bottleneckTemp.IsBottleneck = true;
                     bottleneckTemp.BreakThroughVauleMax = rootPercentNum[1];
@@ -98,7 +100,8 @@ namespace AscensionServer
                 else
                 {
                     RedisHelper.Hash.HashSet<Bottleneck>("Bottleneck", bottleneckObj.RoleID.ToString(), bottleneckTemp);
-                    SetResponseParamters(() => {
+                    Utility.Debug.LogInfo("2yzqData返回的瓶颈值概率");
+                  SetResponseParamters(() => {
                         subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckTemp));
                         operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     });

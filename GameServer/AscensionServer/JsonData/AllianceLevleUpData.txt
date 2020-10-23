@@ -1,0 +1,7 @@
+﻿[
+{"Building_Level":1,"LevelUp_Describe":30,"Daily_Fee_Spirit_Stones":200000,"Daily_Fee":200},
+{"Building_Level":2,"LevelUp_Describe":60,"Daily_Fee_Spirit_Stones":400000,"Daily_Fee":400},
+{"Building_Level":3,"LevelUp_Describe":90,"Daily_Fee_Spirit_Stones":600000,"Daily_Fee":600},
+{"Building_Level":4,"LevelUp_Describe":120,"Daily_Fee_Spirit_Stones":800000,"Daily_Fee":800},
+{"Building_Level":5,"LevelUp_Describe":150,"Daily_Fee_Spirit_Stones":1000000,"Daily_Fee":1000}
+]
