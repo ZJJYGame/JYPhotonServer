@@ -6,10 +6,6 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-    //public partial class ServerBattleManager
-    //{
-    //}
-
     /// <summary>
     /// 技能目标类型
     /// </summary>

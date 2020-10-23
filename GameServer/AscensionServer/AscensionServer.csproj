@@ -193,9 +193,11 @@
     <Compile Include="Ascension\Core\RunTime\Battle\IBattleAlgorithmProvider.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.Common.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.Delegate.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.enum.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.Init.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.Timer.cs" />
+    <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.TimerCallBackMethod.cs" />
     <Compile Include="Ascension\Core\RunTime\Chat\ChatManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\Data.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\DataManager.cs" />

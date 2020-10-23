@@ -31,37 +31,7 @@ namespace AscensionProtocol.DTO
         /// </summary>
         public virtual BattleCmd SendBattleCmd { get; set; }
         public virtual int CmdId { get; set; }
-        /// <summary>
-        /// 战斗指令列表
-        /// </summary>
-        public enum BattleCmd
-        {
-            /// <summary>
-            /// 初始化战斗
-            /// </summary>
-            Init,
-            /// <summary>
-            /// 准备战斗指令
-            /// </summary>
-            Prepare,
-            /// <summary>
-            /// 使用道具指令
-            /// </summary>
-            PropsInstruction,
-            /// <summary>
-            /// 使用技能指令
-            /// </summary>
-            SkillInstruction,
-            /// <summary>
-            /// 逃跑指令
-            /// </summary>
-            RunAwayInstruction,
-            /// <summary>
-            /// 战斗表演完成 
-            /// </summary>
-            PerformBattleComplete
 
-        }
         public override void Clear()
         {
             RoleID = -1;
@@ -79,4 +49,56 @@ namespace AscensionProtocol.DTO
             return str;
         }
     }
+
+
+    #region 战斗Cmd
+
+    /// <summary>
+    /// 战斗指令列表
+    /// </summary>
+    public enum BattleCmd
+    {
+        /// <summary>
+        /// 初始化战斗
+        /// </summary>
+        Init,
+        /// <summary>
+        /// 准备战斗指令
+        /// </summary>
+        Prepare,
+        /// <summary>
+        /// 使用道具指令
+        /// </summary>
+        PropsInstruction,
+        /// <summary>
+        /// 使用技能指令
+        /// </summary>
+        SkillInstruction,
+        /// <summary>
+        /// 逃跑指令
+        /// </summary>
+        RunAwayInstruction,
+        /// <summary>
+        /// 战斗表演完成 
+        /// </summary>
+        PerformBattleComplete,
+        /// <summary>
+        /// 法宝指令
+        /// </summary>
+        MagicWeapon,
+        /// <summary>
+        /// 捕捉指令
+        /// </summary>
+        CatchPet,
+        /// <summary>
+        /// 召唤指令
+        /// </summary>
+        SummonPet,
+        /// <summary>
+        /// 阵法指令
+        /// </summary>
+        Tactical
+
+    }
+    #endregion
 }

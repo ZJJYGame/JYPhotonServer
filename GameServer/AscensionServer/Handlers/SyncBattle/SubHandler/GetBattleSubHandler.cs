@@ -31,7 +31,7 @@ namespace AscensionServer
             {
                 switch (RoleObj.SendBattleCmd)
                 {
-                    case RoleDTO.BattleCmd.Init:
+                    case BattleCmd.Init:
                         if (!GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.ContainsKey(RoleObj.RoleID))
                             GameManager.CustomeModule<ServerBattleManager>().EntryBattle(RoleObj.BattleInitDTO);
                         else
@@ -40,16 +40,16 @@ namespace AscensionServer
                             GameManager.CustomeModule<ServerBattleManager>().EntryBattle(RoleObj.BattleInitDTO);
                         }
                         break;
-                    case RoleDTO.BattleCmd.Prepare:
+                    case BattleCmd.Prepare:
                         GameManager.CustomeModule<ServerBattleManager>().PrepareBattle(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, RoleObj.BattleInitDTO.RoomId);
                         break;
-                    case RoleDTO.BattleCmd.PropsInstruction:
+                    case BattleCmd.PropsInstruction:
 
                         break;
-                    case RoleDTO.BattleCmd.SkillInstruction:
+                    case BattleCmd.SkillInstruction:
                         GameManager.CustomeModule<ServerBattleManager>().BattleStart(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, RoleObj.BattleInitDTO.RoomId, battleTransferObj);
                         break;
-                    case RoleDTO.BattleCmd.RunAwayInstruction:
+                    case BattleCmd.RunAwayInstruction:
 
                         break;
                     default:

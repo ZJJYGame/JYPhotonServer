@@ -203,7 +203,7 @@ namespace AscensionProtocol.DTO
        /// <summary>
        /// 每回合战斗指令
        /// </summary>
-        public virtual RoleDTO.BattleCmd BattleCmd { get; set; }
+        public virtual BattleCmd BattleCmd { get; set; }
         /// <summary>
         /// 目标值和  自身值 传递的都是一样的
         /// </summary>

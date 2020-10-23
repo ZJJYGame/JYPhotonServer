@@ -204,34 +204,6 @@
             用于初始化 战斗数据 和管理 战斗的数据缓存
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.TimestampBattleEnd(System.Int32)">
-             <summary>
-            针对每回合  开始倒计时
-             </summary>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.TimestampBattlePrepare(System.Int32)">
-            <summary>
-            针对初始化准备加载 倒计时
-            </summary>
-            <param name="teamId"></param>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.TimestampBattleStart(System.Int32)">
-            <summary>
-            针对组队 开始之前倒计时
-            </summary>
-            <param name="teamId"></param>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.BattleIsDieCallBack(System.Int32)">
-             <summary>
-            每个回合倒计时 AI 玩家 是否死亡 战斗结束 发起事件 
-             </summary>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.BattleTimerPrepareCallBack(System.Int32)">
-            <summary>
-            针对组队 战斗准备阶段倒计时  回调事件
-            </summary>
-            <param name="tempTeamId"></param>
-        </member>
         <member name="M:AscensionServer.ServerBattleManager.ReleaseToSpeed(System.Int32)">
             <summary>
             出手速度
@@ -434,6 +406,49 @@
             每回合 战斗 计算 参数服务器 返回给客户端
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.TimestampBattleEnd(System.Int32)">
+             <summary>
+            针对每回合  开始倒计时
+             </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.TimestampBattlePrepare(System.Int32)">
+            <summary>
+            针对初始化准备加载 倒计时
+            </summary>
+            <param name="teamId"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.TimestampBattleStart(System.Int32)">
+            <summary>
+            针对组队 开始之前倒计时
+            </summary>
+            <param name="teamId"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.BattleIsDieCallBack(System.Int32)">
+             <summary>
+            每个回合倒计时 AI 玩家 是否死亡 战斗结束 发起事件 
+             </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.BattleTimerPrepareCallBack(System.Int32)">
+            <summary>
+            针对组队 战斗准备阶段倒计时  回调事件
+            </summary>
+            <param name="tempTeamId"></param>
+        </member>
+        <member name="T:AscensionServer.BattleEndDelegateHandle">
+             <summary>
+            针对 每回合战斗倒计时结束 回调方法 
+             </summary>
+        </member>
+        <member name="T:AscensionServer.BattlePrepareDelegateHandle">
+            <summary>
+            针对  战斗准备倒计时结束  
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleStartDelegateHandle">
+            <summary>
+            针对  组队 战斗开始的时候收集
+            </summary>
         </member>
         <member name="T:AscensionServer.TargetType">
             <summary>
@@ -3507,21 +3522,6 @@
             <summary>
             线程的同步事件；
             若无特殊线程，例如同步玩家位置信息这类特殊线程事件，其余都统一使用此线程同步事件
-            </summary>
-        </member>
-        <member name="T:BattleEndDelegateHandle">
-             <summary>
-            针对 每回合战斗倒计时结束 回调方法 
-             </summary>
-        </member>
-        <member name="T:BattlePrepareDelegateHandle">
-            <summary>
-            针对  战斗准备倒计时结束  
-            </summary>
-        </member>
-        <member name="T:BattleStartDelegateHandle">
-            <summary>
-            针对  组队 战斗开始的时候收集
             </summary>
         </member>
     </members>

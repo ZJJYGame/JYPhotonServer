@@ -11,19 +11,6 @@ using Google.Protobuf.WellKnownTypes;
 using NHibernate.Linq.Clauses;
 using Protocol;
 
-/// <summary>
-///针对 每回合战斗倒计时结束 回调方法 
-/// </summary>
-public delegate void BattleEndDelegateHandle();
-/// <summary>
-/// 针对  战斗准备倒计时结束  
-/// </summary>
-public delegate void BattlePrepareDelegateHandle();
-
-/// <summary>
-/// 针对  组队 战斗开始的时候收集
-/// </summary>
-public delegate void BattleStartDelegateHandle();
 
 namespace AscensionServer
 {
@@ -483,7 +470,7 @@ namespace AscensionServer
             ///返回给客户端
             Dictionary<byte, object> subResponseParametersDict = new Dictionary<byte, object>();
             subResponseParametersDict.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>().teamSet));
-            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleCmd, (byte)RoleDTO.BattleCmd.SkillInstruction);
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleCmd, (byte)BattleCmd.SkillInstruction);
             subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTimeStamp, Utility.Json.ToJson(Utility.Time.MillisecondTimeStamp()));
             subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTime, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>().RoleBattleTime));
 
