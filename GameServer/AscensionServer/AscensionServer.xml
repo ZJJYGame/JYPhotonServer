@@ -204,6 +204,20 @@
             用于初始化 战斗数据 和管理 战斗的数据缓存
             </summary>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.IsToSkillForm(System.Int32)">
+            <summary>
+            判断技能功法秘术是不是存在json 数据表格里
+            </summary>
+            <param name="targetId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.SkillFormToSkillObject(System.Int32)">
+            <summary>
+            返回 一个存在的技能对象
+            </summary>
+            <param name="targerId"></param>
+            <returns></returns>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.ReleaseToSpeed(System.Int32)">
             <summary>
             出手速度
@@ -220,22 +234,31 @@
             针对AI  血量 >0
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.AIToRelease(AscensionProtocol.DTO.BattleTransferDTO,AscensionProtocol.DTO.EnemyStatusDTO,System.Int32,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.SkillGongFaDatas},System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.AIToRelease(AscensionProtocol.DTO.BattleTransferDTO,AscensionProtocol.DTO.EnemyStatusDTO,System.Int32,System.Int32)">
             <summary>
             处理AI 判断玩家是不是死亡 和要选择能出手的Ai                ??? TODO第四个参数有待完善
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.SkillGongFaDatas})">
+        <member name="M:AscensionServer.ServerBattleManager.AlToSurvival(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.SkillGongFaDatas)">
             <summary>
-            处理玩家  判断Al出手之前 是不是死亡 换取目标
+            针对功法  筛选出来每回合的存活的Al
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToSkillDamage(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,AscensionServer.SkillGongFaDatas)">
+            <summary>
+            针对功法  玩家释放  不同技能类型的技能计算伤害
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32)">
+            <summary>
+            针对单人的   处理玩家  判断Al出手之前 是不是死亡 换取目标
             </summary>
             <param name="battleTransferDTOs"></param>
             <param name="roleId"></param>
-            <param name="skillGongFaDict"></param>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.SkillGongFaDatas},System.Int32,System.Int32)">
             <summary>
-            针对 组队计算  玩家出手
+            针对 技能组队 计算  and 玩家出手
             </summary>
             <param name="battleTransferDTOs"></param>
             <param name="roleId"></param>
@@ -434,6 +457,21 @@
             针对组队 战斗准备阶段倒计时  回调事件
             </summary>
             <param name="tempTeamId"></param>
+        </member>
+        <member name="F:AscensionServer.SkillStatus.Attack_Number">
+            <summary>
+            攻击的数量
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SkillStatus.Attack_Factor">
+            <summary>
+            伤害系数
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SkillStatus.AttackProcess_Type">
+            <summary>
+            攻击模式
+            </summary>
         </member>
         <member name="T:AscensionServer.BattleEndDelegateHandle">
              <summary>

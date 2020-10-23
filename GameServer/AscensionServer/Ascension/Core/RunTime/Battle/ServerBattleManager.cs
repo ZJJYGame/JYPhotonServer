@@ -115,8 +115,6 @@ namespace AscensionServer
         {
             TargetID.Clear();
             teamSet.Clear();
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, SkillGongFaDatas>>(out var skillGongFaDict);
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, SkillMiShuDatas>>(out var skillMiShuDict);
             if (!_roomidToBattleTransfer.ContainsKey(roomId))
                 return;
 
@@ -134,11 +132,11 @@ namespace AscensionServer
                         case "EnemyStatusDTO":
                             var enemyStatusData = objectOwner as EnemyStatusDTO;
                             if (enemyStatusData.EnemyHP > 0&& _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
-                                AIToRelease(battleTransferDTOs, enemyStatusData, roleId, skillGongFaDict);
+                                AIToRelease(battleTransferDTOs, enemyStatusData, roleId);
                             break;
                         case "RoleStatusDTO":
                             if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
-                                PlayerToRelease(battleTransferDTOs, roleId, skillGongFaDict);
+                                PlayerToRelease(battleTransferDTOs, roleId);
                             break;
                     }
                 }

@@ -1,0 +1,66 @@
+﻿using AscensionProtocol;
+using AscensionProtocol.DTO;
+using AscensionServer.Model;
+using Cosmos;
+using NHibernate.Linq.Clauses;
+using Protocol;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+/// <summary>
+/// 针对 指令类型 具体处理
+/// </summary>
+namespace AscensionServer
+{
+    public partial class ServerBattleManager
+    {
+        /// <summary>
+        /// 判断技能功法秘术是不是存在json 数据表格里
+        /// </summary>
+        /// <param name="targetId"></param>
+        /// <returns></returns>
+        public bool IsToSkillForm(int targetId)
+        {
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, SkillGongFaDatas>>(out var skillGongFaDict);
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, SkillMiShuDatas>>(out var skillMiShuDict);
+            if (skillGongFaDict.ContainsKey(targetId) || skillMiShuDict.ContainsKey(targetId))
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// 返回 一个存在的技能对象
+        /// </summary>
+        /// <param name="targerId"></param>
+        /// <returns></returns>
+        public object SkillFormToSkillObject(int targerId )
+        {
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, SkillGongFaDatas>>(out var skillGongFaDict);
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, SkillMiShuDatas>>(out var skillMiShuDict);
+            if (skillGongFaDict.ContainsKey(targerId))
+                return  skillGongFaDict[targerId];
+            if (skillMiShuDict.ContainsKey(targerId))
+                return skillMiShuDict[targerId];
+            return null;
+        }
+
+
+
+    }
+
+    public enum SkillStatus
+    {
+        /// <summary>
+        /// 攻击的数量
+        /// </summary>
+        Attack_Number,
+        /// <summary>
+        /// 伤害系数
+        /// </summary>
+        Attack_Factor,
+        /// <summary>
+        /// 攻击模式
+        /// </summary>
+        AttackProcess_Type
+    }
+}

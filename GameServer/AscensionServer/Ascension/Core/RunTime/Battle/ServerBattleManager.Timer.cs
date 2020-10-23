@@ -276,7 +276,7 @@ namespace AscensionServer
                             var memberCuuentTranferEnemy = serverBattleManager._teamIdToBattleInit[tempRole.Key].playerUnits.Find(x => x.RoleStatusDTO.RoleID == serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex].RoleId);
                             if (enemyStatusData.EnemyHP > 0 && memberCuuentTranferEnemy.RoleStatusDTO.RoleHP > 0)
                             {
-                                serverBattleManager.AIToRelease(serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex], enemyStatusData, tempRole.Key, skillGongFaDict, EnemyIndex);
+                                serverBattleManager.AIToRelease(serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex], enemyStatusData, tempRole.Key, EnemyIndex);
                             }
                             break;
                         case "RoleStatusDTO":
