@@ -249,6 +249,14 @@
             针对功法  玩家释放  不同技能类型的技能计算伤害
             </summary>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToSkillReturnBlood(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,AscensionServer.SkillGongFaDatas)">
+            <summary>
+            技能类型治疗术   TODO 存在多个目标时加血的目标
+            </summary>
+            <param name="battleTransferDTOs"></param>
+            <param name="roleId"></param>
+            <param name="skillGongFa"></param>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32)">
             <summary>
             针对单人的功法秘术   处理玩家  判断Al出手之前 是不是死亡 换取目标
@@ -290,12 +298,17 @@
             准备指令战斗 
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.BattleStart(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
+        <member name="M:AscensionServer.ServerBattleManager.BattleStart(AscensionProtocol.DTO.BattleCmd,System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             开始战斗   -->  开始战斗的回合
             </summary>
         </member>
         <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
+        <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(AscensionProtocol.DTO.BattleCmd,System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
+            <summary>
+            战斗逃跑
+            </summary>
+        </member>
         <member name="F:AscensionServer.ServerBattleManager._teamIdToBattleInit">
             <summary>
              角色id 和对应的 房间数据对象
@@ -542,6 +555,16 @@
         <member name="F:AscensionServer.AttackProcess_Type.Staged">
             <summary>
             分阶段打完伤害
+            </summary>
+        </member>
+        <member name="T:AscensionServer.Skill_Type">
+            <summary>
+            技能类型
+            1.攻击
+            2.回血
+            3.护盾
+            4.buffer
+            5.复活
             </summary>
         </member>
         <member name="T:AscensionServer.TimerManager">

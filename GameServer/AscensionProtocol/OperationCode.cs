@@ -193,9 +193,34 @@ namespace AscensionProtocol
         /// </summary>
         SyncBattleMessagePrepare = 133,
         /// <summary>
+        /// 战斗消息通知逃跑
+        /// </summary>
+        SyncBattleMessageRunAway = 134,
+        /// <summary>
+        /// 战斗消息通知道具
+        /// </summary>
+        SyncBattleMessagePropsInstruction = 135,
+        /// <summary>
+        /// 战斗消息通知法宝指令
+        /// </summary>
+        SyncBattleMessageMagicWeapon = 136,
+        /// <summary>
+        /// 战斗消息通知捕捉指令
+        /// </summary>
+        SyncBattleMessageCatchPet = 137,
+        /// <summary>
+        /// 战斗消息通知召唤指令
+        /// </summary>
+        SyncBattleMessageSummonPet = 138,
+        /// <summary>
+        /// 战斗消息通知阵法指令
+        /// </summary>
+        SyncBattleMessageTactical  = 139,
+
+        /// <summary>
         /// 测试消息队列
         /// </summary>
-        MessageQueue =137,
+        MessageQueue =157,
         /// <summary>
         /// 网关token
         /// </summary>

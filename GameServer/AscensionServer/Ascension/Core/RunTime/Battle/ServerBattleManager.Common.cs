@@ -297,6 +297,36 @@ namespace AscensionServer
                 }
             }
         }
+
+
+        /// <summary>
+        /// 技能类型治疗术   TODO 存在多个目标时加血的目标
+        /// </summary>
+        /// <param name="battleTransferDTOs"></param>
+        /// <param name="roleId"></param>
+        /// <param name="skillGongFa"></param>
+        public void PlayerToSkillReturnBlood(BattleTransferDTO battleTransferDTOs, int roleId, SkillGongFaDatas skillGongFa)
+        {
+            ///给自己回血
+            if (skillGongFa.Attack_Number == 1)
+            {
+                if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP + skillGongFa.Attack_Factor[0] >= _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleMaxHP)
+                    _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP = _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleMaxHP;
+                else
+                    _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP += skillGongFa.Attack_Factor[0];
+               BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+                tempTrans.TargetID = roleId;
+                tempTrans.TargetHPDamage = skillGongFa.Attack_Factor[0];
+                List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                TargetInfosSet.Add(tempTrans);
+                teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = roleId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+
+            }///多目标回血   ??? TODO  缺少多个数量
+            else if (skillGongFa.Attack_Number >1)
+            {
+
+            }
+        }
         #endregion
 
         #region 单人技能指令使用秘术的技能
@@ -524,9 +554,25 @@ namespace AscensionServer
                     switch (typeName)
                     {
                         case "SkillGongFaDatas":
-                           var skillGongFa =  objectOwner as SkillGongFaDatas;
-                            AlToSurvival(battleTransferDTOs, roleId, info, skillGongFa);
-                            PlayerToSkillDamage(battleTransferDTOs, roleId, skillGongFa);
+                            var skillGongFa = objectOwner as SkillGongFaDatas;
+                            switch ((Skill_Type)skillGongFa.Skill_Type-1)
+                            {
+                                case Skill_Type.Attact:
+                                    AlToSurvival(battleTransferDTOs, roleId, info, skillGongFa);
+                                    PlayerToSkillDamage(battleTransferDTOs, roleId, skillGongFa);
+                                    break;
+                                case Skill_Type.ReturnBlood:
+                                    PlayerToSkillReturnBlood(battleTransferDTOs, roleId, skillGongFa);
+                                    break;
+                                case Skill_Type.Shield:
+                                    break;
+                                case Skill_Type.Buffer:
+                                    break;
+                                case Skill_Type.Resurgence:
+                                    break;
+                                default:
+                                    break;
+                            }
                             break;
                         case "SkillMiShuDatas":
                             var skillMiShu = objectOwner as SkillMiShuDatas;

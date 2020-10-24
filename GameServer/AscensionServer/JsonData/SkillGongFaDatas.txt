@@ -124,7 +124,7 @@
         "Skill_ID": 21006,
         "Skill_Name": "扫荡退",
         "Skill_Describe": "单人物攻3次",
-        "Skill_Type": 5,
+        "Skill_Type": 1,
         "Attack_Number": 1,
         "Attack_Value": 0,
         "Attack_Factor": [80,90,100],

@@ -59,6 +59,7 @@ namespace AscensionServer
                     opData.DataMessage = "战斗结束啦， over！";
                     opData.OperationCode = (byte)OperationCode.SyncBattleMessageEnd;
                     GameManager.CustomeModule<RoleManager>().SendMessage(tempRoleId, opData);
+                    GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.Remove(tempRoleId);
                     //BattleEnd(roomId);
                 }
                 else
@@ -86,6 +87,7 @@ namespace AscensionServer
                             opData.DataMessage = "战斗结束啦， over！";
                             opData.OperationCode = (byte)OperationCode.SyncBattleMessageEnd;
                             GameManager.CustomeModule<RoleManager>().SendMessage(GameManager.CustomeModule<ServerTeamManager>()._teamTOModel[IsTeamDto(tempRoleId).TeamId].TeamMembers[ob].RoleID, opData);
+                            GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.Remove(tempRoleId);
                             ///战斗结束 同步血量
                             //BattleEnd(roomId);
                         }

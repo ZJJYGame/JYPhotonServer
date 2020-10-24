@@ -228,7 +228,7 @@ namespace AscensionServer
             var tempTeamId = serverBattleManager.IsTeamDto(tempRole.Key).TeamId;
 
             //Utility.Debug.LogInfo("老陆 ，战斗开始结算111111111111=>房间id" + teampRoomId);
-            if (GameManager.CustomeModule<ServerBattleManager>()._teamIdToMemberDict.ContainsKey(tempTeamId))
+            if (GameManager.CustomeModule<ServerTeamManager>()._teamTOModel.ContainsKey(tempTeamId))
             {
                 ///先判断队伍中食是不是所有队员都发消息
                 if (serverBattleManager._roomidToBattleTransfer[teampRoomId].Count != serverTeamManager._teamTOModel[tempTeamId].TeamMembers.Count)

@@ -111,7 +111,7 @@ namespace AscensionServer
         /// <summary>
         /// 开始战斗   -->  开始战斗的回合
         /// </summary>
-        public void BattleStart(int roleId, int roomId, BattleTransferDTO battleTransferDTOs)
+        public void BattleStart(BattleCmd battleCmd,int roleId, int roomId, BattleTransferDTO battleTransferDTOs)
         {
             TargetID.Clear();
             teamSet.Clear();
@@ -121,33 +121,68 @@ namespace AscensionServer
             if (IsTeamDto(roleId) == null)
             {
                 ReleaseToSpeed(roleId);
-
                 ///出手速度
                 for (int speed = 0; speed < _teamIdToBattleInit[roleId].battleUnits.Count; speed++)
                 {
                     var objectOwner = ReleaseToOwner(_teamIdToBattleInit[roleId].battleUnits[speed].ObjectID, _teamIdToBattleInit[roleId].battleUnits[speed].ObjectId, roleId);
                     var typeName = objectOwner.GetType().Name;
+                    //OperationData opData = new OperationData();
+                    //Utility.Debug.LogInfo("角色剩余的血量" + _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP);
                     switch (typeName)
                     {
                         case "EnemyStatusDTO":
                             var enemyStatusData = objectOwner as EnemyStatusDTO;
-                            if (enemyStatusData.EnemyHP > 0&& _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
+                            if (enemyStatusData.EnemyHP > 0 && _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
                                 AIToRelease(battleTransferDTOs, enemyStatusData, roleId);
                             break;
                         case "RoleStatusDTO":
                             if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
                                 PlayerToRelease(battleTransferDTOs, roleId);
+                            
+                            /*
+                            switch (battleCmd)
+                            {
+                                case BattleCmd.PropsInstruction:
+                                    break;
+                                case BattleCmd.SkillInstruction:
+                                    #region 针对技能
+                                    if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
+                                        PlayerToRelease(battleTransferDTOs, roleId);
+                                    //OperationData opData = new OperationData();
+                                    opData.DataMessage = RoundServerToClient();
+                                    opData.OperationCode = (byte)OperationCode.SyncBattleTransfer;
+                                    GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
+                                    GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Enqueue(roomId);
+                                    GameManager.CustomeModule<ServerBattleManager>().TimestampBattleEnd(roomId);
+                                    #endregion
+                                    break;
+                                case BattleCmd.RunAwayInstruction:
+                                    #region 针对逃跑
+                                    opData.DataMessage = " 我要逃跑了！！！！！";
+                                    opData.OperationCode = (byte)OperationCode.SyncBattleMessageRunAway;
+                                    GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
+                                    #endregion
+                                    break;
+                                case BattleCmd.MagicWeapon:
+                                    break;
+                                case BattleCmd.CatchPet:
+                                    break;
+                                case BattleCmd.SummonPet:
+                                    break;
+                                case BattleCmd.Tactical:
+                                    break;
+                                default:
+                                    break;
+                            }*/
                             break;
                     }
                 }
-
                 OperationData opData = new OperationData();
                 opData.DataMessage = RoundServerToClient();
                 opData.OperationCode = (byte)OperationCode.SyncBattleTransfer;
                 GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
                 GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Enqueue(roomId);
                 GameManager.CustomeModule<ServerBattleManager>().TimestampBattleEnd(roomId);
-
             }
             else
             {
@@ -163,8 +198,6 @@ namespace AscensionServer
             }
 
         }
-
-
         /// 战斗结束
         /// </summary>
         public void BattleEnd(int RoomId)
@@ -174,6 +207,14 @@ namespace AscensionServer
             PlayerBattleEndInfo(tempRoleId, roleStatusSever);
         }
 
+        /// <summary>
+        /// 战斗逃跑
+        /// </summary>
+        public void BattleRunAway(BattleCmd battleCmd,int roleId,int RoomId, BattleTransferDTO battleTransferDTOs)
+        {
+            if (battleCmd == BattleCmd.RunAwayInstruction)
+                BattleStart(battleCmd, roleId, RoomId, battleTransferDTOs);
+        }
 
 
 

@@ -56,5 +56,22 @@ namespace AscensionServer
         Staged = 1
     }
 
+    /// <summary>
+    /// 技能类型
+    /// 1.攻击
+    /// 2.回血
+    /// 3.护盾
+    /// 4.buffer
+    /// 5.复活
+    /// </summary>
+    public enum Skill_Type
+    {
+        Attact,
+        ReturnBlood,
+        Shield,
+        Buffer,
+        Resurgence
+    }
+
   
 }
