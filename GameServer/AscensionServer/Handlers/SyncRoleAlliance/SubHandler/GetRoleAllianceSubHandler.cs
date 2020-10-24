@@ -37,7 +37,7 @@ namespace AscensionServer
                 NHCriteria nHCriteriaAlliancesConstruction = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", roleallianceTemp.AllianceID);
 
                 var allianceConstructionTemp = NHibernateQuerier.CriteriaSelect<AllianceConstruction>(nHCriteriaAlliancesConstruction);
-
+                var exist = RedisHelper.KeyExistsAsync("AllianceSigninDTO" + allianceTemp.ID).Result;
                 Alliancelist.Add(Utility.Json.ToJson(roleAllianceDTO));
                 if (allianceConstructionTemp != null)
                 {
@@ -86,6 +86,14 @@ namespace AscensionServer
                     //    #endregion
                     //}
                 }
+
+                if (exist)
+                {
+                    var allianceSignin = RedisHelper.String.StringGet("AllianceSigninDTO" + allianceTemp.ID);
+                    Alliancelist.Add(allianceSignin);
+                }
+                else
+                    Alliancelist.Add(Utility.Json.ToJson(new AllianceSigninDTO() { }));
                 SetResponseParamters(() =>
                 {
                     subResponseParameters.Add((byte)ParameterCode.RoleAlliance, Utility.Json.ToJson(Alliancelist));
@@ -120,7 +128,14 @@ namespace AscensionServer
             {
                 if (Exists)
                 {
-                    RedisHelper.Hash.HashGet<DateTime>("AllianceStatus" + allianceStatus.ID, allianceStatus.ID.ToString());
+                 var stockpileTime=   RedisHelper.Hash.HashGet<DateTime>("AllianceStatus" + allianceStatus.ID, allianceStatus.ID.ToString());
+
+                    int sumSeconds = stockpileTime.Subtract(DateTime.Now).Seconds;
+                    if (sumSeconds>=24*60*60*3)
+                    {
+                            //TODO
+                            //使用bool值判断是否解散仙盟,派发请求主动解散仙盟
+                    }
                 }
                 else
                 {

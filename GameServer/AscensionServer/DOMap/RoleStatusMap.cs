@@ -33,6 +33,7 @@ namespace AscensionServer
             Map(x => x.RoleVitality).Column("role_viltality");
             Map(x => x.RoleKillingIntent).Column("role_killingintent");
             Map(x => x.RoleMaxJingXue).Column("role_max_jingxue");
+            Map(x => x.RoleMoveSpeed).Column("role_move_speed"); 
             Table("role_status");
         }
     }

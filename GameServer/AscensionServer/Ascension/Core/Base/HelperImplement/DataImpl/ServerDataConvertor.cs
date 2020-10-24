@@ -64,6 +64,10 @@ namespace AscensionServer
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(AllianceSigninData).Name, out var allianceSigninData);
                 var allianceSigninDataDict = TransObject<List<AllianceSigninData>>(alliancelevledata);
 
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(MiShuData).Name, out var mishuData);
+                var mishuDataDict = TransObject<List<MiShuData>>(mishuData).ToDictionary(key => key.Mishu_ID, value => value.mishuSkillDatas);
+
+                GameManager.CustomeModule<DataManager>().TryAdd(mishuDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(allianceSigninDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(alliancelevledataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(demonDataDict);
@@ -76,6 +80,8 @@ namespace AscensionServer
                 GameManager.CustomeModule<DataManager>().TryAdd(skillGongFaDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(skillMiShuDict);
 
+                //GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MiShuData>>(out var set);
+                //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + Utility.Json.ToJson(set));
                 //GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MonsterDatas>>(out var set);
                 //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + skillGongFaDict[21001].Skill_Describe);
                 //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + skillMiShuDict[21009].Skill_Describe);

@@ -14,6 +14,7 @@ namespace AscensionProtocol.DTO
         public virtual int Popularity { get; set; }
         public virtual int RoleContribution { get; set; }
         public virtual int AllianceSpiritStone { get; set; }
+        public virtual bool IsSignin { get; set; }
         public override void Clear()
         {
             RoleID = 0;
@@ -21,7 +22,7 @@ namespace AscensionProtocol.DTO
             Popularity = 0;
             RoleContribution = 0;
             AllianceSpiritStone = 0;
-
+            IsSignin = false;
         }
     }
 }

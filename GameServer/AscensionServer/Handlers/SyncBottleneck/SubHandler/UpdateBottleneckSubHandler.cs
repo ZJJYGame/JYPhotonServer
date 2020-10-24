@@ -30,13 +30,12 @@ namespace AscensionServer
                 if ((bottleneckRedis.BreakThroughVauleNow + bottleneckObj.BreakThroughVauleNow) >= bottleneckRedis.BreakThroughVauleMax)
                 {
                     bottleneckRedis.BreakThroughVauleNow = bottleneckRedis.BreakThroughVauleMax;
-                    bottleneckRedis.DrugNum += bottleneckRedis.DrugNum;
                 }
                 else
                 {
                     bottleneckRedis.BreakThroughVauleNow += bottleneckObj.BreakThroughVauleNow;
-                    bottleneckRedis.DrugNum += bottleneckRedis.DrugNum;
                 }
+                bottleneckRedis.DrugNum += bottleneckObj.DrugNum;
                 bottleneckRedis.CraryVaule += bottleneckObj.CraryVaule;
                 NHibernateQuerier.Update<Bottleneck>(bottleneckRedis);
                 RedisHelper.Hash.HashSet<Bottleneck>("Bottleneck", bottleneckObj.RoleID.ToString(), bottleneckRedis);
@@ -53,12 +52,12 @@ namespace AscensionServer
                 if ((bottleneckTemp.BreakThroughVauleNow + bottleneckObj.BreakThroughVauleNow) >= bottleneckTemp.BreakThroughVauleMax)
                 {
                     bottleneckTemp.BreakThroughVauleNow = bottleneckTemp.BreakThroughVauleMax;
-
                 }
                 else
                 {
                     bottleneckTemp.BreakThroughVauleNow += bottleneckObj.BreakThroughVauleNow;
                 }
+                bottleneckTemp.DrugNum += bottleneckObj.DrugNum;
                 bottleneckTemp.CraryVaule += bottleneckObj.CraryVaule;
                 NHibernateQuerier.Update<Bottleneck>(bottleneckTemp);
                 RedisHelper.Hash.HashSet<Bottleneck>("Bottleneck", bottleneckObj.RoleID.ToString(), bottleneckTemp);

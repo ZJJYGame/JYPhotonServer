@@ -32,14 +32,16 @@ namespace AscensionServer
             var content = RedisHelper.KeyExistsAsync("AllianceSigninDTO"+ allianceTemp.ID).Result;
 
 
-          var alliancesignindata=  allianceSigninList.Find(t=>t.Role_Level[0]< Role.RoleLevel&& t.Role_Level[1] < Role.RoleLevel);
+            var alliancesignindata=  allianceSigninList.Find(t=>t.Role_Level[0]< Role.RoleLevel&& t.Role_Level[1] < Role.RoleLevel);
             if (!content)
             {
+                Utility.Debug.LogError("yzq收到的签到数据数据" + allianceSigninJson);
                 if (alliancesignindata != null)
                 {
                     List<string> signinList = new List<string>();
                     if (roleallianceTemp != null && allianceTemp != null && allianceConstructionTemp != null)
                     {
+                        Utility.Debug.LogError("yzq2收到的签到数据数据" + Utility.Json.ToJson(allianceSigninJson));
                         roleallianceTemp.Reputation += alliancesignindata.Role_Contribution;
                         roleallianceTemp.ReputationHistroy += alliancesignindata.Role_Contribution;
                         roleallianceTemp.ReputationMonth += alliancesignindata.Role_Contribution;
@@ -55,10 +57,14 @@ namespace AscensionServer
                         NHibernateQuerier.Update(roleallianceTemp);
                         NHibernateQuerier.Update(allianceTemp);
                         NHibernateQuerier.Update(allianceConstructionTemp);
-                        RedisHelper.String.StringGetSet("AllianceSigninDTO"+ allianceTemp.ID, "AllianceSigninDTO" + allianceTemp.ID);
+                        int h = 23 - DateTime.Now.Hour;
+                        int m = 59 - DateTime.Now.Minute;
+                        int s = 60 - DateTime.Now.Second;
+                        allianceSigninObj.IsSignin = true;
+                        RedisHelper.String.StringSet("AllianceSigninDTO"+ allianceTemp.ID, allianceSigninObj, new TimeSpan(0, h, m, s));
                         SetResponseParamters(() =>
                         {
-                            Utility.Debug.LogError("发送回去的兑换弹药的请求数据" + Utility.Json.ToJson(signinList));
+                            Utility.Debug.LogError("yzq发送回去的签到数据数据" + Utility.Json.ToJson(signinList));
                             subResponseParameters.Add((byte)ParameterCode.AllianceSignin, Utility.Json.ToJson(signinList));
                             operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
@@ -81,9 +87,11 @@ namespace AscensionServer
             }
             else
             {
+                var allianceSignin = RedisHelper.String.StringGet("AllianceSigninDTO" + allianceTemp.ID);
                 SetResponseParamters(() =>
                 {
-                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                    subResponseParameters.Add((byte)ParameterCode.AllianceSignin, allianceSignin);
+                    operationResponse.ReturnCode = (short)ReturnCode.ItemAlreadyExists;
                 });
             }
             return operationResponse;
