@@ -136,7 +136,9 @@ namespace AscensionServer
 
             for (int i = 0; i < serverTeamManager._teamTOModel[tempTeamId].TeamMembers.Count; i++)
             {
-                serverBattleManager._teamIdToMemberDict[tempTeamId].Add(serverTeamManager._teamTOModel[tempTeamId].TeamMembers[i].RoleID);
+                if (serverBattleManager._roomidToBattleTransfer[teampRoomId].Find(x => x.RoleId == serverTeamManager._teamTOModel[tempTeamId].TeamMembers[i].RoleID) != null)
+                    continue;
+                //serverBattleManager._teamIdToMemberDict[tempTeamId].Add(serverTeamManager._teamTOModel[tempTeamId].TeamMembers[i].RoleID);
                 //TODO  ////默认是用第一个战斗传输的数据
                 BattleTransferDTO battleTransfer = new BattleTransferDTO();
                 battleTransfer.RoleId = serverTeamManager._teamTOModel[tempTeamId].TeamMembers[i].RoleID;
@@ -147,8 +149,6 @@ namespace AscensionServer
                 battleTransfer.SkillReactionValue = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].SkillReactionValue;
                 battleTransfer.SendSkillReactionCmd = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].SendSkillReactionCmd;
                 battleTransfer.RoleIdShieldValueDict = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].RoleIdShieldValueDict;
-                if (serverBattleManager._roomidToBattleTransfer[teampRoomId].Find(x => x.RoleId == serverTeamManager._teamTOModel[tempTeamId].TeamMembers[i].RoleID) != null)
-                    continue;
                 serverBattleManager._roomidToBattleTransfer[teampRoomId].Add(battleTransfer);
             }
         }
@@ -191,15 +191,15 @@ namespace AscensionServer
                         break;
                 }
             }
-
+            //Utility.Debug.LogInfo("需要发给的人=====》》" + serverBattleManager._teamIdToMemberDict[tempTeamId].Count);
             ///通知所有玩家当前回合战斗计算完毕
-            for (int op = 0; op < serverBattleManager._teamIdToMemberDict[tempTeamId].Count; op++)
+            for (int op = 0; op < serverTeamManager._teamTOModel[tempTeamId].TeamMembers.Count; op++)
             {
-                Utility.Debug.LogInfo("发给客户端" + serverBattleManager._teamIdToMemberDict[tempTeamId][op]);
+                Utility.Debug.LogInfo("发给客户端" + serverTeamManager._teamTOModel[tempTeamId].TeamMembers[op].RoleID);
                 OperationData opData = new OperationData();
                 opData.DataMessage = serverBattleManager.RoundServerToClient();
                 opData.OperationCode = (byte)OperationCode.SyncBattleTransfer;
-                GameManager.CustomeModule<RoleManager>().SendMessage(serverBattleManager._teamIdToMemberDict[tempTeamId][op], opData);
+                GameManager.CustomeModule<RoleManager>().SendMessage(serverTeamManager._teamTOModel[tempTeamId].TeamMembers[op].RoleID, opData);
             }
         }
 

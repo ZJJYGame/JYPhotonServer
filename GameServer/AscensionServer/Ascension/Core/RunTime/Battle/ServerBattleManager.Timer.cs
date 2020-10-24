@@ -216,7 +216,7 @@ namespace AscensionServer
         public void BattleStartCallBackMethod()
         {
             Utility.Debug.LogInfo("老陆 ，战斗开始结算");
-            bool isHangUp = false;
+            //bool isHangUp = false;
             var serverBattleManager = GameManager.CustomeModule<ServerBattleManager>();
             var serverTeamManager = GameManager.CustomeModule<ServerTeamManager>();
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, SkillGongFaDatas>>(out var skillGongFaDict);
@@ -233,7 +233,7 @@ namespace AscensionServer
                 ///先判断队伍中食是不是所有队员都发消息
                 if (serverBattleManager._roomidToBattleTransfer[teampRoomId].Count != serverTeamManager._teamTOModel[tempTeamId].TeamMembers.Count)
                 {
-                    isHangUp = true;
+                    //isHangUp = true;
                     serverBattleManager.RoundTeamMember(teampRoomId, tempTeamId);
                 }
                 ///排列一下出手速度
@@ -241,8 +241,8 @@ namespace AscensionServer
                 serverBattleManager.RoundTeamSkillComplete(tempRole.Key, teampRoomId, tempTeamId);
             }
             GameManager.CustomeModule<ServerBattleManager>()._teamidToTimer.Remove(tempTeamId);
-            if (isHangUp)
-                GameManager.CustomeModule<ServerBattleManager>()._teamIdToMemberDict[tempTeamId] = new List<int>();
+            //if (isHangUp)
+            //    GameManager.CustomeModule<ServerBattleManager>()._teamIdToMemberDict[tempTeamId] = new List<int>();
             GameManager.CustomeModule<ServerBattleManager>()._roomidToBattleTransfer[teampRoomId] = new List<BattleTransferDTO>();
             GameManager.CustomeModule<ServerBattleManager>().teamSet.Clear();
             BattleStartStopTimer();
