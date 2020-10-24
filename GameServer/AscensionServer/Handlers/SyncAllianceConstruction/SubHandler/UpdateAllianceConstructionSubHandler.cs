@@ -22,7 +22,7 @@ namespace AscensionServer.Handlers
             var dict = operationRequest.Parameters;
             string allianceConstructionJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceConstruction));
 
-            Utility.Debug.LogError("仙盟升级数据接收成功为" + allianceConstructionJson);
+           // Utility.Debug.LogError("yzq仙盟升级数据接收成功为" + allianceConstructionJson);
             var allianceConstructionObj = Utility.Json.ToObject<AllianceConstructionDTO>(allianceConstructionJson);
             NHCriteria nHCriteriallianceConstruction = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceConstructionObj.AllianceID);
 
@@ -42,7 +42,7 @@ namespace AscensionServer.Handlers
                         NHibernateQuerier.Update(allianceConstructionTemp);
                         SetResponseParamters(() =>
                         {
-                            Utility.Debug.LogError("发送的升级仙盟数据为"+ Utility.Json.ToJson(allianceConstructionTemp));
+                          //  Utility.Debug.LogError("yzq1发送的升级仙盟数据为" + Utility.Json.ToJson(allianceConstructionTemp));
                             subResponseParameters.Add((byte)ParameterCode.AllianceConstruction, Utility.Json.ToJson(allianceConstructionTemp));
                             operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
@@ -64,7 +64,7 @@ namespace AscensionServer.Handlers
                         NHibernateQuerier.Update(allianceConstructionTemp);
                         SetResponseParamters(() =>
                         {
-                            Utility.Debug.LogError("发送的升级仙盟数据为" + Utility.Json.ToJson(allianceConstructionTemp));
+                          //  Utility.Debug.LogError("yzq2发送的升级仙盟数据为" + Utility.Json.ToJson(allianceConstructionTemp));
                             subResponseParameters.Add((byte)ParameterCode.AllianceConstruction, Utility.Json.ToJson(allianceConstructionTemp));
                             operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
@@ -86,7 +86,7 @@ namespace AscensionServer.Handlers
                         NHibernateQuerier.Update(allianceConstructionTemp);
                         SetResponseParamters(() =>
                         {
-                            Utility.Debug.LogError("发送的升级仙盟数据为" + Utility.Json.ToJson(allianceConstructionTemp));
+                           // Utility.Debug.LogError("yzq3发送的升级仙盟数据为" + Utility.Json.ToJson(allianceConstructionTemp));
                             subResponseParameters.Add((byte)ParameterCode.AllianceConstruction, Utility.Json.ToJson(allianceConstructionTemp));
                             operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
@@ -101,19 +101,19 @@ namespace AscensionServer.Handlers
                 }
                 if (allianceConstructionObj.AllianceChamber > 0)
                 {
-                    if (allianceConstructionTemp.AllianceChamber == allianceConstructionTemp.AllianceCave&& allianceConstructionTemp.AllianceChamber == allianceConstructionTemp.AllianceAlchemyStorage&& allianceConstructionTemp.AllianceChamber == allianceConstructionTemp.AllianceScripturesPlatform&& allianceConstructionTemp.AllianceAssets > allianceConstructionObj.AllianceAssets)
+                    if (allianceConstructionTemp.AllianceChamber == allianceConstructionTemp.AllianceCave&& allianceConstructionTemp.AllianceChamber == allianceConstructionTemp.AllianceAlchemyStorage&& allianceConstructionTemp.AllianceChamber == allianceConstructionTemp.AllianceScripturesPlatform&& allianceConstructionTemp.AllianceAssets >=allianceConstructionObj.AllianceAssets)
                     {
                         allianceConstructionTemp.AllianceChamber += allianceConstructionObj.AllianceChamber;
                         allianceConstructionTemp.AllianceAssets -= allianceConstructionObj.AllianceAssets;
                         NHibernateQuerier.Update(allianceConstructionTemp);
                         allianceStatusTemp.AllianceLevel += 1;
-                        GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, AllianceLevleUpData>>(out var allianceDict);
-                        allianceStatusTemp.AlliancePeopleMax = allianceDict[allianceStatusTemp.AllianceLevel].LevelUp_Describe;
+                        //GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, AllianceLevleUpData>>(out var allianceDict);
+                        //allianceStatusTemp.AlliancePeopleMax = allianceDict[allianceStatusTemp.AllianceLevel].LevelUp_Describe;
                         NHibernateQuerier.Update(allianceStatusTemp);
 
                         SetResponseParamters(() =>
                         {
-                            Utility.Debug.LogError("发送的升级仙盟数据为" + Utility.Json.ToJson(allianceConstructionTemp));
+                          //  Utility.Debug.LogError("yzq4发送的升级仙盟数据为" + Utility.Json.ToJson(allianceConstructionTemp));
                             subResponseParameters.Add((byte)ParameterCode.AllianceConstruction, Utility.Json.ToJson(allianceConstructionTemp));
                             operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });

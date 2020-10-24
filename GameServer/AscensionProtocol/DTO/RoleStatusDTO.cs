@@ -29,7 +29,7 @@ namespace AscensionProtocol.DTO
         public virtual int RoleVileSpawn { get; set; }//人物业障
         public virtual int RoleVitality { get; set; }//人物活力
         public virtual int RoleKillingIntent  { get; set; }//人物煞气
-
+        public virtual int RoleMoveSpeed { get; set; }
         public override bool Equals(object obj)
         {
             RoleStatusDTO other = obj as RoleStatusDTO;
@@ -73,6 +73,7 @@ namespace AscensionProtocol.DTO
             RoleKillingIntent = 0;
             RoleVitality = 0;
             RoleVileSpawn = 0;
+            RoleMoveSpeed = 0;
         }
     }
 }

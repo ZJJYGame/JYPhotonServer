@@ -43,6 +43,7 @@ namespace AscensionServer
                             if (bottleneckRedis.IsDemon)
                             {
                                 bottleneckRedis.BreakThroughVauleNow = 0;
+                                bottleneckRedis.DrugNum = 0;
                                 bottleneckRedis.IsDemon = false;
                                 NHibernateQuerier.Update<Bottleneck>(bottleneckRedis);
                                 RedisHelper.Hash.HashSet<Bottleneck>("Bottleneck", bottleneckObj.RoleID.ToString(), bottleneckRedis);
@@ -54,6 +55,7 @@ namespace AscensionServer
                             else
                             {
                                 bottleneckRedis.BreakThroughVauleNow = 0;
+                                bottleneckRedis.DrugNum = 0;
                                 bottleneckRedis.IsDemon = false;
                                 bottleneckRedis.IsThunder = false;
                                 bottleneckRedis.IsBottleneck = false;
@@ -69,6 +71,7 @@ namespace AscensionServer
                         {
                             bottleneckRedis.BreakThroughVauleNow = 0;
                             bottleneckRedis.IsBottleneck = false;
+                            bottleneckRedis.DrugNum = 0;
                             NHibernateQuerier.Update<Bottleneck>(bottleneckRedis);
                             RedisHelper.Hash.HashSet<Bottleneck>("Bottleneck", bottleneckObj.RoleID.ToString(), bottleneckRedis);
                             SetResponseParamters(() => {
@@ -105,6 +108,7 @@ namespace AscensionServer
                             {
                                 bottleneckTemp.BreakThroughVauleNow = 0;
                                 bottleneckTemp.IsDemon = false;
+                                bottleneckTemp.DrugNum = 0;
                                 NHibernateQuerier.Update<Bottleneck>(bottleneckTemp);
                                 RedisHelper.Hash.HashSet<Bottleneck>("Bottleneck", bottleneckObj.RoleID.ToString(), bottleneckTemp);
                                 SetResponseParamters(() => {
@@ -115,6 +119,7 @@ namespace AscensionServer
                             else
                             {
                                 bottleneckTemp.BreakThroughVauleNow = 0;
+                                bottleneckTemp.DrugNum = 0;
                                 bottleneckTemp.IsDemon = false;
                                 bottleneckTemp.IsThunder = false;
                                 bottleneckTemp.IsBottleneck = false;
@@ -129,6 +134,7 @@ namespace AscensionServer
                         else
                         {
                             bottleneckTemp.BreakThroughVauleNow = 0;
+                            bottleneckTemp.DrugNum = 0;
                             bottleneckTemp.IsBottleneck = false;
                             NHibernateQuerier.Update<Bottleneck>(bottleneckTemp);
                             RedisHelper.Hash.HashSet<Bottleneck>("Bottleneck", bottleneckObj.RoleID.ToString(), bottleneckTemp);

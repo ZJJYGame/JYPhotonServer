@@ -23,13 +23,15 @@ namespace AscensionServer
             string dailyMagJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.DailyMessage));
             var roleallianceObj = Utility.Json.ToObject<RoleAllianceDTO>(roleallianceJson);
             var dailyMagObj = Utility.Json.ToObject<DailyMessageDTO>(dailyMagJson);
-            Utility.Debug.LogError("储存的成员" + dailyMagJson);
+            Utility.Debug.LogError("yzqData储存的成员" + roleallianceJson);
             NHCriteria nHCriteriaroleAlliances = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceObj.RoleID);
             var roleallianceTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriaroleAlliances).Result;
             List<int> memberlist = new List<int>();
+
             if (roleallianceTemp!=null)
             {
-                if (roleallianceTemp.AllianceJob!=1)
+                Utility.Debug.LogError("yzqData储存的成员" + Utility.Json.ToJson(roleallianceTemp));
+                if (roleallianceTemp.AllianceJob!=0)
                 {
                     var alliancestatus = AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", roleallianceTemp.AllianceID);
                     alliancestatus.AllianceNumberPeople -= 1;
