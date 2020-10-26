@@ -26,6 +26,24 @@ namespace AscensionServer
             remove{sceneRefreshHandler -= value;}
         }
         PeerManager peerMgrInstance;
+        Action<int,RoleEntity> onRoleEnterLevel;
+        /// <summary>
+        /// 角色进入场景事件
+        /// </summary>
+        public event Action<int,RoleEntity> OnRoleEnterLevel
+        {
+            add { onRoleEnterLevel += value; }
+            remove { onRoleEnterLevel -= value; }
+        }
+        Action<int,RoleEntity> onRoleExitLevel;
+        /// <summary>
+        /// 角色离开场景事件
+        /// </summary>
+        public event Action<int,RoleEntity> OnRoleExitLevel
+        {
+            add { onRoleExitLevel += value; }
+            remove { onRoleExitLevel -= value; }
+        }
 #else
         LevelEntity levelEntity = new LevelEntity();
 #endif
@@ -40,7 +58,6 @@ namespace AscensionServer
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAER_LOGOFF, OnPlayerLogoff);
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLAYER_ENTER, OnEnterLevelC2S);
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLAYER_EXIT, OnExitLevelC2S);
-
 #else
             roleMgrInstance = Facade.CustomeModule<RoleManager>();
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAERINPUT, OnCommandS2C);
@@ -73,6 +90,17 @@ namespace AscensionServer
                 }
             }
         }
+        /// <summary>
+        ///场景是否包含有角色； 
+        /// </summary>
+        public bool LevelHasRole(int levelId, int roleId)
+        {
+            if (levelEntityDict.TryGetValue(levelId, out var levelEntity))
+            {
+                return levelEntity.ContainsKey(roleId);
+            }
+            return false;
+        }
 #else
         public void OnCommandS2C(OperationData opData)
         {
@@ -82,11 +110,11 @@ namespace AscensionServer
         /// <summary>
         ///玩家或peer进入场景 
         /// </summary>
-        public bool EnterScene(int sceneId, int roleId)
+        public bool EnterScene(int levelId, int roleId)
         {
             bool result = false;
 #if SERVER
-            var hasScene = levelEntityDict.TryGetValue(sceneId, out var sceneEntity);
+            var hasScene = levelEntityDict.TryGetValue(levelId, out var sceneEntity);
             if (hasScene)
             {
                 if (roleMgrInstance.TryGetValue(roleId, out var role))
@@ -98,9 +126,13 @@ namespace AscensionServer
             {
                 if (roleMgrInstance.TryGetValue(roleId, out var role))
                 {
-                    sceneEntity = LevelEntity.Create(sceneId);
+                    sceneEntity = LevelEntity.Create(levelId);
                     SceneRefreshHandler += sceneEntity.OnRefresh;
                     result = sceneEntity.TryAdd(role.RoleId, role);
+                    if (result)
+                    {
+                        onRoleEnterLevel?.Invoke(levelId,role);
+                    }
                     levelEntityDict.TryAdd(sceneEntity.LevelId, sceneEntity);
                 }
             }
@@ -109,12 +141,12 @@ namespace AscensionServer
 #endif
             return result;
         }
-        public bool EnterScene(int sceneId, RoleEntity role)
+        public bool EnterScene(int levelId, RoleEntity role)
         {
             bool result = false;
 #if SERVER
 
-            var hasScene = levelEntityDict.TryGetValue(sceneId, out var sceneEntity);
+            var hasScene = levelEntityDict.TryGetValue(levelId, out var sceneEntity);
             if (hasScene)
             {
                 if (roleMgrInstance.ContainsKey(role.RoleId))
@@ -126,9 +158,13 @@ namespace AscensionServer
             {
                 if (roleMgrInstance.ContainsKey(role.RoleId))
                 {
-                    sceneEntity = LevelEntity.Create(sceneId);
+                    sceneEntity = LevelEntity.Create(levelId);
                     SceneRefreshHandler += sceneEntity.OnRefresh;
                     result = sceneEntity.TryAdd(role.RoleId, role);
+                    if (result)
+                    {
+                        onRoleEnterLevel?.Invoke(levelId,role);
+                    }
                     levelEntityDict.TryAdd(sceneEntity.LevelId, sceneEntity);
                 }
             }
@@ -137,19 +173,23 @@ namespace AscensionServer
 #endif
             return result;
         }
-        public bool ExitScene(int sceneId, int roleId)
+        public bool ExitScene(int levelId, int roleId)
         {
             bool result = false;
 #if SERVER
             LevelEntity levelEntity;
-            var hasScene = levelEntityDict.TryGetValue(sceneId, out levelEntity);
+            var hasScene = levelEntityDict.TryGetValue(levelId, out levelEntity);
             if (hasScene)
             {
                 {
-                    result = levelEntity.TryRemove(roleId);
+                    result = levelEntity.TryRemove(roleId,out var role);
+                    if (result)
+                    {
+                        onRoleExitLevel?.Invoke(levelId,role);
+                    }
                     if (levelEntity.Empty)
                     {
-                        levelEntityDict.TryRemove(sceneId, out _);
+                        levelEntityDict.TryRemove(levelId, out _ );
                         GameManager.ReferencePoolManager.Despawn(levelEntity);
                         SceneRefreshHandler -= levelEntity.OnRefresh;
                     }
@@ -164,18 +204,22 @@ namespace AscensionServer
 #endif
             return result;
         }
-        public bool ExitScene(int sceneId, RoleEntity role)
+        public bool ExitScene(int levelId, RoleEntity role)
         {
             bool result = false;
 #if SERVER
             LevelEntity levelEntity;
-            var hasScene = levelEntityDict.TryGetValue(sceneId, out levelEntity);
+            var hasScene = levelEntityDict.TryGetValue(levelId, out levelEntity);
             if (hasScene)
             {
                 result = levelEntity.TryRemove(role.RoleId);
+                if (result)
+                {
+                    onRoleExitLevel?.Invoke(levelId,role);
+                }
                 if (levelEntity.Empty)
                 {
-                    levelEntityDict.TryRemove(sceneId, out _);
+                    levelEntityDict.TryRemove(levelId, out _);
                     GameManager.ReferencePoolManager.Despawn(levelEntity);
                     SceneRefreshHandler -= levelEntity.OnRefresh;
                 }
