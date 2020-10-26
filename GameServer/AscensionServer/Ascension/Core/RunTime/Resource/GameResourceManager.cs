@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 using AscensionData;
 using AscensionProtocol.DTO;
 using UnityEngine;
-
+using Protocol;
+using AscensionProtocol;
 namespace AscensionServer
 {
     [CustomeModule]
@@ -30,7 +31,10 @@ namespace AscensionServer
         public override void OnPreparatory()
         {
             ResourcesLoad();
+            GameManager.CustomeModule<LevelManager>().OnRoleEnterLevel += SendResources;
         }
+
+
         /// <summary>
         /// 对资源进行占用；
         /// 若资源占用成功，则将参数类对象加入被占用的缓存集合中
@@ -69,6 +73,22 @@ namespace AscensionServer
                 var resSetDto = ConcurrentSingleton<ResourceCreator>.Instance.CreateRandomResourceSet(res, border);
                 ResUnitSetDict.Add(resSetDto.GlobalID, resSetDto);
             }
+        }
+
+        /// <summary>
+        /// 发送已生成资源至指定场景
+        /// </summary>
+        void SendResources(int id, RoleEntity roleEntity)
+        {
+            OperationData operationData = new OperationData();
+            operationData.DataMessage = Utility.Json.ToJson(ResUnitSetDict); ;
+            operationData.OperationCode = (byte)OperationCode.SyncResources;
+            //var date = new Dictionary<byte, object>();
+            //date.Add((byte)ParameterCode.RelieveUnit, null);
+            GameManager.CustomeModule<RoleManager>().SendMessage(roleEntity.RoleId, operationData);
+            Utility.Debug.LogInfo("yzqData" + Utility.Json.ToJson(ResUnitSetDict));
+            //roleEntity.SendEvent((byte)EventCode.RelieveOccupiedResourceUnit, date);
+
         }
     }
 }

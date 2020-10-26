@@ -30,18 +30,18 @@ namespace AscensionServer
 
             GameManager.CustomeModule<DataManager>().TryGetValue<List<AllianceSigninData>>(out var allianceSigninList);
             var content = RedisHelper.KeyExistsAsync("AllianceSigninDTO"+ allianceTemp.ID).Result;
-
-
-            var alliancesignindata=  allianceSigninList.Find(t=>t.Role_Level[0]< Role.RoleLevel&& t.Role_Level[1] < Role.RoleLevel);
+           // Utility.Debug.LogError("yzqs角色数据数据" + Utility.Json.ToJson(allianceSigninList));
+            var alliancesignindata=  allianceSigninList.Find(t=>t.Role_Level[0]<= Role.RoleLevel&& t.Role_Level[1] >=Role.RoleLevel);
+         //   Utility.Debug.LogError("yzq收到的签到数据数据" +Utility.Json.ToJson(alliancesignindata));
             if (!content)
             {
-                Utility.Debug.LogError("yzq收到的签到数据数据" + allianceSigninJson);
+              //  Utility.Debug.LogError("yzq收到的签到数据数据" + allianceSigninJson);
                 if (alliancesignindata != null)
                 {
                     List<string> signinList = new List<string>();
                     if (roleallianceTemp != null && allianceTemp != null && allianceConstructionTemp != null)
                     {
-                        Utility.Debug.LogError("yzq2收到的签到数据数据" + Utility.Json.ToJson(allianceSigninJson));
+                       // Utility.Debug.LogError("yzq2收到的签到数据数据" + Utility.Json.ToJson(allianceSigninJson));
                         roleallianceTemp.Reputation += alliancesignindata.Role_Contribution;
                         roleallianceTemp.ReputationHistroy += alliancesignindata.Role_Contribution;
                         roleallianceTemp.ReputationMonth += alliancesignindata.Role_Contribution;

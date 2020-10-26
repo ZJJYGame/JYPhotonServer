@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol.DTO;
 using AscensionServer.Threads;
-
+using Protocol;
 namespace AscensionServer
 {
     /// <summary>
@@ -39,12 +39,18 @@ namespace AscensionServer
                         resourceUnitDTO.Occupied = result;
                 }
                 //var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
-
                 //threadEventParameter.Clear();
                 //广播事件
                 //threadEventParameter.Add((byte)ParameterCode.OccupiedUnit, occupiedUnitJson);
                 //QueueThreadEvent(peerSet, EventCode.OccupiedResourceUnit, threadEventParameter);
-            }else
+
+                var levelmanager = GameManager.CustomeModule<LevelManager>();
+                OperationData operationData = new OperationData();
+                operationData.DataMessage = occupiedUnitObj;
+                GameManager.CustomeModule<GameResourceManager>().OccupiedUnitSetCache.Clear();
+                levelmanager.SendMsg2AllLevelRoleS2C(0,operationData);
+            }
+            else
                 operationResponse.ReturnCode = (short)ReturnCode.Fail;
             operationResponse.Parameters = responseParameters;
             operationResponse.OperationCode = operationRequest.OperationCode;

@@ -17,12 +17,14 @@ namespace AscensionServer
         {
             var receivedRoleData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
             var receivedData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.MiShu));
-            Utility.Debug.LogInfo(">>>>>>>>>>>>接收秘术数据：" + receivedRoleData + ">>>>>>>>>>>>>>>>>>>>>>");
             Utility.Debug.LogInfo(">>>>>>>>>>>>接收秘术数据：" + receivedData + ">>>>>>>>>>>>>>>>>>>>>>");
             var receivedRoleObj = Utility.Json.ToObject<RoleMiShu>(receivedRoleData);
             var receivedObj = Utility.Json.ToObject<MiShu>(receivedData);
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
             bool exist = NHibernateQuerier.Verify<RoleMiShu>(nHCriteriaRoleID);
+
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, List<MishuSkillData>>>(out var MiShuDataDict);
+
             int intInfoObj = 0;
             int intLevel = 0;
             if (exist)
@@ -42,6 +44,14 @@ namespace AscensionServer
                                 MishuInfoExp.MiShuExp = 0;
                                 intInfoObj = MishuInfoExp.MiShuExp + receivedObj.MiShuExp;
                                 intLevel = MishuInfoExp.MiShuLevel + receivedObj.MiShuLevel;
+                                if (MiShuDataDict.TryGetValue(receivedObj.MiShuID,out List<MishuSkillData> mishuSkillDatas))
+                                {
+                                    var  mishuSkillData= mishuSkillDatas.Find(t=>t.Need_Level_ID== intLevel);
+                                    List<int> skillLIst = new List<int>();
+                                    skillLIst.AddRange(mishuSkillData.Skill_Array_One);
+                                    MishuInfoExp.MiShuSkillArry = Utility.Json.ToJson(skillLIst);
+                                }
+                                Utility.Debug.LogInfo("yzq秘术技能：" + MishuInfoExp.MiShuSkillArry);
                                 NHibernateQuerier.Update(new MiShu() { ID = MishuInfoExp.ID, MiShuID = MishuInfoExp.MiShuID, MiShuLevel = (short)intLevel, MiShuSkillArry = MishuInfoExp.MiShuSkillArry, MiShuExp = intInfoObj });
                             }
                             else

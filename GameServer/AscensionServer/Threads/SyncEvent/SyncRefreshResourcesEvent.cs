@@ -14,7 +14,7 @@ using System.Threading;
 using Cosmos;
 using AscensionData;
 using UnityEngine;
-
+using Protocol;
 namespace AscensionServer.Threads
 {
     public class SyncRefreshResourcesEvent : SyncEvent
@@ -43,10 +43,10 @@ namespace AscensionServer.Threads
         void AdventureRefreshResources()
         {
             HashSet<OccupiedUnitDTO> occupiedUnitDTOs = GameManager.CustomeModule<GameResourceManager>().OccupiedUnitSetCache;
+            var levelmanager = GameManager.CustomeModule<LevelManager>();
             //var loggedList = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
             //var loggedCount = loggedList.Count;
-            //if (loggedCount <= 0)
-            //    return;
+
             Vector2 border = new Vector2(54000, 39000);
             foreach (var occupiedUnitObj in occupiedUnitDTOs)
             {
@@ -65,10 +65,14 @@ namespace AscensionServer.Threads
                     }
                 }
             }
-            var data = new Dictionary<byte, object>();
-            data.Add((byte)ParameterCode.RelieveUnit, Utility.Json.ToJson(occupiedUnitDTOs));
-            EventData.Parameters = data;
+            //var data = new Dictionary<byte, object>();
+            //data.Add((byte)ParameterCode.RelieveUnit, Utility.Json.ToJson(occupiedUnitDTOs));
+            //EventData.Parameters = data;
+            OperationData operationData = new OperationData();
+            operationData.DataMessage = occupiedUnitDTOs;
             GameManager.CustomeModule<GameResourceManager>().OccupiedUnitSetCache.Clear();
+            levelmanager.SendMsg2AllLevelRoleS2C(0, operationData);
+
             //foreach (var p in loggedList)
             //{
             //    p.SendEvent(EventData, SendParameter);
