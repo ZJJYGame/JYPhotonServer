@@ -44,8 +44,46 @@ namespace AscensionServer
             return null;
         }
 
-
-
+        /// <summary>
+        /// 不同技能行为的Cmd
+        /// </summary>
+        /// <param name="battleCmd"></param>
+        /// <param name="roleId"></param>
+        /// <param name="roomId"></param>
+        public void SkillActionDifferentCmd(BattleCmd battleCmd,int roleId,int roomId)
+        {
+            OperationData opData = new OperationData();
+            switch (battleCmd)
+            {
+                case BattleCmd.Init:
+                    break;
+                case BattleCmd.Prepare:
+                    break;
+                case BattleCmd.PropsInstruction:
+                    break;
+                case BattleCmd.SkillInstruction:
+                    opData.DataMessage = RoundServerToClient();
+                    opData.OperationCode = (byte)OperationCode.SyncBattleTransfer;
+                    break;
+                case BattleCmd.RunAwayInstruction:
+                    opData.DataMessage = " 我要逃跑了！！！！！";
+                    opData.OperationCode = (byte)OperationCode.SyncBattleMessageRunAway;
+                    break;
+                case BattleCmd.PerformBattleComplete:
+                    break;
+                case BattleCmd.MagicWeapon:
+                    break;
+                case BattleCmd.CatchPet:
+                    break;
+                case BattleCmd.SummonPet:
+                    break;
+                case BattleCmd.Tactical:
+                    break;
+            }
+            GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
+            GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Enqueue(roomId);
+            GameManager.CustomeModule<ServerBattleManager>().TimestampBattleEnd(roomId);
+        }
     }
 
     public enum SkillStatus

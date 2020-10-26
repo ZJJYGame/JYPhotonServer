@@ -187,9 +187,9 @@ namespace AscensionServer
                         var speedCuurentTransfer = serverBattleManager._roomidToBattleTransfer[teampRoomId].Find(q => q.RoleId == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID);
                         ///返回一个当前要出手的人的个人属性
                         var memberCuuentTranfer = serverBattleManager._teamIdToBattleInit[tempRole].playerUnits.Find(x => x.RoleStatusDTO.RoleID == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID);
+                        var memberCuuentTranferIndex = serverBattleManager._teamIdToBattleInit[tempRole].playerUnits.FindIndex(x => x.RoleStatusDTO.RoleID == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID);
                         if (memberCuuentTranfer.RoleStatusDTO.RoleHP > 0)
-                            serverBattleManager.PlayerToRelease(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID);
-                        //transfer++;
+                            serverBattleManager.PlayerToRelease(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, memberCuuentTranferIndex);
                         break;
                 }
             }
