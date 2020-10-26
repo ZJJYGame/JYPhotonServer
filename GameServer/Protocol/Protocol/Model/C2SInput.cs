@@ -23,12 +23,8 @@ namespace Protocol
         [Key(3)]
         public int Tick { get; set; }
         [Key(4)]
-        public FixVector3 Position { get; set; }
+        public List<IDataContract> InputStream { get; set; }
         [Key(5)]
-        public FixVector3 Rotation { get; set; }
-        [Key(6)]
-        public bool ShiftDown { get; set; }
-        [Key(7)]
         public long TS { get; set; }
         public C2SInput DeepClone()
         {
@@ -38,8 +34,6 @@ namespace Protocol
                 PlayerId = this.PlayerId,
                 EntityContainerId = this.EntityContainerId,
                 Tick = this.Tick,
-                Position = this.Position,
-                Rotation = this.Rotation,
                 TS = this.TS
             };
         }

@@ -188,6 +188,7 @@ namespace AscensionServer
             this.Available = false;
             roleInputCmdDict.Clear();
             roleSendMsgHandler = null;
+            currentTick = 0;
 #if SERVER
             InputSet.Clear();
 #endif
