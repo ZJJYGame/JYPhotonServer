@@ -254,6 +254,14 @@
             针对AI  血量 >0
             </summary>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToHPMethod(System.Int32,System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.RoleBattleDataDTO})">
+            <summary>
+            针对玩家  血量 >0
+            </summary>
+            <param name="roleId"></param>
+            <param name="roleBattleDatas"></param>
+            <returns></returns>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.AIToRelease(AscensionProtocol.DTO.BattleTransferDTO,AscensionProtocol.DTO.EnemyStatusDTO,System.Int32,System.Int32)">
             <summary>
             处理AI 判断玩家是不是死亡 和要选择能出手的Ai                ??? TODO第四个参数有待完善
@@ -1039,6 +1047,12 @@
              <summary>
             接收到消息后直接存储，不考虑顺序 
              </summary>
+        </member>
+        <member name="M:AscensionServer.LevelEntity.SndMsg2AllS2C(Protocol.OperationData)">
+            <summary>
+            发送消息到当前场景所有玩家；
+            Send message to all role server to client
+            </summary>
         </member>
         <member name="M:AscensionServer.LevelEntity.OnEnterLevelS2C(AscensionServer.RoleEntity)">
             <summary>

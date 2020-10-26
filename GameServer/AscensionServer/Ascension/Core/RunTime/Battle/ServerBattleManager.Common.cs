@@ -54,9 +54,26 @@ namespace AscensionServer
             for (int i = 0; i < enemyBattleDatas.Count; i++)
             {
                 if (_teamIdToBattleInit[roleId].enemyUnits[i].EnemyStatusDTO.EnemyHP > 0)
-                {
                     tempDataSet.Add(_teamIdToBattleInit[roleId].enemyUnits[i]);
-                }
+            }
+            return tempDataSet;
+        }
+
+        /// <summary>
+        /// 针对玩家  血量 >0
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="roleBattleDatas"></param>
+        /// <returns></returns>
+        public List<RoleBattleDataDTO> PlayerToHPMethod(int roleId,int currentRoleId,List<RoleBattleDataDTO> roleBattleDatas)
+        {
+            List<RoleBattleDataDTO> tempDataSet = new List<RoleBattleDataDTO>();
+            for (int i = 0; i < roleBattleDatas.Count; i++)
+            {
+                if (_teamIdToBattleInit[roleId].playerUnits[i].RoleStatusDTO.RoleID == currentRoleId)
+                    continue;
+                if (_teamIdToBattleInit[roleId].playerUnits[i].RoleStatusDTO.RoleHP > 0)
+                    tempDataSet.Add(_teamIdToBattleInit[roleId].playerUnits[i]);
             }
             return tempDataSet;
         }
@@ -953,7 +970,7 @@ namespace AscensionServer
             if (skillGongFa.Attack_Number == 1)
             {
                 if (_teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP + skillGongFa.Attack_Factor[0] >= _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleMaxHP)
-                    _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP += _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleMaxHP;
+                    _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP = _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleMaxHP;
                 else
                     _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP += skillGongFa.Attack_Factor[0];
 
@@ -963,6 +980,60 @@ namespace AscensionServer
                 List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
                 TargetInfosSet.Add(tempTrans);
                 teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = currentRole, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+            }
+            else
+            {
+                if (skillGongFa.Attack_Number -1 > PlayerToHPMethod(roleId, currentRole, _teamIdToBattleInit[roleId].playerUnits).Count)
+                {
+                    List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                    if (_teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP + skillGongFa.Attack_Factor[0] >= _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleMaxHP)
+                        _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP = _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleMaxHP;
+                    else
+                        _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP += skillGongFa.Attack_Factor[0];
+                    BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+                    tempTrans.TargetID = _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleID;
+                    tempTrans.TargetHPDamage = skillGongFa.Attack_Factor[0];
+                    TargetInfosSet.Add(tempTrans);
+                    for (int ol = 0; ol < PlayerToHPMethod(roleId, currentRole, _teamIdToBattleInit[roleId].playerUnits).Count; ol++)
+                    {
+                        var tempRoleObject = _teamIdToBattleInit[roleId].playerUnits.Find(x => x.RoleStatusDTO.RoleID == PlayerToHPMethod(roleId, currentRole, _teamIdToBattleInit[roleId].playerUnits)[ol].RoleStatusDTO.RoleID);
+                        if (tempRoleObject.RoleStatusDTO.RoleHP + skillGongFa.Attack_Factor[0]>= tempRoleObject.RoleStatusDTO.RoleMaxHP)
+                            tempRoleObject.RoleStatusDTO.RoleHP = tempRoleObject.RoleStatusDTO.RoleMaxHP;
+                        else
+                            tempRoleObject.RoleStatusDTO.RoleHP += skillGongFa.Attack_Factor[0];
+                        BattleTransferDTO.TargetInfoDTO tempTransOl = new BattleTransferDTO.TargetInfoDTO();
+                        tempTransOl.TargetID = tempRoleObject.RoleStatusDTO.RoleID;
+                        tempTransOl.TargetHPDamage = skillGongFa.Attack_Factor[0];
+                        TargetInfosSet.Add(tempTransOl);
+                    }
+                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = currentRole, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+                }
+                else
+                {
+                    List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                    if (_teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP + skillGongFa.Attack_Factor[0] >= _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleMaxHP)
+                        _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP = _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleMaxHP;
+                    else
+                        _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP += skillGongFa.Attack_Factor[0];
+                    BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+                    tempTrans.TargetID = _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleID;
+                    tempTrans.TargetHPDamage = skillGongFa.Attack_Factor[0];
+                    TargetInfosSet.Add(tempTrans);
+                    for (int ol = 0; ol < skillGongFa.Attack_Number -1; ol++)
+                    {
+                        var IndexOl = new Random().Next(0, PlayerToHPMethod(roleId, currentRole, _teamIdToBattleInit[roleId].playerUnits).Count);
+                        var tempRoleObject = _teamIdToBattleInit[roleId].playerUnits.Find(x => x.RoleStatusDTO.RoleID == PlayerToHPMethod(roleId, currentRole, _teamIdToBattleInit[roleId].playerUnits)[IndexOl].RoleStatusDTO.RoleID);
+                        if (tempRoleObject.RoleStatusDTO.RoleHP + skillGongFa.Attack_Factor[0] >= tempRoleObject.RoleStatusDTO.RoleMaxHP)
+                            tempRoleObject.RoleStatusDTO.RoleHP = tempRoleObject.RoleStatusDTO.RoleMaxHP;
+                        else
+                            tempRoleObject.RoleStatusDTO.RoleHP += skillGongFa.Attack_Factor[0];
+                        BattleTransferDTO.TargetInfoDTO tempTransOl = new BattleTransferDTO.TargetInfoDTO();
+                        tempTransOl.TargetID = tempRoleObject.RoleStatusDTO.RoleID;
+                        tempTransOl.TargetHPDamage = skillGongFa.Attack_Factor[0];
+                        TargetInfosSet.Add(tempTransOl);
+                    }
+                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = currentRole, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+                }
             }
         }
 
