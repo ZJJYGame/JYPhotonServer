@@ -28,6 +28,24 @@
             心魔ID
             </summary>
         </member>
+        <member name="T:AscensionServer.DrugData">
+            <summary>
+            丹药的实体类
+            </summary>
+        </member>
+        <member name="T:AscensionServer.DrugType">
+            <summary>
+            1.恢复气血
+            2.恢复真元
+            3.增加宠物经验
+            4.自己修炼速度增加
+            5.提高突破概率
+            6.增加修炼数值
+            7.增加BUFF
+            8.复活
+            9.增加宠物资质
+            </summary>
+        </member>
         <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
@@ -36,6 +54,26 @@
             图纸区
             灵兽区
             其他区
+            </summary>
+        </member>
+        <member name="T:AscensionServer.MagicWeaponData">
+            <summary>
+            法宝的实体类
+            </summary>
+        </member>
+        <member name="T:AscensionServer.EquipType">
+            <summary>
+            装备的分类
+            1.武器
+            2.外衣
+            3.内甲
+            4、鞋子
+            5.装备栏
+            6.装备栏
+            7.储物袋
+            8.灵兽袋
+            9.法宝
+            10.默认值
             </summary>
         </member>
         <member name="T:AscensionServer.MiShuData">
@@ -48,6 +86,11 @@
             <summary>
             秘术详细数值类
             yzq添加
+            </summary>
+        </member>
+        <member name="T:AscensionServer.RunesData">
+            <summary>
+            针对符箓实体类
             </summary>
         </member>
         <member name="T:AscensionServer.CommandEventCore">

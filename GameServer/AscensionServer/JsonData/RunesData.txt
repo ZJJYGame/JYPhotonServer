@@ -1,0 +1,86 @@
+[{
+		"Runes_ID": 14301,
+		"Runes_Name": "落石符",
+		"Runes_Describe": "可以使用落石术",
+		"IsBattle": 1,
+		"Runes_Icon": 14301,
+		"Runes_Skill": 21501,
+		"Need_Level_ID": 1,
+		"Animation_Path": "NULL",
+		"Runes_Effect": "NULL",
+		"Usage_Count": 1
+	},
+	{
+		"Runes_ID": 14302,
+		"Runes_Name": "地刺符",
+		"Runes_Describe": "可以使用地刺术",
+		"IsBattle": 1,
+		"Runes_Icon": 14302,
+		"Runes_Skill": 21502,
+		"Need_Level_ID": 1,
+		"Animation_Path": "NULL",
+		"Runes_Effect": "NULL",
+		"Usage_Count": 2
+	},
+	{
+		"Runes_ID": 14303,
+		"Runes_Name": "土盾符",
+		"Runes_Describe": "可以使用土盾",
+		"IsBattle": 1,
+		"Runes_Icon": 14303,
+		"Runes_Skill": 21507,
+		"Need_Level_ID": 1,
+		"Animation_Path": "NULL",
+		"Runes_Effect": "NULL",
+		"Usage_Count": 3
+	},
+	{
+		"Runes_ID": 14304,
+		"Runes_Name": "回春符",
+		"Runes_Describe": "可以使用回春术",
+		"IsBattle": 1,
+		"Runes_Icon": 14304,
+		"Runes_Skill": 21202,
+		"Need_Level_ID": 1,
+		"Animation_Path": "NULL",
+		"Runes_Effect": "NULL",
+		"Usage_Count": 4
+	},
+	{
+		"Runes_ID": 14305,
+		"Runes_Name": "替身符",
+		"Runes_Describe": "可以使用替身术",
+		"IsBattle": 1,
+		"Runes_Icon": 14305,
+		"Runes_Skill": 21206,
+		"Need_Level_ID": 1,
+		"Animation_Path": "NULL",
+		"Runes_Effect": "NULL",
+		"Usage_Count": 5
+	},
+	{
+		"Runes_ID": 14306,
+		"Runes_Name": "加速符",
+		"Runes_Describe": "增加自身移动速度",
+		"IsBattle": 0,
+		"Runes_Icon": 14306,
+		"Runes_Skill": 28001,
+		"Need_Level_ID": 1,
+		"Animation_Path": "NULL",
+		"Runes_Effect": "NULL",
+		"Usage_Count": 1
+	},
+	{
+		"Runes_ID": 14307,
+		"Runes_Name": "隐匿符",
+		"Runes_Describe": "使自身进入隐匿状态",
+		"IsBattle": 0,
+		"Runes_Icon": 14307,
+		"Runes_Skill": 28201,
+		"Need_Level_ID": 1,
+		"Animation_Path": "NULL",
+		"Runes_Effect": "NULL",
+		"Usage_Count": 2
+	}
+
+]

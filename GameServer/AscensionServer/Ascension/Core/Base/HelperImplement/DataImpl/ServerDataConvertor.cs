@@ -31,20 +31,7 @@ namespace AscensionServer
             //Utility.Debug.LogInfo("<DataManager> 测试 ConvertData");
             try
             {
-               GameManager.CustomeModule<DataManager>().TryGetValue(typeof(GongFaBook).Name, out var gongfaBookSet);
-                var gfbDict = TransObject<List<GongFaBook>>(gongfaBookSet).ToDictionary(key => key.Book_ID, value => value);
-
-                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(GongFa).Name, out var gongfaSet);
-                var gfDict = TransObject<List<GongFa>>(gongfaSet).ToDictionary(key => key.Gongfa_ID, value => value);
-
-                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(MonsterDatas).Name, out var monsterDatasSet);
-                var monsterDict = TransObject<List<MonsterDatas>>(monsterDatasSet).ToDictionary(key => key.Monster_ID, value => value);
-
-                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(SkillGongFaDatas).Name, out var skillGongFaDatasSet);
-                var skillGongFaDict = TransObject<List<SkillGongFaDatas>>(skillGongFaDatasSet).ToDictionary(key => key.Skill_ID, value => value);
-
-                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(SkillMiShuDatas).Name, out var skillMiShuDatasSet);
-                var skillMiShuDict = TransObject<List<SkillMiShuDatas>>(skillMiShuDatasSet).ToDictionary(key => key.Skill_ID, value => value);
+               
 
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(FactionItemData).Name, out var factionitemdata);
                 var factionitemDataDict = TransObject<List<FactionItemData>>(factionitemdata).ToDictionary(key => key.FactionItemId, value => value.FactionItem);
@@ -67,6 +54,35 @@ namespace AscensionServer
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(MiShuData).Name, out var mishuData);
                 var mishuDataDict = TransObject<List<MiShuData>>(mishuData).ToDictionary(key => key.Mishu_ID, value => value.mishuSkillDatas);
 
+
+                #region 战斗json
+        
+
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(GongFaBook).Name, out var gongfaBookSet);
+                var gfbDict = TransObject<List<GongFaBook>>(gongfaBookSet).ToDictionary(key => key.Book_ID, value => value);
+
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(GongFa).Name, out var gongfaSet);
+                var gfDict = TransObject<List<GongFa>>(gongfaSet).ToDictionary(key => key.Gongfa_ID, value => value);
+
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(MonsterDatas).Name, out var monsterDatasSet);
+                var monsterDict = TransObject<List<MonsterDatas>>(monsterDatasSet).ToDictionary(key => key.Monster_ID, value => value);
+
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(SkillGongFaDatas).Name, out var skillGongFaDatasSet);
+                var skillGongFaDict = TransObject<List<SkillGongFaDatas>>(skillGongFaDatasSet).ToDictionary(key => key.Skill_ID, value => value);
+
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(SkillMiShuDatas).Name, out var skillMiShuDatasSet);
+                var skillMiShuDict = TransObject<List<SkillMiShuDatas>>(skillMiShuDatasSet).ToDictionary(key => key.Skill_ID, value => value);
+
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(DrugData).Name, out var drugSet);
+                var drugDict = TransObject<List<DrugData>>(drugSet).ToDictionary(key => key.Drug_ID, value => value);
+
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(RunesData).Name, out var runesSet);
+                var runesDict = TransObject<List<RunesData>>(runesSet).ToDictionary(key => key.Runes_ID, value => value);
+
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(MagicWeaponData).Name, out var magicSet);
+                var magicDict = TransObject<List<MagicWeaponData>>(magicSet).ToDictionary(key => key.Magic_ID, value => value);
+                #endregion
+
                 GameManager.CustomeModule<DataManager>().TryAdd(mishuDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(allianceSigninDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(alliancelevledataDict);
@@ -74,22 +90,31 @@ namespace AscensionServer
                 GameManager.CustomeModule<DataManager>().TryAdd(bottleneckDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(factionSkillDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(factionitemDataDict);
+
                 GameManager.CustomeModule<DataManager>().TryAdd(gfbDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(gfDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(monsterDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(skillGongFaDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(skillMiShuDict);
+                GameManager.CustomeModule<DataManager>().TryAdd(drugDict);
+                GameManager.CustomeModule<DataManager>().TryAdd(runesDict);
+                GameManager.CustomeModule<DataManager>().TryAdd(magicDict);
 
                 //GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MiShuData>>(out var set);
                 //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + Utility.Json.ToJson(set));
                 //GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MonsterDatas>>(out var set);
                 //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + skillGongFaDict[21001].Skill_Describe);
                 //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + skillMiShuDict[21009].Skill_Describe);
+
+                //Utility.Debug.LogInfo("<DataManager> 测试 ConvertData Step0211111111111====>" + drugDict.Count);
             }
             catch (Exception e)
             {
                 Utility.Debug.LogError(e);
             }
+
+           
+
             //Utility.Debug.LogInfo("<DataManager> 测试 ConvertData Step0211111111111");
         }
 
