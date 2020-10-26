@@ -109,6 +109,18 @@ namespace AscensionServer
             return NHibernateQuerier.CriteriaSelect<T>(nHCriteriaRoleID);
         }
         /// <summary>
+        /// 针对宠物  ID  PetID
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public T MsqInfoPet<T>(int petId,string petParams)
+        {
+            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue(petParams, petId);
+            return NHibernateQuerier.CriteriaSelect<T>(nHCriteriaRoleID);
+        }
+
+        /// <summary>
         /// 判断是不是在队伍中
         /// </summary>
         /// <param name="roleId"></param>
@@ -207,16 +219,21 @@ namespace AscensionServer
         /// <returns></returns>
         public List<PetBattleDataDTO> PetInfo(int roleId)
         {
-            List<PetBattleDataDTO> petData = new List<PetBattleDataDTO>();
+            List <PetBattleDataDTO> petData = new List<PetBattleDataDTO>();
             var team = GameManager.CustomeModule<ServerTeamManager>()._teamTOModel.Values.ToList().Find(x => x.TeamMembers.Find(q => q.RoleID == roleId) != null);
-            var statusPet = MsqInfo<PetStatus>(roleId);
-
+            //先判断是否出战
+            //Utility.Debug.LogInfo("宠物名字" + MsqInfo<RolePet>(roleId).PetIsBattle);
+           
+            Utility.Debug.LogInfo(MsqInfoPet<Pet>(MsqInfo<RolePet>(roleId).PetIsBattle, "ID").ID);
             //当前 是不是组队
             if (team == null)
             {
+                if (MsqInfo<RolePet>(roleId).PetIsBattle == 0)
+                    return petData;
+                var statusPet = MsqInfoPet<PetStatus>(MsqInfoPet<Pet>(MsqInfo<RolePet>(roleId).PetIsBattle, "ID").ID, "PetID");
                 petData.Add(new PetBattleDataDTO()
                 {
-                    ObjectName = MsqInfo<Pet>(roleId).PetName,
+                    ObjectName = MsqInfoPet<Pet>(MsqInfo<RolePet>(roleId).PetIsBattle,"ID").PetName,
                     RoleId = roleId,
                     PetStatusDTO = new PetStatusDTO()
                     {
@@ -242,10 +259,13 @@ namespace AscensionServer
             {
                 for (int i = 0; i < team.TeamMembers.Count; i++)
                 {
+                    if (MsqInfo<RolePet>(team.TeamMembers[i].RoleID).PetIsBattle == 0)
+                        continue;
+                    var statusPet = MsqInfoPet<PetStatus>(MsqInfoPet<Pet>(MsqInfo<RolePet>(team.TeamMembers[i].RoleID).PetIsBattle, "ID").ID, "PetID");
                     petData.Add(new PetBattleDataDTO()
                     {
-                        ObjectName = team.TeamMembers[i].RoleName,
-                        RoleId = roleId,
+                        ObjectName = MsqInfoPet<Pet>(MsqInfo<RolePet>(team.TeamMembers[i].RoleID).PetIsBattle, "ID").PetName,
+                        RoleId = team.TeamMembers[i].RoleID,
                         PetStatusDTO = new PetStatusDTO()
                         {
                             PetID = statusPet.PetID,
@@ -337,6 +357,7 @@ namespace AscensionServer
            
             if (IsTeamDto(roleId) == null)
             {
+                ///TODO 应该
                 var status = MsqInfo<RoleStatus>(roleId);
                 allDataBase.Add(new BattleDataBase() { ObjectName = MsqInfo<Role>(roleId).RoleName, ObjectHP = status.RoleHP, ObjectID = status.RoleID, ObjectMP = status.RoleMP, ObjectSpeed = status.RoleSpeedAttack });
                 for (int i = 0; i < battleInitDTO.enemyUnits.Count; i++)
@@ -351,6 +372,11 @@ namespace AscensionServer
                         ObjectSpeed = (int)monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Attact_speed,
                     });
                 }
+                /*
+                if (MsqInfo<RolePet>(roleId).PetIsBattle == 0)
+                    return allDataBase;
+                var statusPet = MsqInfoPet<PetStatus>(MsqInfoPet<Pet>(MsqInfo<RolePet>(roleId).PetIsBattle, "ID").ID, "PetID");
+                allDataBase.Add(new BattleDataBase() {  ObjectID = statusPet.PetID, ObjectName = MsqInfoPet<Pet>(MsqInfo<RolePet>(roleId).PetIsBattle, "ID").PetName, ObjectHP = statusPet.PetHP, ObjectMP = statusPet.PetMP, ObjectSpeed = statusPet.PetSpeed });*/
             }
             else
             {
@@ -371,8 +397,15 @@ namespace AscensionServer
                         ObjectSpeed = (int)monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Attact_speed,
                     });
                 }
-
-
+                /*
+                Utility.Debug.LogInfo("组队=====>>>>");
+                for (int op = 0; op < IsTeamDto(roleId).TeamMembers.Count; op++)
+                {
+                    if (MsqInfo<RolePet>(IsTeamDto(roleId).TeamMembers[op].RoleID).PetIsBattle == 0)
+                        continue;
+                    var statusPet = MsqInfoPet<PetStatus>(MsqInfoPet<Pet>(MsqInfo<RolePet>(IsTeamDto(roleId).TeamMembers[op].RoleID).PetIsBattle, "ID").ID, "PetID");
+                    allDataBase.Add(new BattleDataBase() {  ObjectID = statusPet.PetID, ObjectHP = statusPet.PetHP, ObjectMP = statusPet.PetMP, ObjectSpeed = statusPet.PetSpeed, ObjectName = MsqInfoPet<Pet>(MsqInfo<RolePet>(IsTeamDto(roleId).TeamMembers[op].RoleID).PetIsBattle, "ID").PetName});
+                }*/
             }
             return allDataBase;
         }

@@ -585,6 +585,11 @@ namespace AscensionServer
         }
 
 
+
+
+
+
+
         /// <summary>
         /// 针对 技能组队 计算  and 玩家出手
         /// </summary>
@@ -607,8 +612,24 @@ namespace AscensionServer
                     {
                         case "SkillGongFaDatas":
                             var skillGongFa = objectOwner as SkillGongFaDatas;
-                            AlToSurvival(battleTransferDTOs, roleId, info, skillGongFa);
-                            PlayerTeamToSkillDamage(battleTransferDTOs, roleId, currentRole, skillGongFa);
+                            switch ((Skill_Type)skillGongFa.Skill_Type - 1)
+                            {
+                                case Skill_Type.Attact:
+                                    AlToSurvival(battleTransferDTOs, roleId, info, skillGongFa);
+                                    PlayerTeamToSkillDamage(battleTransferDTOs, roleId, currentRole, skillGongFa);
+                                    break;
+                                case Skill_Type.ReturnBlood:
+                                    PlayerTeamToSkillReturnBlood(battleTransferDTOs, roleId, currentRole, skillGongFa, transfer);
+                                    break;
+                                case Skill_Type.Shield:
+                                    break;
+                                case Skill_Type.Buffer:
+                                    break;
+                                case Skill_Type.Resurgence:
+                                    break;
+                                default:
+                                    break;
+                            }
                             break;
                         case "SkillMiShuDatas":
                             var skillMiShu = objectOwner as SkillMiShuDatas;
@@ -921,6 +942,30 @@ namespace AscensionServer
                 }
             }
         }
+        /// <summary>
+        /// 组队回血
+        /// </summary>
+        /// <param name="battleTransferDTOs"></param>
+        /// <param name="roleId"></param>
+        /// <param name="skillGongFa"></param>
+        public void PlayerTeamToSkillReturnBlood(BattleTransferDTO battleTransferDTOs, int roleId,int currentRole, SkillGongFaDatas skillGongFa,int transfer)
+        {
+            if (skillGongFa.Attack_Number == 1)
+            {
+                if (_teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP + skillGongFa.Attack_Factor[0] >= _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleMaxHP)
+                    _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP += _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleMaxHP;
+                else
+                    _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP += skillGongFa.Attack_Factor[0];
+
+                BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+                tempTrans.TargetID = _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleID;
+                tempTrans.TargetHPDamage = skillGongFa.Attack_Factor[0];
+                List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                TargetInfosSet.Add(tempTrans);
+                teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = currentRole, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+            }
+        }
+
         #endregion
 
     }
