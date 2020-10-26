@@ -141,6 +141,14 @@ namespace AscensionServer
                 roleInputCmdDict[currentTick].TryAdd(input.PlayerId, input);
             }
         }
+        /// <summary>
+        /// 发送消息到当前场景所有玩家；
+        /// Send message to all role server to client
+        /// </summary>
+        public void SndMsg2AllS2C(OperationData data)
+        {
+            roleSendMsgHandler?.Invoke(data);
+        }
 #else
         public void OnCommandS2C(IDataContract data)
         {

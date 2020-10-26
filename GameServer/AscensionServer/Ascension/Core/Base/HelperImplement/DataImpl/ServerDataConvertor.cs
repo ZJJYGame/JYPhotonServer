@@ -90,7 +90,7 @@ namespace AscensionServer
             {
                 Utility.Debug.LogError(e);
             }
-            Utility.Debug.LogInfo("<DataManager> 测试 ConvertData Step0211111111111");
+            //Utility.Debug.LogInfo("<DataManager> 测试 ConvertData Step0211111111111");
         }
 
         /// <summary>
