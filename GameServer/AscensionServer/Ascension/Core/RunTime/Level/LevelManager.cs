@@ -101,6 +101,16 @@ namespace AscensionServer
             }
             return false;
         }
+        /// <summary>
+        ///广播消息到指定场景，若场景不存在，则不执行； 
+        /// </summary>
+        public void SendMsg2AllLevelRoleS2C(int levelId,OperationData opData)
+        {
+            if (levelEntityDict.TryGetValue(levelId, out var levelEntity))
+            {
+                levelEntity.SndMsg2AllS2C(opData);
+            }
+        }
 #else
         public void OnCommandS2C(OperationData opData)
         {
