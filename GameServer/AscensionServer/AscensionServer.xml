@@ -292,6 +292,11 @@
             <param name="battleTransferDTOs"></param>
             <param name="roleId"></param>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToRunAway(AscensionProtocol.DTO.BattleTransferDTO,System.Int32)">
+            <summary>
+            针对  单人逃跑的 返回计算处理
+            </summary>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32)">
             <summary>
             针对 技能组队 计算  and 玩家出手
@@ -491,7 +496,13 @@
         </member>
         <member name="M:AscensionServer.ServerBattleManager.RoundServerToClient">
             <summary>
-            每回合 战斗 计算 参数服务器 返回给客户端
+            每回合 战斗 技能计算 参数服务器 返回给客户端
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.RoundRunAwayServerToClient(System.Boolean)">
+            <summary>
+            每回合 战斗 技能逃跑计算 参数服务器返回给客户端
             </summary>
             <returns></returns>
         </member>
@@ -1068,6 +1079,26 @@
             <summary>
             场景管理器，管理野外高同步的数据；
             </summary>
+        </member>
+        <member name="E:AscensionServer.LevelManager.OnRoleEnterLevel">
+            <summary>
+            角色进入场景事件
+            </summary>
+        </member>
+        <member name="E:AscensionServer.LevelManager.OnRoleExitLevel">
+            <summary>
+            角色离开场景事件
+            </summary>
+        </member>
+        <member name="M:AscensionServer.LevelManager.LevelHasRole(System.Int32,System.Int32)">
+             <summary>
+            场景是否包含有角色； 
+             </summary>
+        </member>
+        <member name="M:AscensionServer.LevelManager.SendMsg2AllLevelRoleS2C(System.Int32,Protocol.OperationData)">
+             <summary>
+            广播消息到指定场景，若场景不存在，则不执行； 
+             </summary>
         </member>
         <member name="M:AscensionServer.LevelManager.EnterScene(System.Int32,System.Int32)">
              <summary>

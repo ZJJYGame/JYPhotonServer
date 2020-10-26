@@ -551,6 +551,10 @@ namespace AscensionServer
         }
         #endregion
 
+
+
+        #region 单人技能分类具体处理
+
         /// <summary>
         /// 针对单人的功法秘术   处理玩家  判断Al出手之前 是不是死亡 换取目标
         /// </summary>
@@ -600,6 +604,21 @@ namespace AscensionServer
                 }
             }
         }
+
+       /// <summary>
+       /// 针对  单人逃跑的 返回计算处理
+       /// </summary>
+        public void PlayerToRunAway(BattleTransferDTO battleTransferDTOs, int roleId)
+        {
+            BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+            tempTrans.TargetID = roleId;
+            tempTrans.TargetHPDamage = _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0 ? 1 : 0;
+            List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+            TargetInfosSet.Add(tempTrans);
+            teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = roleId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+        }
+
+        #endregion
 
 
 

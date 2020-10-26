@@ -53,6 +53,7 @@ namespace AscensionServer
         public void SkillActionDifferentCmd(BattleCmd battleCmd,int roleId,int roomId)
         {
             OperationData opData = new OperationData();
+            opData.DataMessage = RoundServerToClient();
             switch (battleCmd)
             {
                 case BattleCmd.Init:
@@ -62,11 +63,9 @@ namespace AscensionServer
                 case BattleCmd.PropsInstruction:
                     break;
                 case BattleCmd.SkillInstruction:
-                    opData.DataMessage = RoundServerToClient();
                     opData.OperationCode = (byte)OperationCode.SyncBattleTransfer;
                     break;
                 case BattleCmd.RunAwayInstruction:
-                    opData.DataMessage = " 我要逃跑了！！！！！";
                     opData.OperationCode = (byte)OperationCode.SyncBattleMessageRunAway;
                     break;
                 case BattleCmd.PerformBattleComplete:

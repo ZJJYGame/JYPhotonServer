@@ -151,7 +151,7 @@ namespace AscensionServer
                                     break;
                                 case BattleCmd.RunAwayInstruction:
                                     #region 针对逃跑
-                                  //TODO   需要先判断是不是死亡 是的话怎么处理不是的话  怎么处理
+                                    PlayerToRunAway(battleTransferDTOs, roleId);
                                     #endregion
                                     break;
                                 case BattleCmd.MagicWeapon:

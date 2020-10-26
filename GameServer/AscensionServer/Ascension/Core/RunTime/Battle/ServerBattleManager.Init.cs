@@ -224,12 +224,12 @@ namespace AscensionServer
             //先判断是否出战
             //Utility.Debug.LogInfo("宠物名字" + MsqInfo<RolePet>(roleId).PetIsBattle);
            
-            Utility.Debug.LogInfo(MsqInfoPet<Pet>(MsqInfo<RolePet>(roleId).PetIsBattle, "ID").ID);
             //当前 是不是组队
             if (team == null)
             {
                 if (MsqInfo<RolePet>(roleId).PetIsBattle == 0)
                     return petData;
+                //Utility.Debug.LogInfo(MsqInfoPet<Pet>(MsqInfo<RolePet>(roleId).PetIsBattle, "ID").ID);
                 var statusPet = MsqInfoPet<PetStatus>(MsqInfoPet<Pet>(MsqInfo<RolePet>(roleId).PetIsBattle, "ID").ID, "PetID");
                 petData.Add(new PetBattleDataDTO()
                 {
@@ -495,7 +495,7 @@ namespace AscensionServer
         }
 
         /// <summary>
-        /// 每回合 战斗 计算 参数服务器 返回给客户端
+        /// 每回合 战斗 技能计算 参数服务器 返回给客户端
         /// </summary>
         /// <returns></returns>
         public Dictionary<byte, object> RoundServerToClient()
@@ -509,6 +509,24 @@ namespace AscensionServer
 
             return subResponseParametersDict;
         }
+
+        /// <summary>
+        /// 每回合 战斗 技能逃跑计算 参数服务器返回给客户端
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<byte, object> RoundRunAwayServerToClient(bool isRunAway)
+        {
+            ///返回给客户端
+            Dictionary<byte, object> subResponseParametersDict = new Dictionary<byte, object>();
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>().teamSet));
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleCmd, (byte)BattleCmd.SkillInstruction);
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTimeStamp, Utility.Json.ToJson(Utility.Time.MillisecondTimeStamp()));
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTime, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>().RoleBattleTime));
+
+            return subResponseParametersDict;
+        }
+
+
         #endregion
     }
 }
