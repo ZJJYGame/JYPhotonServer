@@ -52,7 +52,7 @@ namespace AscensionServer
                     case BattleCmd.RunAwayInstruction:
                         GameManager.CustomeModule<ServerBattleManager>().BattleRunAway(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, RoleObj.BattleInitDTO.RoomId, battleTransferObj);
                         break;
-                    default:
+                    case BattleCmd.MagicWeapon:
                         break;
                 }
             }

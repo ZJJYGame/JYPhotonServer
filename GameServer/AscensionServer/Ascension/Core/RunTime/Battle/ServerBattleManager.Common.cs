@@ -650,8 +650,42 @@ namespace AscensionServer
         /// <param name="drugData"></param>
         public void DrugDataToUser(BattleTransferDTO battleTransferDTOs, int roleId,DrugData drugData)
         {
-           
+            switch (drugData.Drug_Type)
+            {
+                case DrugType.RoleHP:
+                    DrugHP(battleTransferDTOs,roleId,drugData);
+                    break;
+                case DrugType.RoleMP:
+
+                    break;  
+                case DrugType.RoleBuff:
+
+                    break;
+
+                case DrugType.RoleResurgence:
+                    break;
+            }
         }
+        #region 单人 针对丹药的HP  MP Buffer 复活
+        public void DrugHP(BattleTransferDTO battleTransferDTOs, int roleId, DrugData drugData)
+        {
+            //if (drugData.Drug_Use_Target == 1) // 需要加宠物
+            {
+                if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP + drugData.Drug_Value >= _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleMaxHP)
+                    _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP = _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleMaxHP;
+                else
+                    _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP += drugData.Drug_Value;
+                BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+                tempTrans.TargetID = roleId;
+                tempTrans.TargetHPDamage = drugData.Drug_Value;
+                List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                TargetInfosSet.Add(tempTrans);
+                teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = roleId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+            }
+        }
+        #endregion
+
+
         /// <summary>
         /// 符箓的使用
         /// </summary>
