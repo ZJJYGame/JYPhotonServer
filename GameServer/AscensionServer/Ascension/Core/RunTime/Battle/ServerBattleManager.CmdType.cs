@@ -43,6 +43,27 @@ namespace AscensionServer
                 return skillMiShuDict[targerId];
             return null;
         }
+        /// <summary>
+        /// 针对 道具中得 丹药和符箓
+        /// </summary>
+        /// <param name="targetId"></param>
+        /// <returns></returns>
+        public object PropsInstrutionFormToObject(int targetId)
+        {
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, DrugData>>(out var drugDict);
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, RunesData>>(out var runesDict);
+            if (drugDict.ContainsKey(targetId))
+                return drugDict[targetId];
+            if (runesDict.ContainsKey(targetId))
+                return runesDict[targetId];
+            return null;
+        }
+
+
+
+
+
+
 
         /// <summary>
         /// 不同技能行为的Cmd

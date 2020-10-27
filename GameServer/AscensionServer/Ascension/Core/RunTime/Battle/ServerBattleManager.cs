@@ -111,12 +111,13 @@ namespace AscensionServer
         /// <summary>
         /// 开始战斗   -->  开始战斗的回合
         /// </summary>
-        public void BattleStart(BattleCmd battleCmd,int roleId, int roomId, BattleTransferDTO battleTransferDTOs)
+        public void BattleStart(int roleId, int roomId, BattleTransferDTO battleTransferDTOs)
         {
 
-            Utility.Debug.LogInfo("battleCmd == >>>" + battleCmd);
+            Utility.Debug.LogInfo("battleCmd == >>>" + battleTransferDTOs.BattleCmd);
             TargetID.Clear();
             teamSet.Clear();
+            bool isRunAway = false;
             if (!_roomidToBattleTransfer.ContainsKey(roomId))
                 return;
 
@@ -133,27 +134,35 @@ namespace AscensionServer
                     {
                         case "EnemyStatusDTO":
                             var enemyStatusData = objectOwner as EnemyStatusDTO;
+                            if (isRunAway)
+                                break;
                             if (enemyStatusData.EnemyHP > 0 && _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
                                 AIToRelease(battleTransferDTOs, enemyStatusData, roleId);
                             break;
                         case "RoleStatusDTO":
                             //if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
                             //    PlayerToRelease(battleTransferDTOs, roleId);
-                            switch (battleCmd)
+                            switch (battleTransferDTOs.BattleCmd)
                             {
+                                #region 针对道具
                                 case BattleCmd.PropsInstruction:
+                                    PlayerToPropslnstruction(battleTransferDTOs, roleId);
                                     break;
+                                #endregion
+                                #region 针对技能
+
                                 case BattleCmd.SkillInstruction:
-                                    #region 针对技能
                                     if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
                                         PlayerToRelease(battleTransferDTOs, roleId);
-                                    #endregion
                                     break;
+                                #endregion
+                                #region 针对逃跑
+
                                 case BattleCmd.RunAwayInstruction:
-                                    #region 针对逃跑
+                                    isRunAway = true;
                                     PlayerToRunAway(battleTransferDTOs, roleId);
-                                    #endregion
                                     break;
+                                #endregion
                                 case BattleCmd.MagicWeapon:
                                     break;
                                 case BattleCmd.CatchPet:
@@ -168,7 +177,7 @@ namespace AscensionServer
                             break;
                     }
                 }
-                SkillActionDifferentCmd(battleCmd,roleId,roomId);
+                SkillActionDifferentCmd(battleTransferDTOs.BattleCmd, roleId,roomId);
             }
             else
             {
@@ -196,10 +205,10 @@ namespace AscensionServer
         /// <summary>
         /// 战斗逃跑
         /// </summary>
-        public void BattleRunAway(BattleCmd battleCmd,int roleId,int RoomId, BattleTransferDTO battleTransferDTOs)
+        public void BattleRunAway(int roleId,int RoomId, BattleTransferDTO battleTransferDTOs)
         {
-            if (battleCmd == BattleCmd.RunAwayInstruction)
-                BattleStart(battleCmd, roleId, RoomId, battleTransferDTOs);
+            if (battleTransferDTOs.BattleCmd == BattleCmd.RunAwayInstruction)
+                BattleStart(roleId, RoomId, battleTransferDTOs);
         }
 
 
