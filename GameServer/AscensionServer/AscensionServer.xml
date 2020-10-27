@@ -280,6 +280,13 @@
             <param name="targetId"></param>
             <returns></returns>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.MagicWeaponFormToObject(System.Int32)">
+            <summary>
+            针对 法宝
+            </summary>
+            <param name="targetId"></param>
+            <returns></returns>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.SkillActionDifferentCmd(AscensionProtocol.DTO.BattleCmd,System.Int32,System.Int32)">
             <summary>
             不同技能行为的Cmd
@@ -341,6 +348,11 @@
             </summary>
             <param name="battleTransferDTOs"></param>
             <param name="roleId"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToMagicWeapen(AscensionProtocol.DTO.BattleTransferDTO,System.Int32)">
+            <summary>
+            针对法宝的使用
+            </summary>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerToRunAway(AscensionProtocol.DTO.BattleTransferDTO,System.Int32)">
             <summary>
@@ -417,6 +429,22 @@
             <summary>
             战斗逃跑
             </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.BattlePropsInstrution(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
+            <summary>
+            战斗道具
+            </summary>
+            <param name="roleId"></param>
+            <param name="roomId"></param>
+            <param name="battleTransferDTOs"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.BattleMagicWeapen(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
+            <summary>
+            战斗法宝
+            </summary>
+            <param name="roleId"></param>
+            <param name="roomId"></param>
+            <param name="battleTransferDTOs"></param>
         </member>
         <member name="F:AscensionServer.ServerBattleManager._teamIdToBattleInit">
             <summary>

@@ -164,8 +164,12 @@ namespace AscensionServer
                                     PlayerToRunAway(battleTransferDTOs, roleId);
                                     break;
                                 #endregion
+                                #region 针对法宝
                                 case BattleCmd.MagicWeapon:
+                                    if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
+                                        PlayerToMagicWeapen(battleTransferDTOs,roleId);
                                     break;
+                                #endregion
                                 case BattleCmd.CatchPet:
                                     break;
                                 case BattleCmd.SummonPet:
@@ -211,10 +215,26 @@ namespace AscensionServer
             if (battleTransferDTOs.BattleCmd == BattleCmd.RunAwayInstruction)
                 BattleStart(roleId, roomId, battleTransferDTOs);
         }
-
+        /// <summary>
+        /// 战斗道具
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="roomId"></param>
+        /// <param name="battleTransferDTOs"></param>
         public void BattlePropsInstrution(int roleId,int roomId, BattleTransferDTO battleTransferDTOs)
         {
             if (battleTransferDTOs.BattleCmd == BattleCmd.PropsInstruction)
+                BattleStart(roleId, roomId, battleTransferDTOs); ;
+        }
+        /// <summary>
+        /// 战斗法宝
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="roomId"></param>
+        /// <param name="battleTransferDTOs"></param>
+        public void BattleMagicWeapen(int roleId, int roomId, BattleTransferDTO battleTransferDTOs)
+        {
+            if (battleTransferDTOs.BattleCmd == BattleCmd.MagicWeapon)
                 BattleStart(roleId, roomId, battleTransferDTOs); ;
         }
 

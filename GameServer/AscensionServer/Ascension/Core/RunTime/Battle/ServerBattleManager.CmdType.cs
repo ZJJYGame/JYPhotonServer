@@ -58,8 +58,18 @@ namespace AscensionServer
                 return runesDict[targetId];
             return null;
         }
-
-
+        /// <summary>
+        /// 针对 法宝
+        /// </summary>
+        /// <param name="targetId"></param>
+        /// <returns></returns>
+        public MagicWeaponData MagicWeaponFormToObject(int targetId)
+        {
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MagicWeaponData>>(out var magicDict);
+            if (magicDict.ContainsKey(targetId))
+                return magicDict[targetId];
+            return null;
+        }
 
 
 

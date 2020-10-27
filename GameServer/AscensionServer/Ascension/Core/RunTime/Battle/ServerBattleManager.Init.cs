@@ -238,7 +238,7 @@ namespace AscensionServer
                     ObjectName = petObject.PetName,
                     RoleId = roleId,
                     ObjectID = petObject.PetID,
-                     ObjectId = petObject.ID,
+                    ObjectId = petObject.ID,
                     PetStatusDTO = new PetStatusDTO()
                     {
                         PetID = statusPet.PetID,
@@ -257,7 +257,7 @@ namespace AscensionServer
                         PetSpeed = statusPet.PetSpeed,
                         PetTalent = statusPet.PetTalent
                     }
-                }); 
+                });
             }
             else
             {
@@ -379,12 +379,12 @@ namespace AscensionServer
                         ObjectSpeed = (int)monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Attact_speed,
                     });
                 }
-                
+                /*
                 if (MsqInfo<RolePet>(roleId).PetIsBattle == 0)
                     return allDataBase;
                 var petObject = MsqInfoPet<Pet>(MsqInfo<RolePet>(roleId).PetIsBattle, "ID");
                 var statusPet = MsqInfoPet<PetStatus>(petObject.ID, "PetID");
-                allDataBase.Add(new BattleDataBase() {  ObjectID = petObject.PetID, ObjectId = petObject.ID, ObjectName = petObject.PetName, ObjectHP = statusPet.PetHP, ObjectMP = statusPet.PetMP, ObjectSpeed = statusPet.PetSpeed });
+                allDataBase.Add(new BattleDataBase() {  ObjectID = petObject.PetID, ObjectId = petObject.ID, ObjectName = petObject.PetName, ObjectHP = statusPet.PetHP, ObjectMP = statusPet.PetMP, ObjectSpeed = statusPet.PetSpeed });*/
             }
             else
             {
@@ -405,7 +405,7 @@ namespace AscensionServer
                         ObjectSpeed = (int)monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Attact_speed,
                     });
                 }
-                
+                /*
                 Utility.Debug.LogInfo("组队=====>>>>");
                 for (int op = 0; op < IsTeamDto(roleId).TeamMembers.Count; op++)
                 {
@@ -414,7 +414,7 @@ namespace AscensionServer
                     var petObject = MsqInfoPet<Pet>(MsqInfo<RolePet>(IsTeamDto(roleId).TeamMembers[op].RoleID).PetIsBattle, "ID");
                     var statusPet = MsqInfoPet<PetStatus>(petObject.ID, "PetID");
                     allDataBase.Add(new BattleDataBase() {  ObjectID = petObject.PetID, ObjectId = petObject.ID, ObjectHP = statusPet.PetHP, ObjectMP = statusPet.PetMP, ObjectSpeed = statusPet.PetSpeed, ObjectName = petObject.PetName});
-                }
+                }*/
             }
             return allDataBase;
         }

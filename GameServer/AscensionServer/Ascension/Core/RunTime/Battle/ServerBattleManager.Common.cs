@@ -141,7 +141,7 @@ namespace AscensionServer
         /// </summary>
         public void PlayerToSkillDamage(BattleTransferDTO battleTransferDTOs,int roleId, SkillGongFaDatas skillGongFa,int special = 0)
         {
-            battleTransferDTOs.ClientCmdId = battleTransferDTOs.BattleCmd == BattleCmd.PropsInstruction ? special : battleTransferDTOs.ClientCmdId;
+            battleTransferDTOs.ClientCmdId = battleTransferDTOs.BattleCmd == BattleCmd.PropsInstruction || battleTransferDTOs.BattleCmd == BattleCmd.MagicWeapon ? special : battleTransferDTOs.ClientCmdId;
             ///一段伤害     先判断数量  在判断攻击模式 最后是伤害系数
             ///单人 单段和多段伤害
             if (skillGongFa.Attack_Number == 1)
@@ -605,6 +605,21 @@ namespace AscensionServer
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// 针对法宝的使用
+        /// </summary>
+        public void PlayerToMagicWeapen(BattleTransferDTO battleTransferDTOs, int roleId)
+        {
+            if (MagicWeaponFormToObject(battleTransferDTOs.ClientCmdId) == null)
+                return;
+            var magicOwner =  MagicWeaponFormToObject(battleTransferDTOs.ClientCmdId);
+            if (!IsToSkillForm(magicOwner.Magic_Skill))
+                return;
+            Utility.Debug.LogInfo(" battleTransferDTOs.ClientCmdId ===》法宝指令" + battleTransferDTOs.ClientCmdId);
+            battleTransferDTOs.ClientCmdId = magicOwner.Magic_Skill;
+            PlayerToRelease(battleTransferDTOs, roleId, magicOwner.Magic_ID);
         }
 
        /// <summary>

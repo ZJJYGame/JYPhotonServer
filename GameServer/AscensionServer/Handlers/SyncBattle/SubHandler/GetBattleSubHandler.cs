@@ -53,6 +53,7 @@ namespace AscensionServer
                         GameManager.CustomeModule<ServerBattleManager>().BattleRunAway(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, RoleObj.BattleInitDTO.RoomId, battleTransferObj);
                         break;
                     case BattleCmd.MagicWeapon:
+                        GameManager.CustomeModule<ServerBattleManager>().BattleMagicWeapen(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, RoleObj.BattleInitDTO.RoomId, battleTransferObj);
                         break;
                 }
             }
