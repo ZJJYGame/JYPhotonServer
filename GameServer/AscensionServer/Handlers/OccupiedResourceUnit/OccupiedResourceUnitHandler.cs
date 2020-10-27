@@ -46,7 +46,7 @@ namespace AscensionServer
 
                 var levelmanager = GameManager.CustomeModule<LevelManager>();
                 OperationData operationData = new OperationData();
-                operationData.DataMessage = occupiedUnitObj;
+                operationData.DataMessage = Utility.Json.ToJson(occupiedUnitObj);
                 GameManager.CustomeModule<GameResourceManager>().OccupiedUnitSetCache.Clear();
                 levelmanager.SendMsg2AllLevelRoleS2C(0,operationData);
             }

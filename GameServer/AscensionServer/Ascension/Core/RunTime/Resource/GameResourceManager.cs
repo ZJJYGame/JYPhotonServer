@@ -81,10 +81,8 @@ namespace AscensionServer
         void SendResources(int id, RoleEntity roleEntity)
         {
             OperationData operationData = new OperationData();
-            operationData.DataMessage = Utility.Json.ToJson(ResUnitSetDict); ;
+            operationData.DataMessage = Utility.Json.ToJson(ResUnitSetDict); 
             operationData.OperationCode = (byte)OperationCode.SyncResources;
-            //var date = new Dictionary<byte, object>();
-            //date.Add((byte)ParameterCode.RelieveUnit, null);
             GameManager.CustomeModule<RoleManager>().SendMessage(roleEntity.RoleId, operationData);
             Utility.Debug.LogInfo("yzqData" + Utility.Json.ToJson(ResUnitSetDict));
             //roleEntity.SendEvent((byte)EventCode.RelieveOccupiedResourceUnit, date);
