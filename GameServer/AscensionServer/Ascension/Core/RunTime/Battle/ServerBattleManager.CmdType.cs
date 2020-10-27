@@ -55,6 +55,7 @@ namespace AscensionServer
             OperationData opData = new OperationData();
             opData.DataMessage = RoundServerToClient();
             opData.OperationCode = (byte)OperationCode.SyncBattleTransfer;
+            #region ob
             /*
             switch (battleCmd)
             {
@@ -81,6 +82,7 @@ namespace AscensionServer
                 case BattleCmd.Tactical:
                     break;
             }*/
+            #endregion
             GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
             GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Enqueue(roomId);
             GameManager.CustomeModule<ServerBattleManager>().TimestampBattleEnd(roomId);
