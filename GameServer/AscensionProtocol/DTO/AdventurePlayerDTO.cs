@@ -10,6 +10,7 @@ namespace AscensionProtocol.DTO
     /// 用于历练展示别的玩家的数值信息DTO
     /// 角色ID
     /// 角色宗门
+    /// 角色性别
     /// 角色名称
     /// 角色血量
     /// 角色真元
@@ -34,6 +35,7 @@ namespace AscensionProtocol.DTO
     {
         public virtual int RoleID { get; set; }
         public virtual int  RoleFaction { get; set; }
+        public virtual bool RoleGender { get; set; }
         public virtual string RoleName { get; set; }
         public virtual int RoleLevel { get; set; }
         public virtual int RoleHP { get; set; }
@@ -53,7 +55,7 @@ namespace AscensionProtocol.DTO
         public virtual int RoleVileSpawn { get; set; }
         public virtual int RoleVitality { get; set; }
         public virtual int RoleKillingIntent { get; set; }
-
+        public virtual string RoleAllianceName { get; set; }
         public override void Clear()
         {
             RoleFaction = -1;
@@ -75,6 +77,7 @@ namespace AscensionProtocol.DTO
             RoleVileSpawn = -1;
             RoleVitality = -1;
             RoleKillingIntent = -1;
+            RoleAllianceName = null;
         }
     }
 }

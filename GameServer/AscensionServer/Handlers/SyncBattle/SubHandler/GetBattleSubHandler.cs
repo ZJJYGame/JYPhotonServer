@@ -44,15 +44,16 @@ namespace AscensionServer
                         GameManager.CustomeModule<ServerBattleManager>().PrepareBattle(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, RoleObj.BattleInitDTO.RoomId);
                         break;
                     case BattleCmd.PropsInstruction:
-
+                        GameManager.CustomeModule<ServerBattleManager>().BattlePropsInstrution(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, RoleObj.BattleInitDTO.RoomId, battleTransferObj);
                         break;
                     case BattleCmd.SkillInstruction:
-                        GameManager.CustomeModule<ServerBattleManager>().BattleStart(RoleObj.SendBattleCmd, RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, RoleObj.BattleInitDTO.RoomId, battleTransferObj);
+                        GameManager.CustomeModule<ServerBattleManager>().BattleStart( RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, RoleObj.BattleInitDTO.RoomId, battleTransferObj);
                         break;
                     case BattleCmd.RunAwayInstruction:
-                        GameManager.CustomeModule<ServerBattleManager>().BattleRunAway(RoleObj.SendBattleCmd, RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, RoleObj.BattleInitDTO.RoomId, battleTransferObj);
+                        GameManager.CustomeModule<ServerBattleManager>().BattleRunAway(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, RoleObj.BattleInitDTO.RoomId, battleTransferObj);
                         break;
-                    default:
+                    case BattleCmd.MagicWeapon:
+                        GameManager.CustomeModule<ServerBattleManager>().BattleMagicWeapen(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, RoleObj.BattleInitDTO.RoomId, battleTransferObj);
                         break;
                 }
             }

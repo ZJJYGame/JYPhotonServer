@@ -31,15 +31,16 @@ namespace AscensionServer
             //Utility.Debug.LogInfo("<DataManager> 测试 ConvertData");
             try
             {
-               
 
+
+                #region 宗门藏宝阁/藏经阁/瓶颈/心魔/仙盟等级/仙盟签到/秘术属性
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(FactionItemData).Name, out var factionitemdata);
                 var factionitemDataDict = TransObject<List<FactionItemData>>(factionitemdata).ToDictionary(key => key.FactionItemId, value => value.FactionItem);
 
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(FactionSkillData).Name, out var factionSkilldata);
                 var factionSkillDataDict = TransObject<List<FactionSkillData>>(factionSkilldata).ToDictionary(key => key.SchoolID, value => value.FactionSkill);
 
-                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(BottleneckData).Name, out var bottleneckData);          
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(BottleneckData).Name, out var bottleneckData);
                 var bottleneckDataDict = TransObject<List<BottleneckData>>(bottleneckData).ToDictionary(key => key.Level_ID, value => value);
 
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(DemonData).Name, out var demonData);
@@ -49,14 +50,15 @@ namespace AscensionServer
                 var alliancelevledataDict = TransObject<List<AllianceLevleUpData>>(alliancelevledata).ToDictionary(key => key.Building_Level, value => value);
 
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(AllianceSigninData).Name, out var allianceSigninData);
-                var allianceSigninDataDict = TransObject<List<AllianceSigninData>>(alliancelevledata);
+                var allianceSigninDataDict = TransObject<List<AllianceSigninData>>(allianceSigninData);
 
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(MiShuData).Name, out var mishuData);
                 var mishuDataDict = TransObject<List<MiShuData>>(mishuData).ToDictionary(key => key.Mishu_ID, value => value.mishuSkillDatas);
+                #endregion
 
 
                 #region 战斗json
-        
+
 
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(GongFaBook).Name, out var gongfaBookSet);
                 var gfbDict = TransObject<List<GongFaBook>>(gongfaBookSet).ToDictionary(key => key.Book_ID, value => value);

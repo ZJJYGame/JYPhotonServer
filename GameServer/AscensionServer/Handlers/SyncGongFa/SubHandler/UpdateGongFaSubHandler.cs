@@ -21,6 +21,9 @@ namespace AscensionServer
             var receivedRoleObj = Utility.Json.ToObject<RoleGongFa>(receivedRoleData);
             var receivedObj = Utility.Json.ToObject<CultivationMethod>(receivedData);
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, List<GongFa>>>(out var gongFaDataDict);
+
+
             bool exist = NHibernateQuerier.Verify<RoleGongFa>(nHCriteriaRoleID);
             int intInfoObj = 0;
             int intLevel = 0; 
@@ -41,6 +44,9 @@ namespace AscensionServer
                             GongfaInfoExp.CultivationMethodExp = 0;
                             intInfoObj = GongfaInfoExp.CultivationMethodExp + receivedObj.CultivationMethodExp;
                             intLevel = GongfaInfoExp.CultivationMethodLevel + receivedObj.CultivationMethodLevel;
+
+
+
                             NHibernateQuerier.Update(new CultivationMethod() { ID = GongfaInfoExp.ID, CultivationMethodID = GongfaInfoExp.CultivationMethodID, CultivationMethodLevel = (short)intLevel, CultivationMethodLevelSkillArray = GongfaInfoExp.CultivationMethodLevelSkillArray, CultivationMethodExp = intInfoObj });
                             Role role= NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRoleID);
                             role.RoleLevel= intLevel;

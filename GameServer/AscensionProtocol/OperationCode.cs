@@ -136,6 +136,7 @@ namespace AscensionProtocol
         /// 发送日常通知的消息
         /// </summary>
         SyncDailyMessage=59,
+        SyncAdventurePlayerInfo=60,
         /// <summary>
         /// 进入高同步场景的指令
         /// </summary>
