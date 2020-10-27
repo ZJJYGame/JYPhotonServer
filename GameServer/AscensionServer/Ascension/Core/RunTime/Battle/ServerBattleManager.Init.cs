@@ -372,11 +372,11 @@ namespace AscensionServer
                         ObjectSpeed = (int)monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Attact_speed,
                     });
                 }
-                /*
+                
                 if (MsqInfo<RolePet>(roleId).PetIsBattle == 0)
                     return allDataBase;
                 var statusPet = MsqInfoPet<PetStatus>(MsqInfoPet<Pet>(MsqInfo<RolePet>(roleId).PetIsBattle, "ID").ID, "PetID");
-                allDataBase.Add(new BattleDataBase() {  ObjectID = statusPet.PetID, ObjectName = MsqInfoPet<Pet>(MsqInfo<RolePet>(roleId).PetIsBattle, "ID").PetName, ObjectHP = statusPet.PetHP, ObjectMP = statusPet.PetMP, ObjectSpeed = statusPet.PetSpeed });*/
+                allDataBase.Add(new BattleDataBase() {  ObjectID = statusPet.PetID, ObjectName = MsqInfoPet<Pet>(MsqInfo<RolePet>(roleId).PetIsBattle, "ID").PetName, ObjectHP = statusPet.PetHP, ObjectMP = statusPet.PetMP, ObjectSpeed = statusPet.PetSpeed });
             }
             else
             {

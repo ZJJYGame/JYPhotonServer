@@ -146,7 +146,8 @@ namespace AscensionServer
                             {
                                 #region 针对道具
                                 case BattleCmd.PropsInstruction:
-                                    PlayerToPropslnstruction(battleTransferDTOs, roleId);
+                                    if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
+                                        PlayerToPropslnstruction(battleTransferDTOs, roleId);
                                     break;
                                 #endregion
                                 #region 针对技能
@@ -205,13 +206,17 @@ namespace AscensionServer
         /// <summary>
         /// 战斗逃跑
         /// </summary>
-        public void BattleRunAway(int roleId,int RoomId, BattleTransferDTO battleTransferDTOs)
+        public void BattleRunAway(int roleId,int roomId, BattleTransferDTO battleTransferDTOs)
         {
             if (battleTransferDTOs.BattleCmd == BattleCmd.RunAwayInstruction)
-                BattleStart(roleId, RoomId, battleTransferDTOs);
+                BattleStart(roleId, roomId, battleTransferDTOs);
         }
 
-
+        public void BattlePropsInstrution(int roleId,int roomId, BattleTransferDTO battleTransferDTOs)
+        {
+            if (battleTransferDTOs.BattleCmd == BattleCmd.PropsInstruction)
+                BattleStart(roleId, roomId, battleTransferDTOs); ;
+        }
 
         private SkillReactionCmd GetSendSkillReactionCmd(int roomId, int i)
         {

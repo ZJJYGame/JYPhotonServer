@@ -322,7 +322,7 @@
             针对功法  筛选出来每回合的存活的Al
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerToSkillDamage(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,AscensionServer.SkillGongFaDatas)">
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToSkillDamage(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,AscensionServer.SkillGongFaDatas,System.Int32)">
             <summary>
             针对功法  玩家释放  不同技能类型的技能计算伤害
             </summary>
@@ -335,7 +335,7 @@
             <param name="roleId"></param>
             <param name="skillGongFa"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32)">
             <summary>
             针对单人的功法秘术   处理玩家  判断Al出手之前 是不是死亡 换取目标
             </summary>
@@ -351,6 +351,14 @@
             <summary>
             针对  单人的道具的使用 返回计算处理 符箓和丹药
             </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.DrugDataToUser(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,AscensionServer.DrugData)">
+            <summary>
+            丹药的使用
+            </summary>
+            <param name="battleTransferDTOs"></param>
+            <param name="roleId"></param>
+            <param name="drugData"></param>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.RunesDataToUser(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,AscensionServer.RunesData)">
             <summary>
@@ -399,13 +407,13 @@
             准备指令战斗 
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.BattleStart(AscensionProtocol.DTO.BattleCmd,System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
+        <member name="M:AscensionServer.ServerBattleManager.BattleStart(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             开始战斗   -->  开始战斗的回合
             </summary>
         </member>
         <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
-        <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(AscensionProtocol.DTO.BattleCmd,System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
+        <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
             </summary>

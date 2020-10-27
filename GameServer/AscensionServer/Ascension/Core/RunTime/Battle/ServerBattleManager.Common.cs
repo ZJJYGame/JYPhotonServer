@@ -94,7 +94,7 @@ namespace AscensionServer
                 tempTransEnemy.TargetHPDamage = -100; //-skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
                 List<BattleTransferDTO.TargetInfoDTO> PlayerInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
                 PlayerInfosSet.Add(tempTransEnemy);
-                teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
+                teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd =  BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
             }
             else
             {
@@ -106,7 +106,7 @@ namespace AscensionServer
                 tempTransEnemy.TargetHPDamage = -100;//-skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
                 List<BattleTransferDTO.TargetInfoDTO> PlayerInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
                 PlayerInfosSet.Add(tempTransEnemy);
-                teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
+                teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
             }
         }
 
@@ -139,8 +139,9 @@ namespace AscensionServer
         /// <summary>
         /// 针对功法  玩家释放  不同技能类型的技能计算伤害
         /// </summary>
-        public void PlayerToSkillDamage(BattleTransferDTO battleTransferDTOs,int roleId, SkillGongFaDatas skillGongFa)
+        public void PlayerToSkillDamage(BattleTransferDTO battleTransferDTOs,int roleId, SkillGongFaDatas skillGongFa,int special = 0)
         {
+            battleTransferDTOs.ClientCmdId = battleTransferDTOs.BattleCmd == BattleCmd.PropsInstruction ? special : battleTransferDTOs.ClientCmdId;
             ///一段伤害     先判断数量  在判断攻击模式 最后是伤害系数
             ///单人 单段和多段伤害
             if (skillGongFa.Attack_Number == 1)
@@ -169,6 +170,7 @@ namespace AscensionServer
                                         tempTrans.TargetHPDamage = -skillGongFa.Attack_Factor[op];
                                         List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
                                         TargetInfosSet.Add(tempTrans);
+                                        
                                         if (skillGongFa.Attack_Factor.Count - 1 == op || _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP <= 0)
                                             teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleID, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
                                         else
@@ -560,7 +562,7 @@ namespace AscensionServer
         /// </summary>
         /// <param name="battleTransferDTOs"></param>
         /// <param name="roleId"></param>
-        public void PlayerToRelease(BattleTransferDTO battleTransferDTOs, int roleId)
+        public void PlayerToRelease(BattleTransferDTO battleTransferDTOs, int roleId,int special = 0)
         {
             TargetID.Clear();
             ///传输的目标
@@ -580,7 +582,7 @@ namespace AscensionServer
                             {
                                 case Skill_Type.Attact:
                                     AlToSurvival(battleTransferDTOs, roleId, info, skillGongFa);
-                                    PlayerToSkillDamage(battleTransferDTOs, roleId, skillGongFa);
+                                    PlayerToSkillDamage(battleTransferDTOs, roleId, skillGongFa, special);
                                     break;
                                 case Skill_Type.ReturnBlood:
                                     PlayerToSkillReturnBlood(battleTransferDTOs, roleId, skillGongFa);
@@ -630,7 +632,8 @@ namespace AscensionServer
             switch (typeName)
             {
                 case "DrugData":
-
+                    var drugData = objectOwner as DrugData;
+                    DrugDataToUser(battleTransferDTOs, roleId, drugData);
                     break;
                 case "RunesData":
                     var runesData = objectOwner as RunesData;
@@ -639,9 +642,15 @@ namespace AscensionServer
             }
         }
 
-        public void DrugDataToUser()
+        /// <summary>
+        /// 丹药的使用
+        /// </summary>
+        /// <param name="battleTransferDTOs"></param>
+        /// <param name="roleId"></param>
+        /// <param name="drugData"></param>
+        public void DrugDataToUser(BattleTransferDTO battleTransferDTOs, int roleId,DrugData drugData)
         {
-
+           
         }
         /// <summary>
         /// 符箓的使用
@@ -650,18 +659,8 @@ namespace AscensionServer
         {
             if (!IsToSkillForm(runesData.Runes_Skill))
                 return;
-            var objectOwner = SkillFormToSkillObject(runesData.Runes_Skill);
-            var typeName = objectOwner.GetType().Name;
-            switch (typeName)
-            {
-                case "SkillGongFaDatas":
-                    var skillGongFa = objectOwner as SkillGongFaDatas;
-                    PlayerToSkillDamage(battleTransferDTOs,roleId, skillGongFa);
-                    break;
-                case "SkillMiShuDatas":
-                    var skillMiShu = objectOwner as SkillMiShuDatas;
-                    break;
-            }
+            battleTransferDTOs.ClientCmdId = runesData.Runes_Skill;
+            PlayerToRelease(battleTransferDTOs, roleId, runesData.Runes_ID);
         }
 
         #endregion
