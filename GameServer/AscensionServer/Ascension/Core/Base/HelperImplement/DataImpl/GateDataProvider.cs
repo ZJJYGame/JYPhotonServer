@@ -13,7 +13,7 @@ namespace AscensionServer
         string folderPath = Environment.CurrentDirectory + "/JsonData";
         Dictionary<string, string> jsonDict = new Dictionary<string, string>();
         Dictionary<Type, object> objectDict = new Dictionary<Type, object>();
-        public object LoadData()
+        public void LoadData()
         {
             jsonDict.Clear();
             DirectoryInfo dir = new DirectoryInfo(folderPath);
@@ -27,9 +27,10 @@ namespace AscensionServer
                 Utility.Debug.LogInfo($"\n{pureStr}\n{str}\n");
 #endif
             }
-            return jsonDict;
+            GameManager.CustomeModule<DataManager>().AddOrUpdate(jsonDict);
+            ParseData();
         }
-        public object ParseData()
+        void  ParseData()
         {
             objectDict.Clear();
             var datSet = Utility.Assembly.GetInstancesByAttribute<ConfigDataAttribute>(typeof(Data), true);
@@ -53,7 +54,7 @@ namespace AscensionServer
                     }
                 }
             }
-            return objectDict;
+            GameManager.CustomeModule<DataManager>().AddOrUpdate(objectDict);
         }
     }
 }

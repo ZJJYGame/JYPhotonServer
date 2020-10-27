@@ -26,28 +26,28 @@ namespace AscensionServer
             remove{sceneRefreshHandler -= value;}
         }
         PeerManager peerMgrInstance;
-        Action<int,RoleEntity> onRoleEnterLevel;
-        /// <summary>
-        /// 角色进入场景事件
-        /// </summary>
-        public event Action<int,RoleEntity> OnRoleEnterLevel
-        {
-            add { onRoleEnterLevel += value; }
-            remove { onRoleEnterLevel -= value; }
-        }
-        Action<int,RoleEntity> onRoleExitLevel;
-        /// <summary>
-        /// 角色离开场景事件
-        /// </summary>
-        public event Action<int,RoleEntity> OnRoleExitLevel
-        {
-            add { onRoleExitLevel += value; }
-            remove { onRoleExitLevel -= value; }
-        }
 #else
         LevelEntity levelEntity = new LevelEntity();
 #endif
         RoleManager roleMgrInstance;
+        Action<int, RoleEntity> onRoleEnterLevel;
+        /// <summary>
+        /// 角色进入场景事件
+        /// </summary>
+        public event Action<int, RoleEntity> OnRoleEnterLevel
+        {
+            add { onRoleEnterLevel += value; }
+            remove { onRoleEnterLevel -= value; }
+        }
+        Action<int, RoleEntity> onRoleExitLevel;
+        /// <summary>
+        /// 角色离开场景事件
+        /// </summary>
+        public event Action<int, RoleEntity> OnRoleExitLevel
+        {
+            add { onRoleExitLevel += value; }
+            remove { onRoleExitLevel -= value; }
+        }
         public override void OnPreparatory()
         {
 #if SERVER

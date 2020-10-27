@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using Cosmos;
+using NHibernate.Util;
+
 namespace AscensionServer
 {
     [CustomeModule]
@@ -16,7 +18,7 @@ namespace AscensionServer
         /// <summary>
         /// 对象字典；
         /// </summary>
-        Dictionary<Type, object> dataDict;
+        Dictionary<Type, object> typeObjectDict;
         /// <summary>
         /// json数据字典；
         /// </summary>
@@ -38,6 +40,7 @@ namespace AscensionServer
         /// 覆写轮询函数；
         /// 自动更新服务器数据类型；
         /// </summary>
+#if SERVER
         public override void OnRefresh()
         {
             if (IsPause)
@@ -45,30 +48,38 @@ namespace AscensionServer
             var now = Utility.Time.SecondNow();
             if (now >= latestRefreshTime)
             {
-                jsonDict = dataProvider?.LoadData() as Dictionary<string, string>;
-                dataDict = dataProvider?.ParseData() as Dictionary<Type, object>;
+                 dataProvider?.LoadData();
                 latestRefreshTime = now + intervalSec;
             }
         }
+        public IDictionary<string, string> AddOrUpdate(Dictionary<string, string> dict)
+        {
+            return jsonDict.AddOrOverride(dict);
+        }
+        public IDictionary<Type, object> AddOrUpdate(Dictionary<Type, object> dict)
+        {
+            return typeObjectDict.AddOrOverride(dict);
+        }
+#endif
         public bool ContainsKey(Type key)
         {
-            return dataDict.ContainsKey(key);
+            return typeObjectDict.ContainsKey(key);
         }
         public bool TryAdd(Type key, object value)
         {
-            return dataDict.TryAdd(key, value);
+            return typeObjectDict.TryAdd(key, value);
         }
         public bool TryGetValue(Type key, out object value)
         {
-            return dataDict.TryGetValue(key, out value);
+            return typeObjectDict.TryGetValue(key, out value);
         }
         public bool TryRemove(Type key)
         {
-            return dataDict.Remove(key);
+            return typeObjectDict.Remove(key);
         }
         public bool TryRemove(Type key, out object value)
         {
-            return dataDict.Remove(key, out value);
+            return typeObjectDict.Remove(key, out value);
         }
         public bool ContainsKey<T>()
             where T : class
@@ -109,6 +120,7 @@ namespace AscensionServer
         {
             return jsonDict.TryAdd(key, value);
         }
+
         /// <summary>
         /// 通过类名获取json数据；
         /// typeof(Data).Name可作为key；
@@ -144,12 +156,18 @@ namespace AscensionServer
         {
             return jsonDict.ContainsKey(key);
         }
+        public void ClearAll()
+        {
+            jsonDict.Clear();
+            typeObjectDict.Clear();
+        }
         void InitProvider()
         {
-            var obj = Utility.Assembly.GetInstanceByAttribute<ImplementProviderAttribute>(typeof(IDataProvider));
-            dataProvider = obj as IDataProvider;
-            jsonDict = dataProvider?.LoadData() as Dictionary<string, string>;
-            dataDict = dataProvider?.ParseData() as Dictionary<Type, object>;
+            var objs = Utility.Assembly.GetInstancesByAttribute<ImplementProviderAttribute, IDataProvider>();
+            for (int i = 0; i < objs.Length; i++)
+            {
+                dataProvider?.LoadData();
+            }
         }
     }
 }
