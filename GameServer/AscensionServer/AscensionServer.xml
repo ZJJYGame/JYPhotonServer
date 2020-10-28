@@ -403,6 +403,11 @@
             <param name="roleId"></param>
             <param name="skillGongFa"></param>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToRunAway(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            组队逃跑
+            </summary>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.BattleClear(System.Int32)">
             <summary>
             注意 每次进去之前先保证之前的数据都清除掉

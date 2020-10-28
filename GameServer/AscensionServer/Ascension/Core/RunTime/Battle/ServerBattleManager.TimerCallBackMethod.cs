@@ -175,9 +175,7 @@ namespace AscensionServer
                         var enemyStatusData = objectOwner as EnemyStatusDTO;
                         ///返回一个当前要出手的人的个人属性   需要判断TODO
                         var EnemyIndex = new Random().Next(0, serverBattleManager._roomidToBattleTransfer[teampRoomId].Count);
-
                         var memberCuuentTranferEnemy = serverBattleManager._teamIdToBattleInit[tempRole].playerUnits.Find(x => x.RoleStatusDTO.RoleID == serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex].RoleId);
-
                         if (enemyStatusData.EnemyHP > 0 && memberCuuentTranferEnemy.RoleStatusDTO.RoleHP > 0)
                             serverBattleManager.AIToRelease(serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex], enemyStatusData, tempRole, EnemyIndex);
                         break;
@@ -188,8 +186,33 @@ namespace AscensionServer
                         ///返回一个当前要出手的人的个人属性
                         var memberCuuentTranfer = serverBattleManager._teamIdToBattleInit[tempRole].playerUnits.Find(x => x.RoleStatusDTO.RoleID == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID);
                         var memberCuuentTranferIndex = serverBattleManager._teamIdToBattleInit[tempRole].playerUnits.FindIndex(x => x.RoleStatusDTO.RoleID == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID);
-                        if (memberCuuentTranfer.RoleStatusDTO.RoleHP > 0)
-                            serverBattleManager.PlayerToRelease(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, memberCuuentTranferIndex);
+                        switch (speedCuurentTransfer.BattleCmd)
+                        {
+                            case BattleCmd.PropsInstruction:
+                                break;
+                            #region 针对技能
+                            case BattleCmd.SkillInstruction:
+                                if (memberCuuentTranfer.RoleStatusDTO.RoleHP > 0)
+                                    serverBattleManager.PlayerToRelease(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, memberCuuentTranferIndex);
+                                break;
+                            #endregion
+                            case BattleCmd.RunAwayInstruction:
+                                PlayerTeamToRunAway(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, memberCuuentTranferIndex);
+                                break;
+                            case BattleCmd.PerformBattleComplete:
+                                break;
+                            case BattleCmd.MagicWeapon:
+                                break;
+                            case BattleCmd.CatchPet:
+                                break;
+                            case BattleCmd.SummonPet:
+                                break;
+                            case BattleCmd.Tactical:
+                                break;
+                            default:
+                                break;
+                        }
+                       
                         break;
                 }
             }

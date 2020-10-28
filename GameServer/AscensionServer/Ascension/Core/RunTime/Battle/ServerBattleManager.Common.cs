@@ -1150,6 +1150,19 @@ namespace AscensionServer
             }
         }
 
+        /// <summary>
+        /// 组队逃跑
+        /// </summary>
+        public void PlayerTeamToRunAway(BattleTransferDTO battleTransferDTOs,int roleId,int currentRole,int transfer = 0)
+        {
+            BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+            tempTrans.TargetID = currentRole;
+            tempTrans.TargetHPDamage = _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP > 0 ? 1 : 0;
+            List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+            TargetInfosSet.Add(tempTrans);
+            teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = currentRole, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+        }
+
         #endregion
 
     }

@@ -114,7 +114,7 @@ namespace AscensionServer
         public void BattleStart(int roleId, int roomId, BattleTransferDTO battleTransferDTOs)
         {
 
-            Utility.Debug.LogInfo("battleCmd == >>>" + battleTransferDTOs.BattleCmd);
+            //Utility.Debug.LogInfo("battleCmd == >>>" + battleTransferDTOs.BattleCmd);
             TargetID.Clear();
             teamSet.Clear();
             bool isRunAway = false;
