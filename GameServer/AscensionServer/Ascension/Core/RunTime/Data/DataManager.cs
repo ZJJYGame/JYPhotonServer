@@ -52,14 +52,14 @@ namespace AscensionServer
                 latestRefreshTime = now + intervalSec;
             }
         }
-        public IDictionary<string, string> AddOrUpdate(Dictionary<string, string> dict)
-        {
-            return jsonDict.AddOrOverride(dict);
-        }
-        public IDictionary<Type, object> AddOrUpdate(Dictionary<Type, object> dict)
-        {
-            return typeObjectDict.AddOrOverride(dict);
-        }
+        //public IDictionary<string, string> AddOrUpdate(Dictionary<string, string> dict)
+        //{
+        //    return jsonDict.AddOrOverride(dict);
+        //}
+        //public IDictionary<Type, object> AddOrUpdate(Dictionary<Type, object> dict)
+        //{
+        //    return typeObjectDict.AddOrOverride(dict);
+        //}
 #endif
         public bool ContainsKey(Type key)
         {
