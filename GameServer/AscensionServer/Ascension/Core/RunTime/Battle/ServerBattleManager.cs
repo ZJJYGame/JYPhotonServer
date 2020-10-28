@@ -158,7 +158,6 @@ namespace AscensionServer
                                     break;
                                 #endregion
                                 #region 针对逃跑
-
                                 case BattleCmd.RunAwayInstruction:
                                     isRunAway = true;
                                     PlayerToRunAway(battleTransferDTOs, roleId);

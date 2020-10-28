@@ -15,6 +15,7 @@ namespace AscensionProtocol.DTO
         public virtual string RoleRoot { get; set; }
         public virtual string RoleName { get; set; }
         public virtual int RoleLevel { get; set; }
+        #region team  需要完善
         public virtual TeamInstructions teamInstructions { get; set; }
         public virtual TeamDTO teamDTO { get; set; } 
         public enum TeamInstructions
@@ -24,14 +25,17 @@ namespace AscensionProtocol.DTO
             ApplyTeam = 3,
             RefusedTeam = 4,
         }
+        #endregion
         public virtual BattleInitDTO BattleInitDTO { get; set; }
-
         /// <summary>
         /// 战斗指令
         /// </summary>
         public virtual BattleCmd SendBattleCmd { get; set; }
         public virtual int CmdId { get; set; }
-
+        /// <summary>
+        /// 主要是针对 组队中的逃跑 应对 参不参与计算
+        /// </summary>
+        public virtual bool isBattle { get; set; }
         public override void Clear()
         {
             RoleID = -1;
@@ -42,6 +46,7 @@ namespace AscensionProtocol.DTO
             RoleLevel = 0;
             teamInstructions = 0;
             teamDTO = null;
+            isBattle = true;
         }
         public override string ToString()
         {

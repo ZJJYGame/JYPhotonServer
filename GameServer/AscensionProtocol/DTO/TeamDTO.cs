@@ -42,6 +42,7 @@ namespace AscensionProtocol.DTO
         /// 队伍同意列表
         /// </summary>
         public virtual List<int> AgreeMebers { get; set; }
+
         public override void Clear()
         {
             LeaderId = 0;

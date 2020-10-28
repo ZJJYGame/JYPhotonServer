@@ -405,7 +405,7 @@
         </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToRunAway(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32)">
             <summary>
-            组队逃跑
+            组队逃跑   可以和并成一个 和单人逃跑的   需要去队伍中标记一下 是不是存在战斗中还是中途退出啦
             </summary>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.BattleClear(System.Int32)">
@@ -810,7 +810,7 @@
             间隔秒；
             </summary>
         </member>
-        <member name="F:AscensionServer.DataManager.dataDict">
+        <member name="F:AscensionServer.DataManager.typeObjectDict">
             <summary>
             对象字典；
             </summary>
