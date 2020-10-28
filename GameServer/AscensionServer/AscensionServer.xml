@@ -835,6 +835,12 @@
             <param name="value">json数据</param>
             <returns>是否获取成功</returns>
         </member>
+        <member name="T:AscensionServer.IDataProvider">
+            <summary>
+            允许多派生；
+            只要继承自此类，并挂载[ImplementProviderAttribute]特性，皆可在初始化时加载数据；
+            </summary>
+        </member>
         <member name="T:AscensionServer.IPeerEntity">
             <summary>
             用于适配的Peer接口，管理一个具体实现的client peer 对象
