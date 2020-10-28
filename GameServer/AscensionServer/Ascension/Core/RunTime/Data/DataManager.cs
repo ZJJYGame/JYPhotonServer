@@ -14,7 +14,6 @@ namespace AscensionServer
         /// </summary>
         int intervalSec = 3600;
         long latestRefreshTime;
-        IDataProvider dataProvider;
         /// <summary>
         /// 对象字典；
         /// </summary>
@@ -23,9 +22,15 @@ namespace AscensionServer
         /// json数据字典；
         /// </summary>
         Dictionary<string, string> jsonDict;
+        List<IDataProvider> providerSet = new List<IDataProvider>();
         public override void OnInitialization()
         {
-            InitProvider();
+            var objs = Utility.Assembly.GetInstancesByAttribute<ImplementProviderAttribute, IDataProvider>();
+            for (int i = 0; i < objs.Length; i++)
+            {
+                objs[i]?.LoadData();
+            }
+            providerSet.AddRange(objs);
             latestRefreshTime = Utility.Time.SecondNow() + intervalSec;
         }
         public override void OnPreparatory()
@@ -48,17 +53,17 @@ namespace AscensionServer
             var now = Utility.Time.SecondNow();
             if (now >= latestRefreshTime)
             {
-                 dataProvider?.LoadData();
+                RunProvider();
                 latestRefreshTime = now + intervalSec;
             }
         }
         public void SetDataDict(Dictionary<string, string> dict)
         {
-            jsonDict = dict;
+            this.jsonDict = dict;
         }
         public void SetDataDict(Dictionary<Type, object> dict)
         {
-            typeObjectDict=dict;
+            this.typeObjectDict = dict;
         }
 #endif
         public bool ContainsKey(Type key)
@@ -140,7 +145,7 @@ namespace AscensionServer
             var result = jsonDict.TryGetValue(key, out json);
             if (result)
             {
-                value= Utility.Json.ToObject<T>(json);
+                value = Utility.Json.ToObject<T>(json);
             }
             return result;
         }
@@ -161,12 +166,12 @@ namespace AscensionServer
             jsonDict.Clear();
             typeObjectDict.Clear();
         }
-        void InitProvider()
+        void RunProvider()
         {
-            var objs = Utility.Assembly.GetInstancesByAttribute<ImplementProviderAttribute, IDataProvider>();
-            for (int i = 0; i < objs.Length; i++)
+            var length = providerSet.Count;
+            for (int i = 0; i < length; i++)
             {
-                dataProvider?.LoadData();
+                providerSet[i]?.LoadData();
             }
         }
     }

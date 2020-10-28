@@ -6,6 +6,7 @@ namespace Cosmos
 {
     /// <summary>
     /// Server端的模块
+    /// 生命周期：OnInitialization>OnActive>OnPreparatory
     /// </summary>
     /// <typeparam name="TDerived"></typeparam>
     public abstract class Module<TDerived> : Singleton<TDerived>, IModule,IOperable
