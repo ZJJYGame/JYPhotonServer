@@ -377,7 +377,7 @@
             符箓的使用
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             针对 技能组队 计算  and 玩家出手
             </summary>
@@ -386,7 +386,7 @@
             <param name="currentRole"></param>
             <param name="transfer"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToSkillDamage(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.SkillGongFaDatas)">
+        <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToSkillDamage(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.SkillGongFaDatas,System.Int32)">
             <summary>
             玩家组队技能伤害计算
             </summary>
@@ -403,9 +403,32 @@
             <param name="roleId"></param>
             <param name="skillGongFa"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToRunAway(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToRunAway(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             组队逃跑   可以和并成一个 和单人逃跑的   需要去队伍中标记一下 是不是存在战斗中还是中途退出啦
+            需要继续完善
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToPropslnstruction(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            针对 组队道具 符箓和丹药
+            </summary>
+            <param name="battleTransferDTOs"></param>
+            <param name="roleId"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.RunesDataTeamToUser(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.RunesData,System.Int32)">
+            <summary>
+            针对组队的符箓的使用
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.DrugDataTeamToUser(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32,AscensionServer.DrugData)">
+            <summary>
+            针对组队的丹药的使用
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.DrugTeamHP(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32,AscensionServer.DrugData)">
+            <summary>
+            针对丹药的HP  回血    //缺少宠物的判断
             </summary>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.BattleClear(System.Int32)">

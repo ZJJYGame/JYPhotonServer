@@ -162,6 +162,7 @@ namespace AscensionServer
         /// <param name="tempTeamId"></param>
         public void RoundTeamSkillComplete(int tempRole,int teampRoomId , int tempTeamId)
         {
+            bool isRunAway = false;
             var serverBattleManager = GameManager.CustomeModule<ServerBattleManager>();
             var serverTeamManager = GameManager.CustomeModule<ServerTeamManager>();
             for (int speed = 0; speed < serverBattleManager._teamIdToBattleInit[tempRole].battleUnits.Count; speed++)
@@ -176,6 +177,8 @@ namespace AscensionServer
                         ///返回一个当前要出手的人的个人属性   需要判断TODO
                         var EnemyIndex = new Random().Next(0, serverBattleManager._roomidToBattleTransfer[teampRoomId].Count);
                         var memberCuuentTranferEnemy = serverBattleManager._teamIdToBattleInit[tempRole].playerUnits.Find(x => x.RoleStatusDTO.RoleID == serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex].RoleId);
+                        //if (serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex].BattleCmd == BattleCmd.RunAwayInstruction && memberCuuentTranferEnemy.RoleStatusDTO.RoleHP > 0)
+                        //    continue;
                         if (enemyStatusData.EnemyHP > 0 && memberCuuentTranferEnemy.RoleStatusDTO.RoleHP > 0)
                             serverBattleManager.AIToRelease(serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex], enemyStatusData, tempRole, EnemyIndex);
                         break;
@@ -189,16 +192,20 @@ namespace AscensionServer
                         switch (speedCuurentTransfer.BattleCmd)
                         {
                             case BattleCmd.PropsInstruction:
+                                if (memberCuuentTranfer.RoleStatusDTO.RoleHP > 0)
+                                    serverBattleManager.PlayerTeamToPropslnstruction(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, memberCuuentTranferIndex);
                                 break;
                             #region 针对技能
                             case BattleCmd.SkillInstruction:
                                 if (memberCuuentTranfer.RoleStatusDTO.RoleHP > 0)
-                                    serverBattleManager.PlayerToRelease(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, memberCuuentTranferIndex);
+                                    serverBattleManager.PlayerTeamToRelease(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, memberCuuentTranferIndex);
                                 break;
                             #endregion
+                            #region 针对逃跑 需要完善
                             case BattleCmd.RunAwayInstruction:
-                                PlayerTeamToRunAway(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, memberCuuentTranferIndex);
+                                PlayerTeamToRunAway(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, memberCuuentTranferIndex, speed);
                                 break;
+                            #endregion
                             case BattleCmd.PerformBattleComplete:
                                 break;
                             case BattleCmd.MagicWeapon:
