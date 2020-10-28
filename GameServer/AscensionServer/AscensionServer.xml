@@ -810,7 +810,7 @@
             间隔秒；
             </summary>
         </member>
-        <member name="F:AscensionServer.DataManager.dataDict">
+        <member name="F:AscensionServer.DataManager.typeObjectDict">
             <summary>
             对象字典；
             </summary>
