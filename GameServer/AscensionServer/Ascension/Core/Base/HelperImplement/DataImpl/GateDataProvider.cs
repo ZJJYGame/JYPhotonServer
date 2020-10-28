@@ -22,9 +22,9 @@ namespace AscensionServer
             {
                 var str = Utility.IO.ReadTextFileContent(folderPath, f.Name);
                 var pureStr = f.Name.TrimEnd(ch);
-                ////jsonDict.Add(pureStr, str);
+                jsonDict.Add(pureStr, str);
 #if DEBUG
-                Utility.Debug.LogInfo($"\n{pureStr}\n{str}\n");
+                //Utility.Debug.LogInfo($"\n{pureStr}\n{str}\n");
 #endif
             }
             GameManager.CustomeModule<DataManager>().SetDataDict(jsonDict);
