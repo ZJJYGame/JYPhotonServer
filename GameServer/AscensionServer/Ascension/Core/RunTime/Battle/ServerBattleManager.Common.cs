@@ -1169,12 +1169,27 @@ namespace AscensionServer
             TargetInfosSet.Add(tempTrans);
             teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = currentRole, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
         }
+
+        /// <summary>
+        /// 针对 组队的法宝使用
+        /// </summary>
+        public void PlayerTeamToMagicWeapon(BattleTransferDTO battleTransferDTOs, int roleId, int currentRole,int transfer)
+        {
+            if (MagicWeaponFormToObject(battleTransferDTOs.ClientCmdId) == null)
+                return;
+            var magicOwner = MagicWeaponFormToObject(battleTransferDTOs.ClientCmdId);
+            if (!IsToSkillForm(magicOwner.Magic_Skill))
+                return;
+            battleTransferDTOs.ClientCmdId = magicOwner.Magic_Skill;
+            PlayerTeamToRelease(battleTransferDTOs, roleId, currentRole, transfer, magicOwner.Magic_ID);
+        }
+
         /// <summary>
         /// 针对 组队道具 符箓和丹药
         /// </summary>
         /// <param name="battleTransferDTOs"></param>
         /// <param name="roleId"></param>
-        public void PlayerTeamToPropslnstruction(BattleTransferDTO battleTransferDTOs, int roleId,int currentRole,int transfer = 0)
+        public void PlayerTeamToPropslnstruction(BattleTransferDTO battleTransferDTOs, int roleId,int currentRole,int transfer)
         {
             if (PropsInstrutionFormToObject(battleTransferDTOs.ClientCmdId) == null)
                 return;
@@ -1203,6 +1218,8 @@ namespace AscensionServer
             battleTransferDTOs.ClientCmdId = runesData.Runes_Skill;
             PlayerTeamToRelease(battleTransferDTOs, roleId,  currentRole, transfer, runesData.Runes_ID);
         }
+
+
         /// <summary>
         /// 针对组队的丹药的使用
         /// </summary>

@@ -409,6 +409,11 @@
             需要继续完善
             </summary>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToMagicWeapon(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            针对 组队的法宝使用
+            </summary>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToPropslnstruction(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32)">
             <summary>
             针对 组队道具 符箓和丹药

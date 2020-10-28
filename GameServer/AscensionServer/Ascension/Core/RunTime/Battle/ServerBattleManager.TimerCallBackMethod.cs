@@ -191,10 +191,12 @@ namespace AscensionServer
                         var memberCuuentTranferIndex = serverBattleManager._teamIdToBattleInit[tempRole].playerUnits.FindIndex(x => x.RoleStatusDTO.RoleID == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID);
                         switch (speedCuurentTransfer.BattleCmd)
                         {
+                            #region 针对道具
                             case BattleCmd.PropsInstruction:
                                 if (memberCuuentTranfer.RoleStatusDTO.RoleHP > 0)
                                     serverBattleManager.PlayerTeamToPropslnstruction(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, memberCuuentTranferIndex);
                                 break;
+                            #endregion
                             #region 针对技能
                             case BattleCmd.SkillInstruction:
                                 if (memberCuuentTranfer.RoleStatusDTO.RoleHP > 0)
@@ -206,10 +208,12 @@ namespace AscensionServer
                                 PlayerTeamToRunAway(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, memberCuuentTranferIndex, speed);
                                 break;
                             #endregion
-                            case BattleCmd.PerformBattleComplete:
-                                break;
+                            #region 针对法宝
                             case BattleCmd.MagicWeapon:
+                                if (memberCuuentTranfer.RoleStatusDTO.RoleHP > 0)
+                                    serverBattleManager.PlayerTeamToMagicWeapon(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, memberCuuentTranferIndex);
                                 break;
+                            #endregion
                             case BattleCmd.CatchPet:
                                 break;
                             case BattleCmd.SummonPet:
