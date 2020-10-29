@@ -179,7 +179,7 @@ namespace AscensionServer
                             break;
                         case "PetStatusDTO":
                             var petStatusDTO = objectOwner as PetStatusDTO;
-                            Utility.Debug.LogInfo("老陆 测试" + _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP);
+                            //Utility.Debug.LogInfo("老陆 测试" + _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP);
                             switch (battleTransferDTOs.petBattleTransferDTO.BattleCmd)
                             {
                                 case BattleCmd.SkillInstruction:

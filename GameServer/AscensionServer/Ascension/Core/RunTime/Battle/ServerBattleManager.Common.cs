@@ -91,19 +91,32 @@ namespace AscensionServer
             if ((IsTeamDto(roleId) == null))
             {
                 ///TODO  需要怪物的技能表格 释放技能
-                _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP -= 100;//skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0]; // enemyStatusData.EnemyAttact_Power;
-                tempTransEnemy.TargetID = roleId;
-                tempTransEnemy.TargetHPDamage = -100; //-skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
-                List<BattleTransferDTO.TargetInfoDTO> PlayerInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
-                PlayerInfosSet.Add(tempTransEnemy);
-                teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd =  BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
+                if (_teamIdToBattleInit[roleId].petUnits.Count !=0&& _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP>0)
+                {
+                    var RandomTarget = new Random().Next(0, 2);
+                    var target = RandomTarget == 0 ? _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP -= 100 : _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP -= 100;
+                    tempTransEnemy.TargetID = RandomTarget == 0 ? roleId : _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetID;
+                    tempTransEnemy.TargetHPDamage = -100; //-skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
+                    List<BattleTransferDTO.TargetInfoDTO> PlayerInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                    PlayerInfosSet.Add(tempTransEnemy);
+                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
+                }
+                else
+                {
+                    _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP -= 100;
+                    tempTransEnemy.TargetID = roleId;
+                    tempTransEnemy.TargetHPDamage = -100; //-skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
+                    List<BattleTransferDTO.TargetInfoDTO> PlayerInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                    PlayerInfosSet.Add(tempTransEnemy);
+                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
+                }
+               
             }
             else
             {
-                Utility.Debug.LogInfo("老陆 ，=>" + _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleID);
                 //Utility.Debug.LogInfo("老陆 ，=>" + _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleID);
                 ////TODO 传输玩家的id  可能会出现bug
-                _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP -= 100;//skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
+                _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP -= 100;
                 tempTransEnemy.TargetID = _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleID;
                 tempTransEnemy.TargetHPDamage = -100;//-skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
                 List<BattleTransferDTO.TargetInfoDTO> PlayerInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();

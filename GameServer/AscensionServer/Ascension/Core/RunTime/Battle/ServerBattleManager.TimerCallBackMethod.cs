@@ -53,7 +53,7 @@ namespace AscensionServer
             {
                 var roleStatusSever = _teamIdToBattleInit[tempRoleId].playerUnits[0].RoleStatusDTO;
                 var allEnemyHP = GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit[tempRoleId].enemyUnits.Find(q => q.EnemyStatusDTO.EnemyHP > 0);
-                if (roleStatusSever.RoleHP <= 0 || allEnemyHP == null)
+                if ((roleStatusSever.RoleHP <= 0 && (_teamIdToBattleInit[tempRoleId].petUnits.Count != 0 ? _teamIdToBattleInit[tempRoleId].petUnits[0].PetStatusDTO.PetHP <= 0 : true)) || allEnemyHP == null)
                 {
                     OperationData opData = new OperationData();
                     opData.DataMessage = "战斗结束啦， over！";
