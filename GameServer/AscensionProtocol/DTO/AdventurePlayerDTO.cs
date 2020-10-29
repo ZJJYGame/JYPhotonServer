@@ -56,6 +56,7 @@ namespace AscensionProtocol.DTO
         public virtual int RoleVitality { get; set; }
         public virtual int RoleKillingIntent { get; set; }
         public virtual string RoleAllianceName { get; set; }
+        public virtual int RoleMoveSpeed { get; set; }
         public override void Clear()
         {
             RoleFaction = -1;
@@ -78,6 +79,7 @@ namespace AscensionProtocol.DTO
             RoleVitality = -1;
             RoleKillingIntent = -1;
             RoleAllianceName = null;
+            RoleMoveSpeed = -1;
         }
     }
 }

@@ -59,7 +59,8 @@ namespace AscensionServer
                 RoleKillingIntent = roleBottleneckTemp.CraryVaule,
                 RoleDormant = roleStatusTemp.RoleDormant,
                 RoleID = roleTemp.RoleID,
-                RoleAllianceName = allianceStatusTemp.AllianceName
+                RoleAllianceName = allianceStatusTemp.AllianceName,
+                RoleMoveSpeed = roleStatusTemp.RoleMoveSpeed
             };
             operationResponse.ReturnCode = (short)ReturnCode.Success;
             operationResponse.DebugMessage = Utility.Json.ToJson(adventurePlayerDTO);
