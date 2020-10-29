@@ -42,6 +42,8 @@ namespace AscensionServer
                 return _teamIdToBattleInit[roleId].playerUnits.Find(t => (t.RoleStatusDTO.RoleID == objectID)).RoleStatusDTO;
             if (_teamIdToBattleInit[roleId].enemyUnits.Find(t => (t.EnemyStatusDTO.EnemyId == objectId)) != null)
                 return _teamIdToBattleInit[roleId].enemyUnits.Find(t => (t.EnemyStatusDTO.EnemyId == objectId)).EnemyStatusDTO;
+            if (_teamIdToBattleInit[roleId].petUnits.Find(t => (t.ObjectId == objectId)) != null)
+                return _teamIdToBattleInit[roleId].petUnits.Find(t => (t.ObjectId == objectId)).PetStatusDTO;
             return null;
         }
 
@@ -317,6 +319,191 @@ namespace AscensionServer
             }
         }
 
+        /// <summary>
+        /// 针对宠物的技能计算
+        /// </summary>
+        /// <param name="battleTransferDTOs"></param>
+        /// <param name="roleId"></param>
+        /// <param name="skillGongFa"></param>
+        /// <param name="special"></param>
+        public void PlayerToSkillDamage(BattleTransferDTO battleTransferDTOs, int roleId,int petId, SkillGongFaDatas skillGongFa, int special = 0)
+        {
+            battleTransferDTOs.ClientCmdId = battleTransferDTOs.BattleCmd == BattleCmd.PropsInstruction || battleTransferDTOs.BattleCmd == BattleCmd.MagicWeapon ? special : battleTransferDTOs.ClientCmdId;
+            ///一段伤害     先判断数量  在判断攻击模式 最后是伤害系数
+            ///单人 单段和多段伤害
+            if (skillGongFa.Attack_Number == 1)
+            {
+                for (int k = 0; k < TargetID.Count; k++)
+                {
+                    //Utility.Debug.LogInfo("老陆 ，TargetID=>" + TargetID.Count);
+                    for (int n = 0; n < _teamIdToBattleInit[roleId].enemyUnits.Count; n++)
+                    {
+                        if (_teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyId == TargetID.ToList()[k].Key)
+                        {
+                            ///换取目标打
+                            if (_teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP > 0)
+                            {
+                                ///判断技能的伤害系数是一个还是多个
+                                if (skillGongFa.Attack_Factor.Count != 1)
+                                {
+                                    for (int op = 0; op < skillGongFa.Attack_Factor.Count; op++)
+                                    {
+                                        if (_teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP <= 0)
+                                            break;
+                                        _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP -= skillGongFa.Attack_Factor[op];
+
+                                        BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+                                        tempTrans.TargetID = _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyId;
+                                        tempTrans.TargetHPDamage = -skillGongFa.Attack_Factor[op];
+                                        List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                                        TargetInfosSet.Add(tempTrans);
+
+                                        if (skillGongFa.Attack_Factor.Count - 1 == op || _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP <= 0)
+                                            teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = petId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+                                        else
+                                            teamSet.Add(new BattleTransferDTO() { isFinish = false, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = petId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+                                    }
+                                }
+                                else
+                                {
+                                    //需要判断 当前血量是不是满足条件
+                                    _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP -= skillGongFa.Attack_Factor[0];
+                                    if (_teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP <= 0)
+                                        _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP = 0;
+                                    BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+                                    tempTrans.TargetID = _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyId;
+                                    tempTrans.TargetHPDamage = -skillGongFa.Attack_Factor[0];
+                                    List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                                    TargetInfosSet.Add(tempTrans);
+                                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = petId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+                                }
+                            }
+                            else
+                            {
+                                ///TODO  应该不完整
+                                if (AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits).Count == 0)
+                                {
+                                    Utility.Debug.LogError("AI  全部死亡");
+                                    //BattleEnd()
+                                    return;
+                                }
+                                ///判断技能的伤害系数是一个还是多个
+                                if (skillGongFa.Attack_Factor.Count != 1)
+                                {
+
+                                    for (int op = 0; op < skillGongFa.Attack_Factor.Count; op++)
+                                    {
+                                        if (_teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP <= 0)
+                                            break;
+                                        var index = new Random().Next(0, AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits).Count);
+
+                                        _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP -= skillGongFa.Attack_Factor[op];
+                                        BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+                                        tempTrans.TargetID = AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits)[index].EnemyStatusDTO.EnemyId;
+                                        tempTrans.TargetHPDamage = -skillGongFa.Attack_Factor[op];
+                                        List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                                        TargetInfosSet.Add(tempTrans);
+                                        if (skillGongFa.Attack_Factor.Count - 1 == op || _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP <= 0)
+                                            teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = petId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+                                        else
+                                            teamSet.Add(new BattleTransferDTO() { isFinish = false, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = petId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+                                    }
+
+                                }
+                                else
+                                {
+                                    BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+                                    var index = new Random().Next(0, AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits).Count);
+                                    tempTrans.TargetID = AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits)[index].EnemyStatusDTO.EnemyId;
+                                    tempTrans.TargetHPDamage = -skillGongFa.Attack_Factor[0];
+                                    List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                                    TargetInfosSet.Add(tempTrans);
+                                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = petId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+            ///多段伤害
+            else if (skillGongFa.Attack_Number > 1)
+            {
+                //Utility.Debug.LogInfo("单人多个数量攻击伤害");
+                ///TargetId 需要对目标出手的数量
+                ///TargetID
+                for (int k = 0; k < skillGongFa.Attack_Factor.Count; k++)
+                {
+                    if (skillGongFa.AttackProcess_Type == AttackProcess_Type.SingleUse)
+                    {
+                        ///判断技能伤害系数是一个还是多个
+                        if (skillGongFa.Attack_Factor.Count != 1)
+                        {
+                            #region ob  TODO
+
+                            /*
+                                for (int ko = 0; ko < skillGongFa.Attack_Factor.Count; ko++)
+                                {
+                                    if (_teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP <= 0)
+                                        break;
+                                    _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP -= skillGongFa.Attack_Factor[ko];
+
+                                    BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+                                    tempTrans.TargetID = _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyId;
+                                    tempTrans.TargetHPDamage = -skillGongFa.Attack_Factor[ko];
+                                    List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                                    TargetInfosSet.Add(tempTrans);
+                                    if (skillGongFa.Attack_Factor.Count - 1 == ko || _teamIdToBattleInit[roleId].enemyUnits[n].EnemyStatusDTO.EnemyHP <= 0)
+                                        teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = RoleDTO.battleTransferDTOs.BattleCmd, RoleId = _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleID, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+                                    else
+                                        teamSet.Add(new BattleTransferDTO() { isFinish = false, BattleCmd = RoleDTO.battleTransferDTOs.BattleCmd, RoleId = _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleID, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+
+                                }*/
+                            #endregion
+                        }
+                        else
+                        {
+                            List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                            for (int op = 0; op < TargetID.Count; op++)
+                            {
+                                var survivalTarget = _teamIdToBattleInit[roleId].enemyUnits.Find(x => x.EnemyStatusDTO.EnemyId == TargetID.Keys.ToList()[op]);
+                                survivalTarget.EnemyStatusDTO.EnemyHP -= skillGongFa.Attack_Factor[0];
+                                BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+                                tempTrans.TargetID = TargetID.Keys.ToList()[op];
+                                tempTrans.TargetHPDamage = -skillGongFa.Attack_Factor[0];
+                                TargetInfosSet.Add(tempTrans);
+                            }
+                            teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = petId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+                        }
+
+                    }
+                    else if (skillGongFa.AttackProcess_Type == AttackProcess_Type.Staged)
+                    {
+                        //Utility.Debug.LogInfo("单人多个数量攻击伤害" + TargetID.Count);
+                        for (int n = 0; n < TargetID.Count; n++)
+                        {
+                            var survivalTarget = _teamIdToBattleInit[roleId].enemyUnits.Find(x => x.EnemyStatusDTO.EnemyId == TargetID.Keys.ToList()[n]);
+                            ///判断技能伤害系数是一个还是多个
+                            if (skillGongFa.Attack_Factor.Count != 1) { }
+                            else
+                            {
+                                survivalTarget.EnemyStatusDTO.EnemyHP -= skillGongFa.Attack_Factor[0];
+                                BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+                                tempTrans.TargetID = survivalTarget.EnemyStatusDTO.EnemyId;
+                                tempTrans.TargetHPDamage = -skillGongFa.Attack_Factor[0];
+                                List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                                TargetInfosSet.Add(tempTrans);
+                                if (TargetID.Count - 1 == n)
+                                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = petId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+                                else
+                                    teamSet.Add(new BattleTransferDTO() { isFinish = false, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = petId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 
         /// <summary>
         /// 技能类型治疗术   TODO 存在多个目标时加血的目标
@@ -562,7 +749,7 @@ namespace AscensionServer
         /// </summary>
         /// <param name="battleTransferDTOs"></param>
         /// <param name="roleId"></param>
-        public void PlayerToRelease(BattleTransferDTO battleTransferDTOs, int roleId,int special = 0)
+        public void PlayerToRelease(BattleTransferDTO battleTransferDTOs, int roleId,int special = 0,int petId = 0)
         {
             TargetID.Clear();
             ///传输的目标
@@ -582,7 +769,10 @@ namespace AscensionServer
                             {
                                 case Skill_Type.Attact:
                                     AlToSurvival(battleTransferDTOs, roleId, info, skillGongFa);
-                                    PlayerToSkillDamage(battleTransferDTOs, roleId, skillGongFa, special);
+                                    if (petId == 0)
+                                        PlayerToSkillDamage(battleTransferDTOs, roleId, skillGongFa, special);
+                                    else
+                                        PlayerToSkillDamage(battleTransferDTOs, roleId, petId, skillGongFa, special);
                                     break;
                                 case Skill_Type.ReturnBlood:
                                     PlayerToSkillReturnBlood(battleTransferDTOs, roleId, skillGongFa);

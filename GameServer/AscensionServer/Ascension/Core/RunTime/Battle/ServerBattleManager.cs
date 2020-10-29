@@ -129,6 +129,7 @@ namespace AscensionServer
                 {
                     var objectOwner = ReleaseToOwner(_teamIdToBattleInit[roleId].battleUnits[speed].ObjectID, _teamIdToBattleInit[roleId].battleUnits[speed].ObjectId, roleId);
                     var typeName = objectOwner.GetType().Name;
+                    //Utility.Debug.LogInfo("老陆 测试" + typeName);
                     //Utility.Debug.LogInfo("角色剩余的血量" + _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP);
                     switch (typeName)
                     {
@@ -140,8 +141,6 @@ namespace AscensionServer
                                 AIToRelease(battleTransferDTOs, enemyStatusData, roleId);
                             break;
                         case "RoleStatusDTO":
-                            //if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
-                            //    PlayerToRelease(battleTransferDTOs, roleId);
                             switch (battleTransferDTOs.BattleCmd)
                             {
                                 #region 针对道具
@@ -151,7 +150,6 @@ namespace AscensionServer
                                     break;
                                 #endregion
                                 #region 针对技能
-
                                 case BattleCmd.SkillInstruction:
                                     if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
                                         PlayerToRelease(battleTransferDTOs, roleId);
@@ -174,6 +172,19 @@ namespace AscensionServer
                                 case BattleCmd.SummonPet:
                                     break;
                                 case BattleCmd.Tactical:
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+                        case "PetStatusDTO":
+                            var petStatusDTO = objectOwner as PetStatusDTO;
+                            Utility.Debug.LogInfo("老陆 测试" + _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP);
+                            switch (battleTransferDTOs.petBattleTransferDTO.BattleCmd)
+                            {
+                                case BattleCmd.SkillInstruction:
+                                    if (_teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP > 0)
+                                        PlayerToRelease(battleTransferDTOs.petBattleTransferDTO, roleId,0, battleTransferDTOs.RoleId);
                                     break;
                                 default:
                                     break;
