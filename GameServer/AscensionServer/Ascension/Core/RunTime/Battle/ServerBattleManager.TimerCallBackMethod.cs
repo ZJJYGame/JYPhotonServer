@@ -151,24 +151,32 @@ namespace AscensionServer
                 battleTransfer.SkillReactionValue = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].SkillReactionValue;
                 battleTransfer.SendSkillReactionCmd = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].SendSkillReactionCmd;
                 battleTransfer.RoleIdShieldValueDict = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].RoleIdShieldValueDict;
+                //battleTransfer.petBattleTransferDTO = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].petBattleTransferDTO;
+                //battleTransfer.petBattleTransferDTO.RoleId = 637;
                 serverBattleManager._roomidToBattleTransfer[teampRoomId].Add(battleTransfer);
             }
         }
+
+
         /// <summary>
         /// 针对每回合组队 技能释放计算 并返回给客户端
         /// </summary>
         /// <param name="tempRole"></param>
         /// <param name="teampRoomId"></param>
         /// <param name="tempTeamId"></param>
+        /// 
+        public int isRunAway;
         public void RoundTeamSkillComplete(int tempRole,int teampRoomId , int tempTeamId)
         {
-            bool isRunAway = false;
+            isRunAway = 0;
             var serverBattleManager = GameManager.CustomeModule<ServerBattleManager>();
             var serverTeamManager = GameManager.CustomeModule<ServerTeamManager>();
             for (int speed = 0; speed < serverBattleManager._teamIdToBattleInit[tempRole].battleUnits.Count; speed++)
             {
                 var objectOwner = serverBattleManager.ReleaseToOwner(serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId, tempRole);
                 var typeName = objectOwner.GetType().Name;
+                if (isRunAway == _teamIdToBattleInit[tempRole].playerUnits.Count)
+                    break;
                 switch (typeName)
                 {
                     case "EnemyStatusDTO":
@@ -177,8 +185,10 @@ namespace AscensionServer
                         ///返回一个当前要出手的人的个人属性   需要判断TODO
                         var EnemyIndex = new Random().Next(0, serverBattleManager._roomidToBattleTransfer[teampRoomId].Count);
                         var memberCuuentTranferEnemy = serverBattleManager._teamIdToBattleInit[tempRole].playerUnits.Find(x => x.RoleStatusDTO.RoleID == serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex].RoleId);
-                        //if (serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex].BattleCmd == BattleCmd.RunAwayInstruction && memberCuuentTranferEnemy.RoleStatusDTO.RoleHP > 0)
-                        //    continue;
+
+                        /////TODO  少一次判断逃跑
+                        //if (serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex].BattleCmd == BattleCmd.RunAwayInstruction)
+                        //    EnemyIndex = EnemyIndex == 0 ? EnemyIndex-- : EnemyIndex++;
                         if (enemyStatusData.EnemyHP > 0 && memberCuuentTranferEnemy.RoleStatusDTO.RoleHP > 0)
                             serverBattleManager.AIToRelease(serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex], enemyStatusData, tempRole, EnemyIndex);
                         break;
@@ -223,7 +233,29 @@ namespace AscensionServer
                             default:
                                 break;
                         }
-                       
+                        break;
+                    case "PetStatusDTO":
+                        var petStatusDTO = objectOwner as PetStatusDTO;
+                        var speedCuurentTransferPet = serverBattleManager._roomidToBattleTransfer[teampRoomId].Find(q => q.petBattleTransferDTO.RoleId == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId);
+                        //var memberCuuentTranferPet = serverBattleManager._teamIdToBattleInit[tempRole].petUnits.Find(x => x.PetStatusDTO.PetID == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId);
+                        var memberCuuentTranferIndexPet = serverBattleManager._teamIdToBattleInit[tempRole].petUnits.FindIndex(x => x.PetStatusDTO.PetID == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId);
+                        Utility.Debug.LogInfo("老陆===》》》》》》》" + petStatusDTO.PetID);
+                        switch (speedCuurentTransferPet.petBattleTransferDTO.BattleCmd)
+                        {
+                            //case BattleCmd.PropsInstruction:
+                            //    if (_teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP > 0)
+                            //        PlayerToPropslnstruction(battleTransferDTOs.petBattleTransferDTO, roleId, battleTransferDTOs.petBattleTransferDTO.RoleId);
+                            //    break;
+                            case BattleCmd.SkillInstruction:
+                                if (petStatusDTO.PetHP > 0)
+                                {
+                                    //TODO
+                                    serverBattleManager.PlayerTeamToRelease(speedCuurentTransferPet.petBattleTransferDTO, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId, memberCuuentTranferIndexPet);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
                         break;
                 }
             }

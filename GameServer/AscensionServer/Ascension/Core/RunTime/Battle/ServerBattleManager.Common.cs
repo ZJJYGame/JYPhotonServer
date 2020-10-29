@@ -992,6 +992,7 @@ namespace AscensionServer
         /// <param name="roleId"></param>
         /// <param name="currentRole"></param>
         /// <param name="transfer"></param>
+        /// 如果special = -1 的时候代表有宠物
         public void PlayerTeamToRelease(BattleTransferDTO battleTransferDTOs, int roleId, int currentRole,int transfer = 0,int special = 0)
         {
             //Utility.Debug.LogInfo("老陆 ，roleId =>" + battleTransferDTOs.ClientCmdId);
@@ -1416,6 +1417,7 @@ namespace AscensionServer
             }
         }
 
+
         /// <summary>
         /// 组队逃跑   可以和并成一个 和单人逃跑的   需要去队伍中标记一下 是不是存在战斗中还是中途退出啦
         /// 需要继续完善
@@ -1427,6 +1429,7 @@ namespace AscensionServer
             tempTrans.TargetHPDamage = _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP > 0 ? 1 : 0;
             if (tempTrans.TargetHPDamage == 1)
             {
+                isRunAway++;
                 //_teamIdToBattleInit[roleId].playerUnits.RemoveAt(transfer);
                 //_teamIdToBattleInit[roleId].battleUnits.RemoveAt(speed);
             }

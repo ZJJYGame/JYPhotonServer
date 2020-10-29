@@ -113,7 +113,6 @@ namespace AscensionServer
         /// </summary>
         public void BattleStart(int roleId, int roomId, BattleTransferDTO battleTransferDTOs)
         {
-
             //Utility.Debug.LogInfo("battleCmd == >>>" + battleTransferDTOs.BattleCmd);
             TargetID.Clear();
             teamSet.Clear();
@@ -210,7 +209,6 @@ namespace AscensionServer
                 }
                 Utility.Debug.LogInfo("老陆 ，开始战斗的时候收集客户端一个请求"+ _roomidToBattleTransfer[roomId].Count);
             }
-
         }
         /// 战斗结束
         /// </summary>
