@@ -170,6 +170,7 @@ namespace AscensionProtocol.DTO
         /// 控制每回合的时间
         /// </summary>
         //public virtual TimerManager timer { get; set; }
+        public virtual BattleTransferDTO  petBattleTransferDTO { get; set; }
 
         /// <summary>
         /// 是否结束
