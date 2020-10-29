@@ -368,12 +368,12 @@
             针对  单人逃跑的 返回计算处理
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerToPropslnstruction(AscensionProtocol.DTO.BattleTransferDTO,System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToPropslnstruction(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32)">
             <summary>
             针对  单人的道具的使用 返回计算处理 符箓和丹药
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.DrugDataToUser(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,AscensionServer.DrugData)">
+        <member name="M:AscensionServer.ServerBattleManager.DrugDataToUser(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,AscensionServer.DrugData,System.Int32)">
             <summary>
             丹药的使用
             </summary>
@@ -381,7 +381,7 @@
             <param name="roleId"></param>
             <param name="drugData"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.RunesDataToUser(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,AscensionServer.RunesData)">
+        <member name="M:AscensionServer.ServerBattleManager.RunesDataToUser(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,AscensionServer.RunesData,System.Int32)">
             <summary>
             符箓的使用
             </summary>

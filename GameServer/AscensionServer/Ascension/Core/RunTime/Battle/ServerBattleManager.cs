@@ -182,9 +182,13 @@ namespace AscensionServer
                             //Utility.Debug.LogInfo("老陆 测试" + _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP);
                             switch (battleTransferDTOs.petBattleTransferDTO.BattleCmd)
                             {
+                                case BattleCmd.PropsInstruction:
+                                    if (_teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP > 0)
+                                        PlayerToPropslnstruction(battleTransferDTOs.petBattleTransferDTO, roleId, battleTransferDTOs.petBattleTransferDTO.RoleId);
+                                    break;
                                 case BattleCmd.SkillInstruction:
                                     if (_teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP > 0)
-                                        PlayerToRelease(battleTransferDTOs.petBattleTransferDTO, roleId,0, battleTransferDTOs.RoleId);
+                                        PlayerToRelease(battleTransferDTOs.petBattleTransferDTO, roleId, 0, battleTransferDTOs.petBattleTransferDTO.RoleId);
                                     break;
                                 default:
                                     break;
