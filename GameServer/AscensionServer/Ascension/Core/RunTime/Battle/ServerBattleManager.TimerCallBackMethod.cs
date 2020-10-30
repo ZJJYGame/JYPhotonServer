@@ -256,10 +256,10 @@ namespace AscensionServer
                         var memberCuuentTranferIndexPet = serverBattleManager._teamIdToBattleInit[tempRole].petUnits.FindIndex(x => x.PetStatusDTO.PetID == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId);
                         switch (speedCuurentTransferPet.petBattleTransferDTO.BattleCmd)
                         {
-                            //case BattleCmd.PropsInstruction:
-                            //    if (_teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP > 0)
-                            //        PlayerToPropslnstruction(battleTransferDTOs.petBattleTransferDTO, roleId, battleTransferDTOs.petBattleTransferDTO.RoleId);
-                            //    break;
+                            case BattleCmd.PropsInstruction:
+                                if (petStatusDTO.PetHP > 0)
+                                    PlayerTeamToPropslnstruction(speedCuurentTransferPet.petBattleTransferDTO, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId, memberCuuentTranferIndexPet);
+                                break;
                             case BattleCmd.SkillInstruction:
                                 if (petStatusDTO.PetHP > 0)
                                     serverBattleManager.PlayerTeamToRelease(speedCuurentTransferPet.petBattleTransferDTO, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId, memberCuuentTranferIndexPet);

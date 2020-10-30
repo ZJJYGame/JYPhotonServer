@@ -553,10 +553,10 @@ namespace AscensionServer
         /// <param name="battleTransferDTOs"></param>
         /// <param name="roleId"></param>
         /// <param name="skillGongFa"></param>
-        public void PlayerToSkillReturnBlood(BattleTransferDTO battleTransferDTOs, int roleId, SkillGongFaDatas skillGongFa)
+        public void PlayerToSkillReturnBlood(BattleTransferDTO battleTransferDTOs, int roleId,int petId, SkillGongFaDatas skillGongFa)
         {
             ///给自己回血
-            if (skillGongFa.Attack_Number == 1)
+            if (skillGongFa.Attack_Number == 1 || petId == 0)
             {
                 if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP + skillGongFa.Attack_Factor[0] >= _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleMaxHP)
                     _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP = _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleMaxHP;
@@ -572,7 +572,33 @@ namespace AscensionServer
             }///多目标回血   ??? TODO  缺少多个数量
             else if (skillGongFa.Attack_Number >1)
             {
-
+                List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                for (int ov = 0; ov < 2; ov++)
+                {
+                    if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP>0 && ov == 0)
+                    {
+                        if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP + skillGongFa.Attack_Factor[0] >= _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleMaxHP)
+                            _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP = _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleMaxHP;
+                        else
+                            _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP += skillGongFa.Attack_Factor[0];
+                        BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+                        tempTrans.TargetID = roleId;
+                        tempTrans.TargetHPDamage = skillGongFa.Attack_Factor[0];
+                        TargetInfosSet.Add(tempTrans);
+                    }
+                    if (_teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP > 0 && ov == 1)
+                    {
+                        if (_teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP + skillGongFa.Attack_Factor[0] >= _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetMaxHP)
+                            _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP = _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetMaxHP;
+                        else
+                            _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP += skillGongFa.Attack_Factor[0];
+                        BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+                        tempTrans.TargetID = petId;
+                        tempTrans.TargetHPDamage = skillGongFa.Attack_Factor[0];
+                        TargetInfosSet.Add(tempTrans);
+                    }
+                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = roleId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+                }
             }
         }
         #endregion
@@ -815,7 +841,7 @@ namespace AscensionServer
                                         PlayerToSkillDamage(battleTransferDTOs, roleId, petId, skillGongFa, special);
                                     break;
                                 case Skill_Type.ReturnBlood:
-                                    PlayerToSkillReturnBlood(battleTransferDTOs, roleId, skillGongFa);
+                                    PlayerToSkillReturnBlood(battleTransferDTOs, roleId,petId, skillGongFa);
                                     break;
                                 case Skill_Type.Shield:
                                     break;
