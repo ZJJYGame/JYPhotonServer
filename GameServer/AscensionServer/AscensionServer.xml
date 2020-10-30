@@ -351,7 +351,7 @@
             <param name="skillGongFa"></param>
             <param name="special"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerToSkillReturnBlood(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,AscensionServer.SkillGongFaDatas)">
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToSkillReturnBlood(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.SkillGongFaDatas)">
             <summary>
             技能类型治疗术   TODO 存在多个目标时加血的目标
             </summary>
@@ -375,6 +375,14 @@
             <summary>
             针对  单人逃跑的 返回计算处理
             </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.PetToRunAway(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32)">
+            <summary>
+            针对 宠物逃跑的 返回计算处理
+            </summary>
+            <param name="battleTransferDTOs"></param>
+            <param name="roleId"></param>
+            <param name="petId"></param>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerToPropslnstruction(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32)">
             <summary>
@@ -426,6 +434,7 @@
             组队逃跑   可以和并成一个 和单人逃跑的   需要去队伍中标记一下 是不是存在战斗中还是中途退出啦
             需要继续完善
             </summary>
+            speed = -1 的话 代表这回合计算是宠物逃跑
         </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToMagicWeapon(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32)">
             <summary>
@@ -470,10 +479,11 @@
             准备指令战斗 
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.BattleStart(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
+        <member name="F:AscensionServer.ServerBattleManager.isPetRunAway">
             <summary>
             开始战斗   -->  开始战斗的回合
             </summary>
+            
         </member>
         <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
