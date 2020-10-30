@@ -234,7 +234,7 @@ namespace AscensionServer
                 if (serverBattleManager._roomidToBattleTransfer[teampRoomId].Count != serverTeamManager._teamTOModel[tempTeamId].TeamMembers.Count)
                 {
                     //isHangUp = true;
-                    serverBattleManager.RoundTeamMember(teampRoomId, tempTeamId);
+                    serverBattleManager.RoundTeamMember(teampRoomId, tempTeamId,tempRole.Key);
                 }
                 ///排列一下出手速度
                 serverBattleManager.ReleaseToSpeed(tempRole.Key);

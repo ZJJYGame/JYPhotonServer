@@ -319,6 +319,14 @@
             <param name="roleBattleDatas"></param>
             <returns></returns>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.PetToHPMethod(System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.PetBattleDataDTO})">
+            <summary>
+            针对宠物 血量>0
+            </summary>
+            <param name="roleId"></param>
+            <param name="petBattleDataDTOs"></param>
+            <returns></returns>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.AIToRelease(AscensionProtocol.DTO.BattleTransferDTO,AscensionProtocol.DTO.EnemyStatusDTO,System.Int32,System.Int32)">
             <summary>
             处理AI 判断玩家是不是死亡 和要选择能出手的Ai                ??? TODO第四个参数有待完善
@@ -673,7 +681,7 @@
             </summary>
             <param name="tempTeamId"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.RoundTeamMember(System.Int32,System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.RoundTeamMember(System.Int32,System.Int32,System.Int32)">
             <summary>
             针对 组队情况下的 不选取指令  随机分配一个默认指令     ??? 需要处理 不发消息的时候怎么办
             </summary>

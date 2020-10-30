@@ -81,7 +81,7 @@ namespace AscensionServer
                     for (int ob = 0; ob < GameManager.CustomeModule<ServerTeamManager>()._teamTOModel[IsTeamDto(tempRoleId).TeamId].TeamMembers.Count; ob++)
                     {
                         // if (_teamIdToBattleInit[tempRoleId].playerUnits[ob].RoleStatusDTO.RoleHP <= 0)
-                        if (allRoleHP == null || allEnemyHP == null)
+                        if ((allRoleHP == null&&(_teamIdToBattleInit[tempRoleId].petUnits.Count != 0 ? _teamIdToBattleInit[tempRoleId].petUnits.Find(x=>x.PetStatusDTO.PetHP>0) == null : true)) || allEnemyHP == null)
                         {
                             OperationData opData = new OperationData();
                             opData.DataMessage = "战斗结束啦， over！";
@@ -131,7 +131,7 @@ namespace AscensionServer
         /// <summary>
         /// 针对 组队情况下的 不选取指令  随机分配一个默认指令     ??? 需要处理 不发消息的时候怎么办
         /// </summary>
-        public void RoundTeamMember(int teampRoomId,int tempTeamId)
+        public void RoundTeamMember(int teampRoomId,int tempTeamId,int tempRole)
         {
             var serverBattleManager = GameManager.CustomeModule<ServerBattleManager>();
             var serverTeamManager = GameManager.CustomeModule<ServerTeamManager>();
@@ -143,6 +143,7 @@ namespace AscensionServer
                 //serverBattleManager._teamIdToMemberDict[tempTeamId].Add(serverTeamManager._teamTOModel[tempTeamId].TeamMembers[i].RoleID);
                 //TODO  ////默认是用第一个战斗传输的数据
                 BattleTransferDTO battleTransfer = new BattleTransferDTO();
+                BattleTransferDTO battleTransferPet = new BattleTransferDTO();
                 battleTransfer.RoleId = serverTeamManager._teamTOModel[tempTeamId].TeamMembers[i].RoleID;
                 battleTransfer.isFinish = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].isFinish;
                 battleTransfer.BattleCmd = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].BattleCmd;
@@ -151,8 +152,22 @@ namespace AscensionServer
                 battleTransfer.SkillReactionValue = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].SkillReactionValue;
                 battleTransfer.SendSkillReactionCmd = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].SendSkillReactionCmd;
                 battleTransfer.RoleIdShieldValueDict = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].RoleIdShieldValueDict;
-                //battleTransfer.petBattleTransferDTO = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].petBattleTransferDTO;
-                //battleTransfer.petBattleTransferDTO.RoleId = 637;
+                if (serverBattleManager._teamIdToBattleInit[tempRole].petUnits.Count != 0)
+                {
+                    PetBattleDataDTO petObject = serverBattleManager._teamIdToBattleInit[tempRole].petUnits.Find(x => x.RoleId == serverTeamManager._teamTOModel[tempTeamId].TeamMembers[i].RoleID);
+                    if (petObject != null)
+                    {
+                        battleTransferPet.RoleId = petObject.PetStatusDTO.PetID;
+                        battleTransferPet.isFinish = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].petBattleTransferDTO.isFinish;
+                        battleTransferPet.BattleCmd = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].petBattleTransferDTO.BattleCmd;
+                        battleTransferPet.ClientCmdId = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].petBattleTransferDTO.ClientCmdId;
+                        battleTransferPet.TargetInfos = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].petBattleTransferDTO.TargetInfos;
+                        battleTransferPet.SkillReactionValue = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].petBattleTransferDTO.SkillReactionValue;
+                        battleTransferPet.SendSkillReactionCmd = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].petBattleTransferDTO.SendSkillReactionCmd;
+                        battleTransferPet.RoleIdShieldValueDict = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].petBattleTransferDTO.RoleIdShieldValueDict;
+                        battleTransfer.petBattleTransferDTO = battleTransferPet;
+                    }
+                }
                 serverBattleManager._roomidToBattleTransfer[teampRoomId].Add(battleTransfer);
             }
         }
@@ -239,7 +254,6 @@ namespace AscensionServer
                         var speedCuurentTransferPet = serverBattleManager._roomidToBattleTransfer[teampRoomId].Find(q => q.petBattleTransferDTO.RoleId == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId);
                         //var memberCuuentTranferPet = serverBattleManager._teamIdToBattleInit[tempRole].petUnits.Find(x => x.PetStatusDTO.PetID == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId);
                         var memberCuuentTranferIndexPet = serverBattleManager._teamIdToBattleInit[tempRole].petUnits.FindIndex(x => x.PetStatusDTO.PetID == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId);
-                        Utility.Debug.LogInfo("老陆===》》》》》》》" + petStatusDTO.PetID);
                         switch (speedCuurentTransferPet.petBattleTransferDTO.BattleCmd)
                         {
                             //case BattleCmd.PropsInstruction:
@@ -248,10 +262,7 @@ namespace AscensionServer
                             //    break;
                             case BattleCmd.SkillInstruction:
                                 if (petStatusDTO.PetHP > 0)
-                                {
-                                    //TODO
                                     serverBattleManager.PlayerTeamToRelease(speedCuurentTransferPet.petBattleTransferDTO, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId, memberCuuentTranferIndexPet);
-                                }
                                 break;
                             default:
                                 break;
