@@ -104,13 +104,14 @@ namespace AscensionServer
             //Utility.Debug.LogInfo("<enemyStatusData  老陆>" + _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP);
             if ((IsTeamDto(roleId) == null))
             {
+                //Utility.Debug.LogInfo("我来随机啦====>>>" + isPetRunAway);
                 ///TODO  需要怪物的技能表格 释放技能
-                if (_teamIdToBattleInit[roleId].petUnits.Count !=0&& _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP>0)
+                if (_teamIdToBattleInit[roleId].petUnits.Count !=0&& _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP>0&& !isPetRunAway)
                 {
                     //Utility.Debug.LogInfo("我来随机啦+++++>>>" + new Random((int)DateTime.Now.Ticks+transfer).Next(0, 2));
                     var RandomTarget = RandomManager(transfer,0,2);
-                    if (isPetRunAway)
-                        RandomTarget= RandomTarget == 0 ? 1 : 0;
+                    //if ()
+                    //    RandomTarget= RandomTarget == 0 ? 1 : 0;
                     var target = RandomTarget == 0 ? _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP -= 100 : _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP -= 100;
                     tempTransEnemy.TargetID = RandomTarget == 0 ? roleId : _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetID;
                     tempTransEnemy.TargetHPDamage = -100; //-skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
@@ -133,11 +134,10 @@ namespace AscensionServer
             {
                 //Utility.Debug.LogInfo("老陆 ，=>" + _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleID);
                 var petObject = _teamIdToBattleInit[roleId].petUnits.Find(x => x.PetStatusDTO.PetHP > 0);
-                if (_teamIdToBattleInit[roleId].petUnits.Count != 0 && petObject != null)
+                if (_teamIdToBattleInit[roleId].petUnits.Count != 0 && petObject != null&& !isPetTeamRunAway)
                 {
+                    isPetTeamRunAway = false;
                     var RandomTarget = RandomManager(transfer, 0, 2);
-                    if (isPetTeamRunAway == _teamIdToBattleInit[roleId].petUnits.Count)
-                        RandomTarget = RandomTarget == 0 ? 1 : 0;
                     var target = RandomTarget == 0 ? _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP -= 100 : petObject.PetStatusDTO.PetHP -= 100;
                     tempTransEnemy.TargetID = RandomTarget == 0 ? _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleID : petObject.PetStatusDTO.PetID;
                     tempTransEnemy.TargetHPDamage = -100;

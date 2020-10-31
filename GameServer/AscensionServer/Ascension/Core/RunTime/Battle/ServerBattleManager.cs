@@ -133,6 +133,8 @@ namespace AscensionServer
                     if (isRunAway)
                         break;
                     var objectOwner = ReleaseToOwner(_teamIdToBattleInit[roleId].battleUnits[speed].ObjectID, _teamIdToBattleInit[roleId].battleUnits[speed].ObjectId, roleId);
+                    if (objectOwner == null)
+                        continue;
                     var typeName = objectOwner.GetType().Name;
                     //Utility.Debug.LogInfo("老陆 测试" + typeName);
                     //Utility.Debug.LogInfo("角色剩余的血量" + _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP);
@@ -160,7 +162,6 @@ namespace AscensionServer
                                 #endregion
                                 #region 针对逃跑
                                 case BattleCmd.RunAwayInstruction:
-                                    isRunAway = true;
                                     PlayerToRunAway(battleTransferDTOs, roleId);
                                     break;
                                 #endregion
@@ -200,7 +201,6 @@ namespace AscensionServer
                                     break;
                                 #endregion
                                 case BattleCmd.RunAwayInstruction:
-                                    isPetRunAway = true;
                                     PetToRunAway(battleTransferDTOs.petBattleTransferDTO, roleId, battleTransferDTOs.petBattleTransferDTO.RoleId);
                                     break;
                                 default:

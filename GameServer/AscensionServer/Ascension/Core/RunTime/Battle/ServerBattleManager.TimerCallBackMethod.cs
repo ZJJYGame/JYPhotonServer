@@ -181,25 +181,29 @@ namespace AscensionServer
         /// <param name="tempTeamId"></param>
         /// 
         public int isTeamRunAway;
-        public int isPetTeamRunAway;
+        public  bool isPetTeamRunAway;
         public void RoundTeamSkillComplete(int tempRole,int teampRoomId , int tempTeamId)
         {
             isTeamRunAway = 0;
-            isPetTeamRunAway = 0;
+            isPetTeamRunAway  = false;
             var serverBattleManager = GameManager.CustomeModule<ServerBattleManager>();
             var serverTeamManager = GameManager.CustomeModule<ServerTeamManager>();
             for (int speed = 0; speed < serverBattleManager._teamIdToBattleInit[tempRole].battleUnits.Count; speed++)
             {
-                var objectOwner = serverBattleManager.ReleaseToOwner(serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId, tempRole);
-                var typeName = objectOwner.GetType().Name;
                 if (isTeamRunAway == _teamIdToBattleInit[tempRole].playerUnits.Count)
                     break;
+                var objectOwner = serverBattleManager.ReleaseToOwner(serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId, tempRole);
+                if (objectOwner == null)
+                    continue;
+                var typeName = objectOwner.GetType().Name;
                 switch (typeName)
                 {
                     case "EnemyStatusDTO":
                         //Utility.Debug.LogInfo("老陆 ，EnemyStatusDTOEnemyStatusDTO");
                         var enemyStatusData = objectOwner as EnemyStatusDTO;
                         ///返回一个当前要出手的人的个人属性   需要判断TODO
+                        if (serverBattleManager._roomidToBattleTransfer[teampRoomId].Count  ==0)
+                            break;
                         var EnemyIndex = RandomManager(speed, 0, serverBattleManager._roomidToBattleTransfer[teampRoomId].Count); // new Random((int)DateTime.Now.Ticks + speed).Next(0, serverBattleManager._roomidToBattleTransfer[teampRoomId].Count);
                         var memberCuuentTranferEnemy = serverBattleManager._teamIdToBattleInit[tempRole].playerUnits.Find(x => x.RoleStatusDTO.RoleID == serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex].RoleId);
 
