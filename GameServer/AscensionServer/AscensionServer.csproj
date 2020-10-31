@@ -20,7 +20,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -201,8 +201,11 @@
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.Delegate.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.enum.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.Init.cs" />
+    <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.Owner.cs" />
+    <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.Team.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.Timer.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.TimerCallBackMethod.cs" />
+    <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.Tool.cs" />
     <Compile Include="Ascension\Core\RunTime\Chat\ChatManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\Data.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\DataManager.cs" />

@@ -34,7 +34,7 @@ namespace AscensionServer.Model
             RoleVitality = 0;
             RoleVileSpawn = 0;
             RoleMaxJingXue = 0;
-            RoleMoveSpeed = 0;
+            RoleMoveSpeed = 3;
         }
         /// <summary>
         /// 角色id
