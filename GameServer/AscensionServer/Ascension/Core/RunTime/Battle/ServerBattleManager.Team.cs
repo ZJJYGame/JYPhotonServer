@@ -133,7 +133,7 @@ namespace AscensionServer
                                 {
                                     Utility.Debug.LogError("AI  全部死亡");
                                     //BattleEnd()
-                                    return;
+                                    break;
                                 }
                                 ///判断技能的伤害系数是一个还是多个
                                 if (skillGongFa.Attack_Factor.Count != 1)
@@ -180,6 +180,8 @@ namespace AscensionServer
                 {
                     if (skillGongFa.AttackProcess_Type == AttackProcess_Type.SingleUse)
                     {
+                        Utility.Debug.LogInfo("AI 老陆" + TargetID.Count);
+
                         ///判断技能伤害系数是一个还是多个
                         if (skillGongFa.Attack_Factor.Count != 1) { }
                         else
@@ -190,7 +192,7 @@ namespace AscensionServer
                                 var survivalTarget = _teamIdToBattleInit[roleId].enemyUnits.Find(x => x.EnemyStatusDTO.EnemyId == TargetID.Keys.ToList()[op]);
                                 survivalTarget.EnemyStatusDTO.EnemyHP -= skillGongFa.Attack_Factor[0];
                                 BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
-                                tempTrans.TargetID = TargetID.Keys.ToList()[op];
+                                tempTrans.TargetID = survivalTarget.EnemyStatusDTO.EnemyId;
                                 tempTrans.TargetHPDamage = -skillGongFa.Attack_Factor[0];
                                 TargetInfosSet.Add(tempTrans);
                             }
@@ -199,6 +201,7 @@ namespace AscensionServer
                     }
                     else if (skillGongFa.AttackProcess_Type == AttackProcess_Type.Staged)
                     {
+                        Utility.Debug.LogInfo("AI 目标id" + TargetID.Count);
                         for (int n = 0; n < TargetID.Count; n++)
                         {
                             var survivalTarget = _teamIdToBattleInit[roleId].enemyUnits.Find(x => x.EnemyStatusDTO.EnemyId == TargetID.Keys.ToList()[n]);
@@ -472,6 +475,7 @@ namespace AscensionServer
                 else
                 {
                     isTeamRunAway++;
+                    //TODO   需要下午该一下
                    _roomidToBattleTransfer[_teamIdToBattleInit[roleId].RoomId].RemoveAt(_roomidToBattleTransfer[_teamIdToBattleInit[roleId].RoomId].FindIndex(x => x.RoleId == currentRole));
                     _teamIdToBattleInit[roleId].playerUnits.RemoveAt(_teamIdToBattleInit[roleId].playerUnits.FindIndex(x => x.RoleStatusDTO.RoleID == currentRole));
                    var petTempId=  _teamIdToBattleInit[roleId].petUnits.Find(x => x.RoleId == currentRole);

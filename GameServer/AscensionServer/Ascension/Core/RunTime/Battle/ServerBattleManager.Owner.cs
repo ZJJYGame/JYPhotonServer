@@ -273,7 +273,8 @@ namespace AscensionServer
         {
             var indexNumber = 0; //_teamIdToBattleInit[roleId].enemyUnits.Count;
             int survivalNumber = AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits).Count;
-            TargetID.Add(battleTransferDTOs.TargetInfos[info].TargetID, battleTransferDTOs.TargetInfos[info].GlobalId);
+            if (_teamIdToBattleInit[roleId].enemyUnits.Find(x=>x.EnemyStatusDTO.EnemyId == battleTransferDTOs.TargetInfos[info].TargetID).EnemyStatusDTO.EnemyHP>0)
+                TargetID.Add(battleTransferDTOs.TargetInfos[info].TargetID, battleTransferDTOs.TargetInfos[info].GlobalId);
             while (TargetID.Count != skillGongFa.Attack_Number)
             {
                 if (TargetID.Count == survivalNumber || survivalNumber == 0)
@@ -351,7 +352,7 @@ namespace AscensionServer
                                 {
                                     Utility.Debug.LogError("AI  全部死亡");
                                     //BattleEnd()
-                                    return;
+                                    break;
                                 }
                                 ///判断技能的伤害系数是一个还是多个
                                 if (skillGongFa.Attack_Factor.Count != 1)
@@ -435,7 +436,7 @@ namespace AscensionServer
                                 var survivalTarget = _teamIdToBattleInit[roleId].enemyUnits.Find(x => x.EnemyStatusDTO.EnemyId == TargetID.Keys.ToList()[op]);
                                 survivalTarget.EnemyStatusDTO.EnemyHP -= skillGongFa.Attack_Factor[0];
                                 BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
-                                tempTrans.TargetID = TargetID.Keys.ToList()[op];
+                                tempTrans.TargetID = survivalTarget.EnemyStatusDTO.EnemyId;
                                 tempTrans.TargetHPDamage = -skillGongFa.Attack_Factor[0];
                                 TargetInfosSet.Add(tempTrans);
                             }
