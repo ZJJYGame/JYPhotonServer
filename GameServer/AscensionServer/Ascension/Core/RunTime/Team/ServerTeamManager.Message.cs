@@ -67,12 +67,12 @@ namespace AscensionServer
         /// 拒绝加入队伍
         /// </summary>
         /// <param name="roleId"></param>
-        public void ServerToClientRefused(int roleId)
+        public void ServerToClientRefused(int leaderId)
         {
             OperationData opData = new OperationData();
             opData.DataMessage = ServerToClientParams();
             opData.OperationCode = (byte)OperationCode.SyncTeamMessageRefused;
-            GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
+            GameManager.CustomeModule<RoleManager>().SendMessage(leaderId, opData);
         }
         /// <summary>
         /// 解散队伍

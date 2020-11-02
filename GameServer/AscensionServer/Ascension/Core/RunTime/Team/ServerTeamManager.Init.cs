@@ -108,6 +108,7 @@ namespace AscensionServer
             if (teamDTO.TeamMembers.Count > 5) return;
             teamDTO.TeamMembers.Add(roleDTO);  ///将该成员信息加入到队伍成员列表去
             teamDTO.ApplyMebers.Remove(roleDTO.RoleID); //更新申请列表信息
+            teamDTO.AgreeMebers.Add(roleDTO.RoleID); 
             _teamTOModel[teamId] = teamDTO;
             //DOTO
             //所有组员广播，某人入队信息
@@ -120,7 +121,7 @@ namespace AscensionServer
         public void RefusedApplyTeam(RoleDTO roleDTO, int teamId)
         {
             _teamTOModel[teamId].ApplyMebers.Remove(roleDTO.RoleID);
-            ServerToClientRefused(roleDTO.RoleID);
+            ServerToClientRefused(_teamTOModel[teamId].LeaderId);
         }
 
         /*
