@@ -174,6 +174,11 @@
         /// <summary>
         /// 时间戳
         /// </summary>
-        RoleBattleTimeStamp = 97
+        RoleBattleTimeStamp = 97,
+        /// <summary>
+        /// 历练技能布局
+        /// </summary>
+        RefreshSkillLayout=98
+
     }
 }

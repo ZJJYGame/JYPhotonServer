@@ -22,9 +22,13 @@ namespace AscensionServer
         /// 临时的占用资源单位容器，需要迭代
         /// </summary>
         //TODO  临时的占用资源单位容器，需要迭代
+        IRecordAdventureSkillHelper recordAdventureSkillHelper;
         public HashSet<OccupiedUnitDTO> OccupiedUnitSetCache { get; private set; }
         public override void OnInitialization()
         {
+
+            recordAdventureSkillHelper = Utility.Assembly.GetInstanceByAttribute<ImplementProviderAttribute, IRecordAdventureSkillHelper>();
+
             ResUnitSetDict = new Dictionary<int, ResourceUnitSetDTO>();
             OccupiedUnitSetCache = new HashSet<OccupiedUnitDTO>();
         }
@@ -86,7 +90,7 @@ namespace AscensionServer
             GameManager.CustomeModule<RoleManager>().SendMessage(roleEntity.RoleId, operationData);
             Utility.Debug.LogInfo("yzqData" + Utility.Json.ToJson(ResUnitSetDict));
             //roleEntity.SendEvent((byte)EventCode.RelieveOccupiedResourceUnit, date);
-
+            recordAdventureSkillHelper.RecordRoleSkill(roleEntity);
         }
     }
 }

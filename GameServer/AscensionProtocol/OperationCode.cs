@@ -138,9 +138,13 @@ namespace AscensionProtocol
         SyncDailyMessage=59,
         SyncAdventurePlayerInfo=60,
         /// <summary>
+        /// 记录历练技能布局
+        /// </summary>
+        RefreshSkillLayout=61,
+        /// <summary>
         /// 进入高同步场景的指令
         /// </summary>
-        EnterLevelCommand= 111,
+        EnterLevelCommand = 111,
         /// <summary>
         /// 离开高同步场景的指令
         /// </summary>
