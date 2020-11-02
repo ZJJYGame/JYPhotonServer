@@ -161,6 +161,7 @@ namespace AscensionProtocol
         /// 创建队伍
         /// </summary>
         SyncRoleTeam = 125,
+        #region 战斗中用到的Message通知
         /// <summary>
         /// 初始化战斗
         /// </summary>
@@ -217,11 +218,50 @@ namespace AscensionProtocol
         /// 战斗消息通知阵法指令
         /// </summary>
         SyncBattleMessageTactical  = 139,
+        #endregion
+        #region 组队中用到的Message通知
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        SyncTeamMessageInit = 140,
+        /// <summary>
+        /// 加入队伍
+        /// </summary>
+        SyncTeamMessageJoin = 141,
+        /// <summary>
+        /// 同意队伍
+        /// </summary>
+        SyncTeamMessageApply = 142,
+        /// <summary>
+        /// 拒绝队伍
+        /// </summary>
+        SyncTeamMessageRefused = 143,
+        /// <summary>
+        /// 解散队伍
+        /// </summary>
+        SyncTeamMessageDissolveTeam = 144,
+        /// <summary>
+        /// 创建队伍
+        /// </summary>
+        SyncTeamMessageCreate = 145,
+        /// <summary>
+        /// 队伍踢人
+        /// </summary>
+        SyncTeamMessageKick = 146,
+        /// <summary>
+        /// 离开队伍
+        /// </summary>
+        SyncTeamMessageLevel = 147,
+        /// <summary>
+        /// 暂定
+        /// </summary>
+        SyncTeamMessage  = 148 ,
+        #endregion
 
         /// <summary>
         /// 测试消息队列
         /// </summary>
-        MessageQueue =157,
+        MessageQueue = 157,
         /// <summary>
         /// 网关token
         /// </summary>

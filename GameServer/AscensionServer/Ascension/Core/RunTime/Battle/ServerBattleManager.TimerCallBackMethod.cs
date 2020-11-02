@@ -186,11 +186,12 @@ namespace AscensionServer
         {
             isTeamRunAway = 0;
             isPetTeamRunAway  = false;
+            int playerTemp = _teamIdToBattleInit[tempRole].playerUnits.Count;
             var serverBattleManager = GameManager.CustomeModule<ServerBattleManager>();
             var serverTeamManager = GameManager.CustomeModule<ServerTeamManager>();
             for (int speed = 0; speed < serverBattleManager._teamIdToBattleInit[tempRole].battleUnits.Count; speed++)
             {
-                if (isTeamRunAway == _teamIdToBattleInit[tempRole].playerUnits.Count)
+                if (isTeamRunAway == playerTemp)
                     break;
                 var objectOwner = serverBattleManager.ReleaseToOwner(serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId, tempRole);
                 if (objectOwner == null)
@@ -201,6 +202,7 @@ namespace AscensionServer
                     case "EnemyStatusDTO":
                         //Utility.Debug.LogInfo("老陆 ，EnemyStatusDTOEnemyStatusDTO");
                         var enemyStatusData = objectOwner as EnemyStatusDTO;
+                        Utility.Debug.LogInfo("剔除一个 ====》" + serverBattleManager._roomidToBattleTransfer[teampRoomId].Count);
                         ///返回一个当前要出手的人的个人属性   需要判断TODO
                         if (serverBattleManager._roomidToBattleTransfer[teampRoomId].Count  ==0)
                             break;

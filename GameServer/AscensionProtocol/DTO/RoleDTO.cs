@@ -15,27 +15,15 @@ namespace AscensionProtocol.DTO
         public virtual string RoleRoot { get; set; }
         public virtual string RoleName { get; set; }
         public virtual int RoleLevel { get; set; }
-        #region team  需要完善
+        #region team  
         public virtual TeamInstructions teamInstructions { get; set; }
         public virtual TeamDTO teamDTO { get; set; } 
-        public enum TeamInstructions
-        {
-            CreateTeam = 1,
-            JoinTeam = 2,
-            ApplyTeam = 3,
-            RefusedTeam = 4,
-        }
         #endregion
         public virtual BattleInitDTO BattleInitDTO { get; set; }
         /// <summary>
         /// 战斗指令
         /// </summary>
         public virtual BattleCmd SendBattleCmd { get; set; }
-        public virtual int CmdId { get; set; }
-        /// <summary>
-        /// 主要是针对 组队中的逃跑 应对 参不参与计算
-        /// </summary>
-        public virtual bool isBattle { get; set; }
         public override void Clear()
         {
             RoleID = -1;
@@ -46,7 +34,6 @@ namespace AscensionProtocol.DTO
             RoleLevel = 0;
             teamInstructions = 0;
             teamDTO = null;
-            isBattle = true;
         }
         public override string ToString()
         {
@@ -55,6 +42,41 @@ namespace AscensionProtocol.DTO
         }
     }
 
+    /// <summary>
+    /// 组队Cmd
+    /// </summary>
+    public enum TeamInstructions
+    {
+        Init = 1,
+        /// <summary>
+        /// 创建队伍
+        /// </summary>
+        CreateTeam = 2,
+        /// <summary>
+        /// 加入队伍
+        /// </summary>
+        JoinTeam = 3,
+        /// <summary>
+        /// 同意入队
+        /// </summary>
+        ApplyTeam = 4,
+        /// <summary>
+        /// 拒绝入队
+        /// </summary>
+        RefusedTeam = 5,
+        /// <summary>
+        /// 解散队伍
+        /// </summary>
+        DissolveTeam = 6,
+        /// <summary>
+        ///队伍踢人
+        /// </summary>
+        KickTeam = 7,
+        /// <summary>
+        /// 离开队伍
+        /// </summary>
+        LevelTeam = 8,
+    }
 
     #region 战斗Cmd
 

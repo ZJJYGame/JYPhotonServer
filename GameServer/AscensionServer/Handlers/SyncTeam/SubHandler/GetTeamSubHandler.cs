@@ -27,17 +27,20 @@ namespace AscensionServer
             {
                 switch (RoleObj.teamInstructions)
                 {
-                    case RoleDTO.TeamInstructions.CreateTeam:
+                    case TeamInstructions.Init:
+                        GameManager.CustomeModule<ServerTeamManager>().ServerToClientInit(RoleObj.RoleID);
+                        break;
+                    case TeamInstructions.CreateTeam:
                         if (!GameManager.CustomeModule<ServerTeamManager>()._playerIdToTeamIdDict.ContainsKey(RoleObj.RoleID))
                             GameManager.CustomeModule<ServerTeamManager>().CreateTeam(RoleObj, new int[] { 0, 99 });
                         break;
-                    case RoleDTO.TeamInstructions.JoinTeam:
+                    case TeamInstructions.JoinTeam:
                         GameManager.CustomeModule<ServerTeamManager>().JoinTeam(RoleObj,RoleObj.teamDTO.TeamId);
                         break;
-                    case RoleDTO.TeamInstructions.ApplyTeam:
+                    case TeamInstructions.ApplyTeam:
                         GameManager.CustomeModule<ServerTeamManager>().ApplyJoinTeam(RoleObj, RoleObj.teamDTO.TeamId);
                         break;
-                    case RoleDTO.TeamInstructions.RefusedTeam:
+                    case TeamInstructions.RefusedTeam:
                         GameManager.CustomeModule<ServerTeamManager>().RefusedApplyTeam(RoleObj, RoleObj.teamDTO.TeamId);
                         break;
                     default:
@@ -46,8 +49,8 @@ namespace AscensionServer
                 
                 SetResponseParamters(() =>
                 {
-                    subResponseParameters.Add((byte)ParameterCode.RoleTeam, Utility.Json.ToJson(GameManager.CustomeModule<ServerTeamManager>()._teamTOModel));
-                    subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(GameManager.CustomeModule<ServerTeamManager>()._playerIdToTeamIdDict));
+                    //subResponseParameters.Add((byte)ParameterCode.RoleTeam, Utility.Json.ToJson(GameManager.CustomeModule<ServerTeamManager>()._teamTOModel));
+                    //subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(GameManager.CustomeModule<ServerTeamManager>()._playerIdToTeamIdDict));
                     operationResponse.ReturnCode = (short)ReturnCode.Success;
 
                 });

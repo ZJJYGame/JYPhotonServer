@@ -233,6 +233,8 @@
     <Compile Include="Ascension\Core\RunTime\Room\RoomManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Level\LevelEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Level\LevelManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Team\ServerTeamManager.Init.cs" />
+    <Compile Include="Ascension\Core\RunTime\Team\ServerTeamManager.Message.cs" />
     <Compile Include="Ascension\Core\RunTime\Team\TeamEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Team\ServerTeamManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Team\TeamManager.cs" />

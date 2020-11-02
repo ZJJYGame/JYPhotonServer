@@ -1283,6 +1283,99 @@
             玩家或peer进入场景 
              </summary>
         </member>
+        <member name="T:AscensionServer.ServerTeamManager">
+            <summary>
+            待完善
+            未统一的服务器端组队功能；
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerTeamManager.CreateTeam(AscensionProtocol.DTO.RoleDTO,System.Int32[])">
+            <summary>
+            创建一个队伍  
+            </summary>
+            <param name="roleDTO"></param>
+            <param name="levelLimint"></param>
+        </member>
+        <member name="M:AscensionServer.ServerTeamManager.ApplyJoinTeam(AscensionProtocol.DTO.RoleDTO,System.Int32)">
+            <summary>
+            加入队伍申请
+            </summary>
+            <param name="roleDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerTeamManager.JoinTeam(AscensionProtocol.DTO.RoleDTO,System.Int32)">
+            <summary>
+            同意加入队伍  
+            </summary>
+            <param name="roleDTO"></param>
+        </member>
+        <member name="M:AscensionServer.ServerTeamManager.RefusedApplyTeam(AscensionProtocol.DTO.RoleDTO,System.Int32)">
+            <summary>
+            拒绝队伍申请
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerTeamManager.ServerToClientInit(System.Int32)">
+            <summary>
+            服务器主动给客户端发消息 初始化队伍信息
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerTeamManager.ServerToClientCreate(System.Int32)">
+            <summary>
+            创建房间
+            </summary>
+            <param name="roleId"></param>
+        </member>
+        <member name="M:AscensionServer.ServerTeamManager.ServerToClientApply(System.Int32)">
+            <summary>
+            申请加入队伍
+            </summary>
+            <param name="roleId"></param>
+        </member>
+        <member name="M:AscensionServer.ServerTeamManager.ServerToClientJoin(System.Collections.Generic.List{AscensionProtocol.DTO.RoleDTO})">
+            <summary>
+            同意加入队伍
+            </summary>
+            <param name="roleId"></param>
+        </member>
+        <member name="M:AscensionServer.ServerTeamManager.ServerToClientRefused(System.Int32)">
+            <summary>
+            拒绝加入队伍
+            </summary>
+            <param name="roleId"></param>
+        </member>
+        <member name="M:AscensionServer.ServerTeamManager.ServerToClientDissolveTeam(System.Int32)">
+            <summary>
+            解散队伍
+            </summary>
+            <param name="roleId"></param>
+        </member>
+        <member name="F:AscensionServer.ServerTeamManager._playerIdToTeamIdDict">
+            <summary>
+            玩家id 和队伍id 之间的映射
+            </summary>
+        </member>
+        <member name="F:AscensionServer.ServerTeamManager._teamTOModel">
+            <summary>
+            队伍id 和队伍信息模型映射
+            </summary>
+        </member>
+        <member name="F:AscensionServer.ServerTeamManager._oldTeamList">
+            <summary>
+            收集，释放解散的存在的队伍信息
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerTeamManager.IsLeader(System.Int32)">
+            <summary>
+            判断是否是队长
+            </summary>
+            <param name="playerId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerTeamManager.ServerToClientParams">
+            <summary>
+            服务器返回给客户端的参数
+            </summary>
+        </member>
         <member name="P:AscensionServer.TeamEntity.CaptainId">
             <summary>
             队长ID
@@ -1349,78 +1442,6 @@
             <summary>
             广播消息
             </summary>
-        </member>
-        <member name="T:AscensionServer.ServerTeamManager">
-            <summary>
-            待完善
-            未统一的服务器端组队功能；
-            </summary>
-        </member>
-        <member name="F:AscensionServer.ServerTeamManager._playerIdToTeamIdDict">
-            <summary>
-            玩家id 和队伍id 之间的映射
-            </summary>
-        </member>
-        <member name="F:AscensionServer.ServerTeamManager._teamTOModel">
-            <summary>
-            队伍id 和队伍信息模型映射
-            </summary>
-        </member>
-        <member name="F:AscensionServer.ServerTeamManager._oldTeamList">
-            <summary>
-            收集，释放解散的存在的队伍信息
-            </summary>
-        </member>
-        <member name="M:AscensionServer.ServerTeamManager.CreateTeam(AscensionProtocol.DTO.RoleDTO,System.Int32[])">
-            <summary>
-            创建一个队伍  
-            </summary>
-            <param name="roleDTO"></param>
-            <param name="levelLimint"></param>
-        </member>
-        <member name="M:AscensionServer.ServerTeamManager.JoinTeam(AscensionProtocol.DTO.RoleDTO,System.Int32)">
-            <summary>
-            加入队伍
-            </summary>
-            <param name="roleDTO"></param>
-        </member>
-        <member name="M:AscensionServer.ServerTeamManager.ApplyJoinTeam(AscensionProtocol.DTO.RoleDTO,System.Int32)">
-            <summary>
-            加入队伍申请
-            </summary>
-            <param name="roleDTO"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.ServerTeamManager.RefusedApplyTeam(AscensionProtocol.DTO.RoleDTO,System.Int32)">
-            <summary>
-            拒绝队伍申请
-            </summary>
-        </member>
-        <member name="M:AscensionServer.ServerTeamManager.IsLeader(System.Int32)">
-            <summary>
-            判断是否是队长
-            </summary>
-            <param name="playerId"></param>
-            <returns></returns>
-        </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerTeamManager.GetApplyListInfo(AscensionProtocol.DTO.RoleDTO)" -->
-        <member name="M:AscensionServer.ServerTeamManager.GetTeamList(AscensionProtocol.DTO.RoleDTO)">
-            <summary>
-            返回所有队伍信息
-            </summary>
-            <param name="roleDTO"></param>
-        </member>
-        <member name="M:AscensionServer.ServerTeamManager.KickTeam(AscensionProtocol.DTO.RoleDTO)">
-            <summary>
-            踢人
-            </summary>
-            <param name="roleDTO"></param>
-        </member>
-        <member name="M:AscensionServer.ServerTeamManager.LeaveTeam(AscensionProtocol.DTO.RoleDTO)">
-            <summary>
-            离开队伍
-            </summary>
-            <param name="roleDTO"></param>
         </member>
         <member name="F:AscensionServer.TeamManager._IDLenth">
             <summary>
