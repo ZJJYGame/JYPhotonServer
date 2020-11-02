@@ -53,7 +53,7 @@ namespace AscensionServer
             {
                 var roleStatusSever = _teamIdToBattleInit[tempRoleId].playerUnits[0].RoleStatusDTO;
                 var allEnemyHP = GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit[tempRoleId].enemyUnits.Find(q => q.EnemyStatusDTO.EnemyHP > 0);
-                if (roleStatusSever.RoleHP <= 0 || allEnemyHP == null)
+                if ((roleStatusSever.RoleHP <= 0 && (_teamIdToBattleInit[tempRoleId].petUnits.Count != 0 ? _teamIdToBattleInit[tempRoleId].petUnits[0].PetStatusDTO.PetHP <= 0 : true)) || allEnemyHP == null)
                 {
                     OperationData opData = new OperationData();
                     opData.DataMessage = "战斗结束啦， over！";
@@ -81,7 +81,7 @@ namespace AscensionServer
                     for (int ob = 0; ob < GameManager.CustomeModule<ServerTeamManager>()._teamTOModel[IsTeamDto(tempRoleId).TeamId].TeamMembers.Count; ob++)
                     {
                         // if (_teamIdToBattleInit[tempRoleId].playerUnits[ob].RoleStatusDTO.RoleHP <= 0)
-                        if (allRoleHP == null || allEnemyHP == null)
+                        if ((allRoleHP == null&&(_teamIdToBattleInit[tempRoleId].petUnits.Count != 0 ? _teamIdToBattleInit[tempRoleId].petUnits.Find(x=>x.PetStatusDTO.PetHP>0) == null : true)) || allEnemyHP == null)
                         {
                             OperationData opData = new OperationData();
                             opData.DataMessage = "战斗结束啦， over！";
@@ -131,7 +131,7 @@ namespace AscensionServer
         /// <summary>
         /// 针对 组队情况下的 不选取指令  随机分配一个默认指令     ??? 需要处理 不发消息的时候怎么办
         /// </summary>
-        public void RoundTeamMember(int teampRoomId,int tempTeamId)
+        public void RoundTeamMember(int teampRoomId,int tempTeamId,int tempRole)
         {
             var serverBattleManager = GameManager.CustomeModule<ServerBattleManager>();
             var serverTeamManager = GameManager.CustomeModule<ServerTeamManager>();
@@ -143,6 +143,7 @@ namespace AscensionServer
                 //serverBattleManager._teamIdToMemberDict[tempTeamId].Add(serverTeamManager._teamTOModel[tempTeamId].TeamMembers[i].RoleID);
                 //TODO  ////默认是用第一个战斗传输的数据
                 BattleTransferDTO battleTransfer = new BattleTransferDTO();
+                BattleTransferDTO battleTransferPet = new BattleTransferDTO();
                 battleTransfer.RoleId = serverTeamManager._teamTOModel[tempTeamId].TeamMembers[i].RoleID;
                 battleTransfer.isFinish = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].isFinish;
                 battleTransfer.BattleCmd = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].BattleCmd;
@@ -151,23 +152,49 @@ namespace AscensionServer
                 battleTransfer.SkillReactionValue = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].SkillReactionValue;
                 battleTransfer.SendSkillReactionCmd = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].SendSkillReactionCmd;
                 battleTransfer.RoleIdShieldValueDict = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].RoleIdShieldValueDict;
+                if (serverBattleManager._teamIdToBattleInit[tempRole].petUnits.Count != 0)
+                {
+                    PetBattleDataDTO petObject = serverBattleManager._teamIdToBattleInit[tempRole].petUnits.Find(x => x.RoleId == serverTeamManager._teamTOModel[tempTeamId].TeamMembers[i].RoleID);
+                    if (petObject != null)
+                    {
+                        battleTransferPet.RoleId = petObject.PetStatusDTO.PetID;
+                        battleTransferPet.isFinish = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].petBattleTransferDTO.isFinish;
+                        battleTransferPet.BattleCmd = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].petBattleTransferDTO.BattleCmd;
+                        battleTransferPet.ClientCmdId = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].petBattleTransferDTO.ClientCmdId;
+                        battleTransferPet.TargetInfos = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].petBattleTransferDTO.TargetInfos;
+                        battleTransferPet.SkillReactionValue = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].petBattleTransferDTO.SkillReactionValue;
+                        battleTransferPet.SendSkillReactionCmd = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].petBattleTransferDTO.SendSkillReactionCmd;
+                        battleTransferPet.RoleIdShieldValueDict = serverBattleManager._roomidToBattleTransfer[teampRoomId][0].petBattleTransferDTO.RoleIdShieldValueDict;
+                        battleTransfer.petBattleTransferDTO = battleTransferPet;
+                    }
+                }
                 serverBattleManager._roomidToBattleTransfer[teampRoomId].Add(battleTransfer);
             }
         }
+
+
         /// <summary>
         /// 针对每回合组队 技能释放计算 并返回给客户端
         /// </summary>
         /// <param name="tempRole"></param>
         /// <param name="teampRoomId"></param>
         /// <param name="tempTeamId"></param>
+        /// 
+        public int isTeamRunAway;
+        public  bool isPetTeamRunAway;
         public void RoundTeamSkillComplete(int tempRole,int teampRoomId , int tempTeamId)
         {
-            bool isRunAway = false;
+            isTeamRunAway = 0;
+            isPetTeamRunAway  = false;
             var serverBattleManager = GameManager.CustomeModule<ServerBattleManager>();
             var serverTeamManager = GameManager.CustomeModule<ServerTeamManager>();
             for (int speed = 0; speed < serverBattleManager._teamIdToBattleInit[tempRole].battleUnits.Count; speed++)
             {
+                if (isTeamRunAway == _teamIdToBattleInit[tempRole].playerUnits.Count)
+                    break;
                 var objectOwner = serverBattleManager.ReleaseToOwner(serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId, tempRole);
+                if (objectOwner == null)
+                    continue;
                 var typeName = objectOwner.GetType().Name;
                 switch (typeName)
                 {
@@ -175,10 +202,11 @@ namespace AscensionServer
                         //Utility.Debug.LogInfo("老陆 ，EnemyStatusDTOEnemyStatusDTO");
                         var enemyStatusData = objectOwner as EnemyStatusDTO;
                         ///返回一个当前要出手的人的个人属性   需要判断TODO
-                        var EnemyIndex = new Random().Next(0, serverBattleManager._roomidToBattleTransfer[teampRoomId].Count);
+                        if (serverBattleManager._roomidToBattleTransfer[teampRoomId].Count  ==0)
+                            break;
+                        var EnemyIndex = RandomManager(speed, 0, serverBattleManager._roomidToBattleTransfer[teampRoomId].Count); // new Random((int)DateTime.Now.Ticks + speed).Next(0, serverBattleManager._roomidToBattleTransfer[teampRoomId].Count);
                         var memberCuuentTranferEnemy = serverBattleManager._teamIdToBattleInit[tempRole].playerUnits.Find(x => x.RoleStatusDTO.RoleID == serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex].RoleId);
-                        //if (serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex].BattleCmd == BattleCmd.RunAwayInstruction && memberCuuentTranferEnemy.RoleStatusDTO.RoleHP > 0)
-                        //    continue;
+
                         if (enemyStatusData.EnemyHP > 0 && memberCuuentTranferEnemy.RoleStatusDTO.RoleHP > 0)
                             serverBattleManager.AIToRelease(serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex], enemyStatusData, tempRole, EnemyIndex);
                         break;
@@ -223,7 +251,34 @@ namespace AscensionServer
                             default:
                                 break;
                         }
-                       
+                        break;
+                    case "PetStatusDTO":
+                        var petStatusDTO = objectOwner as PetStatusDTO;
+                        if (petStatusDTO.PetHP <= 0)
+                            continue;
+                        var speedCuurentTransferPet = serverBattleManager._roomidToBattleTransfer[teampRoomId].Find(q => q.petBattleTransferDTO.RoleId == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId);
+                        //var memberCuuentTranferPet = serverBattleManager._teamIdToBattleInit[tempRole].petUnits.Find(x => x.PetStatusDTO.PetID == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId);
+                        var memberCuuentTranferIndexPet = serverBattleManager._teamIdToBattleInit[tempRole].petUnits.FindIndex(x => x.PetStatusDTO.PetID == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId);
+                        switch (speedCuurentTransferPet.petBattleTransferDTO.BattleCmd)
+                        {
+                            #region 宠物道具
+                            case BattleCmd.PropsInstruction:
+                                PlayerTeamToPropslnstruction(speedCuurentTransferPet.petBattleTransferDTO, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId, memberCuuentTranferIndexPet);
+                                break;
+                            #endregion
+                            #region 宠物技能
+                            case BattleCmd.SkillInstruction:
+                                serverBattleManager.PlayerTeamToRelease(speedCuurentTransferPet.petBattleTransferDTO, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId, memberCuuentTranferIndexPet);
+                                break;
+                            #endregion
+                            #region 宠物逃跑
+                            case BattleCmd.RunAwayInstruction:
+                                PlayerTeamToRunAway(speedCuurentTransferPet.petBattleTransferDTO, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId, memberCuuentTranferIndexPet, -1);
+                                break;
+                            #endregion
+                            default:
+                                break;
+                        }
                         break;
                 }
             }

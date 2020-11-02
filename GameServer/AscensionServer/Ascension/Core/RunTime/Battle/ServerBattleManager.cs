@@ -111,13 +111,16 @@ namespace AscensionServer
         /// <summary>
         /// 开始战斗   -->  开始战斗的回合
         /// </summary>
+        /// 
+        bool isRunAway;
+        bool isPetRunAway;
         public void BattleStart(int roleId, int roomId, BattleTransferDTO battleTransferDTOs)
         {
-
             //Utility.Debug.LogInfo("battleCmd == >>>" + battleTransferDTOs.BattleCmd);
             TargetID.Clear();
             teamSet.Clear();
-            bool isRunAway = false;
+            isRunAway = false;
+             isPetRunAway = false;
             if (!_roomidToBattleTransfer.ContainsKey(roomId))
                 return;
 
@@ -127,21 +130,22 @@ namespace AscensionServer
                 ///出手速度
                 for (int speed = 0; speed < _teamIdToBattleInit[roleId].battleUnits.Count; speed++)
                 {
+                    if (isRunAway)
+                        break;
                     var objectOwner = ReleaseToOwner(_teamIdToBattleInit[roleId].battleUnits[speed].ObjectID, _teamIdToBattleInit[roleId].battleUnits[speed].ObjectId, roleId);
+                    if (objectOwner == null)
+                        continue;
                     var typeName = objectOwner.GetType().Name;
+                    //Utility.Debug.LogInfo("老陆 测试" + typeName);
                     //Utility.Debug.LogInfo("角色剩余的血量" + _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP);
                     switch (typeName)
                     {
                         case "EnemyStatusDTO":
                             var enemyStatusData = objectOwner as EnemyStatusDTO;
-                            if (isRunAway)
-                                break;
                             if (enemyStatusData.EnemyHP > 0 && _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
-                                AIToRelease(battleTransferDTOs, enemyStatusData, roleId);
+                                AIToRelease(battleTransferDTOs, enemyStatusData, roleId,speed);
                             break;
                         case "RoleStatusDTO":
-                            //if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
-                            //    PlayerToRelease(battleTransferDTOs, roleId);
                             switch (battleTransferDTOs.BattleCmd)
                             {
                                 #region 针对道具
@@ -151,7 +155,6 @@ namespace AscensionServer
                                     break;
                                 #endregion
                                 #region 针对技能
-
                                 case BattleCmd.SkillInstruction:
                                     if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
                                         PlayerToRelease(battleTransferDTOs, roleId);
@@ -159,7 +162,6 @@ namespace AscensionServer
                                 #endregion
                                 #region 针对逃跑
                                 case BattleCmd.RunAwayInstruction:
-                                    isRunAway = true;
                                     PlayerToRunAway(battleTransferDTOs, roleId);
                                     break;
                                 #endregion
@@ -174,6 +176,32 @@ namespace AscensionServer
                                 case BattleCmd.SummonPet:
                                     break;
                                 case BattleCmd.Tactical:
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+                        case "PetStatusDTO":
+                            var petStatusDTO = objectOwner as PetStatusDTO;
+                            if (petStatusDTO.PetHP <= 0)
+                                continue;
+                            //Utility.Debug.LogInfo("老陆 测试" + _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP);
+                            switch (battleTransferDTOs.petBattleTransferDTO.BattleCmd)
+                            {
+                                #region 宠物道具
+                                case BattleCmd.PropsInstruction:
+                                    if (_teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP > 0)
+                                        PlayerToPropslnstruction(battleTransferDTOs.petBattleTransferDTO, roleId, battleTransferDTOs.petBattleTransferDTO.RoleId);
+                                    break;
+                                #endregion
+                                #region 宠物技能
+                                case BattleCmd.SkillInstruction:
+                                    if (_teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP > 0)
+                                        PlayerToRelease(battleTransferDTOs.petBattleTransferDTO, roleId, 0, battleTransferDTOs.petBattleTransferDTO.RoleId);
+                                    break;
+                                #endregion
+                                case BattleCmd.RunAwayInstruction:
+                                    PetToRunAway(battleTransferDTOs.petBattleTransferDTO, roleId, battleTransferDTOs.petBattleTransferDTO.RoleId);
                                     break;
                                 default:
                                     break;
@@ -195,7 +223,6 @@ namespace AscensionServer
                 }
                 Utility.Debug.LogInfo("老陆 ，开始战斗的时候收集客户端一个请求"+ _roomidToBattleTransfer[roomId].Count);
             }
-
         }
         /// 战斗结束
         /// </summary>
