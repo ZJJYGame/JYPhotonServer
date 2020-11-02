@@ -22,73 +22,73 @@ namespace Protocol
         public const ushort PORT_CHAT = 4321;
         #endregion
 
-        #region Operation Range[0 , 255] ; Count:256;
+        #region Operation Range[0 , 255] ; Count:256; OPR=Operation
         /// <summary>
         /// 测试通道；
         /// </summary>
-        public const ushort OPERATION_TESTCAHNNEL = 336;
+        public const ushort OPR_TESTCAHNNEL = 336;
         /// <summary>
         /// PlayerInput;
         /// 玩家在高同步场景中的输入；
         /// 例如探索界面，副本界面等；
         /// </summary>
-        public const ushort OPERATION_PLYAER_INPUT = 5;
+        public const ushort OPR_PLYAER_INPUT = 5;
         /// <summary>
         /// 玩家的角色登录；注意区分账号登录；
         /// </summary>
-        public const ushort OPERATION_PLYAER_LOGIN = 6;
+        public const ushort OPR_PLYAER_LOGIN = 6;
         /// <summary>
         /// 玩家的角色登出；注意区分账号登录；
         /// </summary>
-        public const ushort OPERATION_PLYAER_LOGOFF = 7;
+        public const ushort OPR_PLYAER_LOGOFF = 7;
         /// <summary>
         /// PlayerEnter；
         /// 玩家进入高同步场景，例如探索界面，副本界面等；
         /// </summary>
-        public const ushort OPERATION_PLAYER_ENTER = 111;
+        public const ushort OPR_PLAYER_ENTER = 111;
         /// <summary>
         /// PlayerExit
         /// 玩家离开高同步场景，例如探索界面，副本界面等；
         /// </summary>
-        public const ushort OPERATION_PLAYER_EXIT = 112;
+        public const ushort OPR_PLAYER_EXIT = 112;
         #endregion
 
-        #region ReturnCode  Range[256 , 319] ; Count:64;
+        #region ReturnCode  Range[256 , 319] ; Count:64; RTN=Return
         /// <summary>
         /// 成功；
         /// </summary>
-        public const short RETURN_SUCCESS = 257;
+        public const short RTN_SUCCESS = 257;
         /// <summary>
         /// 错误
         /// </summary>
-        public const short RETURN_ERROR = 258;
+        public const short RTN_ERROR = 258;
         /// <summary>
         /// 失败；
         /// </summary>
-        public const short RETURN_FAIL = 259;
+        public const short RTN_FAIL = 259;
         /// <summary>
         /// 空；
         /// </summary>
-        public const short RETURN_EMPTY = 260;
+        public const short RTN_EMPTY = 260;
         /// <summary>
         /// 操作码无效；
         /// </summary>
-        public const short RETURN_INVALIDOPERATION = 261;
+        public const short RTN_INVALIDOPERATION = 261;
         /// <summary>
         /// 数据无效；
         /// </summary>
-        public const short RETURN_INVALIDDATA = 262;
+        public const short RTN_INVALIDDATA = 262;
         /// <summary>
         /// 条款（Item）已存在；
         /// </summary>
-        public const short RETURN_ALREADYEXISTS = 263;
+        public const short RTN_ALREADYEXISTS = 263;
         /// <summary>
         /// 未查询到条款（Item）；
         /// </summary>
-        public const short RETURN_NOTFOUND = 264;
+        public const short RTN_NOTFOUND = 264;
         #endregion
 
-        #region CMD Range[320 , 335] ; Count:16;
+        #region CMD Range[320 , 335] ; Count:16; CMD=Command
         /// <summary>
         /// CMD指令;
         /// 若无必要，勿动；

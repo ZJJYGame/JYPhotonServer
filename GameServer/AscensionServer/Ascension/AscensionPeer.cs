@@ -109,9 +109,9 @@ namespace AscensionServer
             {
                 //若存在，则广播到各个模块；
                 var opData = new OperationData();
-                opData.OperationCode = ProtocolDefine.OPERATION_PLYAER_LOGOFF;
+                opData.OperationCode = ProtocolDefine.OPR_PLYAER_LOGOFF;
                 opData.DataMessage = roleEntity;
-                var t = CommandEventCore.Instance.DispatchAsync(ProtocolDefine.OPERATION_PLYAER_LOGOFF, opData);
+                var t = CommandEventCore.Instance.DispatchAsync(ProtocolDefine.OPR_PLYAER_LOGOFF, opData);
             }
             GameManager.CustomeModule<PeerManager>().TryRemove(SessionId);
             Utility.Debug.LogError($"Photon SessionId : {SessionId} Unavailable . RemoteAdress:{RemoteIPAddress}");

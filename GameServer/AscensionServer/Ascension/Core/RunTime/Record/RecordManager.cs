@@ -21,7 +21,7 @@ namespace AscensionServer
         }
         public override void OnPreparatory()
         {
-            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAER_LOGOFF,OnPlayerLogoff);
+            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPR_PLYAER_LOGOFF,OnPlayerLogoff);
         }
         public void RecordRole(RoleEntity roleEntity)
         {
