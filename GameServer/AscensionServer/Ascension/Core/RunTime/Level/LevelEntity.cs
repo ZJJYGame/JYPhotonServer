@@ -44,9 +44,9 @@ namespace AscensionServer
         public LevelEntity()
         {
             roleDict = new ConcurrentDictionary<int, RoleEntity>();
-            opRefreshData.OperationCode = ProtocolDefine.OPERATION_PLYAER_INPUT;
-            opEnterLeveData.OperationCode = ProtocolDefine.OPERATION_PLAYER_ENTER;
-            opExitLeveData.OperationCode = ProtocolDefine.OPERATION_PLAYER_EXIT;
+            opRefreshData.OperationCode = ProtocolDefine.OPR_PLYAER_INPUT;
+            opEnterLeveData.OperationCode = ProtocolDefine.OPR_PLAYER_ENTER;
+            opExitLeveData.OperationCode = ProtocolDefine.OPR_PLAYER_EXIT;
         }
         public void OnInit(int sceneId)
         {
