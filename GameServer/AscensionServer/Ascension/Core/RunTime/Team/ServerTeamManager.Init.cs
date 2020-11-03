@@ -59,6 +59,7 @@ namespace AscensionServer
                 teamDto.TeamLevelDown = levelLimint[1];
                 teamDto.TeamLevelUp = levelLimint[0];
                 teamDto.ApplyMebers = new List<int>();
+                teamDto.AgreeMebers = new List<int>();
                 _teamTOModel.Add(teamDto.TeamId, teamDto);
                 _playerIdToTeamIdDict.Add(playerId, teamDto.TeamId);
             }
