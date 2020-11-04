@@ -72,6 +72,10 @@ namespace AscensionProtocol
         /// 同步怪物位置
         /// </summary>
         SyncMonsterTransform = 35,
+        /// <summary>
+        ///  历练等高同步场景使用技能码；
+        ///  勿动！（Don）
+        /// </summary>
         SyncRoleAdventureSkill=36,
         /// <summary>
         /// 刷新宗門藏寶閣藏經閣

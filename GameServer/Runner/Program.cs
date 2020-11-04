@@ -13,7 +13,7 @@ namespace Runner
         static void Main(string[] args)
         {
             RedisManager.Instance.OnInitialization();
-            RedisManager.Instance.SubscribeKeyExpire((key) => { Console.WriteLine($"EXPIRED: {key}"); });
+            //RedisManager.Instance.SubscribeKeyExpire((key) => { Console.WriteLine($"EXPIRED: {key}"); });
             RedisHelper.String.StringSet("ZHENG","123456",new TimeSpan(0,0,5));
             Console.WriteLine("Listening for events...");
             Console.ReadKey();
