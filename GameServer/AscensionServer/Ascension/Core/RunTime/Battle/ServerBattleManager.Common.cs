@@ -157,5 +157,31 @@ namespace AscensionServer
             }
         }
 
+        /// <summary>
+        /// 攻击值
+        /// </summary>
+        public void AttactValue(int RoleId, int CurrentId,RoleStatusDTO roleStatus)
+        {
+            var playerUnitsSet = _teamIdToBattleInit[RoleId].playerUnits;
+            for (int i = 0; i < playerUnitsSet.Count; i++)
+            {
+                if (playerUnitsSet[i].RoleStatusDTO.RoleID == CurrentId)
+                {
+                    if (roleStatus.RoleHP != 0)
+                        playerUnitsSet[i].RoleStatusDTO.RoleHP += roleStatus.RoleHP;
+                    if (roleStatus.RoleMP != 0)
+                        playerUnitsSet[i].RoleStatusDTO.RoleMP += roleStatus.RoleMP;
+                    if (roleStatus.RoleShenhun != 0)
+                        playerUnitsSet[i].RoleStatusDTO.RoleShenhun += roleStatus.RoleShenhun;
+                    if (roleStatus.RoleSpeedAttack != 0)
+                        playerUnitsSet[i].RoleStatusDTO.RoleSpeedAttack += roleStatus.RoleSpeedAttack;
+                
+                }
+            }
+
+        }
+
+
+
     }
 }

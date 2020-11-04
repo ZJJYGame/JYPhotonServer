@@ -46,7 +46,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -332,6 +332,11 @@
             处理AI 判断玩家是不是死亡 和要选择能出手的Ai                ??? TODO第四个参数有待完善
             </summary>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.AttactValue(System.Int32,System.Int32,AscensionProtocol.DTO.RoleStatusDTO)">
+            <summary>
+            攻击值
+            </summary>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.BattleClear(System.Int32)">
             <summary>
             注意 每次进去之前先保证之前的数据都清除掉
@@ -354,7 +359,7 @@
             </summary>
             
         </member>
-        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -1314,6 +1319,13 @@
             拒绝队伍申请
             </summary>
         </member>
+        <member name="M:AscensionServer.ServerTeamManager.TransferTeam(AscensionProtocol.DTO.RoleDTO,System.Int32)">
+            <summary>
+            转让队长
+            </summary>
+            <param name="roleDTO"></param>
+            <param name="teamId"></param>
+        </member>
         <member name="M:AscensionServer.ServerTeamManager.ServerToClientInit(System.Int32)">
             <summary>
             服务器主动给客户端发消息 初始化队伍信息
@@ -1342,6 +1354,12 @@
             拒绝加入队伍
             </summary>
             <param name="roleId"></param>
+        </member>
+        <member name="M:AscensionServer.ServerTeamManager.ServerToClientTransfer(System.Collections.Generic.List{AscensionProtocol.DTO.RoleDTO})">
+             <summary>
+            转让队长
+             </summary>
+             <param name="roleDTOs"></param>
         </member>
         <member name="M:AscensionServer.ServerTeamManager.ServerToClientDissolveTeam(System.Int32)">
             <summary>
@@ -1599,7 +1617,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；

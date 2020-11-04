@@ -59,6 +59,7 @@ namespace AscensionServer
                 teamDto.TeamLevelDown = levelLimint[1];
                 teamDto.TeamLevelUp = levelLimint[0];
                 teamDto.ApplyMebers = new List<int>();
+                teamDto.AgreeMebers = new List<int>();
                 _teamTOModel.Add(teamDto.TeamId, teamDto);
                 _playerIdToTeamIdDict.Add(playerId, teamDto.TeamId);
             }
@@ -123,6 +124,23 @@ namespace AscensionServer
             _teamTOModel[teamId].ApplyMebers.Remove(roleDTO.RoleID);
             ServerToClientRefused(_teamTOModel[teamId].LeaderId);
         }
+
+        /// <summary>
+        /// 转让队长
+        /// </summary>
+        /// <param name="roleDTO"></param>
+        /// <param name="teamId"></param>
+        public void TransferTeam(RoleDTO roleDTO,int teamId)
+        {
+            _teamTOModel[teamId].LeaderId = roleDTO.RoleID;
+            var Index = _teamTOModel[teamId].TeamMembers.FindIndex(x => x.RoleID == roleDTO.RoleID);
+            var temp = _teamTOModel[teamId].TeamMembers[0];
+            _teamTOModel[teamId].TeamMembers[0] = _teamTOModel[teamId].TeamMembers[Index];
+            _teamTOModel[teamId].TeamMembers[Index] = temp;
+            ServerToClientTransfer(_teamTOModel[teamId].TeamMembers);
+        }
+
+
 
         /*
         //// <summary>

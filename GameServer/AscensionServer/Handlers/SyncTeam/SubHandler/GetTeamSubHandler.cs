@@ -43,6 +43,9 @@ namespace AscensionServer
                     case TeamInstructions.RefusedTeam:
                         GameManager.CustomeModule<ServerTeamManager>().RefusedApplyTeam(RoleObj, RoleObj.teamDTO.TeamId);
                         break;
+                    case TeamInstructions.TransferTeam:
+                        GameManager.CustomeModule<ServerTeamManager>().TransferTeam(RoleObj, RoleObj.teamDTO.TeamId);
+                        break;
                     default:
                         break;
                 }

@@ -76,10 +76,37 @@ namespace AscensionProtocol.DTO
         /// 离开队伍
         /// </summary>
         LevelTeam = 8,
+        /// <summary>
+        /// 退出队伍
+        /// </summary>
+        ExitTeam = 9,
+        /// <summary>
+        /// 委任指挥
+        /// </summary>
+        CommandTeam = 10,
+        /// <summary>
+        /// 调整站位
+        /// </summary>
+        PositionTeam = 11,
+        /// <summary>
+        /// 加好友
+        /// </summary>
+        FrindTeam = 12,
+        /// <summary>
+        /// 自动匹配
+        /// </summary>
+        MatchTeam = 13,
+        /// <summary>
+        /// 转让队长
+        /// </summary>
+        TransferTeam = 14,
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        MessageTeam = 15
     }
 
     #region 战斗Cmd
-
     /// <summary>
     /// 战斗指令列表
     /// </summary>
