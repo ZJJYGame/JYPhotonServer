@@ -92,15 +92,18 @@ namespace AscensionServer
 
 
         /// <summary>
-        /// 解散队伍
+        /// 退出队伍
         /// </summary>
         /// <param name="roleId"></param>
-        public void ServerToClientDissolveTeam(int roleId)
+        public void ServerToClientDissolveTeam(List<RoleDTO> roleDTOs)
         {
-            OperationData opData = new OperationData();
-            opData.DataMessage = ServerToClientParams();
-            opData.OperationCode = (byte)OperationCode.SyncTeamMessageCreate;
-            GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
+            foreach (var ov in roleDTOs)
+            {
+                OperationData opData = new OperationData();
+                opData.DataMessage = ServerToClientParams();
+                opData.OperationCode = (byte)OperationCode.ExitBattle;
+                GameManager.CustomeModule<RoleManager>().SendMessage(ov.RoleID, opData);
+            }
         }
 
     }

@@ -36,6 +36,7 @@ namespace AscensionServer
             List<RoleDTO> roleDTOs = new List<RoleDTO>();
             roleDTOs.Add(role);
             TeamDTO teamDto;
+            /*
             if (_oldTeamList.Count > 0)
             {
                 int teamId = _oldTeamList[0];
@@ -51,7 +52,7 @@ namespace AscensionServer
 
             }
             else
-            {
+            {*/
                 teamDto = new TeamDTO();
                 teamDto.TeamId = teamid++; 
                 teamDto.LeaderId = playerId;
@@ -62,7 +63,7 @@ namespace AscensionServer
                 teamDto.AgreeMebers = new List<int>();
                 _teamTOModel.Add(teamDto.TeamId, teamDto);
                 _playerIdToTeamIdDict.Add(playerId, teamDto.TeamId);
-            }
+          //  }
             ServerToClientCreate(role.RoleID);
         }
 
@@ -132,6 +133,7 @@ namespace AscensionServer
         /// <param name="teamId"></param>
         public void TransferTeam(RoleDTO roleDTO,int teamId)
         {
+            _playerIdToTeamIdDict = _playerIdToTeamIdDict.ToDictionary(k => k.Key == _teamTOModel[teamId].LeaderId ? roleDTO.RoleID : k.Key, k => k.Value);
             _teamTOModel[teamId].LeaderId = roleDTO.RoleID;
             var Index = _teamTOModel[teamId].TeamMembers.FindIndex(x => x.RoleID == roleDTO.RoleID);
             var temp = _teamTOModel[teamId].TeamMembers[0];
@@ -139,8 +141,80 @@ namespace AscensionServer
             _teamTOModel[teamId].TeamMembers[Index] = temp;
             ServerToClientTransfer(_teamTOModel[teamId].TeamMembers);
         }
+        /// <summary>
+        /// 离开队伍   踢人
+        /// </summary>
+        /// <param name="roleDTO"></param>
+        /// <param name="teamId"></param>
+        public void LevelTeam(RoleDTO roleDTO, int teamId)
+        {
+            if (_teamTOModel.ContainsKey(teamId))
+            {
+                var Index = _teamTOModel[teamId].TeamMembers.FindIndex(x => x.RoleID == roleDTO.RoleID);
+                List<RoleDTO> tempTeamSet = new List<RoleDTO>();
+                for (int i = 0; i < _teamTOModel[teamId].TeamMembers.Count; i++)
+                    tempTeamSet.Add(_teamTOModel[teamId].TeamMembers[i]);
+                _teamTOModel[teamId].TeamMembers.RemoveAt(Index);
+                ServerToClientTransfer(tempTeamSet);
+            }
+        }
 
-
+        /// <summary>
+        /// 退出队伍
+        /// </summary>
+        /// <param name="roleDTO"></param>
+        /// <param name="teamId"></param>
+        public void ExitTeam(RoleDTO roleDTO, int teamId)
+        {
+            List<RoleDTO> tempTeamSet = new List<RoleDTO>();
+            for (int i = 0; i < _teamTOModel[teamId].TeamMembers.Count; i++)
+                tempTeamSet.Add(_teamTOModel[teamId].TeamMembers[i]);
+            var teamDto =  _teamTOModel[teamId];
+            if (teamDto.LeaderId == roleDTO.RoleID)
+            {
+                ///队长离开队伍
+                if (teamDto.TeamMembers.Count>1)
+                {
+                    _playerIdToTeamIdDict.Remove(roleDTO.RoleID);
+                    //房间还有其他人
+                    teamDto.TeamMembers.RemoveAt(0);
+                    teamDto.LeaderId = teamDto.TeamMembers[0].RoleID;
+                    _playerIdToTeamIdDict.Add(teamDto.TeamMembers[0].RoleID, teamId);
+                    //TODO通知
+                    ServerToClientTransfer(tempTeamSet);
+                }
+                else
+                {
+                    //房间只有自己
+                    _playerIdToTeamIdDict.Remove(roleDTO.RoleID);
+                    _oldTeamList.Add(teamDto.TeamId);
+                    _teamTOModel.Remove(teamId);
+                    /*
+                    teamDto.LeaderId = 0;
+                    teamDto.TeamId = 0;
+                    teamDto.TeamLevelDown = 0;
+                    teamDto.TeamLevelUp = 99;
+                    teamDto.TeamMembers.Clear();
+                    teamDto.AgreeMebers.Clear();
+                    teamDto.ApplyMebers.Clear();*/
+                    ServerToClientTransfer(tempTeamSet);
+                }
+            }
+            else
+            {
+                ///队员离开队伍
+                for (int ov = 0; ov < teamDto.TeamMembers.Count; ov++)
+                {
+                    if (teamDto.TeamMembers[ov].RoleID == roleDTO.RoleID)
+                    {
+                        teamDto.TeamMembers.RemoveAt(ov);
+                        break;
+                    }
+                }
+                ServerToClientTransfer(tempTeamSet);
+            }
+          
+        }
 
         /*
         //// <summary>

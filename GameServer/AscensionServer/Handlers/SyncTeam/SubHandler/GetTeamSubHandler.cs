@@ -46,6 +46,12 @@ namespace AscensionServer
                     case TeamInstructions.TransferTeam:
                         GameManager.CustomeModule<ServerTeamManager>().TransferTeam(RoleObj, RoleObj.teamDTO.TeamId);
                         break;
+                    case TeamInstructions.LevelTeam:
+                        GameManager.CustomeModule<ServerTeamManager>().LevelTeam(RoleObj, RoleObj.teamDTO.TeamId);
+                        break;
+                    case TeamInstructions.ExitTeam:
+                        GameManager.CustomeModule<ServerTeamManager>().ExitTeam(RoleObj, RoleObj.teamDTO.TeamId);
+                        break;
                     default:
                         break;
                 }
