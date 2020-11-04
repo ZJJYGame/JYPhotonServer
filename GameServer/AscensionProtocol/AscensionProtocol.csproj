@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTO\AdventurePlayerDTO.cs" />
+    <Compile Include="DTO\AdventureSkillLayoutDTO.cs" />
     <Compile Include="DTO\AlchemyDTO.cs" />
     <Compile Include="DTO\AllianceAlchemyNumDTO.cs" />
     <Compile Include="DTO\AllianceConstructionDTO.cs" />
@@ -107,6 +108,8 @@
     <Compile Include="DTO\SchoolDTO.cs" />
     <Compile Include="DTO\SpiritualRunesDTO.cs" />
     <Compile Include="DTO\SutrasAtticDTO.cs" />
+    <Compile Include="DTO\TacticalDeploymentDTO.cs" />
+    <Compile Include="DTO\TacticalDTO.cs" />
     <Compile Include="DTO\TacticFormationDTO.cs" />
     <Compile Include="DTO\TeamDTO.cs" />
     <Compile Include="DTO\TemporaryRingDTO.cs" />
