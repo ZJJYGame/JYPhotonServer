@@ -149,7 +149,19 @@ namespace Wdj.Redis.Helper
         public string AddSysCustomKey(string oldKey) => $"{CustomKey}_{oldKey}";
 
         #region 同步方法
-
+        /// <summary>
+        /// 订阅key过期事件；
+        /// </summary>
+        /// <param name="dbIndex">database序号</param>
+        public void NotifyOnExpire(int dbIndex=0)
+        {
+            var mutlti = RedisManager.Instance;
+            var subscriber = mutlti.GetSubscriber();
+            subscriber.Subscribe($"__keyspace@{dbIndex}__:*", (channel, notificationType) =>
+            {
+                Console.WriteLine(channel + "|" + notificationType);
+            });
+        }
         /// <summary>
         /// 删除单个key
         /// </summary>
@@ -318,7 +330,6 @@ namespace Wdj.Redis.Helper
         {
            return value.IsNullOrEmpty ? default(T) : JsonConvert.DeserializeObject<T>(value);
         }
-
         /// <summary>
         /// 将值反系列化成对象集合
         /// </summary>

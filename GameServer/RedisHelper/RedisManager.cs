@@ -30,7 +30,6 @@ namespace Wdj.Redis.Helper
         /// 当前连接的Redis中连接字符串，格式为：127.0.0.1:6379,allowadmin=true,passowrd=pwd
         /// </summary>
         internal static readonly string RedisHostConnection = ConfigurationManager.AppSettings["RedisHostConnection"];
-
         /// <summary>
         /// 单例获取
         /// </summary>

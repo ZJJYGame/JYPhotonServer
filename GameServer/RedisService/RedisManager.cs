@@ -29,6 +29,8 @@ namespace RedisDotNet
         /// Redis中的DB
         /// </summary>
         public IDatabase RedisDB { get; private set; }
+        ConcurrentDictionary<string, Action<string>> eventDict 
+            = new ConcurrentDictionary<string,  Action<string>>();
         public void OnInitialization()
         {
             try
@@ -52,6 +54,52 @@ namespace RedisDotNet
             catch (Exception)
             {
                 throw new RedisConnectionException(ConnectionFailureType.UnableToConnect, "Redis Connect Fail");
+            }
+        }
+        /// <summary>
+        /// 订阅key过期事件；
+        /// 添加回调，泛型参数为失效的KEY；
+        /// 举例：
+        /// 完整的key为： JY_VAREITY_SHOP1；
+        /// 若监听：则key为JY_VAREITY即可；
+        /// 若触发，则回调中传入的参数为：JY_VAREITY_SHOP1；
+        /// </summary>
+        public void AddKeyExpireListener(string key,Action<string> callback)
+        {
+            key = $"{RedisKeyPrefix}_{key}";
+            if( eventDict.TryGetValue(key, out var handle))
+            {
+                handle += callback;
+            }
+            else
+            {
+                eventDict.TryAdd(key,callback);
+            }
+            var mutlti =this. Redis;
+            var subscriber = mutlti.GetSubscriber();
+            subscriber.Subscribe("__keyevent@0__:expired", (channel, keyVar) =>
+            {
+                if (keyVar.StartsWith(key))
+                {
+                    eventDict.TryGetValue(key, out var hdl);
+                    hdl?.Invoke(keyVar);
+                }
+            });
+        }
+        /// <summary>
+        ///移除key过期事件；
+        ///callback中的参数为完整的key参数；
+        /// </summary>
+        public void RemoveKeyExpireListener(string key,Action<string>callback)
+        {
+            key = $"{RedisKeyPrefix}_{key}";
+            if (eventDict.TryGetValue(key, out var handle))
+            {
+                try{handle -= callback;}
+                catch (Exception e)
+                {
+                    Utility.Debug.LogError(e);
+                }
             }
         }
         public void OnTermination()
