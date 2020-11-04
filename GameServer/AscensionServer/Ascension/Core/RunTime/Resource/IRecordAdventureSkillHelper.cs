@@ -9,5 +9,7 @@ namespace AscensionServer
   public  interface IRecordAdventureSkillHelper
     {
         void RecordRoleSkill(RoleEntity roleEntity);
+
+        void RecordRoleAdventurePropCD(RoleEntity roleEntity);
     }
 }

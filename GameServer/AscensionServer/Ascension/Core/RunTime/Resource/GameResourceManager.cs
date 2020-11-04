@@ -18,11 +18,11 @@ namespace AscensionServer
         /// 资源单位集合的字典
         /// </summary>
         public Dictionary<int, ResourceUnitSetDTO> ResUnitSetDict { get; private set; }
+        IRecordAdventureSkillHelper recordAdventureSkillHelper;
         /// <summary>
         /// 临时的占用资源单位容器，需要迭代
         /// </summary>
         //TODO  临时的占用资源单位容器，需要迭代
-        IRecordAdventureSkillHelper recordAdventureSkillHelper;
         public HashSet<OccupiedUnitDTO> OccupiedUnitSetCache { get; private set; }
         public override void OnInitialization()
         {
