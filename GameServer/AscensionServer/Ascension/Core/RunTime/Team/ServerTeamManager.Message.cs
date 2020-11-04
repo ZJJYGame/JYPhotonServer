@@ -74,6 +74,23 @@ namespace AscensionServer
             opData.OperationCode = (byte)OperationCode.SyncTeamMessageRefused;
             GameManager.CustomeModule<RoleManager>().SendMessage(leaderId, opData);
         }
+
+        /// <summary>
+        ///转让队长
+        /// </summary>
+        /// <param name="roleDTOs"></param>
+        public void ServerToClientTransfer(List<RoleDTO> roleDTOs)
+        {
+            foreach (var ov in roleDTOs)
+            {
+                OperationData opData = new OperationData();
+                opData.DataMessage = ServerToClientParams();
+                opData.OperationCode = (byte)OperationCode.SyncTeamMessageTransfer;
+                GameManager.CustomeModule<RoleManager>().SendMessage(ov.RoleID, opData);
+            }
+        }
+
+
         /// <summary>
         /// 解散队伍
         /// </summary>

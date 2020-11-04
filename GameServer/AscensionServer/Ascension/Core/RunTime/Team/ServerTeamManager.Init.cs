@@ -125,6 +125,23 @@ namespace AscensionServer
             ServerToClientRefused(_teamTOModel[teamId].LeaderId);
         }
 
+        /// <summary>
+        /// 转让队长
+        /// </summary>
+        /// <param name="roleDTO"></param>
+        /// <param name="teamId"></param>
+        public void TransferTeam(RoleDTO roleDTO,int teamId)
+        {
+            _teamTOModel[teamId].LeaderId = roleDTO.RoleID;
+            var Index = _teamTOModel[teamId].TeamMembers.FindIndex(x => x.RoleID == roleDTO.RoleID);
+            var temp = _teamTOModel[teamId].TeamMembers[0];
+            _teamTOModel[teamId].TeamMembers[0] = _teamTOModel[teamId].TeamMembers[Index];
+            _teamTOModel[teamId].TeamMembers[Index] = temp;
+            ServerToClientTransfer(_teamTOModel[teamId].TeamMembers);
+        }
+
+
+
         /*
         //// <summary>
         /// 返回所有申请入队的人员信息

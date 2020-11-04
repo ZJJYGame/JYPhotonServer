@@ -257,9 +257,33 @@ namespace AscensionProtocol
         /// </summary>
         SyncTeamMessageLevel = 147,
         /// <summary>
-        /// 暂定
+        ///  发送消息
         /// </summary>
-        SyncTeamMessage  = 148 ,
+        SyncTeamMessage = 148 ,
+        /// <summary>
+        /// 转让队长
+        /// </summary>
+        SyncTeamMessageTransfer = 149,
+        /// <summary>
+        /// 加好友
+        /// </summary>
+        SyncTeamMessageFriend = 150,
+        /// <summary>
+        /// 调整站位
+        /// </summary>
+        SyncTeamMessagePosition = 151,
+        /// <summary>
+        /// 委任指挥
+        /// </summary>
+        SyncTeamMessageCommand = 152,
+        /// <summary>
+        /// 退出队伍
+        /// </summary>
+        SyncTeamMessageExit = 153,
+        /// <summary>
+        /// 自动匹配
+        /// </summary>
+        SyncTeamMessageMatch = 154,
         #endregion
 
         /// <summary>

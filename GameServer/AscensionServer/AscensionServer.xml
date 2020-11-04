@@ -1319,6 +1319,13 @@
             拒绝队伍申请
             </summary>
         </member>
+        <member name="M:AscensionServer.ServerTeamManager.TransferTeam(AscensionProtocol.DTO.RoleDTO,System.Int32)">
+            <summary>
+            转让队长
+            </summary>
+            <param name="roleDTO"></param>
+            <param name="teamId"></param>
+        </member>
         <member name="M:AscensionServer.ServerTeamManager.ServerToClientInit(System.Int32)">
             <summary>
             服务器主动给客户端发消息 初始化队伍信息
@@ -1347,6 +1354,12 @@
             拒绝加入队伍
             </summary>
             <param name="roleId"></param>
+        </member>
+        <member name="M:AscensionServer.ServerTeamManager.ServerToClientTransfer(System.Collections.Generic.List{AscensionProtocol.DTO.RoleDTO})">
+             <summary>
+            转让队长
+             </summary>
+             <param name="roleDTOs"></param>
         </member>
         <member name="M:AscensionServer.ServerTeamManager.ServerToClientDissolveTeam(System.Int32)">
             <summary>
