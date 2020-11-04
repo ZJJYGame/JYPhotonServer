@@ -14,15 +14,15 @@ namespace AscensionServer
 {
     public class RefreshSkillLayoutHandler : Handler
     {
-        public override byte OpCode { get { return (byte)OperationCode.OccupiedResourceUnit; } }
+        public override byte OpCode { get { return (byte)OperationCode.RefreshSkillLayout; } }
 
 
         protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
+            responseParameters.Clear();
             var roleJson= Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
-
             var refreshSkillLayoutJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters,(byte)ParameterCode.RefreshSkillLayout));
-            RedisHelper.String.StringSet("RefreshSkillLayout" + roleJson, refreshSkillLayoutJson);
+            RedisHelper.String.StringSet("AdventureSkillLayoutDTO" + roleJson, refreshSkillLayoutJson);
             return operationResponse;
         }
     }

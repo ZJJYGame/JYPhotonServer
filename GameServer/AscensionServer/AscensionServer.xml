@@ -46,7 +46,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
+        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -98,6 +98,18 @@
             指令事件EventCore；
             byte表示 ProtocolDefine.OPERATION中的操作码
             </summary>
+        </member>
+        <member name="M:AscensionServer.RecordAdventureSkillHelper.RecordRoleAdventurePropCD(AscensionServer.RoleEntity)">
+            <summary>
+            记录历练道具使用CD
+            </summary>
+            <param name="roleEntity"></param>
+        </member>
+        <member name="M:AscensionServer.RecordAdventureSkillHelper.RecordRoleSkill(AscensionServer.RoleEntity)">
+            <summary>
+            玩家进入历练主动发送历练技能布局
+            </summary>
+            <param name="roleEntity"></param>
         </member>
         <member name="M:AscensionServer.RecordHelper.RecordRole(AscensionServer.RoleEntity)">
             <summary>
@@ -359,7 +371,7 @@
             </summary>
             
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -1079,7 +1091,7 @@
             资源单位集合的字典
             </summary>
         </member>
-        <member name="F:AscensionServer.GameResourceManager.recordAdventureSkillHelper">
+        <member name="P:AscensionServer.GameResourceManager.OccupiedUnitSetCache">
             <summary>
             临时的占用资源单位容器，需要迭代
             </summary>
@@ -1108,6 +1120,31 @@
             <summary>
             发送已生成资源至指定场景
             </summary>
+        </member>
+        <member name="F:AscensionServer.TacticalDeploymentManager.AllTacticalDeploymentDict">
+            <summary>
+            所有部署的阵法储存集合
+            </summary>
+        </member>
+        <member name="F:AscensionServer.TacticalDeploymentManager.ExpendTacticalID">
+            <summary>
+            消耗过的阵法自生成ID，用于重复使用
+            </summary>
+        </member>
+        <member name="M:AscensionServer.TacticalDeploymentManager.GetExpendTacticalID">
+            <summary>
+            获取是否有可用的已生成ID,没有则使用自增ID
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.TacticalDeploymentManager.TryGetValue(System.Int32,AscensionProtocol.DTO.TacticalDeploymentDTO@)">
+            <summary>
+            获取当前地图块的所有阵法
+            </summary>
+            <param name="roleId"></param>
+            <param name="tactical"></param>
+            <returns></returns>
         </member>
         <member name="T:AscensionServer.RoleEntity">
             <summary>
@@ -1617,7 +1654,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
+        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；
