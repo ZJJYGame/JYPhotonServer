@@ -92,7 +92,7 @@ namespace AscensionServer
 
 
         /// <summary>
-        /// 退出队伍
+        /// 退出队伍 
         /// </summary>
         /// <param name="roleId"></param>
         public void ServerToClientDissolveTeam(List<RoleDTO> roleDTOs)

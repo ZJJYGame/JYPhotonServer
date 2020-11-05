@@ -215,7 +215,19 @@ namespace AscensionServer
             }
           
         }
-
+        /// <summary>
+        /// 调整站位
+        /// </summary>
+        public void PositionTeam(RoleDTO roleDTO, int teamId)
+        {
+            var IndexCurent = _teamTOModel[teamId].TeamMembers.FindIndex(x => x.RoleID == roleDTO.RoleID);
+            var IndexLate = _teamTOModel[teamId].TeamMembers.FindIndex(x => x.RoleID == roleDTO.RoleTalent);
+            var temp = _teamTOModel[teamId].TeamMembers[IndexCurent];
+            _teamTOModel[teamId].TeamMembers[IndexCurent] = _teamTOModel[teamId].TeamMembers[IndexLate];
+            _teamTOModel[teamId].TeamMembers[IndexLate] = temp;
+            ServerToClientTransfer(_teamTOModel[teamId].TeamMembers);
+        }
+        #region ob
         /*
         //// <summary>
         /// 返回所有申请入队的人员信息
@@ -342,5 +354,6 @@ namespace AscensionServer
             GetTeamList(roleDTO);
         }
         */
+        #endregion
     }
 }
