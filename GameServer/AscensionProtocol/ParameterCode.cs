@@ -178,7 +178,12 @@
         /// <summary>
         /// 历练技能布局
         /// </summary>
-        RefreshSkillLayout=98
+        RefreshSkillLayout=98,
+        /// <summary>
+        /// 创建阵法
+        /// </summary>
+        CreatTactical=99
+
 
     }
 }

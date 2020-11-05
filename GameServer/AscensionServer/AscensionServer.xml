@@ -1121,14 +1121,19 @@
             发送已生成资源至指定场景
             </summary>
         </member>
-        <member name="F:AscensionServer.TacticalDeploymentManager.AllTacticalDeploymentDict">
+        <member name="P:AscensionServer.TacticalDeploymentManager.AllTacticalDeploymentDict">
             <summary>
-            所有部署的阵法储存集合
+            所有部署的阵法储存集合，key为地图块ID,vaule为具体阵法资源
             </summary>
         </member>
-        <member name="F:AscensionServer.TacticalDeploymentManager.ExpendTacticalID">
+        <member name="P:AscensionServer.TacticalDeploymentManager.ExpendTacticalID">
             <summary>
             消耗过的阵法自生成ID，用于重复使用
+            </summary>
+        </member>
+        <member name="P:AscensionServer.TacticalDeploymentManager.roletacticaltemp">
+            <summary>
+            临时阵法储存集合
             </summary>
         </member>
         <member name="M:AscensionServer.TacticalDeploymentManager.GetExpendTacticalID">
@@ -1145,6 +1150,41 @@
             <param name="roleId"></param>
             <param name="tactical"></param>
             <returns></returns>
+        </member>
+        <member name="M:AscensionServer.TacticalDeploymentManager.GetRoleTactic(System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.TacticalDTO}@)">
+            <summary>
+            获取redis的暂存角色阵法
+            </summary>
+            <param name="roleid"></param>
+            <param name="roletactical"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.TacticalDeploymentManager.TryAddExist(AscensionProtocol.DTO.TacticalDTO,System.Int32)">
+            <summary>
+            尝试添加进已存在的集合
+            </summary>
+            <param name="tacticalDTO"></param>
+            <param name="levelid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.TacticalDeploymentManager.AddTacTical(AscensionProtocol.DTO.TacticalDTO)">
+            <summary>
+            把创建出来的阵法放进临时集合中，等待操作
+            </summary>
+            <param name="tacticalDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.TacticalDeploymentManager.GetRemoveTacTical(System.Int32,AscensionProtocol.DTO.TacticalDTO@)">
+            <summary>
+            获取临时集合阵法并删除取出值
+            </summary>
+            <param name="tacticalDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.TacticalDeploymentManager.SendTactical(System.Int32,AscensionServer.RoleEntity)">
+            <summary>
+            发送已生成的阵法至指定场景
+            </summary>
         </member>
         <member name="T:AscensionServer.RoleEntity">
             <summary>

@@ -146,6 +146,10 @@ namespace AscensionProtocol
         /// </summary>
         RefreshSkillLayout=61,
         /// <summary>
+        /// 同步阵法的创建
+        /// </summary>
+        SyncCreatTactical = 62,
+        /// <summary>
         /// 进入高同步场景的指令
         /// </summary>
         EnterLevelCommand = 111,
