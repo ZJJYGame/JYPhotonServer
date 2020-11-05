@@ -38,7 +38,6 @@ namespace AscensionServer
             GameManager.CustomeModule<LevelManager>().OnRoleEnterLevel += SendResources;
         }
 
-
         /// <summary>
         /// 对资源进行占用；
         /// 若资源占用成功，则将参数类对象加入被占用的缓存集合中

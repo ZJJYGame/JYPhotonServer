@@ -274,6 +274,11 @@
     <Compile Include="Handlers\SyncBottleneck\SubHandler\SyncBottleneckSubHandler.cs" />
     <Compile Include="Handlers\SyncBottleneck\SubHandler\UpdateBottleneckSubHandler.cs" />
     <Compile Include="Handlers\SyncBottleneck\SubHandler\VerifyBottleneckSubHandler.cs" />
+    <Compile Include="Handlers\SyncCreatTacticalHandler\SubHandler\AddCreatTacticalSubHandler.cs" />
+    <Compile Include="Handlers\SyncCreatTacticalHandler\SubHandler\GetCreatTacticalSubHandler.cs" />
+    <Compile Include="Handlers\SyncCreatTacticalHandler\SubHandler\RemoveCreatTacticalSubHandler.cs" />
+    <Compile Include="Handlers\SyncCreatTacticalHandler\SubHandler\SyncCreatTacticalSubHandler.cs" />
+    <Compile Include="Handlers\SyncCreatTacticalHandler\SyncCreatTacticalHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\AddDailyMessageSubHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\GetDailyMessageSubHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\SyncDailyMessageSubHandler.cs" />
