@@ -150,6 +150,10 @@ namespace AscensionProtocol
         /// </summary>
         SyncCreatTactical = 62,
         /// <summary>
+        /// 同步新创建的阵法
+        /// </summary>
+        SyncGetNewTactical = 63,
+        /// <summary>
         /// 进入高同步场景的指令
         /// </summary>
         EnterLevelCommand = 111,

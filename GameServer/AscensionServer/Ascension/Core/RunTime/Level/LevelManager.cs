@@ -130,6 +130,10 @@ namespace AscensionServer
                 if (roleMgrInstance.TryGetValue(roleId, out var role))
                 {
                     result = sceneEntity.TryAdd(roleId, role);
+                    if (result)
+                    {
+                        onRoleEnterLevel?.Invoke(levelId, role);
+                    }
                 }
             }
             else
@@ -162,6 +166,10 @@ namespace AscensionServer
                 if (roleMgrInstance.ContainsKey(role.RoleId))
                 {
                     result = sceneEntity.TryAdd(role.RoleId, role);
+                    if (result)
+                    {
+                        onRoleEnterLevel?.Invoke(levelId, role);
+                    }
                 }
             }
             else

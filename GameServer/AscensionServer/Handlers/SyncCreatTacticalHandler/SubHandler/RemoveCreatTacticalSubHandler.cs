@@ -21,12 +21,18 @@ namespace AscensionServer
         {
             var dict = operationRequest.Parameters;
             string tacticJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.CreatTactical));
-            var tacticObj = Utility.Json.ToObject<AllianceSigninDTO>(tacticJson);
-            Utility.Debug.LogInfo("yzqData移除创建阵法" + tacticJson);
+            var tacticObj = Utility.Json.ToObject<TacticalDTO>(tacticJson);
 
+            //被迫打断或者主动取消的执行移除暂缓集合的操作
+            var Exist = GameManager.CustomeModule<TacticalDeploymentManager>().GetRemoveTacTical(tacticObj.RoleID, out TacticalDTO tacticalDTO);
 
-
-
+            if (Exist)
+            {
+                SetResponseParamters(() =>
+                {
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
+                });
+            }
             return operationResponse;
         }
     }

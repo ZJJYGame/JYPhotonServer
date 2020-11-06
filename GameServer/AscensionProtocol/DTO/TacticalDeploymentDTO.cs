@@ -19,6 +19,10 @@ namespace AscensionProtocol.DTO
         public Dictionary<int, TacticalDTO> tacticDict { get; set; }
         //public List<TacticalDTO> tacticDict { get; set; }
 
+        public TacticalDeploymentDTO()
+        {
+            tacticDict = new Dictionary<int, TacticalDTO>();
+        }
 
         public override void Clear()
         {

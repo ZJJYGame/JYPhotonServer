@@ -58,7 +58,6 @@ namespace AscensionServer
 
             return result;
         }
-
         /// <summary>
         /// 获取是否有可用的已生成ID,没有则使用自增ID
         /// </summary>
@@ -66,10 +65,18 @@ namespace AscensionServer
         /// <returns></returns>
         public int GetExpendTacticalID()
         {
-            int id = AllTacticalDeploymentDict.Count + 1;
+            int id = 0;
+            var tacticalList= AllTacticalDeploymentDict.Values.ToList();
+            for (int i = 0; i < tacticalList.Count; i++)
+            {
+                id += tacticalList[i].tacticDict.Count;
+            }
+            id += 1;
             if (ExpendTacticalID.Count > 0)
             {
-                return id = ExpendTacticalID[0];
+                id = ExpendTacticalID[0];
+                ExpendTacticalID.Remove(ExpendTacticalID[0]);
+                return id;
             }
             else
                 return id;
@@ -84,6 +91,12 @@ namespace AscensionServer
         {
             return AllTacticalDeploymentDict.TryGetValue(levelid, out tacticalDeployment);
         }
+        /// <summary>
+        /// 从储存的集合中移除
+        /// </summary>
+        /// <param name="levelid"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public bool TryRemove(int levelid, int id)
         {
             var result = TryGetValue(levelid, out var tacticalDeployment);
@@ -92,6 +105,7 @@ namespace AscensionServer
                 var Exist = tacticalDeployment.tacticDict.TryGetValue(id, out var tactical);
                 if (Exist)
                 {
+                    ExpendTacticalID.Add(tactical.ID);
                     tacticalDeployment.tacticDict.Remove(tactical.ID);
                 }
                 return Exist;
@@ -120,17 +134,22 @@ namespace AscensionServer
         /// <param name="tacticalDTO"></param>
         /// <param name="levelid"></param>
         /// <returns></returns>
-        public bool TryAddExist(TacticalDTO tacticalDTO, int levelid = 0)
+        public bool TryAdd(TacticalDTO tacticalDTO, int levelid = 0)
         {
-            TacticalDeploymentDTO tacticalDeploymentDTO;
-            var result = TryGetValue(levelid, out tacticalDeploymentDTO);
+            var result = TryGetValue(levelid, out TacticalDeploymentDTO tacticalDeploymentDTO);
             if (result)
             {
-                return tacticalDeploymentDTO.tacticDict.TryAdd(tacticalDTO.ID, tacticalDTO);
+               tacticalDeploymentDTO.tacticDict.TryAdd(tacticalDTO.ID, tacticalDTO);
+                return AllTacticalDeploymentDict.TryAdd(levelid, tacticalDeploymentDTO);
             }
-            return result;
+            else
+            {
+                tacticalDeploymentDTO = new TacticalDeploymentDTO();
+                tacticalDeploymentDTO.LevelID = levelid;
+                tacticalDeploymentDTO.tacticDict.TryAdd(tacticalDTO.ID, tacticalDTO);
+                return AllTacticalDeploymentDict.TryAdd(levelid,tacticalDeploymentDTO);
+            }
         }
-
         /// <summary>
         /// 把创建出来的阵法放进临时集合中，等待操作
         /// </summary>
@@ -151,21 +170,38 @@ namespace AscensionServer
             var result = roletacticaltemp.TryGetValue(roleid, out tacticalDTO);
             if (result)
             {
+                GameManager.CustomeModule<TacticalDeploymentManager>().TryAdd(tacticalDTO);
                 roletacticaltemp.Remove(roleid);
             }
             return result;
         }
-
+        /// <summary>
+        /// 广播给当前场景所有人生成的阵法
+        /// </summary>
+        /// <param name="tacticalDTO"></param>
+        public void SendAllLevelRoleTactical(TacticalDTO tacticalDTO)
+        {
+            OperationData operationData = new OperationData();
+            operationData.DataMessage = Utility.Json.ToJson(tacticalDTO);
+            operationData.OperationCode = (ushort)OperationCode.SyncGetNewTactical;
+            GameManager.CustomeModule<LevelManager>().SendMsg2AllLevelRoleS2C(0, operationData);
+        }    
         /// <summary>
         /// 发送已生成的阵法至指定场景
         /// </summary>
         void SendTactical(int id, RoleEntity roleEntity)
         {
-            OperationData operationData = new OperationData();
-            operationData.DataMessage = Utility.Json.ToJson(AllTacticalDeploymentDict);
-            operationData.OperationCode = (byte)OperationCode.SyncCreatTactical;
-            GameManager.CustomeModule<RoleManager>().SendMessage(roleEntity.RoleId, operationData);
-            Utility.Debug.LogInfo("yzqData发送的全部阵法" + Utility.Json.ToJson(AllTacticalDeploymentDict));
+            if (GetExpendTacticalID()>1)
+            {
+                OperationData operationData = new OperationData();
+                operationData.DataMessage = Utility.Json.ToJson(AllTacticalDeploymentDict);
+                operationData.OperationCode = (byte)OperationCode.SyncCreatTactical;
+                GameManager.CustomeModule<RoleManager>().SendMessage(roleEntity.RoleId, operationData);
+                Utility.Debug.LogInfo("yzqData发送的全部阵法" + Utility.Json.ToJson(AllTacticalDeploymentDict) + "juese id " + roleEntity.RoleId);
+            }
         }
+
+
+
     }
 }

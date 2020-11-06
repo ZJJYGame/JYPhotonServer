@@ -16,6 +16,10 @@ namespace AscensionServer
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             string roleAssetsJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleAssets));
+
+            //RedisHelper.String.StringSet("TacticalDTO" + 122, "623", new TimeSpan(0,0,0,30));
+            //RedisManager.Instance.AddKeyExpireListener("TacticalDTO" + 122, fun);
+
             Utility.Debug.LogInfo(">>>>>>>>>>>>>更新财产相关信息：" + roleAssetsJson + ">>>>>>>>>>>>>>>>>>>>>>");
             var roleAssetsObj = Utility.Json.ToObject<RoleAssets>(roleAssetsJson);
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleAssetsObj.RoleID);
@@ -51,5 +55,12 @@ namespace AscensionServer
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
             return operationResponse;
         }
+
+        //void fun(string str)
+        //{
+
+
+        //    Utility.Debug.LogInfo("yzqData>>>>>>>>>>>>>>>>>>>>>>>>" + str);
+        //}
     }
 }

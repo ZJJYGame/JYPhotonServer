@@ -88,7 +88,6 @@ namespace AscensionServer
             operationData.OperationCode = (byte)OperationCode.SyncResources;
             GameManager.CustomeModule<RoleManager>().SendMessage(roleEntity.RoleId, operationData);
             Utility.Debug.LogInfo("yzqData" + Utility.Json.ToJson(ResUnitSetDict));
-            //roleEntity.SendEvent((byte)EventCode.RelieveOccupiedResourceUnit, date);
             recordAdventureSkillHelper.RecordRoleSkill(roleEntity);
         }
     }

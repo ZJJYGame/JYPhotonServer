@@ -46,7 +46,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
+        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -371,7 +371,7 @@
             </summary>
             
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -1151,6 +1151,14 @@
             <param name="tactical"></param>
             <returns></returns>
         </member>
+        <member name="M:AscensionServer.TacticalDeploymentManager.TryRemove(System.Int32,System.Int32)">
+            <summary>
+            从储存的集合中移除
+            </summary>
+            <param name="levelid"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:AscensionServer.TacticalDeploymentManager.GetRoleTactic(System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.TacticalDTO}@)">
             <summary>
             获取redis的暂存角色阵法
@@ -1159,7 +1167,7 @@
             <param name="roletactical"></param>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.TacticalDeploymentManager.TryAddExist(AscensionProtocol.DTO.TacticalDTO,System.Int32)">
+        <member name="M:AscensionServer.TacticalDeploymentManager.TryAdd(AscensionProtocol.DTO.TacticalDTO,System.Int32)">
             <summary>
             尝试添加进已存在的集合
             </summary>
@@ -1713,7 +1721,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
+        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；
