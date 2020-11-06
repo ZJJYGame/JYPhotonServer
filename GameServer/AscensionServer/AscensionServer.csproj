@@ -168,6 +168,7 @@
     <Compile Include="Ascension\Core\Base\Attribute\ConfigDataAttribute.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\AllianceLevleUpData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\AllianceSigninData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\BattleSkillData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\BottleneckData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\DemonData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\DrugData.cs" />
@@ -665,6 +666,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonData\MagicWeaponData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\BattleSkillData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="JsonData\Pet.txt">

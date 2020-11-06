@@ -12,6 +12,72 @@
             每日维护消耗人气
             </summary>
         </member>
+        <member name="T:AscensionServer.BattleSkillData">
+            <summary>
+             2020.11.06 09.50
+            </summary>
+            技能系统 对应的实体类
+        </member>
+        <member name="F:AscensionServer.BattleSkillData.TargetNumber">
+            <summary>
+            技能目标数
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleSkillData.damageAddition">
+            <summary>
+            伤害加成
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleSkillData.critProp">
+            <summary>
+            暴击率
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleSkillData.critDamage">
+            <summary>
+            暴击伤害
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleSkillData.ignoreDefensive">
+            <summary>
+            忽视防御
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleSkillData.IsCloseAttack">
+            <summary>
+            0=>近战,1=>远程
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleSkillData.battleSkillDamageNumDataList">
+            <summary>
+            伤害系数列表
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleSkillUseCondition">
+            <summary>
+            战斗技能使用条件 
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleSkillDamageNumData">
+            <summary>
+            一段伤害具体数据
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleSkillDamageNumData.fixedNum">
+            <summary>
+            数值基础系数
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleSkillAddBuffData.TargetType">
+            <summary>
+            目标类型：0=>受击方,1=>自身
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleSkillAddBuffProbability.addOrReduce">
+            <summary>
+            buff是加成或减少：0=>减少,1=>加成
+            </summary>
+        </member>
         <member name="T:AscensionServer.BottleneckData">
             <summary>
             角色等级 
@@ -307,6 +373,25 @@
             <param name="roleId"></param>
             <param name="roomId"></param>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.IsToSkillDataForm(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="targetId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.SkillFormToObject(System.Int32)">
+            <summary>
+            判断释放的技能是不是存在json中
+            </summary>
+            <param name="targetId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.ServerToClientResult(AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO)">
+            <summary>
+            返回给客户端的计算伤害
+            </summary>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.ReleaseToSpeed(System.Int32)">
             <summary>
             出手速度
@@ -597,6 +682,15 @@
             针对功法  筛选出来每回合的存活的Al
             </summary>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.AlToSurvival(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData)">
+            <summary>
+            2020.11.06 12:00
+            </summary>
+            <param name="battleTransferDTOs"></param>
+            <param name="roleId"></param>
+            <param name="info"></param>
+            <param name="skillGongFa"></param>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerToSkillDamage(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,AscensionServer.SkillGongFaDatas,System.Int32)">
             <summary>
             针对功法  玩家释放  不同技能类型的技能计算伤害
@@ -618,6 +712,21 @@
             <param name="battleTransferDTOs"></param>
             <param name="roleId"></param>
             <param name="skillGongFa"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToSKillRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32)">
+             <summary>
+            玩家出手 释放技能
+             </summary>
+             <param name="battleTransferDTOs"></param>
+             <param name="roleId"></param>
+             <param name="special"></param>
+             <param name="petId"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToSkillDamage(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData,System.Int32)">
+            <summary>
+            2020 . 11 . 06 13：17
+            针对功法  玩家释放  不同技能类型的技能计算伤害
+            </summary>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
@@ -730,21 +839,6 @@
             <param name="minValue"></param>
             <param name="maxValue"></param>
             <returns></returns>
-        </member>
-        <member name="F:AscensionServer.SkillStatus.Attack_Number">
-            <summary>
-            攻击的数量
-            </summary>
-        </member>
-        <member name="F:AscensionServer.SkillStatus.Attack_Factor">
-            <summary>
-            伤害系数
-            </summary>
-        </member>
-        <member name="F:AscensionServer.SkillStatus.AttackProcess_Type">
-            <summary>
-            攻击模式
-            </summary>
         </member>
         <member name="T:AscensionServer.BattleEndDelegateHandle">
              <summary>
@@ -4011,6 +4105,49 @@
             <summary>
             线程的同步事件；
             若无特殊线程，例如同步玩家位置信息这类特殊线程事件，其余都统一使用此线程同步事件
+            </summary>
+        </member>
+        <member name="T:BattleSkillUseConditionType">
+            <summary>
+            战斗使用条件类型枚举
+            </summary>
+        </member>
+        <member name="F:BattleSkillUseConditionType.UnRepeatSummon">
+            <summary>
+            不可重复召唤
+            </summary>
+        </member>
+        <member name="F:BattleSkillUseConditionType.ReplaceSummon">
+            <summary>
+            覆盖召唤
+            </summary>
+        </member>
+        <member name="F:BattleSkillUseConditionType.WeaponLimit">
+            <summary>
+            武器限定
+            </summary>
+        </member>
+        <member name="T:BattleSkillTargetType">
+            <summary>
+            技能目标类型枚举
+            </summary>
+        </member>
+        <member name="T:BattleSkillFactionType">
+            <summary>
+            技能阵营类型枚举
+            </summary>
+        </member>
+        <member name="F:BattleSkillTriggerEventType.AddPierce">
+            <summary>
+            增加穿透
+            </summary>
+        </member>
+        <member name="T:BattleSkillActionType">
+            <summary>
+            1.伤害
+            2.回血
+            3.复活
+            4.召唤
             </summary>
         </member>
     </members>

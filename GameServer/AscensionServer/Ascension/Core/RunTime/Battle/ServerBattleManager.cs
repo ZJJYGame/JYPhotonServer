@@ -157,7 +157,8 @@ namespace AscensionServer
                                 #region 针对技能
                                 case BattleCmd.SkillInstruction:
                                     if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
-                                        PlayerToRelease(battleTransferDTOs, roleId);
+                                        PlayerToSKillRelease(battleTransferDTOs, roleId, roleId);
+                                        //PlayerToRelease(battleTransferDTOs, roleId);
                                     break;
                                 #endregion
                                 #region 针对逃跑
@@ -197,7 +198,8 @@ namespace AscensionServer
                                 #region 宠物技能
                                 case BattleCmd.SkillInstruction:
                                     if (_teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP > 0)
-                                        PlayerToRelease(battleTransferDTOs.petBattleTransferDTO, roleId, 0, battleTransferDTOs.petBattleTransferDTO.RoleId);
+                                        PlayerToSKillRelease(battleTransferDTOs.petBattleTransferDTO, roleId, battleTransferDTOs.petBattleTransferDTO.RoleId);
+                                        //PlayerToRelease(battleTransferDTOs.petBattleTransferDTO, roleId, 0, battleTransferDTOs.petBattleTransferDTO.RoleId);
                                     break;
                                 #endregion
                                 case BattleCmd.RunAwayInstruction:

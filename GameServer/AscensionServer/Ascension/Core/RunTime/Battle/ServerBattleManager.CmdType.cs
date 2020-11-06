@@ -118,21 +118,55 @@ namespace AscensionServer
             GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Enqueue(roomId);
             GameManager.CustomeModule<ServerBattleManager>().TimestampBattleEnd(roomId);
         }
-    }
 
-    public enum SkillStatus
-    {
+
+
+
+
+
+        #region 2020.11.06 11:29 
         /// <summary>
-        /// 攻击的数量
+        /// 判断释放的技能是不是存在json中
         /// </summary>
-        Attack_Number,
+        /// <param name="targetId"></param>
+        /// <returns></returns>
+        public BattleSkillData SkillFormToObject(int targetId)
+        {
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, BattleSkillData>>(out var battleSkillDict);
+            if (battleSkillDict.ContainsKey(targetId))
+                return battleSkillDict[targetId];
+            return null;
+        }
+
         /// <summary>
-        /// 伤害系数
+        /// 返回给客户端的计算伤害
         /// </summary>
-        Attack_Factor,
+        public List<BattleTransferDTO.TargetInfoDTO> ServerToClientResult(BattleTransferDTO.TargetInfoDTO targetInfo) {
+            List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+            BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+            tempTrans.TargetID = targetInfo.TargetID;
+            tempTrans.TargetHPDamage = targetInfo.TargetHPDamage;
+            tempTrans.TargetMPDamage = targetInfo.TargetMPDamage;
+            tempTrans.TargetShenHunDamage = targetInfo.TargetShenHunDamage;
+            tempTrans.TargetShieldVaule = targetInfo.TargetShieldVaule;
+            TargetInfosSet.Add(tempTrans);
+            return TargetInfosSet;
+        }
         /// <summary>
-        /// 攻击模式
+        /// 计算多段伤害用的
         /// </summary>
-        AttackProcess_Type
+        /// <param name="targetInfo"></param>
+        /// <returns></returns>
+        public BattleTransferDTO.TargetInfoDTO ServerToClientResults(BattleTransferDTO.TargetInfoDTO targetInfo)
+        {
+            BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+            tempTrans.TargetID = targetInfo.TargetID;
+            tempTrans.TargetHPDamage = targetInfo.TargetHPDamage;
+            tempTrans.TargetMPDamage = targetInfo.TargetMPDamage;
+            tempTrans.TargetShenHunDamage = targetInfo.TargetShenHunDamage;
+            tempTrans.TargetShieldVaule = targetInfo.TargetShieldVaule;
+            return tempTrans;
+        }
+        #endregion
     }
 }

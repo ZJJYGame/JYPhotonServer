@@ -83,6 +83,9 @@ namespace AscensionServer
 
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(MagicWeaponData).Name, out var magicSet);
                 var magicDict = TransObject<List<MagicWeaponData>>(magicSet).ToDictionary(key => key.Magic_ID, value => value);
+
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(BattleSkillData).Name, out var battleSkillSet);
+                var battleSkillDict = TransObject<List<BattleSkillData>>(battleSkillSet).ToDictionary(key => key.id, value => value);
                 #endregion
 
                 GameManager.CustomeModule<DataManager>().TryAdd(mishuDataDict);
@@ -101,6 +104,7 @@ namespace AscensionServer
                 GameManager.CustomeModule<DataManager>().TryAdd(drugDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(runesDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(magicDict);
+                GameManager.CustomeModule<DataManager>().TryAdd(battleSkillDict);
 
                 //GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MiShuData>>(out var set);
                 //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + Utility.Json.ToJson(set));
@@ -108,7 +112,7 @@ namespace AscensionServer
                 //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + skillGongFaDict[21001].Skill_Describe);
                 //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + skillMiShuDict[21009].Skill_Describe);
 
-                //Utility.Debug.LogInfo("<DataManager> 测试 ConvertData Step0211111111111====>" + drugDict.Count);
+                //Utility.Debug.LogInfo("<DataManager> 测试 ConvertData Step0211111111111====>" + battleSkillDict.Count);
             }
             catch (Exception e)
             {

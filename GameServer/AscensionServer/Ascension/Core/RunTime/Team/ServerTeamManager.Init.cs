@@ -213,8 +213,8 @@ namespace AscensionServer
                 }
                 ServerToClientTransfer(tempTeamSet);
             }
-          
         }
+
         /// <summary>
         /// 调整站位
         /// </summary>

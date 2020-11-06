@@ -64,7 +64,6 @@ namespace AscensionServer
                     //subResponseParameters.Add((byte)ParameterCode.RoleTeam, Utility.Json.ToJson(GameManager.CustomeModule<ServerTeamManager>()._teamTOModel));
                     //subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(GameManager.CustomeModule<ServerTeamManager>()._playerIdToTeamIdDict));
                     operationResponse.ReturnCode = (short)ReturnCode.Success;
-
                 });
             }
             else
