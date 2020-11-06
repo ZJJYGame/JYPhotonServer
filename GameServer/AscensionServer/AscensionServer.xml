@@ -1189,6 +1189,11 @@
             <param name="tacticalDTO"></param>
             <param name="returnCode">成功为生成，失败为销毁</param>
         </member>
+        <member name="M:AscensionServer.TacticalDeploymentManager.RedisDeleteCaback(System.String)">
+            <summary>
+            监听Redis删除后的回调
+            </summary>
+        </member>
         <member name="M:AscensionServer.TacticalDeploymentManager.SendTactical(System.Int32,AscensionServer.RoleEntity)">
             <summary>
             发送已生成的阵法至指定场景

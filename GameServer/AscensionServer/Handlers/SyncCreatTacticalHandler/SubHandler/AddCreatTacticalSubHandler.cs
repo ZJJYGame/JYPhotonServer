@@ -26,7 +26,7 @@ namespace AscensionServer
             //GameManager.CustomeModule<TacticalDeploymentManager>().GetRoleTactic(tacticObj.RoleID,out tacticDict);
            var id= GameManager.CustomeModule<TacticalDeploymentManager>().GetExpendTacticalID();
             tacticObj.ID = id;
-        var result=    GameManager.CustomeModule<TacticalDeploymentManager>().IsCreatTactic(out TacticalDeploymentDTO tacticalDeployment);
+        var result= GameManager.CustomeModule<TacticalDeploymentManager>().IsCreatTactic(out TacticalDeploymentDTO tacticalDeployment);
             if (result)
             {
                 SetResponseParamters(() =>

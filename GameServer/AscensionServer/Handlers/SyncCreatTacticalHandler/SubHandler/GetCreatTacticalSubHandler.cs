@@ -27,6 +27,7 @@ namespace AscensionServer
             //获取临时储存的阵法并移除
             var Exist = GameManager.CustomeModule<TacticalDeploymentManager>().GetRemoveTacTical(tacticObj.RoleID, out TacticalDTO tacticalDTO);
             var RedisExist = GameManager.CustomeModule<TacticalDeploymentManager>().GetRoleTactic(tacticObj.RoleID, out List<TacticalDTO> roletactical);
+            Utility.Debug.LogInfo("yzqData收到的创建阵法数据" + tacticJson);
             if (!result)
             {
                 if (Exist)
@@ -35,15 +36,20 @@ namespace AscensionServer
                     {
                         if (roletactical.Count >= 3)
                         {
+                            GameManager.CustomeModule<TacticalDeploymentManager>().TryRemove(tacticalDTO.RoleID, roletactical[0].ID);
+                            GameManager.CustomeModule<TacticalDeploymentManager>().SendAllLevelRoleTactical(roletactical[0], ReturnCode.Fail);
                             roletactical.Remove(roletactical[0]);
-                            GameManager.CustomeModule<TacticalDeploymentManager>().TryRemove(tacticObj.RoleID, roletactical[0].ID);
                         }
-                    }
-                    roletactical = new List<TacticalDTO>();
+                    }else
+                        roletactical = new List<TacticalDTO>();
                     roletactical.Add(tacticalDTO);
-                    RedisHelper.Hash.HashSet("TacticalDTO" + tacticObj.RoleID, tacticObj.RoleID.ToString(), roletactical);
+                    RedisHelper.Hash.HashSet("TacticalDTO" + tacticalDTO.RoleID, tacticalDTO.RoleID.ToString(), roletactical);
                     #region 广播给当前场景所有人
-                    GameManager.CustomeModule<TacticalDeploymentManager>().SendAllLevelRoleTactical(tacticObj,ReturnCode.Success );
+                    GameManager.CustomeModule<TacticalDeploymentManager>().SendAllLevelRoleTactical(tacticalDTO, ReturnCode.Success );
+                    #endregion
+                    #region Redis对于时间的记录
+                    RedisHelper.String.StringSet("Tactical" + "$" + 0 + "$" + tacticalDTO.ID, tacticalDTO.RoleID.ToString(), new TimeSpan(0, 0, 0, tacticalDTO.Duration));
+                    RedisManager.Instance.AddKeyExpireListener("Tactical" + "$" + 0 + "$" + tacticalDTO.ID, GameManager.CustomeModule<TacticalDeploymentManager>().RedisDeleteCaback);
                     #endregion
                     SetResponseParamters(() =>
                     {
@@ -52,7 +58,7 @@ namespace AscensionServer
                 }
                 else
                 {
-                    RedisHelper.Hash.HashSet("TacticalDTO" + tacticObj.RoleID, tacticObj.RoleID.ToString(), roletactical);
+                    RedisHelper.Hash.HashSet("TacticalDTO" + tacticalDTO.RoleID, tacticalDTO.RoleID.ToString(), roletactical);
                 }
             }
             else

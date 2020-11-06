@@ -41,7 +41,6 @@ namespace AscensionServer
             GameManager.CustomeModule<LevelManager>().OnRoleEnterLevel += SendTactical;
         }
 
-
         public bool ContainsKey(int levelId)
         {
             return AllTacticalDeploymentDict.ContainsKey(levelId);
@@ -183,7 +182,31 @@ namespace AscensionServer
             operationData.ReturnCode = (short)returnCode;
             operationData.OperationCode = (ushort)OperationCode.SyncGetNewTactical;
             GameManager.CustomeModule<LevelManager>().SendMsg2AllLevelRoleS2C(0, operationData);
-        }    
+        }
+        /// <summary>
+        /// 监听Redis删除后的回调
+        /// </summary>
+        public void RedisDeleteCaback(string key)
+        {
+            //TODO 逻辑通了之后记得更换
+            string[] strArray = key.Split('$');
+            if (strArray.Length>0)
+            {
+                if (TryGetValue(int.Parse(strArray[1]), out TacticalDeploymentDTO tacticalDeployment))
+                {
+                    Utility.Debug.LogInfo("yzqData返回的Rediskey" + Utility.Json.ToJson(tacticalDeployment));
+                    SendAllLevelRoleTactical(tacticalDeployment.tacticDict[int.Parse(strArray[2])], ReturnCode.Fail);
+                    TryRemove(int.Parse(strArray[1]), int.Parse(strArray[2]));
+                    var RedisExist = GameManager.CustomeModule<TacticalDeploymentManager>().GetRoleTactic(tacticalDeployment.tacticDict[int.Parse(strArray[2])].RoleID, out List<TacticalDTO> roletactical);
+                    //移除redis记录的暂存的个人阵法储存
+                    if (RedisExist)
+                    {
+                        roletactical.Remove(tacticalDeployment.tacticDict[int.Parse(strArray[2])]);
+                        RedisHelper.Hash.HashSet("TacticalDTO" + tacticalDeployment.tacticDict[int.Parse(strArray[2])].RoleID, tacticalDeployment.tacticDict[int.Parse(strArray[2])].RoleID.ToString(), roletactical);
+                    }
+                }
+            }
+        }
         /// <summary>
         /// 发送已生成的阵法至指定场景
         /// </summary>
