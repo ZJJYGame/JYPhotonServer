@@ -54,15 +54,10 @@ namespace AscensionServer
             if (result)
             {
                 //TODO 具体判断重复覆盖的情况下
+                result = false;
             }
-
             return result;
         }
-        /// <summary>
-        /// 获取是否有可用的已生成ID,没有则使用自增ID
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public int GetExpendTacticalID()
         {
             int id = 0;
@@ -176,13 +171,16 @@ namespace AscensionServer
             return result;
         }
         /// <summary>
-        /// 广播给当前场景所有人生成的阵法
+        /// 广播给当前场景所有人对阵法的操作
         /// </summary>
         /// <param name="tacticalDTO"></param>
-        public void SendAllLevelRoleTactical(TacticalDTO tacticalDTO)
+        /// <param name="returnCode">成功为生成，失败为销毁</param>
+        public void SendAllLevelRoleTactical(TacticalDTO tacticalDTO,ReturnCode returnCode)
         {
+            Utility.Debug.LogInfo("yzqData对阵法的操作及数据"+Utility.Json.ToJson(tacticalDTO)+ ">>>>>>>"+returnCode);
             OperationData operationData = new OperationData();
             operationData.DataMessage = Utility.Json.ToJson(tacticalDTO);
+            operationData.ReturnCode = (short)returnCode;
             operationData.OperationCode = (ushort)OperationCode.SyncGetNewTactical;
             GameManager.CustomeModule<LevelManager>().SendMsg2AllLevelRoleS2C(0, operationData);
         }    
@@ -200,8 +198,6 @@ namespace AscensionServer
                 Utility.Debug.LogInfo("yzqData发送的全部阵法" + Utility.Json.ToJson(AllTacticalDeploymentDict) + "juese id " + roleEntity.RoleId);
             }
         }
-
-
 
     }
 }

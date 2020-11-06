@@ -278,6 +278,7 @@
     <Compile Include="Handlers\SyncCreatTacticalHandler\SubHandler\GetCreatTacticalSubHandler.cs" />
     <Compile Include="Handlers\SyncCreatTacticalHandler\SubHandler\RemoveCreatTacticalSubHandler.cs" />
     <Compile Include="Handlers\SyncCreatTacticalHandler\SubHandler\SyncCreatTacticalSubHandler.cs" />
+    <Compile Include="Handlers\SyncCreatTacticalHandler\SubHandler\UpdateCreatTacticalSubHandler.cs" />
     <Compile Include="Handlers\SyncCreatTacticalHandler\SyncCreatTacticalHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\AddDailyMessageSubHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\GetDailyMessageSubHandler.cs" />

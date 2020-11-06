@@ -1136,13 +1136,6 @@
             临时阵法储存集合
             </summary>
         </member>
-        <member name="M:AscensionServer.TacticalDeploymentManager.GetExpendTacticalID">
-            <summary>
-            获取是否有可用的已生成ID,没有则使用自增ID
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
         <member name="M:AscensionServer.TacticalDeploymentManager.TryGetValue(System.Int32,AscensionProtocol.DTO.TacticalDeploymentDTO@)">
             <summary>
             获取当前地图块的所有阵法
@@ -1188,6 +1181,13 @@
             </summary>
             <param name="tacticalDTO"></param>
             <returns></returns>
+        </member>
+        <member name="M:AscensionServer.TacticalDeploymentManager.SendAllLevelRoleTactical(AscensionProtocol.DTO.TacticalDTO,AscensionProtocol.ReturnCode)">
+            <summary>
+            广播给当前场景所有人对阵法的操作
+            </summary>
+            <param name="tacticalDTO"></param>
+            <param name="returnCode">成功为生成，失败为销毁</param>
         </member>
         <member name="M:AscensionServer.TacticalDeploymentManager.SendTactical(System.Int32,AscensionServer.RoleEntity)">
             <summary>

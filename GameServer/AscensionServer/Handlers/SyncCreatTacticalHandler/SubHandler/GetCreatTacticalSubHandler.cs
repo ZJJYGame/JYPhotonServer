@@ -43,7 +43,7 @@ namespace AscensionServer
                     roletactical.Add(tacticalDTO);
                     RedisHelper.Hash.HashSet("TacticalDTO" + tacticObj.RoleID, tacticObj.RoleID.ToString(), roletactical);
                     #region 广播给当前场景所有人
-                    GameManager.CustomeModule<TacticalDeploymentManager>().SendAllLevelRoleTactical(tacticObj);
+                    GameManager.CustomeModule<TacticalDeploymentManager>().SendAllLevelRoleTactical(tacticObj,ReturnCode.Success );
                     #endregion
                     SetResponseParamters(() =>
                     {

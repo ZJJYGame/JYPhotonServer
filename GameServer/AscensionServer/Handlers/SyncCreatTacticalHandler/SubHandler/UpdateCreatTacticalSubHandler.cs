@@ -13,9 +13,9 @@ using StackExchange.Redis;
 
 namespace AscensionServer
 {
-   public class RemoveCreatTacticalSubHandler: SyncCreatTacticalSubHandler
+    public class UpdateCreatTacticalSubHandler : SyncCreatTacticalSubHandler
     {
-        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Remove;
+        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
@@ -23,15 +23,16 @@ namespace AscensionServer
             string tacticJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.CreatTactical));
             var tacticObj = Utility.Json.ToObject<TacticalDTO>(tacticJson);
 
-            var result = GameManager.CustomeModule<TacticalDeploymentManager>().TryRemove(0, tacticObj.ID);
-            if (result)
+            //被迫打断或者主动取消的执行移除暂缓集合的操作
+            var Exist = GameManager.CustomeModule<TacticalDeploymentManager>().GetRemoveTacTical(tacticObj.RoleID, out TacticalDTO tacticalDTO);
+
+            if (Exist)
             {
-                GameManager.CustomeModule<TacticalDeploymentManager>().SendAllLevelRoleTactical(tacticObj,ReturnCode.Fail);
-            }
-            else
-                SetResponseParamters(() => {
-                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                SetResponseParamters(() =>
+                {
+                    operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
+            }
             return operationResponse;
         }
     }
