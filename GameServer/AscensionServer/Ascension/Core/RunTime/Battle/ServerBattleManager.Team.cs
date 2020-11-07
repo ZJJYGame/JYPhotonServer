@@ -59,7 +59,7 @@ namespace AscensionServer
                             break;
                         case "SkillMiShuDatas":
                             var skillMiShu = objectOwner as SkillMiShuDatas;
-                            AlToSurvival(battleTransferDTOs, roleId, info, skillMiShu);
+                            //AlToSurvival(battleTransferDTOs, roleId, info, skillMiShu);
                             PlayerTeamToSkillDamage(battleTransferDTOs, roleId, currentRole, skillMiShu);
                             break;
                     }

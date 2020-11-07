@@ -112,7 +112,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -373,13 +373,6 @@
             <param name="roleId"></param>
             <param name="roomId"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.IsToSkillDataForm(System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="targetId"></param>
-            <returns></returns>
-        </member>
         <member name="M:AscensionServer.ServerBattleManager.SkillFormToObject(System.Int32)">
             <summary>
             判断释放的技能是不是存在json中
@@ -391,6 +384,13 @@
             <summary>
             返回给客户端的计算伤害
             </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.ServerToClientResults(AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO)">
+            <summary>
+            计算多段伤害用的
+            </summary>
+            <param name="targetInfo"></param>
+            <returns></returns>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.ReleaseToSpeed(System.Int32)">
             <summary>
@@ -456,7 +456,7 @@
             </summary>
             
         </member>
-        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -727,6 +727,22 @@
             2020 . 11 . 06 13：17
             针对功法  玩家释放  不同技能类型的技能计算伤害
             </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.SkillSingleOrStaged(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData,System.Int32)">
+            <summary>
+            2020.11.06 20:06
+            统一计算技能 单段 多段
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToSkillReturnBlood(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData)">
+            <summary>
+            2020.11.06 20:45
+            统一技能治疗术
+            </summary>
+            <param name="battleTransferDTOs"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="battleSkillData"></param>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
@@ -1472,6 +1488,17 @@
             玩家或peer进入场景 
              </summary>
         </member>
+        <member name="T:AscensionServer.SkillManager">
+            <summary>
+            技能模块；
+            注：此模块用于验证客户端角色释放技能时数值的验证、转发等；
+            </summary>
+        </member>
+        <member name="M:AscensionServer.SkillManager.OnPlayerSkillC2S(Protocol.OperationData)">
+            <summary>
+            接收来自客户端的技能输入
+            </summary>
+        </member>
         <member name="T:AscensionServer.ServerTeamManager">
             <summary>
             待完善
@@ -1820,7 +1847,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；

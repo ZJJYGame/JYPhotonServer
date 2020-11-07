@@ -14,7 +14,7 @@ namespace Protocol
     [Union(7, typeof(DataParameters))]
     [Union(8, typeof(S2CPlayer))]
     [Union(9, typeof(FixSkill))]
-    public interface IDataContract
-    {
-    }
+    [Union(10, typeof(C2SSkillInput))]
+    [Union(11, typeof(FixAffectValue))]
+    public interface IDataContract { }
 }

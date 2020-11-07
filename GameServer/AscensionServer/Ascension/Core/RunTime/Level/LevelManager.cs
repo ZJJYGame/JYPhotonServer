@@ -79,17 +79,7 @@ namespace AscensionServer
 #endif
         }
 #if SERVER
-        public void OnCommandC2S(OperationData opData)
-        {
-            var input = opData.DataContract as C2SInput;
-            if (input != null)
-            {
-                if (levelEntityDict.TryGetValue(input.EntityContainerId, out var sceneEntity))
-                {
-                    sceneEntity.OnCommandC2S(input);
-                }
-            }
-        }
+
         /// <summary>
         ///场景是否包含有角色； 
         /// </summary>
@@ -110,11 +100,6 @@ namespace AscensionServer
             {
                 levelEntity.SndMsg2AllS2C(opData);
             }
-        }
-#else
-        public void OnCommandS2C(OperationData opData)
-        {
-            levelEntity?.OnCommandS2C(opData.DataContract);
         }
 #endif
         /// <summary>
@@ -251,6 +236,24 @@ namespace AscensionServer
 #endif
             return result;
         }
+#if SERVER
+        void OnCommandC2S(OperationData opData)
+        {
+            var input = opData.DataContract as C2SInput;
+            if (input != null)
+            {
+                if (levelEntityDict.TryGetValue(input.EntityContainer.EntityContainerId, out var sceneEntity))
+                {
+                    sceneEntity.OnCommandC2S(input);
+                }
+            }
+        }
+#else
+         void OnCommandS2C(OperationData opData)
+        {
+            levelEntity?.OnCommandS2C(opData.DataContract);
+        }
+#endif
         void OnPlayerLogoff(OperationData opData)
         {
             var roleEntity = opData.DataMessage as RoleEntity;

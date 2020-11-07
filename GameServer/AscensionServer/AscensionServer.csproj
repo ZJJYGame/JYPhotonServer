@@ -20,7 +20,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -219,8 +219,6 @@
     <Compile Include="Ascension\Core\Base\HelperImplement\DataImpl\ServerDataConvertor.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\PeerManager.cs" />
     <Compile Include="Ascension\Core\Base\Variable\IKeyValue.cs" />
-    <Compile Include="Ascension\Core\Base\Variable\NetVariable.cs" />
-    <Compile Include="Ascension\Core\Base\Variable\TokenVar.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\BattleManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Lobby\LobbyManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Network\INetworkMessageHelper.cs" />
@@ -237,6 +235,9 @@
     <Compile Include="Ascension\Core\RunTime\Room\RoomManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Level\LevelEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Level\LevelManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Skill\SkillCalculateProvider.cs" />
+    <Compile Include="Ascension\Core\RunTime\Skill\SkillEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\Skill\SkillManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Team\ServerTeamManager.Init.cs" />
     <Compile Include="Ascension\Core\RunTime\Team\ServerTeamManager.Message.cs" />
     <Compile Include="Ascension\Core\RunTime\Team\TeamEntity.cs" />
