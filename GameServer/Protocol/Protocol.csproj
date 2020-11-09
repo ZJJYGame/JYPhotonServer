@@ -79,6 +79,7 @@
     <Compile Include="Protocol\Model\C2S\C2SInput.cs" />
     <Compile Include="Protocol\Model\C2S\C2SSkillInput.cs" />
     <Compile Include="Protocol\Model\C2S\C2STransformInput.cs" />
+    <Compile Include="Protocol\Model\Define\SkillDefine.cs" />
     <Compile Include="Protocol\Model\Fix\FixAffectValue.cs" />
     <Compile Include="Protocol\Model\Fix\FixEntityContainer.cs" />
     <Compile Include="Protocol\Model\Fix\FixSkill.cs" />
@@ -89,7 +90,7 @@
     <Compile Include="Protocol\Model\C2S\C2SEntityContainer.cs" />
     <Compile Include="Protocol\Model\Fix\FixVector3.cs" />
     <Compile Include="Protocol\Model\S2C\S2CPlayerSkill.cs" />
-    <Compile Include="Protocol\ProtocolDefine.cs" />
+    <Compile Include="Protocol\Model\Define\ProtocolDefine.cs" />
     <Compile Include="Protocol\Model\S2C\S2CChatMessage.cs" />
     <Compile Include="ThirdParty\UnityEngine\Mathf.cs" />
     <Compile Include="ThirdParty\UnityEngine\Matrix3x3.cs" />
