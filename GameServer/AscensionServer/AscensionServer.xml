@@ -184,6 +184,28 @@
             <param name="roleId">离线账号</param>
             <param name="data">新上线账号</param>
         </member>
+        <member name="T:AscensionServer.RedisData.ReidsDataProcessing">
+            <summary>
+            数据库数据的向Redis储存的处理类
+            </summary>
+        </member>
+        <member name="M:AscensionServer.RedisData.ReidsDataProcessing.GetRedisData(System.String,System.Int32)">
+            <summary>
+            获取Redis中储存的String
+            </summary>
+            <param name="key">对应的RedisKeyDefine中的值</param>
+            <param name="RoleID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.RedisData.ReidsDataProcessing.GetRedisData``1(System.String,System.Int32)">
+            <summary>
+            获取redis中储存的Hash
+            </summary>
+            <typeparam name="T">获取的对象类型</typeparam>
+            <param name="key">对应的RedisKeyDefine中的值</param>
+            <param name="RoleID"></param>
+            <returns></returns>
+        </member>
         <member name="T:AscensionServer.RedisKeyDefine">
             <summary>
             Postfix(后缀);
@@ -1282,28 +1304,6 @@
             <param name="sessionId">id</param>
             <returns>查找到的对象</returns>
         </member>
-        <member name="T:AscensionServer.RedisData.ReidsDataProcessing">
-            <summary>
-            数据库数据的向Redis储存的处理类
-            </summary>
-        </member>
-        <member name="M:AscensionServer.RedisData.ReidsDataProcessing.GetRedisData(System.String,System.Int32)">
-            <summary>
-            获取Redis中储存的String
-            </summary>
-            <param name="key">对应的RedisKeyDefine中的值</param>
-            <param name="RoleID"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.RedisData.ReidsDataProcessing.GetRedisData``1(System.String,System.Int32)">
-            <summary>
-            获取redis中储存的Hash
-            </summary>
-            <typeparam name="T">获取的对象类型</typeparam>
-            <param name="key">对应的RedisKeyDefine中的值</param>
-            <param name="RoleID"></param>
-            <returns></returns>
-        </member>
         <member name="P:AscensionServer.GameResourceManager.ResUnitSetDict">
             <summary>
             资源单位集合的字典
@@ -1574,12 +1574,17 @@
             玩家或peer进入场景 
              </summary>
         </member>
-        <member name="T:AscensionServer.IPlayerStatusVerifier">
+        <member name="T:AscensionServer.IDataVerifyHelper">
             <summary>
-            角色数值验证者；
+            数值验证帮助接口；
             例：玩家释放技能，服务器验证当前蓝足够时，才允许释放；
             客户端先验证是否可释放，验证通过后由服务器进行再次验证；
             </summary>
+        </member>
+        <member name="M:AscensionServer.IDataVerifyHelper.VerifyData(Protocol.IDataContract)">
+             <summary>
+            验证数据是否正确； 
+             </summary>
         </member>
         <member name="T:AscensionServer.SkillEntity">
             <summary>
@@ -1602,6 +1607,27 @@
         <member name="M:AscensionServer.SkillManager.OnPlayerSkillC2S(Protocol.OperationData)">
             <summary>
             接收来自客户端的技能输入
+            </summary>
+        </member>
+        <member name="T:AscensionServer.SkillVariable">
+            <summary>
+            canCast是否可释放技能：
+            检测规则：是否足够mana、hp等值，是否处于cd中；
+            </summary>
+        </member>
+        <member name="P:AscensionServer.SkillVariable.CanCast">
+            <summary>
+            是否可释放；
+            </summary>
+        </member>
+        <member name="P:AscensionServer.SkillVariable.OnCoolTime">
+            <summary>
+            是否处于CD状态
+            </summary>
+        </member>
+        <member name="P:AscensionServer.SkillVariable.SkillId">
+            <summary>
+            技能Id；
             </summary>
         </member>
         <member name="T:AscensionServer.ServerTeamManager">

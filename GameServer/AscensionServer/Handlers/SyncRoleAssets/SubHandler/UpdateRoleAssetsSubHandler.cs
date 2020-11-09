@@ -20,8 +20,8 @@ namespace AscensionServer
             Utility.Debug.LogInfo(">>>>>>>>>>>>>更新财产相关信息：" + roleAssetsJson + ">>>>>>>>>>>>>>>>>>>>>>");
             var roleAssetsObj = Utility.Json.ToObject<RoleAssets>(roleAssetsJson);
 
-        var result=    RedisData.ReidsDataProcessing.GetRedisData(RedisKeyDefine._SkillLayoutPerfix, roleAssetsObj.RoleID);
-            Utility.Debug.LogInfo("yzqData"+result);
+        //var result=    r.ReidsDataProcessing.GetRedisData(RedisKeyDefine._SkillLayoutPerfix, roleAssetsObj.RoleID);
+        //    Utility.Debug.LogInfo("yzqData"+result);
 
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleAssetsObj.RoleID);
             bool roleExist = NHibernateQuerier.Verify<Role>(nHCriteriaRoleID);
