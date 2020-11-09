@@ -22,7 +22,7 @@ namespace AscensionServer
             responseParameters.Clear();
             var roleJson= Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
             var refreshSkillLayoutJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters,(byte)ParameterCode.RefreshSkillLayout));
-            RedisHelper.String.StringSet("AdventureSkillLayoutDTO" + roleJson, refreshSkillLayoutJson);
+            RedisHelper.String.StringSet(RedisKeyDefine._SkillLayoutPerfix+ roleJson, refreshSkillLayoutJson);
             return operationResponse;
         }
     }

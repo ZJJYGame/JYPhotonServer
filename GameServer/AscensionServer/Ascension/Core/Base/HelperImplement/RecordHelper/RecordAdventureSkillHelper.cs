@@ -33,7 +33,7 @@ namespace AscensionServer
 
             if (RedisHelper.KeyExistsAsync("AdventureSkillLayoutDTO"+ roleEntity.RoleId).Result)
             {
-                var dict = RedisHelper.String.StringGet("AdventureSkillLayoutDTO" + roleEntity.RoleId);
+                var dict = RedisHelper.String.StringGet(RedisKeyDefine._SkillLayoutPerfix+ roleEntity.RoleId);
                 OperationData operationData = new OperationData();
                 operationData.DataMessage = dict;
                 operationData.OperationCode = (byte)OperationCode.RefreshSkillLayout;

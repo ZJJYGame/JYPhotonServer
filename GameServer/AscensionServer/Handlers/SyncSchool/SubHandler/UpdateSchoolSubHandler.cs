@@ -23,7 +23,7 @@ namespace AscensionServer
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
             NHCriteria  nHCriteriaschool= GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
             var schooltemp= NHibernateQuerier.CriteriaSelect<School>(nHCriteriaschool);
-            var content= RedisData.Initialize.GetData("School"+schooltemp.ID);
+            var content= RedisData.ReidsDataProcessing.GetData("School"+schooltemp.ID);
             if (schooltemp!=null)
             {
                 if (string.IsNullOrEmpty(content))

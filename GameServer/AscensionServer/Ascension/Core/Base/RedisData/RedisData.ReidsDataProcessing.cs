@@ -12,7 +12,7 @@ namespace AscensionServer
         /// <summary>
         /// 数据库数据的向Redis储存的处理类
         /// </summary>
-        public static class Initialize
+        public static class ReidsDataProcessing
         {
             public static string GetData(string key)
             {
@@ -21,11 +21,10 @@ namespace AscensionServer
                    return RedisHelper.String.StringGetAsync(key).Result;
                 }
                 else
-                {
+                {                   
                     return null;
                 }
             }
-
             public static string InsertName(string header,int id)
             {
                 var name = header + id;
@@ -35,6 +34,17 @@ namespace AscensionServer
             {
                 var name = header ;
                 return name;
+            }
+
+            public static string GetRedisData(string key, int RoleID)
+            {
+                var result = GetData(key + RoleID);
+                if (!string.IsNullOrEmpty(result))
+                {
+                    var dict = RedisHelper.String.StringGet(key + RoleID);
+                    return dict;
+                }
+                return null;
             }
         }
     }

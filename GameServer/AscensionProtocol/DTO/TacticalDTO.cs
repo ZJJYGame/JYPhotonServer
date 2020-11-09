@@ -18,6 +18,10 @@ namespace AscensionProtocol.DTO
         /// </summary>
         public int ID { get; set; }
         /// <summary>
+        /// 所处地图块ID
+        /// </summary>
+        public int LevelID { get; set; }
+        /// <summary>
         /// 阵法的全局ID
         /// </summary>
         public int GlobalID { get; set; }

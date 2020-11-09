@@ -12,11 +12,12 @@ namespace AscensionProtocol.DTO
     [Serializable]
     public class AdventureSkillLayoutDTO : DataTransferObject
     {
-        public Dictionary<string, int> LayoutDict { get; set; }
-
+        public Dictionary<string, int> SkillLayoutDict { get; set; }
+        public Dictionary<string, int> PropLayoutDict { get; set; }
         public override void Clear()
         {
-            LayoutDict = null;
+            SkillLayoutDict.Clear();
+            PropLayoutDict.Clear();
         }
     }
 }

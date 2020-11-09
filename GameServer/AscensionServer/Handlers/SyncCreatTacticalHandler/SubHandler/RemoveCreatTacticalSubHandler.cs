@@ -23,15 +23,15 @@ namespace AscensionServer
             string tacticJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.CreatTactical));
             var tacticObj = Utility.Json.ToObject<TacticalDTO>(tacticJson);
 
-            var result = GameManager.CustomeModule<TacticalDeploymentManager>().TryRemove(0, tacticObj.ID);
-            if (result)
-            {
-                GameManager.CustomeModule<TacticalDeploymentManager>().SendAllLevelRoleTactical(tacticObj,ReturnCode.Fail);
-            }
-            else
-                SetResponseParamters(() => {
-                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
-                });
+            //var result = GameManager.CustomeModule<TacticalDeploymentManager>().TryRemove(0, tacticObj.ID);
+            //if (result)
+            //{
+            //    GameManager.CustomeModule<TacticalDeploymentManager>().SendAllLevelRoleTactical(tacticObj,ReturnCode.Fail);
+            //}
+            //else
+            //    SetResponseParamters(() => {
+            //        operationResponse.ReturnCode = (short)ReturnCode.Fail;
+            //    });
             return operationResponse;
         }
     }

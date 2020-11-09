@@ -28,8 +28,8 @@ namespace AscensionServer
             string AllianceAlchemyJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAllianceAlchemy));
             AllianceAlchemyNumDTO allianceAlchemyNumDTO = Utility.Json.ToObject<AllianceAlchemyNumDTO>(AllianceAlchemyJson);
 
-            var redisKey = RedisData.Initialize.InsertName("AllianceAlchemyNum", allianceCaveObj.RoleID);
-            var content = RedisData.Initialize.GetData(redisKey);
+            var redisKey = RedisData.ReidsDataProcessing.InsertName("AllianceAlchemyNum", allianceCaveObj.RoleID);
+            var content = RedisData.ReidsDataProcessing.GetData(redisKey);
 
             var roleAssetsObj = Utility.Json.ToObject<RoleAssetsDTO>(roleAssetsJson);
             Utility.Debug.LogError("收到的兑换弹药的请求数据"+ roleAssetsJson+ allianceAlchemyJson);
