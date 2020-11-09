@@ -34,9 +34,5 @@ namespace AscensionServer
                 }
             });
         }
-        void VerifyPlayerStatus()
-        {
-
-        }
     }
 }

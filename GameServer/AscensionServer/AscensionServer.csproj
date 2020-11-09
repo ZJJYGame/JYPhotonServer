@@ -20,7 +20,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -226,20 +226,21 @@
     <Compile Include="Ascension\Core\RunTime\Network\NetworkManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Record\IRecordHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Record\RecordManager.cs" />
-    <Compile Include="Ascension\Core\Base\RedisData\RedisData.ReidsDataProcessing.cs" />
+    <Compile Include="Ascension\Core\Base\RedisData\RedisData.Initialize.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\GameResourceManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\IRecordAdventureSkillHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\TacticalDeploymentManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Resource\TacticalEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Role\RoleEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Role\RoleManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\RoomEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Room\RoomManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Level\LevelEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Level\LevelManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Skill\IPlayerStatusVerifier.cs" />
+    <Compile Include="Ascension\Core\Base\DataVerify\IDataVerifyHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Skill\SkillEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Skill\SkillManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Skill\SkillVariable.cs" />
+    <Compile Include="Ascension\Core\RunTime\Skill\SkillDataVerifyHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Team\ServerTeamManager.Init.cs" />
     <Compile Include="Ascension\Core\RunTime\Team\ServerTeamManager.Message.cs" />
     <Compile Include="Ascension\Core\RunTime\Team\TeamEntity.cs" />

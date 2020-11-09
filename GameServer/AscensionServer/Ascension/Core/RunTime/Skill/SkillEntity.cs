@@ -17,16 +17,24 @@ namespace AscensionServer
     public class SkillEntity : Entity, IReference,IRefreshable
     {
         public IDataContract DataContract { get; set; }
-        ConcurrentDictionary<int, Variable<C2SSkillInput>> skillDict = 
-            new ConcurrentDictionary<int, Variable<C2SSkillInput>>();
+        ConcurrentDictionary<int, SkillVariable> skillDict = 
+            new ConcurrentDictionary<int, SkillVariable>();
+        C2SPlayer player;
+        IDataVerifyHelper dataVerifier=new SkillDataVerifyHelper();
         protected SkillEntity(){}
         protected SkillEntity(int id) : base(id){}
         public virtual void OnCastSkill(IDataContract data)
         {
-
+            var skill = data as C2SSkillInput;
+            var hasSkillVar= skillDict.TryGetValue(skill.SkillId, out var skillVar);
+            if (hasSkillVar)
+            {
+                dataVerifier.VerifyData(skill);
+            }
         }
         public virtual void OnInit(IDataContract data)
         {
+            player= data as C2SPlayer;
 
         }
         public virtual void Clear(){}
