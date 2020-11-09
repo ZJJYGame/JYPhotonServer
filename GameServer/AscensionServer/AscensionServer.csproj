@@ -185,6 +185,7 @@
     <Compile Include="Ascension\Core\Base\HelperImplement\MessagePackHelper\ImplMessagePackHelper.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\RecordHelper\RecordAdventureSkillHelper.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\RecordHelper\RecordHelper.cs" />
+    <Compile Include="Ascension\Core\Base\RedisKey\RedisKeyDefine.cs" />
     <Compile Include="Ascension\Core\Base\Stream\DataStream.cs" />
     <Compile Include="Ascension\Core\Base\Stream\DataStreamQueue.cs" />
     <Compile Include="Ascension\Core\RunTime\Alliancelogic\AllianceEventCore.cs" />
@@ -235,7 +236,7 @@
     <Compile Include="Ascension\Core\RunTime\Room\RoomManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Level\LevelEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Level\LevelManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Skill\SkillCalculateProvider.cs" />
+    <Compile Include="Ascension\Core\RunTime\Skill\IPlayerStatusVerifier.cs" />
     <Compile Include="Ascension\Core\RunTime\Skill\SkillEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Skill\SkillManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Team\ServerTeamManager.Init.cs" />

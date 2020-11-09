@@ -9,7 +9,7 @@ using AscensionProtocol;
 
 namespace AscensionProtocol.DTO
 {
-    [CustomeModule]
+    [Serializable]
     public class AdventureSkillLayoutDTO : DataTransferObject
     {
         public Dictionary<string, int> LayoutDict { get; set; }
