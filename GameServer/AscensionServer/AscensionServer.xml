@@ -1287,6 +1287,23 @@
             数据库数据的向Redis储存的处理类
             </summary>
         </member>
+        <member name="M:AscensionServer.RedisData.ReidsDataProcessing.GetRedisData(System.String,System.Int32)">
+            <summary>
+            获取Redis中储存的String
+            </summary>
+            <param name="key">对应的RedisKeyDefine中的值</param>
+            <param name="RoleID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.RedisData.ReidsDataProcessing.GetRedisData``1(System.String,System.Int32)">
+            <summary>
+            获取redis中储存的Hash
+            </summary>
+            <typeparam name="T">获取的对象类型</typeparam>
+            <param name="key">对应的RedisKeyDefine中的值</param>
+            <param name="RoleID"></param>
+            <returns></returns>
+        </member>
         <member name="P:AscensionServer.GameResourceManager.ResUnitSetDict">
             <summary>
             资源单位集合的字典

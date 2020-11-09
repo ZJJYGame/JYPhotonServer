@@ -36,12 +36,35 @@ namespace AscensionServer
                 return name;
             }
 
+            /// <summary>
+            /// 获取Redis中储存的String
+            /// </summary>
+            /// <param name="key">对应的RedisKeyDefine中的值</param>
+            /// <param name="RoleID"></param>
+            /// <returns></returns>
             public static string GetRedisData(string key, int RoleID)
             {
                 var result = GetData(key + RoleID);
                 if (!string.IsNullOrEmpty(result))
                 {
                     var dict = RedisHelper.String.StringGet(key + RoleID);
+                    return dict;
+                }
+                return null;
+            }
+            /// <summary>
+            /// 获取redis中储存的Hash
+            /// </summary>
+            /// <typeparam name="T">获取的对象类型</typeparam>
+            /// <param name="key">对应的RedisKeyDefine中的值</param>
+            /// <param name="RoleID"></param>
+            /// <returns></returns>
+            public static object GetRedisData<T>(string key, int RoleID)
+            {
+                var result = GetData(key + RoleID);
+                if (!string.IsNullOrEmpty(result))
+                {
+                    var dict = RedisHelper.Hash.HashGet<T>(key+RoleID, RoleID.ToString());
                     return dict;
                 }
                 return null;
