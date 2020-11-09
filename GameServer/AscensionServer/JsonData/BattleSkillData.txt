@@ -42,7 +42,7 @@
         },
         {
             "name": "剑雨",
-            "id": 21102,
+            "id": 21006,
             "describe": "攻击一人三次",
             "TargetNumber": 1,
             "damageAddition": 0,
@@ -105,7 +105,7 @@
         },
         {
             "name": "燎原",
-            "id": 24002,
+            "id": 21402,
             "describe": "一次攻击4人",
             "TargetNumber": 4,
             "damageAddition": 0,
@@ -127,6 +127,18 @@
                     "battleSkillDamageType": 1,
                     "fixedNum": 0,
                     "baseNumSourceDataList": [
+                        {
+                            "battleSkillNumSourceType": 8,
+                            "mulitity": 70
+                        },
+                        {
+                            "battleSkillNumSourceType": 8,
+                            "mulitity": 70
+                        },
+                        {
+                            "battleSkillNumSourceType": 8,
+                            "mulitity": 70
+                        },
                         {
                             "battleSkillNumSourceType": 8,
                             "mulitity": 70
@@ -211,7 +223,7 @@
         },
         {
             "name": "清心咒",
-            "id": 21212,
+            "id": 21216,
             "describe": "解除封魔",
             "TargetNumber": 1,
             "damageAddition": 0,
@@ -306,6 +318,10 @@
                         {
                             "battleSkillNumSourceType": 8,
                             "mulitity": 50
+                        },
+                        {
+                            "battleSkillNumSourceType": 8,
+                            "mulitity": 50
                         }
                     ],
                     "extraNumSourceData": []
@@ -378,7 +394,7 @@
         },
         {
             "name": "轻轻松松",
-            "id": 21111,
+            "id": 21005,
             "describe": "一个打三个",
             "TargetNumber": 3,
             "damageAddition": 0,
@@ -403,6 +419,14 @@
                         {
                             "battleSkillNumSourceType": 7,
                             "mulitity": 1000
+                        },
+                        {
+                            "battleSkillNumSourceType": 7,
+                            "mulitity": 900
+                        },
+                        {
+                            "battleSkillNumSourceType": 7,
+                            "mulitity": 800
                         }
                     ],
                     "extraNumSourceData": []

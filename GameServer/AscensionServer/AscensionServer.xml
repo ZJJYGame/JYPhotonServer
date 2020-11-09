@@ -112,7 +112,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -373,13 +373,6 @@
             <param name="roleId"></param>
             <param name="roomId"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.IsToSkillDataForm(System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="targetId"></param>
-            <returns></returns>
-        </member>
         <member name="M:AscensionServer.ServerBattleManager.SkillFormToObject(System.Int32)">
             <summary>
             判断释放的技能是不是存在json中
@@ -391,6 +384,13 @@
             <summary>
             返回给客户端的计算伤害
             </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.ServerToClientResults(AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO)">
+            <summary>
+            计算多段伤害用的
+            </summary>
+            <param name="targetInfo"></param>
+            <returns></returns>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.ReleaseToSpeed(System.Int32)">
             <summary>
@@ -456,7 +456,7 @@
             </summary>
             
         </member>
-        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -634,13 +634,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32)">
-            <summary>
-            针对单人的功法秘术   处理玩家  判断Al出手之前 是不是死亡 换取目标
-            </summary>
-            <param name="battleTransferDTOs"></param>
-            <param name="roleId"></param>
-        </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerToMagicWeapen(AscensionProtocol.DTO.BattleTransferDTO,System.Int32)">
             <summary>
             针对法宝的使用
@@ -691,28 +684,6 @@
             <param name="info"></param>
             <param name="skillGongFa"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerToSkillDamage(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,AscensionServer.SkillGongFaDatas,System.Int32)">
-            <summary>
-            针对功法  玩家释放  不同技能类型的技能计算伤害
-            </summary>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerToSkillDamage(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.SkillGongFaDatas,System.Int32)">
-            <summary>
-            针对宠物的技能计算
-            </summary>
-            <param name="battleTransferDTOs"></param>
-            <param name="roleId"></param>
-            <param name="skillGongFa"></param>
-            <param name="special"></param>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerToSkillReturnBlood(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.SkillGongFaDatas)">
-            <summary>
-            技能类型治疗术   TODO 存在多个目标时加血的目标
-            </summary>
-            <param name="battleTransferDTOs"></param>
-            <param name="roleId"></param>
-            <param name="skillGongFa"></param>
-        </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerToSKillRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32)">
              <summary>
             玩家出手 释放技能
@@ -727,6 +698,40 @@
             2020 . 11 . 06 13：17
             针对功法  玩家释放  不同技能类型的技能计算伤害
             </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.SkillSingleOrStaged(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData,System.Int32)">
+            <summary>
+            2020.11.06 20:06
+            统一计算技能 单段 多段
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToSkillReturnBlood(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData)">
+            <summary>
+            2020.11.06 20:45
+            统一技能治疗术
+            </summary>
+            <param name="battleTransferDTOs"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="battleSkillData"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToPetID(System.Int32)">
+            <summary>
+            2020 11.07 17:21
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.SelectToTarget(System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO},System.String,System.Object,System.Collections.Generic.List{AscensionServer.BattleSkillDamageNumData},System.Int32)">
+            <summary>
+            2020 11.07  18:00
+            选择回血的目标
+            </summary>
+            <param name="targetInfoDTOsSet"></param>
+            <param name="typeName"></param>
+            <param name="objectOwner"></param>
+            <param name="bSD"></param>
+            <param name="ol"></param>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
@@ -1820,7 +1825,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；

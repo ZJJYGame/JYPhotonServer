@@ -150,8 +150,8 @@ namespace AscensionServer
                             {
                                 #region 针对道具
                                 case BattleCmd.PropsInstruction:
-                                    if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
-                                        PlayerToPropslnstruction(battleTransferDTOs, roleId);
+                                    //if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
+                                        //PlayerToPropslnstruction(battleTransferDTOs, roleId);
                                     break;
                                 #endregion
                                 #region 针对技能
@@ -169,7 +169,7 @@ namespace AscensionServer
                                 #region 针对法宝
                                 case BattleCmd.MagicWeapon:
                                     if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
-                                        PlayerToMagicWeapen(battleTransferDTOs,roleId);
+                                        PlayerToMagicWeapen(battleTransferDTOs,roleId,roleId);
                                     break;
                                 #endregion
                                 case BattleCmd.CatchPet:

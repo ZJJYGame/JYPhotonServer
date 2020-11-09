@@ -230,7 +230,9 @@ namespace AscensionServer
                             #region 针对技能
                             case BattleCmd.SkillInstruction:
                                 if (memberCuuentTranfer.RoleStatusDTO.RoleHP > 0)
-                                    serverBattleManager.PlayerTeamToRelease(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, memberCuuentTranferIndex);
+                                    PlayerToSKillRelease(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, memberCuuentTranferIndex);
+                                //serverBattleManager.PlayerTeamToRelease(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, memberCuuentTranferIndex);
+
                                 break;
                             #endregion
                             #region 针对逃跑 需要完善
@@ -241,7 +243,7 @@ namespace AscensionServer
                             #region 针对法宝
                             case BattleCmd.MagicWeapon:
                                 if (memberCuuentTranfer.RoleStatusDTO.RoleHP > 0)
-                                    serverBattleManager.PlayerTeamToMagicWeapon(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, memberCuuentTranferIndex);
+                                    serverBattleManager.PlayerToMagicWeapen(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID);
                                 break;
                             #endregion
                             case BattleCmd.CatchPet:
@@ -270,7 +272,8 @@ namespace AscensionServer
                             #endregion
                             #region 宠物技能
                             case BattleCmd.SkillInstruction:
-                                serverBattleManager.PlayerTeamToRelease(speedCuurentTransferPet.petBattleTransferDTO, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId, memberCuuentTranferIndexPet);
+                                PlayerToSKillRelease(speedCuurentTransferPet.petBattleTransferDTO, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId, memberCuuentTranferIndexPet);
+                                //serverBattleManager.PlayerTeamToRelease(speedCuurentTransferPet.petBattleTransferDTO, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId, memberCuuentTranferIndexPet);
                                 break;
                             #endregion
                             #region 宠物逃跑
