@@ -44,14 +44,6 @@ namespace AscensionServer
         /// </summary>
         public List<BattleTransferDTO> teamSet = new List<BattleTransferDTO>();
         /// <summary>
-        /// 收集每个回合 每个目标的传输数据
-        /// </summary>
-        //List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
-        ///// <summary>
-        ///// 收集每个回合 玩家传输数据
-        ///// </summary>
-        //List<BattleTransferDTO.TargetInfoDTO> PlayerInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
-        /// <summary>
         /// 收集准备战斗指令
         /// </summary>
         List<int> teamIdList = new List<int>();
@@ -59,10 +51,6 @@ namespace AscensionServer
         ///玩家的行动目标  怪物的唯一id 对应全局id
         /// </summary>
         Dictionary<int, int> TargetID = new Dictionary<int, int>();
-        /// <summary>
-        /// 记录过程伤害
-        /// </summary>
-        //public List<int> ProcessDamageSet = new List<int>();
         /// <summary>
         /// 房间id
         /// </summary>
@@ -88,10 +76,6 @@ namespace AscensionServer
         /// 队伍id 和 队伍成员id
         /// </summary>
         public Dictionary<int, List<int>> _teamIdToMemberDict = new Dictionary<int, List<int>>();
-        ///// <summary>
-        /////缓存 房间id  或者队伍id 每回合战斗传输的数据
-        ///// </summary>
-        //public Dictionary<int, List<BattleTransferDTO>> _roomIdToBattleTransferDict = new Dictionary<int, List<BattleTransferDTO>>();
         /// <summary>
         /// 队伍id 和 房间id
         /// </summary>
@@ -379,8 +363,6 @@ namespace AscensionServer
                         ObjectSpeed = (int)monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Attact_speed,
                     });
                 }
-                //Utility.Debug.LogInfo("=====>>>>>>>>>>>>>>>>>>>老陆+++>>>>>>33333333>");
-                
                 if (MsqInfo<RolePet>(roleId).PetIsBattle == 0)
                     return allDataBase;
                 var petObject = MsqInfoPet<Pet>(MsqInfo<RolePet>(roleId).PetIsBattle, "ID");
@@ -407,7 +389,6 @@ namespace AscensionServer
                     });
                 }
                 
-                Utility.Debug.LogInfo("组队=====>>>>");
                 for (int op = 0; op < IsTeamDto(roleId).TeamMembers.Count; op++)
                 {
                     if (MsqInfo<RolePet>(IsTeamDto(roleId).TeamMembers[op].RoleID).PetIsBattle == 0)

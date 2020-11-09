@@ -15,7 +15,7 @@ namespace AscensionServer
     public partial class ServerBattleManager
     {
 
-       
+
 
 
         #region 2020. 11. 06  11:43
@@ -76,7 +76,6 @@ namespace AscensionServer
                             PlayerToSkillDamage(battleTransferDTOs, roleId, currentId, objectOwner, special);
                             break;
                         case BattleSkillActionType.Heal:
-                            //PlayerToSkillReturnBlood(battleTransferDTOs, roleId, petId, objectOwner);
                             PlayerToSkillReturnBlood(battleTransferDTOs, roleId, currentId, objectOwner);
                             ; break;
                         case BattleSkillActionType.Resurrection:
@@ -423,7 +422,7 @@ namespace AscensionServer
         #endregion
 
         #region 统一技能分类  道具的使用 符箓和丹药
-        public void PlayerToPropslnstruction(BattleTransferDTO battleTransferDTOs, int roleId,int currentId, int petId = 0)
+        public void PlayerToPropslnstruction(BattleTransferDTO battleTransferDTOs, int roleId, int currentId)
         {
             if (PropsInstrutionFormToObject(battleTransferDTOs.ClientCmdId) == null)
                 return;
@@ -433,16 +432,86 @@ namespace AscensionServer
             {
                 case "DrugData":
                     var drugData = objectOwner as DrugData;
-                    DrugDataToUser(battleTransferDTOs, roleId, drugData, petId);
+                    DrugDataToUser(battleTransferDTOs, roleId, currentId, drugData);
                     break;
                 case "RunesData":
                     var runesData = objectOwner as RunesData;
-                    RunesDataToUser(battleTransferDTOs, roleId, runesData, petId);
+                    RunesDataToUser(battleTransferDTOs, roleId, currentId, runesData);
                     break;
             }
         }
+
+
+        /// <summary>
+        /// 符箓的使用
+        /// </summary>
+        public void RunesDataToUser(BattleTransferDTO battleTransferDTOs, int roleId, int currentId, RunesData runesData)
+        {
+            if (!IsToSkillForm(runesData.Runes_Skill))
+                return;
+            battleTransferDTOs.ClientCmdId = runesData.Runes_Skill;
+            PlayerToSKillRelease(battleTransferDTOs, roleId, currentId, runesData.Runes_ID);
+        }
+
+        /// <summary>
+        /// 丹药的使用
+        /// </summary>
+        /// <param name="battleTransferDTOs"></param>
+        /// <param name="roleId"></param>
+        /// <param name="drugData"></param>
+        public void DrugDataToUser(BattleTransferDTO battleTransferDTOs, int roleId, int currentId,DrugData drugData)
+        {
+            switch (drugData.Drug_Type)
+            {
+                case DrugType.RoleHP:
+                    DrugHP(battleTransferDTOs, roleId, currentId, drugData);
+                    break;
+                case DrugType.RoleMP:
+
+                    break;
+                case DrugType.RoleBuff:
+
+                    break;
+                case DrugType.RoleResurgence:
+                    break;
+            }
+        }
+
+        #region  针对丹药的HP  MP Buffer 复活
+        public void DrugHP(BattleTransferDTO battleTransferDTOs, int roleId, int currentId, DrugData drugData)
+        {
+            List<BattleTransferDTO.TargetInfoDTO> targetInfoDTOsSet = new List<BattleTransferDTO.TargetInfoDTO>();
+            var dv = drugData.Drug_Value;
+            var objectOwner = ReleaseToOwner(currentId, currentId, roleId);
+            var typeName = objectOwner.GetType().Name;
+            //SelectToTarget(targetInfoDTOsSet, typeName, objectOwner, bSD, ol);
+            switch (typeName)
+            {
+                case "RoleStatusDTO":
+                    var playerStatusDTO = objectOwner as RoleStatusDTO;
+                    if (playerStatusDTO.RoleHP + dv >= playerStatusDTO.RoleMaxHP)
+                        playerStatusDTO.RoleHP = playerStatusDTO.RoleMaxHP;
+                    else
+                        playerStatusDTO.RoleHP += dv;
+                    var TargetInfosSet = ServerToClientResults(new BattleTransferDTO.TargetInfoDTO() { TargetID = playerStatusDTO.RoleID, TargetHPDamage = dv });
+                    targetInfoDTOsSet.Add(TargetInfosSet);
+                    break;
+                case "PetStatusDTO":
+                    var petStatusDTO = objectOwner as PetStatusDTO;
+                    if (petStatusDTO.PetHP + dv >= petStatusDTO.PetMaxHP)
+                        petStatusDTO.PetHP = petStatusDTO.PetMaxHP;
+                    else
+                        petStatusDTO.PetHP += dv;
+                    var tempTrans = ServerToClientResults(new BattleTransferDTO.TargetInfoDTO() { TargetID = petStatusDTO.PetID, TargetHPDamage = dv });
+                    targetInfoDTOsSet.Add(tempTrans);
+                    break;
+            }
+            teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = currentId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = targetInfoDTOsSet });
+        }
         #endregion
 
+
+        #endregion
 
         #region 技能分类具体处理
         /// <summary>
@@ -480,127 +549,6 @@ namespace AscensionServer
             List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
             TargetInfosSet.Add(tempTrans);
             teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = petId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
-        }
-
-
-
-        /// <summary>
-        /// 丹药的使用
-        /// </summary>
-        /// <param name="battleTransferDTOs"></param>
-        /// <param name="roleId"></param>
-        /// <param name="drugData"></param>
-        public void DrugDataToUser(BattleTransferDTO battleTransferDTOs, int roleId, DrugData drugData, int petId = 0)
-        {
-            switch (drugData.Drug_Type)
-            {
-                case DrugType.RoleHP:
-                    DrugHP(battleTransferDTOs, roleId, drugData, petId);
-                    break;
-                case DrugType.RoleMP:
-
-                    break;
-                case DrugType.RoleBuff:
-
-                    break;
-
-                case DrugType.RoleResurgence:
-                    break;
-            }
-        }
-        #region 单人 针对丹药的HP  MP Buffer 复活
-        public void DrugHP(BattleTransferDTO battleTransferDTOs, int roleId, DrugData drugData, int petId = 0)
-        {
-            if (drugData.Drug_Use_Target == 1) // 需要加宠物
-            {
-                if (petId == 0)
-                {
-                    if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP + drugData.Drug_Value >= _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleMaxHP)
-                        _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP = _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleMaxHP;
-                    else
-                        _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP += drugData.Drug_Value;
-                    BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
-                    tempTrans.TargetID = roleId;
-                    tempTrans.TargetHPDamage = drugData.Drug_Value;
-                    List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
-                    TargetInfosSet.Add(tempTrans);
-                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = roleId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
-                }
-                else
-                {
-                    if (_teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP + drugData.Drug_Value >= _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetMaxHP)
-                        _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP = _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetMaxHP;
-                    else
-                        _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP += drugData.Drug_Value;
-                    BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
-                    tempTrans.TargetID = petId;
-                    tempTrans.TargetHPDamage = drugData.Drug_Value;
-                    List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
-                    TargetInfosSet.Add(tempTrans);
-                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = petId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
-                }
-            }
-            else
-            {
-                if (petId == 0)
-                {
-                    if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP + drugData.Drug_Value >= _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleMaxHP)
-                        _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP = _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleMaxHP;
-                    else
-                        _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP += drugData.Drug_Value;
-                    BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
-                    tempTrans.TargetID = roleId;
-                    tempTrans.TargetHPDamage = drugData.Drug_Value;
-                    List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
-                    TargetInfosSet.Add(tempTrans);
-                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = roleId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
-                }
-                else
-                {
-                    List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
-                    for (int ov = 0; ov < 2; ov++)
-                    {
-                        if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0 && ov == 0)
-                        {
-                            if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP + drugData.Drug_Value >= _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleMaxHP)
-                                _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP = _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleMaxHP;
-                            else
-                                _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP += drugData.Drug_Value;
-                            BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
-                            tempTrans.TargetID = roleId;
-                            tempTrans.TargetHPDamage = drugData.Drug_Value;
-                            TargetInfosSet.Add(tempTrans);
-                        }
-                        if (_teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP > 0 && ov == 1)
-                        {
-                            if (_teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP + drugData.Drug_Value >= _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetMaxHP)
-                                _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP = _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetMaxHP;
-                            else
-                                _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP += drugData.Drug_Value;
-                            BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
-                            tempTrans.TargetID = petId;
-                            tempTrans.TargetHPDamage = drugData.Drug_Value;
-
-                            TargetInfosSet.Add(tempTrans);
-
-                        }
-                    }
-                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = petId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
-                }
-            }
-        }
-        #endregion
-
-
-        /// <summary>
-        /// 符箓的使用
-        /// </summary>
-        public void RunesDataToUser(BattleTransferDTO battleTransferDTOs, int roleId, RunesData runesData, int petId = 0)
-        {
-            if (!IsToSkillForm(runesData.Runes_Skill))
-                return;
-            battleTransferDTOs.ClientCmdId = runesData.Runes_Skill;
-            //PlayerToRelease(battleTransferDTOs, roleId, runesData.Runes_ID, petId);
         }
 
         #endregion
