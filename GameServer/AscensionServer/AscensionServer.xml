@@ -757,50 +757,10 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerToMagicWeapen(AscensionProtocol.DTO.BattleTransferDTO,System.Int32)">
-            <summary>
-            针对法宝的使用
-            </summary>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerToRunAway(AscensionProtocol.DTO.BattleTransferDTO,System.Int32)">
-            <summary>
-            针对  单人逃跑的 返回计算处理
-            </summary>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.PetToRunAway(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32)">
-            <summary>
-            针对 宠物逃跑的 返回计算处理
-            </summary>
-            <param name="battleTransferDTOs"></param>
-            <param name="roleId"></param>
-            <param name="petId"></param>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerToPropslnstruction(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32)">
-            <summary>
-            针对  单人的道具的使用 返回计算处理 符箓和丹药
-            </summary>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.DrugDataToUser(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,AscensionServer.DrugData,System.Int32)">
-            <summary>
-            丹药的使用
-            </summary>
-            <param name="battleTransferDTOs"></param>
-            <param name="roleId"></param>
-            <param name="drugData"></param>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.RunesDataToUser(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,AscensionServer.RunesData,System.Int32)">
-            <summary>
-            符箓的使用
-            </summary>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.AlToSurvival(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.SkillGongFaDatas)">
-            <summary>
-            针对功法  筛选出来每回合的存活的Al
-            </summary>
-        </member>
         <member name="M:AscensionServer.ServerBattleManager.AlToSurvival(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData)">
             <summary>
             2020.11.06 12:00
+            筛选出来存活的Ai
             </summary>
             <param name="battleTransferDTOs"></param>
             <param name="roleId"></param>
@@ -856,48 +816,36 @@
             <param name="bSD"></param>
             <param name="ol"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.SkillSingleOrStaged(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData,System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToMagicWeapen(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32)">
             <summary>
-            2020.11.06 20:06
-            统一计算技能 单段 多段
+            针对法宝的使用
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerToSkillReturnBlood(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData)">
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToRunAway(AscensionProtocol.DTO.BattleTransferDTO,System.Int32)">
             <summary>
-            2020.11.06 20:45
-            统一技能治疗术
+            针对  单人逃跑的 返回计算处理
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.PetToRunAway(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32)">
+            <summary>
+            针对 宠物逃跑的 返回计算处理
             </summary>
             <param name="battleTransferDTOs"></param>
             <param name="roleId"></param>
-            <param name="currentId"></param>
-            <param name="battleSkillData"></param>
+            <param name="petId"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32,System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.DrugDataToUser(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,AscensionServer.DrugData,System.Int32)">
             <summary>
-            针对 技能组队 计算  and 玩家出手
+            丹药的使用
             </summary>
             <param name="battleTransferDTOs"></param>
             <param name="roleId"></param>
-            <param name="currentRole"></param>
-            <param name="transfer"></param>
-            如果special = -1 的时候代表有宠物
+            <param name="drugData"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToSkillDamage(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.SkillGongFaDatas,System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.RunesDataToUser(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,AscensionServer.RunesData,System.Int32)">
             <summary>
-            玩家组队技能伤害计算
+            符箓的使用
             </summary>
-            <param name="battleTransferDTOs"></param>
-            <param name="roleId"></param>
-            <param name="currentRole"></param>
-            <param name="skillGongFa"></param>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToSkillReturnBlood(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.SkillGongFaDatas,System.Int32)">
-            <summary>
-            组队回血
-            </summary>
-            <param name="battleTransferDTOs"></param>
-            <param name="roleId"></param>
-            <param name="skillGongFa"></param>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToRunAway(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
@@ -905,11 +853,6 @@
             需要继续完善
             </summary>
             speed = -1 的话 代表这回合计算是宠物逃跑
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToMagicWeapon(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32)">
-            <summary>
-            针对 组队的法宝使用
-            </summary>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToPropslnstruction(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32)">
             <summary>

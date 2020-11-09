@@ -9,8 +9,7 @@ namespace Protocol
     /// 输入协议；
     /// </summary>
     [MessagePackObject]
-    [Union(1, typeof(C2SSkillInput))]
-    [Union(2, typeof(C2STransformInput))]
+
     public abstract class C2SInput : IDataContract
     {
         [Key(0)]

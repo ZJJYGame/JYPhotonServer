@@ -44,7 +44,7 @@ namespace Protocol
     /// </summary>
     public class SkillDefine
     {
-        #region [0~15] 可修改类型；
+        #region [0~31],Count:32; 可修改类型；
         /// <summary>
         /// 可影响类型：既可以增加也可以消耗；
         /// 红条     
@@ -82,51 +82,51 @@ namespace Protocol
         public const byte Affectable_Transform = 8;
         #endregion
 
-        #region [16~23]目标作用类型
+        #region [32~47],Count:16;目标作用类型
         /// <summary>
         /// 影响的目标类型；
         /// 对自己产生作用；
         /// </summary>
-        public const byte AffectTarget_Self = 16;
+        public const byte AffectTarget_Self = 32;
         /// <summary>
         /// 影响的目标类型；
         /// 对他人产生作用；
         /// </summary>
-        public const byte AffectTarget_Others = 17;
+        public const byte AffectTarget_Others = 33;
         /// <summary>
         /// 影响的目标类型；
         /// 既可以对他人，也可以对自己作用；
         /// </summary>
-        public const byte AffectTarget_Both = 18;
+        public const byte AffectTarget_Both = 34;
         #endregion
 
-        #region[32~47]技能类型
+        #region[48~63],Count:16;技能类型
         /// <summary>
         ///  技能类型：
         ///  主动类型技能；
         /// </summary>
-        public const byte TSKILL_Active = 32;
+        public const byte TSKILL_Active = 48;
         /// <summary>
         ///  技能类型：
         /// 被动技能类型；
         /// </summary>
-        public const byte TSKILL_Passive = 33;
+        public const byte TSKILL_Passive = 49;
         /// <summary>
         ///  技能类型：
         ///  按钮开关类型，按下触发，再按下停止；
         /// </summary>
-        public const byte TSKILL_ActiveToggle = 34;
+        public const byte TSKILL_ActiveToggle = 50;
         /// <summary>
         ///  技能类型：
         /// 被动技能开关类型；
         /// </summary>
-        public const byte TSKILL_PassiveToggle = 35;
+        public const byte TSKILL_PassiveToggle = 51;
         /// <summary>
         ///  技能类型：
         ///  Basically any skill that continues to cast as long as you hold down the button is a channeled skill
         /// 持续释放类型，要求需要按住按钮进行持续释放；
         /// </summary>
-        public const byte TSKILL_Channeled = 36;
+        public const byte TSKILL_Channeled = 52;
         #endregion
     }
     /// <summary>

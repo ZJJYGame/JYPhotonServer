@@ -16,5 +16,8 @@ namespace Protocol
     [Union(9, typeof(FixSkill))]
     [Union(10, typeof(C2SSkillInput))]
     [Union(11, typeof(FixAffectValue))]
+    [Union(12, typeof(FixEntityContainer))]
+    [Union(13, typeof(C2SSkillInput))]
+    [Union(14, typeof(C2STransformInput))]
     public interface IDataContract { }
 }

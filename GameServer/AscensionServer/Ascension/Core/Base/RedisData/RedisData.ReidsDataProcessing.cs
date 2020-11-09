@@ -12,7 +12,7 @@ namespace AscensionServer
         /// <summary>
         /// 数据库数据的向Redis储存的处理类
         /// </summary>
-        public static class ReidsDataProcessing
+        public  class ReidsDataProcessing
         {
             public static string GetData(string key)
             {
