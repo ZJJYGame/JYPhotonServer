@@ -21,8 +21,8 @@ namespace AscensionServer
             string rolepurchaseJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.VareityPurchase));
             var rolepurchaseObj = Utility.Json.ToObject<VareityPurchaseRecordDTO>(rolepurchaseJson);
             #region Redis模块
-            var vareityname = RedisData.Initialize.InsertName("VAREITY_BUY_COUNT", rolepurchaseObj.RoleID);
-            var vareitycontent = RedisData.Initialize.GetData(vareityname);
+            var vareityname = RedisData.ReidsDataProcessing.InsertName("VAREITY_BUY_COUNT", rolepurchaseObj.RoleID);
+            var vareitycontent = RedisData.ReidsDataProcessing.GetData(vareityname);
 
             #endregion
             NHCriteria nHCriteriarolepurchase = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepurchaseObj.RoleID);

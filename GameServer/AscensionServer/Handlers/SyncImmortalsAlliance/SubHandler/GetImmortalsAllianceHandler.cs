@@ -21,8 +21,8 @@ namespace AscensionServer
             string immortalsAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ImmortalsAlliance));
             var immortalsAllianceObj = Utility.Json.ToObject<AlliancesDTO>
                 (immortalsAllianceJson);
-            var name = RedisData.Initialize.InsertName("(Alliance", immortalsAllianceObj.ID);
-            var content = RedisData.Initialize.GetData(name);
+            var name = RedisData.ReidsDataProcessing.InsertName("(Alliance", immortalsAllianceObj.ID);
+            var content = RedisData.ReidsDataProcessing.GetData(name);
 
 
             List<int> alliances = new List<int>();

@@ -15,6 +15,7 @@ namespace AscensionServer
 {
     public partial class ServerBattleManager
     {
+
        
         /// <summary>
         /// 组队逃跑   可以和并成一个 和单人逃跑的   需要去队伍中标记一下 是不是存在战斗中还是中途退出啦

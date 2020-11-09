@@ -8,7 +8,7 @@ using RedisDotNet;
 using Cosmos;
 using Protocol;
 using AscensionProtocol;
-
+using AscensionProtocol.DTO;
 namespace AscensionServer
 {
     [ImplementProvider]
@@ -31,13 +31,13 @@ namespace AscensionServer
         {
             Utility.Debug.LogInfo("yzqData发送技能布局" + roleEntity.RoleId);
 
-            if (RedisHelper.KeyExistsAsync("AdventureSkillLayoutDTO"+ roleEntity.RoleId).Result)
+            if (RedisHelper.KeyExistsAsync(RedisKeyDefine._SkillLayoutPerfix+ roleEntity.RoleId).Result)
             {
-                var dict = RedisHelper.String.StringGet("AdventureSkillLayoutDTO" + roleEntity.RoleId);
+                var dict = RedisHelper.Hash.HashGet<AdventureSkillLayoutDTO>(RedisKeyDefine._SkillLayoutPerfix+ roleEntity.RoleId, roleEntity.RoleId.ToString());
                 OperationData operationData = new OperationData();
-                operationData.DataMessage = dict;
+                operationData.DataMessage = Utility.Json.ToJson(dict);
                 operationData.OperationCode = (byte)OperationCode.RefreshSkillLayout;
-                Utility.Debug.LogInfo("yzqData发送技能布局"+ dict);
+                Utility.Debug.LogInfo("yzqData发送技能布局"+ Utility.Json.ToJson(dict));
                 GameManager.CustomeModule<RoleManager>().SendMessage(roleEntity.RoleId, operationData);
             }
         }

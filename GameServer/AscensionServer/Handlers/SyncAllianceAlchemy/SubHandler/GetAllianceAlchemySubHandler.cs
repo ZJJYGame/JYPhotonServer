@@ -22,9 +22,9 @@ namespace AscensionServer
             string allianceAlchemyNumJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAllianceAlchemy));
             var allianceAlchemyNumObj = Utility.Json.ToObject<AllianceAlchemyNumDTO>(allianceAlchemyNumJson);
 
-            var redisKey = RedisData.Initialize.InsertName("AllianceAlchemyNum", allianceAlchemyNumObj.RoleID);
+            var redisKey = RedisData.ReidsDataProcessing.InsertName("AllianceAlchemyNum", allianceAlchemyNumObj.RoleID);
 
-            var content= RedisData.Initialize.GetData(redisKey);
+            var content= RedisData.ReidsDataProcessing.GetData(redisKey);
 
             if (String.IsNullOrEmpty(content))
             {

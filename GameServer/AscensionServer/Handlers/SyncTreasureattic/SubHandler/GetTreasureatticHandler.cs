@@ -28,7 +28,7 @@ namespace AscensionServer
   
             var treasureatticTemp = NHibernateQuerier.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
 
-            var content = RedisData.Initialize.GetData("TreasureatticDTO"+ treasureatticTemp.ID);
+            var content = RedisData.ReidsDataProcessing.GetData("TreasureatticDTO"+ treasureatticTemp.ID);
 
             Utility.Debug.LogInfo("yzqData查找的key值" + "TreasureatticDTO" + treasureatticTemp.ID +"内容为"+ content);
             if (string.IsNullOrEmpty(content))

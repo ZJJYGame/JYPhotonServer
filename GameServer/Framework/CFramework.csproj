@@ -99,6 +99,7 @@
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.MessagePack.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Text.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Time.cs" />
+    <Compile Include="CosmosFramework\Core\Base\Variable\GenericVariable.cs" />
     <Compile Include="CosmosFramework\Core\Base\Variable\Variable.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Config\ConfigData.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Config\ConfigManager.cs" />

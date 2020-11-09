@@ -184,6 +184,129 @@
             <param name="roleId">离线账号</param>
             <param name="data">新上线账号</param>
         </member>
+        <member name="T:AscensionServer.RedisData.ReidsDataProcessing">
+            <summary>
+            数据库数据的向Redis储存的处理类
+            </summary>
+        </member>
+        <member name="M:AscensionServer.RedisData.ReidsDataProcessing.GetRedisData(System.String,System.Int32)">
+            <summary>
+            获取Redis中储存的String
+            </summary>
+            <param name="key">对应的RedisKeyDefine中的值</param>
+            <param name="RoleID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.RedisData.ReidsDataProcessing.GetRedisData``1(System.String,System.Int32)">
+            <summary>
+            获取redis中储存的Hash
+            </summary>
+            <typeparam name="T">获取的对象类型</typeparam>
+            <param name="key">对应的RedisKeyDefine中的值</param>
+            <param name="RoleID"></param>
+            <returns></returns>
+        </member>
+        <member name="T:AscensionServer.RedisKeyDefine">
+            <summary>
+            Postfix(后缀);
+            Perfix(前缀)； 
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._SkillLayoutPerfix">
+            <summary>
+            类历练技能槽按钮持久化key前缀；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._CultivatiionMethodPerfix">
+            <summary>
+            功法的key前缀
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._MiShuPerfix">
+            <summary>
+            秘术的Key前缀
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._PetPerfix">
+            <summary>
+            宠物的Key前缀
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._PetStatusPerfix">
+            <summary>
+            宠物属性的Key前缀
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._PetAptitudePerfix">
+            <summary>
+            宠物资质的Key前缀
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._PuppetPerfix">
+            <summary>
+            傀儡的Key前缀
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._AlchemyPerfix">
+            <summary>
+            炼丹的Key前缀
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._ForgePerfix">
+             <summary>
+            锻造的Key前缀
+             </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._ArrayPerfix">
+             <summary>
+            阵法的Key前缀
+             </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RunesPerfix">
+             <summary>
+            制符的Key前缀
+             </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._FieldPerfix">
+             <summary>
+            灵田的Key前缀
+             </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._ShopPerfix">
+             <summary>
+            商店的Key前缀
+             </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._VareityShopPerfix">
+             <summary>
+            杂货铺的Key前缀
+             </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._AllianceListPerfix">
+             <summary>
+            仙盟列表的Key前缀
+             </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._AlliancePerfix">
+             <summary>
+            仙盟的Key前缀
+             </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleAlliancePerfix">
+             <summary>
+            个人仙盟数据的Key前缀
+             </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._AllianceConstructionPerfix">
+             <summary>
+            仙盟建设的Key前缀
+             </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._DailyMessagePerfix">
+             <summary>
+            仙盟内广播的消息内容的Key前缀
+             </summary>
+        </member>
         <member name="T:AscensionServer.DataStream">
             <summary>
             数据流对象
@@ -733,6 +856,22 @@
             <param name="bSD"></param>
             <param name="ol"></param>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.SkillSingleOrStaged(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData,System.Int32)">
+            <summary>
+            2020.11.06 20:06
+            统一计算技能 单段 多段
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.PlayerToSkillReturnBlood(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData)">
+            <summary>
+            2020.11.06 20:45
+            统一技能治疗术
+            </summary>
+            <param name="battleTransferDTOs"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="battleSkillData"></param>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             针对 技能组队 计算  and 玩家出手
@@ -1142,16 +1281,6 @@
             <param name="callback">消息广播完成后的回调</param>
             <returns></returns>
         </member>
-        <member name="T:AscensionServer.NetVariable">
-            <summary>
-            网络状态变量
-            </summary>
-        </member>
-        <member name="F:AscensionServer.TokenVar.token">
-            <summary>
-            string类型的token
-            </summary>
-        </member>
         <member name="M:AscensionServer.BattleManager.EnqueueMessage(System.Int32,System.Object)">
             <summary>
             压入战斗数据；
@@ -1179,11 +1308,6 @@
             </summary>
             <param name="sessionId">id</param>
             <returns>查找到的对象</returns>
-        </member>
-        <member name="T:AscensionServer.RedisData.Initialize">
-            <summary>
-            数据库数据的向Redis储存的处理类
-            </summary>
         </member>
         <member name="P:AscensionServer.GameResourceManager.ResUnitSetDict">
             <summary>
@@ -1220,35 +1344,35 @@
             发送已生成资源至指定场景
             </summary>
         </member>
-        <member name="P:AscensionServer.TacticalDeploymentManager.AllTacticalDeploymentDict">
+        <member name="P:AscensionServer.TacticalDeploymentManager.TacticalEntityDict">
             <summary>
-            所有部署的阵法储存集合，key为地图块ID,vaule为具体阵法资源
-            </summary>
-        </member>
-        <member name="P:AscensionServer.TacticalDeploymentManager.ExpendTacticalID">
-            <summary>
-            消耗过的阵法自生成ID，用于重复使用
+            记录确认创建的阵法实体
             </summary>
         </member>
         <member name="P:AscensionServer.TacticalDeploymentManager.roletacticaltemp">
             <summary>
-            临时阵法储存集合
+            记录临时储存的阵法，用于打断后撤销,key为roleid
             </summary>
         </member>
-        <member name="M:AscensionServer.TacticalDeploymentManager.TryGetValue(System.Int32,AscensionProtocol.DTO.TacticalDeploymentDTO@)">
+        <member name="P:AscensionServer.TacticalDeploymentManager.RecordDelTactical">
+            <summary>
+            通过Redis返回的值取总集合中value移除，list下标0为地图id,1为阵法自增ID
+            </summary>
+        </member>
+        <member name="M:AscensionServer.TacticalDeploymentManager.TacticalCreateAdd(AscensionProtocol.DTO.TacticalDTO)">
+            <summary>
+            创建新的阵法实体，并添加到临时集合
+            </summary>
+            <param name="roleid"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.TacticalDeploymentManager.TryGetValue(System.Int32,System.Collections.Generic.Dictionary{System.Int32,AscensionProtocol.DTO.TacticalDTO}@)">
             <summary>
             获取当前地图块的所有阵法
             </summary>
             <param name="roleId"></param>
             <param name="tactical"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.TacticalDeploymentManager.TryRemove(System.Int32,System.Int32)">
-            <summary>
-            从储存的集合中移除
-            </summary>
-            <param name="levelid"></param>
-            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:AscensionServer.TacticalDeploymentManager.GetRoleTactic(System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.TacticalDTO}@)">
@@ -1257,28 +1381,6 @@
             </summary>
             <param name="roleid"></param>
             <param name="roletactical"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.TacticalDeploymentManager.TryAdd(AscensionProtocol.DTO.TacticalDTO,System.Int32)">
-            <summary>
-            尝试添加进已存在的集合
-            </summary>
-            <param name="tacticalDTO"></param>
-            <param name="levelid"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.TacticalDeploymentManager.AddTacTical(AscensionProtocol.DTO.TacticalDTO)">
-            <summary>
-            把创建出来的阵法放进临时集合中，等待操作
-            </summary>
-            <param name="tacticalDTO"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.TacticalDeploymentManager.GetRemoveTacTical(System.Int32,AscensionProtocol.DTO.TacticalDTO@)">
-            <summary>
-            获取临时集合阵法并删除取出值
-            </summary>
-            <param name="tacticalDTO"></param>
             <returns></returns>
         </member>
         <member name="M:AscensionServer.TacticalDeploymentManager.SendAllLevelRoleTactical(AscensionProtocol.DTO.TacticalDTO,AscensionProtocol.ReturnCode)">
@@ -1293,9 +1395,9 @@
             监听Redis删除后的回调
             </summary>
         </member>
-        <member name="M:AscensionServer.TacticalDeploymentManager.SendTactical(System.Int32,AscensionServer.RoleEntity)">
+        <member name="M:AscensionServer.TacticalEntity.Clear">
             <summary>
-            发送已生成的阵法至指定场景
+            可能需要一个发送移除阵法的回调用于回收自己
             </summary>
         </member>
         <member name="T:AscensionServer.RoleEntity">
@@ -1476,6 +1578,62 @@
              <summary>
             玩家或peer进入场景 
              </summary>
+        </member>
+        <member name="T:AscensionServer.IDataVerifyHelper">
+            <summary>
+            数值验证帮助接口；
+            例：玩家释放技能，服务器验证当前蓝足够时，才允许释放；
+            客户端先验证是否可释放，验证通过后由服务器进行再次验证；
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IDataVerifyHelper.VerifyData(Protocol.IDataContract)">
+             <summary>
+            验证数据是否正确； 
+             </summary>
+        </member>
+        <member name="T:AscensionServer.SkillEntity">
+            <summary>
+            技能实体对象；
+            技能的CD、持续时间等使用此作为容器进行运算；
+            此实体持有技能数据，
+            </summary>
+        </member>
+        <member name="M:AscensionServer.SkillEntity.OnRefresh">
+            <summary>
+            空虚函数;
+            </summary>
+        </member>
+        <member name="T:AscensionServer.SkillManager">
+            <summary>
+            技能模块；
+            注：此模块用于验证客户端角色释放技能时数值的验证、转发等；
+            </summary>
+        </member>
+        <member name="M:AscensionServer.SkillManager.OnPlayerSkillC2S(Protocol.OperationData)">
+            <summary>
+            接收来自客户端的技能输入
+            </summary>
+        </member>
+        <member name="T:AscensionServer.SkillVariable">
+            <summary>
+            canCast是否可释放技能：
+            检测规则：是否足够mana、hp等值，是否处于cd中；
+            </summary>
+        </member>
+        <member name="P:AscensionServer.SkillVariable.CanCast">
+            <summary>
+            是否可释放；
+            </summary>
+        </member>
+        <member name="P:AscensionServer.SkillVariable.OnCoolTime">
+            <summary>
+            是否处于CD状态
+            </summary>
+        </member>
+        <member name="P:AscensionServer.SkillVariable.SkillId">
+            <summary>
+            技能Id；
+            </summary>
         </member>
         <member name="T:AscensionServer.ServerTeamManager">
             <summary>

@@ -24,15 +24,15 @@ namespace AscensionServer
             var tacticObj = Utility.Json.ToObject<TacticalDTO>(tacticJson);
 
             //被迫打断或者主动取消的执行移除暂缓集合的操作
-            var Exist = GameManager.CustomeModule<TacticalDeploymentManager>().GetRemoveTacTical(tacticObj.RoleID, out TacticalDTO tacticalDTO);
+            //var Exist = GameManager.CustomeModule<TacticalDeploymentManager>().GetRemoveTacTical(tacticObj.RoleID, out TacticalDTO tacticalDTO);
 
-            if (Exist)
-            {
-                SetResponseParamters(() =>
-                {
-                    operationResponse.ReturnCode = (short)ReturnCode.Success;
-                });
-            }
+            //if (Exist)
+            //{
+            //    SetResponseParamters(() =>
+            //    {
+            //        operationResponse.ReturnCode = (short)ReturnCode.Success;
+            //    });
+            //}
             return operationResponse;
         }
     }

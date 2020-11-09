@@ -17,11 +17,12 @@ namespace AscensionServer
         {
             string roleAssetsJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleAssets));
 
-            //RedisHelper.String.StringSet("TacticalDTO" + 122, "623", new TimeSpan(0,0,0,30));
-            //RedisManager.Instance.AddKeyExpireListener("TacticalDTO" + 122, fun);
-
             Utility.Debug.LogInfo(">>>>>>>>>>>>>更新财产相关信息：" + roleAssetsJson + ">>>>>>>>>>>>>>>>>>>>>>");
             var roleAssetsObj = Utility.Json.ToObject<RoleAssets>(roleAssetsJson);
+
+        //var result=    r.ReidsDataProcessing.GetRedisData(RedisKeyDefine._SkillLayoutPerfix, roleAssetsObj.RoleID);
+        //    Utility.Debug.LogInfo("yzqData"+result);
+
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleAssetsObj.RoleID);
             bool roleExist = NHibernateQuerier.Verify<Role>(nHCriteriaRoleID);
             bool roleAssetsExist = NHibernateQuerier.Verify<RoleAssets>(nHCriteriaRoleID);

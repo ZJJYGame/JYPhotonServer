@@ -22,24 +22,27 @@ namespace AscensionServer
             var dict = operationRequest.Parameters;
             string tacticJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.CreatTactical));
             var tacticObj = Utility.Json.ToObject<TacticalDTO>(tacticJson);
-            Dictionary<int, List<TacticalDTO>> tacticDict = new Dictionary<int, List<TacticalDTO>>();
-            //GameManager.CustomeModule<TacticalDeploymentManager>().GetRoleTactic(tacticObj.RoleID,out tacticDict);
            var id= GameManager.CustomeModule<TacticalDeploymentManager>().GetExpendTacticalID();
             tacticObj.ID = id;
-        var result= GameManager.CustomeModule<TacticalDeploymentManager>().IsCreatTactic(out TacticalDeploymentDTO tacticalDeployment);
+        var result= GameManager.CustomeModule<TacticalDeploymentManager>().IsCreatTactic();
             if (result)
             {
-                SetResponseParamters(() =>
+                var Exits= GameManager.CustomeModule<TacticalDeploymentManager>().TacticalCreateAdd(tacticObj);
+                if (Exits)
                 {
-                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
-                });
+                    SetResponseParamters(() =>
+                    {
+                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                    });
+                }
+
             }
             else
             {
                 SetResponseParamters(() => {
                     operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
-                GameManager.CustomeModule<TacticalDeploymentManager>().AddTacTical(tacticObj);
+                GameManager.CustomeModule<TacticalDeploymentManager>().TacticalCreateAdd(tacticObj);
             }
             return operationResponse;
         }
