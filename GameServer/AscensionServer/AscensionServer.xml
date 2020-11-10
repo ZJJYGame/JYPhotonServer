@@ -307,6 +307,11 @@
             仙盟内广播的消息内容的Key前缀
              </summary>
         </member>
+        <member name="F:AscensionServer.RedisKeyDefine._DeldteTacticalPerfix">
+            <summary>
+            阵法记录删除回调的key前缀
+            </summary>
+        </member>
         <member name="T:AscensionServer.DataStream">
             <summary>
             数据流对象
@@ -793,6 +798,11 @@
             技能 添加buff
             </summary>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.RemoveBufferMethod(System.Collections.Generic.List{AscensionServer.BattleSkillRemoveBuffData},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            技能 移除buff
+            </summary>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerToSkillReturnBlood(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData)">
             <summary>
             2020.11.06 20:45
@@ -858,6 +868,16 @@
             需要继续完善   ///TODO
             </summary>
             speed = -1 的话 代表这回合计算是宠物逃跑
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.SkillAddBuffer(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData,System.Int32)">
+            <summary>
+            技能添加Buffer
+            </summary>
+            <param name="battleTransferDTOs"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="battleSkillData"></param>
+            <param name="special"></param>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.TimestampBattleEnd(System.Int32)">
              <summary>
@@ -1293,6 +1313,20 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:AscensionServer.TacticalDeploymentManager.TryAddRemoveTactical(System.Int32,AscensionProtocol.DTO.TacticalDTO@)">
+            <summary>
+            移除暂存集合放入总集合
+            </summary>
+            <param name="roleid"></param>
+            <param name="tacticalDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.TacticalDeploymentManager.TryRemoveTactical(System.Int32)">
+            <summary>
+            打断操作移除临时集合储存阵法
+            </summary>
+            <param name="roleid"></param>
+        </member>
         <member name="M:AscensionServer.TacticalDeploymentManager.TryGetValue(System.Int32,System.Collections.Generic.Dictionary{System.Int32,AscensionProtocol.DTO.TacticalDTO}@)">
             <summary>
             获取当前地图块的所有阵法
@@ -1303,7 +1337,7 @@
         </member>
         <member name="M:AscensionServer.TacticalDeploymentManager.GetRoleTactic(System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.TacticalDTO}@)">
             <summary>
-            获取redis的暂存角色阵法
+            获取本地的暂存角色阵法
             </summary>
             <param name="roleid"></param>
             <param name="roletactical"></param>
@@ -1321,9 +1355,16 @@
             监听Redis删除后的回调
             </summary>
         </member>
-        <member name="M:AscensionServer.TacticalEntity.Clear">
+        <member name="M:AscensionServer.TacticalDeploymentManager.TryAddRoleAllTactical(System.Int32,AscensionProtocol.DTO.TacticalDTO)">
             <summary>
-            可能需要一个发送移除阵法的回调用于回收自己
+            储存每个角色的所有阵法
+            </summary>
+            <param name="roleid"></param>
+            <param name="tacticalDTO"></param>
+        </member>
+        <member name="M:AscensionServer.TacticalDeploymentManager.SendTactical(System.Int32,AscensionServer.RoleEntity)">
+            <summary>
+            发送已生成的阵法至指定场景
             </summary>
         </member>
         <member name="T:AscensionServer.RoleEntity">

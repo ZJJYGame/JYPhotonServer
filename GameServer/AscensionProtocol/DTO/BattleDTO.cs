@@ -69,7 +69,10 @@ namespace AscensionProtocol.DTO
         /// 所有参战宠物的列表
         /// </summary>
         public virtual List<PetBattleDataDTO> enemyPetUnits { get; set; }
-
+        /// <summary>
+        /// buffer的列表
+        /// </summary>
+        public virtual List<BufferBattleDataDTO> bufferUnits { get; set; }
 
         public override void Clear()
         {
@@ -212,6 +215,32 @@ namespace AscensionProtocol.DTO
     }
 
     /// <summary>
+    /// buffer 实体对象 DTO
+    /// </summary>
+    [Serializable]
+    public class BufferBattleDataDTO
+    {
+        public virtual int RoleId { get; set; }
+        public virtual BufferData BufferData { get; set; }
+    }
+  
+    [Serializable]
+    public class BufferData
+    {
+        public virtual int bufferId { get; set; }
+        public virtual int RoundNumber{ get; set; }
+    }
+
+
+
+
+
+
+
+    #region  战斗传输数据DTO
+
+
+    /// <summary>
     /// 战斗传输数据DTO   列表 ， 出手速度  是按照玩家speed 排列的
     /// </summary>
     public class BattleTransferDTO
@@ -286,9 +315,13 @@ namespace AscensionProtocol.DTO
             /// </summary>
             public virtual int TargetShieldVaule { get; set; }
             /// <summary>
-            /// 目标Buff
+            ///添加 目标Buff
             /// </summary>
-            public virtual int TargetBuff { get; set; }
+            public virtual List<BufferBattleDataDTO> AddTargetBuff { get; set; }
+            /// <summary>
+            ///移除 目标Buff
+            /// </summary>
+            public virtual List<int> RemoveTargetBuff { get; set; }
 
 
         }
@@ -338,9 +371,10 @@ namespace AscensionProtocol.DTO
         //Dict<(int)roleID,(int)护盾值>
         #endregion
     }
+    #endregion
+
 
 }
-
 
 /// <summary>
 /// 触发技能反应列表
@@ -368,86 +402,3 @@ public enum SkillReactionCmd
     /// </summary>
     Parry
 }
-
-/*
-/// <summary>
-/// 定时器类
-/// </summary>
-public class TimerManager
-{
-    /// <summary>
-    /// 是否在计时中
-    /// </summary>
-    bool _isTicking;
-    /// <summary>
-    /// 当前时间
-    /// </summary>
-    public float _currentTime;
-    /// <summary>
-    /// 结束时间
-    /// </summary>
-    public float _endTime;
-
-    public delegate void EvnentHander();
-
-    public TimerManager(float second)
-    {
-        _currentTime = 0;
-        _endTime = second;
-    }
-    /// <summary>
-    /// 开始计时
-    /// </summary>
-    public void StartTimer()
-    {
-        _isTicking = true;
-    }
-    /// <summary>
-    /// 更新中
-    /// </summary>
-    /// <param name="delteTime"></param>
-    public void UpdateTimer(float delteTime)
-    {
-        if (_isTicking)
-        {
-            _currentTime += delteTime;
-            if (_currentTime > _endTime)
-            {
-                _isTicking = false;
-            }
-        }
-    }
-    /// <summary>
-    /// 停止计时
-    /// </summary>
-    public void StopTimer()
-    {
-        _isTicking = false;
-    }
-
-    /// <summary>
-    /// 持续计时
-    /// </summary>
-    public void ContinueTimer()
-    {
-        _isTicking = true;
-    }
-
-    /// <summary>
-    /// 重新计时
-    /// </summary>
-    public void ReStartTimer()
-    {
-        _isTicking = true;
-        _currentTime = 0;
-    }
-    /// <summary>
-    /// 重新设定计时器
-    /// </summary>
-    /// <param name="second"></param>
-    public void ResetEndTimer(float second)
-    {
-        _endTime = second;
-    }
-
-}*/

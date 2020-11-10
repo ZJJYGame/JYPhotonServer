@@ -27,7 +27,7 @@ namespace AscensionServer
             var enemySet = _teamIdToBattleInit[roleId].enemyUnits;
             var skillDataDamageNum = battleSkillData.battleSkillDamageNumDataList;
             var  addBuffDataSet  =  battleSkillData.battleSkillAddBuffList;
-            var removeBuffDataSet = battleSkillData.battleSkillAddBuffList;
+            var removeBuffDataSet = battleSkillData.battleSkillRemoveBuffDataList;
 
             if (skillDataDamageNum.Count == 1 && battleSkillData.TargetNumber == 1)
             {
@@ -44,16 +44,7 @@ namespace AscensionServer
                             if (enemySetObject.EnemyStatusDTO.EnemyHP <= 0)
                                 break;
                             enemySetObject.EnemyStatusDTO.EnemyHP -= NumSource[ox].mulitity;
-
-
-                            if (addBuffDataSet.Count != 0)
-                            {
-                                AddBufferMethod(addBuffDataSet,roleId,currentId, enemySetObject, oc);
-                               
-                            }
-
-
-                            var TargetInfosSet = ServerToClientResult(new BattleTransferDTO.TargetInfoDTO() { TargetID = enemySetObject.EnemyStatusDTO.EnemyId, TargetHPDamage = -NumSource[ox].mulitity });
+                            var TargetInfosSet = ServerToClientResult(new BattleTransferDTO.TargetInfoDTO() { TargetID = enemySetObject.EnemyStatusDTO.EnemyId, TargetHPDamage = -NumSource[ox].mulitity,  AddTargetBuff= AddBufferMethod(addBuffDataSet, roleId, currentId, enemySetObject, oc), RemoveTargetBuff = RemoveBufferMethod(removeBuffDataSet,roleId,currentId,oc) });
                             if (NumSource.Count - 1 == ox || enemySetObject.EnemyStatusDTO.EnemyHP <= 0)
                                 teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = currentId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
                             else
@@ -73,7 +64,7 @@ namespace AscensionServer
                             if (enemySetObject.EnemyStatusDTO.EnemyHP <= 0)
                                 break;
                             enemySetObject.EnemyStatusDTO.EnemyHP -= NumSource[ox].mulitity;
-                            var TargetInfosSet = ServerToClientResult(new BattleTransferDTO.TargetInfoDTO() { TargetID = enemySet[RandomTarget].EnemyStatusDTO.EnemyId, TargetHPDamage = -NumSource[ox].mulitity });
+                            var TargetInfosSet = ServerToClientResult(new BattleTransferDTO.TargetInfoDTO() { TargetID = enemySet[RandomTarget].EnemyStatusDTO.EnemyId, TargetHPDamage = -NumSource[ox].mulitity ,  AddTargetBuff = AddBufferMethod(addBuffDataSet, roleId, currentId, enemySetObject, oc), RemoveTargetBuff = RemoveBufferMethod(removeBuffDataSet, roleId, currentId, oc) });
                             if (NumSource.Count - 1 == ox || enemySetObject.EnemyStatusDTO.EnemyHP <= 0)
                                 teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = currentId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
                             else
@@ -97,7 +88,7 @@ namespace AscensionServer
                                 if (servivalTarget.EnemyStatusDTO.EnemyHP <= 0)
                                     break;
                                 servivalTarget.EnemyStatusDTO.EnemyHP -= skillDataDamageNum[op].baseNumSourceDataList[zo].mulitity;
-                                var tranfsSet = ServerToClientResult(new BattleTransferDTO.TargetInfoDTO() { TargetID = servivalTarget.EnemyStatusDTO.EnemyId, TargetHPDamage = -skillDataDamageNum[op].baseNumSourceDataList[zo].mulitity });
+                                var tranfsSet = ServerToClientResult(new BattleTransferDTO.TargetInfoDTO() { TargetID = servivalTarget.EnemyStatusDTO.EnemyId, TargetHPDamage = -skillDataDamageNum[op].baseNumSourceDataList[zo].mulitity,  AddTargetBuff = AddBufferMethod(addBuffDataSet, roleId, currentId, servivalTarget, zo), RemoveTargetBuff= RemoveBufferMethod(removeBuffDataSet, roleId, currentId, zo) });
                                 if (skillDataDamageNum.Count - 1 == op|| servivalTarget.EnemyStatusDTO.EnemyHP <= 0)
                                     teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = currentId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = tranfsSet });
                                 else
@@ -112,7 +103,7 @@ namespace AscensionServer
                         {
                             var servivalTarget = enemySet.Find(x => x.EnemyStatusDTO.EnemyId == TargetID.Keys.ToList()[zo]);
                             servivalTarget.EnemyStatusDTO.EnemyHP -= skillDataDamageNum[0].baseNumSourceDataList[zo].mulitity;
-                            var tranfsSet = ServerToClientResults(new BattleTransferDTO.TargetInfoDTO() { TargetID = servivalTarget.EnemyStatusDTO.EnemyId, TargetHPDamage = -skillDataDamageNum[0].baseNumSourceDataList[zo].mulitity });
+                            var tranfsSet = ServerToClientResults(new BattleTransferDTO.TargetInfoDTO() { TargetID = servivalTarget.EnemyStatusDTO.EnemyId, TargetHPDamage = -skillDataDamageNum[0].baseNumSourceDataList[zo].mulitity,  AddTargetBuff = AddBufferMethod(addBuffDataSet, roleId, currentId, servivalTarget, zo), RemoveTargetBuff = RemoveBufferMethod(removeBuffDataSet, roleId, currentId, zo)});
                             targetInfoDTOsSet.Add(tranfsSet);
                         }
                         teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = currentId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = targetInfoDTOsSet });
@@ -126,7 +117,8 @@ namespace AscensionServer
                         if (survivalTarget.EnemyStatusDTO.EnemyHP <= 0)
                             break;
                         survivalTarget.EnemyStatusDTO.EnemyHP -= skillDataDamageNum[0].baseNumSourceDataList[n].mulitity;
-                        var TargetInfosSet = ServerToClientResult(new BattleTransferDTO.TargetInfoDTO() { TargetID = survivalTarget.EnemyStatusDTO.EnemyId, TargetHPDamage = -skillDataDamageNum[0].baseNumSourceDataList[n].mulitity });
+                        
+                        var TargetInfosSet = ServerToClientResult(new BattleTransferDTO.TargetInfoDTO() { TargetID = survivalTarget.EnemyStatusDTO.EnemyId, TargetHPDamage = -skillDataDamageNum[0].baseNumSourceDataList[n].mulitity,  AddTargetBuff = AddBufferMethod(addBuffDataSet, roleId, currentId, survivalTarget, n), RemoveTargetBuff = RemoveBufferMethod(removeBuffDataSet, roleId, currentId, n) });
                         if (TargetID.Count - 1 == n || survivalTarget.EnemyStatusDTO.EnemyHP <= 0)
                             teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = currentId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
                         else
@@ -141,11 +133,16 @@ namespace AscensionServer
         /// <summary>
         /// 技能 添加buff
         /// </summary>
-        public void AddBufferMethod(List<BattleSkillAddBuffData> addBuffDataSet,int roleId,int currentId,EnemyBattleDataDTO enemySetObject, int index)
+        public List<BufferBattleDataDTO> AddBufferMethod(List<BattleSkillAddBuffData> addBuffDataSet,int roleId,int currentId,EnemyBattleDataDTO enemySetObject, int index)
         {
+       
             RoleBattleDataDTO tempSet = null;
             EnemyBattleDataDTO enemySet = null;
+            List<BufferBattleDataDTO> bufferId = new List<BufferBattleDataDTO>();
+            if (addBuffDataSet.Count == 0)
+                return bufferId;
             var playerSet = _teamIdToBattleInit[roleId].playerUnits;
+            var bufferSet = _teamIdToBattleInit[roleId].bufferUnits;
             var playerSetObject = playerSet.Find(x => x.RoleStatusDTO.RoleID == currentId);
             tempSet = playerSetObject;
             enemySet = enemySetObject;
@@ -278,11 +275,50 @@ namespace AscensionServer
                 var buffValue =  addBuffDataSet[og].basePropList[index] + (selfTempValue + targetTempValue);
                 if (tempSelect <= buffValue)
                 {
-
+                    bufferSet.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = addBuffDataSet[og].buffId, RoundNumber = addBuffDataSet[og].round } });
+                    bufferId.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = addBuffDataSet[og].buffId, RoundNumber = addBuffDataSet[og].round } });
                 }
+                else
+                    Utility.Debug.LogInfo("Buffer  使用失败====>>>>" + buffValue);
             }
+            return bufferId;
         }
+
+          /// <summary>
+        /// 技能 移除buff
+        /// </summary>
+        public List<int> RemoveBufferMethod(List<BattleSkillRemoveBuffData> removeBuffDataSet,int roleId,int currentId,int index)
+        {
+       
+            List<int> bufferId = new List<int>();
+            if (removeBuffDataSet.Count == 0)
+                return bufferId;
+            var playerSet = _teamIdToBattleInit[roleId].playerUnits;
+            var bufferSet = _teamIdToBattleInit[roleId].bufferUnits;
+          
+            for (int og = 0; og < removeBuffDataSet.Count; og++)
+            {
+                var tempSelect = RandomManager(og, 0, 2);
+                if (tempSelect <= 1)
+                {
+                    for (int ko = 0; ko < removeBuffDataSet[og].buffIdList.Count; ko++)
+                    {
+                        var bufferObject = bufferSet.Find(x => x.RoleId == currentId && x.BufferData.bufferId == removeBuffDataSet[og].buffIdList[ko]);
+                        if (bufferObject != null)
+                        {
+                            bufferSet.Remove(bufferObject);
+                            bufferId.Add(removeBuffDataSet[og].buffIdList[ko]);
+                        }
+                    }
+                }
+                else
+                    Utility.Debug.LogInfo("Buffer  使用失败====>>>>" + removeBuffDataSet[og].probability);
+            }
+            return bufferId;
+        }
+
         #endregion
+
 
         #region 统一技能治疗术
 

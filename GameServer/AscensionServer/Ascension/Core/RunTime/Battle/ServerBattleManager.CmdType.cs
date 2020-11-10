@@ -145,6 +145,8 @@ namespace AscensionServer
             tempTrans.TargetMPDamage = targetInfo.TargetMPDamage;
             tempTrans.TargetShenHunDamage = targetInfo.TargetShenHunDamage;
             tempTrans.TargetShieldVaule = targetInfo.TargetShieldVaule;
+            tempTrans.AddTargetBuff = targetInfo.AddTargetBuff;
+            tempTrans.RemoveTargetBuff = targetInfo.RemoveTargetBuff;
             TargetInfosSet.Add(tempTrans);
             return TargetInfosSet;
         }
@@ -161,6 +163,8 @@ namespace AscensionServer
             tempTrans.TargetMPDamage = targetInfo.TargetMPDamage;
             tempTrans.TargetShenHunDamage = targetInfo.TargetShenHunDamage;
             tempTrans.TargetShieldVaule = targetInfo.TargetShieldVaule;
+            tempTrans.AddTargetBuff = targetInfo.AddTargetBuff;
+            tempTrans.RemoveTargetBuff = targetInfo.RemoveTargetBuff;
             return tempTrans;
         }
         #endregion
