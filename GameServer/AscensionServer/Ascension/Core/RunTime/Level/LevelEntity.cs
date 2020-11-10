@@ -130,7 +130,7 @@ namespace AscensionServer
                 return;
             var input = data as C2SInput;
             var result = roleInputCmdDict.TryGetValue(currentTick, out var roleCmdDict);
-            Utility.Debug.LogWarning($"OnCommandC2S ，RoleId:{input.PlayerId}, tick:{currentTick}");
+            //Utility.Debug.LogWarning($"OnCommandC2S ，RoleId:{input.PlayerId}, tick:{currentTick}");
             if (result)
             {
                 roleCmdDict.TryAdd(input.PlayerId, input);

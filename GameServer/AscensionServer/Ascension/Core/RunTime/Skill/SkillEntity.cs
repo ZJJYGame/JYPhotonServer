@@ -29,7 +29,14 @@ namespace AscensionServer
             var hasSkillVar= skillDict.TryGetValue(skill.SkillId, out var skillVar);
             if (hasSkillVar)
             {
-                dataVerifier.VerifyData(skill);
+                var verified= dataVerifier.VerifyData(skill);
+                if (verified)
+                {
+                    var opData = new OperationData(ProtocolDefine.OPR_PLAYER_SKILL);
+                    opData.DataContract = skill;
+                    GameManager.CustomeModule<LevelManager>()
+                        .SendMsg2AllLevelRoleS2C(skill.EntityContainer.EntityContainerId,opData);
+                }
             }
         }
         public virtual void OnInit(IDataContract data)
