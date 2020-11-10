@@ -247,10 +247,6 @@ namespace AscensionServer
                     sceneEntity.OnCommandC2S(input);
                 }
             }
-            else
-            {
-                Utility.Debug.LogError("C2SInput  null");
-            }
         }
 #else
          void OnCommandS2C(OperationData opData)

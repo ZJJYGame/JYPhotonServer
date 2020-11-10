@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MessagePack;
 using Cosmos;
-namespace AscensionServer
+using MessagePack;
+
+namespace Runner
 {
     public class ImplMessagePackHelper : IMessagePackHelper
     {
         public byte[] ToByteArray<T>(T obj)
         {
-            return MessagePackSerializer.Serialize(obj);
+           return MessagePackSerializer.Serialize(obj);
         }
         public string ToJson<T>(T obj)
         {
@@ -21,7 +22,7 @@ namespace AscensionServer
         }
         public object ToObject(byte[] buffer, Type objectType)
         {
-            return MessagePackSerializer.Deserialize(objectType, buffer);
+            return MessagePackSerializer.Deserialize(objectType,buffer);
         }
         public object ToObject(string json, Type objectType)
         {

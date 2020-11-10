@@ -854,11 +854,6 @@
             </summary>
             speed = -1 的话 代表这回合计算是宠物逃跑
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.DrugTeamHP(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32,AscensionServer.DrugData)">
-            <summary>
-            针对丹药的HP  回血    //缺少宠物的判断
-            </summary>
-        </member>
         <member name="M:AscensionServer.ServerBattleManager.TimestampBattleEnd(System.Int32)">
              <summary>
             针对每回合  开始倒计时
