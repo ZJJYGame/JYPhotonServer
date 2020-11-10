@@ -395,6 +395,7 @@ namespace AscensionServer
                         ObjectSpeed = (int)monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Attact_speed,
                     });
                 }
+                Utility.Debug.LogInfo("老陆 ，开始战斗的时候收集客户端一个请求");
                 if (MsqInfo<RolePet>(roleId).PetIsBattle == 0)
                     return allDataBase;
                 var petObject = MsqInfoPet<Pet>(MsqInfo<RolePet>(roleId).PetIsBattle, "ID");

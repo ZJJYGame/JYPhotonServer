@@ -798,6 +798,11 @@
             技能 添加buff
             </summary>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.RemoveBufferMethod(System.Collections.Generic.List{AscensionServer.BattleSkillRemoveBuffData},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            技能 移除buff
+            </summary>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerToSkillReturnBlood(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData)">
             <summary>
             2020.11.06 20:45
