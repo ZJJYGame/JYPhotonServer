@@ -788,6 +788,11 @@
             统一计算技能 单段 多段
             </summary>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.AddBufferMethod(System.Collections.Generic.List{AscensionServer.BattleSkillAddBuffData},System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32)">
+            <summary>
+            技能 添加buff
+            </summary>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerToSkillReturnBlood(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData)">
             <summary>
             2020.11.06 20:45
@@ -850,14 +855,19 @@
         <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToRunAway(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             组队逃跑   可以和并成一个 和单人逃跑的   需要去队伍中标记一下 是不是存在战斗中还是中途退出啦
-            需要继续完善
+            需要继续完善   ///TODO
             </summary>
             speed = -1 的话 代表这回合计算是宠物逃跑
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.DrugTeamHP(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32,AscensionServer.DrugData)">
+        <member name="M:AscensionServer.ServerBattleManager.SkillAddBuffer(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData,System.Int32)">
             <summary>
-            针对丹药的HP  回血    //缺少宠物的判断
+            技能添加Buffer
             </summary>
+            <param name="battleTransferDTOs"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="battleSkillData"></param>
+            <param name="special"></param>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.TimestampBattleEnd(System.Int32)">
              <summary>

@@ -1,4 +1,4 @@
-﻿ [
+﻿[
         {
             "name": "普攻",
             "id": 21001,
@@ -175,19 +175,7 @@
             "battleSkillTargetType": 0,
             "battleSkillActionType": 0,
             "attackProcessType": 1,
-            "battleSkillDamageNumDataList": [
-                {
-                    "battleSkillDamageType": 0,
-                    "fixedNum": 0,
-                    "baseNumSourceDataList": [
-                        {
-                            "battleSkillNumSourceType": 7,
-                            "mulitity": 100
-                        }
-                    ],
-                    "extraNumSourceData": []
-                }
-            ],
+            "battleSkillDamageNumDataList": [],
             "battleSkillAddBuffList": [
                 {
                     "buffId": 20000,
@@ -240,19 +228,7 @@
             "battleSkillTargetType": 0,
             "battleSkillActionType": 0,
             "attackProcessType": 0,
-            "battleSkillDamageNumDataList": [
-                {
-                    "battleSkillDamageType": 0,
-                    "fixedNum": 0,
-                    "baseNumSourceDataList": [
-                        {
-                            "battleSkillNumSourceType": 7,
-                            "mulitity": 100
-                        }
-                    ],
-                    "extraNumSourceData": []
-                }
-            ],
+            "battleSkillDamageNumDataList": [],
             "battleSkillAddBuffList": [
                 {
                     "buffId": 20000,
@@ -375,14 +351,7 @@
             "battleSkillTargetType": 0,
             "battleSkillActionType": 3,
             "attackProcessType": 0,
-            "battleSkillDamageNumDataList": [
-                {
-                    "battleSkillDamageType": 0,
-                    "fixedNum": 50,
-                    "baseNumSourceDataList": [],
-                    "extraNumSourceData": []
-                }
-            ],
+            "battleSkillDamageNumDataList": [],
             "battleSkillAddBuffList": [],
             "battleSkillRemoveBuffDataList": [],
             "battleSkillCostData": {
@@ -440,5 +409,131 @@
                 "fixedValue": 0
             },
             "battleSkillEventDataList": []
+        },
+        {
+            "name": "终结技",
+            "id": 21002,
+            "describe": "永远放不出来的技能",
+            "TargetNumber": 3,
+            "damageAddition": 0,
+            "critProp": 0,
+            "critDamage": 0,
+            "ignoreDefensive": 0,
+            "cd": 1,
+            "IsCloseAttack": true,
+            "battleSkillUseCondition": {
+                "battleSkillUseConditionType": 1,
+                "value": 50
+            },
+            "battleSkillFactionType": 0,
+            "battleSkillTargetType": 0,
+            "battleSkillActionType": 0,
+            "attackProcessType": 0,
+            "battleSkillDamageNumDataList": [
+                {
+                    "battleSkillDamageType": 0,
+                    "fixedNum": 0,
+                    "baseNumSourceDataList": [
+                        {
+                            "battleSkillNumSourceType": 7,
+                            "mulitity": 100
+                        },
+                        {
+                            "battleSkillNumSourceType": 8,
+                            "mulitity": 100
+                        },
+                        {
+                            "battleSkillNumSourceType": 10,
+                            "mulitity": 100
+                        }
+                    ],
+                    "extraNumSourceData": [
+                        {
+                            "battleSkillNumSourceType": 0,
+                            "mulitity": 10
+                        },
+                        {
+                            "battleSkillNumSourceType": 3,
+                            "mulitity": 10
+                        },
+                        {
+                            "battleSkillNumSourceType": 2,
+                            "mulitity": 10
+                        }
+                    ]
+                }
+            ],
+            "battleSkillAddBuffList": [
+                {
+                    "buffId": 20000,
+                    "round": 1,
+                    "TargetType": true,
+                    "buffValue": 0,
+                    "basePropList": [
+                        50,
+                        60,
+                        70
+                    ],
+                    "selfAddBuffProbability": {
+                        "battleSkillBuffProbSource": 5,
+                        "multiplyPropValue": 100,
+                        "fixedPropValue": 0,
+                        "addOrReduce": true
+                    },
+                    "targetAddBuffProbability": {
+                        "battleSkillBuffProbSource": 0,
+                        "multiplyPropValue": 10,
+                        "fixedPropValue": 0,
+                        "addOrReduce": false
+                    }
+                },
+                {
+                    "buffId": 20001,
+                    "round": 1,
+                    "TargetType": true,
+                    "buffValue": 15,
+                    "basePropList": [
+                        100,
+                        100,
+                        50
+                    ],
+                    "selfAddBuffProbability": {
+                        "battleSkillBuffProbSource": 5,
+                        "multiplyPropValue": 100,
+                        "fixedPropValue": 0,
+                        "addOrReduce": true
+                    },
+                    "targetAddBuffProbability": {
+                        "battleSkillBuffProbSource": 5,
+                        "multiplyPropValue": 100,
+                        "fixedPropValue": 0,
+                        "addOrReduce": true
+                    }
+                }
+            ],
+            "battleSkillRemoveBuffDataList": [
+                {
+                    "buffIdList": [
+                        20002
+                    ],
+                    "probability": 50
+                }
+            ],
+            "battleSkillCostData": {
+                "battleSkillCostType": 4,
+                "percentValue": 100,
+                "fixedValue": 0
+            },
+            "battleSkillEventDataList": [
+                {
+                    "battleSkillEventTriggerTime": 0,
+                    "battleSkillEventTriggerCondition": 3,
+                    "battleSkillEventTriggerNumSourceType": 0,
+                    "conditionPercentNum": 50,
+                    "conditionFixedNum": 0,
+                    "battleSkillTriggerEventType": 3,
+                    "EventValue": 20
+                }
+            ]
         }
     ]
