@@ -114,6 +114,9 @@ namespace AscensionServer
             return GameManager.CustomeModule<ServerTeamManager>()._teamTOModel.Values.ToList().Find(x => x.TeamMembers.Find(q => q.RoleID == roleId) != null);
         }
 
+      
+
+
         #region 战斗进入初始化
         /// <summary>
         /// 获取玩家 并初始化
@@ -154,8 +157,23 @@ namespace AscensionServer
                         RoleSpeedAttack = status.RoleSpeedAttack,
                         RoleVileSpawn = status.RoleVileSpawn,
                         RoleVitality = status.RoleVitality
-                    }
+                    },
+                    AmplifyDamage = 0,
+                    BasalEvasionRate = 0,
+                    CriteRate = 0,
+                    DamageFluctuations = 0,
+                    DamageReduction = 0,
+                    HitRate = 0,
+                    IgnoreDefense = 0,
+                    PhysicalDamage = 0,
+                    SpellRate = 0,
+                    SpellEvasionRate = 0,
+                    PhysicalEvasionRate = 0,
+                    SpellCrit = 0,
+                    PhysicalRate = 0,
+                    ReducedDamage = 0
                 });
+                 
             }
             else
             {
@@ -189,7 +207,21 @@ namespace AscensionServer
                             RoleSpeedAttack = status.RoleSpeedAttack,
                             RoleVileSpawn = status.RoleVileSpawn,
                             RoleVitality = status.RoleVitality
-                        }
+                        },
+                        AmplifyDamage = 0,
+                        BasalEvasionRate = 0,
+                        CriteRate = 0,
+                        DamageFluctuations = 0,
+                        DamageReduction = 0,
+                        HitRate = 0,
+                        IgnoreDefense = 0,
+                        PhysicalDamage = 0,
+                        SpellRate = 0,
+                        SpellEvasionRate = 0,
+                        PhysicalEvasionRate = 0,
+                        SpellCrit = 0,
+                        PhysicalRate = 0,
+                        ReducedDamage = 0
                     });
                 }
             }

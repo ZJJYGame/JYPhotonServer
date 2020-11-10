@@ -64,7 +64,7 @@ namespace AscensionProtocol.DTO
         /// <summary>
         /// 所有参战敌人的列表
         /// </summary>
-       public virtual List<EnemyBattleDataDTO> enemyUnits { get; set; }
+        public virtual List<EnemyBattleDataDTO> enemyUnits { get; set; }
         /// <summary>
         /// 所有参战宠物的列表
         /// </summary>
@@ -104,25 +104,75 @@ namespace AscensionProtocol.DTO
         public virtual int ObjectMP { get; set; }
         public virtual int ObjectSpeed { get; set; }
     }
+    /// <summary>
+    /// 战斗的基类接口
+    /// </summary>
+        /*
+         * 1.HitRate(命中率)
+         * 2.PhysicalDamage(物理暴击伤害)
+         * 3.SpellCrit(法术暴击伤害)
+         * 4.AmplifyDamage(伤害加深)
+         * 5.DamageReduction(伤害减免)
+         * 6.IgnoreDefense 忽视防御
+         * 7.DamageFluctuations 伤害波动
+         * 8.BasalEvasionRate 基础闪避率
+         * 9.PhysicalEvasionRate 物理闪避率
+         * 10.SpellEvasionRate 法术闪避率
+         * 11.PhysicalRate 物理暴击率
+         * 12.SpellRate 法术暴击率
+         * 13.CriteRate 爆免率
+         * 14.ReducedDamage 降爆伤害
+         **/
+    public interface IBattleDataBass
+    {
+          int HitRate { get; set; }
+        int PhysicalDamage { get; set; }
+        int SpellCrit { get; set; }
+        int AmplifyDamage { get; set; }
+        int DamageReduction { get; set; }
+        int IgnoreDefense { get; set; }
+        int DamageFluctuations { get; set; }
+        int BasalEvasionRate { get; set; }
+        int PhysicalEvasionRate { get; set; }
+        int SpellEvasionRate { get; set; }
+        int PhysicalRate { get; set; }
+        int SpellRate { get; set; }
+        int CriteRate { get; set; }
+        int ReducedDamage { get; set; }
+    }
 
 
     [Serializable]
-    public class RoleBattleDataDTO: BattleDataBase
+    public class RoleBattleDataDTO : BattleDataBase, IBattleDataBass
     {
         public virtual RoleStatusDTO RoleStatusDTO { get; set; }
+        public int HitRate { get; set; }
+        public int PhysicalDamage { get; set; }
+        public int SpellCrit { get; set; }
+        public int AmplifyDamage { get; set; }
+        public int DamageReduction { get; set; }
+        public int IgnoreDefense { get; set; }
+        public int DamageFluctuations { get; set; }
+        public int BasalEvasionRate { get; set; }
+        public int PhysicalEvasionRate { get; set; }
+        public int SpellEvasionRate { get; set; }
+        public int PhysicalRate { get; set; }
+        public int SpellRate { get; set; }
+        public int CriteRate { get; set; }
+        public int ReducedDamage { get; set; }
     }
     [Serializable]
-    public class PetBattleDataDTO: BattleDataBase
+    public class PetBattleDataDTO : BattleDataBase
     {
         public int RoleId { get; set; }
         public virtual PetStatusDTO PetStatusDTO { get; set; }
     }
     [Serializable]
-    public class EnemyBattleDataDTO: BattleDataBase
+    public class EnemyBattleDataDTO : BattleDataBase
     {
         public virtual int GlobalId { get; set; }
 
-        public virtual EnemyStatusDTO  EnemyStatusDTO { get; set; }
+        public virtual EnemyStatusDTO EnemyStatusDTO { get; set; }
     }
 
 
@@ -170,7 +220,7 @@ namespace AscensionProtocol.DTO
         /// 控制每回合的时间
         /// </summary>
         //public virtual TimerManager timer { get; set; }
-        public virtual BattleTransferDTO  petBattleTransferDTO { get; set; }
+        public virtual BattleTransferDTO petBattleTransferDTO { get; set; }
 
         /// <summary>
         /// 是否结束
@@ -201,9 +251,9 @@ namespace AscensionProtocol.DTO
         /// 触发技能数值
         /// </summary>
         public virtual int SkillReactionValue { get; set; }
-       /// <summary>
-       /// 每回合战斗指令
-       /// </summary>
+        /// <summary>
+        /// 每回合战斗指令
+        /// </summary>
         public virtual BattleCmd BattleCmd { get; set; }
         /// <summary>
         /// 目标值和  自身值 传递的都是一样的
@@ -217,7 +267,7 @@ namespace AscensionProtocol.DTO
             /// <summary>
             /// 目标id
             /// </summary>
-            public virtual  int TargetID { get; set; }
+            public virtual int TargetID { get; set; }
             /// <summary>
             /// 目标血量伤害
             /// </summary>
@@ -239,13 +289,13 @@ namespace AscensionProtocol.DTO
             /// 目标Buff
             /// </summary>
             public virtual int TargetBuff { get; set; }
-           
+
 
         }
         /// <summary>
         /// 所有玩家行动结束后结算护盾值
         /// </summary>
-        public virtual Dictionary<int,int> RoleIdShieldValueDict { get; set; }
+        public virtual Dictionary<int, int> RoleIdShieldValueDict { get; set; }
         #region 设计
 
         //所有玩家行动之前结算buff造成伤害
