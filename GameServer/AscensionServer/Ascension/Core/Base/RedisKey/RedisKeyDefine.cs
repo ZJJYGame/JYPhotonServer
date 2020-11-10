@@ -88,5 +88,9 @@ namespace AscensionServer
         ///仙盟内广播的消息内容的Key前缀
         /// </summary>
         public static readonly string _DailyMessagePerfix = "DailyMessage";
+        /// <summary>
+        /// 阵法记录删除回调的key前缀
+        /// </summary>
+        public static readonly string _DeldteTacticalPerfix = "Tactical";
     }
 }

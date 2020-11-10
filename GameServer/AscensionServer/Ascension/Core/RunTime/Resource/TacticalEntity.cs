@@ -1,14 +1,14 @@
 ﻿using Cosmos;
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AscensionData;
-using AscensionProtocol.DTO;
-using UnityEngine;
 using Protocol;
-using AscensionProtocol;
+using NHibernate.Linq.Clauses;
+using System.ServiceModel.Configuration;
+using AscensionProtocol.DTO;
 using RedisDotNet;
 
 namespace AscensionServer
@@ -21,36 +21,39 @@ namespace AscensionServer
 
         public int ID { get; set; }
         public TacticalDTO TacticalDTO { get; set; }
+        public TacticalEntity()
+        {
+            RoleID = -1 ;
+            LevelID = -1;
+            ID = -1;
+            TacticalDTO = new TacticalDTO();
+        }
 
         public void Onlnit(int id, int roleid,int levelid)
         {
             this.RoleID = roleid;
             this.ID = id;
             this.LevelID = levelid;
+            RedisManager.Instance.AddKeyExpireListener(RedisKeyDefine._DeldteTacticalPerfix + id, this.RedisDeleteCaback);
         }
-
-
         public void OnRefresh()
         {
-
 
         }
 
         public void RedisDeleteCaback(string key)
         {
-           TacticalDeploymentManager.Instance.RedisDeleteCaback(key);
+            GameManager.CustomeModule<TacticalDeploymentManager>().RedisDeleteCaback(key);
         }
 
         public static TacticalEntity Create(int id,int roleid, int levelid)
         {
-            TacticalEntity  tacticalEntity= GameManager.ReferencePoolManager.Spawn<TacticalEntity>();
-            tacticalEntity.Onlnit(id, roleid, levelid);
-            return tacticalEntity;
+            TacticalEntity  te= GameManager.ReferencePoolManager.Spawn<TacticalEntity>();
+            te.Onlnit(id, roleid, levelid);
+            return te;
         }
 
-/// <summary>
-/// 可能需要一个发送移除阵法的回调用于回收自己
-/// </summary>
+
 
         public void Clear()
         {

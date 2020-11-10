@@ -32,17 +32,14 @@ namespace AscensionServer
                 {
                     SetResponseParamters(() =>
                     {
-                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                        operationResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
-
-            }
-            else
-            {
-                SetResponseParamters(() => {
-                    operationResponse.ReturnCode = (short)ReturnCode.Success;
-                });
-                GameManager.CustomeModule<TacticalDeploymentManager>().TacticalCreateAdd(tacticObj);
+                else
+                    SetResponseParamters(() =>
+                    {
+                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
+                    });
             }
             return operationResponse;
         }

@@ -26,10 +26,11 @@ namespace AscensionServer
             //var result = GameManager.CustomeModule<TacticalDeploymentManager>().TryRemove(0, tacticObj.ID);
             //if (result)
             //{
-            //    GameManager.CustomeModule<TacticalDeploymentManager>().SendAllLevelRoleTactical(tacticObj,ReturnCode.Fail);
+            //    GameManager.CustomeModule<TacticalDeploymentManager>().SendAllLevelRoleTactical(tacticObj, ReturnCode.Fail);
             //}
             //else
-            //    SetResponseParamters(() => {
+            //    SetResponseParamters(() =>
+            //    {
             //        operationResponse.ReturnCode = (short)ReturnCode.Fail;
             //    });
             return operationResponse;
