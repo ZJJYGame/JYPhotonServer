@@ -821,6 +821,19 @@
             针对法宝的使用
             </summary>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.RunesDataToUser(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.RunesData)">
+            <summary>
+            符箓的使用
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.DrugDataToUser(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.DrugData)">
+            <summary>
+            丹药的使用
+            </summary>
+            <param name="battleTransferDTOs"></param>
+            <param name="roleId"></param>
+            <param name="drugData"></param>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerToRunAway(AscensionProtocol.DTO.BattleTransferDTO,System.Int32)">
             <summary>
             针对  单人逃跑的 返回计算处理
@@ -834,42 +847,12 @@
             <param name="roleId"></param>
             <param name="petId"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.DrugDataToUser(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,AscensionServer.DrugData,System.Int32)">
-            <summary>
-            丹药的使用
-            </summary>
-            <param name="battleTransferDTOs"></param>
-            <param name="roleId"></param>
-            <param name="drugData"></param>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.RunesDataToUser(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,AscensionServer.RunesData,System.Int32)">
-            <summary>
-            符箓的使用
-            </summary>
-        </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToRunAway(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             组队逃跑   可以和并成一个 和单人逃跑的   需要去队伍中标记一下 是不是存在战斗中还是中途退出啦
             需要继续完善
             </summary>
             speed = -1 的话 代表这回合计算是宠物逃跑
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.PlayerTeamToPropslnstruction(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32)">
-            <summary>
-            针对 组队道具 符箓和丹药
-            </summary>
-            <param name="battleTransferDTOs"></param>
-            <param name="roleId"></param>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.RunesDataTeamToUser(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.RunesData,System.Int32)">
-            <summary>
-            针对组队的符箓的使用
-            </summary>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.DrugDataTeamToUser(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32,AscensionServer.DrugData)">
-            <summary>
-            针对组队的丹药的使用
-            </summary>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.DrugTeamHP(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32,AscensionServer.DrugData)">
             <summary>

@@ -136,7 +136,6 @@ namespace AscensionServer
                     if (objectOwner == null)
                         continue;
                     var typeName = objectOwner.GetType().Name;
-                    //Utility.Debug.LogInfo("老陆 测试" + typeName);
                     //Utility.Debug.LogInfo("角色剩余的血量" + _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP);
                     switch (typeName)
                     {
@@ -150,15 +149,14 @@ namespace AscensionServer
                             {
                                 #region 针对道具
                                 case BattleCmd.PropsInstruction:
-                                    //if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
-                                        //PlayerToPropslnstruction(battleTransferDTOs, roleId);
+                                    if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
+                                        PlayerToPropslnstruction(battleTransferDTOs, roleId,roleId);
                                     break;
                                 #endregion
                                 #region 针对技能
                                 case BattleCmd.SkillInstruction:
                                     if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
                                         PlayerToSKillRelease(battleTransferDTOs, roleId, roleId);
-                                        //PlayerToRelease(battleTransferDTOs, roleId);
                                     break;
                                 #endregion
                                 #region 针对逃跑
@@ -199,7 +197,6 @@ namespace AscensionServer
                                 case BattleCmd.SkillInstruction:
                                     if (_teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP > 0)
                                         PlayerToSKillRelease(battleTransferDTOs.petBattleTransferDTO, roleId, battleTransferDTOs.petBattleTransferDTO.RoleId);
-                                        //PlayerToRelease(battleTransferDTOs.petBattleTransferDTO, roleId, 0, battleTransferDTOs.petBattleTransferDTO.RoleId);
                                     break;
                                 #endregion
                                 case BattleCmd.RunAwayInstruction:

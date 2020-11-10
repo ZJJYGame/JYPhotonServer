@@ -200,7 +200,6 @@ namespace AscensionServer
                 switch (typeName)
                 {
                     case "EnemyStatusDTO":
-                        //Utility.Debug.LogInfo("老陆 ，EnemyStatusDTOEnemyStatusDTO");
                         var enemyStatusData = objectOwner as EnemyStatusDTO;
                         Utility.Debug.LogInfo("剔除一个 ====》" + serverBattleManager._roomidToBattleTransfer[teampRoomId].Count);
                         ///返回一个当前要出手的人的个人属性   需要判断TODO
@@ -213,7 +212,6 @@ namespace AscensionServer
                             serverBattleManager.AIToRelease(serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex], enemyStatusData, tempRole, EnemyIndex);
                         break;
                     case "RoleStatusDTO":
-                        //Utility.Debug.LogInfo("老陆 ，RoleStatusDTORoleStatusDTO");
                         ///返回一个当前要出手的人的个人选择的传输的战斗数据
                         var speedCuurentTransfer = serverBattleManager._roomidToBattleTransfer[teampRoomId].Find(q => q.RoleId == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID);
                         ///返回一个当前要出手的人的个人属性
@@ -224,15 +222,13 @@ namespace AscensionServer
                             #region 针对道具
                             case BattleCmd.PropsInstruction:
                                 if (memberCuuentTranfer.RoleStatusDTO.RoleHP > 0)
-                                    serverBattleManager.PlayerTeamToPropslnstruction(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, memberCuuentTranferIndex);
+                                    serverBattleManager.PlayerToPropslnstruction(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID);
                                 break;
                             #endregion
                             #region 针对技能
                             case BattleCmd.SkillInstruction:
                                 if (memberCuuentTranfer.RoleStatusDTO.RoleHP > 0)
                                     PlayerToSKillRelease(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, memberCuuentTranferIndex);
-                                //serverBattleManager.PlayerTeamToRelease(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, memberCuuentTranferIndex);
-
                                 break;
                             #endregion
                             #region 针对逃跑 需要完善
@@ -261,19 +257,17 @@ namespace AscensionServer
                         if (petStatusDTO.PetHP <= 0)
                             continue;
                         var speedCuurentTransferPet = serverBattleManager._roomidToBattleTransfer[teampRoomId].Find(q => q.petBattleTransferDTO.RoleId == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId);
-                        //var memberCuuentTranferPet = serverBattleManager._teamIdToBattleInit[tempRole].petUnits.Find(x => x.PetStatusDTO.PetID == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId);
                         var memberCuuentTranferIndexPet = serverBattleManager._teamIdToBattleInit[tempRole].petUnits.FindIndex(x => x.PetStatusDTO.PetID == serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId);
                         switch (speedCuurentTransferPet.petBattleTransferDTO.BattleCmd)
                         {
                             #region 宠物道具
                             case BattleCmd.PropsInstruction:
-                                PlayerTeamToPropslnstruction(speedCuurentTransferPet.petBattleTransferDTO, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId, memberCuuentTranferIndexPet);
+                                PlayerToPropslnstruction(speedCuurentTransferPet.petBattleTransferDTO, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId);
                                 break;
                             #endregion
                             #region 宠物技能
                             case BattleCmd.SkillInstruction:
                                 PlayerToSKillRelease(speedCuurentTransferPet.petBattleTransferDTO, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId, memberCuuentTranferIndexPet);
-                                //serverBattleManager.PlayerTeamToRelease(speedCuurentTransferPet.petBattleTransferDTO, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectId, memberCuuentTranferIndexPet);
                                 break;
                             #endregion
                             #region 宠物逃跑
@@ -298,7 +292,6 @@ namespace AscensionServer
                 GameManager.CustomeModule<RoleManager>().SendMessage(serverTeamManager._teamTOModel[tempTeamId].TeamMembers[op].RoleID, opData);
             }
         }
-
       
         #endregion
     }
