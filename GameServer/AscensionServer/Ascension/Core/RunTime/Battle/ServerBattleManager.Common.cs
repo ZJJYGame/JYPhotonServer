@@ -171,10 +171,10 @@ namespace AscensionServer
                         playerUnitsSet[i].RoleStatusDTO.RoleHP += roleStatus.RoleHP;
                     if (roleStatus.RoleMP != 0)
                         playerUnitsSet[i].RoleStatusDTO.RoleMP += roleStatus.RoleMP;
-                    if (roleStatus.RoleShenhun != 0)
-                        playerUnitsSet[i].RoleStatusDTO.RoleShenhun += roleStatus.RoleShenhun;
-                    if (roleStatus.RoleSpeedAttack != 0)
-                        playerUnitsSet[i].RoleStatusDTO.RoleSpeedAttack += roleStatus.RoleSpeedAttack;
+                    if (roleStatus.RoleSoul != 0)
+                        playerUnitsSet[i].RoleStatusDTO.RoleSoul += roleStatus.RoleSoul;
+                    if (roleStatus.AttackSpeed != 0)
+                        playerUnitsSet[i].RoleStatusDTO.AttackSpeed += roleStatus.AttackSpeed;
                 
                 }
             }

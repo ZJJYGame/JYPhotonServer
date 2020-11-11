@@ -66,7 +66,7 @@ namespace AscensionServer
                 case SkillDefine.Affectable_Shenhun:
                     {
                         var costVar = rsd.RoleMaxMP * value.AffectPercent + value.AffectValue;
-                        if (rsd.RoleMaxShenhun >= costVar)
+                        if (rsd.RoleMaxSoul >= costVar)
                         {
                             valid = true;
                         }
@@ -77,7 +77,7 @@ namespace AscensionServer
                 case SkillDefine.Affectable_Jingxue:
                     {
                         var costVar = rsd.RoleMaxMP * value.AffectPercent + value.AffectValue;
-                        if (rsd.RoleMaxJingXue >= costVar)
+                        if (rsd.BestBloodMax >= costVar)
                         {
                             valid = true;
                         }

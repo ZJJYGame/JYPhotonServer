@@ -8,72 +8,76 @@ namespace AscensionProtocol.DTO
     public class RoleStatusDTO : DataTransferObject
     {
         public virtual int RoleID { get; set; }
-        public virtual int RoleMaxHP { get; set; }
+        public virtual int FreeAttributes { get; set; }
         public virtual int RoleHP { get; set; }
-        public virtual int RoleMaxMP { get; set; }
+        public virtual int RoleMaxHP { get; set; }
         public virtual int RoleMP { get; set; }
-        public virtual int RoleJingXue { get; set; }
-        public virtual int RoleMaxJingXue { get; set; }
-        public virtual int RoleAttackDamage { get; set; }
-        public virtual int RoleResistanceDamage { get; set; }
-        public virtual int RoleAttackPower { get; set; }
-        public virtual int RoleResistancePower { get; set; }
-        public virtual int RoleSpeedAttack { get; set; }
-        public virtual short RoleShenhun { get; set; }
-        public virtual short RoleMaxShenhun { get; set; }
-        public virtual int RoleShenHunDamage { get; set; }
-        public virtual int RoleShenHunResistance { get; set; }
-        public virtual byte RoleCrit { get; set; }
-        public virtual byte RoleCritResistance { get; set; }
-        public virtual int RoleDormant { get; set; }
-        public virtual int RoleVileSpawn { get; set; }//人物业障
-        public virtual int RoleVitality { get; set; }//人物活力
-        public virtual int RoleKillingIntent  { get; set; }//人物煞气
-        public virtual int RoleMoveSpeed { get; set; }
+        public virtual int RoleMaxMP { get; set; }
+        public virtual int RoleSoul { get; set; }
+        public virtual int RoleMaxSoul { get; set; }
+        public virtual short BestBlood { get; set; }
+        public virtual short BestBloodMax { get; set; }
+        public virtual int AttackSpeed { get; set; }
+        public virtual int AttackPhysical { get; set; }
+        public virtual int DefendPhysical { get; set; }
+        public virtual int AttackPower { get; set; }
+        public virtual int DefendPower { get; set; }
+        public virtual int PhysicalCritProb { get; set; }
+        public virtual int MagicCritProb { get; set; }
+        public virtual int ReduceCritProb { get; set; }
+        public virtual int PhysicalCritDamage { get; set; }
+        public virtual int MagicCritDamage { get; set; }
+        public virtual int ReduceCritDamage { get; set; }
+        public virtual int MoveSpeed { get; set; }
+        public virtual int RolePopularity { get; set; }
+        public virtual int RoleMaxPopularity { get; set; }
+        public virtual int ValueHide { get; set; }
         public override bool Equals(object obj)
         {
             RoleStatusDTO other = obj as RoleStatusDTO;
             if (other == null) return false;
             if (this.RoleID == other.RoleID && this.RoleHP == other.RoleHP && this.RoleMP == other.RoleMP
-                && this.RoleJingXue == other.RoleJingXue && this.RoleAttackDamage == other.RoleAttackDamage &&
-                this.RoleResistanceDamage == other.RoleResistanceDamage && this.RoleAttackPower == other.RoleAttackPower &&
-                this.RoleResistancePower == other.RoleResistancePower && this.RoleSpeedAttack == other.RoleSpeedAttack &&
-                this.RoleShenHunDamage == other.RoleShenHunDamage && this.RoleShenHunResistance == other.RoleShenHunResistance &&
-                this.RoleCrit == other.RoleCrit && this.RoleCritResistance == other.RoleCritResistance&&this.RoleDormant==other.RoleDormant&&this.RoleVileSpawn==other.RoleVileSpawn&&this.RoleVitality==other.RoleVitality&&this.RoleKillingIntent==other.RoleKillingIntent)
+                && this.BestBlood == other.BestBlood && this.BestBloodMax == other.BestBloodMax &&
+                this.AttackSpeed == other.AttackSpeed && this.AttackPhysical == other.AttackPhysical &&
+                this.DefendPhysical == other.DefendPhysical && this.AttackPower == other.AttackPower &&
+                this.DefendPower == other.DefendPower && this.PhysicalCritProb == other.PhysicalCritProb &&
+                this.MagicCritProb == other.MagicCritProb && this.ReduceCritProb == other.ReduceCritProb && this.PhysicalCritDamage == other.PhysicalCritDamage && this.MagicCritDamage == other.MagicCritDamage && this.ReduceCritDamage == other.ReduceCritDamage && this.MoveSpeed == other.MoveSpeed && this.RolePopularity == other.RolePopularity && this.RoleMaxPopularity == other.RoleMaxPopularity && this.ValueHide == other.ValueHide)
                 return true;
             else return false;
         }
         public override string ToString()
         {
             string str = "";
-            str += "roleid:" + RoleID + ">>roleHp" + RoleHP + ">>roleMP" + RoleMP + ">>roleShenhun" + RoleShenhun + ">>roleJingxue" + RoleJingXue;
+            str += "roleid:" + RoleID + ">>roleHp" + RoleHP + ">>roleMP" + RoleMP + ">>roleShenhun" + RoleSoul + ">>roleJingxue" + BestBlood;
             return str;
         }
         public override void Clear()
         {
             RoleID = -1;
-            RoleMaxHP = 0;
+            FreeAttributes = 0;
             RoleHP = 0;
-            RoleMaxMP = 0;
+            RoleMaxHP = 0;
             RoleMP = 0;
-            RoleJingXue = 0;
-            RoleMaxJingXue = 0;
-            RoleAttackDamage = 0;
-            RoleResistanceDamage = 0;
-            RoleAttackPower = 0;
-            RoleResistancePower = 0;
-            RoleSpeedAttack = 0;
-            RoleShenhun = 0;
-            RoleMaxShenhun = 0;
-            RoleShenHunDamage = 0;
-            RoleShenHunResistance = 0;
-            RoleCrit = 0;
-            RoleCritResistance = 0;
-            RoleDormant = 0;
-            RoleKillingIntent = 0;
-            RoleVitality = 0;
-            RoleVileSpawn = 0;
-            RoleMoveSpeed = 0;
+            RoleMaxMP = 0;
+            RoleSoul = 0;
+            RoleMaxSoul = 0;
+            BestBlood = 0;
+            BestBloodMax = 0;
+            AttackSpeed = 0;
+            AttackPhysical = 0;
+            DefendPhysical = 0;
+            AttackPower = 0;
+            DefendPower = 0;
+            PhysicalCritProb = 0;
+            MagicCritProb = 0;
+            ReduceCritProb = 0;
+            PhysicalCritDamage = 0;
+            MagicCritDamage = 0;
+            ReduceCritDamage = 0;
+            MoveSpeed = 0;
+            RolePopularity = 0;
+            RoleMaxPopularity = 0;
+            ValueHide = 0;
         }
     }
 }

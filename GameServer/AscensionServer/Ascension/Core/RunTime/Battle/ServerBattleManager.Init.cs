@@ -137,26 +137,29 @@ namespace AscensionServer
                     {
                         RoleID = status.RoleID,
                         RoleHP = status.RoleHP,
-                        RoleAttackDamage = status.RoleAttackDamage,
-                        RoleAttackPower = status.RoleAttackPower,
-                        RoleCrit = (byte)status.RoleCrit,
-                        RoleCritResistance = (byte)status.RoleCritResistance,
-                        RoleDormant = status.RoleDormant,
-                        RoleJingXue = status.RoleJingXue,
-                        RoleKillingIntent = status.RoleKillingIntent,
                         RoleMaxHP = status.RoleMaxHP,
-                        RoleMaxJingXue = status.RoleMaxJingXue,
                         RoleMaxMP = status.RoleMaxMP,
-                        RoleMaxShenhun = status.RoleMaxShenhun,
                         RoleMP = status.RoleMP,
-                        RoleResistanceDamage = status.RoleResistanceDamage,
-                        RoleResistancePower = status.RoleResistancePower,
-                        RoleShenhun = status.RoleShenhun,
-                        RoleShenHunDamage = status.RoleShenHunDamage,
-                        RoleShenHunResistance = status.RoleShenHunResistance,
-                        RoleSpeedAttack = status.RoleSpeedAttack,
-                        RoleVileSpawn = status.RoleVileSpawn,
-                        RoleVitality = status.RoleVitality
+                        AttackPower = status.AttackPower,
+                        AttackPhysical = status.AttackPhysical,
+                        DefendPhysical = status.DefendPhysical,
+                        DefendPower = status.DefendPower,
+                        AttackSpeed = status.AttackSpeed,
+                        BestBlood = status.BestBlood,
+                        ValueHide = status.ValueHide,
+                        BestBloodMax = status.BestBloodMax,
+                        FreeAttributes = status.FreeAttributes,
+                        MagicCritDamage = status.MagicCritDamage,
+                        MagicCritProb = status.MagicCritProb,
+                        MoveSpeed = status.MoveSpeed,
+                        PhysicalCritDamage = status.PhysicalCritDamage,
+                        PhysicalCritProb= status.PhysicalCritProb,
+                        ReduceCritDamage= status.ReduceCritDamage,
+                        ReduceCritProb= status.ReduceCritProb,
+                        RoleMaxPopularity= status.RoleMaxPopularity,
+                        RoleMaxSoul= status.RoleMaxSoul,
+                        RolePopularity= status.RolePopularity,
+                        RoleSoul= status.RoleSoul
                     },
                     AmplifyDamage = 0,
                     BasalEvasionRate = 0,
@@ -187,26 +190,29 @@ namespace AscensionServer
                         {
                             RoleID = team.TeamMembers[i].RoleID,
                             RoleHP = status.RoleHP,
-                            RoleAttackDamage = status.RoleAttackDamage,
-                            RoleAttackPower = status.RoleAttackPower,
-                            RoleCrit = (byte)status.RoleCrit,
-                            RoleCritResistance = (byte)status.RoleCritResistance,
-                            RoleDormant = status.RoleDormant,
-                            RoleJingXue = status.RoleJingXue,
-                            RoleKillingIntent = status.RoleKillingIntent,
                             RoleMaxHP = status.RoleMaxHP,
-                            RoleMaxJingXue = status.RoleMaxJingXue,
                             RoleMaxMP = status.RoleMaxMP,
-                            RoleMaxShenhun = status.RoleMaxShenhun,
                             RoleMP = status.RoleMP,
-                            RoleResistanceDamage = status.RoleResistanceDamage,
-                            RoleResistancePower = status.RoleResistancePower,
-                            RoleShenhun = status.RoleShenhun,
-                            RoleShenHunDamage = status.RoleShenHunDamage,
-                            RoleShenHunResistance = status.RoleShenHunResistance,
-                            RoleSpeedAttack = status.RoleSpeedAttack,
-                            RoleVileSpawn = status.RoleVileSpawn,
-                            RoleVitality = status.RoleVitality
+                            AttackPower = status.AttackPower,
+                            AttackPhysical = status.AttackPhysical,
+                            DefendPhysical = status.DefendPhysical,
+                            DefendPower = status.DefendPower,
+                            AttackSpeed = status.AttackSpeed,
+                            BestBlood = status.BestBlood,
+                            ValueHide = status.ValueHide,
+                            BestBloodMax = status.BestBloodMax,
+                            FreeAttributes = status.FreeAttributes,
+                            MagicCritDamage = status.MagicCritDamage,
+                            MagicCritProb = status.MagicCritProb,
+                            MoveSpeed = status.MoveSpeed,
+                            PhysicalCritDamage = status.PhysicalCritDamage,
+                            PhysicalCritProb = status.PhysicalCritProb,
+                            ReduceCritDamage = status.ReduceCritDamage,
+                            ReduceCritProb = status.ReduceCritProb,
+                            RoleMaxPopularity = status.RoleMaxPopularity,
+                            RoleMaxSoul = status.RoleMaxSoul,
+                            RolePopularity = status.RolePopularity,
+                            RoleSoul = status.RoleSoul
                         },
                         AmplifyDamage = 0,
                         BasalEvasionRate = 0,
@@ -382,7 +388,7 @@ namespace AscensionServer
             {
                 ///TODO 应该
                 var status = MsqInfo<RoleStatus>(roleId);
-                allDataBase.Add(new BattleDataBase() { ObjectName = MsqInfo<Role>(roleId).RoleName, ObjectHP = status.RoleHP, ObjectID = status.RoleID, ObjectMP = status.RoleMP, ObjectSpeed = status.RoleSpeedAttack });
+                allDataBase.Add(new BattleDataBase() { ObjectName = MsqInfo<Role>(roleId).RoleName, ObjectHP = status.RoleHP, ObjectID = status.RoleID, ObjectMP = status.RoleMP, ObjectSpeed = status.AttackSpeed });
                 for (int i = 0; i < battleInitDTO.enemyUnits.Count; i++)
                 {
                     allDataBase.Add(new BattleDataBase()
@@ -407,7 +413,7 @@ namespace AscensionServer
                 for (int oc = 0; oc < IsTeamDto(roleId).TeamMembers.Count; oc++)
                 {
                     var status = MsqInfo<RoleStatus>(IsTeamDto(roleId).TeamMembers[oc].RoleID);
-                    allDataBase.Add(new BattleDataBase() { ObjectName = MsqInfo<Role>(IsTeamDto(roleId).TeamMembers[oc].RoleID).RoleName, ObjectHP = status.RoleHP, ObjectID = status.RoleID, ObjectMP = status.RoleMP, ObjectSpeed = status.RoleSpeedAttack });
+                    allDataBase.Add(new BattleDataBase() { ObjectName = MsqInfo<Role>(IsTeamDto(roleId).TeamMembers[oc].RoleID).RoleName, ObjectHP = status.RoleHP, ObjectID = status.RoleID, ObjectMP = status.RoleMP, ObjectSpeed = status.AttackSpeed });
                 }
                 for (int i = 0; i < battleInitDTO.enemyUnits.Count; i++)
                 {
@@ -452,25 +458,28 @@ namespace AscensionServer
                 RoleID = roleId,
                 RoleHP = roleStatusSever.RoleHP,
                 RoleMaxMP = roleStatusSever.RoleMP,
-                RoleAttackDamage = roleStatusSever.RoleAttackDamage,
-                RoleResistanceDamage = roleStatusSever.RoleResistanceDamage,
-                RoleAttackPower = roleStatusSever.RoleAttackPower,
-                RoleResistancePower = roleStatusSever.RoleResistancePower,
-                RoleSpeedAttack = roleStatusSever.RoleSpeedAttack,
                 RoleMaxHP = roleStatusSever.RoleMaxHP,
-                RoleCrit = roleStatusSever.RoleCrit,
-                RoleCritResistance = roleStatusSever.RoleCritResistance,
-                RoleDormant = roleStatusSever.RoleDormant,
-                RoleJingXue = (short)roleStatusSever.RoleJingXue,
-                RoleKillingIntent = roleStatusSever.RoleKillingIntent,
-                RoleMaxJingXue = roleStatusSever.RoleMaxJingXue,
-                RoleMaxShenhun = roleStatusSever.RoleMaxShenhun,
                 RoleMP = roleStatusSever.RoleMP,
-                RoleShenhun = roleStatusSever.RoleShenhun,
-                RoleShenHunDamage = roleStatusSever.RoleShenHunDamage,
-                RoleShenHunResistance = roleStatusSever.RoleShenHunResistance,
-                RoleVileSpawn = roleStatusSever.RoleVileSpawn,
-                RoleVitality = roleStatusSever.RoleVitality
+                AttackPower = roleStatusSever.AttackPower,
+                AttackPhysical = roleStatusSever.AttackPhysical,
+                DefendPhysical = roleStatusSever.DefendPhysical,
+                DefendPower = roleStatusSever.DefendPower,
+                AttackSpeed = roleStatusSever.AttackSpeed,
+                BestBlood = (short)roleStatusSever.BestBlood,
+                ValueHide = roleStatusSever.ValueHide,
+                BestBloodMax = (short)roleStatusSever.BestBloodMax,
+                FreeAttributes = roleStatusSever.FreeAttributes,
+                MagicCritDamage = roleStatusSever.MagicCritDamage,
+                MagicCritProb = roleStatusSever.MagicCritProb,
+                MoveSpeed = roleStatusSever.MoveSpeed,
+                PhysicalCritDamage = roleStatusSever.PhysicalCritDamage,
+                PhysicalCritProb = roleStatusSever.PhysicalCritProb,
+                ReduceCritDamage = roleStatusSever.ReduceCritDamage,
+                ReduceCritProb = roleStatusSever.ReduceCritProb,
+                RoleMaxPopularity = roleStatusSever.RoleMaxPopularity,
+                RoleMaxSoul = roleStatusSever.RoleMaxSoul,
+                RolePopularity = roleStatusSever.RolePopularity,
+                RoleSoul = roleStatusSever.RoleSoul
             });
         }
 

@@ -60,38 +60,38 @@ namespace AscensionServer
                     //    roleStatusSever.RoleMP = 0;
                 }
 
-                if (roleObj.RoleAttackDamage != 0 )
+                if (roleObj.PhysicalCritDamage != 0 )
                 {
-                    roleStatusSever.RoleAttackDamage += roleObj.RoleAttackDamage;
+                    roleStatusSever.PhysicalCritDamage += roleObj.PhysicalCritDamage;
                     //if ((roleStatusSever.RoleAttackDamage + roleObj.RoleAttackDamage) < 0)
                     //    roleStatusSever.RoleAttackDamage = 0;
                 }
 
 
-                if (roleObj.RoleResistanceDamage != 0)
+                if (roleObj.DefendPhysical != 0)
                 {
-                    roleStatusSever.RoleResistanceDamage += roleObj.RoleResistanceDamage;
+                    roleStatusSever.DefendPhysical += roleObj.DefendPhysical;
                     //if ((roleStatusSever.RoleResistanceDamage + roleObj.RoleResistanceDamage) < 0)
                     //    roleStatusSever.RoleResistanceDamage = 0;
                 }
 
-                if (roleObj.RoleAttackPower != 0)
+                if (roleObj.AttackPower != 0)
                 {
-                    roleStatusSever.RoleAttackPower += roleObj.RoleAttackPower;
+                    roleStatusSever.AttackPower += roleObj.AttackPower;
                     //if ((roleStatusSever.RoleAttackPower + roleObj.RoleAttackPower) < 0)
                     //    roleStatusSever.RoleAttackPower = 0;
                 }
 
-                if (roleObj.RoleResistancePower != 0 )
+                if (roleObj.DefendPower != 0 )
                 {
-                    roleStatusSever.RoleResistancePower += roleObj.RoleResistancePower;
+                    roleStatusSever.DefendPower += roleObj.DefendPower;
                     //if ((roleStatusSever.RoleResistancePower + roleObj.RoleResistancePower) < 0)
                     //    roleStatusSever.RoleResistancePower = 0;
                 }
 
-                if (roleObj.RoleSpeedAttack != 0)
+                if (roleObj.AttackSpeed != 0)
                 {
-                    roleStatusSever.RoleSpeedAttack += roleObj.RoleSpeedAttack;
+                    roleStatusSever.AttackSpeed += roleObj.AttackSpeed;
                     //if ((roleStatusSever.RoleSpeedAttack + roleObj.RoleSpeedAttack) < 0)
                     //    roleStatusSever.RoleSpeedAttack = 0;
                 }
@@ -102,25 +102,8 @@ namespace AscensionServer
                     RoleID = roleObj.RoleID,
                     RoleHP = roleStatusSever.RoleHP,
                     RoleMaxMP = roleStatusSever.RoleMP,
-                    RoleAttackDamage = roleStatusSever.RoleAttackDamage,
-                    RoleResistanceDamage = roleStatusSever.RoleResistanceDamage,
-                    RoleAttackPower = roleStatusSever.RoleAttackPower,
-                    RoleResistancePower = roleStatusSever.RoleResistancePower,
-                    RoleSpeedAttack = roleStatusSever.RoleSpeedAttack,
-                    RoleMaxHP = roleStatusSever.RoleMaxHP,
-                    RoleCrit = roleStatusSever.RoleCrit,
-                    RoleCritResistance = roleStatusSever.RoleCritResistance,
-                    RoleDormant = roleStatusSever.RoleDormant,
-                    RoleJingXue = roleStatusSever.RoleJingXue,
-                    RoleKillingIntent = roleStatusSever.RoleKillingIntent,
-                    RoleMaxJingXue = roleStatusSever.RoleMaxJingXue,
-                    RoleMaxShenhun = roleStatusSever.RoleMaxShenhun,
-                    RoleMP = roleStatusSever.RoleMP,
-                    RoleShenhun = roleStatusSever.RoleShenhun,
-                    RoleShenHunDamage = roleStatusSever.RoleShenHunDamage,
-                    RoleShenHunResistance = roleStatusSever.RoleShenHunResistance,
-                    RoleVileSpawn = roleStatusSever.RoleVileSpawn,
-                    RoleVitality = roleStatusSever.RoleVitality
+                    RoleMaxHP = roleStatusSever.RoleMaxHP,            
+                    RoleMP = roleStatusSever.RoleMP,                   
                 });
                 operationResponse.Parameters = subResponseParameters;
                 operationResponse.ReturnCode = (short)ReturnCode.Success;

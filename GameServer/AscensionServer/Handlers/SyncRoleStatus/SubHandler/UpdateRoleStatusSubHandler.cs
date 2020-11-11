@@ -23,6 +23,10 @@ namespace AscensionServer
             Utility.Debug.LogInfo(">>>>>>>>>>>>VerifyRoleStatusHandler\n传输过来更新的战斗数据:" + rolestatusJson + "VerifyRoleStatusHandler\n<<<<<<<<<<<");
             var rolestatusObj = Utility.Json.ToObject<RoleStatus>(rolestatusJson);
             NHCriteria nHCriteriaRoleStatue = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolestatusObj.RoleID);
+    
+
+
+
             var result =NHibernateQuerier.Verify<RoleStatus>(nHCriteriaRoleStatue);
             if (result)
             {

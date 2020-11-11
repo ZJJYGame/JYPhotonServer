@@ -43,24 +43,10 @@ namespace AscensionServer
                 RoleLevel = roleTemp.RoleLevel,
                 RoleHP = roleStatusTemp.RoleHP,
                 RoleMP = roleStatusTemp.RoleMP,
-                RoleJingXue = roleStatusTemp.RoleJingXue,
-                RoleAttackDamage = roleStatusTemp.RoleAttackDamage,
-                RoleResistanceDamage = roleStatusTemp.RoleResistanceDamage,
-                RoleAttackPower = roleStatusTemp.RoleAttackPower,
-                RoleResistancePower = roleStatusTemp.RoleResistancePower,
-                RoleSpeedAttack = roleStatusTemp.RoleSpeedAttack,
-                RoleShenhun = roleStatusTemp.RoleShenhun,
-                RoleShenHunDamage = roleStatusTemp.RoleShenHunDamage,
-                RoleShenHunResistance = roleStatusTemp.RoleShenHunResistance,
-                RoleCrit = roleStatusTemp.RoleCrit,
-                RoleCritResistance = roleStatusTemp.RoleCritResistance,
-                RoleVileSpawn = roleStatusTemp.RoleVileSpawn,
-                RoleVitality = roleStatusTemp.RoleVitality,
                 RoleKillingIntent = roleBottleneckTemp.CraryVaule,
-                RoleDormant = roleStatusTemp.RoleDormant,
                 RoleID = roleTemp.RoleID,
                 RoleAllianceName = allianceStatusTemp.AllianceName,
-                RoleMoveSpeed = roleStatusTemp.RoleMoveSpeed
+
             };
             operationResponse.ReturnCode = (short)ReturnCode.Success;
             operationResponse.DebugMessage = Utility.Json.ToJson(adventurePlayerDTO);

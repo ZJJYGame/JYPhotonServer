@@ -12,97 +12,84 @@ namespace AscensionServer.Model
     {
         public RoleStatus()
         {
-
-            RoleMaxHP = 100;
+            FreeAttributes = 0;
             RoleHP = 488;
-            RoleMaxMP = 100;
+            RoleMaxHP = 100;
             RoleMP = 300;
-            RoleJingXue = 0;
-            RoleAttackDamage = 40;
-            RoleResistanceDamage = 40;
-            RoleAttackPower = 30;
-            RoleResistancePower = 40;
-            RoleSpeedAttack = 40;
-            RoleShenhun = 320;
-            RoleMaxShenhun = 60;
-            RoleShenHunDamage = 10;
-            RoleShenHunResistance = 10;
-            RoleCrit = 0;
-            RoleCritResistance = 0;
-            RoleDormant = 10;
-            RoleKillingIntent = 0;
-            RoleVitality = 0;
-            RoleVileSpawn = 0;
-            RoleMaxJingXue = 0;
-            RoleMoveSpeed = 3;
-        }
-        /// <summary>
+            RoleMaxMP = 100;
+            RoleSoul = 100;
+            RoleMaxSoul = 100;
+            BestBlood = 100;
+            BestBloodMax = 100;
+            AttackSpeed = 100;
+            AttackPhysical = 100;
+            DefendPhysical = 100;
+            AttackPower = 100;
+            DefendPower = 100;
+            PhysicalCritProb = 100;
+            MagicCritProb = 100;
+            ReduceCritProb = 100;
+            PhysicalCritDamage = 100;
+            MagicCritDamage = 100;
+            ReduceCritDamage = 100;
+            MoveSpeed = 100;
+            RolePopularity = 100;
+            RoleMaxPopularity = 100;
+            ValueHide = 100;
+        }       /// <summary>
         /// 角色id
-        /// 角色最大血量
+        /// 角色属性点
         /// 角色血量
-        /// 角色最大灵力
-        /// 角色灵力
-        /// 角色精血
-        /// 角色物理伤害
-        /// 角色物理防御
-        /// 角色攻击力
-        /// 角色防御力
-        /// 角色攻击速度
+        /// 角色最大血量
+        /// 角色真元
+        /// 角色最大真元
         /// 角色神魂
         /// 角色最大神魂
-        /// 角色神魂攻击
-        /// 角色神魂防御
-        /// 角色暴击
-        /// 角色暴击防御
-        /// 角色隐匿值
+        /// 角色精血
+        /// 攻击速度
+        /// 物理攻击
+        /// 物理防御
+        /// 法术攻击
+        /// 法术防御
+        /// 物理暴击几率
+        /// 法术暴击几率
+        /// 暴免率
+        /// 物理暴击伤害
+        /// 法术暴击伤害
+        /// 防暴伤害
+        /// 移动速度
+        /// 业果值
+        /// 最大业果值(最大值为固定值及表中初始数值)
+        /// 隐匿值
         /// </summary>
         public virtual int RoleID { get; set; }
-        public virtual int RoleMaxHP { get; set; }
+        public virtual int FreeAttributes { get; set; }
         public virtual int RoleHP { get; set; }
-        public virtual int RoleMaxMP { get; set; }
+        public virtual int RoleMaxHP { get; set; }
         public virtual int RoleMP { get; set; }
-        public virtual short RoleJingXue { get; set; }
-        public virtual int RoleMaxJingXue { get; set; }
-        public virtual int RoleAttackDamage { get; set; }
-        public virtual int RoleResistanceDamage { get; set; }
-        public virtual int RoleAttackPower { get; set; }
-        public virtual int RoleResistancePower { get; set; }
-        public virtual int RoleSpeedAttack { get; set; }
-        public virtual short RoleShenhun { get; set; }
-        public virtual short RoleMaxShenhun { get; set; }
-        public virtual int RoleShenHunDamage { get; set; }
-        public virtual int RoleShenHunResistance { get; set; }
-        public virtual short RoleCrit { get; set; }
-        public virtual short RoleCritResistance { get; set; }
-        public virtual int RoleDormant { get; set; }
-        public virtual int RoleVileSpawn { get; set; }//人物业障
-        public virtual int RoleVitality { get; set; }//人物活力
-        public virtual int RoleKillingIntent { get; set; }//人物煞气
-        public virtual int RoleMoveSpeed { get; set; }
+        public virtual int RoleMaxMP { get; set; }
+        public virtual int RoleSoul { get; set; }
+        public virtual int RoleMaxSoul { get; set; }
+        public virtual short BestBlood { get; set; }
+        public virtual short BestBloodMax { get; set; }
+        public virtual int AttackSpeed { get; set; }
+        public virtual int AttackPhysical { get; set; }
+        public virtual int DefendPhysical { get; set; }
+        public virtual int AttackPower { get; set; }
+        public virtual int DefendPower { get; set; }
+        public virtual int PhysicalCritProb { get; set; }
+        public virtual int MagicCritProb { get; set; }
+        public virtual int ReduceCritProb { get; set; }
+        public virtual int PhysicalCritDamage { get; set; }
+        public virtual int MagicCritDamage { get; set; }
+        public virtual int ReduceCritDamage { get; set; }
+        public virtual int MoveSpeed { get; set; }
+        public virtual int RolePopularity { get; set; }
+        public virtual int RoleMaxPopularity { get; set; }
+        public virtual int ValueHide { get; set; }
         public override void Clear()
         {
-            RoleID = -1;
-            RoleMaxHP = 0;
-            RoleHP = 0;
-            RoleMaxMP = 0;
-            RoleMP = 0;
-            RoleJingXue = 0;
-            RoleAttackDamage = 0;
-            RoleResistanceDamage = 0;
-            RoleAttackPower = 0;
-            RoleResistancePower = 0;
-            RoleSpeedAttack = 0;
-            RoleShenhun = 0;
-            RoleMaxShenhun = 0;
-            RoleShenHunDamage = 0;
-            RoleShenHunResistance = 0;
-            RoleCrit = 0;
-            RoleCritResistance = 0;
-            RoleDormant = 0;
-            RoleKillingIntent = 0;
-            RoleVitality = 0;
-            RoleVileSpawn = 0;
-            RoleMoveSpeed = 0;
+            
         }
     }
 }

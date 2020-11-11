@@ -185,15 +185,15 @@ namespace AscensionServer
                         break;
                     case BattleSkillNumSourceType.MaxShenHun:
                         if (addBuffDataSet[og].selfAddBuffProbability.addOrReduce)
-                            selfTempValue = (tempSet.RoleStatusDTO.RoleMaxShenhun * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
+                            selfTempValue = (tempSet.RoleStatusDTO.RoleMaxSoul * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
                         else
-                            selfTempValue = - (tempSet.RoleStatusDTO.RoleMaxShenhun * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
+                            selfTempValue = - (tempSet.RoleStatusDTO.RoleMaxSoul * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
                         break;
                     case BattleSkillNumSourceType.NowShenHun:
                         if (addBuffDataSet[og].selfAddBuffProbability.addOrReduce)
-                            selfTempValue = (tempSet.RoleStatusDTO.RoleShenhun * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
+                            selfTempValue = (tempSet.RoleStatusDTO.RoleSoul * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
                         else
-                            selfTempValue = -(tempSet.RoleStatusDTO.RoleShenhun * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
+                            selfTempValue = -(tempSet.RoleStatusDTO.RoleSoul * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
                         break;
                     case BattleSkillNumSourceType.PhysicAttack:
                         break;
@@ -205,9 +205,9 @@ namespace AscensionServer
                         break;
                     case BattleSkillNumSourceType.AttackSpeed:
                         if (addBuffDataSet[og].selfAddBuffProbability.addOrReduce)
-                            selfTempValue = (tempSet.RoleStatusDTO.RoleSpeedAttack * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
+                            selfTempValue = (tempSet.RoleStatusDTO.AttackSpeed * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
                         else
-                            selfTempValue = -(tempSet.RoleStatusDTO.RoleSpeedAttack * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
+                            selfTempValue = -(tempSet.RoleStatusDTO.AttackSpeed * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
                         break;
                 }
 
@@ -245,15 +245,15 @@ namespace AscensionServer
                         break;
                     case BattleSkillNumSourceType.MaxShenHun:
                         if (addBuffDataSet[og].selfAddBuffProbability.addOrReduce)
-                            targetTempValue = (tempSet.RoleStatusDTO.RoleMaxShenhun * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
+                            targetTempValue = (tempSet.RoleStatusDTO.RoleMaxSoul * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
                         else
-                            targetTempValue = -(tempSet.RoleStatusDTO.RoleMaxShenhun * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
+                            targetTempValue = -(tempSet.RoleStatusDTO.RoleMaxSoul * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
                         break;
                     case BattleSkillNumSourceType.NowShenHun:
                         if (addBuffDataSet[og].selfAddBuffProbability.addOrReduce)
-                            targetTempValue = (tempSet.RoleStatusDTO.RoleShenhun * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
+                            targetTempValue = (tempSet.RoleStatusDTO.RoleSoul * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
                         else
-                            targetTempValue = -(tempSet.RoleStatusDTO.RoleShenhun * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
+                            targetTempValue = -(tempSet.RoleStatusDTO.RoleSoul * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
                         break;
                     case BattleSkillNumSourceType.PhysicAttack:
                         break;
@@ -265,9 +265,9 @@ namespace AscensionServer
                         break;
                     case BattleSkillNumSourceType.AttackSpeed:
                         if (addBuffDataSet[og].selfAddBuffProbability.addOrReduce)
-                            targetTempValue = (tempSet.RoleStatusDTO.RoleSpeedAttack * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
+                            targetTempValue = (tempSet.RoleStatusDTO.AttackSpeed * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
                         else
-                            targetTempValue = -(tempSet.RoleStatusDTO.RoleSpeedAttack * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
+                            targetTempValue = -(tempSet.RoleStatusDTO.AttackSpeed * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
                         break;
                 }
 
