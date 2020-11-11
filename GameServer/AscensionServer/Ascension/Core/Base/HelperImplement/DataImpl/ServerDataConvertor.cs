@@ -31,9 +31,7 @@ namespace AscensionServer
             //Utility.Debug.LogInfo("<DataManager> 测试 ConvertData");
             try
             {
-
-
-                #region 宗门藏宝阁/藏经阁/瓶颈/心魔/仙盟等级/仙盟签到/秘术属性
+                #region 宗门藏宝阁/藏经阁/瓶颈/心魔/仙盟等级/仙盟签到/秘术属性/人物属性
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(FactionItemData).Name, out var factionitemdata);
                 var factionitemDataDict = TransObject<List<FactionItemData>>(factionitemdata).ToDictionary(key => key.FactionItemId, value => value.FactionItem);
 
@@ -54,6 +52,9 @@ namespace AscensionServer
 
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(MiShuData).Name, out var mishuData);
                 var mishuDataDict = TransObject<List<MiShuData>>(mishuData).ToDictionary(key => key.Mishu_ID, value => value.mishuSkillDatas);
+
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(RoleStatusDatas).Name, out var roleStatusDatas);
+                var roleStatusDatasDict = TransObject<List<RoleStatusDatas>>(roleStatusDatas).ToDictionary(key => key.LevelID, value => value);
                 #endregion
 
 
@@ -88,6 +89,7 @@ namespace AscensionServer
                 var battleSkillDict = TransObject<List<BattleSkillData>>(battleSkillSet).ToDictionary(key => key.id, value => value);
                 #endregion
 
+                GameManager.CustomeModule<DataManager>().TryAdd(roleStatusDatasDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(mishuDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(allianceSigninDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(alliancelevledataDict);
@@ -105,9 +107,6 @@ namespace AscensionServer
                 GameManager.CustomeModule<DataManager>().TryAdd(runesDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(magicDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(battleSkillDict);
-
-                //GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MiShuData>>(out var set);
-                //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + Utility.Json.ToJson(set));
                 //GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MonsterDatas>>(out var set);
                 //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + skillGongFaDict[21001].Skill_Describe);
                 //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + skillMiShuDict[21009].Skill_Describe);

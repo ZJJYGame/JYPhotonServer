@@ -16,11 +16,17 @@ namespace AscensionServer
     public class TacticalEntity :Entity, IReference,IRefreshable
     {
         public int RoleID { get; set; }
-
+        FixVector3 s2sPos;
         public int LevelID { get; set; }
 
         public int ID { get; set; }
         public TacticalDTO TacticalDTO { get; set; }
+        
+        /// <summary>
+        /// 触碰或进入玩家ID
+        /// </summary>
+        public int PlayerId { get ; set ; }
+
         public TacticalEntity()
         {
             RoleID = -1 ;
@@ -39,6 +45,8 @@ namespace AscensionServer
         public void OnRefresh()
         {
 
+
+
         }
 
         public void RedisDeleteCaback(string key)
@@ -53,11 +61,14 @@ namespace AscensionServer
             return te;
         }
 
-
-
         public void Clear()
         {
+         
+        }
 
+        public void GetDistance()
+        {
+       
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Cosmos;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Concurrent;
 using AscensionProtocol.DTO;
 using Protocol;
 using AscensionProtocol;
@@ -12,23 +13,22 @@ namespace AscensionServer
     [CustomeModule]
     public class TacticalDeploymentManager : Module<TacticalDeploymentManager>
     {
-
-        Dictionary<int, Dictionary<int, TacticalDTO>> AllTacticalDict { get; set; }
-
+        ConcurrentDictionary<int, ConcurrentDictionary<int, TacticalDTO>> AllTacticalDict { get; set; }
+        ConcurrentDictionary<int, RoleEntity> roleDict;
         int AllTacticalCount { get; set; }
         /// <summary>
         /// 记录确认创建的阵法实体
         /// </summary>
-        Dictionary<int, TacticalEntity> TacticalEntityDict { get; set; }
+        ConcurrentDictionary<int, TacticalEntity> TacticalEntityDict { get; set; }
         /// <summary>
         /// 记录临时储存的阵法，用于打断后撤销,key为roleid
         /// </summary>
-        Dictionary<int, TacticalEntity> roletacticaltemp { get; set; }
+        ConcurrentDictionary<int, TacticalEntity> roletacticaltemp { get; set; }
         /// <summary>
         /// 通过Redis返回的值取总集合中value移除，list下标0为地图id,1为阵法自增ID
         /// </summary>
-        Dictionary<string, TacticalDTO> RecordDelTactical { get; set; }
-        Dictionary<int, List<TacticalDTO>>RoleTactical { get; set; }
+        ConcurrentDictionary<string, TacticalDTO> RecordDelTactical { get; set; }
+        ConcurrentDictionary<int, List<TacticalDTO>>RoleTactical { get; set; }
 
         List<int> ExpendTacticalID { get;  set; }
 
@@ -44,12 +44,13 @@ namespace AscensionServer
 
         public override void OnInitialization()
         {
-            AllTacticalDict = new Dictionary<int, Dictionary<int, TacticalDTO>>();
-            TacticalEntityDict = new Dictionary<int, TacticalEntity>();
-            roletacticaltemp = new Dictionary<int, TacticalEntity>();
-            RecordDelTactical = new Dictionary<string, TacticalDTO>();
+            AllTacticalDict = new ConcurrentDictionary<int, ConcurrentDictionary<int, TacticalDTO>>();
+            TacticalEntityDict = new ConcurrentDictionary<int, TacticalEntity>();
+            roletacticaltemp = new ConcurrentDictionary<int, TacticalEntity>();
+            RecordDelTactical = new ConcurrentDictionary<string, TacticalDTO>();
             ExpendTacticalID = new List<int>();
-            RoleTactical = new Dictionary<int, List<TacticalDTO>>();
+            RoleTactical = new ConcurrentDictionary<int, List<TacticalDTO>>();
+            roleDict = new ConcurrentDictionary<int, RoleEntity>();
         }
 
         public override void OnPreparatory()
@@ -93,7 +94,7 @@ namespace AscensionServer
             if (result)
             {
                 tacticalDTO = tacticalEntity.TacticalDTO;
-                roletacticaltemp.Remove(roleid);
+                roletacticaltemp.TryRemove(roleid,out var tactical);
                 RedisHelper.String.StringSet(RedisKeyDefine._DeldteTacticalPerfix + tacticalDTO.ID, tacticalDTO.RoleID.ToString(), new TimeSpan(0, 0, 0, tacticalDTO.Duration));
                 RecordDelTactical.TryAdd("JY_Tactical" + tacticalDTO.ID, tacticalDTO);
                 SendAllLevelRoleTactical(tacticalDTO, ReturnCode.Success);
@@ -119,11 +120,14 @@ namespace AscensionServer
                 {
                     ExpendTacticalID.Remove(tacticalEntity.ID);
                 }
-                roletacticaltemp.Remove(roleid);
+                roletacticaltemp.TryRemove(roleid,out var tactical);
                 GameManager.ReferencePoolManager.Despawn(tacticalEntity);
             }
         }
-
+        /// <summary>
+        /// 获取自增ID
+        /// </summary>
+        /// <returns></returns>
         public int GetExpendTacticalID()
         {
             int id = 0;
@@ -142,7 +146,7 @@ namespace AscensionServer
         /// <param name="roleId"></param>
         /// <param name="tactical"></param>
         /// <returns></returns>
-        public bool TryGetValue(int levelid, out Dictionary<int, TacticalDTO> tacticalDeployment)
+        public bool TryGetValue(int levelid, out ConcurrentDictionary<int, TacticalDTO> tacticalDeployment)
         {
             return AllTacticalDict.TryGetValue(levelid, out tacticalDeployment);
         }
@@ -155,7 +159,7 @@ namespace AscensionServer
             }
             else
             {
-                tacticalDict = new Dictionary<int, TacticalDTO>();
+                tacticalDict = new ConcurrentDictionary<int, TacticalDTO>();
                 tacticalDict.TryAdd(tacticalEntity.ID, tacticalEntity.TacticalDTO);
                 return AllTacticalDict.TryAdd(levelid, tacticalDict);
             }
@@ -211,12 +215,12 @@ namespace AscensionServer
             {
                 if (tacticalDict.ContainsKey(tacticalDTO.ID))
                 {
-                    tacticalDict.Remove(tacticalDTO.ID);
+                    tacticalDict.TryRemove(tacticalDTO.ID,out var tactical);
                 }
             }
             if (TacticalEntityDict.TryGetValue(tacticalDTO.ID, out var tacticalEntity))
             {
-                TacticalEntityDict.Remove(tacticalDTO.ID);
+                TacticalEntityDict.TryRemove(tacticalDTO.ID,out var tactical);
                 ExpendTacticalID.Add(tacticalDTO.ID);
                 GameManager.ReferencePoolManager.Despawn(tacticalEntity);
             }
@@ -229,7 +233,6 @@ namespace AscensionServer
         /// <param name="returnCode">成功为生成，失败为销毁</param>
         public void SendAllLevelRoleTactical(TacticalDTO tacticalDTO, ReturnCode returnCode)
         {
-            //Utility.Debug.LogInfo("yzqData对阵法的操作及数据" + Utility.Json.ToJson(tacticalDTO) + ">>>>>>>" + returnCode);
             OperationData operationData = new OperationData();
             operationData.DataMessage = Utility.Json.ToJson(tacticalDTO);
             operationData.ReturnCode = (short)returnCode;
@@ -244,7 +247,7 @@ namespace AscensionServer
             var result = RecordDelTactical.TryGetValue(key, out var tacticalEntity);
             if (result)
             {
-                if (TryGetValue(tacticalEntity.LevelID, out Dictionary<int, TacticalDTO> tacticalDict))
+                if (TryGetValue(tacticalEntity.LevelID, out ConcurrentDictionary<int, TacticalDTO> tacticalDict))
                 {
                     GameManager.CustomeModule<TacticalDeploymentManager>().GetRoleTactic(tacticalEntity.RoleID, out List<TacticalDTO> roletactical);
                     roletactical.Remove(tacticalDict[tacticalEntity.ID]);
@@ -256,7 +259,7 @@ namespace AscensionServer
                     }
                     TryRemove(tacticalDict[tacticalEntity.ID]);
                     ExpendTacticalID.Add(tacticalEntity.ID);     
-                    RecordDelTactical.Remove(key);
+                    RecordDelTactical.TryRemove(key,out var tacticalDTO);
                 }
             }
         }
@@ -293,6 +296,7 @@ namespace AscensionServer
                 operationData.OperationCode = (byte)OperationCode.SyncCreatTactical;
                 GameManager.CustomeModule<RoleManager>().SendMessage(roleEntity.RoleId, operationData);
                 //Utility.Debug.LogInfo("yzqData发送的全部阵法" + Utility.Json.ToJson(AllTacticalDict) + "juese id " + roleEntity.RoleId);
+                roleDict.TryAdd(roleEntity.RoleId, roleEntity);
             }
         }
   }

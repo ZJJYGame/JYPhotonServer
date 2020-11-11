@@ -20,7 +20,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -177,6 +177,7 @@
     <Compile Include="Ascension\Core\Base\DataObject\MagicWeaponData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MiShuData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MonsterDatas.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\RoleStatusDatas.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RunesData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\SkillGongFaDatas.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\SkillMiShuDatas.cs" />
@@ -187,6 +188,7 @@
     <Compile Include="Ascension\Core\Base\HelperImplement\RecordHelper\RecordHelper.cs" />
     <Compile Include="Ascension\Core\Base\RedisData\RedisData.ReidsDataProcessing.cs" />
     <Compile Include="Ascension\Core\Base\RedisKey\RedisKeyDefine.cs" />
+    <Compile Include="Ascension\Core\Base\StatusCalculate\StatusCalculateHelper.cs" />
     <Compile Include="Ascension\Core\Base\Stream\DataStream.cs" />
     <Compile Include="Ascension\Core\Base\Stream\DataStreamQueue.cs" />
     <Compile Include="Ascension\Core\RunTime\Alliancelogic\AllianceEventCore.cs" />
@@ -689,6 +691,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonData\RunesData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\RoleStatusDatas.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="Plugin\ExitGames.Logging.Log4Net.dll" />
