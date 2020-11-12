@@ -224,6 +224,8 @@ namespace AscensionServer
                 Utility.Debug.LogInfo("老陆 ，开始战斗的时候收集客户端一个请求"+ _roomidToBattleTransfer[roomId].Count);
             }
         }
+
+
         /// 战斗结束
         /// </summary>
         public void BattleEnd(int RoomId)
@@ -232,6 +234,8 @@ namespace AscensionServer
             var roleStatusSever = _teamIdToBattleInit[tempRoleId].playerUnits[0].RoleStatusDTO;
             PlayerBattleEndInfo(tempRoleId, roleStatusSever);
         }
+
+
 
         /// <summary>
         /// 战斗逃跑

@@ -38,7 +38,7 @@ namespace AscensionServer
                     string roleStatusJson = Utility.Json.ToJson(roleStatus);
                     RoleRing roleRing = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleId);
 
-                    SetResponseParamters(() => { subResponseParameters.Add((byte)ParameterCode.RoleStatus, roleStatusJson); subResponseParameters.Add((byte)ParameterCode.Inventory, roleRing.RingIdArray); });
+                    SetResponseParamters(() => { subResponseParameters.Add((byte)ParameterCode.RoleStatus, roleStatusJson); subResponseParameters.Add((byte)ParameterCode.Inventory, roleRing.RingIdArray.ToString()); });
                     operationResponse.ReturnCode = (short)ReturnCode.Success;
                     GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleId);
                 }

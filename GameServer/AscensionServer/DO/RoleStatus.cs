@@ -13,29 +13,29 @@ namespace AscensionServer.Model
         public RoleStatus()
         {
             FreeAttributes = 0;
-            RoleHP = 488;
-            RoleMaxHP = 100;
-            RoleMP = 300;
-            RoleMaxMP = 100;
-            RoleSoul = 100;
-            RoleMaxSoul = 100;
-            BestBlood = 100;
-            BestBloodMax = 100;
-            AttackSpeed = 100;
-            AttackPhysical = 100;
-            DefendPhysical = 100;
-            AttackPower = 100;
-            DefendPower = 100;
-            PhysicalCritProb = 100;
-            MagicCritProb = 100;
-            ReduceCritProb = 100;
-            PhysicalCritDamage = 100;
-            MagicCritDamage = 100;
-            ReduceCritDamage = 100;
-            MoveSpeed = 100;
-            RolePopularity = 100;
-            RoleMaxPopularity = 100;
-            ValueHide = 100;
+            RoleHP = 10000;
+            RoleMaxHP = 10000;
+            RoleMP = 10000;
+            RoleMaxMP = 10000;
+            RoleSoul = 10000;
+            RoleMaxSoul = 10000;
+            BestBlood = 10000;
+            BestBloodMax = 10000;
+            AttackSpeed = 10000;
+            AttackPhysical = 10000;
+            DefendPhysical = 10000;
+            AttackPower = 10000;
+            DefendPower = 10000;
+            PhysicalCritProb = 10000;
+            MagicCritProb = 10000;
+            ReduceCritProb = 10000;
+            PhysicalCritDamage = 10000;
+            MagicCritDamage = 10000;
+            ReduceCritDamage = 10000;
+            MoveSpeed = 10000;
+            RolePopularity = 10000;
+            RoleMaxPopularity = 10000;
+            ValueHide = 10000;
         }       /// <summary>
         /// 角色id
         /// 角色属性点
@@ -87,9 +87,36 @@ namespace AscensionServer.Model
         public virtual int RolePopularity { get; set; }
         public virtual int RoleMaxPopularity { get; set; }
         public virtual int ValueHide { get; set; }
+        public virtual int GongfaLearnSpeed { get; set; }
+        public virtual int MishuLearnSpeed { get; set; }
         public override void Clear()
         {
-            
+            FreeAttributes = 0;
+            RoleHP = 10000;
+            RoleMaxHP = 10000;
+            RoleMP = 10000;
+            RoleMaxMP = 10000;
+            RoleSoul = 10000;
+            RoleMaxSoul = 10000;
+            BestBlood = 10000;
+            BestBloodMax = 10000;
+            AttackSpeed = 10000;
+            AttackPhysical = 10000;
+            DefendPhysical = 10000;
+            AttackPower = 10000;
+            DefendPower = 10000;
+            PhysicalCritProb = 10000;
+            MagicCritProb = 10000;
+            ReduceCritProb = 10000;
+            PhysicalCritDamage = 10000;
+            MagicCritDamage = 10000;
+            ReduceCritDamage = 10000;
+            MoveSpeed = 10000;
+            RolePopularity = 10000;
+            RoleMaxPopularity = 10000;
+            ValueHide = 10000;
+            GongfaLearnSpeed = 10000;
+            MishuLearnSpeed = 10000;
         }
     }
 }

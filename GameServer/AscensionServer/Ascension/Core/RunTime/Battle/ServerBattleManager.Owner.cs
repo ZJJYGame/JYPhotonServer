@@ -91,11 +91,6 @@ namespace AscensionServer
         {
             battleTransferDTOs.ClientCmdId = battleTransferDTOs.BattleCmd == BattleCmd.PropsInstruction || battleTransferDTOs.BattleCmd == BattleCmd.MagicWeapon ? special : battleTransferDTOs.ClientCmdId;
 
-            ///技能的计算TODO 需要加判断
-            ///伤害系数列表
-            SkillSingleOrStaged(battleTransferDTOs, roleId, currentId, battleSkillData, special);
-            //SkillAddBuffer(battleTransferDTOs, roleId, currentId, battleSkillData, special);
-
             #region ob  TODO
             switch (battleSkillData.battleSkillTargetType)
             {
@@ -114,68 +109,12 @@ namespace AscensionServer
             }
             #endregion
             ///判断技能触发时机
+            ///技能的计算TODO 需要加判断
+            ///伤害系数列表
+            SkillSingleOrStaged(battleTransferDTOs, roleId, currentId, battleSkillData, special);
 
-
-            #region TODO
-            var eventData = battleSkillData.battleSkillEventDataList;
-            for (int ov = 0; ov < eventData.Count; ov++)
-            {
-                switch (eventData[ov].battleSkillEventTriggerTime)
-                {
-                    case BattleSkillEventTriggerTime.BeforeAttack:
-
-                        break;
-                    case BattleSkillEventTriggerTime.BehindAttack:
-                        break;
-                }
-
-                switch (eventData[ov].battleSkillEventTriggerCondition)
-                {
-                    case BattleSkillEventTriggerCondition.None:
-                        break;
-                    case BattleSkillEventTriggerCondition.Crit:
-                        break;
-                    case BattleSkillEventTriggerCondition.TargetPropertyUnder:
-                        break;
-                    case BattleSkillEventTriggerCondition.TargetPropertyOver:
-                        break;
-                    case BattleSkillEventTriggerCondition.SelfPropertyUnder:
-                        break;
-                    case BattleSkillEventTriggerCondition.SelfPropertyOver:
-                        break;
-                }
-
-                switch (eventData[ov].battleSkillEventTriggerNumSourceType)
-                {
-                    case BattleSkillEventTriggerNumSourceType.Health:
-                        break;
-                    case BattleSkillEventTriggerNumSourceType.PhysicDefense:
-                        break;
-                    case BattleSkillEventTriggerNumSourceType.MagicDefense:
-                        break;
-                    case BattleSkillEventTriggerNumSourceType.ShenHun:
-                        break;
-                }
-
-                switch (eventData[ov].battleSkillTriggerEventType)
-                {
-                    case BattleSkillTriggerEventType.Skill:
-                        break;
-                    case BattleSkillTriggerEventType.Heal:
-                        break;
-                    case BattleSkillTriggerEventType.SuckBlood:
-                        break;
-                    case BattleSkillTriggerEventType.AddCrit:
-                        break;
-                    case BattleSkillTriggerEventType.AddDamage:
-                        break;
-                    case BattleSkillTriggerEventType.AddPierce:
-                        break;
-                }
-                #endregion
-
-                ///TODO 需要完善
-            }
+          
+          
         }
 
         #endregion

@@ -43,9 +43,9 @@ namespace AscensionServer
             string roleJson = userRole.RoleIDArray;
             string roleStatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleStatus));
             Utility.Debug.LogInfo("yzqData添加新角色" + userRole.UUID);
-            Dictionary<int, int> idRing = new Dictionary<int, int>();
+            //Dictionary<int, int> idRing = new Dictionary<int, int>();
             Dictionary<int, int> initialSchool = new Dictionary<int, int>();
-
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, RoleStatusDatas>>(out var roleStatusDict);
             Ring ring = null;
             Utility.Debug.LogInfo("yzqData添加新角色2" );
             //如果没有查询到代表角色没被注册过可用
@@ -56,7 +56,33 @@ namespace AscensionServer
                     roleList = Utility.Json.ToObject<List<string>>(roleJson);
                 //添加输入的用户进数据库
                 role = roleTmp;
-                var rolestatus = Utility.Json.ToObject<RoleStatus>(roleStatusJson);
+                RoleStatus rolestatus = new RoleStatus()
+                {
+                    FreeAttributes = roleStatusDict[0].AttackPhysical,
+                    RoleHP = roleStatusDict[0].RoleHP,
+                    RoleMaxHP = roleStatusDict[0].RoleHP,
+                    RoleMP = roleStatusDict[0].RoleMP,
+                    RoleMaxMP = roleStatusDict[0].RoleMP,
+                    RoleSoul = roleStatusDict[0].RoleSoul,
+                    RoleMaxSoul = roleStatusDict[0].RoleSoul,
+                    BestBlood = (short)roleStatusDict[0].BestBlood,
+                    BestBloodMax = (short)roleStatusDict[0].BestBlood,
+                    AttackSpeed = roleStatusDict[0].AttackSpeed,
+                    AttackPhysical = roleStatusDict[0].AttackPhysical,
+                    DefendPhysical = roleStatusDict[0].DefendPhysical,
+                    AttackPower = roleStatusDict[0].AttackPower,
+                    DefendPower = roleStatusDict[0].DefendPower,
+                    PhysicalCritProb = roleStatusDict[0].PhysicalCritProb,
+                    MagicCritProb = roleStatusDict[0].MagicCritProb,
+                    ReduceCritProb = roleStatusDict[0].ReduceCritProb,
+                    PhysicalCritDamage = roleStatusDict[0].PhysicalCritDamage,
+                    MagicCritDamage = roleStatusDict[0].MagicCritDamage,
+                    ReduceCritDamage = roleStatusDict[0].ReduceCritDamage,
+                    MoveSpeed = roleStatusDict[0].MoveSpeed,
+                    RolePopularity = roleStatusDict[0].RolePopularity,
+                    RoleMaxPopularity = roleStatusDict[0].RolePopularity,
+                    ValueHide = roleStatusDict[0].ValueHide,
+                };
                 role = NHibernateQuerier.Insert<Role>(role);
                 string roleId = role.RoleID.ToString();
                 if (!string.IsNullOrEmpty(roleJson))
@@ -106,7 +132,7 @@ namespace AscensionServer
                 NHibernateQuerier.Insert(new RoleRing() { RoleID = rolestatus.RoleID });
                 NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolestatus.RoleID);
                 var ringArray = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
-                if (string.IsNullOrEmpty(ringArray.RingIdArray))
+                if (ringArray.RingIdArray == 0)
                 {
                     ringDict.Clear();
                     magicRingDict.Clear();
@@ -166,8 +192,8 @@ namespace AscensionServer
                     for (int i = 0; i < 6; i++)
                     { magicRingDict.Add(i, -1); }
                     ring = NHibernateQuerier.Insert<Ring>(new Ring() { RingId = 11110, RingItems = Utility.Json.ToJson(ringDict), RingMagicDictServer = Utility.Json.ToJson(magicRingDict), RingAdorn = Utility.Json.ToJson(new Dictionary<int, RingItemsDTO>()) });
-                    idRing.Add(ring.ID, 0);
-                    NHibernateQuerier.Update<RoleRing>(new RoleRing() { RoleID = rolestatus.RoleID, RingIdArray = Utility.Json.ToJson(idRing) });
+                    //idRing.Add(ring.ID, 0);
+                    NHibernateQuerier.Update<RoleRing>(new RoleRing() { RoleID = rolestatus.RoleID, RingIdArray = ring.ID });
                 }
 
                 #endregion

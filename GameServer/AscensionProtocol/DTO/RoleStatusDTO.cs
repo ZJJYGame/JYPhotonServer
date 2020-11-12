@@ -32,6 +32,8 @@ namespace AscensionProtocol.DTO
         public virtual int RolePopularity { get; set; }
         public virtual int RoleMaxPopularity { get; set; }
         public virtual int ValueHide { get; set; }
+        public virtual int GongfaLearnSpeed { get; set; }
+        public virtual int MishuLearnSpeed { get; set; }
         public override bool Equals(object obj)
         {
             RoleStatusDTO other = obj as RoleStatusDTO;
@@ -78,6 +80,27 @@ namespace AscensionProtocol.DTO
             RolePopularity = 0;
             RoleMaxPopularity = 0;
             ValueHide = 0;
+        }
+
+        public enum StatusChangeType
+        {
+            None=0,
+            /// <summary>
+            /// 属性增加(单个多个回复)
+            /// </summary>
+            StatusAdd=1,
+            /// <summary>
+            /// 属性削弱(单个多个削弱)
+            /// </summary>
+            StatusRemove=2,
+            /// <summary>
+            /// 获取全部完整属性
+            /// </summary>
+            StatusUpdate=3,
+            /// <summary>
+            /// 属性全回复
+            /// </summary>
+            StatusReplyAll=4
         }
     }
 }
