@@ -11,11 +11,11 @@ namespace AscensionServer.Model
     {
         //TODO待确认储物戒指
         public virtual int RoleID { get; set; }
-        public virtual string RingIdArray { get; set; }
+        public virtual int RingIdArray { get; set; }
         public override void Clear()
         {
             RoleID = -1;
-            RingIdArray = null;
+            RingIdArray = 0;
         }
     }
 }

@@ -803,6 +803,11 @@
             技能 移除buff
             </summary>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.BattleSkillEventDataMethod(System.Collections.Generic.List{AscensionServer.BattleSkillEventData},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            技能 触发事件
+            </summary>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerToSkillReturnBlood(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData)">
             <summary>
             2020.11.06 20:45
@@ -868,16 +873,6 @@
             需要继续完善   ///TODO
             </summary>
             speed = -1 的话 代表这回合计算是宠物逃跑
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.SkillAddBuffer(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData,System.Int32)">
-            <summary>
-            技能添加Buffer
-            </summary>
-            <param name="battleTransferDTOs"></param>
-            <param name="roleId"></param>
-            <param name="currentId"></param>
-            <param name="battleSkillData"></param>
-            <param name="special"></param>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.TimestampBattleEnd(System.Int32)">
              <summary>

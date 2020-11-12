@@ -43,7 +43,7 @@ namespace AscensionServer
             string roleJson = userRole.RoleIDArray;
             string roleStatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleStatus));
             Utility.Debug.LogInfo("yzqData添加新角色" + userRole.UUID);
-            Dictionary<int, int> idRing = new Dictionary<int, int>();
+            //Dictionary<int, int> idRing = new Dictionary<int, int>();
             Dictionary<int, int> initialSchool = new Dictionary<int, int>();
 
             Ring ring = null;
@@ -106,7 +106,7 @@ namespace AscensionServer
                 NHibernateQuerier.Insert(new RoleRing() { RoleID = rolestatus.RoleID });
                 NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolestatus.RoleID);
                 var ringArray = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
-                if (string.IsNullOrEmpty(ringArray.RingIdArray))
+                if (ringArray.RingIdArray == 0)
                 {
                     ringDict.Clear();
                     magicRingDict.Clear();
@@ -166,8 +166,8 @@ namespace AscensionServer
                     for (int i = 0; i < 6; i++)
                     { magicRingDict.Add(i, -1); }
                     ring = NHibernateQuerier.Insert<Ring>(new Ring() { RingId = 11110, RingItems = Utility.Json.ToJson(ringDict), RingMagicDictServer = Utility.Json.ToJson(magicRingDict), RingAdorn = Utility.Json.ToJson(new Dictionary<int, RingItemsDTO>()) });
-                    idRing.Add(ring.ID, 0);
-                    NHibernateQuerier.Update<RoleRing>(new RoleRing() { RoleID = rolestatus.RoleID, RingIdArray = Utility.Json.ToJson(idRing) });
+                    //idRing.Add(ring.ID, 0);
+                    NHibernateQuerier.Update<RoleRing>(new RoleRing() { RoleID = rolestatus.RoleID, RingIdArray = ring.ID });
                 }
 
                 #endregion

@@ -27,6 +27,7 @@ namespace AscensionServer
             var enemySet = _teamIdToBattleInit[roleId].enemyUnits;
             var skillDataDamageNum = battleSkillData.battleSkillDamageNumDataList;
             var  addBuffDataSet  =  battleSkillData.battleSkillAddBuffList;
+            var eventDataSet = battleSkillData.battleSkillEventDataList;
             var removeBuffDataSet = battleSkillData.battleSkillRemoveBuffDataList;
 
             if (skillDataDamageNum.Count == 1 && battleSkillData.TargetNumber == 1)
@@ -135,7 +136,6 @@ namespace AscensionServer
         /// </summary>
         public List<BufferBattleDataDTO> AddBufferMethod(List<BattleSkillAddBuffData> addBuffDataSet,int roleId,int currentId,EnemyBattleDataDTO enemySetObject, int index)
         {
-       
             RoleBattleDataDTO tempSet = null;
             EnemyBattleDataDTO enemySet = null;
             List<BufferBattleDataDTO> bufferId = new List<BufferBattleDataDTO>();
@@ -315,6 +315,46 @@ namespace AscensionServer
                     Utility.Debug.LogInfo("Buffer  使用失败====>>>>" + removeBuffDataSet[og].probability);
             }
             return bufferId;
+        }
+
+        /// <summary>
+        /// 技能 触发事件
+        /// </summary>
+        public void BattleSkillEventDataMethod(List<BattleSkillEventData> battleSkillEvents, int roleId, int currentId, int index)
+        {
+            RoleBattleDataDTO tempSet = null;
+            EnemyBattleDataDTO enemySet = null;
+            //tempSet = playerSetObject;
+            //enemySet = enemySetObject;
+            if (battleSkillEvents.Count == 0)
+                return;
+            for (int ov = 0; ov < battleSkillEvents.Count; ov++)
+            {
+                switch (battleSkillEvents[ov].battleSkillEventTriggerTime)
+                {
+                    case BattleSkillEventTriggerTime.BeforeAttack:
+                        switch (battleSkillEvents[ov].battleSkillEventTriggerCondition)
+                        {
+                            case BattleSkillEventTriggerCondition.None:
+                                break;
+                            case BattleSkillEventTriggerCondition.Crit:
+                                break;
+                            case BattleSkillEventTriggerCondition.TargetPropertyUnder:
+                                break;
+                            case BattleSkillEventTriggerCondition.TargetPropertyOver:
+                                break;
+                            case BattleSkillEventTriggerCondition.SelfPropertyUnder:
+                                break;
+                            case BattleSkillEventTriggerCondition.SelfPropertyOver:
+                                break;
+                        }
+                        break;
+                    case BattleSkillEventTriggerTime.BehindAttack:
+                        break;
+                }
+
+                ///TODO 需要完善
+            }
         }
 
         #endregion
@@ -627,27 +667,5 @@ namespace AscensionServer
 
 
 
-
-
-
-
-
-
-
-
-        #region 2020.11.09 16:29
-        /// <summary>
-        /// 技能添加Buffer
-        /// </summary>
-        /// <param name="battleTransferDTOs"></param>
-        /// <param name="roleId"></param>
-        /// <param name="currentId"></param>
-        /// <param name="battleSkillData"></param>
-        /// <param name="special"></param>
-        public void SkillAddBuffer(BattleTransferDTO battleTransferDTOs, int roleId, int currentId, BattleSkillData battleSkillData, int special = 0)
-        {
-
-        }
-        #endregion
     }
 }
