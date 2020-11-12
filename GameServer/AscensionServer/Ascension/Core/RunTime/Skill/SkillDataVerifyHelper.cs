@@ -15,25 +15,25 @@ namespace AscensionServer
         public bool VerifyData(IDataContract data)
         {
             var skill = data as C2SSkillInput;
-            rsd = GameManager.CustomeModule<ServerBattleManager>().MsqInfo<RoleStatusDTO>(skill.PlayerId);
-            var costs = skill.Costs;
-            if (costs != null)
-            {
-                for (int i = 0; i < costs.Count; i++)
-                {
-                    if (!VerifyCost(costs[i], skill.PlayerId))
-                        return false;
-                }
-            }
-            var bouns = skill.Bouns;
-            if (bouns != null)
-            {
-                for (int i = 0; i < bouns.Count; i++)
-                {
-                    if (!VerifyBouns(bouns[i]))
-                        return false;
-                }
-            }
+            //rsd = GameManager.CustomeModule<ServerBattleManager>().MsqInfo<RoleStatusDTO>(skill.PlayerId);
+            //var costs = skill.Costs;
+            //if (costs != null)
+            //{
+            //    for (int i = 0; i < costs.Count; i++)
+            //    {
+            //        if (!VerifyCost(costs[i], skill.PlayerId))
+            //            return false;
+            //    }
+            //}
+            //var bouns = skill.Bouns;
+            //if (bouns != null)
+            //{
+            //    for (int i = 0; i < bouns.Count; i++)
+            //    {
+            //        if (!VerifyBouns(bouns[i]))
+            //            return false;
+            //    }
+            //}
             return false;
         }
         bool VerifyCost(FixAffectValue value, int playerId)

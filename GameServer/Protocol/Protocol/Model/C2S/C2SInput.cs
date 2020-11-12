@@ -9,9 +9,7 @@ namespace Protocol
     /// 输入协议；
     /// </summary>
     [MessagePackObject]
-    [Union(0, typeof(C2SSkillInput))]
-    [Union(1, typeof(C2STransformInput))]
-    public abstract class C2SInput : IDataContract
+    public class C2SInput : IDataContract
     {
         [Key(0)]
         public int SessionId { get; set; }

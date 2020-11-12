@@ -65,6 +65,10 @@ namespace AscensionServer
             var result = roleDict.TryAdd(roleId, role);
             if (result)
             {
+                //进入场景逻辑：
+                //1、新玩家进入，发送当前场景中已经存在的其他玩家数据，并将自己添加到场景玩家容器中；
+                //2、广播新进入玩家的数据到当前场景中的其他玩家；
+                //3、广播完成，将玩家对象广播的接口进行委托监听；
                 Utility.Debug.LogWarning($"RoleId:{roleId};SessionId:{role.SessionId}进入Level：{LevelId}");
                 var opData = opEnterLeveData.Clone();
                 OnEnterLevelS2C(role);
