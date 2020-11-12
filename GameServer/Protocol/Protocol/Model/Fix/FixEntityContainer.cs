@@ -7,7 +7,7 @@ namespace Protocol
     /// </summary>
     [Serializable]
     [MessagePackObject]
-    public struct FixEntityContainer : IDataContract
+    public struct FixEntityContainer 
     {
         [Key(0)]
         public byte EntityContainerType { get; set; }

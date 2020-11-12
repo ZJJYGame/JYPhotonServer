@@ -7,7 +7,7 @@ namespace Protocol
 {
     [Serializable]
     [MessagePackObject]
-    public struct FixVector3 : IDataContract
+    public struct FixVector3 
     {
         [Key(0)]
         public int X { get; set; }

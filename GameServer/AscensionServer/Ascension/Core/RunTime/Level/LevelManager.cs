@@ -278,7 +278,7 @@ namespace AscensionServer
             try
             {
                 var entity = opData.DataContract as C2SEntityContainer;
-                EnterScene(entity.EntityContainerId, entity.Player.PlayerId);
+                EnterScene(entity.EntityContainer.EntityContainerId, entity.Player.PlayerId);
             }
             catch (Exception e)
             {
@@ -290,7 +290,7 @@ namespace AscensionServer
             try
             {
                 var entity = opData.DataContract as C2SEntityContainer;
-                ExitScene(entity.EntityContainerId, entity.Player.PlayerId);
+                ExitScene(entity.EntityContainer.EntityContainerId, entity.Player.PlayerId);
             }
             catch (Exception e)
             {

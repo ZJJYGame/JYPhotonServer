@@ -10,7 +10,7 @@ namespace Protocol
     public class C2SEntityContainer: IDataContract
     {
         [Key(0)]
-        public int EntityContainerId { get; set; }
+        public FixEntityContainer EntityContainer { get; set; }
         [Key(1)]
         public C2SPlayer Player { get; set; }
     }

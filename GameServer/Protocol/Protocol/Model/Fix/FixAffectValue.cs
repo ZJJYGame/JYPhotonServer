@@ -5,6 +5,7 @@
 // 版 本：1.0
 //***********************************************************
 using Cosmos;
+using MessagePack;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,11 +13,12 @@ using UnityEngine;
 
 namespace Protocol
 {
+    [MessagePackObject]
     [Serializable]
     /// <summary>
     /// 影响类型；
     /// </summary>
-    public class FixAffectValue:IDataContract
+    public class FixAffectValue
     {
         /// <summary>
         /// 消耗类型
