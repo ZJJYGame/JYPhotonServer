@@ -32,7 +32,11 @@ namespace AscensionServer
             Map(x => x.MagicCritProb).Column("magic_critProb");
             Map(x => x.PhysicalCritDamage).Column("physical_crit_damage");
             Map(x => x.MagicCritDamage).Column("magic_crit_damage");
-            Map(x => x.MoveSpeed).Column("move_speed"); 
+            Map(x => x.ReduceCritDamage).Column("reduce_crit_damage");
+            Map(x => x.ReduceCritProb).Column("reduce_crit_prop");
+            Map(x => x.MoveSpeed).Column("move_speed");
+            Map(x => x.GongfaLearnSpeed).Column("gongfa_learn_speed");
+            Map(x => x.MishuLearnSpeed).Column("mishu_learn_speed");
             Table("role_status");
         }
     }

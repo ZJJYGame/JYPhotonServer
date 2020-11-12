@@ -51,16 +51,17 @@ namespace AscensionServer
                             Role role= NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRoleID);
                             role.RoleLevel= intLevel;
                           NHibernateQuerier.Update(role);
+                            operationResponse.ReturnCode = (short)ReturnCode.Success;
                         }
                         else
                         {
                             intInfoObj = GongfaInfoExp.CultivationMethodExp + receivedObj.CultivationMethodExp;
                             NHibernateQuerier.Update(new CultivationMethod() { ID = GongfaInfoExp.ID, CultivationMethodID = GongfaInfoExp.CultivationMethodID, CultivationMethodLevel = GongfaInfoExp.CultivationMethodLevel, CultivationMethodLevelSkillArray = GongfaInfoExp.CultivationMethodLevelSkillArray, CultivationMethodExp = intInfoObj });
+                            operationResponse.ReturnCode = (short)ReturnCode.ItemAlreadyExists;
                         }
                     }
                 }             
                 operationResponse.Parameters = subResponseParameters;
-                operationResponse.ReturnCode = (short)ReturnCode.Success;
             }
             else
             {
