@@ -16,7 +16,7 @@ namespace AscensionServer
     public partial class ServerBattleManager
     {
 
-        #region 统一技能的修改
+         #region 统一技能的修改
 
         /// <summary>
         /// 2020.11.06 20:06
@@ -103,6 +103,7 @@ namespace AscensionServer
                         for (int zo = 0; zo < TargetID.Count; zo++)
                         {
                             var servivalTarget = enemySet.Find(x => x.EnemyStatusDTO.EnemyId == TargetID.Keys.ToList()[zo]);
+                            BattleSkillEventDataMethod(eventDataSet, roleId, currentId, servivalTarget, zo, targetInfoDTOsSet);
                             servivalTarget.EnemyStatusDTO.EnemyHP -= skillDataDamageNum[0].baseNumSourceDataList[zo].mulitity;
                             var tranfsSet = ServerToClientResults(new BattleTransferDTO.TargetInfoDTO() { TargetID = servivalTarget.EnemyStatusDTO.EnemyId, TargetHPDamage = -skillDataDamageNum[0].baseNumSourceDataList[zo].mulitity,  AddTargetBuff = AddBufferMethod(addBuffDataSet, roleId, currentId, servivalTarget, zo), RemoveTargetBuff = RemoveBufferMethod(removeBuffDataSet, roleId, currentId, zo)});
                             targetInfoDTOsSet.Add(tranfsSet);
@@ -318,14 +319,15 @@ namespace AscensionServer
         }
 
         /// <summary>
-        /// 技能 触发事件
+        ///技能触发时机
         /// </summary>
-        public void BattleSkillEventDataMethod(List<BattleSkillEventData> battleSkillEvents, int roleId, int currentId, int index)
+        public void BattleSkillEventDataMethod(List<BattleSkillEventData> battleSkillEvents, int roleId, int currentId, EnemyBattleDataDTO enemySetObject,int index, List<BattleTransferDTO.TargetInfoDTO> targetInfoDTOsSet)
         {
             RoleBattleDataDTO tempSet = null;
             EnemyBattleDataDTO enemySet = null;
             //tempSet = playerSetObject;
             //enemySet = enemySetObject;
+
             if (battleSkillEvents.Count == 0)
                 return;
             for (int ov = 0; ov < battleSkillEvents.Count; ov++)
@@ -333,27 +335,101 @@ namespace AscensionServer
                 switch (battleSkillEvents[ov].battleSkillEventTriggerTime)
                 {
                     case BattleSkillEventTriggerTime.BeforeAttack:
-                        switch (battleSkillEvents[ov].battleSkillEventTriggerCondition)
-                        {
-                            case BattleSkillEventTriggerCondition.None:
-                                break;
-                            case BattleSkillEventTriggerCondition.Crit:
-                                break;
-                            case BattleSkillEventTriggerCondition.TargetPropertyUnder:
-                                break;
-                            case BattleSkillEventTriggerCondition.TargetPropertyOver:
-                                break;
-                            case BattleSkillEventTriggerCondition.SelfPropertyUnder:
-                                break;
-                            case BattleSkillEventTriggerCondition.SelfPropertyOver:
-                                break;
-                        }
+                        battleSkillEventTriggerCondition(battleSkillEvents[ov], roleId, currentId, enemySetObject, targetInfoDTOsSet);
                         break;
                     case BattleSkillEventTriggerTime.BehindAttack:
                         break;
                 }
+            }
+        }
 
-                ///TODO 需要完善
+        /// <summary>
+        ///  技能 触发来源
+        /// </summary>
+        /// <param name="battleSkillEvents"></param>
+        /// <param name="roleId"></param>
+        /// <param name="currentId"></param>
+        /// <param name="enemySetObject"></param>
+        /// <param name="targetInfoDTOsSet"></param>
+        public void battleSkillEventTriggerCondition(BattleSkillEventData battleSkillEvents, int roleId, int currentId, EnemyBattleDataDTO enemySetObject, List<BattleTransferDTO.TargetInfoDTO> targetInfoDTOsSet)
+        {
+            switch (battleSkillEvents.battleSkillEventTriggerNumSourceType)
+            {
+                case BattleSkillEventTriggerNumSourceType.Health:
+                    battleSkillEventTriggerNumSourceType(battleSkillEvents, roleId, currentId, enemySetObject, targetInfoDTOsSet);
+                    break;
+                case BattleSkillEventTriggerNumSourceType.PhysicDefense:
+                    break;
+                case BattleSkillEventTriggerNumSourceType.MagicDefense:
+                    break;
+                case BattleSkillEventTriggerNumSourceType.ShenHun:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 技能触发条件
+        /// </summary>
+        /// <param name="battleSkillEvents"></param>
+        /// <param name="roleId"></param>
+        /// <param name="currentId"></param>
+        /// <param name="enemySetObject"></param>
+        /// <param name="targetInfoDTOsSet"></param>
+        public void battleSkillEventTriggerNumSourceType(BattleSkillEventData battleSkillEvents, int roleId, int currentId, EnemyBattleDataDTO enemySetObject, List<BattleTransferDTO.TargetInfoDTO> targetInfoDTOsSet)
+        {
+            switch (battleSkillEvents.battleSkillEventTriggerCondition)
+            {
+                case BattleSkillEventTriggerCondition.None:
+                    break;
+                case BattleSkillEventTriggerCondition.Crit:
+                    break;
+                case BattleSkillEventTriggerCondition.TargetPropertyUnder:
+                    break;
+                case BattleSkillEventTriggerCondition.TargetPropertyOver:
+                    var tempNumSourceType = ((float)enemySetObject.EnemyStatusDTO.EnemyHP / enemySetObject.EnemyStatusDTO.EnemyMaxHP) * 100;
+                    if (tempNumSourceType <= battleSkillEvents.conditionPercentNum)
+                        battleSkillTriggerEventType(battleSkillEvents, roleId, currentId, enemySetObject, targetInfoDTOsSet);
+                    break;
+                case BattleSkillEventTriggerCondition.SelfPropertyUnder:
+                    break;
+                case BattleSkillEventTriggerCondition.SelfPropertyOver:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 技能触发事件类型
+        /// </summary>
+        /// <param name="battleSkillEvents"></param>
+        /// <param name="roleId"></param>
+        /// <param name="currentId"></param>
+        /// <param name="enemySetObject"></param>
+        /// <param name="targetInfoDTOsSet"></param>
+        public void battleSkillTriggerEventType(BattleSkillEventData battleSkillEvents,int roleId,int currentId, EnemyBattleDataDTO enemySetObject, List<BattleTransferDTO.TargetInfoDTO> targetInfoDTOsSet)
+        {
+            var playerSet = _teamIdToBattleInit[roleId].playerUnits;
+            var playerSetObject = playerSet.Find(x => x.RoleStatusDTO.RoleID == currentId);
+            switch (battleSkillEvents.battleSkillTriggerEventType)
+            {
+                case BattleSkillTriggerEventType.Skill:
+                    break;
+                case BattleSkillTriggerEventType.Heal:
+                    enemySetObject.EnemyStatusDTO.EnemyHP += battleSkillEvents.EventValue;
+                    break;
+                case BattleSkillTriggerEventType.SuckBlood:
+                    playerSetObject.RoleStatusDTO.RoleHP += battleSkillEvents.EventValue;
+                    var tranfsSet = ServerToClientResults(new BattleTransferDTO.TargetInfoDTO() { TargetID = currentId, TargetHPDamage = battleSkillEvents.EventValue});
+                    targetInfoDTOsSet.Add(tranfsSet);
+                    break;
+                case BattleSkillTriggerEventType.AddCrit:
+                    //enemySetObject.EnemyStatusDTO. += battleSkillEvents[ov].EventValue;
+                    break;
+                case BattleSkillTriggerEventType.AddDamage:
+                    break;
+                case BattleSkillTriggerEventType.AddPierce:
+                    break;
             }
         }
 

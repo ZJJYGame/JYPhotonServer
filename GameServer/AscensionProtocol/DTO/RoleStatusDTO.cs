@@ -34,6 +34,7 @@ namespace AscensionProtocol.DTO
         public virtual int ValueHide { get; set; }
         public virtual int GongfaLearnSpeed { get; set; }
         public virtual int MishuLearnSpeed { get; set; }
+        public virtual StatusChangeType  StatusChange { get; set; }
         public override bool Equals(object obj)
         {
             RoleStatusDTO other = obj as RoleStatusDTO;
@@ -84,23 +85,11 @@ namespace AscensionProtocol.DTO
 
         public enum StatusChangeType
         {
-            None=0,
-            /// <summary>
-            /// 属性增加(单个多个回复)
-            /// </summary>
-            StatusAdd=1,
-            /// <summary>
-            /// 属性削弱(单个多个削弱)
-            /// </summary>
-            StatusRemove=2,
-            /// <summary>
-            /// 获取全部完整属性
-            /// </summary>
-            StatusUpdate=3,
+            StatusGet=1,
             /// <summary>
             /// 属性全回复
             /// </summary>
-            StatusReplyAll=4
+            StatusReplyAll=2
         }
     }
 }

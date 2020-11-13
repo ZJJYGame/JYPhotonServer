@@ -45,8 +45,6 @@ namespace AscensionServer
                             intInfoObj = GongfaInfoExp.CultivationMethodExp + receivedObj.CultivationMethodExp;
                             intLevel = GongfaInfoExp.CultivationMethodLevel + receivedObj.CultivationMethodLevel;
 
-
-
                             NHibernateQuerier.Update(new CultivationMethod() { ID = GongfaInfoExp.ID, CultivationMethodID = GongfaInfoExp.CultivationMethodID, CultivationMethodLevel = (short)intLevel, CultivationMethodLevelSkillArray = GongfaInfoExp.CultivationMethodLevelSkillArray, CultivationMethodExp = intInfoObj });
                             Role role= NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRoleID);
                             role.RoleLevel= intLevel;

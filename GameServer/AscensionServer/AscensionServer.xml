@@ -803,10 +803,40 @@
             技能 移除buff
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.BattleSkillEventDataMethod(System.Collections.Generic.List{AscensionServer.BattleSkillEventData},System.Int32,System.Int32,System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.BattleSkillEventDataMethod(System.Collections.Generic.List{AscensionServer.BattleSkillEventData},System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO})">
+             <summary>
+            技能触发时机
+             </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.battleSkillEventTriggerCondition(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO})">
             <summary>
-            技能 触发事件
+             技能 触发来源
             </summary>
+            <param name="battleSkillEvents"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="enemySetObject"></param>
+            <param name="targetInfoDTOsSet"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.battleSkillEventTriggerNumSourceType(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO})">
+            <summary>
+            技能触发条件
+            </summary>
+            <param name="battleSkillEvents"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="enemySetObject"></param>
+            <param name="targetInfoDTOsSet"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.battleSkillTriggerEventType(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO})">
+            <summary>
+            技能触发事件类型
+            </summary>
+            <param name="battleSkillEvents"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="enemySetObject"></param>
+            <param name="targetInfoDTOsSet"></param>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.PlayerToSkillReturnBlood(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData)">
             <summary>

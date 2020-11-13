@@ -186,8 +186,11 @@ namespace AscensionProtocol.DTO
         public virtual int EnemyId { get; set; }
         public virtual string EnemyName { get; set; }
         public virtual int EnemyHP { get; set; }
+        public virtual int EnemyMaxHP { get; set; }
         public virtual int EnemyMP { get; set; }
+        public virtual int EnemyMaxMP { get; set; }
         public virtual int EnemyShenHun { get; set; }
+        public virtual int EnemyMaxShenHun { get; set; }
         public virtual string EnemyDescribe { get; set; }
         public virtual string EnemyLevel { get; set; }
         public virtual int EnemyGig_Level { get; set; }

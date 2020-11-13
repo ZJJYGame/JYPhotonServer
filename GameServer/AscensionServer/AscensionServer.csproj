@@ -173,6 +173,7 @@
     <Compile Include="Ascension\Core\Base\DataObject\BottleneckData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\DemonData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\DrugData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\EquipmentData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\FactionItemData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\FactionSkillData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MagicWeaponData.cs" />
@@ -312,6 +313,7 @@
     <Compile Include="Handlers\SyncRoleAuctionItems\SubHandler\RemoveRoleAuctionItemsSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAuctionItems\SubHandler\SyncRoleAuctionItemsSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAuctionItems\SyncRoleAuctionItemsHandler.cs" />
+    <Compile Include="Handlers\SyncRoleGongfa\SyncRoleGongfaHandler.cs" />
     <Compile Include="Handlers\SyncRolePet\SubHandler\UpdateRolePetSubHandler.cs" />
     <Compile Include="Handlers\SyncInventory\SubHandler\RemoveInventorySubHandler.cs" />
     <Compile Include="Handlers\SyncInventory\SubHandler\SortingInventorySubHandler.cs" />
@@ -681,6 +683,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonData\AllianceSkillData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\EquipmentData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="JsonData\Pet.txt">

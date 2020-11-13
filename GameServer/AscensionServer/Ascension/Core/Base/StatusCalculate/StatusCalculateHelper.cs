@@ -147,5 +147,10 @@ namespace AscensionServer
             }
             roleStatus = roleStatusold;
         }
+
+        public static void AddRoleStats()
+        {
+
+        }
     }
 }
