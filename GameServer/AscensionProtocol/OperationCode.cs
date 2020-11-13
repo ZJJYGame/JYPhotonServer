@@ -154,6 +154,18 @@ namespace AscensionProtocol
         /// </summary>
         SyncGetNewTactical = 63,
         /// <summary>
+        /// 同步单个角色的功法
+        /// </summary>
+        SyncRoleGongfa = 64,
+        /// <summary>
+        /// 刷新角色所有属性点
+        /// </summary>
+        RoleStatusGet = 65,
+        /// <summary>
+        /// 角色属性全回复
+        /// </summary>
+        RoleStatusFullRecovery = 66,
+        /// <summary>
         /// 进入高同步场景的指令
         /// </summary>
         EnterLevelCommand = 111,
@@ -297,7 +309,6 @@ namespace AscensionProtocol
         /// </summary>
         SyncTeamMessageMatch = 154,
         #endregion
-
         /// <summary>
         /// 测试消息队列
         /// </summary>

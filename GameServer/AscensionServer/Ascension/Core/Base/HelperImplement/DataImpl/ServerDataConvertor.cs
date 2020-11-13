@@ -31,7 +31,7 @@ namespace AscensionServer
             //Utility.Debug.LogInfo("<DataManager> 测试 ConvertData");
             try
             {
-                #region 宗门藏宝阁/藏经阁/瓶颈/心魔/仙盟等级/仙盟签到/秘术属性/人物属性/仙盟技能加成
+                #region 宗门藏宝阁/藏经阁/瓶颈/心魔/仙盟等级/仙盟签到/秘术属性/人物属性/仙盟技能加成/武器装备
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(FactionItemData).Name, out var factionitemdata);
                 var factionitemDataDict = TransObject<List<FactionItemData>>(factionitemdata).ToDictionary(key => key.FactionItemId, value => value.FactionItem);
 
@@ -58,6 +58,9 @@ namespace AscensionServer
 
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(AllianceSkillData).Name, out var allianceSkillDatas);
                 var allianceSkillDatasDict = TransObject<List<AllianceSkillData>>(allianceSkillDatas).ToDictionary(key => key.GangsSkillType, value => value.allianceSkillsDatas);
+
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(EquipmentData).Name, out var equipmentData);
+                var equipmentDataDict = TransObject<List<EquipmentData>>(equipmentData).ToDictionary(key => key.Weapon_ID, value => value);
                 #endregion
 
 
@@ -92,6 +95,7 @@ namespace AscensionServer
                 var battleSkillDict = TransObject<List<BattleSkillData>>(battleSkillSet).ToDictionary(key => key.id, value => value);
                 #endregion
 
+                GameManager.CustomeModule<DataManager>().TryAdd(equipmentDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(allianceSkillDatasDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(roleStatusDatasDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(mishuDataDict);
@@ -111,6 +115,8 @@ namespace AscensionServer
                 GameManager.CustomeModule<DataManager>().TryAdd(runesDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(magicDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(battleSkillDict);
+
+
 
                 //GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MonsterDatas>>(out var set);
                 //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + skillGongFaDict[21001].Skill_Describe);
