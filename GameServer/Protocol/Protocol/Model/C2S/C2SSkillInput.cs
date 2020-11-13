@@ -14,7 +14,7 @@ namespace Protocol
         /// <summary>
         /// 技能的Id；
         /// </summary>
-        [Key(4)]
+        [Key(0)]
         public int SkillId { get; set; }
     }
 }

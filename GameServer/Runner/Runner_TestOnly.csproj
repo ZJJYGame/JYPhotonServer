@@ -102,6 +102,8 @@
     <Compile Include="NewtonjsonHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoleStatusDatas.cs" />
+    <Compile Include="RoleStatusDTO.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

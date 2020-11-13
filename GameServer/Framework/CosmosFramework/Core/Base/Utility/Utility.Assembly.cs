@@ -248,6 +248,53 @@ namespace Cosmos
                 }
                 return set.ToArray();
             }
+            public static K AssignSameFiledValue<T, K>(T source, K target)
+                where T : class
+                where K : class
+            {
+                Type srcType = typeof(T);
+                Type tgType = typeof(K);
+                var srcFields = srcType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
+                var tgFields = tgType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
+                var length = srcFields.Length;
+                for (int i = 0; i < length; i++)
+                {
+                    var tgLen = tgFields.Length;
+                    for (int j = 0; j < tgLen; j++)
+                    {
+                        if (srcFields[i].Name == tgFields[j].Name)
+                        {
+                            try
+                            {
+                                tgFields[j].SetValue(target, srcFields[i].GetValue(source));
+                            }
+                            catch {}
+                        }
+                    }
+                }
+                return target;
+            }
+            /// <summary>
+            /// 遍历实例对象上的所有字段
+            /// </summary>
+            /// <typeparam name="T"></typeparam>
+            /// <param name="obj"></param>
+            /// <returns></returns>
+            public static string TraverseInstanceAllFiled<T>(T obj)
+            {
+                if (obj == null)
+                    return null;
+                Type type = typeof(T);
+                var fields = type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
+                var length = fields.Length;
+                string str="";
+                for (int i = 0; i < length; i++)
+                {
+                    var info = $"{fields[i].Name}:{fields[i].GetValue(obj)};";
+                    str += info;
+                }
+                return str;
+            }
         }
     }
 }

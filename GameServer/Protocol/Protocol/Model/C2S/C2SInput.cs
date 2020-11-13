@@ -20,8 +20,12 @@ namespace Protocol
         /// </summary>
         [Key(2)]
         public FixEntityContainer EntityContainer { get; set; }
+        /// <summary>
+        /// 玩家角色的输入；
+        /// key:输入的类型,value:输入的数据；
+        /// </summary>
         [Key(3)]
-        public List<IDataContract> InputStream { get; set; }
+        public Dictionary<string, IDataContract> InputDataDict { get; set; }
         public override string ToString()
         {
             return $"SessionId:{SessionId} ; RoomId:{EntityContainer} ;";

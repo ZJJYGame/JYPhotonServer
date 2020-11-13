@@ -82,6 +82,7 @@
     <Compile Include="Protocol\Model\Define\SkillDefine.cs" />
     <Compile Include="Protocol\Model\Fix\FixAffectValue.cs" />
     <Compile Include="Protocol\Model\Fix\FixEntityContainer.cs" />
+    <Compile Include="Protocol\Model\Fix\FixSkill.cs" />
     <Compile Include="Protocol\Model\S2C\S2CInput.cs" />
     <Compile Include="Protocol\Model\C2S\C2SPlayer.cs" />
     <Compile Include="Protocol\Model\S2C\S2CPlayer.cs" />

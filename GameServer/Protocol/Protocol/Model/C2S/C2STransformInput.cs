@@ -10,13 +10,13 @@ namespace Protocol
     [MessagePackObject]
     public class C2STransformInput : IDataContract
     {
-        [Key(4)]
+        [Key(0)]
         public int Tick { get; set; }
-        [Key(5)]
+        [Key(1)]
         public long TS { get; set; }
-        [Key(6)]
+        [Key(2)]
         public FixVector3 Position { get; set; }
-        [Key(7)]
+        [Key(3)]
         public FixVector3 Rotation { get; set; }
         public C2STransformInput DeepClone()
         {
