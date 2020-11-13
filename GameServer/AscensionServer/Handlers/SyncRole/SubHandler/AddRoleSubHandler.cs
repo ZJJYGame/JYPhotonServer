@@ -82,6 +82,8 @@ namespace AscensionServer
                     RolePopularity = roleStatusDict[0].RolePopularity,
                     RoleMaxPopularity = roleStatusDict[0].RolePopularity,
                     ValueHide = roleStatusDict[0].ValueHide,
+                    GongfaLearnSpeed= roleStatusDict[0].GongfaLearnSpeed,
+                    MishuLearnSpeed = roleStatusDict[0].MishuLearnSpeed,
                 };
                 role = NHibernateQuerier.Insert<Role>(role);
                 string roleId = role.RoleID.ToString();

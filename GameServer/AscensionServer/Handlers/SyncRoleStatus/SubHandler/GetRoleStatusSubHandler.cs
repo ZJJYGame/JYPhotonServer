@@ -46,16 +46,16 @@ namespace AscensionServer
 
                     var allianceObj = NHibernateQuerier.CriteriaSelect<RoleAllianceSkill>(nHCriteriaRoleStatue);
 
-                    var roleringObj = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleStatue);
-                    NHCriteria nHCriteriaring = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleringObj.RingIdArray);
-                    var ringObj = NHibernateQuerier.CriteriaSelect<Ring>(nHCriteriaring);
-                    var equipDict = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringObj.RingAdorn);
-                    var weaponObj = NHibernateQuerier.CriteriaSelect<Weapon>(nHCriteriaRoleStatue);
+                    //var roleringObj = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleStatue);
+                    //NHCriteria nHCriteriaring = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleringObj.RingIdArray);
+                    //var ringObj = NHibernateQuerier.CriteriaSelect<Ring>(nHCriteriaring);
+                    //var equipDict = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringObj.RingAdorn);
+                    //var weaponObj = NHibernateQuerier.CriteriaSelect<Weapon>(nHCriteriaRoleStatue);
 
-                    foreach (var equip in equipDict)
-                    {
+                    //foreach (var equip in equipDict)
+                    //{
 
-                    }
+                    //}
                     #endregion
 
                     #region ServerJson

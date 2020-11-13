@@ -9,6 +9,7 @@ using AscensionProtocol.DTO;
 using AscensionServer.Model;
 using Cosmos;
 using RedisDotNet;
+using Protocol;
 namespace AscensionServer
 {
     public class AddGongFaSubHandler : SyncGongFaSubHandler
@@ -26,14 +27,14 @@ namespace AscensionServer
 
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
             var roleGongFaObj = NHibernateQuerier.CriteriaSelect<RoleGongFa>(nHCriteriaRoleID);
+            var roletemp= NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRoleID);
             Dictionary<int, int> gongfaDict;
             Dictionary<int, string> DOdict=new Dictionary<int, string>();
-
                 if (roleGongFaObj != null)
                 {
-                if (!string.IsNullOrEmpty(roleGongFaObj.GongFaIDArray))
+                gongfaDict = Utility.Json.ToObject<Dictionary<int, int>>(roleGongFaObj.GongFaIDArray);
+                if (gongfaDict.Count>0)
                     {
-                    gongfaDict = Utility.Json.ToObject<Dictionary<int, int>>(roleGongFaObj.GongFaIDArray);
                         if (gongfaDict.Values.ToList().Contains(gongfaObj.CultivationMethodID))
                         {
                             Utility.Debug.LogInfo("人物已经学会的功法" + roleGongFaObj.GongFaIDArray);
@@ -51,7 +52,6 @@ namespace AscensionServer
                             DOdict.Add(0, Utility.Json.ToJson(cultivationMethod));
                             DOdict.Add(1, Utility.Json.ToJson(roleGongFaObj));
                         #region Redis模块
-
                         RedisHelper.Hash.HashSet<CultivationMethod>("CultivationMethod", cultivationMethod.CultivationMethodID.ToString(), cultivationMethod);
                         RedisHelper.Hash.HashSet<RoleGongFa>("RoleGongFa", roleObj.RoleID.ToString(), roleGongFaObj);
                         #endregion
@@ -61,7 +61,25 @@ namespace AscensionServer
                                 operationResponse.ReturnCode = (short)ReturnCode.Success;
                             });
                         }
-                    }
+                }
+                else
+                {
+                    CultivationMethod cultivationMethod = new CultivationMethod() { CultivationMethodID = gongfaObj.CultivationMethodID, CultivationMethodLevel = gongfaObj.CultivationMethodLevel };
+                    cultivationMethod = NHibernateQuerier.Insert(cultivationMethod);
+                    gongfaDict.Add(cultivationMethod.ID, cultivationMethod.CultivationMethodID);
+                    roleGongFaObj.GongFaIDArray = Utility.Json.ToJson(gongfaDict);
+                    NHibernateQuerier.Update(roleGongFaObj);
+                    roleGongFaObj.GongFaIDArray = Utility.Json.ToJson(gongfaDict);
+                    NHibernateQuerier.Update(roleGongFaObj);
+                    DOdict.Add(0, Utility.Json.ToJson(cultivationMethod));
+                    DOdict.Add(1, Utility.Json.ToJson(roleGongFaObj));
+                    roletemp.RoleLevel = 1;
+                    NHibernateQuerier.Update<Role>(roletemp);
+                    OperationData operationData = new OperationData();
+                    operationData.DataMessage = Utility.Json.ToJson(DOdict);
+                    operationData.OperationCode = (byte)OperationCode.AddFirstGongfa;
+                    GameManager.CustomeModule<RoleManager>().SendMessage(roleObj.RoleID, operationData);
+                }
             }
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
             return operationResponse;

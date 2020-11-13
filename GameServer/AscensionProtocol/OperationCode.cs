@@ -166,6 +166,10 @@ namespace AscensionProtocol
         /// </summary>
         RoleStatusFullRecovery = 66,
         /// <summary>
+        /// 学习第一本功法
+        /// </summary>
+        AddFirstGongfa = 67,
+        /// <summary>
         /// 进入高同步场景的指令
         /// </summary>
         EnterLevelCommand = 111,
