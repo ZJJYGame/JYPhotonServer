@@ -159,7 +159,7 @@ namespace AscensionServer
                         RoleMaxPopularity= status.RoleMaxPopularity,
                         RoleMaxSoul= status.RoleMaxSoul,
                         RolePopularity= status.RolePopularity,
-                        RoleSoul= status.RoleSoul
+                        RoleSoul= status.RoleSoul,
                     },
                     AmplifyDamage = 0,
                     BasalEvasionRate = 0,
@@ -366,7 +366,10 @@ namespace AscensionServer
                             EnemySkill_Array = monsterDict[enemyId[i].GlobalId].Skill_array,
                             EnemyUp_Double = monsterDict[enemyId[i].GlobalId].UP_double,
                             EnemyValue_Flow = monsterDict[enemyId[i].GlobalId].Value_flow,
-                            EnemyValue_Hide = monsterDict[enemyId[i].GlobalId].Value_hide
+                            EnemyValue_Hide = monsterDict[enemyId[i].GlobalId].Value_hide,
+                            EnemyMaxHP = monsterDict[enemyId[i].GlobalId].Role_HP,
+                            EnemyMaxMP = monsterDict[enemyId[i].GlobalId].Role_MP,
+                            EnemyMaxShenHun = monsterDict[enemyId[i].GlobalId].Role_soul,
                         }
                     });
                 }

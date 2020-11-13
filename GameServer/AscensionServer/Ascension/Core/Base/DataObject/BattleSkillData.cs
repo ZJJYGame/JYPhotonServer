@@ -256,8 +256,8 @@ public enum BattleSkillTriggerEventType
 {
     Skill = 0,
     Heal = 1,
-    SuckBlood = 2,
-    AddCrit = 3,
+    AddCrit = 2,
+    SuckBlood = 3,
     AddDamage = 4,
     /// <summary>
     /// 增加穿透
