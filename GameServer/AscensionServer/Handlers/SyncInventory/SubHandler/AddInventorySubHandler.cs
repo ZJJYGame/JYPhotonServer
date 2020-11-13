@@ -51,12 +51,12 @@ namespace AscensionServer
             var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
             NHCriteria nHCriteriaRingID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
             bool existRing = NHibernateQuerier.Verify<Ring>(nHCriteriaRingID);
-
+            Utility.Debug.LogInfo("添加 id====》" + existRing);
             if (exist && existRing)
             {
                 var ringServerArray = NHibernateQuerier.CriteriaSelect<Ring>(nHCriteriaRingID);
 
-                if (InventoryObj.ID == ringServerArray.ID)
+                if (ringServer.RingIdArray == ringServerArray.ID)
                 {
                     var ServerDict = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingItems);
                     var ServerDictAdorn = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingAdorn);
