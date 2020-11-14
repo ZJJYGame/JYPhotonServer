@@ -77,6 +77,7 @@
     <Compile Include="Protocol\Model\Base\OperationData.cs" />
     <Compile Include="Protocol\Model\C2S\C2SChatMessage.cs" />
     <Compile Include="Protocol\Model\C2S\C2SInput.cs" />
+    <Compile Include="Protocol\Model\C2S\C2SFlyMagicToolInput.cs" />
     <Compile Include="Protocol\Model\C2S\C2SSkillInput.cs" />
     <Compile Include="Protocol\Model\C2S\C2STransformInput.cs" />
     <Compile Include="Protocol\Model\Define\SkillDefine.cs" />
