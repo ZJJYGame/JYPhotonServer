@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AscensionServer.Ascension.Core.Base.DataObject
+namespace AscensionServer
 {
     class PetLevelData
     {
