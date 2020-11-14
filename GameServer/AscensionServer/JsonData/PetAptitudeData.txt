@@ -1,0 +1,7 @@
+﻿[
+{"Pet_ID":23000,"Natural_HP":1000,"Natural_MP":1000,"Natural_Soul":1000,"Natural_AttackSpeed":1000,"Natural_AttackPhysical":1000,"Natural_DefendPhysical":1000,"Natural_AttackPower":1000,"Natural_DefendPower":1000,"Flow_Value":10,"Natural_GrowUp":[1100,1200],"Skill_Array":[21001]},
+{"Pet_ID":23001,"Natural_HP":2000,"Natural_MP":1000,"Natural_Soul":2000,"Natural_AttackSpeed":1500,"Natural_AttackPhysical":2000,"Natural_DefendPhysical":1000,"Natural_AttackPower":1000,"Natural_DefendPower":1000,"Flow_Value":10,"Natural_GrowUp":[1100,1200],"Skill_Array":[21004]},
+{"Pet_ID":23002,"Natural_HP":2500,"Natural_MP":1000,"Natural_Soul":2000,"Natural_AttackSpeed":1500,"Natural_AttackPhysical":2500,"Natural_DefendPhysical":1200,"Natural_AttackPower":1200,"Natural_DefendPower":1200,"Flow_Value":10,"Natural_GrowUp":[1100,1200],"Skill_Array":[21005]},
+{"Pet_ID":23003,"Natural_HP":2200,"Natural_MP":1000,"Natural_Soul":2000,"Natural_AttackSpeed":1600,"Natural_AttackPhysical":2300,"Natural_DefendPhysical":1100,"Natural_AttackPower":1100,"Natural_DefendPower":1300,"Flow_Value":10,"Natural_GrowUp":[1100,1200],"Skill_Array":[21006]},
+{"Pet_ID":23004,"Natural_HP":2000,"Natural_MP":1000,"Natural_Soul":2000,"Natural_AttackSpeed":1300,"Natural_AttackPhysical":1500,"Natural_DefendPhysical":1000,"Natural_AttackPower":2000,"Natural_DefendPower":1600,"Flow_Value":10,"Natural_GrowUp":[1100,1200],"Skill_Array":[21007]}
+]

@@ -31,6 +31,8 @@ namespace AscensionServer
         static int RolePopularity { get; set; }
         static int RoleMaxPopularity { get; set; }
         static int ValueHide { get; set; }
+        static int GongfaLearnSpeed { get; set; }
+        static int MishuLearnSpeed { get; set; }
         public static void GetRoleStatus(List<GongFa> gongfaList, List<MishuSkillData> mishuList ,RoleStatusDatas roleStatusDatas, out RoleStatus roleStatus)
         {
             roleStatus = new RoleStatus();
@@ -56,7 +58,8 @@ namespace AscensionServer
                     roleStatus.RolePopularity += gongfaList[i].Role_Popularity;
                     roleStatus.RoleSoul += gongfaList[i].Role_Soul;
                     roleStatus.ValueHide += gongfaList[i].Value_Hide;
-
+                    roleStatus.GongfaLearnSpeed += gongfaList[i].Gongfa_LearnSpeed;
+                    roleStatus.MishuLearnSpeed += gongfaList[i].Mishu_LearnSpeed;
                 }
             }
             if (mishuList.Count > 0)
@@ -81,6 +84,8 @@ namespace AscensionServer
                     RolePopularity += mishuList[i].Role_Popularity;
                     roleStatus.RoleSoul += mishuList[i].Role_Soul;
                     roleStatus.ValueHide += mishuList[i].Value_Hide;
+                    //roleStatus.MishuLearnSpeed += mishuList[i].Role_Soul;
+                    //roleStatus.ValueHide += mishuList[i].Value_Hide;
                 }
             }
             OutRolestatus(roleStatus, roleStatusDatas,out var tempstatus);
@@ -95,6 +100,7 @@ namespace AscensionServer
             tempstatus.AttackPower = (int)((roleStatusDatas.AttackPower * (roleStatus.AttackPower / 10000f)) + AttackPower);
             tempstatus.AttackSpeed = (int)((roleStatusDatas.AttackSpeed *(roleStatus.AttackSpeed / 10000f)) + AttackSpeed);
             tempstatus.BestBlood = (short)((roleStatusDatas.BestBlood * (roleStatus.BestBlood / 10000f)) + BestBlood);
+            tempstatus.BestBloodMax = tempstatus.BestBlood;
             tempstatus.DefendPhysical = (int)((roleStatusDatas.DefendPhysical *(roleStatus.DefendPhysical / 10000f)) + DefendPhysical);
             tempstatus.DefendPower = (int)((roleStatusDatas.DefendPower * (roleStatus.DefendPower / 10000f)) + DefendPower);
             tempstatus.MagicCritDamage = 0;
@@ -105,52 +111,18 @@ namespace AscensionServer
             tempstatus.ReduceCritDamage =0;
             tempstatus.ReduceCritProb =0;
             tempstatus.RoleHP =(int)((roleStatusDatas.RoleHP * (roleStatus.RoleHP / 10000f)) + RoleHP);
+            tempstatus.RoleMaxHP = tempstatus.RoleHP;
             tempstatus.RoleMP = (int)((roleStatusDatas.RoleMP * (roleStatus.RoleMP / 10000f)) + RoleMP);
+            tempstatus.RoleMaxMP = tempstatus.RoleMP;
             tempstatus.RolePopularity = (int)((roleStatusDatas.RolePopularity * (roleStatus.RolePopularity / 10000f)) + RolePopularity);
+            tempstatus.RoleMaxPopularity = tempstatus.RolePopularity;
             tempstatus.RoleSoul = (int)((roleStatusDatas.RoleSoul * (roleStatus.RoleSoul / 10000f)) + RoleSoul);
+            tempstatus.RoleMaxSoul = tempstatus.RoleSoul;
             tempstatus.ValueHide = (int)((roleStatusDatas.ValueHide *(roleStatus.ValueHide / 10000f)) + ValueHide);
+            tempstatus.MishuLearnSpeed = (int)((roleStatusDatas.MishuLearnSpeed * (roleStatus.MishuLearnSpeed / 10000f)) + MishuLearnSpeed);
+            tempstatus.GongfaLearnSpeed = (int)((roleStatusDatas.GongfaLearnSpeed * (roleStatus.GongfaLearnSpeed / 10000f)) + GongfaLearnSpeed);
 
         }
 
-        public static void UpdateRoleStatus(RoleStatus roleStatusold, RoleStatus roleStatusnew,out RoleStatus roleStatus)
-        {
-            Utility.Debug.LogInfo("yzqData角色属性加成为" + Utility.Json.ToJson(roleStatusold)+"新的属性/n"+ Utility.Json.ToJson(roleStatusnew));
-            roleStatus = new RoleStatus();
-            if (roleStatusold.RoleMaxHP< roleStatusnew.RoleHP)
-            {
-                roleStatusold.RoleHP += (roleStatusnew.RoleHP - roleStatusold.RoleMaxHP);
-                roleStatusold.RoleMaxHP = roleStatusnew.RoleHP;
-            }
-
-            if (roleStatusold.RoleMaxMP < roleStatusnew.RoleMP)
-            {
-                roleStatusold.RoleMP += (roleStatusnew.RoleMP - roleStatusold.RoleMaxMP);
-                roleStatusold.RoleMaxMP = roleStatusnew.RoleMP;
-            }
-
-            if (roleStatusold.BestBloodMax < roleStatusnew.BestBlood)
-            {
-                roleStatusold.BestBlood +=(short)(roleStatusnew.BestBlood - roleStatusold.BestBloodMax);
-                roleStatusold.BestBloodMax = roleStatusnew.BestBlood;
-            }
-
-            if (roleStatusold.RoleMaxPopularity < roleStatusnew.RolePopularity)
-            {
-                roleStatusold.RolePopularity += (short)(roleStatusnew.RolePopularity - roleStatusold.RoleMaxPopularity);
-                roleStatusold.RoleMaxPopularity = roleStatusnew.RolePopularity;
-            }
-
-            if (roleStatusold.RoleMaxSoul < roleStatusnew.RoleSoul)
-            {
-                roleStatusold.RoleSoul += (short)(roleStatusnew.RoleSoul - roleStatusold.RoleMaxSoul);
-                roleStatusold.RoleMaxSoul = roleStatusnew.RoleSoul;
-            }
-            roleStatus = roleStatusold;
-        }
-
-        public static void AddRoleStats()
-        {
-
-        }
     }
 }
