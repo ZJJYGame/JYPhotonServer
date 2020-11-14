@@ -14,5 +14,6 @@ namespace Protocol
     [Union(7, typeof(S2CPlayer))]
     [Union(8, typeof(C2SSkillInput))]
     [Union(9, typeof(C2STransformInput))]
+    [Union(10, typeof(C2SFlyMagicToolInput))]
     public interface IDataContract { }
 }

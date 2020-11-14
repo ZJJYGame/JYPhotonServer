@@ -14,10 +14,6 @@ namespace Runner
         {
             Utility.Json.SetHelper(new NewtonjsonHelper());
             Utility.MessagePack.SetHelper(new ImplMessagePackHelper());
-            //Dictionary<Type, IDataContract> dict = new Dictionary<Type, IDataContract>();
-            //C2STransformInput c2sTransIpt = new C2STransformInput();
-            //Console.WriteLine(c2sTransIpt.GetType());
-            //Console.WriteLine(typeof(C2STransformInput));
             RoleStatusDatas rsd = new RoleStatusDatas()
             {
                 MoveSpeed = 10,
