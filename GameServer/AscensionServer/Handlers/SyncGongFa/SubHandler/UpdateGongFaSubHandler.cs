@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Photon.SocketServer;
 using AscensionProtocol;
+using AscensionProtocol.DTO;
 using AscensionServer.Model;
 using Cosmos;
 namespace AscensionServer
@@ -49,7 +50,12 @@ namespace AscensionServer
                             Role role= NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRoleID);
                             role.RoleLevel= intLevel;
                           NHibernateQuerier.Update(role);
-                            operationResponse.ReturnCode = (short)ReturnCode.Success;
+
+                            SetResponseParamters(() => {
+                                operationResponse.Parameters = subResponseParameters;
+                                subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(new RoleDTO() { RoleID = role.RoleID, RoleFaction = role.RoleFaction, RoleGender = role.RoleGender, RoleLevel = role.RoleLevel, RoleName = role.RoleName, RoleRoot = role.RoleRoot, RoleTalent = role.RoleTalent }));
+                                operationResponse.ReturnCode = (short)ReturnCode.Success;
+                            });
                         }
                         else
                         {

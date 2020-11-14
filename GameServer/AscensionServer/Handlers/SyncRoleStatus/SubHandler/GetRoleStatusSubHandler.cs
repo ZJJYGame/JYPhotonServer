@@ -36,28 +36,6 @@ namespace AscensionServer
                     break;
                 case RoleStatusDTO.StatusChangeType.StatusReplyAll:
                     #region 升级更新属性
-                    #region 获取数据库映射
-
-                    var roleObj = NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRoleStatue);
-
-                    var rolegongfaObj = NHibernateQuerier.CriteriaSelect<RoleGongFa>(nHCriteriaRoleStatue);
-
-                    var rolemishuObj = NHibernateQuerier.CriteriaSelect<RoleMiShu>(nHCriteriaRoleStatue);
-
-                    var allianceObj = NHibernateQuerier.CriteriaSelect<RoleAllianceSkill>(nHCriteriaRoleStatue);
-
-                    //var roleringObj = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleStatue);
-                    //NHCriteria nHCriteriaring = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleringObj.RingIdArray);
-                    //var ringObj = NHibernateQuerier.CriteriaSelect<Ring>(nHCriteriaring);
-                    //var equipDict = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringObj.RingAdorn);
-                    //var weaponObj = NHibernateQuerier.CriteriaSelect<Weapon>(nHCriteriaRoleStatue);
-
-                    //foreach (var equip in equipDict)
-                    //{
-
-                    //}
-                    #endregion
-
                     #region ServerJson
                     GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, List<MishuSkillData>>>(out var mishuDict);
 
@@ -69,6 +47,29 @@ namespace AscensionServer
 
                     GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, EquipmentData>>(out var equipmentDict);
                     #endregion
+
+                    #region 获取数据库映射
+
+                    var roleObj = NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRoleStatue);
+
+                    var rolegongfaObj = NHibernateQuerier.CriteriaSelect<RoleGongFa>(nHCriteriaRoleStatue);
+
+                    var rolemishuObj = NHibernateQuerier.CriteriaSelect<RoleMiShu>(nHCriteriaRoleStatue);
+
+                    var allianceObj = NHibernateQuerier.CriteriaSelect<RoleAllianceSkill>(nHCriteriaRoleStatue);
+
+                    var roleringObj = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleStatue);
+                    NHCriteria nHCriteriaring = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleringObj.RingIdArray);
+                    var ringObj = NHibernateQuerier.CriteriaSelect<Ring>(nHCriteriaring);
+                    var equipDict = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringObj.RingAdorn);
+                    var weaponObj = NHibernateQuerier.CriteriaSelect<Weapon>(nHCriteriaRoleStatue);
+
+                    foreach (var equip in equipDict)
+                    {
+
+                    }
+                    #endregion
+
 
                     #region 应用数据
                     List<GongFa> gongfastatusList = new List<GongFa>();
@@ -142,15 +143,14 @@ namespace AscensionServer
                         roleStatusDict.TryGetValue(roleObj.RoleLevel, out roleStatusDatas);
                     }
                     StatusCalculateHelper.GetRoleStatus(gongfastatusList, mishustatusList, roleStatusDatas, out RoleStatus rolestatusTemp);
-                    StatusCalculateHelper.UpdateRoleStatus(roleStatus, rolestatusTemp, out roleStatus);
-                    if (roleStatus != null)
+                    if (rolestatusTemp != null)
                     {
-                        Utility.Debug.LogInfo("yzqData角色属性最大值为" + Utility.Json.ToJson(roleStatus));
-
-                        NHibernateQuerier.Update(roleStatus);
-                        operationData.DataMessage = Utility.Json.ToJson(roleStatus);
+                        rolestatusTemp.RoleID = roleStatus.RoleID;
+                        Utility.Debug.LogInfo("yzqData角色属性最大值为" + Utility.Json.ToJson(rolestatusTemp));
+                        operationData.DataMessage = Utility.Json.ToJson(rolestatusTemp);
                         operationData.OperationCode = (byte)OperationCode.RoleStatusFullRecovery;
                         GameManager.CustomeModule<RoleManager>().SendMessage(roleObj.RoleID, operationData);
+                        NHibernateQuerier.Update<RoleStatus>(rolestatusTemp);
                     }
                     else
                     {

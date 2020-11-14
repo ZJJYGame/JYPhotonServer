@@ -71,9 +71,9 @@ namespace AscensionServer
                     NHibernateQuerier.Update(roleGongFaObj);
                     roleGongFaObj.GongFaIDArray = Utility.Json.ToJson(gongfaDict);
                     NHibernateQuerier.Update(roleGongFaObj);
-                    DOdict.Add(0, Utility.Json.ToJson(cultivationMethod));
-                    DOdict.Add(1, Utility.Json.ToJson(roleGongFaObj));
                     roletemp.RoleLevel = 1;
+                    DOdict.Add(0, Utility.Json.ToJson(cultivationMethod));
+                    DOdict.Add(1, Utility.Json.ToJson(new RoleDTO() { RoleID= roletemp .RoleID,RoleFaction= roletemp .RoleFaction,RoleGender= roletemp .RoleGender,RoleLevel= roletemp.RoleLevel,RoleName= roletemp .RoleName,RoleRoot= roletemp .RoleRoot,RoleTalent= roletemp .RoleTalent}));
                     NHibernateQuerier.Update<Role>(roletemp);
                     OperationData operationData = new OperationData();
                     operationData.DataMessage = Utility.Json.ToJson(DOdict);
