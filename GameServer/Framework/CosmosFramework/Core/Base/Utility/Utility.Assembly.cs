@@ -248,14 +248,23 @@ namespace Cosmos
                 }
                 return set.ToArray();
             }
-            public static K AssignSameFiledValue<T, K>(T source, K target)
-                where T : class
-                where K : class
+            /// <summary>
+            /// 将一个对象上的字段值赋予到另一个对象上名字相同的字段上；
+            /// 此方法可识别属性与字段，赋值时尽量将属性的索引字段也进行命名统一；
+            /// </summary>
+            /// <typeparam name="T">需要赋值的源类型</typeparam>
+            /// <typeparam name="K">目标类型</typeparam>
+            /// <param name="source">源对象</param>
+            /// <param name="target">目标对象</param>
+            /// <returns>被赋值后的目标对象</returns>
+            public static K AssignSameFieldValue<T, K>(T source, K target)
+        where T : class
+        where K : class
             {
                 Type srcType = typeof(T);
                 Type tgType = typeof(K);
-                var srcFields = srcType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
-                var tgFields = tgType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
+                var srcFields = srcType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty);
+                var tgFields = tgType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty);
                 var length = srcFields.Length;
                 for (int i = 0; i < length; i++)
                 {
@@ -268,32 +277,33 @@ namespace Cosmos
                             {
                                 tgFields[j].SetValue(target, srcFields[i].GetValue(source));
                             }
-                            catch {}
+                            catch { }
                         }
                     }
                 }
                 return target;
             }
             /// <summary>
-            /// 遍历实例对象上的所有字段
+            /// 遍历实例对象上的所有字段；
+            /// 此方法可识别属性与字段，打印属性时候需要特别注意过滤自动属性的额外字段；
             /// </summary>
-            /// <typeparam name="T"></typeparam>
-            /// <param name="obj"></param>
-            /// <returns></returns>
-            public static string TraverseInstanceAllFiled<T>(T obj)
+            /// <typeparam name="T">实例对象类型</typeparam>
+            /// <param name="obj">实例对象</param>
+            /// <returns>每个字段与字段值的数组</returns>
+            public static string[] TraverseInstanceAllFiled<T>(T obj)
             {
                 if (obj == null)
                     return null;
                 Type type = typeof(T);
-                var fields = type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
+                var fields = type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty);
                 var length = fields.Length;
-                string str="";
+                List<string> filedSet = new List<string>();
                 for (int i = 0; i < length; i++)
                 {
                     var info = $"{fields[i].Name}:{fields[i].GetValue(obj)};";
-                    str += info;
+                    filedSet.Add(info);
                 }
-                return str;
+                return filedSet.ToArray();
             }
         }
     }

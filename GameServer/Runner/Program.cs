@@ -26,7 +26,7 @@ namespace Runner
                 BestBlood = 99
             };
             RoleStatusDTO rsdto = new RoleStatusDTO();
-            Utility.Assembly.AssignSameFiledValue(rsd, rsdto);
+            Utility.Assembly.AssignSameFieldValue(rsd, rsdto);
             Console.WriteLine(Utility.Assembly.TraverseInstanceAllFiled(rsdto));
             Console.ReadKey();
         }
