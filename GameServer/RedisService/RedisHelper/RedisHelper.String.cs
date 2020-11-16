@@ -36,7 +36,8 @@ namespace RedisDotNet
                 return redisDB.StringSet(newkeyValues);
             }
             /// <summary>
-            /// 保存一个对象
+            /// 保存一个对象；
+            /// 若值存在，则覆写； 
             /// </summary>
             /// <typeparam name="T">对象类型</typeparam>
             /// <param name="key">保存的Key名称</param>
