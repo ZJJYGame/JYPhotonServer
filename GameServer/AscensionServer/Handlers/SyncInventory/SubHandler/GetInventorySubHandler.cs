@@ -40,18 +40,18 @@ namespace AscensionServer
                 case InventoryInstructions.GetData:
                     InventoryManager.GetDataCmd(InventoryRoleObj.RoleID, InventoryObj, nHCriteriaRingID);
                     break;
-                //case InventoryInstructions.AddData:
-                //    InventoryManager.AddDataCmd(InventoryRoleObj.RoleID, InventoryObj, nHCriteriaRingID);
-                //    break;
-                //case InventoryInstructions.UpdateData:
-                //    InventoryManager.UdpateCmd(InventoryRoleObj.RoleID, InventoryObj, nHCriteriaRingID);
-                //    break;
-                //case InventoryInstructions.RemoveData:
-                //    InventoryManager.RemoveCmd(InventoryRoleObj.RoleID, InventoryObj, nHCriteriaRingID);
-                //    break;
-                //case InventoryInstructions.SortingData:
-                //    InventoryManager.SortingCmd(InventoryRoleObj.RoleID, InventoryObj, nHCriteriaRingID);
-                //    break;
+                case InventoryInstructions.AddData:
+                    InventoryManager.AddDataCmd(InventoryRoleObj.RoleID, InventoryObj, nHCriteriaRingID);
+                    break;
+                case InventoryInstructions.UpdateData:
+                    InventoryManager.UdpateCmd(InventoryRoleObj.RoleID, InventoryObj, nHCriteriaRingID);
+                    break;
+                case InventoryInstructions.RemoveData:
+                    InventoryManager.RemoveCmd(InventoryRoleObj.RoleID, InventoryObj, nHCriteriaRingID);
+                    break;
+                case InventoryInstructions.SortingData:
+                    InventoryManager.SortingCmd(InventoryRoleObj.RoleID, InventoryObj, nHCriteriaRingID);
+                    break;
             }
             #region ob
             /*
