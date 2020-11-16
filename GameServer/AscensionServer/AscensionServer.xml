@@ -112,7 +112,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -604,7 +604,7 @@
             </summary>
             
         </member>
-        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -828,7 +828,7 @@
             技能触发时机
              </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.battleSkillEventTriggerCondition(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO})">
+        <member name="M:AscensionServer.ServerBattleManager.battleSkillEventTriggerCondition(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,AscensionProtocol.DTO.RoleBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO})">
             <summary>
              技能 触发来源
             </summary>
@@ -838,7 +838,7 @@
             <param name="enemySetObject"></param>
             <param name="targetInfoDTOsSet"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.battleSkillEventTriggerNumSourceType(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO})">
+        <member name="M:AscensionServer.ServerBattleManager.battleSkillEventTriggerNumSourceType(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,AscensionProtocol.DTO.RoleBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO})">
             <summary>
             技能触发条件
             </summary>
@@ -848,7 +848,7 @@
             <param name="enemySetObject"></param>
             <param name="targetInfoDTOsSet"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.battleSkillTriggerEventType(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO})">
+        <member name="M:AscensionServer.ServerBattleManager.battleSkillTriggerEventType(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,AscensionProtocol.DTO.RoleBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO})">
             <summary>
             技能触发事件类型
             </summary>
@@ -2012,7 +2012,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；

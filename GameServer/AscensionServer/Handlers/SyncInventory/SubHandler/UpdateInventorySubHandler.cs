@@ -205,13 +205,8 @@ namespace AscensionServer
                                         }
                                         else
                                         {
-                                            //if (!ServerDictAdorn.ContainsKey(firstAdorn))
-                                            //    ServerDic.Add(firstAdorn, ServerDictAdorn[firstAdorn]);
-                                            //else if (!ServerDic.ContainsKey(firstAdorn))
-                                            //    ServerDic.Add(firstAdorn, ServerDictAdorn[firstAdorn]);
                                             ServerDic.Add(firstAdorn, ServerDictAdorn[firstAdorn]);
                                             ServerDic[firstAdorn].RingItemAdorn = "0";
-                                            //ServerDic[firstAdorn].RingItemCount = 1;
                                             ServerDictAdorn.Remove(firstAdorn);
                                         }
                                     }
@@ -243,84 +238,7 @@ namespace AscensionServer
                         }
                         NHibernateQuerier.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDic), RingMagicDictServer = Utility.Json.ToJson(ServerMagicDic), RingAdorn = Utility.Json.ToJson(ServerDictAdorn) });
                     }
-                    #region ob
-
-
-                    /*
-                    var firstKey = 0;
-                    posDict = new Dictionary<int, RingItemsDTO>();
-                    if (!ServerDic.ContainsKey(client_p.Key))
-                    {
-                        Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-                        continue;
-                    }
-                    else
-                    {
-                        var serverData = ServerDic[client_p.Key];
-                        firstKey = ServerDic.FirstOrDefault(q => q.Value.RingItemAdorn  == "1"|| q.Value.RingItemAdorn == "2").Key;
-                        if (serverData.RingItemCount > client_p.Value.RingItemCount)
-                        {
-                            serverData.RingItemCount -= client_p.Value.RingItemCount;
-                            serverData.RingItemTime = serverData.RingItemTime;
-                            serverData.RingItemAdorn = client_p.Value.RingItemAdorn;
-                            if (ServerMagicDic.Count != 0)
-                            {
-
-                                for (int i = 0; i < ServerMagicDic.Count; i++)
-                                {
-                                    if (ServerMagicDic.Values.ToList()[i] == -1 && client_p.Value.RingItemAdorn == "2")
-                                    {
-                                        ServerMagicDic[i] = client_p.Key;
-                                        break;
-                                    }
-                                    else if (ServerMagicDic.Values.ToList()[i] == client_p.Key && client_p.Value.RingItemAdorn == "0")
-                                    {
-                                        ServerMagicDic[i] = -1;
-                                        break;
-                                    }
-                                }
-                            }
-                            if (firstKey != 0)
-                            {
-                                Utility.Debug.LogInfo("<>" + firstKey);
-                                //posDict.Clear();
-                                var tempDict = ServerDic;
-                                var indexOne = ServerDic.ToList().FindIndex(s => s.Key == client_p.Key);
-                                //AscensionServer._Log.Info("<>" + indexOne);
-                                var indexTwo = ServerDic.ToList().FindIndex(s => s.Key == firstKey);
-                                //AscensionServer._Log.Info("<>" + indexTwo);
-                                for (int i = 0; i < ServerDic.Count; i++)
-                                {
-                                    int numb = i;
-                                    if (indexOne == numb)
-                                    {
-                                        posDict.Add(firstKey, tempDict[firstKey]);
-                                        //AscensionServer._Log.Info("<>" + firstKey);
-                                        continue;
-                                    }
-                                    if (indexTwo == numb)
-                                    {
-                                        posDict.Add(client_p.Key, tempDict[client_p.Key]);
-                                        //AscensionServer._Log.Info("<>" + client_p.Key);
-                                        continue;
-                                    }
-                                    posDict.Add(ServerDic.ToList()[numb].Key, ServerDic.ToList()[numb].Value);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            ServerDic.Remove(client_p.Key);
-                        }
-                    }
-                    Utility.Debug.LogInfo("<>" + posDict.Count);
-                    Utility.Debug.LogInfo("<>" + ServerDic.Count);
-                    ServerDic = posDict.Count == 0 ? ServerDic : posDict;
-                    //var serverJsonDict = firstKey != 0 ? posDict : ServerDic;
-
-                    */
-
-                    #endregion
+ 
                     SetResponseParamters(() =>
                     {
                         operationResponse.Parameters = subResponseParameters;

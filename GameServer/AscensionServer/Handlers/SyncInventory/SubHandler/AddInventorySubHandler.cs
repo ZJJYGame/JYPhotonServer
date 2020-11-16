@@ -60,15 +60,10 @@ namespace AscensionServer
                 {
                     var ServerDict = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingItems);
                     var ServerDictAdorn = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingAdorn);
-                    //Dictionary<int, RingItemsDTO> posDict ;
+
                     foreach (var client_p in InventoryObj.RingItems)
                     {
-                        //if (firstKeyDefault != 0)
-                        //{
-                        //    ///替换键值对
-                        //    //ServerDict = ServerDict.ToDictionary(k => k.Key == client_p.Key ? 1 : k.Key, k => k.Value);
-                        //    //dict = dict.ToDictionary(k => k.Key == "abc" ? "abce" : k.Key, k => k.Value);
-                        //}
+                        
                         if (!ServerDict.ContainsKey(client_p.Key) && !ServerDictAdorn.ContainsKey(client_p.Key))
                         {
                             if (client_p.Value.RingItemCount > client_p.Value.RingItemMax)
@@ -366,57 +361,6 @@ namespace AscensionServer
                             }
                         }
                     }
-                    #region 
-                    /*
-
-                 foreach (var client_p in InventoryObj.RingItems)
-                 {
-                     var firstKey = 0;
-                     posDict = new Dictionary<int, RingItemsDTO>();
-                     firstKey = ServerDict.FirstOrDefault(q => q.Value.RingItemAdorn == "1" || q.Value.RingItemAdorn == "2").Key;
-                     if (!ServerDict.ContainsKey(client_p.Key))
-                     {
-
-                         ServerDict.Add(client_p.Key, client_p.Value);
-                         if (firstKey != 0)
-                         {
-                             //AscensionServer._Log.Info("<>" + firstKey);
-                             var tempDict = ServerDict;
-                             var indexOne = ServerDict.ToList().FindIndex(s => s.Key == client_p.Key);
-                             var indexTwo = ServerDict.ToList().FindIndex(s => s.Key == firstKey);
-                             //AscensionServer._Log.Info("<>" + indexOne);//-1
-                             //AscensionServer._Log.Info("<>" + indexTwo);
-                             for (int i = 0; i < ServerDict.Count; i++)
-                             {
-                                 int numb = i;
-                                 if (indexOne == numb)
-                                 {
-                                     posDict.Add(firstKey, tempDict[firstKey]);
-                                     continue;
-                                 }
-                                 if (indexTwo == numb)
-                                 {
-                                     posDict.Add(client_p.Key, tempDict[client_p.Key]);
-                                     continue;
-                                 }
-                                 posDict.Add(ServerDict.ToList()[numb].Key, ServerDict.ToList()[numb].Value);
-                             }
-                         }
-                     }
-                     else
-                     {
-                         var severValue = ServerDict[client_p.Key];
-                         if (client_p.Value.RingItemCount > 0)
-                             severValue.RingItemCount += client_p.Value.RingItemCount;
-                         if (severValue.RingItemAdorn != client_p.Value.RingItemAdorn)
-                             severValue.RingItemAdorn = client_p.Value.RingItemAdorn;
-                         if (severValue.RingItemTime != client_p.Value.RingItemTime)
-                             severValue.RingItemTime = client_p.Value.RingItemTime;
-                     }
-                     ServerDict = posDict.Count == 0 ? ServerDict : posDict;
-                 */
-                    #endregion
-
                     NHibernateQuerier.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDict), RingMagicDictServer = ringServerArray.RingMagicDictServer , RingAdorn =Utility.Json.ToJson(ServerDictAdorn) });
                     SetResponseParamters(() =>
                     {

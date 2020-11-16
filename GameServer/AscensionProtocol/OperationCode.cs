@@ -313,10 +313,17 @@ namespace AscensionProtocol
         /// </summary>
         SyncTeamMessageMatch = 154,
         #endregion
+        #region Inventory  背包对应的Cmd码
+        SyncInventoryMessageGet = 155,
+        SyncInventoryMessageAdd = 156,
+        SyncInventoryMessageUpdate = 157,
+        SyncInventoryMessageRemove = 158,
+        SyncInventoryMessageSort = 159,
+        #endregion
         /// <summary>
         /// 测试消息队列
         /// </summary>
-        MessageQueue = 157,
+        MessageQueue = 187,
         /// <summary>
         /// 网关token
         /// </summary>

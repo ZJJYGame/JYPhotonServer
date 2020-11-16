@@ -323,11 +323,8 @@ namespace AscensionServer
         /// </summary>
         public void BattleSkillEventDataMethod(List<BattleSkillEventData> battleSkillEvents, int roleId, int currentId, EnemyBattleDataDTO enemySetObject,int index, List<BattleTransferDTO.TargetInfoDTO> targetInfoDTOsSet)
         {
-            RoleBattleDataDTO tempSet = null;
-            EnemyBattleDataDTO enemySet = null;
-            //tempSet = playerSetObject;
-            //enemySet = enemySetObject;
-
+            var playerSet = _teamIdToBattleInit[roleId].playerUnits;
+            var playerSetObject = playerSet.Find(x => x.RoleStatusDTO.RoleID == currentId);
             if (battleSkillEvents.Count == 0)
                 return;
             for (int ov = 0; ov < battleSkillEvents.Count; ov++)
@@ -335,7 +332,7 @@ namespace AscensionServer
                 switch (battleSkillEvents[ov].battleSkillEventTriggerTime)
                 {
                     case BattleSkillEventTriggerTime.BeforeAttack:
-                        battleSkillEventTriggerCondition(battleSkillEvents[ov], roleId, currentId, enemySetObject, targetInfoDTOsSet);
+                        battleSkillEventTriggerCondition(battleSkillEvents[ov], roleId, currentId, enemySetObject, playerSetObject, targetInfoDTOsSet);
                         break;
                     case BattleSkillEventTriggerTime.BehindAttack:
                         break;
@@ -351,12 +348,12 @@ namespace AscensionServer
         /// <param name="currentId"></param>
         /// <param name="enemySetObject"></param>
         /// <param name="targetInfoDTOsSet"></param>
-        public void battleSkillEventTriggerCondition(BattleSkillEventData battleSkillEvents, int roleId, int currentId, EnemyBattleDataDTO enemySetObject, List<BattleTransferDTO.TargetInfoDTO> targetInfoDTOsSet)
+        public void battleSkillEventTriggerCondition(BattleSkillEventData battleSkillEvents, int roleId, int currentId, EnemyBattleDataDTO enemySetObject,RoleBattleDataDTO playerSetObject, List<BattleTransferDTO.TargetInfoDTO> targetInfoDTOsSet)
         {
             switch (battleSkillEvents.battleSkillEventTriggerNumSourceType)
             {
                 case BattleSkillEventTriggerNumSourceType.Health:
-                    battleSkillEventTriggerNumSourceType(battleSkillEvents, roleId, currentId, enemySetObject, targetInfoDTOsSet);
+                    battleSkillEventTriggerNumSourceType(battleSkillEvents, roleId, currentId, enemySetObject, playerSetObject, targetInfoDTOsSet);
                     break;
                 case BattleSkillEventTriggerNumSourceType.PhysicDefense:
                     break;
@@ -377,7 +374,7 @@ namespace AscensionServer
         /// <param name="currentId"></param>
         /// <param name="enemySetObject"></param>
         /// <param name="targetInfoDTOsSet"></param>
-        public void battleSkillEventTriggerNumSourceType(BattleSkillEventData battleSkillEvents, int roleId, int currentId, EnemyBattleDataDTO enemySetObject, List<BattleTransferDTO.TargetInfoDTO> targetInfoDTOsSet)
+        public void battleSkillEventTriggerNumSourceType(BattleSkillEventData battleSkillEvents, int roleId, int currentId, EnemyBattleDataDTO enemySetObject, RoleBattleDataDTO playerSetObject, List<BattleTransferDTO.TargetInfoDTO> targetInfoDTOsSet)
         {
             switch (battleSkillEvents.battleSkillEventTriggerCondition)
             {
@@ -389,10 +386,15 @@ namespace AscensionServer
                     break;
                 case BattleSkillEventTriggerCondition.TargetPropertyOver:
                     var tempNumSourceType = ((float)enemySetObject.EnemyStatusDTO.EnemyHP / enemySetObject.EnemyStatusDTO.EnemyMaxHP) * 100;
-                    if (tempNumSourceType <= battleSkillEvents.conditionPercentNum)
-                        battleSkillTriggerEventType(battleSkillEvents, roleId, currentId, enemySetObject, targetInfoDTOsSet);
+                    if (tempNumSourceType <= battleSkillEvents.conditionPercentNum|| battleSkillEvents.conditionFixedNum != 0)
+                        battleSkillTriggerEventType(battleSkillEvents, roleId, currentId, enemySetObject, playerSetObject, targetInfoDTOsSet);
                     break;
                 case BattleSkillEventTriggerCondition.SelfPropertyUnder:
+                    var tempNumSourcePlayer = ((float)playerSetObject.RoleStatusDTO.RoleHP / playerSetObject.RoleStatusDTO.RoleMaxHP) * 100;
+                    if (tempNumSourcePlayer> battleSkillEvents.conditionPercentNum || battleSkillEvents.conditionFixedNum != 0)
+                    {
+
+                    }
                     break;
                 case BattleSkillEventTriggerCondition.SelfPropertyOver:
                     break;
@@ -407,10 +409,9 @@ namespace AscensionServer
         /// <param name="currentId"></param>
         /// <param name="enemySetObject"></param>
         /// <param name="targetInfoDTOsSet"></param>
-        public void battleSkillTriggerEventType(BattleSkillEventData battleSkillEvents,int roleId,int currentId, EnemyBattleDataDTO enemySetObject, List<BattleTransferDTO.TargetInfoDTO> targetInfoDTOsSet)
+        public void battleSkillTriggerEventType(BattleSkillEventData battleSkillEvents,int roleId,int currentId, EnemyBattleDataDTO enemySetObject,RoleBattleDataDTO playerSetObject, List<BattleTransferDTO.TargetInfoDTO> targetInfoDTOsSet)
         {
-            var playerSet = _teamIdToBattleInit[roleId].playerUnits;
-            var playerSetObject = playerSet.Find(x => x.RoleStatusDTO.RoleID == currentId);
+           
             switch (battleSkillEvents.battleSkillTriggerEventType)
             {
                 case BattleSkillTriggerEventType.Skill:

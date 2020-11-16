@@ -23,34 +23,58 @@ namespace AscensionServer
             var InventoryData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Inventory) as string;
             Utility.Debug.LogInfo(">>>>>接收roleId" + InventoryRoleData + ">>>>>>>>>>>>>");
             Utility.Debug.LogInfo(">>>>>接收背包的数据" + InventoryData + ">>>>>>>>>>>>>");
-            var InventoryRoleObj = Utility.Json.ToObject<RoleRing>(InventoryRoleData);
+            var InventoryRoleObj = Utility.Json.ToObject<RoleDTO>(InventoryRoleData);
             var InventoryObj = Utility.Json.ToObject<RingDTO>(InventoryData);
-
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", InventoryRoleObj.RoleID);
             bool exist = NHibernateQuerier.Verify<RoleRing>(nHCriteriaRoleID);
-            var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
-            NHCriteria nHCriteriaRingID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
-            bool existRing = NHibernateQuerier.Verify<Ring>(nHCriteriaRingID);
-            if (exist && existRing)
+            bool existRing = false;
+            NHCriteria nHCriteriaRingID = null;
+            if (exist)
+            {
+                var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
+                nHCriteriaRingID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
+                existRing = NHibernateQuerier.Verify<Ring>(nHCriteriaRingID);
+            }
+            switch (InventoryRoleObj.InventoryInstructions)
+            {
+                case InventoryInstructions.GetData:
+                    InventoryManager.GetDataCmd(InventoryRoleObj.RoleID, InventoryObj, nHCriteriaRingID);
+                    break;
+                //case InventoryInstructions.AddData:
+                //    InventoryManager.AddDataCmd(InventoryRoleObj.RoleID, InventoryObj, nHCriteriaRingID);
+                //    break;
+                //case InventoryInstructions.UpdateData:
+                //    InventoryManager.UdpateCmd(InventoryRoleObj.RoleID, InventoryObj, nHCriteriaRingID);
+                //    break;
+                //case InventoryInstructions.RemoveData:
+                //    InventoryManager.RemoveCmd(InventoryRoleObj.RoleID, InventoryObj, nHCriteriaRingID);
+                //    break;
+                //case InventoryInstructions.SortingData:
+                //    InventoryManager.SortingCmd(InventoryRoleObj.RoleID, InventoryObj, nHCriteriaRingID);
+                //    break;
+            }
+            #region ob
+            /*
+        if (exist && existRing)
+        {
+            SetResponseParamters(() =>
             {
                 var ringServerArray = NHibernateQuerier.CriteriaSelect<Ring>(nHCriteriaRingID);
-              
-                SetResponseParamters(() =>
-                {
-                    subResponseParameters.Add((byte)ParameterCode.Inventory, ringServerArray.RingItems);
-                    subResponseParameters.Add((byte)ParameterCode.RoleRingMagic, ringServerArray.RingMagicDictServer);
-                    subResponseParameters.Add((byte)ParameterCode.RoleTemInventory, ringServerArray.RingAdorn);
-                    operationResponse.Parameters = subResponseParameters;
-                    operationResponse.ReturnCode = (short)ReturnCode.Success;
-                });
-            }
-            else
+                subResponseParameters.Add((byte)ParameterCode.Inventory, ringServerArray.RingItems);
+                subResponseParameters.Add((byte)ParameterCode.RoleRingMagic, ringServerArray.RingMagicDictServer);
+                subResponseParameters.Add((byte)ParameterCode.RoleTemInventory, ringServerArray.RingAdorn);
+                operationResponse.Parameters = subResponseParameters;
+                operationResponse.ReturnCode = (short)ReturnCode.Success;
+            });
+        }
+        else
+        {
+            SetResponseParamters(() =>
             {
-                SetResponseParamters(() =>
-                {
-                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
-                });
-            }
+                operationResponse.ReturnCode = (short)ReturnCode.Fail;
+            });
+        }*/
+            #endregion
             GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
             return operationResponse;
         }

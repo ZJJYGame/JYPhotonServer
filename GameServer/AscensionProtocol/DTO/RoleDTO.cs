@@ -6,7 +6,7 @@ using System.Text;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class RoleDTO:DataTransferObject
+    public class RoleDTO : DataTransferObject
     {
         public virtual int RoleID { get; set; }
         public virtual byte RoleFaction { get; set; }
@@ -15,6 +15,11 @@ namespace AscensionProtocol.DTO
         public virtual string RoleRoot { get; set; }
         public virtual string RoleName { get; set; }
         public virtual int RoleLevel { get; set; }
+
+        #region Inventory
+        public virtual InventoryInstructions InventoryInstructions { get; set; }
+        #endregion
+
         #region team  
         public virtual TeamInstructions teamInstructions { get; set; }
         public virtual TeamDTO teamDTO { get; set; } 
@@ -41,6 +46,18 @@ namespace AscensionProtocol.DTO
             return str;
         }
     }
+    /// <summary>
+    /// 背包指令
+    /// </summary>
+    public enum InventoryInstructions
+    {
+        GetData,
+        AddData,
+        UpdateData,
+        RemoveData,
+        SortingData
+    }
+
 
     /// <summary>
     /// 组队Cmd
@@ -155,4 +172,4 @@ namespace AscensionProtocol.DTO
 
     }
     #endregion
-}
+}   
