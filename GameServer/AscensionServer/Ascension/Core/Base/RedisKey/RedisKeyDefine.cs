@@ -25,6 +25,10 @@ namespace AscensionServer
         /// </summary>
         public static readonly string _MiShuPerfix = "MiShu";
         /// <summary>
+        /// 角色秘术的Key前缀
+        /// </summary>
+        public static readonly string _RoleMiShuPerfix = "RoleMiShu";
+        /// <summary>
         /// 宠物的Key前缀
         /// </summary>
         public static readonly string _PetPerfix = "Pet";
@@ -92,5 +96,17 @@ namespace AscensionServer
         /// 阵法记录删除回调的key前缀
         /// </summary>
         public static readonly string _DeldteTacticalPerfix = "Tactical";
+        /// <summary>
+        /// 角色属性值的key前缀
+        /// </summary>
+        public static readonly string _RoleStatsuPerfix = "RoleStatus";
+        /// <summary>
+        /// 角色功法的key前缀
+        /// </summary>
+        public static readonly string _RoleGongfaPerfix = "RoleGongfa";
+        /// <summary>
+        /// 功法的key前缀
+        /// </summary>
+        public static readonly string _GongfaPerfix = "Gongfa";
     }
 }

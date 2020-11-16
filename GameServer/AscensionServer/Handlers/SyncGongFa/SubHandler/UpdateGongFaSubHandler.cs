@@ -17,8 +17,6 @@ namespace AscensionServer
         {
             var receivedRoleData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
             var receivedData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.GongFa));
-            Utility.Debug.LogInfo(">>>>>>>>>>>>接收功法数据：" + receivedRoleData + ">>>>>>>>>>>>>>>>>>>>>>");
-            Utility.Debug.LogInfo(">>>>>>>>>>>>接收功法数据：" + receivedData + ">>>>>>>>>>>>>>>>>>>>>>");
             var receivedRoleObj = Utility.Json.ToObject<RoleGongFa>(receivedRoleData);
             var receivedObj = Utility.Json.ToObject<CultivationMethod>(receivedData);
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
@@ -66,6 +64,7 @@ namespace AscensionServer
                     }
                 }             
                 operationResponse.Parameters = subResponseParameters;
+                GameManager.ReferencePoolManager.Despawn(nHCriteriaGongFaID);
             }
             else
             {

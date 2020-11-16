@@ -69,7 +69,7 @@ namespace AscensionServer.Threads
             //data.Add((byte)ParameterCode.RelieveUnit, Utility.Json.ToJson(occupiedUnitDTOs));
             //EventData.Parameters = data;
             OperationData operationData = new OperationData();
-            operationData.DataMessage = occupiedUnitDTOs;
+            operationData.DataMessage = Utility.Json.ToJson(occupiedUnitDTOs);
             GameManager.CustomeModule<GameResourceManager>().OccupiedUnitSetCache.Clear();
             levelmanager.SendMsg2AllLevelRoleS2C(0, operationData);
 

@@ -52,8 +52,8 @@ namespace AscensionServer
                             DOdict.Add(0, Utility.Json.ToJson(cultivationMethod));
                             DOdict.Add(1, Utility.Json.ToJson(roleGongFaObj));
                         #region Redis模块
-                        RedisHelper.Hash.HashSet<CultivationMethod>("CultivationMethod", cultivationMethod.CultivationMethodID.ToString(), cultivationMethod);
-                        RedisHelper.Hash.HashSet<RoleGongFa>("RoleGongFa", roleObj.RoleID.ToString(), roleGongFaObj);
+                        RedisHelper.Hash.HashSet<CultivationMethod>(RedisKeyDefine._GongfaPerfix, cultivationMethod.CultivationMethodID.ToString(), cultivationMethod);
+                        RedisHelper.Hash.HashSet<RoleGongFa>(RedisKeyDefine._RoleGongfaPerfix, roleObj.RoleID.ToString(), roleGongFaObj);
                         #endregion
                         SetResponseParamters(() =>
                             {
@@ -79,6 +79,10 @@ namespace AscensionServer
                     operationData.DataMessage = Utility.Json.ToJson(DOdict);
                     operationData.OperationCode = (byte)OperationCode.AddFirstGongfa;
                     GameManager.CustomeModule<RoleManager>().SendMessage(roleObj.RoleID, operationData);
+                    #region Redis模块
+                    RedisHelper.Hash.HashSet<CultivationMethod>(RedisKeyDefine._RoleGongfaPerfix, cultivationMethod.CultivationMethodID.ToString(), cultivationMethod);
+                    RedisHelper.Hash.HashSet<RoleGongFa>(RedisKeyDefine._GongfaPerfix, roleObj.RoleID.ToString(), roleGongFaObj);
+                    #endregion
                 }
             }
             GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
