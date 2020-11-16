@@ -456,6 +456,10 @@ namespace AscensionServer
         {
             if (roleStatusSever.RoleHP<0)
                 roleStatusSever.RoleHP = 0;
+            if (roleStatusSever.RoleMP < 0)
+                roleStatusSever.RoleMP = 0;
+            if (roleStatusSever.RoleSoul < 0)
+                roleStatusSever.RoleSoul = 0;
             NHibernateQuerier.Update(new RoleStatus()
             {
                 RoleID = roleId,

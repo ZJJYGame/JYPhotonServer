@@ -485,61 +485,6 @@
             用于初始化 战斗数据 和管理 战斗的数据缓存
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.IsToSkillForm(System.Int32)">
-            <summary>
-            判断技能功法秘术是不是存在json 数据表格里
-            </summary>
-            <param name="targetId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.SkillFormToSkillObject(System.Int32)">
-            <summary>
-            返回 一个存在的技能对象
-            </summary>
-            <param name="targerId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.PropsInstrutionFormToObject(System.Int32)">
-            <summary>
-            针对 道具中得 丹药和符箓
-            </summary>
-            <param name="targetId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.MagicWeaponFormToObject(System.Int32)">
-            <summary>
-            针对 法宝
-            </summary>
-            <param name="targetId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.SkillActionDifferentCmd(AscensionProtocol.DTO.BattleCmd,System.Int32,System.Int32)">
-            <summary>
-            不同技能行为的Cmd
-            </summary>
-            <param name="battleCmd"></param>
-            <param name="roleId"></param>
-            <param name="roomId"></param>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.SkillFormToObject(System.Int32)">
-            <summary>
-            判断释放的技能是不是存在json中
-            </summary>
-            <param name="targetId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.ServerToClientResult(AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO)">
-            <summary>
-            返回给客户端的计算伤害
-            </summary>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.ServerToClientResults(AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO)">
-            <summary>
-            计算多段伤害用的
-            </summary>
-            <param name="targetInfo"></param>
-            <returns></returns>
-        </member>
         <member name="M:AscensionServer.ServerBattleManager.ReleaseToSpeed(System.Int32)">
             <summary>
             出手速度
@@ -973,6 +918,61 @@
             <param name="ov"></param>
             <param name="minValue"></param>
             <param name="maxValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.IsToSkillForm(System.Int32)">
+            <summary>
+            判断技能功法秘术是不是存在json 数据表格里
+            </summary>
+            <param name="targetId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.SkillFormToSkillObject(System.Int32)">
+            <summary>
+            返回 一个存在的技能对象
+            </summary>
+            <param name="targerId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.PropsInstrutionFormToObject(System.Int32)">
+            <summary>
+            针对 道具中得 丹药和符箓
+            </summary>
+            <param name="targetId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.MagicWeaponFormToObject(System.Int32)">
+            <summary>
+            针对 法宝
+            </summary>
+            <param name="targetId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.SkillActionDifferentCmd(AscensionProtocol.DTO.BattleCmd,System.Int32,System.Int32)">
+            <summary>
+            不同技能行为的Cmd
+            </summary>
+            <param name="battleCmd"></param>
+            <param name="roleId"></param>
+            <param name="roomId"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.SkillFormToObject(System.Int32)">
+            <summary>
+            判断释放的技能是不是存在json中
+            </summary>
+            <param name="targetId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.ServerToClientResult(AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO)">
+            <summary>
+            返回给客户端的计算伤害
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.ServerToClientResults(AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO)">
+            <summary>
+            计算多段伤害用的
+            </summary>
+            <param name="targetInfo"></param>
             <returns></returns>
         </member>
         <member name="T:AscensionServer.BattleEndDelegateHandle">

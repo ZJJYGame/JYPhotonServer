@@ -206,7 +206,6 @@
     <Compile Include="Ascension\Core\Base\Input\IInputData.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\NetworkHelper\PhotonMessageHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\IBattleAlgorithmProvider.cs" />
-    <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.CmdType.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.Common.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.Delegate.cs" />
