@@ -227,6 +227,11 @@
             秘术的Key前缀
             </summary>
         </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleMiShuPerfix">
+            <summary>
+            角色秘术的Key前缀
+            </summary>
+        </member>
         <member name="F:AscensionServer.RedisKeyDefine._PetPerfix">
             <summary>
             宠物的Key前缀
@@ -310,6 +315,21 @@
         <member name="F:AscensionServer.RedisKeyDefine._DeldteTacticalPerfix">
             <summary>
             阵法记录删除回调的key前缀
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleStatsuPerfix">
+            <summary>
+            角色属性值的key前缀
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleGongfaPerfix">
+            <summary>
+            角色功法的key前缀
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._GongfaPerfix">
+            <summary>
+            功法的key前缀
             </summary>
         </member>
         <member name="T:AscensionServer.DataStream">

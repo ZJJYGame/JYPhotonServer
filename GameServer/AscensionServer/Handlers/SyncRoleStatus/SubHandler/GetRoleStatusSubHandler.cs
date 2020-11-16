@@ -22,11 +22,13 @@ namespace AscensionServer
             var dict = operationRequest.Parameters;
             string rolestatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleStatus));
             var rolestatusObj = Utility.Json.ToObject<RoleStatusDTO>(rolestatusJson);
-            Utility.Debug.LogInfo("yzqData收到的角色数据"+ rolestatusJson);
+           // Utility.Debug.LogInfo("yzqData收到的角色数据"+ rolestatusJson);
             NHCriteria nHCriteriaRoleStatue = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolestatusObj.RoleID);
             var roleStatus = NHibernateQuerier.CriteriaSelect<RoleStatus>(nHCriteriaRoleStatue);
             OperationData operationData = new OperationData();
-            Utility.Debug.LogInfo("yzqData数据库找到的角色数据" + Utility.Json.ToJson(roleStatus));
+         //   Utility.Debug.LogInfo("yzqData数据库找到的角色数据" + Utility.Json.ToJson(roleStatus));
+            List<NHCriteria> nHCriteriaList = new List<NHCriteria>();
+            nHCriteriaList.Add(nHCriteriaRoleStatue);
             switch (rolestatusObj.StatusChange)
             {
                 case RoleStatusDTO.StatusChangeType.StatusGet:
@@ -47,7 +49,6 @@ namespace AscensionServer
 
                     GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, EquipmentData>>(out var equipmentDict);
                     #endregion
-
                     #region 获取数据库映射
 
                     var roleObj = NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRoleStatue);
@@ -58,19 +59,17 @@ namespace AscensionServer
 
                     var allianceObj = NHibernateQuerier.CriteriaSelect<RoleAllianceSkill>(nHCriteriaRoleStatue);
 
-                    var roleringObj = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleStatue);
-                    NHCriteria nHCriteriaring = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleringObj.RingIdArray);
-                    var ringObj = NHibernateQuerier.CriteriaSelect<Ring>(nHCriteriaring);
-                    var equipDict = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringObj.RingAdorn);
-                    var weaponObj = NHibernateQuerier.CriteriaSelect<Weapon>(nHCriteriaRoleStatue);
+                    //var roleringObj = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleStatue);
+                    //NHCriteria nHCriteriaring = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleringObj.RingIdArray);
+                    //var ringObj = NHibernateQuerier.CriteriaSelect<Ring>(nHCriteriaring);
+                    //var equipDict = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringObj.RingAdorn);
+                    //var weaponObj = NHibernateQuerier.CriteriaSelect<Weapon>(nHCriteriaRoleStatue);
 
-                    foreach (var equip in equipDict)
-                    {
+                    //foreach (var equip in equipDict)
+                    //{
 
-                    }
+                    //}
                     #endregion
-
-
                     #region 应用数据
                     List<GongFa> gongfastatusList = new List<GongFa>();
                     List<MishuSkillData> mishustatusList = new List<MishuSkillData>();
@@ -161,7 +160,7 @@ namespace AscensionServer
                 default:
                     break;
             }
-
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaList);
             return operationResponse;
         }
     }

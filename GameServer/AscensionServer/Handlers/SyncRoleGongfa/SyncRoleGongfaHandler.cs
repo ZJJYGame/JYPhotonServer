@@ -45,6 +45,7 @@ namespace AscensionServer
                     GameManager.CustomeModule<RoleManager>().SendMessage(roleObj.RoleID, operationData);
                 }
             }
+            GameManager.ReferencePoolManager.Despawns(nHCriteriaList);
             return operationResponse;
         }
 

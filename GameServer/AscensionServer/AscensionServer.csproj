@@ -179,6 +179,8 @@
     <Compile Include="Ascension\Core\Base\DataObject\MagicWeaponData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MiShuData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MonsterDatas.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\PetAptitudeData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\PetLevelData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RoleStatusDatas.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RunesData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\SkillGongFaDatas.cs" />
