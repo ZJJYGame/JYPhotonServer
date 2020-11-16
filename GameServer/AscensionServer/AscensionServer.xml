@@ -1971,6 +1971,45 @@
             <param name="CraryVaule"></param>
             <returns></returns>
         </member>
+        <member name="M:AscensionServer.InventoryManager.CriteriaSelectMethod``1(AscensionServer.NHCriteria)">
+            <summary>
+            映射T
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="nHCriteria"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.ServerToClientParams(AscensionServer.Model.Ring)">
+            <summary>
+            返回给客端户的参数
+            </summary>
+            <param name="ringServerArray"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.NumberCountMethod(System.Int32,System.Int32)">
+            <summary>
+            需要count
+            </summary>
+            <param name="_ItemHeld"></param>
+            <param name="_ItemMax"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.HeldMethod(System.Int32,System.Int32)">
+            <summary>
+            剩余的个数
+            </summary>
+            <param name="_ItemHeld"></param>
+            <param name="_ItemMax"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.GetDataCmd(System.Int32,AscensionProtocol.DTO.RingDTO,AscensionServer.NHCriteria)">
+            <summary>
+            获得背包数据的Cmd
+            </summary>
+            <param name="roleId"></param>
+            <param name="InventoryObj"></param>
+            <param name="nHCriteria"></param>
+        </member>
         <member name="M:AscensionServer.Log4NetDebugHelper.LogFatal(System.Object,System.Object)">
             <summary>
             谨慎使用；

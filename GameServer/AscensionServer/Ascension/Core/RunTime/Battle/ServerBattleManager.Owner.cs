@@ -90,7 +90,6 @@ namespace AscensionServer
         public void PlayerToSkillDamage(BattleTransferDTO battleTransferDTOs, int roleId, int currentId, BattleSkillData battleSkillData, int special = 0)
         {
             battleTransferDTOs.ClientCmdId = battleTransferDTOs.BattleCmd == BattleCmd.PropsInstruction || battleTransferDTOs.BattleCmd == BattleCmd.MagicWeapon ? special : battleTransferDTOs.ClientCmdId;
-
             #region ob  TODO
             switch (battleSkillData.battleSkillTargetType)
             {
@@ -112,11 +111,7 @@ namespace AscensionServer
             ///技能的计算TODO 需要加判断
             ///伤害系数列表
             SkillSingleOrStaged(battleTransferDTOs, roleId, currentId, battleSkillData, special);
-
-          
-          
         }
-
         #endregion
     }
 }
