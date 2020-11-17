@@ -26,4 +26,11 @@ namespace AscensionProtocol.DTO
             Count = 0;
         }
     }
+    public enum SyncAuctionType:byte
+    {
+        GetAuctionGoods=0,
+        PutAwayAuctionGoods=1,
+        SoldOutAuctionGoods=2,
+        BuyAuctionGoods=3,
+    }
 }
