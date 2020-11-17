@@ -22,7 +22,7 @@ namespace AscensionProtocol.DTO
             PetID = 0;
             PetExp = 0;
             PetName = null;
-            PetSkillArray = null;
+            PetSkillArray=null;
 
         }
     }

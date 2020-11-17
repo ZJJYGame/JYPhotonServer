@@ -25,43 +25,80 @@ namespace AscensionServer
             var mishuObj = Utility.Json.ToObject<MiShu>(msJson);
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
             var roleMiShuObj = NHibernateQuerier.CriteriaSelect<RoleMiShu>(nHCriteriaRoleID);
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MiShuData>>(out var mishuDataDict);
-
-            Dictionary<int, int> mishuDict;
-            Dictionary<int, string> DOdict = new Dictionary<int, string>();
-            if (roleMiShuObj!=null)
+            if (roleMiShuObj==null)
             {
-                if (!string.IsNullOrEmpty(roleMiShuObj.MiShuIDArray))
+                roleMiShuObj = GameManager.ReferencePoolManager.Spawn<RoleMiShu>();
+                roleMiShuObj = NHibernateQuerier.Insert<RoleMiShu>(roleMiShuObj);
+            }
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MiShuData>>(out var mishuDataDict);
+           
+            var rolemishuredisObj= RedisHelper.Hash.HashGet<RoleMiShuDTO>(RedisKeyDefine._MiShuPerfix, roleObj.RoleID.ToString());
+            var roleMishuMySQL = Utility.Json.ToObject<List<int>>(roleMiShuObj.MiShuIDArray);
+            if (!roleMishuMySQL.Contains(mishuObj.MiShuID))
+            {
+                #region 生成新的秘术
+                var mishuRedisObj = GameManager.ReferencePoolManager.Spawn<MiShuDTO>();
+                var mishuMysqlObj = GameManager.ReferencePoolManager.Spawn<MiShu>();
+                mishuMysqlObj.MiShuID = mishuObj.MiShuID;
+                mishuMysqlObj = NHibernateQuerier.InsertAsync<MiShu>(mishuMysqlObj).Result;
+                mishuRedisObj.ID = mishuMysqlObj.ID;
+                mishuRedisObj.MiShuID = mishuMysqlObj.MiShuID;
+
+                if (mishuDataDict[mishuObj.MiShuID].mishuSkillDatas[0].Skill_Array_One.Count > 0)
                 {
-                    mishuDict = Utility.Json.ToObject<Dictionary<int, int>>(roleMiShuObj.MiShuIDArray);
-                    if (mishuDict.Values.ToList().Contains(mishuObj.MiShuID))
+                    mishuRedisObj.MiShuSkillArry = new List<int>() { mishuDataDict[mishuObj.MiShuID].mishuSkillDatas[0].Skill_Array_One[0] };
+                }
+                if (mishuDataDict[mishuObj.MiShuID].mishuSkillDatas[0].Skill_Array_Two.Count > 0)
+                {
+                    mishuRedisObj.MiShuAdventureSkill = new List<int>() { mishuDataDict[mishuObj.MiShuID].mishuSkillDatas[0].Skill_Array_Two[0] };
+                }
+                mishuMysqlObj.MiShuAdventtureSkill = Utility.Json.ToJson(mishuRedisObj.MiShuAdventureSkill);
+                mishuMysqlObj.MiShuSkillArry = Utility.Json.ToJson(mishuRedisObj.MiShuSkillArry);
+
+                #endregion
+                //Redis存在先存
+                if (rolemishuredisObj != null)
+                {
+                    if (!rolemishuredisObj.MiShuIDArray.Contains(mishuObj.MiShuID))
                     {
- 
-                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
-                        subResponseParameters.Add((byte)ParameterCode.RoleMiShu, null);
-                    }
-                    else
-                    {
-                        MiShu miShu = new MiShu() { MiShuID= mishuObj .MiShuID};
-                        miShu= NHibernateQuerier.Insert(miShu);
-                        mishuDict.Add(miShu.ID, miShu.MiShuID);
-                        roleMiShuObj.MiShuIDArray = Utility.Json.ToJson(mishuDict);
-                        NHibernateQuerier.Update(roleMiShuObj);
-                        DOdict.Add(0, Utility.Json.ToJson(miShu));
-                        DOdict.Add(1, Utility.Json.ToJson(roleMiShuObj));
-                        #region Redis模块
-                        RedisHelper.Hash.HashSet<MiShu>(RedisKeyDefine._MiShuPerfix, miShu.ID.ToString(), miShu);
-                        RedisHelper.Hash.HashSet<RoleMiShu>(RedisKeyDefine._RoleMiShuPerfix, roleObj.RoleID.ToString(), roleMiShuObj);
-                        #endregion
-                        SetResponseParamters(() =>
-                        {
-                            subResponseParameters.Add((byte)ParameterCode.RoleMiShu, Utility.Json.ToJson(DOdict));
-                            operationResponse.ReturnCode = (short)ReturnCode.Success;
-                        });
+                        NHibernateQuerier.UpdateAsync(mishuMysqlObj);
+                        RedisHelper.Hash.HashSetAsync<MiShuDTO>(RedisKeyDefine._MiShuPerfix + roleObj.RoleID, roleObj.RoleID.ToString(), mishuRedisObj);
+
+                        rolemishuredisObj.MiShuIDArray.Add(mishuRedisObj.MiShuID);
+                        RedisHelper.Hash.HashSetAsync<RoleMiShuDTO>(RedisKeyDefine._RoleMiShuPerfix + roleObj.RoleID, roleObj.RoleID.ToString(), rolemishuredisObj);
+
+                        roleMiShuObj.MiShuIDArray = Utility.Json.ToJson(rolemishuredisObj);
+                        NHibernateQuerier.UpdateAsync(roleMiShuObj);
                     }
                 }
+                //Redis没有先存MySQL
+                else
+                {
+                    NHibernateQuerier.UpdateAsync(mishuMysqlObj);
+                    RedisHelper.Hash.HashSetAsync<MiShuDTO>(RedisKeyDefine._MiShuPerfix + roleObj.RoleID, roleObj.RoleID.ToString(), mishuRedisObj);
+
+                    rolemishuredisObj = GameManager.ReferencePoolManager.Spawn<RoleMiShuDTO>();
+                    rolemishuredisObj.MiShuIDArray = new List<int>() { mishuRedisObj.MiShuID };
+                    RedisHelper.Hash.HashSetAsync<RoleMiShuDTO>(RedisKeyDefine._RoleMiShuPerfix + roleObj.RoleID, roleObj.RoleID.ToString(), rolemishuredisObj);
+
+                    roleMiShuObj.MiShuIDArray = Utility.Json.ToJson(rolemishuredisObj);
+                    NHibernateQuerier.UpdateAsync(roleMiShuObj);
+                }
+                SetResponseParamters(() =>
+                {
+                    subResponseParameters.Add((byte)ParameterCode.MiShu, Utility.Json.ToJson(mishuRedisObj));                 
+                    subResponseParameters.Add((byte)ParameterCode.RoleMiShu, Utility.Json.ToJson(rolemishuredisObj));
+                    operationResponse.ReturnCode = (byte)ReturnCode.Success;
+                });
+                GameManager.ReferencePoolManager.Despawns(mishuRedisObj, mishuMysqlObj, nHCriteriaRoleID);
             }
-            GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
+            else
+            {
+                SetResponseParamters(() =>
+                {
+                    operationResponse.ReturnCode = (byte)ReturnCode.Fail;
+                });
+            }
             return operationResponse;
         }
 

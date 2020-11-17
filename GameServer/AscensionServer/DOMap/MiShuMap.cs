@@ -16,6 +16,7 @@ namespace AscensionServer
             Map(x => x.MiShuID).Column("mishu_id");
             Map(x => x.MiShuLevel).Column("mishu_level");
             Map(x => x.MiShuSkillArry).Column("mishu_skill_array");
+            Map(x => x.MiShuAdventtureSkill).Column("mishu_adventure_skill");
             Table("mishu");
         }
     }

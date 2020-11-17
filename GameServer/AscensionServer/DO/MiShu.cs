@@ -19,19 +19,22 @@ namespace AscensionServer.Model
             MiShuID = 19001;
             MiShuExp = 0;
             MiShuLevel = 1;
-            MiShuSkillArry = "";
+            MiShuSkillArry = "[]";
+            MiShuAdventtureSkill = "[]";
         }
         public virtual int ID { get; set; }
         public virtual int MiShuID { get; set; }
         public virtual int MiShuExp { get; set; }
         public virtual short MiShuLevel { get; set; }
         public virtual string MiShuSkillArry { get; set; }
+        public virtual string MiShuAdventtureSkill { get; set; }
         public override void Clear()
         {
             ID = -1;
             MiShuID = 0;
             MiShuExp = 0;
             MiShuLevel = 0;
+            MiShuSkillArry = null;
             MiShuSkillArry = null;
         }
     }

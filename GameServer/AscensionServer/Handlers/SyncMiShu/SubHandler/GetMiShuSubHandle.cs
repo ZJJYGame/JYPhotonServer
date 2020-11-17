@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Photon.SocketServer;
 using AscensionProtocol;
+using AscensionProtocol.DTO;
 using AscensionServer.Model;
 using Cosmos;
 namespace AscensionServer
@@ -17,7 +18,7 @@ namespace AscensionServer
         {
             var dict = operationRequest.Parameters;
             string roleMSJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.MiShu));
-            var roleMiShuObj = Utility.Json.ToObject<RoleMiShu>(roleMSJson);
+            var roleMiShuObj = Utility.Json.ToObject<RoleMiShuDTO>(roleMSJson);
             NHCriteria nHCriteriamishu = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleMiShuObj.RoleID);
             RoleMiShu roleMiShu = NHibernateQuerier.CriteriaSelect<RoleMiShu>(nHCriteriamishu);
             Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收到获取秘术的数组" + roleMiShu.MiShuIDArray);
