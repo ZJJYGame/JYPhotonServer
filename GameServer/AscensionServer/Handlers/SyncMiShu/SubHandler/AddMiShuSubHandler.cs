@@ -59,12 +59,12 @@ namespace AscensionServer
                 //Redis存在先存
                 if (rolemishuredisObj != null)
                 {
-                    if (!rolemishuredisObj.MiShuIDArray.Contains(mishuObj.MiShuID))
+                    if (!rolemishuredisObj.MiShuIDArray.ContainsKey(mishuObj.MiShuID))
                     {
                         NHibernateQuerier.UpdateAsync(mishuMysqlObj);
                         RedisHelper.Hash.HashSetAsync<MiShuDTO>(RedisKeyDefine._MiShuPerfix + roleObj.RoleID, roleObj.RoleID.ToString(), mishuRedisObj);
 
-                        rolemishuredisObj.MiShuIDArray.Add(mishuRedisObj.MiShuID);
+                        rolemishuredisObj.MiShuIDArray.Add(mishuRedisObj.ID, mishuRedisObj.MiShuID);
                         RedisHelper.Hash.HashSetAsync<RoleMiShuDTO>(RedisKeyDefine._RoleMiShuPerfix + roleObj.RoleID, roleObj.RoleID.ToString(), rolemishuredisObj);
 
                         roleMiShuObj.MiShuIDArray = Utility.Json.ToJson(rolemishuredisObj);
@@ -78,7 +78,8 @@ namespace AscensionServer
                     RedisHelper.Hash.HashSetAsync<MiShuDTO>(RedisKeyDefine._MiShuPerfix + roleObj.RoleID, roleObj.RoleID.ToString(), mishuRedisObj);
 
                     rolemishuredisObj = GameManager.ReferencePoolManager.Spawn<RoleMiShuDTO>();
-                    rolemishuredisObj.MiShuIDArray = new List<int>() { mishuRedisObj.MiShuID };
+                    rolemishuredisObj.MiShuIDArray = new Dictionary<int, int>() { };
+                    rolemishuredisObj.MiShuIDArray.Add(mishuRedisObj.ID, mishuRedisObj.MiShuID);
                     RedisHelper.Hash.HashSetAsync<RoleMiShuDTO>(RedisKeyDefine._RoleMiShuPerfix + roleObj.RoleID, roleObj.RoleID.ToString(), rolemishuredisObj);
 
                     roleMiShuObj.MiShuIDArray = Utility.Json.ToJson(rolemishuredisObj);
