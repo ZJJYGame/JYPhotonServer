@@ -189,8 +189,8 @@ namespace AscensionProtocol.DTO
         public virtual int EnemyMaxHP { get; set; }
         public virtual int EnemyMP { get; set; }
         public virtual int EnemyMaxMP { get; set; }
-        public virtual int EnemyShenHun { get; set; }
-        public virtual int EnemyMaxShenHun { get; set; }
+        public virtual int EnemySoul { get; set; }
+        public virtual int EnemyMaxSoul { get; set; }
         public virtual string EnemyDescribe { get; set; }
         public virtual string EnemyLevel { get; set; }
         public virtual int EnemyGig_Level { get; set; }
@@ -204,6 +204,12 @@ namespace AscensionProtocol.DTO
         public virtual int EnemyUp_Double { get; set; }
         public virtual int EnemyDown_Double { get; set; }
         public virtual int EnemyValue_Flow { get; set; }
+        public virtual int EnemyPhysicalCritProb { get; set; }
+        public virtual int EnemyMagicCritProb { get; set; }
+        public virtual int EnemyReduceCritProb { get; set; }
+        public virtual int EnemyPhysicalCritDamage { set; get; }
+        public virtual int EnemyMagicCritDamage { get; set; }
+        public virtual int EnemyReduceCritDamage { get; set; }
         public virtual int EnemyAlert_Area { get; set; }
         public virtual int EnemyMove_Speed { get; set; }
         public virtual int EnemyValue_Hide { get; set; }

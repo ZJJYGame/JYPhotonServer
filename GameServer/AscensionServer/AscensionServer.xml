@@ -189,7 +189,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -549,6 +549,21 @@
             <param name="peer"></param>
             <returns></returns>
         </member>
+        <member name="M:AscensionServer.AuctionManager.GetAuctionGoodsList(System.Int32)">
+            <summary>
+            获取某一种物品的所有物品信息
+            </summary>
+            <param name="auctionGoodsID"></param>
+            <param name="startIndex"></param>
+            <param name="count"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.AuctionManager.GetTargetAuctionGoodList(System.Collections.Generic.List{AscensionProtocol.DTO.AuctionGoodsDTO},System.Int32,System.Int32)">
+            <summary>
+            获取目标范围的商品信息
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:AscensionServer.IBattleAlgorithmProvider">
             <summary>
             战斗算法提供者；
@@ -626,7 +641,7 @@
             </summary>
             
         </member>
-        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -2133,7 +2148,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；
