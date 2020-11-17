@@ -205,9 +205,9 @@
     <Compile Include="Ascension\Core\Base\Attribute\InheritedAttribute.cs" />
     <Compile Include="Ascension\Core\Base\Input\IInputData.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\NetworkHelper\PhotonMessageHelper.cs" />
-    <Compile Include="Ascension\Core\RunTime\Auction1\AuctionManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Auction1\AuctionManager.Message.cs" />
-    <Compile Include="Ascension\Core\RunTime\Auction1\AuctionManager.Method.cs" />
+    <Compile Include="Ascension\Core\RunTime\Auction\AuctionManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Auction\AuctionManager.Message.cs" />
+    <Compile Include="Ascension\Core\RunTime\Auction\AuctionManager.Method.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\IBattleAlgorithmProvider.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.Common.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.cs" />
