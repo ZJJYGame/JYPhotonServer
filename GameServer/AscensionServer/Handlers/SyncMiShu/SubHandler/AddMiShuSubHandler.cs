@@ -21,18 +21,60 @@ namespace AscensionServer
             string msJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.MiShu));
             string roleJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role));
 
-            var roleObj = Utility.Json.ToObject<Role>(roleJson);
+            var roleObj = Utility.Json.ToObject<RoleDTO>(roleJson);
             var mishuObj = Utility.Json.ToObject<MiShu>(msJson);
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
             var roleMiShuObj = NHibernateQuerier.CriteriaSelect<RoleMiShu>(nHCriteriaRoleID);
-            if (roleMiShuObj==null)
-            {
-                roleMiShuObj = GameManager.ReferencePoolManager.Spawn<RoleMiShu>();
-                roleMiShuObj = NHibernateQuerier.Insert<RoleMiShu>(roleMiShuObj);
-            }
+            //if (roleMiShuObj==null)
+            //{
+            //    roleMiShuObj = GameManager.ReferencePoolManager.Spawn<RoleMiShu>();
+            //    roleMiShuObj = NHibernateQuerier.Insert<RoleMiShu>(roleMiShuObj);
+            //}
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MiShuData>>(out var mishuDataDict);
-           
-            var rolemishuredisObj= RedisHelper.Hash.HashGet<RoleMiShuDTO>(RedisKeyDefine._MiShuPerfix, roleObj.RoleID.ToString());
+
+            #region 背包验证逻辑
+            var ringObj = GameManager.ReferencePoolManager.Spawn<RingDTO>();
+            ringObj.RingItems = new Dictionary<int, RingItemsDTO>();
+            ringObj.RingItems.Add(mishuObj.MiShuID, new RingItemsDTO());
+            var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
+            var nHCriteriaRingID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
+            #endregion
+
+            //if (InventoryManager.VerifyIsExist(mishuObj.MiShuID, nHCriteriaRingID))
+            //{
+            //    var mishuTemp = GameManager.ReferencePoolManager.Spawn<MiShuDTO>();
+
+            //    var result = MishuStudyHelper.AddMishuJuge(mishuObj.MiShuID, roleObj, out mishuTemp);
+            //    if (!result)
+            //    {
+            //        Utility.Debug.LogInfo("1添加的新的秘术为yzqData" + msJson);
+            //        SetResponseParamters(() =>
+            //        {
+            //            operationResponse.ReturnCode = (short)ReturnCode.Fail;
+            //        });
+            //    }
+            //    else
+            //    {
+            //        if (roleMiShuObj != null)
+            //        {
+            //            var roleMishuDict = Utility.Json.ToObject<Dictionary<int, int>>(roleMiShuObj.MiShuIDArray);
+
+
+
+            //        }
+            //        else
+            //        {
+            //            SetResponseParamters(() =>
+            //            {
+            //                operationResponse.ReturnCode = (short)ReturnCode.Fail;
+            //            });
+            //        }
+            //    }
+            //}
+
+
+            #region 待删
+            var rolemishuredisObj = RedisHelper.Hash.HashGet<RoleMiShuDTO>(RedisKeyDefine._MiShuPerfix, roleObj.RoleID.ToString());
             var roleMishuMySQL = Utility.Json.ToObject<List<int>>(roleMiShuObj.MiShuIDArray);
             if (!roleMishuMySQL.Contains(mishuObj.MiShuID))
             {
@@ -87,7 +129,7 @@ namespace AscensionServer
                 }
                 SetResponseParamters(() =>
                 {
-                    subResponseParameters.Add((byte)ParameterCode.MiShu, Utility.Json.ToJson(mishuRedisObj));                 
+                    subResponseParameters.Add((byte)ParameterCode.MiShu, Utility.Json.ToJson(mishuRedisObj));
                     subResponseParameters.Add((byte)ParameterCode.RoleMiShu, Utility.Json.ToJson(rolemishuredisObj));
                     operationResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
@@ -100,6 +142,7 @@ namespace AscensionServer
                     operationResponse.ReturnCode = (byte)ReturnCode.Fail;
                 });
             }
+            #endregion
             return operationResponse;
         }
 

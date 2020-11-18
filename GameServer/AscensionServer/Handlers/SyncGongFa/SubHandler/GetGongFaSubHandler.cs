@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Photon.SocketServer;
 using AscensionProtocol;
+using AscensionProtocol.DTO;
 using AscensionServer.Model;
 using FluentNHibernate.Testing.Values;
 using NHibernate.Mapping;
@@ -21,18 +22,20 @@ namespace AscensionServer
             var dict = operationRequest.Parameters;
             string roleGFJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.GongFa));
             var roleGongFaObj = Utility.Json.ToObject<List<int>>(roleGFJson);
-            List<CultivationMethod> gongFaIdList;
-            Dictionary<int, List<CultivationMethod>> gongFaDic;
+            List<CultivationMethodDTO> gongFaIdList;
+            Dictionary<int, List<CultivationMethodDTO>> gongFaDic;
             Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>同步功法进来了>>>>>>>>>" + roleGongFaObj.Count);
+
+
 
                 if (roleGongFaObj.Count != 0)
                 {
-                    gongFaDic = new Dictionary<int, List<CultivationMethod>>();
+                    gongFaDic = new Dictionary<int, List<CultivationMethodDTO>>();
                     foreach (var roleId in roleGongFaObj)
                     {
                         NHCriteria nHCriteriaGongFa = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
                         bool exist = NHibernateQuerier.Verify<RoleGongFa>(nHCriteriaGongFa);
-                        gongFaIdList = new List<CultivationMethod>();
+                        gongFaIdList = new List<CultivationMethodDTO>();
                         if (exist)
                         {
                             var roleIdArray = NHibernateQuerier.CriteriaSelect<RoleGongFa>(nHCriteriaGongFa);
@@ -42,17 +45,24 @@ namespace AscensionServer
                                 {
                                     NHCriteria nHCriteriaGongFaId = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", gongFaId.Key);
                                     var gongFaIdArray = NHibernateQuerier.CriteriaSelect<CultivationMethod>(nHCriteriaGongFaId);
-                                    gongFaIdList.Add(gongFaIdArray);
+                                var gongfaTemp= GameManager.ReferencePoolManager.Spawn<CultivationMethodDTO>();
+                                gongfaTemp.ID = gongFaIdArray.ID;
+                                gongfaTemp.CultivationMethodExp = gongFaIdArray.CultivationMethodExp;
+                                gongfaTemp.CultivationMethodLevel = gongFaIdArray.CultivationMethodLevel;
+                                gongfaTemp.CultivationMethodLevelSkillArray = Utility.Json.ToObject<List<int>>(gongFaIdArray.CultivationMethodLevelSkillArray);
+                                gongfaTemp.CultivationMethodID = gongFaIdArray.CultivationMethodID;
+
+                                gongFaIdList.Add(gongfaTemp);
                                 }
                                 gongFaDic.Add(roleId, gongFaIdList);
                             }
                             else
-                                gongFaDic.Add(roleId, new List<CultivationMethod>());
+                                gongFaDic.Add(roleId, new List<CultivationMethodDTO>());
                         }
                         else
                         {
                             NHibernateQuerier.Insert(new RoleGongFa() { RoleID = roleId });
-                            gongFaDic.Add(roleId, new List<CultivationMethod>());
+                            gongFaDic.Add(roleId, new List<CultivationMethodDTO>());
                         }
                         GameManager.ReferencePoolManager.Despawns(nHCriteriaGongFa);
                     }

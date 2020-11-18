@@ -25,7 +25,7 @@ namespace AscensionServer
             var roleObj = Utility.Json.ToObject<RoleGongFaDTO>(roleJson);
             NHCriteria nHCriteriaRoleStatue = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
             var rolegongfaObj = NHibernateQuerier.CriteriaSelect<RoleGongFa>(nHCriteriaRoleStatue);
-            List<CultivationMethod> gongfaList = new List<CultivationMethod>();
+            List<CultivationMethodDTO> gongfaList = new List<CultivationMethodDTO>();
             List<NHCriteria> nHCriteriaList= new List<NHCriteria>();
             if (rolegongfaObj!=null)
             {
@@ -37,7 +37,13 @@ namespace AscensionServer
                         NHCriteria nHCriteriaGongFaId = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", item.Key);
                         var gongFaIdArray = NHibernateQuerier.CriteriaSelect<CultivationMethod>(nHCriteriaGongFaId);
                         nHCriteriaList.Add(nHCriteriaGongFaId);
-                        gongfaList.Add(gongFaIdArray);
+                        var gongfaTemp = GameManager.ReferencePoolManager.Spawn<CultivationMethodDTO>();
+                        gongfaTemp.ID = gongFaIdArray.ID;
+                        gongfaTemp.CultivationMethodExp = gongFaIdArray.CultivationMethodExp;
+                        gongfaTemp.CultivationMethodLevel = gongFaIdArray.CultivationMethodLevel;
+                        gongfaTemp.CultivationMethodLevelSkillArray = Utility.Json.ToObject<List<int>>(gongFaIdArray.CultivationMethodLevelSkillArray);
+                        gongfaTemp.CultivationMethodID = gongFaIdArray.CultivationMethodID;
+                        gongfaList.Add(gongfaTemp);
                     }
                     OperationData operationData = new OperationData();
                     operationData.DataMessage = Utility.Json.ToJson(gongfaList);
