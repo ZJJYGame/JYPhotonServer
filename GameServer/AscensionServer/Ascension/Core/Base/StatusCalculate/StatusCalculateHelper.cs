@@ -10,7 +10,7 @@ using Cosmos;
 
 namespace AscensionServer
 {
-    [Obsolete("弃用，当前线程不安全",true)]
+    //[Obsolete("弃用，当前线程不安全",true)]
     public class StatusCalculateHelper
     {
         static int RoleHP { get; set; }

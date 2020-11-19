@@ -4,6 +4,83 @@
         <name>AscensionServer</name>
     </assembly>
     <members>
+        <member name="M:AscensionServer.DatabaseQuerier.GetStringObject``1(System.String,System.Nullable{System.TimeSpan},AscensionServer.NHCriteria[])">
+            <summary>
+            获取一个对象；
+            </summary>
+            <typeparam name="T">存储的数据对象类型</typeparam>
+            <param name="redisKey">redis存储的key</param>
+            <param name="expiry">过期时间</param>
+            <param name="columns">查询条件</param>
+            <returns>查询到的数据对象</returns>
+        </member>
+        <member name="M:AscensionServer.DatabaseQuerier.InsertString``1(System.String,``0,System.Nullable{System.TimeSpan})">
+            <summary>
+            插入数据到redis，并更新mysql
+            </summary>
+            <typeparam name="T">存储的数据对象类型</typeparam>
+            <param name="redisKey">redis存储的key</param>
+            <param name="data">存储的数据</param>
+            <param name="expiry">过期时间</param>
+            <returns>成功存入后的数据对象</returns>
+        </member>
+        <member name="M:AscensionServer.DatabaseQuerier.UpdateString``1(System.String,``0,System.Nullable{System.TimeSpan})">
+            <summary>
+            更新数据到redis，并更新mysql
+            </summary>
+            <typeparam name="T">存储的数据对象类型</typeparam>
+            <param name="redisKey">redis存储的key</param>
+            <param name="data">存储的数据</param>
+            <param name="expiry">过期时间</param>
+        </member>
+        <member name="M:AscensionServer.DatabaseQuerier.GetString``1(System.String,System.Nullable{System.TimeSpan},AscensionServer.NHCriteria[])">
+            <summary>
+            获取一个对象的string数据；
+            </summary>
+            <typeparam name="T">存储的数据对象类型</typeparam>
+            <param name="redisKey">redis存储的key</param>
+            <param name="expiry">过期时间</param>
+            <param name="columns">查询条件</param>
+            <returns>获取到的数据string</returns>
+        </member>
+        <member name="M:AscensionServer.DatabaseQuerier.InsertHash``1(System.String,System.String,``0)">
+            <summary>
+            存储一个hash数据
+            </summary>
+            <typeparam name="T">存储的数据对象类型</typeparam>
+            <param name="key">redis主key</param>
+            <param name="dataKey">rediskey对应的数据key</param>
+            <param name="data">需要存储的数据对象</param>
+            <returns>插入后的数据对象</returns>
+        </member>
+        <member name="M:AscensionServer.DatabaseQuerier.GetHashObject``1(System.String,System.String,AscensionServer.NHCriteria[])">
+            <summary>
+            获取hash数据对象
+            </summary>
+            <typeparam name="T">存储的数据对象类型</typeparam>
+            <param name="key">redis主key</param>
+            <param name="dataKey">rediskey对应的数据key</param>
+            <param name="columns">需要查询的colums</param>
+            <returns>查询到的对象</returns>
+        </member>
+        <member name="M:AscensionServer.DatabaseQuerier.DeleteHash``1(System.String,System.String,``0)">
+            <summary>
+            移除一个hash
+            </summary>
+            <typeparam name="T">数据类型</typeparam>
+            <param name="key">redis主key</param>
+            <param name="dataKey">rediskey对应的数据key</param>
+            <param name="data">需要删除的数据对象</param>
+        </member>
+        <member name="M:AscensionServer.DatabaseQuerier.DeleteHashs``1(System.String,``0[],System.String[])">
+            <summary>
+            删除一组数据
+            </summary>
+            <typeparam name="T">数据类型</typeparam>
+            <param name="key">redis主key</param>
+            <param name="datas">myqsl中需要删除的数据条</param>
+            <param name="dataKeys">rediskey对应的数据key</param>
+        </member>
         <member name="T:AscensionServer.AllianceLevleUpData">
             <summary>
             建筑等级
@@ -485,61 +562,6 @@
             用于初始化 战斗数据 和管理 战斗的数据缓存
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.IsToSkillForm(System.Int32)">
-            <summary>
-            判断技能功法秘术是不是存在json 数据表格里
-            </summary>
-            <param name="targetId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.SkillFormToSkillObject(System.Int32)">
-            <summary>
-            返回 一个存在的技能对象
-            </summary>
-            <param name="targerId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.PropsInstrutionFormToObject(System.Int32)">
-            <summary>
-            针对 道具中得 丹药和符箓
-            </summary>
-            <param name="targetId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.MagicWeaponFormToObject(System.Int32)">
-            <summary>
-            针对 法宝
-            </summary>
-            <param name="targetId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.SkillActionDifferentCmd(AscensionProtocol.DTO.BattleCmd,System.Int32,System.Int32)">
-            <summary>
-            不同技能行为的Cmd
-            </summary>
-            <param name="battleCmd"></param>
-            <param name="roleId"></param>
-            <param name="roomId"></param>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.SkillFormToObject(System.Int32)">
-            <summary>
-            判断释放的技能是不是存在json中
-            </summary>
-            <param name="targetId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.ServerToClientResult(AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO)">
-            <summary>
-            返回给客户端的计算伤害
-            </summary>
-        </member>
-        <member name="M:AscensionServer.ServerBattleManager.ServerToClientResults(AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO)">
-            <summary>
-            计算多段伤害用的
-            </summary>
-            <param name="targetInfo"></param>
-            <returns></returns>
-        </member>
         <member name="M:AscensionServer.ServerBattleManager.ReleaseToSpeed(System.Int32)">
             <summary>
             出手速度
@@ -973,6 +995,61 @@
             <param name="ov"></param>
             <param name="minValue"></param>
             <param name="maxValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.IsToSkillForm(System.Int32)">
+            <summary>
+            判断技能功法秘术是不是存在json 数据表格里
+            </summary>
+            <param name="targetId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.SkillFormToSkillObject(System.Int32)">
+            <summary>
+            返回 一个存在的技能对象
+            </summary>
+            <param name="targerId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.PropsInstrutionFormToObject(System.Int32)">
+            <summary>
+            针对 道具中得 丹药和符箓
+            </summary>
+            <param name="targetId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.MagicWeaponFormToObject(System.Int32)">
+            <summary>
+            针对 法宝
+            </summary>
+            <param name="targetId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.SkillActionDifferentCmd(AscensionProtocol.DTO.BattleCmd,System.Int32,System.Int32)">
+            <summary>
+            不同技能行为的Cmd
+            </summary>
+            <param name="battleCmd"></param>
+            <param name="roleId"></param>
+            <param name="roomId"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.SkillFormToObject(System.Int32)">
+            <summary>
+            判断释放的技能是不是存在json中
+            </summary>
+            <param name="targetId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.ServerToClientResult(AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO)">
+            <summary>
+            返回给客户端的计算伤害
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.ServerToClientResults(AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO)">
+            <summary>
+            计算多段伤害用的
+            </summary>
+            <param name="targetInfo"></param>
             <returns></returns>
         </member>
         <member name="T:AscensionServer.BattleEndDelegateHandle">
@@ -4380,6 +4457,66 @@
             3.复活
             4.召唤
             </summary>
+        </member>
+        <member name="T:JYGame.GenericDataStream`1">
+            <summary>
+            数据流对象
+            </summary>
+        </member>
+        <member name="P:JYGame.GenericDataStream`1.CanWrite">
+            <summary>
+            是否正在写入数据；
+            </summary>
+        </member>
+        <member name="P:JYGame.GenericDataStream`1.CanRead">
+            <summary>
+            是否正在读取数据；
+            </summary>
+        </member>
+        <member name="F:JYGame.GenericDataStream`1.writeData">
+            <summary>
+            写入的数据；
+            </summary>
+        </member>
+        <member name="F:JYGame.GenericDataStream`1.readData">
+            <summary>
+            读取的数据；
+            </summary>
+        </member>
+        <member name="F:JYGame.GenericDataStream`1.pos">
+             <summary>
+             serial number
+            当前 data序号
+             </summary>
+        </member>
+        <member name="M:JYGame.GenericDataStream`1.SetReadStream(`0[],System.Int32)">
+            <summary>
+            设置读取的流
+            </summary>
+            <param name="incomingData">进入流的数据</param>
+            <param name="pos">序列号</param>
+        </member>
+        <member name="M:JYGame.GenericDataStream`1.SetWriteStream(System.Collections.Generic.List{`0},System.Int32)">
+            <summary>
+            设置写入的流
+            </summary>
+            <param name="newWriteData">进入流的数据</param>
+            <param name="pos">序列号</param>
+        </member>
+        <member name="M:JYGame.GenericDataStream`1.ReadNext">
+            <summary>
+            写入状态使用；
+            顺序读取写入的下一个顺序；
+            </summary>
+            <returns>写入的下一个数据</returns>
+        </member>
+        <member name="M:JYGame.GenericDataStream`1.ToArray">
+            <summary>
+            获取接收到的数据数组；
+            若写入状态，则获得写入的数据；
+            若读取状态，则获得读取的数据；
+            </summary>
+            <returns>数据数组</returns>
         </member>
     </members>
 </doc>
