@@ -235,7 +235,8 @@ namespace AscensionServer
                 DOdict.Add("RoleStatus", Utility.Json.ToJson(rolestatus));
                 //DOdict.Add("GongFa", Utility.Json.ToJson(gongFa));
                 DOdict.Add("School", Utility.Json.ToJson(school));
-                DOdict.Add("MiShu", Utility.Json.ToJson(miShu));
+                MiShuDTO miShuDTO = new MiShuDTO() {ID= miShu.ID,MiShuID= miShu.MiShuID,MiShuSkillArry= Utility.Json.ToObject<List<int>>(miShu.MiShuSkillArry) };
+                DOdict.Add("MiShu", Utility.Json.ToJson(miShuDTO));
                 DOdict.Add("RoleAlliance", Utility.Json.ToJson(roleAllianceDTO));
                 SetResponseParamters(() => {
                     subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(DOdict));

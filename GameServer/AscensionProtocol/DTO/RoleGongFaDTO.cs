@@ -9,7 +9,7 @@ namespace AscensionProtocol.DTO
     public class RoleGongFaDTO : DataTransferObject
     {
         public virtual int RoleID { get; set; }
-        public virtual string GongFaIDArray { get; set; }
+        public virtual Dictionary<int,int> GongFaIDArray { get; set; }
         public override void Clear()
         {
             RoleID = -1;

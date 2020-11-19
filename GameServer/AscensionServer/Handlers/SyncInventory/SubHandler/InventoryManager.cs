@@ -62,6 +62,20 @@ namespace AscensionServer
             return _ItemHeld % _ItemMax;
         }
 
+
+        /// <summary>
+        /// 验证是否存在
+        /// </summary>
+        public static bool VerifyIsExist(int ItemId, NHCriteria  nHCriteria)
+        {
+            var ringServerArray = CriteriaSelectMethod<Ring>(nHCriteria);
+            var ServerDict = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingItems);
+            var ServerDictAdorn = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingAdorn);
+            if (ServerDict.ContainsKey(ItemId))
+                return true;
+            return false;
+        }
+
         /// <summary>
         /// 获得背包数据的Cmd
         /// </summary>

@@ -342,7 +342,7 @@ namespace AscensionServer
                             EnemyId = enemyGlobleId++,
                             EnemyHP = monsterDict[enemyId[i].GlobalId].Role_HP,
                             EnemyMP = monsterDict[enemyId[i].GlobalId].Role_MP,
-                            EnemyShenHun = monsterDict[enemyId[i].GlobalId].Role_soul,
+                            EnemySoul = monsterDict[enemyId[i].GlobalId].Role_soul,
                             EnemyAlert_Area = monsterDict[enemyId[i].GlobalId].Alert_area,
                             EnemyAttact_Physical = monsterDict[enemyId[i].GlobalId].Attact_physical,
                             EnemyAttact_Power = monsterDict[enemyId[i].GlobalId].Attact_power,
@@ -354,22 +354,28 @@ namespace AscensionServer
                             EnemyDefend_Soul = monsterDict[enemyId[i].GlobalId].Defence_soul,
                             EnemyDescribe = monsterDict[enemyId[i].GlobalId].Monster_describe,
                             EnemyDown_Double = monsterDict[enemyId[i].GlobalId].Down_double,
-                            EnemyDrop_Array = monsterDict[enemyId[i].GlobalId].Drop_array,
-                            EnemyDrop_Rate = monsterDict[enemyId[i].GlobalId].Drop_rate,
+                            EnemyDrop_Array = monsterDict[enemyId[i].GlobalId].Drop_Array,
+                            EnemyDrop_Rate = monsterDict[enemyId[i].GlobalId].Drop_Rate,
                             EnemyLevel = monsterDict[enemyId[i].GlobalId].Monster_level,
-                            EnemyMonster_Icon = monsterDict[enemyId[i].GlobalId].Monster_icon,
-                            EnemyMoster_Model = monsterDict[enemyId[i].GlobalId].Moster_model,
+                            EnemyMonster_Icon = monsterDict[enemyId[i].GlobalId].Monster_Icon,
+                            EnemyMoster_Model = monsterDict[enemyId[i].GlobalId].Moster_Model,
                             EnemyMove_Speed = monsterDict[enemyId[i].GlobalId].Move_speed,
                             EnemyName = monsterDict[enemyId[i].GlobalId].Monster_name,
                             EnemyPet_ID = monsterDict[enemyId[i].GlobalId].Pet_ID,
                             EnemyPet_Level_ID = monsterDict[enemyId[i].GlobalId].Pet_Level_ID,
-                            EnemySkill_Array = monsterDict[enemyId[i].GlobalId].Skill_array,
+                            EnemySkill_Array = monsterDict[enemyId[i].GlobalId].Skill_Array,
                             EnemyUp_Double = monsterDict[enemyId[i].GlobalId].UP_double,
                             EnemyValue_Flow = monsterDict[enemyId[i].GlobalId].Value_flow,
                             EnemyValue_Hide = monsterDict[enemyId[i].GlobalId].Value_hide,
                             EnemyMaxHP = monsterDict[enemyId[i].GlobalId].Role_HP,
                             EnemyMaxMP = monsterDict[enemyId[i].GlobalId].Role_MP,
-                            EnemyMaxShenHun = monsterDict[enemyId[i].GlobalId].Role_soul,
+                            EnemyMaxSoul = monsterDict[enemyId[i].GlobalId].Role_soul,
+                            EnemyMagicCritDamage = monsterDict[enemyId[i].GlobalId].MagicCritDamage,
+                            EnemyMagicCritProb = monsterDict[enemyId[i].GlobalId].MagicCritProb,
+                            EnemyPhysicalCritDamage = monsterDict[enemyId[i].GlobalId].PhysicalCritDamage,
+                            EnemyPhysicalCritProb = monsterDict[enemyId[i].GlobalId].PhysicalCritProb,
+                            EnemyReduceCritDamage = monsterDict[enemyId[i].GlobalId].ReduceCritDamage,
+                            EnemyReduceCritProb = monsterDict[enemyId[i].GlobalId].ReduceCritProb
                         }
                     });
                 }
@@ -456,6 +462,10 @@ namespace AscensionServer
         {
             if (roleStatusSever.RoleHP<0)
                 roleStatusSever.RoleHP = 0;
+            if (roleStatusSever.RoleMP < 0)
+                roleStatusSever.RoleMP = 0;
+            if (roleStatusSever.RoleSoul < 0)
+                roleStatusSever.RoleSoul = 0;
             NHibernateQuerier.Update(new RoleStatus()
             {
                 RoleID = roleId,

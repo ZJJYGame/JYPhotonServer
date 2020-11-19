@@ -182,8 +182,14 @@
         /// <summary>
         /// 创建阵法
         /// </summary>
-        CreatTactical=99
-
-
+        CreatTactical=99,
+        /// <summary>
+        /// 上架拍卖品
+        /// </summary>
+        PutAwayAuctionGoods=100,
+        /// <summary>
+        /// 下架拍卖品
+        /// </summary>
+        SoldOutAuctionGoods=101,
     }
 }

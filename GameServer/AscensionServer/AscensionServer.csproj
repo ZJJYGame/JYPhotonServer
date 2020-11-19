@@ -21,7 +21,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -179,6 +179,7 @@
     <Compile Include="Ascension\Core\Base\DataObject\FactionItemData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\FactionSkillData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MagicWeaponData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\MishuBook.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MiShuData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MonsterDatas.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\PetAptitudeData.cs" />
@@ -205,6 +206,9 @@
     <Compile Include="Ascension\Core\Base\Attribute\InheritedAttribute.cs" />
     <Compile Include="Ascension\Core\Base\Input\IInputData.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\NetworkHelper\PhotonMessageHelper.cs" />
+    <Compile Include="Ascension\Core\RunTime\Auction\AuctionManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Auction\AuctionManager.Message.cs" />
+    <Compile Include="Ascension\Core\RunTime\Auction\AuctionManager.Method.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\IBattleAlgorithmProvider.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.Common.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.cs" />
@@ -297,10 +301,12 @@
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\SyncDailyMessageSubHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\UpdateDailyMessageSubHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SyncDailyMessageHandler.cs" />
+    <Compile Include="Handlers\SyncGongFa\SubHandler\GongFaStudyManager.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\RemoveImmortalsAllianceHandler.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\UpdateImmortalsAllianceHandler.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\VerifyImmortalsAllianceHandler.cs" />
     <Compile Include="Handlers\SyncInventory\SubHandler\InventoryManager.cs" />
+    <Compile Include="Handlers\SyncMiShu\SubHandler\MishuStudyHelper.cs" />
     <Compile Include="Handlers\SyncRoleAllianceSkill\SubHandler\GetRoleAllianceSkillSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAllianceSkill\SubHandler\SyncRoleAllianceSkillSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAllianceSkill\SubHandler\UpdateRoleAllianceSkillSubHandler.cs" />
@@ -689,6 +695,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonData\EquipmentData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\MishuBook.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="JsonData\Pet.txt">

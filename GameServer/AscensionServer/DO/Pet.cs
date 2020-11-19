@@ -15,7 +15,7 @@ namespace AscensionServer.Model
             PetID = 23001;
             PetExp = 0;
             PetName = "水貂鸽头";
-            PetSkillArray = "21001";
+            PetSkillArray=null;
 
         }
         public virtual int ID { get; set; }
@@ -32,7 +32,7 @@ namespace AscensionServer.Model
             PetID = 0;
             PetExp = 0;
             PetName = null;
-            PetSkillArray = null;
+            PetSkillArray=null;
 
         }
     }

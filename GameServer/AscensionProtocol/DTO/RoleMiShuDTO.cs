@@ -9,7 +9,7 @@ namespace AscensionProtocol.DTO
     public  class RoleMiShuDTO: DataTransferObject
     {
         public virtual int RoleID { get; set; }
-        public virtual string MiShuIDArray { get; set; }
+        public virtual Dictionary<int,int> MiShuIDArray { get; set; }
         public override void Clear()
         {
             RoleID = -1;

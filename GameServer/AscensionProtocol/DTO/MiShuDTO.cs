@@ -13,14 +13,15 @@ namespace AscensionProtocol.DTO
         public virtual int MiShuID { get; set; }
         public virtual int MiShuExp { get; set; }
         public virtual short MiShuLevel { get; set; }
-        public virtual string MiShuSkillArry { get; set; }
+        public virtual List<int> MiShuSkillArry { get; set; }
+        public virtual List<int> MiShuAdventureSkill { get; set; }
         public override void Clear()
         {
             ID = -1;
             MiShuID = 0;
             MiShuExp = 0;
             MiShuLevel = 0;
-            MiShuSkillArry = null;
+            MiShuSkillArry.Clear();
         }
     }
 }

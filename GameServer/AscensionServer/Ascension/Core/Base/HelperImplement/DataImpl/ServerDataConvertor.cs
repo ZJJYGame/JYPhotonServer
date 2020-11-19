@@ -31,7 +31,7 @@ namespace AscensionServer
             //Utility.Debug.LogInfo("<DataManager> 测试 ConvertData");
             try
             {
-                #region 宗门藏宝阁/藏经阁/瓶颈/心魔/仙盟等级/仙盟签到/秘术属性/人物属性/仙盟技能加成/武器装备/宠物属性/宠物成长资质
+                #region 宗门藏宝阁/藏经阁/瓶颈/心魔/仙盟等级/仙盟签到/秘术属性/人物属性/仙盟技能加成/武器装备/宠物属性/宠物成长资质/秘术书
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(FactionItemData).Name, out var factionitemdata);
                 var factionitemDataDict = TransObject<List<FactionItemData>>(factionitemdata).ToDictionary(key => key.FactionItemId, value => value.FactionItem);
 
@@ -67,6 +67,9 @@ namespace AscensionServer
 
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(PetAptitudeData).Name, out var petAptitudeData);
                 var petAptitudeDataDict = TransObject<List<PetAptitudeData>>(petAptitudeData).ToDictionary(key => key.PetID, value => value);
+
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(MishuBook).Name, out var mishuBook);
+                var mishuBookDict = TransObject<List<MishuBook>>(mishuBook).ToDictionary(key => key.Book_ID, value => value);
                 #endregion
 
                 #region 战斗json
@@ -100,6 +103,7 @@ namespace AscensionServer
                 var battleSkillDict = TransObject<List<BattleSkillData>>(battleSkillSet).ToDictionary(key => key.id, value => value);
                 #endregion
 
+                GameManager.CustomeModule<DataManager>().TryAdd(mishuBookDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(petLevelDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(petAptitudeDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(equipmentDataDict);
@@ -122,7 +126,6 @@ namespace AscensionServer
                 GameManager.CustomeModule<DataManager>().TryAdd(runesDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(magicDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(battleSkillDict);
-
 
 
                 //GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MonsterDatas>>(out var set);
