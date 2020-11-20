@@ -21,7 +21,7 @@ namespace AscensionServer
             var dict = operationRequest.Parameters;
             string petptitudeJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.PetPtitude));
 
-            var petaptitudeObj = Utility.Json.ToObject<PetaPtitudeDTO>(petptitudeJson);
+            var petaptitudeObj = Utility.Json.ToObject<PetAptitudeDTO>(petptitudeJson);
             NHCriteria nHCriteriapetaptitude = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petaptitudeObj.PetID);
             var petaptitudeTemp = NHibernateQuerier.CriteriaSelect<PetaPtitude>(nHCriteriapetaptitude);
 
@@ -31,7 +31,7 @@ namespace AscensionServer
                 NHibernateQuerier.Update(petaptitudeTemp);
                 SetResponseParamters(() =>
                 {
-                    PetaPtitudeDTO petaPtitudeDTO = new PetaPtitudeDTO() {AttackphysicalAptitude= petaptitudeTemp.AttackphysicalAptitude,AttackspeedAptitude= petaptitudeTemp.AttackspeedAptitude,AttackpowerAptitude= petaptitudeTemp.AttackpowerAptitude,DefendphysicalAptitude= petaptitudeTemp.DefendphysicalAptitude,DefendpowerAptitude= petaptitudeTemp.DefendpowerAptitude,HPAptitude= petaptitudeTemp.HPAptitude,Petaptitudecol= petaptitudeTemp .Petaptitudecol,PetaptitudeDrug= Utility.Json.ToObject<Dictionary<int,int>>(petaptitudeTemp.PetaptitudeDrug),PetID= petaptitudeTemp .PetID,SoulAptitude= petaptitudeTemp .SoulAptitude};
+                    PetAptitudeDTO petaPtitudeDTO = new PetAptitudeDTO() {AttackphysicalAptitude= petaptitudeTemp.AttackphysicalAptitude,AttackspeedAptitude= petaptitudeTemp.AttackspeedAptitude,AttackpowerAptitude= petaptitudeTemp.AttackpowerAptitude,DefendphysicalAptitude= petaptitudeTemp.DefendphysicalAptitude,DefendpowerAptitude= petaptitudeTemp.DefendpowerAptitude,HPAptitude= petaptitudeTemp.HPAptitude,Petaptitudecol= petaptitudeTemp .Petaptitudecol,PetaptitudeDrug= Utility.Json.ToObject<Dictionary<int,int>>(petaptitudeTemp.PetaptitudeDrug),PetID= petaptitudeTemp .PetID,SoulAptitude= petaptitudeTemp .SoulAptitude};
                     subResponseParameters.Add((byte)ParameterCode.PetPtitude, Utility.Json.ToJson(petaPtitudeDTO));
                     operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
@@ -41,7 +41,7 @@ namespace AscensionServer
             return operationResponse;
         }
 
-        PetaPtitude AddaPtitude(PetaPtitudeDTO petStatusclient, PetaPtitude petStatusserver)
+        PetaPtitude AddaPtitude(PetAptitudeDTO petStatusclient, PetaPtitude petStatusserver)
         {
             var drugDict = Utility.Json.ToObject<Dictionary<int, int>>(petStatusserver.PetaptitudeDrug);
             int index;

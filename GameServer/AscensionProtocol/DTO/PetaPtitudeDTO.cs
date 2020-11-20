@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class PetaPtitudeDTO : DataTransferObject
+    public class PetAptitudeDTO : DataTransferObject
     {
         public virtual int PetID { get; set; }
         public virtual int HPAptitude { get; set; }
