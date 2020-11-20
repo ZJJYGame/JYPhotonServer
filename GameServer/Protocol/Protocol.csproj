@@ -75,6 +75,7 @@
     <Compile Include="Protocol\Model\Base\DataParameters.cs" />
     <Compile Include="Protocol\Model\Base\IDataContract.cs" />
     <Compile Include="Protocol\Model\Base\OperationData.cs" />
+    <Compile Include="Protocol\Model\C2S\C2SAnimateInput.cs" />
     <Compile Include="Protocol\Model\C2S\C2SChatMessage.cs" />
     <Compile Include="Protocol\Model\C2S\C2SInput.cs" />
     <Compile Include="Protocol\Model\C2S\C2SFlyMagicToolInput.cs" />

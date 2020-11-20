@@ -360,6 +360,7 @@ namespace AscensionServer
                     battleSkillEventTriggerNumSourceType(battleSkillEvents, roleId, currentId, enemySetObject, playerSetObject, targetInfoDTOsSet);
                     break;
                 case BattleSkillEventTriggerNumSourceType.PhysicDefense:
+                    battleSkillEventTriggerNumSourceTypePhysicDefense(battleSkillEvents, roleId, currentId, enemySetObject, playerSetObject, targetInfoDTOsSet);
                     break;
                 case BattleSkillEventTriggerNumSourceType.MagicDefense:
                     break;
@@ -404,6 +405,30 @@ namespace AscensionServer
                     break;
             }
         }
+
+
+        public void battleSkillEventTriggerNumSourceTypePhysicDefense(BattleSkillEventData battleSkillEvents, int roleId, int currentId, EnemyBattleDataDTO enemySetObject, RoleBattleDataDTO playerSetObject, List<BattleTransferDTO.TargetInfoDTO> targetInfoDTOsSet)
+        {
+            switch (battleSkillEvents.battleSkillEventTriggerCondition)
+            {
+                case BattleSkillEventTriggerCondition.None:
+                    break;
+                case BattleSkillEventTriggerCondition.Crit:
+                    break;
+                case BattleSkillEventTriggerCondition.TargetPropertyUnder:
+                    break;
+                case BattleSkillEventTriggerCondition.TargetPropertyOver:
+                    //var tempNumSourceType = ((float)enemySetObject.EnemyStatusDTO.EnemyDefence_Physical / enemySetObject.EnemyStatusDTO.EnemyMaxHP) * 100;
+                    //if (tempNumSourceType <= battleSkillEvents.conditionPercentNum || battleSkillEvents.conditionFixedNum != 0)
+                    //    battleSkillTriggerEventType(battleSkillEvents, roleId, currentId, enemySetObject, playerSetObject, targetInfoDTOsSet);
+                    break;
+                case BattleSkillEventTriggerCondition.SelfPropertyUnder:
+                    break;
+                case BattleSkillEventTriggerCondition.SelfPropertyOver:
+                    break;
+            }
+        }
+
 
         /// <summary>
         /// 技能触发事件类型

@@ -549,6 +549,21 @@
             <param name="peer"></param>
             <returns></returns>
         </member>
+        <member name="M:AscensionServer.AuctionManager.GetAuctionGoodsList(System.Int32)">
+            <summary>
+            获取某一种物品的所有物品信息
+            </summary>
+            <param name="auctionGoodsID"></param>
+            <param name="startIndex"></param>
+            <param name="count"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.AuctionManager.GetTargetAuctionGoodList(System.Collections.Generic.List{AscensionProtocol.DTO.AuctionGoodsDTO},System.Int32,System.Int32)">
+            <summary>
+            获取目标范围的商品信息
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:AscensionServer.IBattleAlgorithmProvider">
             <summary>
             战斗算法提供者；

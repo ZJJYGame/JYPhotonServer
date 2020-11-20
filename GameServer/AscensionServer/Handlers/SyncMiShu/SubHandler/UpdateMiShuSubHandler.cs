@@ -22,10 +22,11 @@ namespace AscensionServer
             var rolemishuObj = Utility.Json.ToObject<RoleMiShuDTO>(rolemishuJson);
             var mishuObj = Utility.Json.ToObject<MiShuDTO>(mishuJson);
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolemishuObj.RoleID);
-            //bool exist = NHibernateQuerier.Verify<RoleMiShu>(nHCriteriaRoleID);
+            Utility.Debug.LogInfo("yzqData收到的角色秘术数据" + mishuJson);
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, List<MishuSkillData>>>(out var MiShuDataDict);
             if (RedisHelper.KeyExistsAsync(RedisKeyDefine._MiShuPerfix).Result)
             {
+                Utility.Debug.LogInfo("yzqData进入Redis判断");
                 var rolemishuRedisObj = RedisHelper.Hash.HashGetAsync<RoleMiShuDTO>(RedisKeyDefine._RoleMiShuPerfix + rolemishuObj.RoleID, rolemishuObj.RoleID.ToString()).Result;
                 if (rolemishuRedisObj.MiShuIDArray.ContainsKey(mishuObj.ID))
                 {
@@ -74,6 +75,7 @@ namespace AscensionServer
             }
             else
             {
+                Utility.Debug.LogInfo("yzqData进入mYsql判断");
                 RoleMiShu roleMishu = NHibernateQuerier.CriteriaSelect<RoleMiShu>(nHCriteriaRoleID);
                 var mishuDict = Utility.Json.ToObject<Dictionary<int, int>>(roleMishu.MiShuIDArray);
                 if (mishuDict.ContainsKey(mishuObj.ID))
