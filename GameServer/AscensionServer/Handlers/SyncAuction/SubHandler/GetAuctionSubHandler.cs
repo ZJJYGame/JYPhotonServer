@@ -19,58 +19,33 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
+
             var dict = operationRequest.Parameters;
             string dictJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Auction));
-            Dictionary<string, int> tempDict = Utility.Json.ToObject<Dictionary<string, int>>(dictJson);
-            int auctionGoodsID = tempDict["ID"];
-            int startIndex = tempDict["Start"];
-            int count = tempDict["Count"];
-            int goodsCount=0;
+            Dictionary<byte, object> tempDict = Utility.Json.ToObject<Dictionary<byte, object>>(dictJson);
 
-            Utility.Debug.LogInfo("收到的拍卖行"+ auctionGoodsID+"起始"+startIndex+"数量"+count);
+            int roleId =Int16.Parse(tempDict[(byte)ParameterCode.RoleAuctionItems].ToString());
+            Utility.Debug.LogInfo("请求拍卖行数据RoleID=>"+roleId);
+            SyncAuctionType syncAuctionType = (SyncAuctionType)Byte.Parse(tempDict[(byte)ParameterCode.SoldOutAuctionGoods].ToString());
+            Utility.Debug.LogInfo("请求拍卖行数据RoleID=>"+ syncAuctionType.ToString());
 
-            List<AuctionGoodsIndex> result=null;
-            List<AuctionGoodsIndex> newResult = new List<AuctionGoodsIndex>();
-            List<AuctionGoodsDTO> auctionGoodsDTOList = new List<AuctionGoodsDTO>();
-            List<AuctionGoodsDTO> resultAuctionGoodsDTOList = new List<AuctionGoodsDTO>();
-            var isHasValue = RedisHelper.Hash.HashExistAsync("AuctionIndex", auctionGoodsID.ToString()).Result;
-            if (!isHasValue)
+            switch (syncAuctionType)
             {
-                Utility.Debug.LogInfo("redis拍卖行索引表不存在该ID");
-            }
-            else
-            {
-                Utility.Debug.LogInfo("redis拍卖行索引表存在该ID");
-                result = RedisHelper.Hash.HashGet<List<AuctionGoodsIndex>>("AuctionIndex", auctionGoodsID.ToString());
-                Utility.Debug.LogInfo("sdsfa");
-                if (startIndex < result.Count)
-                {
-                    for (int i = 0; i < result.Count; i++)
-                    {
-                        string auctionGoodsJson = RedisHelper.String.StringGetAsync("AuctionGoods_" + result[i].RedisKey).Result;
-                        if (auctionGoodsJson != null)
-                        {
-                            auctionGoodsDTOList.Add(RedisHelper.Hash.HashGetAsync<AuctionGoodsDTO>("AuctionGoodsData", result[i].RedisKey).Result);
-                            newResult.Add(result[i]);
-                        }
-                    }
-                    RedisHelper.Hash.HashSet<List<AuctionGoodsIndex>>("AuctionIndex", auctionGoodsID.ToString(), newResult);
-                    goodsCount = newResult.Count;
-                    if (startIndex + count <= goodsCount)
-                    {
-                        resultAuctionGoodsDTOList = auctionGoodsDTOList.GetRange(startIndex, count);
-                    }
-                    else
-                    {
-                        resultAuctionGoodsDTOList = auctionGoodsDTOList.GetRange(startIndex, goodsCount - startIndex);
-                    }
-                }
-                //todo发送数据更改
+                case SyncAuctionType.GetAuctionGoods:
+                    int auctionGoodsId = Int16.Parse(tempDict[(byte)ParameterCode.AddAuctionGoods].ToString());
+                    int startIndex = Int16.Parse(tempDict[(byte)ParameterCode.Auction].ToString());
+                    int count = Int16.Parse(tempDict[(byte)ParameterCode.PutAwayAuctionGoods].ToString());
+                    GameManager.CustomeModule<AuctionManager>().ServerAuctionGoodsGet(auctionGoodsId, startIndex, count,roleId);
+                    break;
+                case SyncAuctionType.PutAwayAuctionGoods:
+                    break;
+                case SyncAuctionType.SoldOutAuctionGoods:
+                    break;
+                case SyncAuctionType.BuyAuctionGoods:
+                    break;
             }
             Dictionary<string, string> resultDict = new Dictionary<string, string>();
-            resultDict.Add("Data", Utility.Json.ToJson(resultAuctionGoodsDTOList));
-            resultDict.Add("Count", goodsCount.ToString());
-            resultDict.Add("Index", startIndex.ToString());
+;
             SetResponseParamters(() =>
             {
                 Utility.Debug.LogInfo("发送数据");
