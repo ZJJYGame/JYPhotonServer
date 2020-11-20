@@ -264,20 +264,20 @@ namespace AscensionServer
                     PetStatusDTO = new PetStatusDTO()
                     {
                         PetID = statusPet.PetID,
-                        PetAbilityPower = statusPet.PetAbilityPower,
-                        PetAttackDamage = statusPet.PetAttackDamage,
+                        //PetAbilityPower = statusPet.PetAbilityPower,
+                        //PetAttackDamage = statusPet.PetAttackDamage,
                         PetHP = statusPet.PetHP,
                         PetMaxHP = statusPet.PetMaxHP,
                         PetMaxMP = statusPet.PetMaxMP,
                         PetMaxShenhun = statusPet.PetMaxShenhun,
                         PetMP = statusPet.PetMP,
-                        PetResistanceAttack = statusPet.PetResistanceAttack,
-                        PetResistancePower = statusPet.PetResistancePower,
+                        //PetResistanceAttack = statusPet.PetResistanceAttack,
+                        //PetResistancePower = statusPet.PetResistancePower,
                         PetShenhun = statusPet.PetShenhun,
-                        PetShenhunDamage = statusPet.PetShenhunDamage,
-                        PetShenhunResistance = statusPet.PetShenhunResistance,
-                        PetSpeed = statusPet.PetSpeed,
-                        PetTalent = statusPet.PetTalent
+                        //PetShenhunDamage = statusPet.PetShenhunDamage,
+                        //PetShenhunResistance = statusPet.PetShenhunResistance,
+                        //PetSpeed = statusPet.PetSpeed,
+                        //PetTalent = statusPet.PetTalent
                     }
                 });
             }
@@ -298,20 +298,20 @@ namespace AscensionServer
                         PetStatusDTO = new PetStatusDTO()
                         {
                             PetID = statusPet.PetID,
-                            PetAbilityPower = statusPet.PetAbilityPower,
-                            PetAttackDamage = statusPet.PetAttackDamage,
+                            //PetAbilityPower = statusPet.PetAbilityPower,
+                            //PetAttackDamage = statusPet.PetAttackDamage,
                             PetHP = statusPet.PetHP,
                             PetMaxHP = statusPet.PetMaxHP,
                             PetMaxMP = statusPet.PetMaxMP,
                             PetMaxShenhun = statusPet.PetMaxShenhun,
                             PetMP = statusPet.PetMP,
-                            PetResistanceAttack = statusPet.PetResistanceAttack,
-                            PetResistancePower = statusPet.PetResistancePower,
+                            //PetResistanceAttack = statusPet.PetResistanceAttack,
+                            //PetResistancePower = statusPet.PetResistancePower,
                             PetShenhun = statusPet.PetShenhun,
-                            PetShenhunDamage = statusPet.PetShenhunDamage,
-                            PetShenhunResistance = statusPet.PetShenhunResistance,
-                            PetSpeed = statusPet.PetSpeed,
-                            PetTalent = statusPet.PetTalent
+                            //    PetShenhunDamage = statusPet.PetShenhunDamage,
+                            //    PetShenhunResistance = statusPet.PetShenhunResistance,
+                            //    PetSpeed = statusPet.PetSpeed,
+                            //    PetTalent = statusPet.PetTalent
                         }
                     });
                 }

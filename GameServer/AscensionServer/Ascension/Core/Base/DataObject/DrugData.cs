@@ -25,6 +25,7 @@ namespace AscensionServer
         public int Drug_CD { get; set; }
         public int Drug_Property { get; set; }
         public int Need_Level_ID { get; set; }
+        public int Max_Level_ID { get; set; }
     }
 
     /// <summary>

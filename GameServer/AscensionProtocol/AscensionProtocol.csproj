@@ -71,6 +71,8 @@
     <Compile Include="DTO\DailyMessageDTO.cs" />
     <Compile Include="DTO\ForgeDTO.cs" />
     <Compile Include="DTO\HerbsFieldDTO.cs" />
+    <Compile Include="DTO\PetAbilityDTO.cs" />
+    <Compile Include="DTO\PetAbilityPointDTO.cs" />
     <Compile Include="DTO\RoleAllianceDTO.cs" />
     <Compile Include="DTO\Monster\MonsterTransformDTO.cs" />
     <Compile Include="DTO\Monster\MonsterTransformQueueDTO.cs" />

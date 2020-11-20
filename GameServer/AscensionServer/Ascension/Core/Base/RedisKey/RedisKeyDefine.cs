@@ -108,5 +108,9 @@ namespace AscensionServer
         /// 功法的key前缀
         /// </summary>
         public static readonly string _GongfaPerfix = "Gongfa";
+        /// <summary>
+        /// 角色所有宠物的key前缀
+        /// </summary>
+        public static readonly string _RolePetPerfix = "RolePet";
     }
 }

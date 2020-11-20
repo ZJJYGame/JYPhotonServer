@@ -12,11 +12,12 @@ namespace AscensionServer
     {
         public int PetLevelID { get; set; }
         public int NextLevelID { get; set; }
-        public int IsFinalLevel { get; set; }
+        public bool IsFinalLevel { get; set; }
+        public int FreeAttributes { get; set; }
         public int PetHP { get; set; }
         public int PetMP { get; set; }
-        public int Petsoul { get; set; }
-        public float AttackSpeed { get; set; }
+        public float Petsoul { get; set; }
+        public int AttackSpeed { get; set; }
         public int AttackPhysical { get; set; }
         public int DefendPhysical { get; set; }
         public int AttackPower { get; set; }

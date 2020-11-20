@@ -21,8 +21,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-
+    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -183,6 +182,7 @@
     <Compile Include="Ascension\Core\Base\DataObject\MishuBook.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MiShuData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MonsterDatas.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\PetAbilityPointData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\PetAptitudeData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\PetLevelData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RoleStatusDatas.cs" />
@@ -236,6 +236,9 @@
     <Compile Include="Ascension\Core\RunTime\Lobby\LobbyManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Network\INetworkMessageHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Network\NetworkManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Pet\PetStatusManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Pet\PetStatusManager.Init.cs" />
+    <Compile Include="Ascension\Core\RunTime\Pet\PetStatusManager.Message.cs" />
     <Compile Include="Ascension\Core\RunTime\Record\IRecordHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Record\RecordManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\GameResourceManager.cs" />
@@ -260,8 +263,10 @@
     <Compile Include="Ascension\Core\RunTime\Team\TeamManager.cs" />
     <Compile Include="Ascension\Core\Base\Concurrent\ConcurrentInt.cs" />
     <Compile Include="DOMap\AllianceConstructionMap.cs" />
+    <Compile Include="DOMap\PetAbilityPointMap.cs" />
     <Compile Include="DOMap\RoleAllianceSkillMap.cs" />
     <Compile Include="DO\AllianceConstruction.cs" />
+    <Compile Include="DO\PetAbilityPoint.cs" />
     <Compile Include="DO\RoleAllianceSkill.cs" />
     <Compile Include="DO\RoleAuctionItems.cs" />
     <Compile Include="Handlers\RefreshSkillLayout\RefreshSkillLayoutHandler.cs" />
@@ -723,6 +728,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonData\PetLevelData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\PetAbilityPointData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="Plugin\ExitGames.Logging.Log4Net.dll" />

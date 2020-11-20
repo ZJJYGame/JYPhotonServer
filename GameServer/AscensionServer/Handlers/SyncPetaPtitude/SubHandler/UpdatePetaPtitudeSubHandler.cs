@@ -31,7 +31,7 @@ namespace AscensionServer
                 NHibernateQuerier.Update(petaptitudeTemp);
                 SetResponseParamters(() =>
                 {
-                    PetaPtitudeDTO petaPtitudeDTO = new PetaPtitudeDTO() {AttackphysicalAptitude= petaptitudeTemp.AttackphysicalAptitude,AttacksoulAptitude= petaptitudeTemp.AttacksoulAptitude,AttackspeedAptitude= petaptitudeTemp.AttackspeedAptitude,AttackpowerAptitude= petaptitudeTemp.AttackpowerAptitude,DefendphysicalAptitude= petaptitudeTemp.DefendphysicalAptitude,DefendpowerAptitude= petaptitudeTemp.DefendpowerAptitude,HPAptitude= petaptitudeTemp.HPAptitude,DefendsoulAptitude= petaptitudeTemp.DefendsoulAptitude,MPAptitude= petaptitudeTemp .MPAptitude,Petaptitudecol= petaptitudeTemp .Petaptitudecol,PetaptitudeDrug= Utility.Json.ToObject<Dictionary<int,int>>(petaptitudeTemp.PetaptitudeDrug),PetID= petaptitudeTemp .PetID,SoulAptitude= petaptitudeTemp .SoulAptitude};
+                    PetaPtitudeDTO petaPtitudeDTO = new PetaPtitudeDTO() {AttackphysicalAptitude= petaptitudeTemp.AttackphysicalAptitude,AttackspeedAptitude= petaptitudeTemp.AttackspeedAptitude,AttackpowerAptitude= petaptitudeTemp.AttackpowerAptitude,DefendphysicalAptitude= petaptitudeTemp.DefendphysicalAptitude,DefendpowerAptitude= petaptitudeTemp.DefendpowerAptitude,HPAptitude= petaptitudeTemp.HPAptitude,Petaptitudecol= petaptitudeTemp .Petaptitudecol,PetaptitudeDrug= Utility.Json.ToObject<Dictionary<int,int>>(petaptitudeTemp.PetaptitudeDrug),PetID= petaptitudeTemp .PetID,SoulAptitude= petaptitudeTemp .SoulAptitude};
                     subResponseParameters.Add((byte)ParameterCode.PetPtitude, Utility.Json.ToJson(petaPtitudeDTO));
                     operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
@@ -55,13 +55,11 @@ namespace AscensionServer
                         Utility.Debug.LogInfo("1收到的增加资质的请求");
                         petStatusserver.AttackphysicalAptitude += petStatusclient.AttackphysicalAptitude;
                         petStatusserver.AttackpowerAptitude += petStatusclient.AttackpowerAptitude;
-                        petStatusserver.AttacksoulAptitude += petStatusclient.AttacksoulAptitude;
+                       
                         petStatusserver.AttackspeedAptitude += petStatusclient.AttackspeedAptitude;
                         petStatusserver.DefendphysicalAptitude += petStatusclient.DefendphysicalAptitude;
                         petStatusserver.DefendpowerAptitude += petStatusclient.DefendpowerAptitude;
-                        petStatusserver.DefendsoulAptitude += petStatusclient.DefendsoulAptitude;
                         petStatusserver.HPAptitude += petStatusclient.HPAptitude;
-                        petStatusserver.MPAptitude += petStatusclient.MPAptitude;
                         petStatusserver.SoulAptitude += petStatusclient.SoulAptitude;
                         petStatusserver.Petaptitudecol += petStatusclient.Petaptitudecol;
                         drugDict[drugitem.Key] += petStatusclient.PetaptitudeDrug[drugitem.Key];
@@ -71,13 +69,10 @@ namespace AscensionServer
                         Utility.Debug.LogInfo("1收到的增加资质的请求");
                         petStatusserver.AttackphysicalAptitude += petStatusclient.AttackphysicalAptitude;
                         petStatusserver.AttackpowerAptitude += petStatusclient.AttackpowerAptitude;
-                        petStatusserver.AttacksoulAptitude += petStatusclient.AttacksoulAptitude;
                         petStatusserver.AttackspeedAptitude += petStatusclient.AttackspeedAptitude;
                         petStatusserver.DefendphysicalAptitude += petStatusclient.DefendphysicalAptitude;
                         petStatusserver.DefendpowerAptitude += petStatusclient.DefendpowerAptitude;
-                        petStatusserver.DefendsoulAptitude += petStatusclient.DefendsoulAptitude;
                         petStatusserver.HPAptitude += petStatusclient.HPAptitude;
-                        petStatusserver.MPAptitude += petStatusclient.MPAptitude;
                         petStatusserver.SoulAptitude += petStatusclient.SoulAptitude;
                         petStatusserver.Petaptitudecol += petStatusclient.Petaptitudecol;
                         drugDict.Add(drugitem.Key, drugitem.Value);
@@ -89,13 +84,11 @@ namespace AscensionServer
                     Utility.Debug.LogInfo("2收到的增加资质的请求");
                     petStatusserver.AttackphysicalAptitude += petStatusclient.AttackphysicalAptitude;
                     petStatusserver.AttackpowerAptitude += petStatusclient.AttackpowerAptitude;
-                    petStatusserver.AttacksoulAptitude += petStatusclient.AttacksoulAptitude;
+                   
                     petStatusserver.AttackspeedAptitude += petStatusclient.AttackspeedAptitude;
                     petStatusserver.DefendphysicalAptitude += petStatusclient.DefendphysicalAptitude;
-                    petStatusserver.DefendpowerAptitude += petStatusclient.DefendpowerAptitude;
-                    petStatusserver.DefendsoulAptitude += petStatusclient.DefendsoulAptitude;
+                    petStatusserver.DefendpowerAptitude += petStatusclient.DefendpowerAptitude;                   
                     petStatusserver.HPAptitude += petStatusclient.HPAptitude;
-                    petStatusserver.MPAptitude += petStatusclient.MPAptitude;
                     petStatusserver.SoulAptitude += petStatusclient.SoulAptitude;
                     petStatusserver.Petaptitudecol += petStatusclient.Petaptitudecol;
                     drugDict.Add(drugitem.Key, drugitem.Value);

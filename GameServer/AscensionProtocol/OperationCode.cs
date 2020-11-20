@@ -189,6 +189,24 @@ namespace AscensionProtocol
         /// 战斗匹配
         /// </summary>
         SyncRoleBattleMatch=115,
+        #region 角色宠物
+        /// <summary>
+        /// 获得角色所有宠物
+        /// </summary>
+        SyncGetRoleAllPet = 116,
+        /// <summary>
+        /// 设置宠物出战
+        /// </summary>
+        SyncSetPetBattle = 117,
+        /// <summary>
+        /// 放生角色宠物
+        /// </summary>
+        SyncRemoveRolePet=118,
+        /// <summary>
+        ///       添加新宠物
+        /// </summary>
+        SyncAddRolePet = 119,
+        #endregion
         /// <summary>
         /// 创建队伍
         /// </summary>
