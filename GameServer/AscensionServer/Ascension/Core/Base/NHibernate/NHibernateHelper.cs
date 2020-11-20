@@ -16,7 +16,7 @@ namespace AscensionServer
     {
         private static ISessionFactory _sessionFactory;
 
-        public  static ISessionFactory SessionFactory
+        public static ISessionFactory SessionFactory
         {
             get
             {
@@ -24,13 +24,11 @@ namespace AscensionServer
                 {
                     _sessionFactory = Fluently.Configure().
                         Database(MySQLConfiguration.Standard.
-                        ConnectionString(db => db.Server("192.168.0.117").
-                        //ConnectionString(db => db.Server("60.12.176.54").
-                        //ConnectionString(db => db.Server("127.0.0.1").
-                        Database("jygame").Username("jieyou").
-                        Password("jieyougamePWD"))).
+
+                        //ConnectionString(db => db.Server("127.0.0.1").Database("jygame").Username("root").Password("jieyougamePWD"))).//公网
+                        ConnectionString(db => db.Server("192.168.0.117").Database("jygame").Username("jieyou").Password("jieyougamePWD"))).//内网
                         Mappings(x => { x.FluentMappings.AddFromAssemblyOf<NHibernateHelper>(); }).
-                        BuildSessionFactory(); 
+                        BuildSessionFactory();
                 }
                 return _sessionFactory;
             }

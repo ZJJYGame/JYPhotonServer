@@ -336,46 +336,43 @@ namespace AscensionServer
                     enemyData.Add(new EnemyBattleDataDTO()
                     {
                         GlobalId = enemyId[i].GlobalId,
-                        ObjectName = monsterDict[enemyId[i].GlobalId].Monster_name,
+                        ObjectName = monsterDict[enemyId[i].GlobalId].Monster_Name,
                         EnemyStatusDTO = new EnemyStatusDTO()
                         {
                             EnemyId = enemyGlobleId++,
-                            EnemyHP = monsterDict[enemyId[i].GlobalId].Role_HP,
-                            EnemyMP = monsterDict[enemyId[i].GlobalId].Role_MP,
-                            EnemySoul = monsterDict[enemyId[i].GlobalId].Role_soul,
-                            EnemyAlert_Area = monsterDict[enemyId[i].GlobalId].Alert_area,
-                            EnemyAttact_Physical = monsterDict[enemyId[i].GlobalId].Attact_physical,
-                            EnemyAttact_Power = monsterDict[enemyId[i].GlobalId].Attact_power,
-                            EnemyAttact_Soul = monsterDict[enemyId[i].GlobalId].Attact_soul,
-                            EnemyAttact_Speed = monsterDict[enemyId[i].GlobalId].Attact_speed,
-                            EnemyBest_Blood = monsterDict[enemyId[i].GlobalId].Best_blood,
-                            EnemyDefence_Physical = monsterDict[enemyId[i].GlobalId].Defence_physical,
-                            EnemyDefend_Power = monsterDict[enemyId[i].GlobalId].Defence_power,
-                            EnemyDefend_Soul = monsterDict[enemyId[i].GlobalId].Defence_soul,
-                            EnemyDescribe = monsterDict[enemyId[i].GlobalId].Monster_describe,
-                            EnemyDown_Double = monsterDict[enemyId[i].GlobalId].Down_double,
+                            EnemyHP = monsterDict[enemyId[i].GlobalId].Monster_HP,
+                            EnemyMP = monsterDict[enemyId[i].GlobalId].Monster_MP,
+                            EnemySoul = monsterDict[enemyId[i].GlobalId].Monster_Soul,
+                            EnemyAlert_Area = monsterDict[enemyId[i].GlobalId].Alert_Area,
+                            EnemyAttact_Physical = monsterDict[enemyId[i].GlobalId].Attact_Physical,
+                            EnemyAttact_Power = monsterDict[enemyId[i].GlobalId].Attact_Power,
+                            EnemyAttact_Speed = monsterDict[enemyId[i].GlobalId].Attact_Speed,
+                            EnemyBest_Blood = monsterDict[enemyId[i].GlobalId].Best_Blood,
+                            EnemyDefence_Physical = monsterDict[enemyId[i].GlobalId].Defend_Physical,
+                            EnemyDefend_Power = monsterDict[enemyId[i].GlobalId].Defend_Power,
+                            EnemyDescribe = monsterDict[enemyId[i].GlobalId].Monster_Describe,
                             EnemyDrop_Array = monsterDict[enemyId[i].GlobalId].Drop_Array,
                             EnemyDrop_Rate = monsterDict[enemyId[i].GlobalId].Drop_Rate,
-                            EnemyLevel = monsterDict[enemyId[i].GlobalId].Monster_level,
+                            EnemyLevel = monsterDict[enemyId[i].GlobalId].Monster_Level,
                             EnemyMonster_Icon = monsterDict[enemyId[i].GlobalId].Monster_Icon,
                             EnemyMoster_Model = monsterDict[enemyId[i].GlobalId].Moster_Model,
-                            EnemyMove_Speed = monsterDict[enemyId[i].GlobalId].Move_speed,
-                            EnemyName = monsterDict[enemyId[i].GlobalId].Monster_name,
+                            EnemyMove_Speed = monsterDict[enemyId[i].GlobalId].Move_Speed,
+                            EnemyName = monsterDict[enemyId[i].GlobalId].Monster_Name,
                             EnemyPet_ID = monsterDict[enemyId[i].GlobalId].Pet_ID,
                             EnemyPet_Level_ID = monsterDict[enemyId[i].GlobalId].Pet_Level_ID,
                             EnemySkill_Array = monsterDict[enemyId[i].GlobalId].Skill_Array,
-                            EnemyUp_Double = monsterDict[enemyId[i].GlobalId].UP_double,
-                            EnemyValue_Flow = monsterDict[enemyId[i].GlobalId].Value_flow,
-                            EnemyValue_Hide = monsterDict[enemyId[i].GlobalId].Value_hide,
-                            EnemyMaxHP = monsterDict[enemyId[i].GlobalId].Role_HP,
-                            EnemyMaxMP = monsterDict[enemyId[i].GlobalId].Role_MP,
-                            EnemyMaxSoul = monsterDict[enemyId[i].GlobalId].Role_soul,
+                            EnemyValue_Flow = monsterDict[enemyId[i].GlobalId].Value_Flow,
+                            EnemyValue_Hide = monsterDict[enemyId[i].GlobalId].Value_Hide,
+                            EnemyMaxHP = monsterDict[enemyId[i].GlobalId].Monster_HP,
+                            EnemyMaxMP = monsterDict[enemyId[i].GlobalId].Monster_MP,
+                            EnemyMaxSoul = monsterDict[enemyId[i].GlobalId].Monster_Soul,
                             EnemyMagicCritDamage = monsterDict[enemyId[i].GlobalId].MagicCritDamage,
                             EnemyMagicCritProb = monsterDict[enemyId[i].GlobalId].MagicCritProb,
                             EnemyPhysicalCritDamage = monsterDict[enemyId[i].GlobalId].PhysicalCritDamage,
                             EnemyPhysicalCritProb = monsterDict[enemyId[i].GlobalId].PhysicalCritProb,
                             EnemyReduceCritDamage = monsterDict[enemyId[i].GlobalId].ReduceCritDamage,
-                            EnemyReduceCritProb = monsterDict[enemyId[i].GlobalId].ReduceCritProb
+                            EnemyReduceCritProb = monsterDict[enemyId[i].GlobalId].ReduceCritProb,
+                             EnemyGig_Level = monsterDict[enemyId[i].GlobalId].Monster_Gig_Level
                         }
                     });
                 }
@@ -404,10 +401,10 @@ namespace AscensionServer
                     {
                         ObjectId = enemyGlobleId++,
                         ObjectID = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Monster_ID,
-                        ObjectHP = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Role_HP,
-                        ObjectMP = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Role_MP,
-                        ObjectName = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Monster_name,
-                        ObjectSpeed = (int)monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Attact_speed,
+                        ObjectHP = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Monster_HP,
+                        ObjectMP = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Monster_MP,
+                        ObjectName = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Monster_Name,
+                        ObjectSpeed = (int)monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Attact_Speed,
                     });
                 }
                 Utility.Debug.LogInfo("老陆 ，开始战斗的时候收集客户端一个请求");
@@ -430,10 +427,10 @@ namespace AscensionServer
                     {
                         ObjectId = enemyGlobleId++,
                         ObjectID = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Monster_ID,
-                        ObjectHP = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Role_HP,
-                        ObjectMP = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Role_MP,
-                        ObjectName = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Monster_name,
-                        ObjectSpeed = (int)monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Attact_speed,
+                        ObjectHP = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Monster_HP,
+                        ObjectMP = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Monster_MP,
+                        ObjectName = monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Monster_Name,
+                        ObjectSpeed = (int)monsterDict[battleInitDTO.enemyUnits[i].GlobalId].Attact_Speed,
                     });
                 }
                 
