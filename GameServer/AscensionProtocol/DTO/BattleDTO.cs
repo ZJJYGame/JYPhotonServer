@@ -199,10 +199,6 @@ namespace AscensionProtocol.DTO
         public virtual int EnemyDefence_Physical { get; set; }
         public virtual int EnemyAttact_Power { get; set; }
         public virtual int EnemyDefend_Power { get; set; }
-        public virtual int EnemyAttact_Soul { get; set; }
-        public virtual int EnemyDefend_Soul { get; set; }
-        public virtual int EnemyUp_Double { get; set; }
-        public virtual int EnemyDown_Double { get; set; }
         public virtual int EnemyValue_Flow { get; set; }
         public virtual int EnemyPhysicalCritProb { get; set; }
         public virtual int EnemyMagicCritProb { get; set; }
