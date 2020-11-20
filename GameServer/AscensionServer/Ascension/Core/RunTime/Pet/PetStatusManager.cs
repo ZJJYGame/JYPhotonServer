@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cosmos;
 using AscensionProtocol.DTO;
+using AscensionServer.Model;
 namespace AscensionServer
 {
     [CustomeModule]
@@ -17,34 +18,34 @@ namespace AscensionServer
         /// <param name="petAptitudeObj"></param>
         /// <param name="petAbilityPointDTO"></param>
         /// <param name="petStatusTemp"></param>
-        public  void ResetPetStatus(PetDTO petDTO , PetAptitudeDTO petAptitudeObj,PetAbilityPointDTO petAbilityPointDTO,out PetStatusDTO petStatusTemp)
+        public void ResetPetStatus(Pet pet , PetAptitude petAptitudeObj,out PetStatus petStatusTemp)
         {
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
 
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<string, PetAbilityPointData>>(out var petabilityPointDict);
 
-            var result = petLevelDataDict.TryGetValue(petDTO.PetLevel, out var petLevelData);
+            var result = petLevelDataDict.TryGetValue(pet.PetLevel, out var petLevelData);
 
-            petStatusTemp = GameManager.ReferencePoolManager.Spawn<PetStatusDTO>();
+            petStatusTemp = GameManager.ReferencePoolManager.Spawn<PetStatus>();
 
             if (result)
             {
-                petStatusTemp.PetHP = (petLevelDataDict[petDTO.PetLevel].PetHP * petAptitudeObj.HPAptitude / 1000);
+                petStatusTemp.PetHP = (petLevelDataDict[pet.PetLevel].PetHP * petAptitudeObj.HPAptitude / 1000);
                 petStatusTemp.PetMaxHP = petStatusTemp.PetHP;
-                petStatusTemp.PetMP = petLevelDataDict[petDTO.PetLevel].PetMP ;
+                petStatusTemp.PetMP = petLevelDataDict[pet.PetLevel].PetMP ;
                 petStatusTemp.PetMaxMP = petStatusTemp.PetMP;
-                petStatusTemp.PetShenhun = (int)(petLevelDataDict[petDTO.PetLevel].Petsoul * petAptitudeObj.SoulAptitude / 1000);
+                petStatusTemp.PetShenhun = (int)(petLevelDataDict[pet.PetLevel].Petsoul * petAptitudeObj.SoulAptitude / 1000);
                 petStatusTemp.PetMaxShenhun = petStatusTemp.PetShenhun;
-                petStatusTemp.AttackPhysical = (petLevelDataDict[petDTO.PetLevel].AttackPhysical * petAptitudeObj.AttackphysicalAptitude / 1000);
-                petStatusTemp.AttackPower = (petLevelDataDict[petDTO.PetLevel].AttackPower * petAptitudeObj.AttackpowerAptitude / 1000);
-                petStatusTemp.AttackSpeed = (petLevelDataDict[petDTO.PetLevel].AttackSpeed * petAptitudeObj.AttackspeedAptitude / 1000);
-                petStatusTemp.DefendPhysical = (petLevelDataDict[petDTO.PetLevel].DefendPhysical * petAptitudeObj.DefendphysicalAptitude / 1000);
-                petStatusTemp.DefendPower = (petLevelDataDict[petDTO.PetLevel].DefendPower * petAptitudeObj.DefendpowerAptitude / 1000);
-                petStatusTemp.ExpLevelUp = petLevelDataDict[petDTO.PetLevel].ExpLevelUp;
-                petStatusTemp.MagicCritDamage = petLevelDataDict[petDTO.PetLevel].MagicCritDamage;
-                petStatusTemp.MagicCritProb = petLevelDataDict[petDTO.PetLevel].MagicCritProb;
-                petStatusTemp.PhysicalCritDamage = petLevelDataDict[petDTO.PetLevel].PhysicalCritDamage;
-                petStatusTemp.PhysicalCritProb = petLevelDataDict[petDTO.PetLevel].PhysicalCritProb;
+                petStatusTemp.AttackPhysical = (petLevelDataDict[pet.PetLevel].AttackPhysical * petAptitudeObj.AttackphysicalAptitude / 1000);
+                petStatusTemp.AttackPower = (petLevelDataDict[pet.PetLevel].AttackPower * petAptitudeObj.AttackpowerAptitude / 1000);
+                petStatusTemp.AttackSpeed = (petLevelDataDict[pet.PetLevel].AttackSpeed * petAptitudeObj.AttackspeedAptitude / 1000);
+                petStatusTemp.DefendPhysical = (petLevelDataDict[pet.PetLevel].DefendPhysical * petAptitudeObj.DefendphysicalAptitude / 1000);
+                petStatusTemp.DefendPower = (petLevelDataDict[pet.PetLevel].DefendPower * petAptitudeObj.DefendpowerAptitude / 1000);
+                petStatusTemp.ExpLevelUp = petLevelDataDict[pet.PetLevel].ExpLevelUp;
+                petStatusTemp.MagicCritDamage = petLevelDataDict[pet.PetLevel].MagicCritDamage;
+                petStatusTemp.MagicCritProb = petLevelDataDict[pet.PetLevel].MagicCritProb;
+                petStatusTemp.PhysicalCritDamage = petLevelDataDict[pet.PetLevel].PhysicalCritDamage;
+                petStatusTemp.PhysicalCritProb = petLevelDataDict[pet.PetLevel].PhysicalCritProb;
             }
         }
 
@@ -63,11 +64,11 @@ namespace AscensionServer
         /// </summary>
         /// <param name="petID"></param>
         /// <param name="petAptitudeObj"></param>
-        public  void ResetPetAptitude(int petID,out PetAptitudeDTO petAptitudeObj)
+        public  void ResetPetAptitude(int petID,out PetAptitude petAptitudeObj)
         {
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetAptitudeData>>(out var petAptitudeDataDict);
             var result = petAptitudeDataDict.TryGetValue(petID, out var petAptitudeData);
-            petAptitudeObj= GameManager.ReferencePoolManager.Spawn<PetAptitudeDTO>();
+            petAptitudeObj= GameManager.ReferencePoolManager.Spawn<PetAptitude>();
             if (result)
             {
                 petAptitudeObj.AttackphysicalAptitude = petAptitudeData.NaturalAttackPhysical[0];
@@ -79,6 +80,46 @@ namespace AscensionServer
                 petAptitudeObj.Petaptitudecol = petAptitudeData.NaturalGrowUp[0];
             }
         }
+        /// <summary>
+        /// 新增新宠物
+        /// </summary>
+        /// <param name="petID"></param>
+        /// <param name="petName"></param>
+        /// <param name="rolePet"></param>
+        public void InitPet(int petID,string petName ,RolePet rolePet)
+        {
+            Utility.Debug.LogInfo("yzqData增加新宠物进来了");
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetAptitudeData>>(out var petLevelDataDict);
+            var pet = GameManager.ReferencePoolManager.Spawn<Pet>();
+            pet.PetID = petID;
+            pet.PetName = petName;
+            pet.PetSkillArray = Utility.Json.ToJson(RestPetSkill(petLevelDataDict[petID].SkillArray));
+            pet = NHibernateQuerier.Insert<Pet>(pet);
+
+            var petAbilityPoint = GameManager.ReferencePoolManager.Spawn<PetAbilityPoint>();
+            petAbilityPoint.ID = pet.ID;
+            NHibernateQuerier.SaveOrUpdateAsync<PetAbilityPoint>(petAbilityPoint);
+
+            var petAptitude = GameManager.ReferencePoolManager.Spawn<PetAptitude>();
+            petAptitude.PetID = pet.ID;
+            ResetPetAptitude(petID, out petAptitude);
+            NHibernateQuerier.SaveOrUpdateAsync<PetAptitude>(petAptitude);
+
+            var petStatus = GameManager.ReferencePoolManager.Spawn<PetStatus>();
+            ResetPetStatus(pet, petAptitude,out petStatus);
+            petStatus.PetID = pet.ID;
+            NHibernateQuerier.SaveOrUpdateAsync<PetStatus>(petStatus);
+
+            var petDict = Utility.Json.ToObject<Dictionary<int, int>>(rolePet.PetIDDict);
+            petDict.Add(pet.ID, pet.PetID);
+            rolePet.PetIDDict = Utility.Json.ToJson(petDict);
+            NHibernateQuerier.SaveOrUpdateAsync<RolePet>(rolePet);
+
+            S2CRoleAddPetSuccess(rolePet.RoleID);
+            GameManager.ReferencePoolManager.Despawns(pet, petStatus, petAptitude, petAbilityPoint);
+        }
+
+
         /// <summary>
         /// 洗练宠物重置技能
         /// </summary>
@@ -134,15 +175,17 @@ namespace AscensionServer
         {
             double randomNum = AverageRandom(0, skillList.Count);
             List<int> numList = new List<int>();
+            List<int> tempSkillList = new List<int>();
             for (int i = 0; i < randomNum; i++)
             {
                 var temp = (int)AverageRandom(1, skillList.Count);
                 if (!numList.Contains(temp))
                 {
                     numList.Add(temp);
+                    tempSkillList.Add(skillList[temp]);
                 }
             }
-            return numList;
+            return tempSkillList;
         }
 
         #endregion

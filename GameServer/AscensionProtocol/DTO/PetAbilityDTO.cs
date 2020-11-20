@@ -15,8 +15,8 @@ namespace AscensionProtocol.DTO
         public virtual int Corporeity { get; set; }
         public virtual int Soul { get; set; }
         public virtual int Agility { get; set; }
-        public virtual int AllAptitudePoint { get; set; }
-
+        public virtual int SurplusAptitudePoint { get; set; }
+        public virtual string  SlnName { get; set; }
         public PetAbilityDTO()
         {
             Strength = 0;
@@ -25,7 +25,8 @@ namespace AscensionProtocol.DTO
             Corporeity = 0;
             Soul = 0;
             Agility = 0;
-            AllAptitudePoint = 0;
+            SurplusAptitudePoint = 0;
+            SlnName = null;
         }
         public override void Clear()
         {
@@ -35,7 +36,8 @@ namespace AscensionProtocol.DTO
             Corporeity = 0;
             Soul = 0;
             Agility = 0;
-            AllAptitudePoint = 0;
+            SurplusAptitudePoint = 0;
+            SlnName = null;
         }
     }
 }

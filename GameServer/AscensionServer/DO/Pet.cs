@@ -16,7 +16,7 @@ namespace AscensionServer.Model
             PetExp = 0;
             PetName = "水貂鸽头";
             PetSkillArray=null;
-
+            PetExtraSkill = "{}";
         }
         public virtual int ID { get; set; }
         public virtual int PetLevel { get; set; }
@@ -33,7 +33,7 @@ namespace AscensionServer.Model
             PetExp = 0;
             PetName = null;
             PetSkillArray=null;
-            PetExtraSkill=null;
+            PetExtraSkill="{}";
         }
     }
 }

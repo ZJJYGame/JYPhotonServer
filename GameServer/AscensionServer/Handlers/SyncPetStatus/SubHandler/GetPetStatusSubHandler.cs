@@ -18,35 +18,32 @@ namespace AscensionServer
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             var dict = operationRequest.Parameters;
-            string petJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.PetStatus));
-            var petObj = Utility.Json.ToObject<PetDTO>(petJson);
-            NHCriteria nHCriteriarolepet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petObj.ID);
+            string petCompleteJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.PetStatus));
+            var petCompleteObj = Utility.Json.ToObject<PetCompleteDTO>(petCompleteJson);
+            NHCriteria nHCriteriarolepet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petCompleteObj.PetDTO.ID);
             //var petArray = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriarolepet);
-
-            switch (petObj.PetOrderType)
+            switch (petCompleteObj.PetOrderType)
             {
-                case PetDTO.PetOperationalOrder.PetLevelUP:
-
+                case PetCompleteDTO.PetOperationalOrder.None:
                     break;
-                case PetDTO.PetOperationalOrder.PetResetAbilitySln:
-
+                case PetCompleteDTO.PetOperationalOrder.PetLevelUP:
                     break;
-                case PetDTO.PetOperationalOrder.PetResetStatus:
-
+                case PetCompleteDTO.PetOperationalOrder.PetResetAbilitySln:
                     break;
-                case PetDTO.PetOperationalOrder.PetEvolution:
+                case PetCompleteDTO.PetOperationalOrder.PetResetStatus:
                     break;
-                case PetDTO.PetOperationalOrder.PetStudtSkill:
+                case PetCompleteDTO.PetOperationalOrder.PetEvolution:
                     break;
-                case PetDTO.PetOperationalOrder.PetCultivate:
+                case PetCompleteDTO.PetOperationalOrder.PetStudtSkill:
                     break;
-                case PetDTO.PetOperationalOrder.PetGetStatus:
+                case PetCompleteDTO.PetOperationalOrder.PetCultivate:
+                    break;
+                case PetCompleteDTO.PetOperationalOrder.PetGetStatus:
 
                     break;
                 default:
                     break;
             }
-
             #region 待删
             //if (petArray != null)
             //{

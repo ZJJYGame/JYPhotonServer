@@ -17,7 +17,7 @@ namespace AscensionServer.Model
             ID = -1;
             SlnNow = 0;
             IsUnlockSlnThree = false;
-            AbilityPointSln = null;
+            AbilityPointSln ="{}";
         }
     }
 }

@@ -11,12 +11,16 @@ namespace AscensionProtocol.DTO
         public virtual int RoleID { get; set; }
         public virtual Dictionary<int,int> PetIDDict { get; set; }
         public virtual int PetIsBattle { get; set; }
+        public virtual int AddRemovePetID { get; set; }
+        public virtual string AddPetName { get; set; }
         public virtual RolePetOperationalOrder RolePetOrderType { get; set; }
         public override void Clear()
         {
             RoleID = -1;
             PetIDDict .Clear();
             PetIsBattle = 0;
+            AddRemovePetID = 0;
+            AddPetName = null;
         }
         public enum RolePetOperationalOrder
         {

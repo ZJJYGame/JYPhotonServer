@@ -37,7 +37,7 @@ namespace AscensionServer
             List<PetDTO>  petList = new List<PetDTO>();
             rolePetDTO.PetIsBattle = rolePet.PetIsBattle;
             rolePetDTO.PetIDDict = Utility.Json.ToObject<Dictionary<int,int>>(rolePet.PetIDDict);
-            Utility.Debug.LogInfo("yzqData获取所有宠物进来了" );
+
             foreach (var item in petDict)
             {
                 if (RedisHelper.KeyExistsAsync(RedisKeyDefine._PetPerfix + item.Key).Result)

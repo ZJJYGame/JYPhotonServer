@@ -18,7 +18,7 @@ namespace AscensionProtocol.DTO
         public virtual int AttackpowerAptitude { get; set; }
         public virtual int DefendpowerAptitude { get; set; }
         public virtual float Petaptitudecol { get; set; }
-        public virtual Dictionary<int, int> PetaptitudeDrug { get; set; }
+        public virtual Dictionary<int, int> PetAptitudeDrug { get; set; }
         public override void Clear()
         {
             PetID = 0;
@@ -30,7 +30,7 @@ namespace AscensionProtocol.DTO
             AttackpowerAptitude = 0;
             DefendpowerAptitude = 0;
             Petaptitudecol = 0;
-            PetaptitudeDrug = null;
+            PetAptitudeDrug = null;
         }
     }
 }

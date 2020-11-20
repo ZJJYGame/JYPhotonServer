@@ -32,11 +32,11 @@ namespace AscensionServer
                     break;
                 case RolePetDTO.RolePetOperationalOrder.GetAllPet:
                     GameManager.CustomeModule<PetStatusManager>().GetRoleAllPet(rolepets, rolepetObj);
-                    Utility.Debug.LogInfo("yzqData" + rolepet);
                     break;
                 case RolePetDTO.RolePetOperationalOrder.RemovePet:
                     break;
                 case RolePetDTO.RolePetOperationalOrder.AddPet:
+                    GameManager.CustomeModule<PetStatusManager>().InitPet(rolepetObj.AddRemovePetID, rolepetObj.AddPetName,rolepets);
                     break;
                 default:
                     break;
