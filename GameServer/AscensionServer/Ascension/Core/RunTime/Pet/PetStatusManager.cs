@@ -17,7 +17,7 @@ namespace AscensionServer
         /// <param name="petAptitudeObj"></param>
         /// <param name="petAbilityPointDTO"></param>
         /// <param name="petStatusTemp"></param>
-        public  void ResetPetStatus(PetDTO petDTO , PetaPtitudeDTO petAptitudeObj,PetAbilityPointDTO petAbilityPointDTO,out PetStatusDTO petStatusTemp)
+        public  void ResetPetStatus(PetDTO petDTO , PetAptitudeDTO petAptitudeObj,PetAbilityPointDTO petAbilityPointDTO,out PetStatusDTO petStatusTemp)
         {
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
 
@@ -63,11 +63,11 @@ namespace AscensionServer
         /// </summary>
         /// <param name="petID"></param>
         /// <param name="petAptitudeObj"></param>
-        public  void ResetPetAptitude(int petID,out PetaPtitudeDTO petAptitudeObj)
+        public  void ResetPetAptitude(int petID,out PetAptitudeDTO petAptitudeObj)
         {
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetAptitudeData>>(out var petAptitudeDataDict);
             var result = petAptitudeDataDict.TryGetValue(petID, out var petAptitudeData);
-            petAptitudeObj= GameManager.ReferencePoolManager.Spawn<PetaPtitudeDTO>();
+            petAptitudeObj= GameManager.ReferencePoolManager.Spawn<PetAptitudeDTO>();
             if (result)
             {
                 petAptitudeObj.AttackphysicalAptitude = petAptitudeData.NaturalAttackPhysical[0];

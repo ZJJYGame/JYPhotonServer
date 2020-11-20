@@ -22,7 +22,7 @@ namespace AscensionServer
 
             var rolepetObj = Utility.Json.ToObject<RolePetDTO>(rolepet);
             NHCriteria nHCriteriaRolePet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
-
+            Utility.Debug.LogInfo("yzqData"+ rolepet);
             var rolepets = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriaRolePet);
             List<Pet> petlist = new List<Pet>();
             Dictionary<string, string> DODict = new Dictionary<string, string>();
@@ -32,6 +32,7 @@ namespace AscensionServer
                     break;
                 case RolePetDTO.RolePetOperationalOrder.GetAllPet:
                     GameManager.CustomeModule<PetStatusManager>().GetRoleAllPet(rolepets, rolepetObj);
+                    Utility.Debug.LogInfo("yzqData" + rolepet);
                     break;
                 case RolePetDTO.RolePetOperationalOrder.RemovePet:
                     break;
