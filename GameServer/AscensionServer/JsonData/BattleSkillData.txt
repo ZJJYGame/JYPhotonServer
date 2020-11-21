@@ -151,7 +151,7 @@
             ],
             "battleSkillAddBuffList": [
                 {
-                    "buffId": 20000,
+                    "buffId": 20001,
                     "round": 1,
                     "TargetType": true,
                     "buffValue": 0,
@@ -171,29 +171,6 @@
                         "multiplyPropValue": 10,
                         "fixedPropValue": 0,
                         "addOrReduce": false
-                    }
-                },
-                {
-                    "buffId": 20001,
-                    "round": 1,
-                    "TargetType": true,
-                    "buffValue": 15,
-                    "basePropList": [
-                        100,
-                        100,
-                        50
-                    ],
-                    "selfAddBuffProbability": {
-                        "battleSkillBuffProbSource": 5,
-                        "multiplyPropValue": 100,
-                        "fixedPropValue": 0,
-                        "addOrReduce": true
-                    },
-                    "targetAddBuffProbability": {
-                        "battleSkillBuffProbSource": 5,
-                        "multiplyPropValue": 100,
-                        "fixedPropValue": 0,
-                        "addOrReduce": true
                     }
                 }
             ],

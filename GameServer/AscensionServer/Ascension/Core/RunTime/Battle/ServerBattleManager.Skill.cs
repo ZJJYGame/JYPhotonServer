@@ -109,7 +109,7 @@ namespace AscensionServer
                             var servivalTarget = enemySet.Find(x => x.EnemyStatusDTO.EnemyId == TargetID.Keys.ToList()[zo]);
                             BattleSkillEventDataMethod(eventDataSet, roleId, currentId, servivalTarget, zo, targetInfoDTOsSet);
                             servivalTarget.EnemyStatusDTO.EnemyHP -= skillDataDamageNum[0].baseNumSourceDataList[zo].mulitity;
-                            var tranfsSet = ServerToClientResults(new BattleTransferDTO.TargetInfoDTO() { TargetID = servivalTarget.EnemyStatusDTO.EnemyId, TargetHPDamage = -skillDataDamageNum[0].baseNumSourceDataList[zo].mulitity,  AddTargetBuff = AddBufferMethod(addBuffDataSet, roleId, currentId, servivalTarget, zo), RemoveTargetBuff = RemoveBufferMethod(removeBuffDataSet, roleId, currentId, zo)});
+                            var tranfsSet = ServerToClientResults(new BattleTransferDTO.TargetInfoDTO() { TargetID = servivalTarget.EnemyStatusDTO.EnemyId, TargetHPDamage = -skillDataDamageNum[0].baseNumSourceDataList[zo].mulitity,  AddTargetBuff = AddBufferMethod(addBuffDataSet, roleId, currentId, servivalTarget, zo, targetInfoDTOsSet), RemoveTargetBuff = RemoveBufferMethod(removeBuffDataSet, roleId, currentId, zo)});
                             targetInfoDTOsSet.Add(tranfsSet);
                         }
                         teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = currentId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = targetInfoDTOsSet });
@@ -139,7 +139,7 @@ namespace AscensionServer
         /// <summary>
         /// 技能 添加buff
         /// </summary>
-        public List<BufferBattleDataDTO> AddBufferMethod(List<BattleSkillAddBuffData> addBuffDataSet,int roleId,int currentId,EnemyBattleDataDTO enemySetObject, int index)
+        public List<BufferBattleDataDTO> AddBufferMethod(List<BattleSkillAddBuffData> addBuffDataSet,int roleId,int currentId,EnemyBattleDataDTO enemySetObject, int index, List<BattleTransferDTO.TargetInfoDTO> targetInfoDTOsSet = null)
         {
             RoleBattleDataDTO tempSet = null;
             EnemyBattleDataDTO enemySet = null;
@@ -282,9 +282,138 @@ namespace AscensionServer
                 {
                     bufferSet.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = addBuffDataSet[og].buffId, RoundNumber = addBuffDataSet[og].round } });
                     bufferId.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = addBuffDataSet[og].buffId, RoundNumber = addBuffDataSet[og].round } });
+                    //TODO
+                    GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, BattleBuffData>>(out var buffDict);
+                    Utility.Debug.LogInfo("<<<<<<<<<<<<<<<<>>>>>>>>>>>>" + addBuffDataSet[og].buffId);
+                    if (buffDict.ContainsKey(addBuffDataSet[og].buffId))
+                    {
+
+                        ///buff  时机
+                        switch (buffDict[addBuffDataSet[og].buffId].battleBuffTriggerTime)
+                        {
+                            case BattleBuffTriggerTime.BuffAdd:
+                                break;
+                            case BattleBuffTriggerTime.RoundStart:
+                                break;
+                            case BattleBuffTriggerTime.RoleAttack:
+                                break;
+                            case BattleBuffTriggerTime.RoleOnHit:
+                                break;
+                            case BattleBuffTriggerTime.RoleBeforeDie:
+                                break;
+                            case BattleBuffTriggerTime.RoleAfterDie:
+                                break;
+                            case BattleBuffTriggerTime.RoundEnd:
+                                Utility.Debug.LogInfo("<<<<<<<<<<<<<<<<>>>>>>>>>>>到这吗>" );
+                                ///buff 触发判断条件
+                                if (buffDict[addBuffDataSet[og].buffId].battleBuffTriggerConditionList.Count == 0)
+                                {
+                                    ///buff  触发事件
+                                   var buffEventSet =  buffDict[addBuffDataSet[og].buffId].battleBuffEventDataList;
+                                    for (int i = 0; i < buffEventSet.Count; i++)
+                                    {
+                                        /// 触发类型
+                                        switch (buffEventSet[i].battleBuffEventType)
+                                        {
+                                            case BattleBuffEventType.RolePropertyChange:
+                                                break;
+                                            case BattleBuffEventType.BuffPropertyChange:
+                                                break;
+                                            case BattleBuffEventType.ForbiddenBuff:
+                                                break;
+                                            case BattleBuffEventType.RoleStateChange:
+                                                break;
+                                            case BattleBuffEventType.UseDesignateSkill:
+                                                break;
+                                            case BattleBuffEventType.DamageOrHeal:
+                                                /// 伤害还是治疗
+                                                if (buffEventSet[i].flag)
+                                                {
+                                                    ///伤害的类型
+                                                    switch (buffEventSet[i].BattleSkillDamageType)
+                                                    {
+                                                        case BattleSkillDamageType.Physic:
+                                                            break;
+                                                        case BattleSkillDamageType.Magic:
+                                                            break;
+                                                        case BattleSkillDamageType.ShenHun:
+                                                            break;
+                                                        case BattleSkillDamageType.Reality:
+                                                            break;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    ///治疗数值来源
+                                                    switch (buffEventSet[i].buffEvent_DamageOrHeal_SourceDataType)
+                                                    {
+                                                        case BuffEvent_DamageOrHeal_SourceDataType.MaxHealth:
+                                                            ///来源目标 自己还是目标
+                                                            if (buffEventSet[i].flag_2)
+                                                            {
+
+                                                            }
+                                                            else
+                                                            {
+                                                               var damgeValue = (buffEventSet[i].percentValue * enemySetObject.EnemyStatusDTO.EnemyMaxHP) / 100 + buffEventSet[i].fixedValue;
+                                                                if (buffEventSet[i].flag_3)
+                                                                {
+                                                                    switch (buffEventSet[i].buffEvent_DamageOrHeal_EffectTargetType)
+                                                                    {
+                                                                        case BuffEvent_DamageOrHeal_EffectTargetType.Health:
+                                                                            playerSetObject.RoleStatusDTO.RoleHP += damgeValue;
+                                                                            var infoSet = ServerToClientResults(new BattleTransferDTO.TargetInfoDTO() { TargetID = enemySetObject.EnemyStatusDTO.EnemyId, TargetHPDamage = damgeValue });
+                                                                            targetInfoDTOsSet.Add(infoSet);
+                                                                            break;
+                                                                        case BuffEvent_DamageOrHeal_EffectTargetType.ShenHun:
+                                                                            break;
+                                                                        case BuffEvent_DamageOrHeal_EffectTargetType.ZhenYuan:
+                                                                            break;
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+
+                                                                }
+                                                            }
+
+                                                            break;
+                                                        case BuffEvent_DamageOrHeal_SourceDataType.MaxZhenYuan:
+                                                            break;
+                                                        case BuffEvent_DamageOrHeal_SourceDataType.MaxShenHun:
+                                                            break;
+                                                        case BuffEvent_DamageOrHeal_SourceDataType.TakeDamageNum:
+                                                            break;
+                                                        case BuffEvent_DamageOrHeal_SourceDataType.ReceiveDamageNum:
+                                                            break;
+                                                    }
+                                                }
+                                                break;
+                                            case BattleBuffEventType.Shield:
+                                                break;
+                                            case BattleBuffEventType.DamageReduce:
+                                                break;
+                                            case BattleBuffEventType.TakeHurtForOther:
+                                                break;
+                                            case BattleBuffEventType.AddBuff:
+                                                break;
+                                            case BattleBuffEventType.DispelBuff:
+                                                break;
+                                            case BattleBuffEventType.NotResurgence:
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                    }
+                                }
+                                break;
+                            case BattleBuffTriggerTime.BuffRemove:
+                                break;
+                        }
+                    }
                 }
                 else
-                    Utility.Debug.LogInfo("Buffer  使用失败====>>>>" + buffValue);
+                    Utility.Debug.LogInfo("Buffer 添加失败====>>>>" + buffValue);
             }
             return bufferId;
         }

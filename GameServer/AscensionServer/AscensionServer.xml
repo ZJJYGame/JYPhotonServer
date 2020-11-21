@@ -89,6 +89,132 @@
             每日维护消耗人气
             </summary>
         </member>
+        <member name="F:AscensionServer.BattleBuffData.isShow">
+            <summary>
+            用于面板显示，不用做数据
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.None">
+            <summary>
+            无触发条件
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.UseDesignatedSkill">
+            <summary>
+            使用指定技能
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.HaveDesignatedSkill">
+            <summary>
+            拥有指定技能
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.NotHaveDesignatedSkill">
+            <summary>
+            使用指定技能
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.LimitSkillTargetNum">
+            <summary>
+            技能目标数量限定
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.DesignatedDamageType">
+            <summary>
+            指定类型伤害
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.DamageCrit">
+            <summary>
+            伤害暴击
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.DesignatedPropertyLimit">
+            <summary>
+            指定属性限定
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.BothDesignatedPropertyCompare">
+            <summary>
+            双方指定属性比较
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.TargetHaveDesignatedBuff">
+            <summary>
+            目标存在指定buff
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.CharacterTypeLimit">
+            <summary>
+            角色类型限定
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.CloseOrRangeAttack">
+            <summary>
+            近身或远程攻击
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleBuffCondition_TargetCharacterType">
+            <summary>
+            buff触发条件目标类型限定
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleBuffCondition_DamageType">
+            <summary>
+            伤害类型条件
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleBuffEventData">
+            <summary>
+            0角色属性变动 RolePropertyChange=>
+            1buff属性变动 BuffPropertyChange=>
+            2禁用buff ForbiddenBuff=>
+            3角色状态改变 RoleStateChange=>
+            4使用指定技能 UseDesignateSkill=>
+            5伤害或治疗 DamageOrHeal=>
+            6护盾 Shield=>
+            7该次伤害减免 DamageReduce=>
+            8替他人承担伤害 TakeHurtForOther=>
+            9施加buff AddBuff=>
+            10驱散buff DispelBuff=>
+            11无法复活 Resurgence=>
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffEventData.eventTriggerCondition">
+            <summary>
+            每个事件可能有一个附加的触发条件
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BuffEvent_RolePropertyChange_SourceDataType">
+            <summary>
+            buff事件：人物属性变动对应的数据来源类型
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BuffEvent_PropertyChangeType">
+            <summary>
+            buff事件：buff属性改变类型
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BuffEvent_RoleStateChangeType">
+            <summary>
+            buff事件：修改人物状态类型
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BuffEvent_DamageOrHeal_ChangeDataType">
+            <summary>
+            buff事件：伤害或治疗改变的数据类型
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BuffEvent_DamageOrHeal_SourceDataType">
+            <summary>
+            buff事件：伤害或治疗数值的数据来源类型
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BuffEvent_Shield_SourceDataType">
+            <summary>
+            buff事件：护盾的数据来源类型
+            </summary>
+        </member>
         <member name="T:AscensionServer.BattleSkillData">
             <summary>
              2020.11.06 09.50
@@ -189,7 +315,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -662,7 +788,7 @@
             </summary>
             
         </member>
-        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -871,7 +997,7 @@
             统一计算技能 单段 多段
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.AddBufferMethod(System.Collections.Generic.List{AscensionServer.BattleSkillAddBuffData},System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.AddBufferMethod(System.Collections.Generic.List{AscensionServer.BattleSkillAddBuffData},System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO})">
             <summary>
             技能 添加buff
             </summary>
@@ -2265,7 +2391,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；

@@ -104,6 +104,9 @@ namespace AscensionServer
 
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(BattleSkillData).Name, out var battleSkillSet);
                 var battleSkillDict = TransObject<List<BattleSkillData>>(battleSkillSet).ToDictionary(key => key.id, value => value);
+
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(BattleBuffData).Name, out var battleSBuffSet);
+                var battleBuffDict = TransObject<List<BattleBuffData>>(battleSBuffSet).ToDictionary(key => key.id, value => value);
                 #endregion
 
                 GameManager.CustomeModule<DataManager>().TryAdd(petAbilityPointDataDict);
@@ -130,13 +133,13 @@ namespace AscensionServer
                 GameManager.CustomeModule<DataManager>().TryAdd(runesDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(magicDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(battleSkillDict);
-
+                GameManager.CustomeModule<DataManager>().TryAdd(battleBuffDict);
 
                 //GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MonsterDatas>>(out var set);
                 //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + skillGongFaDict[21001].Skill_Describe);
                 //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + skillMiShuDict[21009].Skill_Describe);
 
-                //Utility.Debug.LogInfo("<DataManager> 测试 ConvertData Step0211111111111====>" + battleSkillDict.Count);
+                //Utility.Debug.LogInfo("<DataManager> 测试 ConvertData Step0211111111111====>" + monsterDict.Count);
             }
             catch (Exception e)
             {
