@@ -24,5 +24,16 @@ namespace AscensionServer
             GameManager.CustomeModule<RoleManager>().SendMessage(roleid, opData);
             Utility.Debug.LogInfo("yzqData增加新宠物发送了");
         }
+
+        public void S2CPetAllStatus(int roleid, string s2cMessage)
+        {
+            OperationData opData = new OperationData();
+            opData.DataMessage = s2cMessage;
+            opData.OperationCode = (byte)OperationCode.SyncPetStatus;
+            opData.ReturnCode = (byte)ReturnCode.Success;
+            GameManager.CustomeModule<RoleManager>().SendMessage(roleid, opData);
+            Utility.Debug.LogInfo("yzqData宠物所有数据信息发送了");
+        }
+
     }
 }

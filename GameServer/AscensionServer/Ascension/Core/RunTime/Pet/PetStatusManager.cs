@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Cosmos;
 using AscensionProtocol.DTO;
 using AscensionServer.Model;
+using RedisDotNet;
 namespace AscensionServer
 {
     [CustomeModule]
@@ -88,35 +89,79 @@ namespace AscensionServer
         /// <param name="rolePet"></param>
         public void InitPet(int petID,string petName ,RolePet rolePet)
         {
-            Utility.Debug.LogInfo("yzqData增加新宠物进来了");
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetAptitudeData>>(out var petLevelDataDict);
+            #region
             var pet = GameManager.ReferencePoolManager.Spawn<Pet>();
             pet.PetID = petID;
             pet.PetName = petName;
             pet.PetSkillArray = Utility.Json.ToJson(RestPetSkill(petLevelDataDict[petID].SkillArray));
             pet = NHibernateQuerier.Insert<Pet>(pet);
-
+            var petObj = GameManager.ReferencePoolManager.Spawn<PetDTO>();
+            petObj.ID = pet.ID;
+            petObj.PetExp = pet.PetExp;
+            petObj.PetExtraSkill = Utility.Json.ToObject<Dictionary<int,int>>(pet.PetExtraSkill);
+            petObj.PetID = pet.PetID;
+            petObj.PetLevel = pet.PetLevel;
+            petObj.PetName = pet.PetName;
+            petObj.PetSkillArray =Utility.Json.ToObject<List<int>>(pet.PetSkillArray);
+            RedisHelper.Hash.HashSetAsync<PetDTO>(RedisKeyDefine._PetPerfix, pet.ID.ToString(), petObj);
+            #endregion
+            #region PetAbilityPointDTO
             var petAbilityPoint = GameManager.ReferencePoolManager.Spawn<PetAbilityPoint>();
             petAbilityPoint.ID = pet.ID;
             NHibernateQuerier.SaveOrUpdateAsync<PetAbilityPoint>(petAbilityPoint);
-
+            var petAbilityPointObj = GameManager.ReferencePoolManager.Spawn<PetAbilityPointDTO>();
+            petAbilityPointObj.ID = petAbilityPoint.ID;
+            petAbilityPointObj.SlnNow = petAbilityPoint.SlnNow;
+            petAbilityPointObj.IsUnlockSlnThree = petAbilityPoint.IsUnlockSlnThree;
+            if (!string.IsNullOrEmpty(petAbilityPoint.AbilityPointSln))
+            {
+                petAbilityPointObj.AbilityPointSln = new Dictionary<int, PetAbilityDTO>();
+                petAbilityPointObj.AbilityPointSln = Utility.Json.ToObject<Dictionary<int, PetAbilityDTO>>(petAbilityPoint.AbilityPointSln);
+            }
+            RedisHelper.Hash.HashSetAsync<PetAbilityPointDTO>(RedisKeyDefine._PetAbilityPointPerfix, pet.ID.ToString(), petAbilityPointObj);
+            #endregion
+            #region PetAptitudeDTO
             var petAptitude = GameManager.ReferencePoolManager.Spawn<PetAptitude>();
             petAptitude.PetID = pet.ID;
             ResetPetAptitude(petID, out petAptitude);
+            var petAptitudeObj = GameManager.ReferencePoolManager.Spawn<PetAptitudeDTO>();
+            petAptitudeObj.PetID = petAptitude.PetID;
+            petAptitudeObj.AttackphysicalAptitude = petAptitude.AttackphysicalAptitude;
+            petAptitudeObj.AttackpowerAptitude = petAptitude.AttackpowerAptitude;
+            petAptitudeObj.AttackspeedAptitude = petAptitude.AttackspeedAptitude;
+            petAptitudeObj.DefendphysicalAptitude = petAptitude.DefendphysicalAptitude;
+            petAptitudeObj.DefendpowerAptitude = petAptitude.DefendpowerAptitude;
+            petAptitudeObj.HPAptitude = petAptitude.HPAptitude;
+            petAptitudeObj.Petaptitudecol = petAptitude.Petaptitudecol;
+            petAptitudeObj.PetAptitudeDrug =Utility.Json.ToObject<Dictionary<int,int>>(petAptitude.PetAptitudeDrug);
+            petAptitudeObj.SoulAptitude = petAptitude.SoulAptitude;
+
+            RedisHelper.Hash.HashSetAsync<PetAptitudeDTO>(RedisKeyDefine._PetAptitudePerfix, pet.ID.ToString(), petAptitudeObj);
             NHibernateQuerier.SaveOrUpdateAsync<PetAptitude>(petAptitude);
-
+            #endregion
+            #region PetStatusDTO
             var petStatus = GameManager.ReferencePoolManager.Spawn<PetStatus>();
-            ResetPetStatus(pet, petAptitude,out petStatus);
+            ResetPetStatus(pet, petAptitude, out petStatus);
             petStatus.PetID = pet.ID;
-            NHibernateQuerier.SaveOrUpdateAsync<PetStatus>(petStatus);
+            RedisHelper.Hash.HashSetAsync<PetStatus>(RedisKeyDefine._PetStatusPerfix , pet.ID.ToString(), petStatus);
 
+            NHibernateQuerier.SaveOrUpdateAsync<PetStatus>(petStatus);
+            #endregion
+            #region RolePetDTO
             var petDict = Utility.Json.ToObject<Dictionary<int, int>>(rolePet.PetIDDict);
             petDict.Add(pet.ID, pet.PetID);
             rolePet.PetIDDict = Utility.Json.ToJson(petDict);
             NHibernateQuerier.SaveOrUpdateAsync<RolePet>(rolePet);
+            var RolepetObj = GameManager.ReferencePoolManager.Spawn<RolePetDTO>();
+            RolepetObj.RoleID = rolePet.RoleID;
+            RolepetObj.PetIDDict = petDict;
+            RolepetObj.PetIsBattle = rolePet.PetIsBattle;
+            RedisHelper.Hash.HashSetAsync<RolePetDTO>(RedisKeyDefine._RolePetPerfix, rolePet.RoleID.ToString(), RolepetObj);
+            #endregion
 
             S2CRoleAddPetSuccess(rolePet.RoleID);
-            GameManager.ReferencePoolManager.Despawns(pet, petStatus, petAptitude, petAbilityPoint);
+            GameManager.ReferencePoolManager.Despawns(pet, petStatus, petAptitude, petAbilityPoint, RolepetObj, petAptitudeObj, petAbilityPointObj);
         }
 
 

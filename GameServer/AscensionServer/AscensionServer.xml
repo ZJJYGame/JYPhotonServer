@@ -189,7 +189,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
+        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -322,6 +322,11 @@
         <member name="F:AscensionServer.RedisKeyDefine._PetAptitudePerfix">
             <summary>
             宠物资质的Key前缀
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._PetAbilityPointPerfix">
+            <summary>
+            宠物加点的Key前缀
             </summary>
         </member>
         <member name="F:AscensionServer.RedisKeyDefine._PuppetPerfix">
@@ -569,6 +574,17 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:AscensionServer.AuctionManager.BuyAuctionGoods(AscensionProtocol.DTO.AuctionGoodsDTO,System.Int32)">
+            <summary>
+            玩家购买物品的事件处理
+            </summary>
+            <param name="buyAuctionGoodsDTO"></param>
+        </member>
+        <member name="M:AscensionServer.AuctionManager.ChangeRoleAssets(AscensionProtocol.DTO.AuctionGoodsDTO,System.Int32,System.Boolean)">
+            <summary>
+            角色金钱修改
+            </summary>
+        </member>
         <member name="T:AscensionServer.IBattleAlgorithmProvider">
             <summary>
             战斗算法提供者；
@@ -646,7 +662,7 @@
             </summary>
             
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -1488,6 +1504,11 @@
             增加资质
             </summary>
         </member>
+        <member name="M:AscensionServer.PetStatusManager.GetPetAllCompeleteStatus(System.Int32,AscensionServer.NHCriteria,System.Int32)">
+            <summary>
+            获得宠物所有属性
+            </summary>
+        </member>
         <member name="P:AscensionServer.GameResourceManager.ResUnitSetDict">
             <summary>
             资源单位集合的字典
@@ -2244,7 +2265,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
+        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；

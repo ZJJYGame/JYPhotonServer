@@ -41,6 +41,10 @@ namespace AscensionServer
         /// </summary>
         public static readonly string _PetAptitudePerfix = "PetAptitude";
         /// <summary>
+        /// 宠物加点的Key前缀
+        /// </summary>
+        public static readonly string _PetAbilityPointPerfix = "PetAbilityPoint";
+        /// <summary>
         /// 傀儡的Key前缀
         /// </summary>
         public static readonly string _PuppetPerfix = "Puppet";
