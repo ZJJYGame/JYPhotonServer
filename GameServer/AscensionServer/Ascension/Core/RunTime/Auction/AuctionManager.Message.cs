@@ -30,7 +30,19 @@ namespace AscensionServer
             GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
             Utility.Debug.LogInfo("拍卖行数据发送给玩家");
         } 
+        public async void SeverAuctionGoodsBuy(AuctionGoodsDTO auctionGoodsDTO,int startIndex,int count,int roleId)
+        {
 
+            OperationData opData = new OperationData();
+            opData.OperationCode = (byte)OperationCode.SyncAuction;
+
+            Dictionary<byte, object> subResponseParametersDict = new Dictionary<byte, object>();
+
+            subResponseParametersDict.Add((byte)ParameterCode.SoldOutAuctionGoods, (byte)SyncAuctionType.BuyAuctionGoods);
+
+            opData.DataMessage = subResponseParametersDict;
+            GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
+        }
        
     }
 }
