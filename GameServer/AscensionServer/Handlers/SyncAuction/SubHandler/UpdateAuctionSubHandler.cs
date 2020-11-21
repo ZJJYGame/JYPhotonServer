@@ -125,48 +125,6 @@ namespace AscensionServer
             resultDict.Add("Count", allGoodsCount.ToString());
             Utility.Debug.LogInfo(roleID + Utility.Json.ToJson(resultDict));
 
-            //lock (locker)
-            //{
-            //Owner.ResponseData.Clear();
-            //switch (buyAuctionTypeEnum)
-            //    {
-            //        case BuyAuctionTypeEnum.Success:
-            //            SetResponseData(() =>
-            //            {
-            //                Utility.Debug.LogError(roleID + "添加");
-            //                Utility.Debug.LogInfo(roleID + "购买物品成功");
-            //                SubDict = new Dictionary<byte, object>();
-            //                SubDict.Add((byte)ParameterCode.AddAuctionGoods, Utility.Json.ToJson(resultDict));
-
-            //                Owner.OpResponse.ReturnCode = (short)ReturnCode.Success;
-            //            });
-            //            break;
-            //        case BuyAuctionTypeEnum.Empty:
-            //            SetResponseData(() =>
-            //            {
-            //                Utility.Debug.LogError(roleID + "添加");
-            //                Utility.Debug.LogInfo(roleID + "找不到该商品");
-            //                SubDict = new Dictionary<byte, object>();
-            //                SubDict.Add((byte)ParameterCode.Inventory, Utility.Json.ToJson(resultDict));
-            //                Owner.OpResponse.ReturnCode = (short)ReturnCode.Empty;
-            //                Utility.Debug.LogInfo(roleID + "找不到该商品");
-            //            });
-            //            break;
-            //        case BuyAuctionTypeEnum.NotEnougth:
-            //            SetResponseData(() =>
-            //            {
-            //                Utility.Debug.LogError(roleID + "添加");
-            //                Utility.Debug.LogInfo(roleID + "物品数量不足");
-            //                SubDict = new Dictionary<byte, object>();
-            //                SubDict.Add((byte)ParameterCode.Auction, Utility.Json.ToJson(resultDict));
-            //                Owner.OpResponse.ReturnCode = (short)ReturnCode.Fail;
-            //            });
-            //            break;
-            //        case BuyAuctionTypeEnum.Default:
-            //            Utility.Debug.LogInfo("拍卖行判断出现异常");
-            //            break;
-            //    }
-            //}
             switch (buyAuctionTypeEnum)
             {
                 case BuyAuctionTypeEnum.Success:

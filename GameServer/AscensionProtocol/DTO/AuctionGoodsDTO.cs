@@ -32,5 +32,6 @@ namespace AscensionProtocol.DTO
         PutAwayAuctionGoods=1,
         SoldOutAuctionGoods=2,
         BuyAuctionGoods=3,
+        AuctionGoodsBeBought=4,
     }
 }

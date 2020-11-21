@@ -35,13 +35,17 @@ namespace AscensionServer
                     int auctionGoodsId = Int16.Parse(tempDict[(byte)ParameterCode.AddAuctionGoods].ToString());
                     int startIndex = Int16.Parse(tempDict[(byte)ParameterCode.Auction].ToString());
                     int count = Int16.Parse(tempDict[(byte)ParameterCode.PutAwayAuctionGoods].ToString());
-                    GameManager.CustomeModule<AuctionManager>().ServerAuctionGoodsGet(auctionGoodsId, startIndex, count,roleId);
+                    GameManager.CustomeModule<AuctionManager>().ServerAuctionGoodsGet(auctionGoodsId, startIndex, count, roleId);
                     break;
                 case SyncAuctionType.PutAwayAuctionGoods:
                     break;
                 case SyncAuctionType.SoldOutAuctionGoods:
                     break;
                 case SyncAuctionType.BuyAuctionGoods:
+                    AuctionGoodsDTO auctionGoodsDTO = Utility.Json.ToObject<AuctionGoodsDTO>(tempDict[(byte)ParameterCode.AddAuctionGoods].ToString());
+                    startIndex = Convert.ToInt32(tempDict[(byte)ParameterCode.Auction].ToString());
+                    count = Convert.ToInt32(tempDict[(byte)ParameterCode.PutAwayAuctionGoods].ToString());
+                    GameManager.CustomeModule<AuctionManager>().SeverAuctionGoodsBuy(auctionGoodsDTO, startIndex, count, roleId);
                     break;
             }
             Dictionary<string, string> resultDict = new Dictionary<string, string>();

@@ -12,10 +12,10 @@ namespace AscensionServer
     [CustomeModule]
     public partial class AuctionManager: Module<AuctionManager>
     {
-        HashSet<string> occupyGuidHash;
+        public HashSet<string> occupyGuidHash;
         public override void OnInitialization()
         {
-            
+            occupyGuidHash = new HashSet<string>();
         }
 
         
