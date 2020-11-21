@@ -1397,7 +1397,7 @@
             <param name="sessionId">id</param>
             <returns>查找到的对象</returns>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.ResetPetStatus(AscensionProtocol.DTO.PetDTO,AscensionProtocol.DTO.PetaPtitudeDTO,AscensionProtocol.DTO.PetAbilityPointDTO,AscensionProtocol.DTO.PetStatusDTO@)">
+        <member name="M:AscensionServer.PetStatusManager.ResetPetStatus(AscensionServer.Model.Pet,AscensionServer.Model.PetAptitude,AscensionServer.Model.PetStatus@)">
             <summary>
             宠物洗练属性重置
             </summary>
@@ -1413,12 +1413,20 @@
             <param name="petAbilityPointDTO"></param>
             <param name="petStatusDTO"></param>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.ResetPetAptitude(System.Int32,AscensionProtocol.DTO.PetaPtitudeDTO@)">
+        <member name="M:AscensionServer.PetStatusManager.ResetPetAptitude(System.Int32,AscensionServer.Model.PetAptitude@)">
             <summary>
             重置宠物资质
             </summary>
             <param name="petID"></param>
             <param name="petAptitudeObj"></param>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.InitPet(System.Int32,System.String,AscensionServer.Model.RolePet)">
+            <summary>
+            新增新宠物
+            </summary>
+            <param name="petID"></param>
+            <param name="petName"></param>
+            <param name="rolePet"></param>
         </member>
         <member name="M:AscensionServer.PetStatusManager.RestPetSkill(System.Collections.Generic.List{System.Int32})">
             <summary>
