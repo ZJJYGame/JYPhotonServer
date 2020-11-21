@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class PetaPtitude : DataObject
+    public class PetAptitude : DataObject
     {
         public virtual int PetID { get; set; }
         public virtual int HPAptitude { get; set; }
@@ -22,7 +22,7 @@ namespace AscensionServer.Model
         public virtual int DefendsoulAptitude { get; set; }
         public virtual float Petaptitudecol { get; set; }
         public virtual string PetaptitudeDrug { get; set; }
-        public PetaPtitude()
+        public PetAptitude()
         {
             PetID = 0;
             HPAptitude = 0;
@@ -36,7 +36,7 @@ namespace AscensionServer.Model
             AttacksoulAptitude = 0;
             DefendsoulAptitude = 0;
             Petaptitudecol = 0;
-            PetaptitudeDrug = null;
+            PetaptitudeDrug ="{}";
         }
 
         public override void Clear()

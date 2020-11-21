@@ -71,11 +71,14 @@
     <Compile Include="DTO\DailyMessageDTO.cs" />
     <Compile Include="DTO\ForgeDTO.cs" />
     <Compile Include="DTO\HerbsFieldDTO.cs" />
+    <Compile Include="DTO\PetAbilityDTO.cs" />
+    <Compile Include="DTO\PetAbilityPointDTO.cs" />
+    <Compile Include="DTO\PetCompleteDTO.cs" />
     <Compile Include="DTO\RoleAllianceDTO.cs" />
     <Compile Include="DTO\Monster\MonsterTransformDTO.cs" />
     <Compile Include="DTO\Monster\MonsterTransformQueueDTO.cs" />
     <Compile Include="DTO\OffLineTimeDTO.cs" />
-    <Compile Include="DTO\PetaPtitudeDTO.cs" />
+    <Compile Include="DTO\PetAptitudeDTO.cs" />
     <Compile Include="DTO\PetDTO.cs" />
     <Compile Include="DTO\PetStatusDTO.cs" />
     <Compile Include="DTO\PuppetDTO.cs" />

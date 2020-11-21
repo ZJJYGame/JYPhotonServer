@@ -8,7 +8,7 @@ using FluentNHibernate.Mapping;
 
 namespace AscensionServer
 {
-  public  class PetaPtitudeMap: ClassMap<PetaPtitude>
+  public  class PetaPtitudeMap: ClassMap<PetAptitude>
     {
         public PetaPtitudeMap()
         {

@@ -18,37 +18,37 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = operationRequest.Parameters;
-            string rolepet = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RolePet));
+            //var dict = operationRequest.Parameters;
+            //string rolepet = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RolePet));
 
-            var rolepetObj = Utility.Json.ToObject<RolePet>(rolepet);
-            NHCriteria nHCriteriaRolePet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
+            //var rolepetObj = Utility.Json.ToObject<RolePet>(rolepet);
+            //NHCriteria nHCriteriaRolePet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
 
-            var rolepets = NHibernateQuerier.CriteriaSelectAsync<RolePet>(nHCriteriaRolePet).Result;
+            //var rolepets = NHibernateQuerier.CriteriaSelectAsync<RolePet>(nHCriteriaRolePet).Result;
 
-            if (RedisHelper.Hash.HashExistAsync("RolePet", rolepetObj.RoleID.ToString()).Result&& rolepets != null)
-            {
-                #region Redis模块
-                rolepets.PetIsBattle = rolepetObj.PetIsBattle;
-               RedisHelper.Hash.HashSet<RolePet>("RolePet", rolepets.RoleID.ToString(),rolepets);
+            //if (RedisHelper.Hash.HashExistAsync("RolePet", rolepetObj.RoleID.ToString()).Result&& rolepets != null)
+            //{
+            //    #region Redis模块
+            //    rolepets.PetIsBattle = rolepetObj.PetIsBattle;
+            //   RedisHelper.Hash.HashSet<RolePet>("RolePet", rolepets.RoleID.ToString(),rolepets);
 
-               NHibernateQuerier.Update(rolepets);
-                #endregion
+            //   NHibernateQuerier.Update(rolepets);
+            //    #endregion
 
-                SetResponseParamters(() =>
-                {
-                    subResponseParameters.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(rolepets));
-                    operationResponse.ReturnCode = (short)ReturnCode.Success;
-                });
-            }
-            else
-            {
-                SetResponseParamters(() =>
-                {
-                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
-                });
-            }
-            GameManager.ReferencePoolManager.Despawns(nHCriteriaRolePet);
+            //    SetResponseParamters(() =>
+            //    {
+            //        subResponseParameters.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(rolepets));
+            //        operationResponse.ReturnCode = (short)ReturnCode.Success;
+            //    });
+            //}
+            //else
+            //{
+            //    SetResponseParamters(() =>
+            //    {
+            //        operationResponse.ReturnCode = (short)ReturnCode.Fail;
+            //    });
+            //}
+            //GameManager.ReferencePoolManager.Despawns(nHCriteriaRolePet);
             return operationResponse;
         }
     }

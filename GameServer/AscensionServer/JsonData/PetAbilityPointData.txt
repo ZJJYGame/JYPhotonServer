@@ -1,0 +1,8 @@
+﻿[
+{"MPAttribute":0,"SoulAttribute":0,"AttackSpeedAttribute":0,"AttackPhysicalAttribute":2,"PhysicalDefendAttribute":0.2,"AttackPowerAttribute":0,"PowerDefendAttribute":0,"CoefficientType":"Strength"},
+{"MPAttribute":10,"SoulAttribute":0,"AttackSpeedAttribute":0,"AttackPhysicalAttribute":0,"PhysicalDefendAttribute":0,"AttackPowerAttribute":2,"PowerDefendAttribute":0,"CoefficientType":"Power"},
+{"MPAttribute":0,"SoulAttribute":0,"AttackSpeedAttribute":0,"AttackPhysicalAttribute":0,"PhysicalDefendAttribute":1.2,"AttackPowerAttribute":0,"PowerDefendAttribute":0.8,"CoefficientType":"Stamina"},
+{"MPAttribute":0,"SoulAttribute":0,"AttackSpeedAttribute":0,"AttackPhysicalAttribute":0,"PhysicalDefendAttribute":0.4,"AttackPowerAttribute":0,"PowerDefendAttribute":0.4,"CoefficientType":"Corporeity"},
+{"MPAttribute":0,"SoulAttribute":1,"AttackSpeedAttribute":0,"AttackPhysicalAttribute":0,"PhysicalDefendAttribute":0,"AttackPowerAttribute":0,"PowerDefendAttribute":0,"CoefficientType":"Soul"},
+{"MPAttribute":0,"SoulAttribute":0,"AttackSpeedAttribute":0.4,"AttackPhysicalAttribute":0,"PhysicalDefendAttribute":0,"AttackPowerAttribute":0,"PowerDefendAttribute":0,"CoefficientType":"Agility"}
+]
