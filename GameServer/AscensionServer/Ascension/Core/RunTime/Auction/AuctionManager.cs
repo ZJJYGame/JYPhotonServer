@@ -22,7 +22,7 @@ namespace AscensionServer
         public async Task<bool> IsAuctionGoodsExist(string Guid)
         {
             bool isExist;
-            isExist = await RedisHelper.Hash.HashExistAsync("AuctionGoodsData_", Guid);
+            isExist = await RedisHelper.Hash.HashExistAsync("AuctionGoodsData", Guid);
             isExist=((await RedisHelper.String.StringGetAsync("AuctionGoods_" + Guid))!=null)&&isExist;
             return isExist;
         }

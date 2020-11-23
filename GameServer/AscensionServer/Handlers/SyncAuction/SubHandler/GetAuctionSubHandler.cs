@@ -27,7 +27,7 @@ namespace AscensionServer
             int roleId =Int16.Parse(tempDict[(byte)ParameterCode.RoleAuctionItems].ToString());
             Utility.Debug.LogInfo("请求拍卖行数据RoleID=>"+roleId);
             SyncAuctionType syncAuctionType = (SyncAuctionType)Byte.Parse(tempDict[(byte)ParameterCode.SoldOutAuctionGoods].ToString());
-            Utility.Debug.LogInfo("请求拍卖行数据RoleID=>"+ syncAuctionType.ToString());
+            Utility.Debug.LogInfo("请求拍卖行数据RoleID~~~~~~=>"+ syncAuctionType.ToString());
 
             switch (syncAuctionType)
             {
@@ -42,6 +42,7 @@ namespace AscensionServer
                 case SyncAuctionType.SoldOutAuctionGoods:
                     break;
                 case SyncAuctionType.BuyAuctionGoods:
+                    Utility.Debug.LogInfo("进入购买事件");
                     AuctionGoodsDTO auctionGoodsDTO = Utility.Json.ToObject<AuctionGoodsDTO>(tempDict[(byte)ParameterCode.AddAuctionGoods].ToString());
                     startIndex = Convert.ToInt32(tempDict[(byte)ParameterCode.Auction].ToString());
                     count = Convert.ToInt32(tempDict[(byte)ParameterCode.PutAwayAuctionGoods].ToString());
