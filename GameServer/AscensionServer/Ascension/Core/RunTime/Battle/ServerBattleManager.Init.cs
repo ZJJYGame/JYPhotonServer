@@ -42,7 +42,7 @@ namespace AscensionServer
         /// <summary>
         /// 收集每个回合的传输数据
         /// </summary>
-        public List<BattleTransferDTO> teamSet = new List<BattleTransferDTO>();
+        public List<BattleTransferDTO> teamSet ;
         /// <summary>
         /// 收集准备战斗指令
         /// </summary>
@@ -80,7 +80,14 @@ namespace AscensionServer
         /// 队伍id 和 房间id
         /// </summary>
         public Dictionary<int, int> _teamIdToRoomId = new Dictionary<int, int>();
-
+        /// <summary>
+        /// 房间id 对应的每个回合的buff前
+        /// </summary>
+        public  List<BattleBuffDTO> _buffToRoomIdBefore ;
+        /// <summary>
+        /// 房间id 对应的每个回合的buff后
+        /// </summary>
+        public List<BattleBuffDTO> _buffToRoomIdAfter;
         /// <summary>
         /// 映射  Msq
         /// </summary>
@@ -549,7 +556,8 @@ namespace AscensionServer
             subResponseParametersDict.Add((byte)ParameterCode.RoleBattleCmd, (byte)BattleCmd.SkillInstruction);
             subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTimeStamp, Utility.Json.ToJson(Utility.Time.MillisecondTimeStamp()));
             subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTime, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>().RoleBattleTime));
-
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleBefore, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._buffToRoomIdBefore));
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleAfter, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._buffToRoomIdAfter));
             return subResponseParametersDict;
         }
 
