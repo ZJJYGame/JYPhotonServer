@@ -2,15 +2,16 @@
 using Cosmos;
 using Photon.SocketServer;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 namespace AscensionServer
 {
     [ImplementProvider]
     public class PhotonMessageHelper : INetworkMessageHelper
     {
-        Dictionary<byte, IHandler> handlerDict;
+        ConcurrentDictionary<byte, IHandler> handlerDict;
         public PhotonMessageHelper()
         {
-            handlerDict = new Dictionary<byte, IHandler>();
+            handlerDict = new ConcurrentDictionary<byte, IHandler>();
             InitHandler();
         }
         public object EncodeMessage(object message)
@@ -30,7 +31,7 @@ namespace AscensionServer
             for (int i = 0; i < length; i++)
             {
                 handlers[i].OnInitialization();
-                handlerDict.Add(handlers[i].OpCode, handlers[i]);
+                handlerDict.TryAdd(handlers[i].OpCode, handlers[i]);
             }
         }
     }

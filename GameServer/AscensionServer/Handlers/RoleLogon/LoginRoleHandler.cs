@@ -18,8 +18,9 @@ namespace AscensionServer
     public class LoginRoleHandler : Handler
     {
         public override byte OpCode { get { return (byte)OperationCode.LoginRole; } }
-        protected  override OperationResponse OnOperationRequest(OperationRequest operationRequest)
+        protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
+        OperationResponse operationResponse = new OperationResponse();
             IPeerEntity peer = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.ClientPeer) as IPeerEntity;
             var json = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
             var roleObj = Utility.Json.ToObject<RoleDTO>(json);

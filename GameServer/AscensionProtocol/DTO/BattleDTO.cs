@@ -378,15 +378,22 @@ namespace AscensionProtocol.DTO
         /// </summary>
         public virtual List<int> RemoveTargetBuff { get; set; }
 
-
+        public virtual List<BattleBuffDTO> battleBuffDTOs { get; set; }
     }
 
-    //public class BattleBuffDTO
-    //{
-    //    public int RoleId { get; set; }
-    //    public  TargetInfoDTO targetInfoDTO { get; set; }
-    //    public BattleBuffDTO battleBuffDTO { get; set; }
-    //}
+
+    /// <summary>
+    /// 战斗回合 前后给你的
+    /// </summary>
+    public class BattleBuffDTO
+    {
+        public virtual int bufferId { get; set; }
+        public int BuffValue { get; set; }
+        public int TriggerId { get; set; }
+        public int TargetId { get; set; }
+        public List<BufferData> bufferData { get; set; }
+
+    }
 
 }
 

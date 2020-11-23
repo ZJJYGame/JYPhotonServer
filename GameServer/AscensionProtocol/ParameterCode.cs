@@ -191,5 +191,14 @@
         /// 下架拍卖品
         /// </summary>
         SoldOutAuctionGoods=101,
+        /// <summary>
+        /// 战斗之前
+        /// </summary>
+        RoleBattleBefore = 102,
+        /// <summary>
+        /// 战斗之后
+        /// </summary>
+        RoleBattleAfter = 103,
+
     }
 }

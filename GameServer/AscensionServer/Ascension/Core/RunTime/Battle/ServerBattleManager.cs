@@ -26,12 +26,17 @@ namespace AscensionServer
         /// <param name="roleId"></param>
         public void BattleClear(int roleId)
         {
+            teamSet = new List<BattleTransferDTO>();
+            _buffToRoomIdBefore = new List<BattleBuffDTO>();
+            _buffToRoomIdAfter = new List<BattleBuffDTO>();
             if (_teamidToTimer.ContainsKey(IsTeamDto(roleId).TeamId))
                 _teamidToTimer.Remove(IsTeamDto(roleId).TeamId);
             if (_teamIdToMemberDict.ContainsKey(IsTeamDto(roleId).TeamId))
                 _teamIdToMemberDict.Remove(IsTeamDto(roleId).TeamId);
             TargetID.Clear();
             teamSet.Clear();
+            _buffToRoomIdBefore.Clear();
+            _buffToRoomIdAfter.Clear();
         }
 
         /// <summary>
@@ -120,6 +125,8 @@ namespace AscensionServer
             //Utility.Debug.LogInfo("battleCmd == >>>" + battleTransferDTOs.BattleCmd);
             TargetID.Clear();
             teamSet.Clear();
+            _buffToRoomIdBefore.Clear();
+            _buffToRoomIdAfter.Clear();
             isRunAway = false;
              isPetRunAway = false;
             if (!_roomidToBattleTransfer.ContainsKey(roomId))
