@@ -7,6 +7,8 @@ using AscensionProtocol.DTO;
 using RedisDotNet;
 using Cosmos;
 using AscensionServer.Model;
+using Protocol;
+using AscensionProtocol;
 
 namespace AscensionServer
 {
@@ -52,7 +54,7 @@ namespace AscensionServer
         /// 获取目标范围的商品信息
         /// </summary>
         /// <returns></returns>
-        public async Task<List<AuctionGoodsDTO>> GetTargetAuctionGoodList(List<AuctionGoodsDTO> allAuctionGoodsDTOs,int startIndex,int count)
+        public List<AuctionGoodsDTO> GetTargetAuctionGoodList(List<AuctionGoodsDTO> allAuctionGoodsDTOs,int startIndex,int count)
         {
             int goodsCount = allAuctionGoodsDTOs.Count;
             List<AuctionGoodsDTO> resultAuctionGoodsDTOList = new List<AuctionGoodsDTO>();
@@ -71,18 +73,24 @@ namespace AscensionServer
         /// 玩家购买物品的事件处理
         /// </summary>
         /// <param name="buyAuctionGoodsDTO"></param>
-        public async void BuyAuctionGoods(AuctionGoodsDTO buyAuctionGoodsDTO,int buyerId)
+        /// 0=》别人购买中
+        /// 1=>商品不存在
+        /// 2=》数量不足
+        /// 3=》购买成功
+        /// 4=》意外情况
+        public async Task<byte> BuyAuctionGoods(AuctionGoodsDTO buyAuctionGoodsDTO,int buyerId)
         {
-            if (occupyGuidHash.Contains(buyAuctionGoodsDTO.GUID))
+            if (occupyGuidHash.Contains(buyAuctionGoodsDTO.GUID))//别人购买中
             {
-                return;
+                return 0;
             }
             else
             {
                 occupyGuidHash.Add(buyAuctionGoodsDTO.GUID);
                 if(!await IsAuctionGoodsExist(buyAuctionGoodsDTO.GUID))//商品不存在，返回
                 {
-                    return;
+                    Utility.Debug.LogInfo("商品不存在=>"+ buyAuctionGoodsDTO.GUID);
+                    return 1;
                 }
                 else//商品存在，尝试去处理拍卖品，扣除金钱，添加背包
                 {
@@ -137,17 +145,27 @@ namespace AscensionServer
                     }
                     else//购买数量多于商品数量，返回
                     {
-                        return;
+                        return 2;
                     }
-                    //todo
+               
                     //扣除买家金钱
                     ChangeRoleAssets(auctionGoodsObj, buyerId, false);
                     //增加卖家金钱
                     ChangeRoleAssets(auctionGoodsObj, buyerId, true);
                     //告知卖家
+                    OperationData opdata = new OperationData();
+                    opdata.OperationCode = (byte)OperationCode.SyncAuction;
+                    Dictionary<byte, object> subResponseParametersDict = new Dictionary<byte, object>();
+                    subResponseParametersDict.Add((byte)ParameterCode.SoldOutAuctionGoods, (byte)SyncAuctionType.AuctionGoodsBeBought);
+                    opdata.DataMessage = subResponseParametersDict;
+                    GameManager.CustomeModule<RoleManager>().SendMessage(buyAuctionGoodsDTO.RoleID, opdata);
+                    //todo
                     //物品赋予买家
+                    //将商品移除关注列表
+                    return 3;
                 }
             }
+            return 4;
         }
         /// <summary>
         /// 角色金钱修改
@@ -159,6 +177,7 @@ namespace AscensionServer
             bool roleAssetsExist = NHibernateQuerier.Verify<RoleAssets>(nHCriteriaRoleID);
             if (roleExist && roleAssetsExist)
             {
+                Utility.Debug.LogInfo("开始人物金钱的改变");
                 var assetsServer = NHibernateQuerier.CriteriaSelect<RoleAssets>(nHCriteriaRoleID);
                 assetsServer.SpiritStonesLow += buyAuctionGoodsDTO.Price * buyAuctionGoodsDTO.Count * (isAdd?100:-100);
                 NHibernateQuerier.Update<RoleAssets>(new RoleAssets() { RoleID = targetRoleId, SpiritStonesLow = assetsServer.SpiritStonesLow, XianYu = assetsServer.XianYu });
