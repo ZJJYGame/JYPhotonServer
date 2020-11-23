@@ -59,9 +59,9 @@ namespace AscensionServer
                 battleInit.countDownSec = 10;//battleInitDTO.countDownSec;
                 battleInit.roundCount = battleInitDTO.roundCount;
                 battleInit.playerUnits = RoleInfo(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);
-                battleInit.petUnits = PetInfo(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);//battleInitDTO.petUnits;
+                battleInit.petUnits =PetInfo(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);//battleInitDTO.petUnits;
                 battleInit.enemyUnits = EnemyInfo(battleInitDTO.enemyUnits);
-                battleInit.enemyPetUnits = battleInitDTO.enemyPetUnits;// PetInfo(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);
+                battleInit.enemyPetUnits = battleInitDTO.enemyPetUnits;
                 battleInit.maxRoundCount = battleInitDTO.maxRoundCount;
                 battleInit.battleUnits = AllBattleDataDTOsInfo(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, battleInitDTO);
                 battleInit.bufferUnits = new List<BufferBattleDataDTO>();

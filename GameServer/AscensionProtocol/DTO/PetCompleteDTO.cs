@@ -9,17 +9,19 @@ namespace AscensionProtocol.DTO
     [Serializable]
     public class PetCompleteDTO : DataTransferObject
     {
+        public virtual int RoleID { get; set; }
         public virtual PetDTO PetDTO { get; set; }
         public virtual PetStatusDTO PetStatusDTO { get; set; }
         public virtual PetAbilityPointDTO PetAbilityPointDTO { get; set; }
-        public virtual PetAptitudeDTO PetaPtitudeDTO { get; set; }
+        public virtual PetAptitudeDTO PetAptitudeDTO { get; set; }
         public virtual PetOperationalOrder PetOrderType { get; set; }
         public override void Clear()
         {
+            RoleID = -1;
             PetDTO.Clear();
             PetStatusDTO.Clear();
             PetAbilityPointDTO.Clear();
-            PetaPtitudeDTO.Clear();
+            PetAptitudeDTO.Clear();
             PetOrderType = PetOperationalOrder.None;
         }
         public enum PetOperationalOrder

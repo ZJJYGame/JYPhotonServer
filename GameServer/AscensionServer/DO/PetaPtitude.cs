@@ -21,7 +21,7 @@ namespace AscensionServer.Model
         public virtual int AttacksoulAptitude { get; set; }
         public virtual int DefendsoulAptitude { get; set; }
         public virtual float Petaptitudecol { get; set; }
-        public virtual string PetaptitudeDrug { get; set; }
+        public virtual string PetAptitudeDrug { get; set; }
         public PetAptitude()
         {
             PetID = 0;
@@ -36,7 +36,7 @@ namespace AscensionServer.Model
             AttacksoulAptitude = 0;
             DefendsoulAptitude = 0;
             Petaptitudecol = 0;
-            PetaptitudeDrug ="{}";
+            PetAptitudeDrug ="{}";
         }
 
         public override void Clear()
@@ -53,7 +53,7 @@ namespace AscensionServer.Model
             AttacksoulAptitude = 0;
             DefendsoulAptitude = 0;
             Petaptitudecol = 0;
-            PetaptitudeDrug = null;
+            PetAptitudeDrug = "{}";
         }
     }
 }

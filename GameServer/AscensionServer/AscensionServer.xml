@@ -89,6 +89,132 @@
             每日维护消耗人气
             </summary>
         </member>
+        <member name="F:AscensionServer.BattleBuffData.isShow">
+            <summary>
+            用于面板显示，不用做数据
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.None">
+            <summary>
+            无触发条件
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.UseDesignatedSkill">
+            <summary>
+            使用指定技能
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.HaveDesignatedSkill">
+            <summary>
+            拥有指定技能
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.NotHaveDesignatedSkill">
+            <summary>
+            使用指定技能
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.LimitSkillTargetNum">
+            <summary>
+            技能目标数量限定
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.DesignatedDamageType">
+            <summary>
+            指定类型伤害
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.DamageCrit">
+            <summary>
+            伤害暴击
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.DesignatedPropertyLimit">
+            <summary>
+            指定属性限定
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.BothDesignatedPropertyCompare">
+            <summary>
+            双方指定属性比较
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.TargetHaveDesignatedBuff">
+            <summary>
+            目标存在指定buff
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.CharacterTypeLimit">
+            <summary>
+            角色类型限定
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.CloseOrRangeAttack">
+            <summary>
+            近身或远程攻击
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleBuffCondition_TargetCharacterType">
+            <summary>
+            buff触发条件目标类型限定
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleBuffCondition_DamageType">
+            <summary>
+            伤害类型条件
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleBuffEventData">
+            <summary>
+            0角色属性变动 RolePropertyChange=>
+            1buff属性变动 BuffPropertyChange=>
+            2禁用buff ForbiddenBuff=>
+            3角色状态改变 RoleStateChange=>
+            4使用指定技能 UseDesignateSkill=>
+            5伤害或治疗 DamageOrHeal=>
+            6护盾 Shield=>
+            7该次伤害减免 DamageReduce=>
+            8替他人承担伤害 TakeHurtForOther=>
+            9施加buff AddBuff=>
+            10驱散buff DispelBuff=>
+            11无法复活 Resurgence=>
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleBuffEventData.eventTriggerCondition">
+            <summary>
+            每个事件可能有一个附加的触发条件
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BuffEvent_RolePropertyChange_SourceDataType">
+            <summary>
+            buff事件：人物属性变动对应的数据来源类型
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BuffEvent_PropertyChangeType">
+            <summary>
+            buff事件：buff属性改变类型
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BuffEvent_RoleStateChangeType">
+            <summary>
+            buff事件：修改人物状态类型
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BuffEvent_DamageOrHeal_ChangeDataType">
+            <summary>
+            buff事件：伤害或治疗改变的数据类型
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BuffEvent_DamageOrHeal_SourceDataType">
+            <summary>
+            buff事件：伤害或治疗数值的数据来源类型
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BuffEvent_Shield_SourceDataType">
+            <summary>
+            buff事件：护盾的数据来源类型
+            </summary>
+        </member>
         <member name="T:AscensionServer.BattleSkillData">
             <summary>
              2020.11.06 09.50
@@ -322,6 +448,11 @@
         <member name="F:AscensionServer.RedisKeyDefine._PetAptitudePerfix">
             <summary>
             宠物资质的Key前缀
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._PetAbilityPointPerfix">
+            <summary>
+            宠物加点的Key前缀
             </summary>
         </member>
         <member name="F:AscensionServer.RedisKeyDefine._PuppetPerfix">
@@ -568,6 +699,17 @@
             获取目标范围的商品信息
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:AscensionServer.AuctionManager.BuyAuctionGoods(AscensionProtocol.DTO.AuctionGoodsDTO,System.Int32)">
+            <summary>
+            玩家购买物品的事件处理
+            </summary>
+            <param name="buyAuctionGoodsDTO"></param>
+        </member>
+        <member name="M:AscensionServer.AuctionManager.ChangeRoleAssets(AscensionProtocol.DTO.AuctionGoodsDTO,System.Int32,System.Boolean)">
+            <summary>
+            角色金钱修改
+            </summary>
         </member>
         <member name="T:AscensionServer.IBattleAlgorithmProvider">
             <summary>
@@ -855,7 +997,7 @@
             统一计算技能 单段 多段
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.AddBufferMethod(System.Collections.Generic.List{AscensionServer.BattleSkillAddBuffData},System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.AddBufferMethod(System.Collections.Generic.List{AscensionServer.BattleSkillAddBuffData},System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO})">
             <summary>
             技能 添加buff
             </summary>
@@ -865,12 +1007,12 @@
             技能 移除buff
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.BattleSkillEventDataMethod(System.Collections.Generic.List{AscensionServer.BattleSkillEventData},System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO})">
+        <member name="M:AscensionServer.ServerBattleManager.BattleSkillEventDataMethod(System.Collections.Generic.List{AscensionServer.BattleSkillEventData},System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO})">
              <summary>
             技能触发时机
              </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.battleSkillEventTriggerCondition(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,AscensionProtocol.DTO.RoleBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO})">
+        <member name="M:AscensionServer.ServerBattleManager.battleSkillEventTriggerCondition(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,AscensionProtocol.DTO.RoleBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO})">
             <summary>
              技能 触发来源
             </summary>
@@ -880,7 +1022,7 @@
             <param name="enemySetObject"></param>
             <param name="targetInfoDTOsSet"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.battleSkillEventTriggerNumSourceType(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,AscensionProtocol.DTO.RoleBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO})">
+        <member name="M:AscensionServer.ServerBattleManager.battleSkillEventTriggerNumSourceType(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,AscensionProtocol.DTO.RoleBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO})">
             <summary>
             技能触发条件
             </summary>
@@ -890,7 +1032,7 @@
             <param name="enemySetObject"></param>
             <param name="targetInfoDTOsSet"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.battleSkillTriggerEventType(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,AscensionProtocol.DTO.RoleBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO})">
+        <member name="M:AscensionServer.ServerBattleManager.battleSkillTriggerEventType(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,AscensionProtocol.DTO.RoleBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO})">
             <summary>
             技能触发事件类型
             </summary>
@@ -917,7 +1059,7 @@
             <param name="roleId"></param>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.SelectToTarget(System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO},System.String,System.Object,System.Collections.Generic.List{AscensionServer.BattleSkillDamageNumData},System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.SelectToTarget(System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO},System.String,System.Object,System.Collections.Generic.List{AscensionServer.BattleSkillDamageNumData},System.Int32)">
             <summary>
             2020 11.07  18:00
             选择回血的目标
@@ -1060,12 +1202,12 @@
             <param name="targetId"></param>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.ServerToClientResult(AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO)">
+        <member name="M:AscensionServer.ServerBattleManager.ServerToClientResult(AscensionProtocol.DTO.TargetInfoDTO)">
             <summary>
             返回给客户端的计算伤害
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.ServerToClientResults(AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO)">
+        <member name="M:AscensionServer.ServerBattleManager.ServerToClientResults(AscensionProtocol.DTO.TargetInfoDTO)">
             <summary>
             计算多段伤害用的
             </summary>
@@ -1397,7 +1539,7 @@
             <param name="sessionId">id</param>
             <returns>查找到的对象</returns>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.ResetPetStatus(AscensionProtocol.DTO.PetDTO,AscensionProtocol.DTO.PetaPtitudeDTO,AscensionProtocol.DTO.PetAbilityPointDTO,AscensionProtocol.DTO.PetStatusDTO@)">
+        <member name="M:AscensionServer.PetStatusManager.ResetPetStatus(AscensionServer.Model.Pet,AscensionServer.Model.PetAptitude,AscensionServer.Model.PetStatus@)">
             <summary>
             宠物洗练属性重置
             </summary>
@@ -1413,12 +1555,20 @@
             <param name="petAbilityPointDTO"></param>
             <param name="petStatusDTO"></param>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.ResetPetAptitude(System.Int32,AscensionProtocol.DTO.PetaPtitudeDTO@)">
+        <member name="M:AscensionServer.PetStatusManager.ResetPetAptitude(System.Int32,AscensionServer.Model.PetAptitude@)">
             <summary>
             重置宠物资质
             </summary>
             <param name="petID"></param>
             <param name="petAptitudeObj"></param>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.InitPet(System.Int32,System.String,AscensionServer.Model.RolePet)">
+            <summary>
+            新增新宠物
+            </summary>
+            <param name="petID"></param>
+            <param name="petName"></param>
+            <param name="rolePet"></param>
         </member>
         <member name="M:AscensionServer.PetStatusManager.RestPetSkill(System.Collections.Generic.List{System.Int32})">
             <summary>
@@ -1478,6 +1628,11 @@
         <member name="M:AscensionServer.PetStatusManager.PetAtitudeDrug(AscensionServer.DrugData,AscensionServer.Model.Pet)">
             <summary>
             增加资质
+            </summary>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.GetPetAllCompeleteStatus(System.Int32,AscensionServer.NHCriteria,System.Int32)">
+            <summary>
+            获得宠物所有属性
             </summary>
         </member>
         <member name="P:AscensionServer.GameResourceManager.ResUnitSetDict">

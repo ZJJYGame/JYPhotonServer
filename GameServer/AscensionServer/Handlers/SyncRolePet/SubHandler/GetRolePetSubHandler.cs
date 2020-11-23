@@ -29,6 +29,7 @@ namespace AscensionServer
             switch (rolepetObj.RolePetOrderType)
             {
                 case RolePetDTO.RolePetOperationalOrder.Battle:
+                    GameManager.CustomeModule<PetStatusManager>().RolePetSetBattle(rolepetObj, rolepets);
                     break;
                 case RolePetDTO.RolePetOperationalOrder.GetAllPet:
                     GameManager.CustomeModule<PetStatusManager>().GetRoleAllPet(rolepets, rolepetObj);

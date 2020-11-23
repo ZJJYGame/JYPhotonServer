@@ -1,0 +1,1175 @@
+﻿[
+        {
+            "name": "回血",
+            "id": 20001,
+            "describe": "每回合结束时，恢复自身最大气血的1%",
+            "battleBuffTriggerTime": 7,
+            "probability": 100,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 5,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 3,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 1,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": true,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "破甲",
+            "id": 20007,
+            "describe": "普攻时，无视目标10%的物理防御，对拥有兽防和高级兽防的单位造成伤害提高10%",
+            "battleBuffTriggerTime": 2,
+            "probability": 100,
+            "battleBuffTriggerConditionList": [
+                {
+                    "battleBuffConditionType": 1,
+                    "battleBuffCondition_TargetCharacterType": 0,
+                    "idList": [
+                        24001
+                    ],
+                    "targetCount": 0,
+                    "battleBuffCondition_DamageType": 0,
+                    "battleBuffCondition_SourcePropertyType": 0,
+                    "criticalValue": 0,
+                    "isUp": false,
+                    "flag": false,
+                    "battleBuffCondition_CharacterType": 0
+                }
+            ],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 1,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 2,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 10,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                },
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 2,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [
+                            24119,
+                            24120
+                        ],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 1,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 10,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "连击",
+            "id": 20009,
+            "describe": "普攻时，10%的概率再普攻一次，触发连击时造成伤害值55%的伤害",
+            "battleBuffTriggerTime": 2,
+            "probability": 10,
+            "battleBuffTriggerConditionList": [
+                {
+                    "battleBuffConditionType": 1,
+                    "battleBuffCondition_TargetCharacterType": 0,
+                    "idList": [
+                        24001
+                    ],
+                    "targetCount": 0,
+                    "battleBuffCondition_DamageType": 0,
+                    "battleBuffCondition_SourcePropertyType": 0,
+                    "criticalValue": 0,
+                    "isUp": false,
+                    "flag": false,
+                    "battleBuffCondition_CharacterType": 0
+                }
+            ],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 4,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 55,
+                    "percentValue": 0,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 24001
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "吸血",
+            "id": 20011,
+            "describe": "普攻时，50%的概率恢复自身气血，恢复值为造成伤害的25%",
+            "battleBuffTriggerTime": 2,
+            "probability": 50,
+            "battleBuffTriggerConditionList": [
+                {
+                    "battleBuffConditionType": 1,
+                    "battleBuffCondition_TargetCharacterType": 0,
+                    "idList": [
+                        24001
+                    ],
+                    "targetCount": 0,
+                    "battleBuffCondition_DamageType": 0,
+                    "battleBuffCondition_SourcePropertyType": 0,
+                    "criticalValue": 0,
+                    "isUp": false,
+                    "flag": false,
+                    "battleBuffCondition_CharacterType": 0
+                }
+            ],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 5,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 3,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 3,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 25,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": true,
+                    "flag_3": true,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "吸灵",
+            "id": 20013,
+            "describe": "普攻时，50%的概率扣除目标受到伤害值 5%的真元，对拥有兽灵和高级兽灵的目标额外扣除其最大真元的1%。",
+            "battleBuffTriggerTime": 2,
+            "probability": 50,
+            "battleBuffTriggerConditionList": [
+                {
+                    "battleBuffConditionType": 1,
+                    "battleBuffCondition_TargetCharacterType": 0,
+                    "idList": [
+                        24001
+                    ],
+                    "targetCount": 0,
+                    "battleBuffCondition_DamageType": 0,
+                    "battleBuffCondition_SourcePropertyType": 0,
+                    "criticalValue": 0,
+                    "isUp": false,
+                    "flag": false,
+                    "battleBuffCondition_CharacterType": 0
+                }
+            ],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 5,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 4,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 2,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 5,
+                    "idList": [],
+                    "flag": true,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                },
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 2,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [
+                            24103,
+                            24104
+                        ],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 5,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 1,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 2,
+                    "BattleSkillDamageType": 1,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 1,
+                    "idList": [],
+                    "flag": true,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "流血",
+            "id": 20015,
+            "describe": "普攻时，10%概率造成目标1级流血",
+            "battleBuffTriggerTime": 2,
+            "probability": 10,
+            "battleBuffTriggerConditionList": [
+                {
+                    "battleBuffConditionType": 1,
+                    "battleBuffCondition_TargetCharacterType": 0,
+                    "idList": [
+                        24001
+                    ],
+                    "targetCount": 0,
+                    "battleBuffCondition_DamageType": 0,
+                    "battleBuffCondition_SourcePropertyType": 0,
+                    "criticalValue": 0,
+                    "isUp": false,
+                    "flag": false,
+                    "battleBuffCondition_CharacterType": 0
+                }
+            ],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 9,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 2,
+                    "percentValue": 0,
+                    "idList": [],
+                    "flag": true,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 20901
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "流血状态",
+            "id": 20901,
+            "describe": "持续流失气血",
+            "battleBuffTriggerTime": 7,
+            "probability": 100,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 5,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 3,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 1,
+                    "idList": [],
+                    "flag": true,
+                    "flag_2": true,
+                    "flag_3": true,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "附灵",
+            "id": 20019,
+            "describe": "普攻时，10%的概率额外造成自身真元值1%的物理伤害",
+            "battleBuffTriggerTime": 2,
+            "probability": 10,
+            "battleBuffTriggerConditionList": [
+                {
+                    "battleBuffConditionType": 1,
+                    "battleBuffCondition_TargetCharacterType": 0,
+                    "idList": [
+                        24001
+                    ],
+                    "targetCount": 0,
+                    "battleBuffCondition_DamageType": 0,
+                    "battleBuffCondition_SourcePropertyType": 0,
+                    "criticalValue": 0,
+                    "isUp": false,
+                    "flag": false,
+                    "battleBuffCondition_CharacterType": 0
+                }
+            ],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 5,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 1,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 1,
+                    "idList": [],
+                    "flag": true,
+                    "flag_2": true,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "格挡",
+            "id": 20021,
+            "describe": "受到物理攻击时，10%的概率格挡，受到的伤害降低20%",
+            "battleBuffTriggerTime": 3,
+            "probability": 10,
+            "battleBuffTriggerConditionList": [
+                {
+                    "battleBuffConditionType": 5,
+                    "battleBuffCondition_TargetCharacterType": 0,
+                    "idList": [],
+                    "targetCount": 0,
+                    "battleBuffCondition_DamageType": 0,
+                    "battleBuffCondition_SourcePropertyType": 0,
+                    "criticalValue": 0,
+                    "isUp": false,
+                    "flag": false,
+                    "battleBuffCondition_CharacterType": 0
+                }
+            ],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 1,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 1,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": -20,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "闪避",
+            "id": 20023,
+            "describe": "受到物理攻击时，5%的概率闪避不受到伤害，闪避后无法发动反击和反震",
+            "battleBuffTriggerTime": 3,
+            "probability": 5,
+            "battleBuffTriggerConditionList": [
+                {
+                    "battleBuffConditionType": 5,
+                    "battleBuffCondition_TargetCharacterType": 0,
+                    "idList": [],
+                    "targetCount": 0,
+                    "battleBuffCondition_DamageType": 0,
+                    "battleBuffCondition_SourcePropertyType": 0,
+                    "criticalValue": 0,
+                    "isUp": false,
+                    "flag": false,
+                    "battleBuffCondition_CharacterType": 0
+                }
+            ],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 1,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 3,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 100,
+                    "percentValue": 100,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                },
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 2,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 3,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 5,
+                    "idList": [
+                        20025,
+                        20026,
+                        20027,
+                        20028
+                    ],
+                    "flag": true,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "反击",
+            "id": 20025,
+            "describe": "受到近身物理攻击时，10%的概率反击，造成70%的物理伤害",
+            "battleBuffTriggerTime": 3,
+            "probability": 10,
+            "battleBuffTriggerConditionList": [
+                {
+                    "battleBuffConditionType": 11,
+                    "battleBuffCondition_TargetCharacterType": 0,
+                    "idList": [],
+                    "targetCount": 0,
+                    "battleBuffCondition_DamageType": 0,
+                    "battleBuffCondition_SourcePropertyType": 0,
+                    "criticalValue": 0,
+                    "isUp": false,
+                    "flag": true,
+                    "battleBuffCondition_CharacterType": 0
+                },
+                {
+                    "battleBuffConditionType": 5,
+                    "battleBuffCondition_TargetCharacterType": 0,
+                    "idList": [],
+                    "targetCount": 0,
+                    "battleBuffCondition_DamageType": 0,
+                    "battleBuffCondition_SourcePropertyType": 0,
+                    "criticalValue": 0,
+                    "isUp": false,
+                    "flag": false,
+                    "battleBuffCondition_CharacterType": 0
+                }
+            ],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 4,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 70,
+                    "percentValue": 0,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 24001
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "反震",
+            "id": 20027,
+            "describe": "受到普攻时，使攻击者受到伤害，伤害数值等于自身扣除气血的10%",
+            "battleBuffTriggerTime": 3,
+            "probability": 100,
+            "battleBuffTriggerConditionList": [
+                {
+                    "battleBuffConditionType": 1,
+                    "battleBuffCondition_TargetCharacterType": 0,
+                    "idList": [
+                        24001
+                    ],
+                    "targetCount": 0,
+                    "battleBuffCondition_DamageType": 0,
+                    "battleBuffCondition_SourcePropertyType": 0,
+                    "criticalValue": 0,
+                    "isUp": false,
+                    "flag": false,
+                    "battleBuffCondition_CharacterType": 0
+                }
+            ],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 5,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 4,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 3,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 10,
+                    "percentValue": 0,
+                    "idList": [],
+                    "flag": true,
+                    "flag_2": true,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "勇气",
+            "id": 20029,
+            "describe": "受到伤害时，物理攻击、法术攻击增加5%，持续2回合",
+            "battleBuffTriggerTime": 3,
+            "probability": 100,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 0,
+                    "battleBuffEventType_RolePropertyChange": 4,
+                    "buffRolePropertyChange_SourceDataType": 3,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 5,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                },
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 0,
+                    "battleBuffEventType_RolePropertyChange": 6,
+                    "buffRolePropertyChange_SourceDataType": 4,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 5,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "神佑",
+            "id": 20077,
+            "describe": "死亡时，有20%概率复活并回复20%的气血，存在鬼魂时无法触发",
+            "battleBuffTriggerTime": 5,
+            "probability": 20,
+            "battleBuffTriggerConditionList": [
+                {
+                    "battleBuffConditionType": 3,
+                    "battleBuffCondition_TargetCharacterType": 0,
+                    "idList": [
+                        20106,
+                        20107
+                    ],
+                    "targetCount": 0,
+                    "battleBuffCondition_DamageType": 0,
+                    "battleBuffCondition_SourcePropertyType": 0,
+                    "criticalValue": 0,
+                    "isUp": false,
+                    "flag": false,
+                    "battleBuffCondition_CharacterType": 0
+                }
+            ],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 9,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 5,
+                    "percentValue": 0,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 20996
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "复活5",
+            "id": 20996,
+            "describe": "鬼魂术之复活",
+            "battleBuffTriggerTime": 8,
+            "probability": 100,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 5,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 1,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 2,
+                    "BattleSkillDamageType": 3,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 50,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": true,
+                    "flag_3": true,
+                    "id": 0
+                },
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 5,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 3,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 50,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": true,
+                    "flag_3": true,
+                    "id": 0
+                },
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 5,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 2,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 1,
+                    "BattleSkillDamageType": 3,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 50,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": true,
+                    "flag_3": true,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "审判",
+            "id": 20081,
+            "describe": "对神佑目标造成伤害提高10%，击杀目标后使其无法触发神佑",
+            "battleBuffTriggerTime": 2,
+            "probability": 100,
+            "battleBuffTriggerConditionList": [
+                {
+                    "battleBuffConditionType": 2,
+                    "battleBuffCondition_TargetCharacterType": 0,
+                    "idList": [
+                        20077,
+                        20078
+                    ],
+                    "targetCount": 0,
+                    "battleBuffCondition_DamageType": 0,
+                    "battleBuffCondition_SourcePropertyType": 0,
+                    "criticalValue": 0,
+                    "isUp": false,
+                    "flag": false,
+                    "battleBuffCondition_CharacterType": 0
+                }
+            ],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 1,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 10,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                },
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 2,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 0,
+                    "idList": [
+                        20077,
+                        20078
+                    ],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "驱鬼",
+            "id": 20083,
+            "describe": "对鬼魂单位造成伤害增加50%，击杀后打出场",
+            "battleBuffTriggerTime": 2,
+            "probability": 100,
+            "battleBuffTriggerConditionList": [
+                {
+                    "battleBuffConditionType": 2,
+                    "battleBuffCondition_TargetCharacterType": 0,
+                    "idList": [
+                        20106,
+                        20107
+                    ],
+                    "targetCount": 0,
+                    "battleBuffCondition_DamageType": 0,
+                    "battleBuffCondition_SourcePropertyType": 0,
+                    "criticalValue": 0,
+                    "isUp": false,
+                    "flag": false,
+                    "battleBuffCondition_CharacterType": 0
+                }
+            ],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 1,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 50,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        }
+    ]

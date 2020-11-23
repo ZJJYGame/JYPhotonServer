@@ -412,7 +412,7 @@ namespace AscensionServer
                     return allDataBase;
                 var petObject = MsqInfoPet<Pet>(MsqInfo<RolePet>(roleId).PetIsBattle, "ID");
                 var statusPet = MsqInfoPet<PetStatus>(petObject.ID, "PetID");
-                allDataBase.Add(new BattleDataBase() {  ObjectID = petObject.PetID, ObjectId = petObject.ID, ObjectName = petObject.PetName, ObjectHP = statusPet.PetHP, ObjectMP = statusPet.PetMP, ObjectSpeed = statusPet.AttackSpeed });
+                allDataBase.Add(new BattleDataBase() { ObjectID = petObject.PetID, ObjectId = petObject.ID, ObjectName = petObject.PetName, ObjectHP = statusPet.PetHP, ObjectMP = statusPet.PetMP, ObjectSpeed = statusPet.AttackSpeed });
             }
             else
             {

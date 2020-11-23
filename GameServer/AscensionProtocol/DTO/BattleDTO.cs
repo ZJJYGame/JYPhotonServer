@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using static AscensionProtocol.DTO.BattleTransferDTO;
 /*
 * 战斗的映射
 * Since : 2020 - 09 -22
@@ -292,44 +293,7 @@ namespace AscensionProtocol.DTO
         /// <summary>
         /// 目标值和  自身值 传递的都是一样的
         /// </summary>
-        public class TargetInfoDTO
-        {
-            /// <summary>
-            /// 全局id
-            /// </summary>
-            public virtual int GlobalId { get; set; }
-            /// <summary>
-            /// 目标id
-            /// </summary>
-            public virtual int TargetID { get; set; }
-            /// <summary>
-            /// 目标血量伤害
-            /// </summary>
-            public virtual int TargetHPDamage { set; get; }
-
-            /// <summary>
-            /// 目标蓝量伤害
-            /// </summary>
-            public virtual int TargetMPDamage { set; get; }
-            /// <summary>
-            /// 目标神魂伤害
-            /// </summary>
-            public virtual int TargetShenHunDamage { set; get; }
-            /// <summary>
-            /// 目标护盾值
-            /// </summary>
-            public virtual int TargetShieldVaule { get; set; }
-            /// <summary>
-            ///添加 目标Buff
-            /// </summary>
-            public virtual List<BufferBattleDataDTO> AddTargetBuff { get; set; }
-            /// <summary>
-            ///移除 目标Buff
-            /// </summary>
-            public virtual List<int> RemoveTargetBuff { get; set; }
-
-
-        }
+       
         /// <summary>
         /// 所有玩家行动结束后结算护盾值
         /// </summary>
@@ -378,6 +342,51 @@ namespace AscensionProtocol.DTO
     }
     #endregion
 
+    public class TargetInfoDTO
+    {
+        /// <summary>
+        /// 全局id
+        /// </summary>
+        public virtual int GlobalId { get; set; }
+        /// <summary>
+        /// 目标id
+        /// </summary>
+        public virtual int TargetID { get; set; }
+        /// <summary>
+        /// 目标血量伤害
+        /// </summary>
+        public virtual int TargetHPDamage { set; get; }
+
+        /// <summary>
+        /// 目标蓝量伤害
+        /// </summary>
+        public virtual int TargetMPDamage { set; get; }
+        /// <summary>
+        /// 目标神魂伤害
+        /// </summary>
+        public virtual int TargetShenHunDamage { set; get; }
+        /// <summary>
+        /// 目标护盾值
+        /// </summary>
+        public virtual int TargetShieldVaule { get; set; }
+        /// <summary>
+        ///添加 目标Buff
+        /// </summary>
+        public virtual List<BufferBattleDataDTO> AddTargetBuff { get; set; }
+        /// <summary>
+        ///移除 目标Buff
+        /// </summary>
+        public virtual List<int> RemoveTargetBuff { get; set; }
+
+
+    }
+
+    //public class BattleBuffDTO
+    //{
+    //    public int RoleId { get; set; }
+    //    public  TargetInfoDTO targetInfoDTO { get; set; }
+    //    public BattleBuffDTO battleBuffDTO { get; set; }
+    //}
 
 }
 

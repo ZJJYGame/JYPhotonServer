@@ -12,6 +12,12 @@ namespace AscensionServer.Model
         public virtual int SlnNow { get; set; }
         public virtual bool IsUnlockSlnThree { get; set; }
         public virtual string AbilityPointSln { get; set; }
+        //public PetAbilityPoint()
+        //{
+        //    SlnNow = 0;
+        //    IsUnlockSlnThree = false;
+        //    AbilityPointSln = "{}";
+        //}
         public override void Clear()
         {
             ID = -1;

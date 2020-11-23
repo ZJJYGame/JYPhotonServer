@@ -100,7 +100,7 @@ namespace AscensionServer
         /// </summary>
         public void AIToRelease(BattleTransferDTO battleTransferDTOs, EnemyStatusDTO enemyStatusData, int roleId,int  transfer = 0)
         {
-            BattleTransferDTO.TargetInfoDTO tempTransEnemy = new BattleTransferDTO.TargetInfoDTO();
+            TargetInfoDTO tempTransEnemy = new TargetInfoDTO();
             //Utility.Debug.LogInfo("<enemyStatusData  老陆>" + _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP);
             if ((IsTeamDto(roleId) == null))
             {
@@ -115,7 +115,7 @@ namespace AscensionServer
                     var target = RandomTarget == 0 ? _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP -= 100 : _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP -= 100;
                     tempTransEnemy.TargetID = RandomTarget == 0 ? roleId : _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetID;
                     tempTransEnemy.TargetHPDamage = -100; //-skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
-                    List<BattleTransferDTO.TargetInfoDTO> PlayerInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                    List<TargetInfoDTO> PlayerInfosSet = new List<TargetInfoDTO>();
                     PlayerInfosSet.Add(tempTransEnemy);
                     teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
                 }
@@ -124,7 +124,7 @@ namespace AscensionServer
                     _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP -= 100;
                     tempTransEnemy.TargetID = roleId;
                     tempTransEnemy.TargetHPDamage = -100; //-skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
-                    List<BattleTransferDTO.TargetInfoDTO> PlayerInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                    List<TargetInfoDTO> PlayerInfosSet = new List<TargetInfoDTO>();
                     PlayerInfosSet.Add(tempTransEnemy);
                     teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
                 }
@@ -141,7 +141,7 @@ namespace AscensionServer
                     var target = RandomTarget == 0 ? _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP -= 100 : petObject.PetStatusDTO.PetHP -= 100;
                     tempTransEnemy.TargetID = RandomTarget == 0 ? _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleID : petObject.PetStatusDTO.PetID;
                     tempTransEnemy.TargetHPDamage = -100;
-                    List<BattleTransferDTO.TargetInfoDTO> PlayerInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                    List<TargetInfoDTO> PlayerInfosSet = new List<TargetInfoDTO>();
                     PlayerInfosSet.Add(tempTransEnemy);
                     teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
                 }
@@ -150,7 +150,7 @@ namespace AscensionServer
                     _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP -= 100;
                     tempTransEnemy.TargetID = _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleID;
                     tempTransEnemy.TargetHPDamage = -100;//-skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
-                    List<BattleTransferDTO.TargetInfoDTO> PlayerInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
+                    List<TargetInfoDTO> PlayerInfosSet = new List<TargetInfoDTO>();
                     PlayerInfosSet.Add(tempTransEnemy);
                     teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
                 }
