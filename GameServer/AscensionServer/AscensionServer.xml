@@ -997,7 +997,7 @@
             统一计算技能 单段 多段
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.AddBufferMethod(System.Collections.Generic.List{AscensionServer.BattleSkillAddBuffData},System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO})">
+        <member name="M:AscensionServer.ServerBattleManager.AddBufferMethod(System.Collections.Generic.List{AscensionServer.BattleSkillAddBuffData},System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO})">
             <summary>
             技能 添加buff
             </summary>
@@ -1007,12 +1007,12 @@
             技能 移除buff
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.BattleSkillEventDataMethod(System.Collections.Generic.List{AscensionServer.BattleSkillEventData},System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO})">
+        <member name="M:AscensionServer.ServerBattleManager.BattleSkillEventDataMethod(System.Collections.Generic.List{AscensionServer.BattleSkillEventData},System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO})">
              <summary>
             技能触发时机
              </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.battleSkillEventTriggerCondition(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,AscensionProtocol.DTO.RoleBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO})">
+        <member name="M:AscensionServer.ServerBattleManager.battleSkillEventTriggerCondition(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,AscensionProtocol.DTO.RoleBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO})">
             <summary>
              技能 触发来源
             </summary>
@@ -1022,7 +1022,7 @@
             <param name="enemySetObject"></param>
             <param name="targetInfoDTOsSet"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.battleSkillEventTriggerNumSourceType(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,AscensionProtocol.DTO.RoleBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO})">
+        <member name="M:AscensionServer.ServerBattleManager.battleSkillEventTriggerNumSourceType(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,AscensionProtocol.DTO.RoleBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO})">
             <summary>
             技能触发条件
             </summary>
@@ -1032,7 +1032,7 @@
             <param name="enemySetObject"></param>
             <param name="targetInfoDTOsSet"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.battleSkillTriggerEventType(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,AscensionProtocol.DTO.RoleBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO})">
+        <member name="M:AscensionServer.ServerBattleManager.battleSkillTriggerEventType(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,AscensionProtocol.DTO.RoleBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO})">
             <summary>
             技能触发事件类型
             </summary>
@@ -1059,7 +1059,7 @@
             <param name="roleId"></param>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.SelectToTarget(System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO},System.String,System.Object,System.Collections.Generic.List{AscensionServer.BattleSkillDamageNumData},System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.SelectToTarget(System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO},System.String,System.Object,System.Collections.Generic.List{AscensionServer.BattleSkillDamageNumData},System.Int32)">
             <summary>
             2020 11.07  18:00
             选择回血的目标
@@ -1202,12 +1202,12 @@
             <param name="targetId"></param>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.ServerToClientResult(AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO)">
+        <member name="M:AscensionServer.ServerBattleManager.ServerToClientResult(AscensionProtocol.DTO.TargetInfoDTO)">
             <summary>
             返回给客户端的计算伤害
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.ServerToClientResults(AscensionProtocol.DTO.BattleTransferDTO.TargetInfoDTO)">
+        <member name="M:AscensionServer.ServerBattleManager.ServerToClientResults(AscensionProtocol.DTO.TargetInfoDTO)">
             <summary>
             计算多段伤害用的
             </summary>

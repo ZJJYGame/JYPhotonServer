@@ -151,10 +151,10 @@ namespace AscensionServer
         /// <summary>
         /// 返回给客户端的计算伤害
         /// </summary>
-        public List<BattleTransferDTO.TargetInfoDTO> ServerToClientResult(BattleTransferDTO.TargetInfoDTO targetInfo)
+        public List<TargetInfoDTO> ServerToClientResult(TargetInfoDTO targetInfo)
         {
-            List<BattleTransferDTO.TargetInfoDTO> TargetInfosSet = new List<BattleTransferDTO.TargetInfoDTO>();
-            BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+            List<TargetInfoDTO> TargetInfosSet = new List<TargetInfoDTO>();
+            TargetInfoDTO tempTrans = new TargetInfoDTO();
             tempTrans.TargetID = targetInfo.TargetID;
             tempTrans.TargetHPDamage = targetInfo.TargetHPDamage;
             tempTrans.TargetMPDamage = targetInfo.TargetMPDamage;
@@ -170,9 +170,9 @@ namespace AscensionServer
         /// </summary>
         /// <param name="targetInfo"></param>
         /// <returns></returns>
-        public BattleTransferDTO.TargetInfoDTO ServerToClientResults(BattleTransferDTO.TargetInfoDTO targetInfo)
+        public TargetInfoDTO ServerToClientResults(TargetInfoDTO targetInfo)
         {
-            BattleTransferDTO.TargetInfoDTO tempTrans = new BattleTransferDTO.TargetInfoDTO();
+            TargetInfoDTO tempTrans = new TargetInfoDTO();
             tempTrans.TargetID = targetInfo.TargetID;
             tempTrans.TargetHPDamage = targetInfo.TargetHPDamage;
             tempTrans.TargetMPDamage = targetInfo.TargetMPDamage;
