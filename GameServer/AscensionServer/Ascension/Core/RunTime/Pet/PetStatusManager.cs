@@ -60,6 +60,7 @@ namespace AscensionServer
             petStatusDTO = GameManager.ReferencePoolManager.Spawn<PetStatusDTO>();
             petStatusDTO.PetMaxMP= petAbilityPointDTO.AbilityPointSln[petAbilityPointDTO.SlnNow].Strength;
         }
+
         /// <summary>
         /// 重置宠物资质
         /// </summary>
@@ -90,7 +91,7 @@ namespace AscensionServer
         public void InitPet(int petID,string petName ,RolePet rolePet)
         {
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetAptitudeData>>(out var petLevelDataDict);
-            #region
+            #region Pet
             var pet = GameManager.ReferencePoolManager.Spawn<Pet>();
             pet.PetID = petID;
             pet.PetName = petName;
@@ -107,24 +108,19 @@ namespace AscensionServer
             RedisHelper.Hash.HashSetAsync<PetDTO>(RedisKeyDefine._PetPerfix, pet.ID.ToString(), petObj);
             #endregion
             #region PetAbilityPointDTO
+            var petAbilityPointObj = GameManager.ReferencePoolManager.Spawn<PetAbilityPointDTO>();
             var petAbilityPoint = GameManager.ReferencePoolManager.Spawn<PetAbilityPoint>();
             petAbilityPoint.ID = pet.ID;
+            petAbilityPoint.AbilityPointSln = Utility.Json.ToJson(petAbilityPointObj.AbilityPointSln);
+            Utility.Debug.LogInfo("yzqData宠物加点方案" + Utility.Json.ToJson(petAbilityPointObj.AbilityPointSln));
             NHibernateQuerier.SaveOrUpdateAsync<PetAbilityPoint>(petAbilityPoint);
-            var petAbilityPointObj = GameManager.ReferencePoolManager.Spawn<PetAbilityPointDTO>();
             petAbilityPointObj.ID = petAbilityPoint.ID;
-            petAbilityPointObj.SlnNow = petAbilityPoint.SlnNow;
-            petAbilityPointObj.IsUnlockSlnThree = petAbilityPoint.IsUnlockSlnThree;
-            if (!string.IsNullOrEmpty(petAbilityPoint.AbilityPointSln))
-            {
-                petAbilityPointObj.AbilityPointSln = new Dictionary<int, PetAbilityDTO>();
-                petAbilityPointObj.AbilityPointSln = Utility.Json.ToObject<Dictionary<int, PetAbilityDTO>>(petAbilityPoint.AbilityPointSln);
-            }
             RedisHelper.Hash.HashSetAsync<PetAbilityPointDTO>(RedisKeyDefine._PetAbilityPointPerfix, pet.ID.ToString(), petAbilityPointObj);
             #endregion
             #region PetAptitudeDTO
             var petAptitude = GameManager.ReferencePoolManager.Spawn<PetAptitude>();
-            petAptitude.PetID = pet.ID;
             ResetPetAptitude(petID, out petAptitude);
+            petAptitude.PetID = pet.ID;
             var petAptitudeObj = GameManager.ReferencePoolManager.Spawn<PetAptitudeDTO>();
             petAptitudeObj.PetID = petAptitude.PetID;
             petAptitudeObj.AttackphysicalAptitude = petAptitude.AttackphysicalAptitude;

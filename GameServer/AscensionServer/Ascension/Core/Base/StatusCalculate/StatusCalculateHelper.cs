@@ -16,6 +16,7 @@ namespace AscensionServer
         public static void GetRoleStatus(List<GongFa> gongfaList, List<MishuSkillData> mishuList ,RoleStatusDatas roleStatusDatas, out RoleStatus roleStatus)
         {
           var roleStatustemp=  GameManager.ReferencePoolManager.Spawn<RoleStatus>();
+            roleStatustemp.Clear();
             roleStatus = GameManager.ReferencePoolManager.Spawn<RoleStatus>();
             if (gongfaList.Count > 0)
             {
@@ -63,22 +64,22 @@ namespace AscensionServer
                     roleStatustemp.RoleHP += mishuList[i].Role_HP;
                     roleStatustemp.RoleMP += mishuList[i].Role_MP;
                     roleStatustemp.RolePopularity += mishuList[i].Role_Popularity;
-                    roleStatus.RoleSoul += mishuList[i].Role_Soul;
-                    roleStatus.ValueHide += mishuList[i].Value_Hide;
+                    roleStatustemp.RoleSoul += mishuList[i].Role_Soul;
+                    roleStatustemp.ValueHide += mishuList[i].Value_Hide;
                     //roleStatus.MishuLearnSpeed += mishuList[i].Role_Soul;
                     //roleStatus.ValueHide += mishuList[i].Value_Hide;
                 }
             }
             OutRolestatus(roleStatus, roleStatusDatas, roleStatustemp, out var tempstatus);
             roleStatus = tempstatus;
-            GameManager.ReferencePoolManager.Despawns(roleStatustemp, roleStatus);
-            Utility.Debug.LogInfo("yzqData角色属性加成为" + tempstatus.RoleHP);
+           // GameManager.ReferencePoolManager.Despawns(roleStatustemp, roleStatus);
         }
 
         public static void OutRolestatus(RoleStatus roleStatus, RoleStatusDatas roleStatusDatas, RoleStatus roleStatusTemp, out RoleStatus tempstatus)
         {
             tempstatus = new RoleStatus();
             tempstatus.AttackPhysical= (int)((roleStatusDatas.AttackPhysical * (roleStatus.AttackPhysical/10000f))+ roleStatusTemp.AttackPhysical);
+            Utility.Debug.LogInfo("yzqData角色属性加成为" + roleStatusDatas.AttackPhysical + ">>>"+ roleStatus.AttackPhysical / 10000f+"》》》》"+ roleStatusTemp.AttackPhysical);
             tempstatus.AttackPower = (int)((roleStatusDatas.AttackPower * (roleStatus.AttackPower / 10000f)) + roleStatusTemp.AttackPower);
             tempstatus.AttackSpeed = (int)((roleStatusDatas.AttackSpeed *(roleStatus.AttackSpeed / 10000f)) + roleStatusTemp.AttackSpeed);
             tempstatus.BestBlood = (short)((roleStatusDatas.BestBlood * (roleStatus.BestBlood / 10000f)) + roleStatusTemp.BestBlood);

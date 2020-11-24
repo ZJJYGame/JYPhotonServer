@@ -282,6 +282,7 @@ namespace AscensionServer
                 {
                     bufferSet.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = addBuffDataSet[og].buffId, RoundNumber = addBuffDataSet[og].round } });
                     bufferId.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = addBuffDataSet[og].buffId, RoundNumber = addBuffDataSet[og].round } });
+                   
                     //TODO
                     GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, BattleBuffData>>(out var buffDict);
                     if (buffDict.ContainsKey(addBuffDataSet[og].buffId))
@@ -303,6 +304,7 @@ namespace AscensionServer
                             case BattleBuffTriggerTime.RoleAfterDie:
                                 break;
                             case BattleBuffTriggerTime.RoundEnd:
+                                
                                 ///buff 触发判断条件
                                 if (buffDict[addBuffDataSet[og].buffId].battleBuffTriggerConditionList.Count == 0)
                                 {
@@ -360,8 +362,13 @@ namespace AscensionServer
                                                                     {
                                                                         case BuffEvent_DamageOrHeal_EffectTargetType.Health:
                                                                             playerSetObject.RoleStatusDTO.RoleHP += damgeValue;
-                                                                            var infoSet = ServerToClientResults(new TargetInfoDTO() { TargetID = enemySetObject.EnemyStatusDTO.EnemyId, TargetHPDamage = damgeValue });
-                                                                            targetInfoDTOsSet.Add(infoSet);
+                                                                            _buffToRoomIdAfter.Add(new BattleBuffDTO() { TargetId = enemySetObject.EnemyStatusDTO.EnemyId, TriggerId = roleId, bufferId = addBuffDataSet[og].buffId, BuffValue = damgeValue });
+                                                                            #region ob
+                                                                            //List<BattleBuffDTO> battleBuffDTOs = new List<BattleBuffDTO>();
+                                                                            //battleBuffDTOs.Add(new BattleBuffDTO() { TargetId = enemySetObject.EnemyStatusDTO.EnemyId, TriggerId = roleId, bufferId = addBuffDataSet[og].buffId, BuffValue = damgeValue });
+                                                                            //var infoSet = ServerToClientResults(new TargetInfoDTO() { TargetID = enemySetObject.EnemyStatusDTO.EnemyId, TargetHPDamage = damgeValue, battleBuffDTOs = battleBuffDTOs });
+                                                                            //targetInfoDTOsSet.Add(infoSet);
+                                                                            #endregion
                                                                             break;
                                                                         case BuffEvent_DamageOrHeal_EffectTargetType.ShenHun:
                                                                             break;

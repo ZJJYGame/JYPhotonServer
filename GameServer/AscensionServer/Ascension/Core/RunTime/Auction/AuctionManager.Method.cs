@@ -96,19 +96,19 @@ namespace AscensionServer
                 {
                     //拍卖行对应拍卖品
                     AuctionGoodsDTO auctionGoodsObj = null;
-                    AuctionGoodsDTO resultAuctionGoodsDTO = null;
+                    //AuctionGoodsDTO resultAuctionGoodsDTO = null;
                     auctionGoodsObj = await RedisHelper.Hash.HashGetAsync<AuctionGoodsDTO>("AuctionGoodsData", buyAuctionGoodsDTO.GUID);
                     if (buyAuctionGoodsDTO.Count <= auctionGoodsObj.Count)
                     {
-                        resultAuctionGoodsDTO = new AuctionGoodsDTO()
-                        {
-                            GUID = auctionGoodsObj.GUID,
-                            RoleID = auctionGoodsObj.RoleID,
-                            GlobalID = auctionGoodsObj.GlobalID,
-                            Price = auctionGoodsObj.Price,
-                            ItemData = auctionGoodsObj.ItemData,
-                            Count = buyAuctionGoodsDTO.Count
-                        };
+                        //resultAuctionGoodsDTO = new AuctionGoodsDTO()
+                        //{
+                        //    GUID = auctionGoodsObj.GUID,
+                        //    RoleID = auctionGoodsObj.RoleID,
+                        //    GlobalID = auctionGoodsObj.GlobalID,
+                        //    Price = auctionGoodsObj.Price,
+                        //    ItemData = auctionGoodsObj.ItemData,
+                        //    Count = buyAuctionGoodsDTO.Count
+                        //};
                         auctionGoodsObj.Count -= buyAuctionGoodsDTO.Count;
                         if (auctionGoodsObj.Count == 0)//如果商品被买完了
                         {
@@ -147,18 +147,18 @@ namespace AscensionServer
                     {
                         return 2;
                     }
-               
+
                     //扣除买家金钱
-                    ChangeRoleAssets(auctionGoodsObj, buyerId, false);
+                    ChangeRoleAssets(auctionGoodsObj, buyAuctionGoodsDTO.Count, buyerId, false);
                     //增加卖家金钱
-                    ChangeRoleAssets(auctionGoodsObj, buyerId, true);
+                    ChangeRoleAssets(auctionGoodsObj, buyAuctionGoodsDTO.Count, auctionGoodsObj.RoleID, true);
                     //告知卖家
                     OperationData opdata = new OperationData();
                     opdata.OperationCode = (byte)OperationCode.SyncAuction;
                     Dictionary<byte, object> subResponseParametersDict = new Dictionary<byte, object>();
                     subResponseParametersDict.Add((byte)ParameterCode.SoldOutAuctionGoods, (byte)SyncAuctionType.AuctionGoodsBeBought);
                     opdata.DataMessage = subResponseParametersDict;
-                    GameManager.CustomeModule<RoleManager>().SendMessage(buyAuctionGoodsDTO.RoleID, opdata);
+                    GameManager.CustomeModule<RoleManager>().SendMessage(auctionGoodsObj.RoleID, opdata);
                     //todo
                     //物品赋予买家
                     //将商品移除关注列表
@@ -170,20 +170,56 @@ namespace AscensionServer
         /// <summary>
         /// 角色金钱修改
         /// </summary>
-        public async void ChangeRoleAssets(AuctionGoodsDTO  buyAuctionGoodsDTO,int targetRoleId,bool isAdd)
+        public async void ChangeRoleAssets(AuctionGoodsDTO  buyAuctionGoodsDTO,int count,int targetRoleId,bool isAdd)
         {
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", targetRoleId);
             bool roleExist = NHibernateQuerier.Verify<Role>(nHCriteriaRoleID);
             bool roleAssetsExist = NHibernateQuerier.Verify<RoleAssets>(nHCriteriaRoleID);
             if (roleExist && roleAssetsExist)
             {
-                Utility.Debug.LogInfo("开始人物金钱的改变");
+
                 var assetsServer = NHibernateQuerier.CriteriaSelect<RoleAssets>(nHCriteriaRoleID);
-                assetsServer.SpiritStonesLow += buyAuctionGoodsDTO.Price * buyAuctionGoodsDTO.Count * (isAdd?100:-100);
+                Utility.Debug.LogInfo("拍卖品的价格" + buyAuctionGoodsDTO.Price);
+                Utility.Debug.LogInfo(targetRoleId+"开始人物金钱的改变=>" + assetsServer.SpiritStonesLow);
+                assetsServer.SpiritStonesLow += buyAuctionGoodsDTO.Price * count * (isAdd?100:-100);
+                Utility.Debug.LogInfo(targetRoleId+"人物金钱计算完成=>" + assetsServer.SpiritStonesLow);
                 NHibernateQuerier.Update<RoleAssets>(new RoleAssets() { RoleID = targetRoleId, SpiritStonesLow = assetsServer.SpiritStonesLow, XianYu = assetsServer.XianYu });
                 await RedisHelper.Hash.HashSetAsync<RoleAssets>("RoleAssets", targetRoleId.ToString(), new RoleAssets() { RoleID = targetRoleId, SpiritStonesLow = assetsServer.SpiritStonesLow, XianYu = assetsServer.XianYu });
             }
         }
+        /// <summary>
+        /// 玩家上架拍卖品的事件
+        /// </summary>
+        public async void PutAwayAuctionGoods(AuctionGoodsDTO putAwayGoods)
+        {
+            putAwayGoods.GUID= Guid.NewGuid().ToString("N");
+            string redisKey = "AuctionGoods_" + putAwayGoods.GUID;
+            RedisHelper.String.StringSet(redisKey, "");
 
+            if (await RedisHelper.Hash.HashExistAsync("AuctionIndex", putAwayGoods.GlobalID.ToString()))
+            {
+                List<AuctionGoodsIndex> tempAuctionGoods = await RedisHelper.Hash.HashGetAsync<List<AuctionGoodsIndex>>("AuctionIndex", putAwayGoods.GlobalID.ToString());
+                tempAuctionGoods.Add(new AuctionGoodsIndex()
+                {
+                    RedisKey = putAwayGoods.GUID,
+                    Price = putAwayGoods.Price
+                });
+                tempAuctionGoods.Sort();
+                await RedisHelper.Hash.HashSetAsync("AuctionIndex", putAwayGoods.GlobalID.ToString(), tempAuctionGoods);
+            }
+            else
+            {
+                List<AuctionGoodsIndex> tempAuctionGoods = new List<AuctionGoodsIndex>();
+                tempAuctionGoods.Add(new AuctionGoodsIndex()
+                {
+                    RedisKey = putAwayGoods.GUID,
+                    Price = putAwayGoods.Price
+                });
+                await RedisHelper.Hash.HashSetAsync("AuctionIndex", putAwayGoods.GlobalID.ToString(), tempAuctionGoods);
+            }
+            //添加拍卖品数据
+            if (!await RedisHelper.Hash.HashExistAsync("AuctionGoodsData", putAwayGoods.GUID.ToString()))
+                await RedisHelper.Hash.HashSetAsync("AuctionGoodsData", putAwayGoods.GUID.ToString(), putAwayGoods);
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace AscensionProtocol.DTO
             Corporeity = 0;
             Soul = 0;
             Agility = 0;
-            SurplusAptitudePoint = 0;
+            SurplusAptitudePoint = 40;
             SlnName = null;
         }
         public override void Clear()
@@ -36,7 +36,7 @@ namespace AscensionProtocol.DTO
             Corporeity = 0;
             Soul = 0;
             Agility = 0;
-            SurplusAptitudePoint = 0;
+            SurplusAptitudePoint = 40;
             SlnName = null;
         }
     }

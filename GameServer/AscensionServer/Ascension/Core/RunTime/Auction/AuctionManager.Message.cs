@@ -13,6 +13,9 @@ namespace AscensionServer
 {
     public partial class AuctionManager
     {
+        /// <summary>
+        /// 获取拍卖品
+        /// </summary>
         public async void ServerAuctionGoodsGet(int auctionGoodsID, int startIndex, int count,int roleId)
         {
             List<AuctionGoodsDTO> allAuctionGoodsDTOList = await GetAuctionGoodsList(auctionGoodsID);
@@ -28,17 +31,15 @@ namespace AscensionServer
 
             opData.DataMessage = subResponseParametersDict;
             GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
-            Utility.Debug.LogInfo("拍卖行数据发送给玩家");
         } 
+        /// <summary>
+        /// 购买拍卖品
+        /// </summary>
         public async void SeverAuctionGoodsBuy(AuctionGoodsDTO auctionGoodsDTO,int startIndex,int count,int roleId)
         {
-            Utility.Debug.LogInfo("开始处理购买拍卖品的请求");
             byte buyCode= await BuyAuctionGoods(auctionGoodsDTO, roleId);
-            Utility.Debug.LogInfo("购买请求成功完成，开始获取所有商品列表");
             List<AuctionGoodsDTO> allAuctionGoodsDTOList = await GetAuctionGoodsList(auctionGoodsDTO.GlobalID);
-            Utility.Debug.LogInfo("抽取目标商品列表");
             List<AuctionGoodsDTO> targetAuctionGoodsDTOList = GetTargetAuctionGoodList(allAuctionGoodsDTOList, startIndex, count);
-            Utility.Debug.LogInfo("抽取目标商品列表成功！！！！");
             OperationData opData = new OperationData();
             opData.OperationCode = (byte)OperationCode.SyncAuction;
 
@@ -51,8 +52,19 @@ namespace AscensionServer
 
             opData.DataMessage = subResponseParametersDict;
             GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
-            Utility.Debug.LogInfo("发送购买信息给客户端");
         }
-       
+        /// <summary>
+        /// 上架拍卖品
+        /// </summary>
+       public async void SeverAuctionGoodsPutAway(int roleId)
+        {
+            OperationData opData = new OperationData();
+            opData.OperationCode = (byte)OperationCode.SyncAuction;
+            Dictionary<byte, object> subResponseParametersDict = new Dictionary<byte, object>();
+            subResponseParametersDict.Add((byte)ParameterCode.SoldOutAuctionGoods, (byte)SyncAuctionType.PutAwayAuctionGoods);
+
+            opData.DataMessage = subResponseParametersDict;
+            GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
+        }
     }
 }

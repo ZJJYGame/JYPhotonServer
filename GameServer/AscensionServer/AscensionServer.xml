@@ -315,7 +315,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
+        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -685,6 +685,21 @@
             <param name="peer"></param>
             <returns></returns>
         </member>
+        <member name="M:AscensionServer.AuctionManager.ServerAuctionGoodsGet(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            获取拍卖品
+            </summary>
+        </member>
+        <member name="M:AscensionServer.AuctionManager.SeverAuctionGoodsBuy(AscensionProtocol.DTO.AuctionGoodsDTO,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            购买拍卖品
+            </summary>
+        </member>
+        <member name="M:AscensionServer.AuctionManager.SeverAuctionGoodsPutAway(System.Int32)">
+            <summary>
+            上架拍卖品
+            </summary>
+        </member>
         <member name="M:AscensionServer.AuctionManager.GetAuctionGoodsList(System.Int32)">
             <summary>
             获取某一种物品的所有物品信息
@@ -705,10 +720,20 @@
             玩家购买物品的事件处理
             </summary>
             <param name="buyAuctionGoodsDTO"></param>
+            0=》别人购买中
+            1=>商品不存在
+            2=》数量不足
+            3=》购买成功
+            4=》意外情况
         </member>
-        <member name="M:AscensionServer.AuctionManager.ChangeRoleAssets(AscensionProtocol.DTO.AuctionGoodsDTO,System.Int32,System.Boolean)">
+        <member name="M:AscensionServer.AuctionManager.ChangeRoleAssets(AscensionProtocol.DTO.AuctionGoodsDTO,System.Int32,System.Int32,System.Boolean)">
             <summary>
             角色金钱修改
+            </summary>
+        </member>
+        <member name="M:AscensionServer.AuctionManager.PutAwayAuctionGoods(AscensionProtocol.DTO.AuctionGoodsDTO)">
+            <summary>
+            玩家上架拍卖品的事件
             </summary>
         </member>
         <member name="T:AscensionServer.IBattleAlgorithmProvider">
@@ -788,7 +813,7 @@
             </summary>
             
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -883,6 +908,16 @@
         <member name="F:AscensionServer.ServerBattleManager._teamIdToRoomId">
             <summary>
             队伍id 和 房间id
+            </summary>
+        </member>
+        <member name="F:AscensionServer.ServerBattleManager._buffToRoomIdBefore">
+            <summary>
+            房间id 对应的每个回合的buff前
+            </summary>
+        </member>
+        <member name="F:AscensionServer.ServerBattleManager._buffToRoomIdAfter">
+            <summary>
+            房间id 对应的每个回合的buff后
             </summary>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.MsqInfo``1(System.Int32)">
@@ -1585,7 +1620,7 @@
             正态分布随机数
             </summary>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.RolePetSetBattle(AscensionProtocol.DTO.RolePetDTO,AscensionServer.Model.RolePet)">
+        <member name="M:AscensionServer.PetStatusManager.RolePetSetBattle(AscensionProtocol.DTO.RolePetDTO,AscensionServer.Model.RolePet,AscensionServer.NHCriteria,AscensionServer.Model.Pet)">
             <summary>
             宠物设置出战
             </summary>
@@ -1598,7 +1633,7 @@
             </summary>
             <param name="rolePet"></param>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.RemoveRolePet(AscensionServer.Model.RolePet,AscensionProtocol.DTO.RolePetDTO)">
+        <member name="M:AscensionServer.PetStatusManager.RemoveRolePet(AscensionServer.Model.RolePet,AscensionProtocol.DTO.RolePetDTO,AscensionServer.Model.Pet)">
             <summary>
             移除角色宠物
             </summary>
@@ -1630,7 +1665,7 @@
             增加资质
             </summary>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.GetPetAllCompeleteStatus(System.Int32,AscensionServer.NHCriteria,System.Int32)">
+        <member name="M:AscensionServer.PetStatusManager.GetPetAllCompeleteStatus(System.Int32,AscensionServer.NHCriteria,System.Int32,AscensionServer.NHCriteria)">
             <summary>
             获得宠物所有属性
             </summary>
@@ -2391,7 +2426,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
+        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；
