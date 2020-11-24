@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-namespace Cosmos { 
-    public sealed partial  class Utility
+namespace Cosmos
+{
+    public sealed partial class Utility
     {
         public static class MessagePack
         {
@@ -30,22 +31,7 @@ namespace Cosmos {
                     throw new ArgumentNullException(Utility.Text.Format("Can not convert to JSON with exception '{0}", exception.ToString()), exception);
                 }
             }
-            public static byte[] ToTypelessByteArray<T>(T obj)
-            {
-                if (messagePackHelper == null)
-                {
-                    throw new ArgumentNullException("messagePackHelper is invalid");
-                }
-                try
-                {
-                    return messagePackHelper.ToTypelessByteArray(obj);
-                }
-                catch (Exception exception)
-                {
-                    throw new ArgumentNullException(Utility.Text.Format("Can not convert to JSON with exception '{0}", exception.ToString()), exception);
-                }
-            }
-            public static byte[] ToByteArray<T>(T obj)
+            public static byte[] ToByteArray(object obj)
             {
                 if (messagePackHelper == null)
                 {
@@ -75,21 +61,6 @@ namespace Cosmos {
                     throw new ArgumentNullException(Utility.Text.Format("Can not convert to ByteArray with exception '{0}", exception.ToString()), exception);
                 }
             }
-            public static T ToTypelessObject<T>(byte[] buffer)
-            {
-                if (messagePackHelper == null)
-                {
-                    throw new ArgumentNullException("messagePackHelper is invalid");
-                }
-                try
-                {
-                    return messagePackHelper.ToTypelessObject<T>(buffer);
-                }
-                catch (Exception exception)
-                {
-                    throw new ArgumentNullException(Utility.Text.Format("Can not convert to ByteArray with exception '{0}", exception.ToString()), exception);
-                }
-            }
             public static T ToObject<T>(string json)
             {
                 if (messagePackHelper == null)
@@ -113,22 +84,7 @@ namespace Cosmos {
                 }
                 try
                 {
-                    return messagePackHelper.ToObject(buffer,objectType);
-                }
-                catch (Exception exception)
-                {
-                    throw new ArgumentNullException(Utility.Text.Format("Can not convert to ByteArray with exception '{0}", exception.ToString()), exception);
-                }
-            }
-            public static object ToTypelessObject(byte[] buffer)
-            {
-                if (messagePackHelper == null)
-                {
-                    throw new ArgumentNullException("messagePackHelper is invalid");
-                }
-                try
-                {
-                    return messagePackHelper.ToTypelessObject(buffer);
+                    return messagePackHelper.ToObject(buffer, objectType);
                 }
                 catch (Exception exception)
                 {

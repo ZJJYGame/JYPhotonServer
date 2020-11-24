@@ -14,7 +14,7 @@ namespace Cosmos
     /// <typeparam name="TKey">key的类型</typeparam>
     /// <typeparam name="TValue">value的类型</typeparam>
     /// <typeparam name="TDerived">派生类的类型</typeparam>
-    public class ConcurrentEventCore<TKey, TValue, TDerived> : Singleton<TDerived>
+    public class ConcurrentEventCore<TKey, TValue, TDerived> : ConcurrentSingleton<TDerived>
         where TDerived : ConcurrentEventCore<TKey, TValue, TDerived>, new()
         where TValue : class
     {
@@ -38,7 +38,7 @@ namespace Cosmos
                 var handlerSet = eventDict[key];
                 handlerSet.Remove(handler);
                 if (handlerSet.Count <= 0)
-                    eventDict.TryRemove(key,out _ );
+                    eventDict.TryRemove(key, out _);
             }
         }
         public bool HasEventListened(TKey key)
@@ -66,16 +66,16 @@ namespace Cosmos
         public async virtual Task AddEventListenerAsync(TKey key, Action<TValue> handler)
         {
             await Task.Run(() =>
-           {
-               if (eventDict.ContainsKey(key))
-                   eventDict[key].Add(handler);
-               else
-               {
-                   List<Action<TValue>> handlerSet = new List<Action<TValue>>();
-                   handlerSet.Add(handler);
-                   eventDict.TryAdd(key, handlerSet);
-               }
-           });
+            {
+                if (eventDict.ContainsKey(key))
+                    eventDict[key].Add(handler);
+                else
+                {
+                    List<Action<TValue>> handlerSet = new List<Action<TValue>>();
+                    handlerSet.Add(handler);
+                    eventDict.TryAdd(key, handlerSet);
+                }
+            });
         }
         public async virtual Task RemoveEventListenerAsyncc(TKey key, Action<TValue> handler)
         {
@@ -86,7 +86,7 @@ namespace Cosmos
                     var handlerSet = eventDict[key];
                     handlerSet.Remove(handler);
                     if (handlerSet.Count <= 0)
-                        eventDict.TryRemove(key,out _ );
+                        eventDict.TryRemove(key, out _);
                 }
             });
         }

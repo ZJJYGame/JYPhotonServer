@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 namespace Cosmos {
     /// <summary>
-    ///·ºĞÍ±äÁ¿£» 
+    ///æ³›å‹å˜é‡ï¼› 
     /// </summary>
     public abstract class Variable <T>:Variable
     {
