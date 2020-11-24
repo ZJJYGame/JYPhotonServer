@@ -54,4 +54,9 @@ public static class NetCoreExtend
             queue.TryDequeue(out _);
         }
     }
+    public static  bool Remove<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dict, TKey key, out TValue value)
+    {
+        return dict.TryRemove(key, out value);
+    }
+
 }

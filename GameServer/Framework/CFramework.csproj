@@ -129,7 +129,6 @@
     <Compile Include="CosmosFramework\Core\RunTime\Main\InnerEventCore.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Main\InnerOpCode.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Main\Module.cs" />
-    <Compile Include="CosmosFramework\Core\RunTime\Main\ModuleEnum.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Network\Heartbeat\Heartbeat.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Network\Heartbeat\IHeartbeat.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Network\INetMessageHelper.cs" />
