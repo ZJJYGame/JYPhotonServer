@@ -212,6 +212,7 @@
     <Compile Include="Ascension\Core\RunTime\Auction\AuctionManager.Message.cs" />
     <Compile Include="Ascension\Core\RunTime\Auction\AuctionManager.Method.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\IBattleAlgorithmProvider.cs" />
+    <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.Buff.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.Common.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Battle\ServerBattleManager.Delegate.cs" />
