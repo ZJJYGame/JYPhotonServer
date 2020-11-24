@@ -73,7 +73,7 @@
     <Compile Include="CosmosFramework\Core\Base\DataStructure\LRUCache.cs" />
     <Compile Include="CosmosFramework\Core\Base\DataStructure\LRUCacheIEnumerator.cs" />
     <Compile Include="CosmosFramework\Core\Base\DataStructure\TinyLinkedList.cs" />
-    <Compile Include="CosmosFramework\Core\Base\DataStructure\TypeNamePair.cs" />
+    <Compile Include="CosmosFramework\Core\Base\DataStructure\TypeStringPair.cs" />
     <Compile Include="CosmosFramework\Core\Base\ECS\Component.cs" />
     <Compile Include="CosmosFramework\Core\Base\ECS\ComponentWithId.cs" />
     <Compile Include="CosmosFramework\Core\Base\ECS\Entity.cs" />
@@ -84,7 +84,6 @@
     <Compile Include="CosmosFramework\Core\Base\Event\EventArg\Base\IEventArgs.cs" />
     <Compile Include="CosmosFramework\Core\Base\Event\GameEventArgs.cs" />
     <Compile Include="CosmosFramework\Core\Base\Event\LogicEventArgs.cs" />
-    <Compile Include="CosmosFramework\Core\Base\Extension\NetCoreExtend.cs" />
     <Compile Include="CosmosFramework\Core\Base\Singleton\ConcurrentSingleton.cs" />
     <Compile Include="CosmosFramework\Core\Base\Singleton\Singleton.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Helper\DebugHelper\IDebugHelper.cs" />

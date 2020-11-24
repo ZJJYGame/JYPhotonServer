@@ -24,7 +24,7 @@ namespace Cosmos.Reference
         internal IReference Spawn<T>()
             where T : class, IReference, new()
         {
-            IReference refer=null;
+            IReference refer = null;
             if (referenceQueue.Count > 0)
                 if (referenceQueue.Count > 0)
                 {
