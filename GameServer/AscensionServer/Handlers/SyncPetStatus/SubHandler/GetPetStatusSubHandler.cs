@@ -20,28 +20,28 @@ namespace AscensionServer
             var dict = operationRequest.Parameters;
             string petCompleteJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.PetStatus));
             var petCompleteObj = Utility.Json.ToObject<PetCompleteDTO>(petCompleteJson);
-            NHCriteria nHCriteriarolepet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petCompleteObj.PetDTO.ID);
+            NHCriteria nHCriteriapetStatus= GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petCompleteObj.PetDTO.ID);
+            NHCriteria nHCriteriapet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petCompleteObj.PetDTO.ID);
             //var petArray = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriarolepet);
             switch (petCompleteObj.PetOrderType)
             {
                 case PetCompleteDTO.PetOperationalOrder.None:
                     break;
-                case PetCompleteDTO.PetOperationalOrder.PetLevelUP:
-                    break;
                 case PetCompleteDTO.PetOperationalOrder.PetResetAbilitySln:
+
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetResetStatus:
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetEvolution:
+
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetStudtSkill:
+
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetCultivate:
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetGetStatus:
-
-                    GameManager.CustomeModule<PetStatusManager>().GetPetAllCompeleteStatus(petCompleteObj.PetDTO.ID, nHCriteriarolepet, petCompleteObj.RoleID);
-                    Utility.Debug.LogInfo("yzqData获得宠物所有数据信息进来了");
+                    GameManager.CustomeModule<PetStatusManager>().GetPetAllCompeleteStatus(petCompleteObj.PetDTO.ID, nHCriteriapetStatus, petCompleteObj.RoleID, nHCriteriapet);
                     break;
                 default:
                     break;
@@ -87,7 +87,7 @@ namespace AscensionServer
             //    });
             //}
             #endregion]
-            GameManager.ReferencePoolManager.Despawns(nHCriteriarolepet);
+            GameManager.ReferencePoolManager.Despawns(nHCriteriapetStatus, nHCriteriapet);
             return operationResponse;
         }
     }

@@ -21,20 +21,31 @@ namespace AscensionServer
             string rolepet = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RolePet));
 
             var rolepetObj = Utility.Json.ToObject<RolePetDTO>(rolepet);
+            Utility.Debug.LogInfo("yzqData对角色宠物的操作"+ rolepetObj);
+
             NHCriteria nHCriteriaRolePet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
-            Utility.Debug.LogInfo("yzqData"+ rolepet);
+
+            NHCriteria nHCriteriaPet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", rolepetObj.PetIsBattle);
+
+            NHCriteria nHCriteriaRomePet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", rolepetObj.AddRemovePetID);
+
+            var pet = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriaPet);
+
             var rolepets = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriaRolePet);
             List<Pet> petlist = new List<Pet>();
             Dictionary<string, string> DODict = new Dictionary<string, string>();
             switch (rolepetObj.RolePetOrderType)
             {
                 case RolePetDTO.RolePetOperationalOrder.Battle:
-                    GameManager.CustomeModule<PetStatusManager>().RolePetSetBattle(rolepetObj, rolepets);
+                    GameManager.CustomeModule<PetStatusManager>().RolePetSetBattle(rolepetObj, rolepets,nHCriteriaRolePet, pet);
                     break;
                 case RolePetDTO.RolePetOperationalOrder.GetAllPet:
                     GameManager.CustomeModule<PetStatusManager>().GetRoleAllPet(rolepets, rolepetObj);
                     break;
                 case RolePetDTO.RolePetOperationalOrder.RemovePet:
+                    Utility.Debug.LogInfo("yzqData放生寵物");
+                    var petRemove = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriaRomePet);
+                    GameManager.CustomeModule<PetStatusManager>().RemoveRolePet(rolepets, rolepetObj, petRemove);
                     break;
                 case RolePetDTO.RolePetOperationalOrder.AddPet:
                     GameManager.CustomeModule<PetStatusManager>().InitPet(rolepetObj.AddRemovePetID, rolepetObj.AddPetName,rolepets);
