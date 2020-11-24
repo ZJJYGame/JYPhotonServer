@@ -685,6 +685,21 @@
             <param name="peer"></param>
             <returns></returns>
         </member>
+        <member name="M:AscensionServer.AuctionManager.ServerAuctionGoodsGet(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            获取拍卖品
+            </summary>
+        </member>
+        <member name="M:AscensionServer.AuctionManager.SeverAuctionGoodsBuy(AscensionProtocol.DTO.AuctionGoodsDTO,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            购买拍卖品
+            </summary>
+        </member>
+        <member name="M:AscensionServer.AuctionManager.SeverAuctionGoodsPutAway(System.Int32)">
+            <summary>
+            上架拍卖品
+            </summary>
+        </member>
         <member name="M:AscensionServer.AuctionManager.GetAuctionGoodsList(System.Int32)">
             <summary>
             获取某一种物品的所有物品信息
@@ -711,9 +726,14 @@
             3=》购买成功
             4=》意外情况
         </member>
-        <member name="M:AscensionServer.AuctionManager.ChangeRoleAssets(AscensionProtocol.DTO.AuctionGoodsDTO,System.Int32,System.Boolean)">
+        <member name="M:AscensionServer.AuctionManager.ChangeRoleAssets(AscensionProtocol.DTO.AuctionGoodsDTO,System.Int32,System.Int32,System.Boolean)">
             <summary>
             角色金钱修改
+            </summary>
+        </member>
+        <member name="M:AscensionServer.AuctionManager.PutAwayAuctionGoods(AscensionProtocol.DTO.AuctionGoodsDTO)">
+            <summary>
+            玩家上架拍卖品的事件
             </summary>
         </member>
         <member name="T:AscensionServer.IBattleAlgorithmProvider">
@@ -728,6 +748,55 @@
             <summary>
             用于初始化 战斗数据 和管理 战斗的数据缓存
             </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.BuffManagerMethod(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO)">
+            <summary>
+            buff的入口
+            </summary>
+            <param name="buffId"></param>
+            <param name="roleId"></param>
+            <param name="playerSetObject"></param>
+            <param name="enemySetObject"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.BuffConditionMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData})">
+            <summary>
+            先判断buff 触发的条件
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.BuffEventMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData})">
+            <summary>
+            判断buff 触发事件
+            </summary>
+            <param name="buffId"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="playerSetObject"></param>
+            <param name="enemySetObject"></param>
+            <param name="buffDict"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.BuffEventDamageOrHealMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Collections.Generic.List{AscensionServer.BattleBuffEventData},System.Int32)">
+            <summary>
+            伤害 或者治疗
+            </summary>
+            <param name="buffId"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="playerSetObject"></param>
+            <param name="enemySetObject"></param>
+            <param name="buffDict"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.BuffEventResultsMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Collections.Generic.List{AscensionServer.BattleBuffEventData},System.Int32)">
+            <summary>
+            buff作用于的目标具体计算
+            </summary>
+            <param name="buffId"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="playerSetObject"></param>
+            <param name="enemySetObject"></param>
+            <param name="buffDict"></param>
+            <param name="buffEventSet"></param>
+            <param name="i"></param>
         </member>
         <member name="M:AscensionServer.ServerBattleManager.ReleaseToSpeed(System.Int32)">
             <summary>
