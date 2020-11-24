@@ -55,6 +55,15 @@ namespace AscensionServer
                     case BattleCmd.MagicWeapon:
                         GameManager.CustomeModule<ServerBattleManager>().BattleMagicWeapen(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, RoleObj.BattleInitDTO.RoomId, battleTransferObj);
                         break;
+                    case BattleCmd.CatchPet:
+                        GameManager.CustomeModule<ServerBattleManager>().BattleCatchPet(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, RoleObj.BattleInitDTO.RoomId, battleTransferObj);
+                        break;
+                    case BattleCmd.SummonPet:
+                        GameManager.CustomeModule<ServerBattleManager>().BattleSummonPet(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, RoleObj.BattleInitDTO.RoomId, battleTransferObj);
+                        break;
+                    case BattleCmd.Defend:
+                        GameManager.CustomeModule<ServerBattleManager>().BattleDefend(RoleObj.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, RoleObj.BattleInitDTO.RoomId, battleTransferObj);
+                        break;
                 }
             }
             else

@@ -56,6 +56,7 @@ namespace AscensionServer
         public void PlayerToSKillRelease(BattleTransferDTO battleTransferDTOs, int roleId, int currentId, int special = 0)
         {
             TargetID.Clear();
+
             ///传输的目标
             for (int info = 0; info < battleTransferDTOs.TargetInfos.Count; info++)
             {
@@ -90,6 +91,8 @@ namespace AscensionServer
         public void PlayerToSkillDamage(BattleTransferDTO battleTransferDTOs, int roleId, int currentId, BattleSkillData battleSkillData, int special = 0)
         {
             battleTransferDTOs.ClientCmdId = battleTransferDTOs.BattleCmd == BattleCmd.PropsInstruction || battleTransferDTOs.BattleCmd == BattleCmd.MagicWeapon ? special : battleTransferDTOs.ClientCmdId;
+            buffToSkillId = battleSkillData.id;
+
             #region ob  TODO
             switch (battleSkillData.battleSkillTargetType)
             {

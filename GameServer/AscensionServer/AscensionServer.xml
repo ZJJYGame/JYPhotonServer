@@ -315,7 +315,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -749,7 +749,7 @@
             用于初始化 战斗数据 和管理 战斗的数据缓存
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.BuffManagerMethod(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO)">
+        <member name="M:AscensionServer.ServerBattleManager.BuffManagerMethod(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32)">
             <summary>
             buff的入口
             </summary>
@@ -862,7 +862,7 @@
             </summary>
             
         </member>
-        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -1074,6 +1074,9 @@
             2020 . 11 . 06 13：17
             针对功法  玩家释放  不同技能类型的技能计算伤害
             </summary>
+        </member>
+        <member name="F:AscensionServer.ServerBattleManager.buffToSkillId">
+            buff  针对buff的技能id
         </member>
         <member name="M:AscensionServer.ServerBattleManager.SkillSingleOrStaged(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData,System.Int32)">
             <summary>
@@ -1717,6 +1720,11 @@
         <member name="M:AscensionServer.PetStatusManager.GetPetAllCompeleteStatus(System.Int32,AscensionServer.NHCriteria,System.Int32,AscensionServer.NHCriteria)">
             <summary>
             获得宠物所有属性
+            </summary>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.UpdataPetAbilityPoint">
+            <summary>
+            更新宠物加点方案
             </summary>
         </member>
         <member name="P:AscensionServer.GameResourceManager.ResUnitSetDict">
@@ -2475,7 +2483,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；

@@ -15,7 +15,8 @@ namespace AscensionServer
 {
     public partial class ServerBattleManager
     {
-
+        ///buff  针对buff的技能id
+        int buffToSkillId;
          #region 统一技能的修改
 
         /// <summary>
@@ -29,7 +30,6 @@ namespace AscensionServer
             var  addBuffDataSet  =  battleSkillData.battleSkillAddBuffList;
             var eventDataSet = battleSkillData.battleSkillEventDataList;
             var removeBuffDataSet = battleSkillData.battleSkillRemoveBuffDataList;
-
             if (skillDataDamageNum.Count == 1 && battleSkillData.TargetNumber == 1)
             {
                 for (int oc = 0; oc < skillDataDamageNum.Count; oc++)
@@ -283,7 +283,7 @@ namespace AscensionServer
                     bufferSet.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = addBuffDataSet[og].buffId, RoundNumber = addBuffDataSet[og].round } });
                     bufferId.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = addBuffDataSet[og].buffId, RoundNumber = addBuffDataSet[og].round } });
                     //TODO
-                    BuffManagerMethod(addBuffDataSet[og].buffId,roleId, currentId, playerSetObject,enemySetObject);
+                    BuffManagerMethod(addBuffDataSet[og].buffId,roleId, currentId, playerSetObject,enemySetObject,og);
                 }
                 else
                     Utility.Debug.LogInfo("Buffer 添加失败====>>>>" + buffValue);

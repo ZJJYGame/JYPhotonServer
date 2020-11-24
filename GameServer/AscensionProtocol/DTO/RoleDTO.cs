@@ -168,8 +168,11 @@ namespace AscensionProtocol.DTO
         /// <summary>
         /// 阵法指令
         /// </summary>
-        Tactical
-
+        Tactical,
+        /// <summary>
+        /// 防御指令
+        /// </summary>
+        Defend
     }
     #endregion
 }   

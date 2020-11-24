@@ -245,5 +245,5 @@ namespace Cosmos
 			return this.componentDict.Values.ToArray();
 		}
 	}
-	Dictionary<GenericValuePair<Type, byte>, Component> compDict = new Dictionary<GenericValuePair<Type, byte>, Component>();
+	//Dictionary<GenericValuePair<Type, byte>, Component> compDict = new Dictionary<GenericValuePair<Type, byte>, Component>();
 }

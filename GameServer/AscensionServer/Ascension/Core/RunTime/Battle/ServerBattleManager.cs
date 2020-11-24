@@ -178,13 +178,16 @@ namespace AscensionServer
                                         PlayerToMagicWeapen(battleTransferDTOs,roleId,roleId);
                                     break;
                                 #endregion
+                                #region MyRegion
+
+                                #endregion
                                 case BattleCmd.CatchPet:
                                     break;
                                 case BattleCmd.SummonPet:
                                     break;
                                 case BattleCmd.Tactical:
                                     break;
-                                default:
+                                case BattleCmd.Defend:
                                     break;
                             }
                             break;
@@ -272,16 +275,41 @@ namespace AscensionServer
         public void BattleMagicWeapen(int roleId, int roomId, BattleTransferDTO battleTransferDTOs)
         {
             if (battleTransferDTOs.BattleCmd == BattleCmd.MagicWeapon)
-                BattleStart(roleId, roomId, battleTransferDTOs); ;
+                BattleStart(roleId, roomId, battleTransferDTOs); 
         }
 
-        private SkillReactionCmd GetSendSkillReactionCmd(int roomId, int i)
+        /// <summary>
+        /// 战斗捕捉
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="roomId"></param>
+        /// <param name="battleTransferDTOs"></param>
+       public void BattleCatchPet(int roleId, int roomId, BattleTransferDTO battleTransferDTOs)
         {
-            return _roomidToBattleTransfer[roomId][i].SendSkillReactionCmd;
+            if (battleTransferDTOs.BattleCmd == BattleCmd.CatchPet)
+                BattleStart(roleId, roomId, battleTransferDTOs);
         }
-        private int GetSkillReactionValue(int roomId, int i)
+       /// <summary>
+       /// 战斗召唤
+       /// </summary>
+       /// <param name="roleId"></param>
+       /// <param name="roomId"></param>
+       /// <param name="battleTransferDTOs"></param>
+        public void BattleSummonPet(int roleId, int roomId, BattleTransferDTO battleTransferDTOs)
         {
-            return _roomidToBattleTransfer[roomId][i].SkillReactionValue;
+            if (battleTransferDTOs.BattleCmd == BattleCmd.SummonPet)
+                BattleStart(roleId, roomId, battleTransferDTOs);
+        }
+        /// <summary>
+        /// 战斗防御指令
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="roomId"></param>
+        /// <param name="battleTransferDTOs"></param>
+        public void BattleDefend(int roleId, int roomId, BattleTransferDTO battleTransferDTOs)
+        {
+            if (battleTransferDTOs.BattleCmd == BattleCmd.Defend)
+                BattleStart(roleId, roomId, battleTransferDTOs);
         }
 
     }

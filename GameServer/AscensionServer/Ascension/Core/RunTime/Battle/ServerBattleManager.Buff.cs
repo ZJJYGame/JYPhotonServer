@@ -22,7 +22,7 @@ namespace AscensionServer
         /// <param name="roleId"></param>
         /// <param name="playerSetObject"></param>
         /// <param name="enemySetObject"></param>
-        public void BuffManagerMethod(int buffId,int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject)
+        public void BuffManagerMethod(int buffId,int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject,int og)
         {
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, BattleBuffData>>(out var buffDict);
             if (!buffDict.ContainsKey(buffId))
@@ -33,8 +33,10 @@ namespace AscensionServer
                 case BattleBuffTriggerTime.BuffAdd:
                     break;
                 case BattleBuffTriggerTime.RoundStart:
+                    BuffConditionMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict);
                     break;
                 case BattleBuffTriggerTime.RoleAttack:
+
                     break;
                 case BattleBuffTriggerTime.RoleOnHit:
                     break;
@@ -43,12 +45,16 @@ namespace AscensionServer
                 case BattleBuffTriggerTime.RoleAfterDie:
                     break;
                 case BattleBuffTriggerTime.RoundEnd:
-                    BuffConditionMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict);
+                    var tempSelect = RandomManager(og, 0, 100);
+                    if (buffDict[buffId].probability == 100 || buffDict[buffId].probability>= tempSelect)
+                        BuffConditionMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict);
                     break;
                 case BattleBuffTriggerTime.BuffRemove:
                     break;
             }
         }
+
+
         /// <summary>
         /// 先判断buff 触发的条件
         /// </summary>
@@ -60,9 +66,47 @@ namespace AscensionServer
                 BuffEventMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict);
                 return;
             }
-            ///TODO
+            ///TODO  buff 触发条件
+            for (int oc = 0; oc < buffDict[buffId].battleBuffTriggerConditionList.Count; oc++)
+            {
+                switch (buffDict[buffId].battleBuffTriggerConditionList[oc].battleBuffConditionType)
+                {
+                    case BattleBuffConditionType.None:
+                        break;
+                    case BattleBuffConditionType.UseDesignatedSkill:
+                        var userSkill = buffDict[buffId].battleBuffTriggerConditionList[oc].idList.Find(x => x == buffToSkillId);
+                        if (userSkill != 0)
+                        {
 
-
+                        }
+                        break;
+                    case BattleBuffConditionType.HaveDesignatedSkill:
+                        ///自己拥有的技能列表
+                        break;
+                    case BattleBuffConditionType.NotHaveDesignatedSkill:
+                        /// /不拥有的技能列表
+                        break;
+                    case BattleBuffConditionType.LimitSkillTargetNum:
+                        /// 未知
+                        break;
+                    case BattleBuffConditionType.DesignatedDamageType:
+                        ///受击时  
+                        break;
+                    case BattleBuffConditionType.DamageCrit:
+                        ///暴击
+                        break;
+                    case BattleBuffConditionType.DesignatedPropertyLimit:
+                        break;
+                    case BattleBuffConditionType.BothDesignatedPropertyCompare:
+                        break;
+                    case BattleBuffConditionType.TargetHaveDesignatedBuff:
+                        break;
+                    case BattleBuffConditionType.CharacterTypeLimit:
+                        break;
+                    case BattleBuffConditionType.CloseOrRangeAttack:
+                        break;
+                }
+            }
         }
 
        /// <summary>
@@ -156,6 +200,7 @@ namespace AscensionServer
                             switch (buffEventSet[i].flag_2)
                             {
                                 case true:
+                                    BuffEventResultsMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i);
                                     break;
                                 case false:
                                     BuffEventResultsMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i);
@@ -196,7 +241,7 @@ namespace AscensionServer
                     {
                         case BuffEvent_DamageOrHeal_EffectTargetType.Health:
                             playerSetObject.RoleStatusDTO.RoleHP += damgeValue;
-                            _buffToRoomIdAfter.Add(new BattleBuffDTO() { TargetId = enemySetObject.EnemyStatusDTO.EnemyId, TriggerId = currentId, bufferId = buffId, BuffValue = damgeValue });
+                            _buffToRoomIdAfter.Add(new BattleBuffDTO() { TargetId = enemySetObject.EnemyStatusDTO.EnemyId, TriggerId = enemySetObject.EnemyStatusDTO.EnemyId, bufferId = buffId, BuffValue = damgeValue });
                             #region ob
                             /*
                             List<BattleBuffDTO> battleBuffDTOs = new List<BattleBuffDTO>();
@@ -212,6 +257,7 @@ namespace AscensionServer
                     }
                     break;
                 case false:
+                  
                     break;
             }
         }
