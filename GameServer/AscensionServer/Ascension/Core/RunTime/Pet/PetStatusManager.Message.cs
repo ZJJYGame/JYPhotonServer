@@ -32,8 +32,25 @@ namespace AscensionServer
             opData.OperationCode = (byte)OperationCode.SyncPetStatus;
             opData.ReturnCode = (byte)ReturnCode.Success;
             GameManager.CustomeModule<RoleManager>().SendMessage(roleid, opData);
-            Utility.Debug.LogInfo("yzqData宠物所有数据信息发送了");
         }
 
+        public void S2CPetSetBattle(int roleid, string s2cMessage, ReturnCode returnCode)
+        {
+            OperationData opData = new OperationData();
+            opData.DataMessage = s2cMessage;
+            opData.OperationCode = (byte)OperationCode.SyncSetPetBattle;
+            opData.ReturnCode = (byte)returnCode;
+            GameManager.CustomeModule<RoleManager>().SendMessage(roleid, opData);
+        }
+
+        public void S2CRemoveRolePet(int roleid, string s2cMessage, ReturnCode returnCode)
+        {
+            OperationData opData = new OperationData();
+            opData.DataMessage = s2cMessage;
+            opData.OperationCode = (byte)OperationCode.SyncRemoveRolePet;
+            opData.ReturnCode = (byte)returnCode;
+            GameManager.CustomeModule<RoleManager>().SendMessage(roleid, opData);
+            Utility.Debug.LogInfo("yzqData放生宠物信息发送了");
+        }
     }
 }

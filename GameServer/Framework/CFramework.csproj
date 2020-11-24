@@ -45,13 +45,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CosmosFramework\Core\Architecture\MVVM\Model.cs" />
+    <Compile Include="CosmosFramework\Core\Architecture\MVVM\MVVM.cs" />
+    <Compile Include="CosmosFramework\Core\Architecture\MVVM\View.cs" />
+    <Compile Include="CosmosFramework\Core\Architecture\MVVM\ViewModel.cs" />
     <Compile Include="CosmosFramework\Core\Base\Actor\Actor.cs" />
     <Compile Include="CosmosFramework\Core\Base\Actor\ActorBase.cs" />
     <Compile Include="CosmosFramework\Core\Base\Actor\ActorPool.cs" />
     <Compile Include="CosmosFramework\Core\Base\Actor\IActor.cs" />
     <Compile Include="CosmosFramework\Core\Base\AppBuilder\IApplicationBuilder.cs" />
     <Compile Include="CosmosFramework\Core\Base\Attribute\CustomeModuleAttribute.cs" />
-    <Compile Include="CosmosFramework\Core\Base\Attribute\TargetHelperAttribute.cs" />
+    <Compile Include="CosmosFramework\Core\Base\Attribute\ImplementProviderAttribute.cs" />
+    <Compile Include="CosmosFramework\Core\Base\Attribute\ModuleAttribute.cs" />
     <Compile Include="CosmosFramework\Core\Base\Behaviour\IBehaviour.cs" />
     <Compile Include="CosmosFramework\Core\Base\Behaviour\IConstruction.cs" />
     <Compile Include="CosmosFramework\Core\Base\Behaviour\IControllable.cs" />
@@ -63,15 +68,15 @@
     <Compile Include="CosmosFramework\Core\Base\DataStructure\BinaryTree.cs" />
     <Compile Include="CosmosFramework\Core\Base\DataStructure\DispatchableLocker.cs" />
     <Compile Include="CosmosFramework\Core\Base\DataStructure\GenericValuePair.cs" />
+    <Compile Include="CosmosFramework\Core\Base\DataStructure\LinkedNodeList.cs" />
     <Compile Include="CosmosFramework\Core\Base\DataStructure\Locker.cs" />
     <Compile Include="CosmosFramework\Core\Base\DataStructure\LRUCache.cs" />
     <Compile Include="CosmosFramework\Core\Base\DataStructure\LRUCacheIEnumerator.cs" />
     <Compile Include="CosmosFramework\Core\Base\DataStructure\TinyLinkedList.cs" />
-    <Compile Include="CosmosFramework\Core\Base\DataStructure\TypeNamePair.cs" />
+    <Compile Include="CosmosFramework\Core\Base\DataStructure\TypeStringPair.cs" />
     <Compile Include="CosmosFramework\Core\Base\ECS\Component.cs" />
     <Compile Include="CosmosFramework\Core\Base\ECS\ComponentWithId.cs" />
     <Compile Include="CosmosFramework\Core\Base\ECS\Entity.cs" />
-    <Compile Include="CosmosFramework\Core\Base\ECS\ISerializeToEntity.cs" />
     <Compile Include="CosmosFramework\Core\Base\ECS\Object.cs" />
     <Compile Include="CosmosFramework\Core\Base\Event\ConcurrentLogicEventArgs.cs" />
     <Compile Include="CosmosFramework\Core\Base\Event\EventActions.cs" />
@@ -108,6 +113,15 @@
     <Compile Include="CosmosFramework\Core\RunTime\Event\ConcurrentStandardEventCore.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Event\EventCore.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Event\StandardEventCore.cs" />
+    <Compile Include="CosmosFramework\Core\RunTime\FSM\FSM.cs" />
+    <Compile Include="CosmosFramework\Core\RunTime\FSM\FSMBase.cs" />
+    <Compile Include="CosmosFramework\Core\RunTime\FSM\FSMEventHandler.cs" />
+    <Compile Include="CosmosFramework\Core\RunTime\FSM\FSMManager.cs" />
+    <Compile Include="CosmosFramework\Core\RunTime\FSM\FSMPool.cs" />
+    <Compile Include="CosmosFramework\Core\RunTime\FSM\FSMState.cs" />
+    <Compile Include="CosmosFramework\Core\RunTime\FSM\FSMTrigger.cs" />
+    <Compile Include="CosmosFramework\Core\RunTime\FSM\IFSM.cs" />
+    <Compile Include="CosmosFramework\Core\RunTime\FSM\IFSMPool.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Main\GameManager.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Main\GameManager.External.cs" />
     <Compile Include="CosmosFramework\Core\RunTime\Main\GameManagerAgent.cs" />

@@ -184,7 +184,7 @@ namespace Cosmos.Network
                 return;
             foreach (var msg in sndMsgDict.Values)
             {
-                if (msg.RecurCount >= 20)
+                if (msg.RecurCount >= 10)
                 {
                     Available = false;
                     Utility.Debug.LogInfo($"Peer Conv:{Conv }  Unavailable");
@@ -197,7 +197,10 @@ namespace Cosmos.Network
                     //重发次数+1
                     msg.RecurCount += 1;
                     //超时重发
-                    sendMessageHandler?.Invoke(msg);
+                    //绕过编码消息，直接发送；
+                    GameManager.NetworkManager.SendNetworkMessage(msg.GetBuffer(), PeerEndPoint);
+                    //if (sndMsgDict.TryRemove(msg.SN, out var unaMsg))
+                    // sendMessageHandler?.Invoke(msg);
                     //Utility.Debug.LogInfo($"Peer Conv:{Conv }  ; {msg.ToString()}");
                 }
             }
@@ -210,10 +213,12 @@ namespace Cosmos.Network
         public bool EncodeMessage(ref UdpNetMessage netMsg)
         {
             netMsg.TS = Utility.Time.MillisecondTimeStamp();
-            SendSN += 1;
-            netMsg.SN = SendSN;
-            netMsg.Snd_nxt = SendSN + 1;
-            //netMsg.EncodeMessage();
+            if (netMsg.OperationCode != InnerOpCode._Heartbeat)
+            {
+                SendSN += 1;
+                netMsg.SN = SendSN;
+                netMsg.Snd_nxt = SendSN + 1;
+            }
             bool result = true;
             if (Conv != 0)
             {

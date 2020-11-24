@@ -92,31 +92,31 @@ namespace AscensionServer.Model
         public override void Clear()
         {
             FreeAttributes = 0;
-            RoleHP = 10000;
-            RoleMaxHP = 10000;
-            RoleMP = 10000;
-            RoleMaxMP = 10000;
-            RoleSoul = 10000;
-            RoleMaxSoul = 10000;
-            BestBlood = 10000;
-            BestBloodMax = 10000;
-            AttackSpeed = 10000;
-            AttackPhysical = 10000;
-            DefendPhysical = 10000;
-            AttackPower = 10000;
-            DefendPower = 10000;
-            PhysicalCritProb = 10000;
-            MagicCritProb = 10000;
-            ReduceCritProb = 10000;
-            PhysicalCritDamage = 10000;
-            MagicCritDamage = 10000;
-            ReduceCritDamage = 10000;
-            MoveSpeed = 10000;
-            RolePopularity = 10000;
-            RoleMaxPopularity = 10000;
-            ValueHide = 10000;
-            GongfaLearnSpeed = 10000;
-            MishuLearnSpeed = 10000;
+            RoleHP = 0;
+            RoleMaxHP = 0;
+            RoleMP = 0;
+            RoleMaxMP = 0;
+            RoleSoul = 0;
+            RoleMaxSoul = 0;
+            BestBlood = 0;
+            BestBloodMax = 0;
+            AttackSpeed = 0;
+            AttackPhysical = 0;
+            DefendPhysical = 0;
+            AttackPower = 0;
+            DefendPower = 0;
+            PhysicalCritProb = 0;
+            MagicCritProb = 0;
+            ReduceCritProb = 0;
+            PhysicalCritDamage = 0;
+            MagicCritDamage = 0;
+            ReduceCritDamage = 0;
+            MoveSpeed = 0;
+            RolePopularity = 0;
+            RoleMaxPopularity = 0;
+            ValueHide = 0;
+            GongfaLearnSpeed = 0;
+            MishuLearnSpeed = 0;
         }
     }
 }

@@ -24,7 +24,6 @@ namespace AscensionServer.Model
         public virtual string PetAptitudeDrug { get; set; }
         public PetAptitude()
         {
-            PetID = 0;
             HPAptitude = 0;
             MPAptitude = 0;
             SoulAptitude = 0;

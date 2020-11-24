@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 /// <summary>
 /// 此静态类为扩展方法工具类；
 /// </summary>
@@ -18,6 +19,17 @@ public static class NetCoreExtend
             return true;
         }
     }
+    public static void AddOrUpdate<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue value)
+    {
+        if (dict.ContainsKey(key))
+        {
+            dict[key] = value;
+        }
+        else
+        {
+            dict.Add(key, value);
+        }
+    }
     /// <summary>
     /// 字典扩展方法，来自移植.NetCore 2.2
     /// </summary>
@@ -33,6 +45,13 @@ public static class NetCoreExtend
         {
             value = default;
             return false;
+        }
+    }
+    public static void Clear<TValue>(this ConcurrentQueue<TValue> queue)
+    {
+        while (queue.Count>0)
+        {
+            queue.TryDequeue(out _);
         }
     }
 }

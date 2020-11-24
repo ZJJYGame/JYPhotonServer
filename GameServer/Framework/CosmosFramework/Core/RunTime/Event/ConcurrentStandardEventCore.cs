@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ namespace Cosmos
                 where TDerived : ConcurrentStandardEventCore<TKey, TValue, TDerived>, new()
         where TValue : class
     {
-        protected Dictionary<TKey, List<Action<object, TValue>>> eventDict = new Dictionary<TKey, List<Action<object, TValue>>>();
+        protected ConcurrentDictionary<TKey, List<Action<object, TValue>>> eventDict = new ConcurrentDictionary<TKey, List<Action<object, TValue>>>();
         #region Sync
         public virtual void AddEventListener(TKey key, Action<object, TValue> handler)
         {
@@ -29,7 +30,7 @@ namespace Cosmos
             {
                 List<Action<object, TValue>> handlerSet = new List<Action<object, TValue>>();
                 handlerSet.Add(handler);
-                eventDict.Add(key, handlerSet);
+                eventDict.TryAdd(key, handlerSet);
             }
         }
         public virtual void RemoveEventListener(TKey key, Action<object, TValue> handler)
@@ -39,7 +40,7 @@ namespace Cosmos
                 var handlerSet = eventDict[key];
                 handlerSet.Remove(handler);
                 if (handlerSet.Count <= 0)
-                    eventDict.Remove(key);
+                    eventDict.TryRemove(key,out _ );
             }
         }
         public bool HasEventListened(TKey key)
@@ -74,7 +75,7 @@ namespace Cosmos
                 {
                     List<Action<object, TValue>> handlerSet = new List<Action<object, TValue>>();
                     handlerSet.Add(handler);
-                    eventDict.Add(key, handlerSet);
+                    eventDict.TryAdd(key, handlerSet);
                 }
             });
         }
@@ -87,7 +88,7 @@ namespace Cosmos
                     var handlerSet = eventDict[key];
                     handlerSet.Remove(handler);
                     if (handlerSet.Count <= 0)
-                        eventDict.Remove(key);
+                        eventDict.TryRemove(key,out _ );
                 }
             });
         }
