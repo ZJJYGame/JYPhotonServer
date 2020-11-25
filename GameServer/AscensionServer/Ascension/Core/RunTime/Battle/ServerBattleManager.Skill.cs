@@ -775,7 +775,7 @@ namespace AscensionServer
 
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", currentId);
             var petnHCriteriaRoleID = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriaRoleID);
-            GameManager.CustomeModule<PetStatusManager>().InitPet(battleSkillData., "", petnHCriteriaRoleID);
+            //GameManager.CustomeModule<PetStatusManager>().InitPet(battleSkillData., "", petnHCriteriaRoleID);
         }
         #endregion
 

@@ -1313,6 +1313,11 @@
             <param name="targetId"></param>
             <returns></returns>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.MonsterFormToObject(System.Int32)">
+            <summary>
+            判断ai 是不是存在json中
+            </summary>
+        </member>
         <member name="M:AscensionServer.ServerBattleManager.ServerToClientResult(AscensionProtocol.DTO.TargetInfoDTO)">
             <summary>
             返回给客户端的计算伤害
