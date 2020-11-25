@@ -31,6 +31,7 @@ namespace AscensionServer
             opData.DataMessage = s2cMessage;
             opData.OperationCode = (byte)OperationCode.SyncPetStatus;
             opData.ReturnCode = (byte)ReturnCode.Success;
+            Utility.Debug.LogInfo("yzqData获得宠物所有数据信息发送了");
             GameManager.CustomeModule<RoleManager>().SendMessage(roleid, opData);
         }
 
@@ -51,6 +52,16 @@ namespace AscensionServer
             opData.ReturnCode = (byte)returnCode;
             GameManager.CustomeModule<RoleManager>().SendMessage(roleid, opData);
             Utility.Debug.LogInfo("yzqData放生宠物信息发送了");
+        }
+
+        public void S2CPetAbilityPoint(int roleid, string s2cMessage, ReturnCode returnCode)
+        {
+            OperationData opData = new OperationData();
+            opData.DataMessage = s2cMessage;
+            opData.OperationCode = (byte)OperationCode.SyncPetStatus;
+            opData.ReturnCode = (byte)returnCode;
+            GameManager.CustomeModule<RoleManager>().SendMessage(roleid, opData);
+            Utility.Debug.LogInfo("yzqData变更宠物加点发送了");
         }
     }
 }

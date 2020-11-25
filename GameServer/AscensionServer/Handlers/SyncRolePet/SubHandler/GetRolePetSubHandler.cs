@@ -21,7 +21,6 @@ namespace AscensionServer
             string rolepet = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RolePet));
 
             var rolepetObj = Utility.Json.ToObject<RolePetDTO>(rolepet);
-            Utility.Debug.LogInfo("yzqData对角色宠物的操作"+ rolepetObj);
 
             NHCriteria nHCriteriaRolePet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
 

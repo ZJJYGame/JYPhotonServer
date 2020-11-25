@@ -21,7 +21,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -265,9 +265,11 @@
     <Compile Include="Ascension\Core\RunTime\Team\TeamManager.cs" />
     <Compile Include="Ascension\Core\Base\Concurrent\ConcurrentInt.cs" />
     <Compile Include="DOMap\AllianceConstructionMap.cs" />
+    <Compile Include="DOMap\FlyMagicToolMap.cs" />
     <Compile Include="DOMap\PetAbilityPointMap.cs" />
     <Compile Include="DOMap\RoleAllianceSkillMap.cs" />
     <Compile Include="DO\AllianceConstruction.cs" />
+    <Compile Include="DO\FlyMagicTool.cs" />
     <Compile Include="DO\PetAbilityPoint.cs" />
     <Compile Include="DO\RoleAllianceSkill.cs" />
     <Compile Include="DO\RoleAuctionItems.cs" />
@@ -309,6 +311,7 @@
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\SyncDailyMessageSubHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\UpdateDailyMessageSubHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SyncDailyMessageHandler.cs" />
+    <Compile Include="Handlers\SyncFlyMagicTool\SyncFlyMagicToolHandler.cs" />
     <Compile Include="Handlers\SyncGongFa\SubHandler\GongFaStudyManager.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\RemoveImmortalsAllianceHandler.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\UpdateImmortalsAllianceHandler.cs" />
@@ -709,6 +712,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonData\BattleBuffData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\FlyMagicToolData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="JsonData\Pet.txt">

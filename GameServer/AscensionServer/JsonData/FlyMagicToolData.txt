@@ -1,0 +1,12 @@
+﻿[
+{"FlyMagicToolID":23401,"AddRoleHp":50,"AddPhysicAttack":10,"AddMagicAttack":10,"AddMoveSpeed":10,"FixedSpeed":"-1","NumberOfPeoples":1},
+{"FlyMagicToolID":23402,"AddRoleHp":50,"AddPhysicAttack":10,"AddMagicAttack":10,"AddMoveSpeed":20,"FixedSpeed":"-1","NumberOfPeoples":1},
+{"FlyMagicToolID":23403,"AddRoleHp":50,"AddPhysicAttack":10,"AddMagicAttack":10,"AddMoveSpeed":30,"FixedSpeed":"-1","NumberOfPeoples":1},
+{"FlyMagicToolID":23404,"AddRoleHp":50,"AddPhysicAttack":10,"AddMagicAttack":10,"AddMoveSpeed":40,"FixedSpeed":"-1","NumberOfPeoples":1},
+{"FlyMagicToolID":23405,"AddRoleHp":50,"AddPhysicAttack":10,"AddMagicAttack":10,"AddMoveSpeed":50,"FixedSpeed":"-1","NumberOfPeoples":1},
+{"FlyMagicToolID":23406,"AddRoleHp":50,"AddPhysicAttack":10,"AddMagicAttack":10,"AddMoveSpeed":60,"FixedSpeed":"-1","NumberOfPeoples":1},
+{"FlyMagicToolID":23407,"AddRoleHp":50,"AddPhysicAttack":10,"AddMagicAttack":10,"AddMoveSpeed":70,"FixedSpeed":"-1","NumberOfPeoples":1},
+{"FlyMagicToolID":23408,"AddRoleHp":50,"AddPhysicAttack":10,"AddMagicAttack":10,"AddMoveSpeed":80,"FixedSpeed":"-1","NumberOfPeoples":1},
+{"FlyMagicToolID":23409,"AddRoleHp":100,"AddPhysicAttack":20,"AddMagicAttack":20,"AddMoveSpeed":90,"FixedSpeed":7,"NumberOfPeoples":5},
+{"FlyMagicToolID":23410,"AddRoleHp":100,"AddPhysicAttack":20,"AddMagicAttack":20,"AddMoveSpeed":100,"FixedSpeed":8,"NumberOfPeoples":5}
+]

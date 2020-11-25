@@ -116,5 +116,13 @@ namespace AscensionServer
         /// 角色所有宠物的key前缀
         /// </summary>
         public static readonly string _RolePetPerfix = "RolePet";
+        /// <summary>
+        /// 角色所有宠物的key前缀
+        /// </summary>
+        public static readonly string _RoleAssetsPerfix = "RoleAssets";
+        /// <summary>
+        /// 角色所有飞行法器的key前缀
+        /// </summary>
+        public static readonly string _RoleFlyMagicToolPerfix = "RoleFlyMagicTool";
     }
 }

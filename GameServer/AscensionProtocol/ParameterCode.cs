@@ -199,6 +199,9 @@
         /// 战斗之后
         /// </summary>
         RoleBattleAfter = 103,
-
+        /// <summary>
+        /// 获取飞行法器
+        /// </summary>
+        RoleFlyMagicTool=104,
     }
 }

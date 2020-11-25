@@ -16,9 +16,11 @@ namespace AscensionProtocol.DTO
         public virtual int Soul { get; set; }
         public virtual int Agility { get; set; }
         public virtual int SurplusAptitudePoint { get; set; }
+        public virtual bool IsSet { get; set; }
         public virtual string  SlnName { get; set; }
         public PetAbilityDTO()
         {
+            IsSet = false;
             Strength = 0;
             Power = 0;
             Stamina = 0;
@@ -30,6 +32,7 @@ namespace AscensionProtocol.DTO
         }
         public override void Clear()
         {
+            IsSet = false;
             Strength = 0;
             Power = 0;
             Stamina = 0;

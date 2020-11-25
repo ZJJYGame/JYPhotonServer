@@ -23,7 +23,14 @@ namespace AscensionServer
             var role = NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRolePet);
             if (role.RoleLevel>= pet.PetLevel)
             {
-                rolePet.PetIsBattle = rolePetDTO.PetIsBattle;
+                Utility.Debug.LogInfo("yzqData对角色宠物的操作" + rolePet.PetIsBattle +".,.,.,.,.><<><><><><<<<>"+ rolePetDTO.PetIsBattle);
+                if (rolePet.PetIsBattle == rolePetDTO.PetIsBattle)
+                {
+                    rolePet.PetIsBattle = 0;
+                    rolePetDTO.PetIsBattle = 0;
+                }
+                else
+                    rolePet.PetIsBattle = rolePetDTO.PetIsBattle;
                 await NHibernateQuerier.UpdateAsync<RolePet>(rolePet);
                 rolePetDTO.PetIDDict = Utility.Json.ToObject<Dictionary<int, int>>(rolePet.PetIDDict);
                 rolePetDTO.RoleID = rolePet.RoleID;
@@ -105,91 +112,6 @@ namespace AscensionServer
             }
             S2CRemoveRolePet(rolePet.RoleID, Utility.Json.ToJson(rolePetDTO),ReturnCode.Success);
         }
-
-        /// <summary>
-        /// 宠物培养丹药区分
-        /// </summary>
-        /// <param name="drugID"></param>
-        /// <param name="nHCriteria"></param>
-        /// <param name="pet"></param>
-        public  void PetCultivate(int drugID,NHCriteria nHCriteria,Pet pet)
-        {
-            var ringObj = GameManager.ReferencePoolManager.Spawn<RingDTO>();
-            ringObj.RingItems = new Dictionary<int, RingItemsDTO>();
-            ringObj.RingItems.Add(drugID, new RingItemsDTO());
-            var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteria);
-            var nHCriteriaRingID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
-            if (InventoryManager.VerifyIsExist(drugID, nHCriteriaRingID))
-            {
-                if (VerifyDrugEffect(drugID, out DrugData drugData))
-                {
-
-                }
-            }
-        }
-        /// <summary>
-        /// 验证丹药作用
-        /// </summary>
-        public  bool VerifyDrugEffect(int drugid,out DrugData drugData)
-        {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, DrugData>>(out var DrugDataDict);
-            if (DrugDataDict.TryGetValue(drugid ,out var drugDatatemp))
-            {
-                if (drugDatatemp.Drug_Type == DrugType.PetExp && drugDatatemp.Drug_Type == DrugType.AddPetTalent)
-                {
-                    drugData = drugDatatemp;
-                    return true;
-                }
-                else
-                {
-                    drugData = null;
-                    return false;
-                }
-            }
-            else
-            {
-                drugData = null;
-                return false;
-            }
-        }
-        /// <summary>
-        /// 增加经验
-        /// </summary>
-        /// <param name="drugData"></param>
-        /// <param name="pet"></param>
-        public  void PetExpDrug(DrugData drugData,Pet pet)
-        {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
-            if (drugData.Need_Level_ID<=pet.PetLevel&& drugData.Max_Level_ID >=pet.PetLevel)
-            {
-                pet.PetExp += drugData.Drug_Value;
-                if (petLevelDataDict[pet.PetLevel].ExpLevelUp<= pet.PetExp)
-                {
-                    if (petLevelDataDict[pet.PetLevel].IsFinalLevel)
-                    {
-                        pet.PetExp = petLevelDataDict[pet.PetLevel].ExpLevelUp;
-                    }
-                    else
-                    {
-                        pet.PetLevel += 1;
-                        pet.PetExp = pet.PetExp-petLevelDataDict[pet.PetLevel].ExpLevelUp;
-                        //TODO刷新寵物所有屬性
-                    }
-                }
-            }
-        }
-        /// <summary>
-        /// 增加资质
-        /// </summary>
-        public  void PetAtitudeDrug(DrugData drugData, Pet pet)
-        {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
-            //var drugDict = Utility.Json.ToObject<Dictionary<int,int>>();
-            //if (drugData.Need_Level_ID <= pet.PetLevel && drugData.Max_Level_ID >= pet.PetLevel)
-            //{
-
-            //}
-        }
         /// <summary>
         /// 获得宠物所有属性
         /// </summary>
@@ -240,7 +162,6 @@ namespace AscensionServer
             }
             else
             {
-                Utility.Debug.LogInfo("yzqData获得宠物所有数据信息进来了3");
                 PetAptitude petAptitude = NHibernateQuerier.CriteriaSelect<PetAptitude>(nHCriteriapet);
                 var petAptitudeObj = GameManager.ReferencePoolManager.Spawn<PetAptitudeDTO>();
                 petAptitudeObj.PetID = petAptitude.PetID;
@@ -276,12 +197,197 @@ namespace AscensionServer
             petCompleteDTO.PetOrderType = PetCompleteDTO.PetOperationalOrder.PetGetStatus;
             S2CPetAllStatus(roleid,Utility.Json.ToJson(petCompleteDTO));
         }
+        #region 宠物加点
         /// <summary>
         /// 更新宠物加点方案
         /// </summary>
-        public void UpdataPetAbilityPoint()
+        public void UpdataPetAbilityPoint(PetAbilityPoint petAbilityPoint,PetCompleteDTO petCompleteDTO, NHCriteria nHCriteria)
+        {
+            switch (petCompleteDTO.PetAbilityPointDTO.AddPointType)
+            {
+                case PetAbilityPointDTO.AbilityPointType.Reset:
+                    break;
+                case PetAbilityPointDTO.AbilityPointType.Update:
+                    UpdatePointSln(petAbilityPoint, petCompleteDTO);
+                    break;
+                case PetAbilityPointDTO.AbilityPointType.Unlock:
+                    UlockPointSln(petAbilityPoint, nHCriteria, petCompleteDTO);
+                    break;
+                case PetAbilityPointDTO.AbilityPointType.Rename:
+                    RenamePointSln(petAbilityPoint, petCompleteDTO);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public async void RenamePointSln(PetAbilityPoint petAbilityPoint, PetCompleteDTO petCompleteDTO)
+        {
+            var pointSlnDict = Utility.Json.ToObject<Dictionary<int,PetAbilityDTO>>(petAbilityPoint.AbilityPointSln);
+            if (pointSlnDict.TryGetValue(petCompleteDTO.PetAbilityPointDTO.SlnNow,out var  petAbilityDTO))
+            {
+                petAbilityDTO.SlnName = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].SlnName;
+                pointSlnDict[petCompleteDTO.PetAbilityPointDTO.SlnNow] = petAbilityDTO;
+
+                petCompleteDTO.PetAbilityPointDTO.AbilityPointSln = pointSlnDict;
+                petCompleteDTO.PetAbilityPointDTO.IsUnlockSlnThree = petAbilityPoint.IsUnlockSlnThree;
+                petAbilityPoint.AbilityPointSln = Utility.Json.ToJson(pointSlnDict);
+                await NHibernateQuerier.UpdateAsync<PetAbilityPoint>(petAbilityPoint);
+                await RedisHelper.Hash.HashSetAsync<PetAbilityPointDTO>(RedisKeyDefine._PetAbilityPointPerfix, petCompleteDTO.RoleID.ToString(), petCompleteDTO.PetAbilityPointDTO);
+                S2CPetAbilityPoint(petCompleteDTO.RoleID, Utility.Json.ToJson(petCompleteDTO), ReturnCode.Success);
+            }
+        }
+        public async void UpdatePointSln(PetAbilityPoint petAbilityPoint, PetCompleteDTO petCompleteDTO)
+        {
+            var pointSlnDict = Utility.Json.ToObject<Dictionary<int, PetAbilityDTO>>(petAbilityPoint.AbilityPointSln);
+            if (pointSlnDict.TryGetValue(petCompleteDTO.PetAbilityPointDTO.SlnNow, out var petAbilityDTO))
+            {
+                if (!petAbilityDTO.IsSet)
+                {
+                    Utility.Debug.LogInfo("yzqData更新宠物加点");
+                    petAbilityDTO.Agility = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Agility;
+                    petAbilityDTO.Power = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Power;
+                    petAbilityDTO.Strength = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Strength;
+                    petAbilityDTO.Soul = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Soul;
+                    petAbilityDTO.Corporeity = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Corporeity;
+                    petAbilityDTO.Stamina = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Stamina;
+                    petAbilityDTO.SurplusAptitudePoint = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].SurplusAptitudePoint;
+                    petAbilityDTO.IsSet = true;
+
+                    pointSlnDict[petCompleteDTO.PetAbilityPointDTO.SlnNow] = petAbilityDTO;
+
+                    petCompleteDTO.PetAbilityPointDTO.AbilityPointSln = pointSlnDict;
+                    petAbilityPoint.AbilityPointSln = Utility.Json.ToJson(pointSlnDict);
+
+                    await NHibernateQuerier.UpdateAsync<PetAbilityPoint>(petAbilityPoint);
+                    await RedisHelper.Hash.HashSetAsync<PetAbilityPointDTO>(RedisKeyDefine._PetAbilityPointPerfix, petCompleteDTO.RoleID.ToString(), petCompleteDTO.PetAbilityPointDTO);
+                    S2CPetAbilityPoint(petCompleteDTO.RoleID, Utility.Json.ToJson(petCompleteDTO), ReturnCode.Success);
+                }
+            }
+        }
+        public async void UlockPointSln(PetAbilityPoint petAbilityPoint, NHCriteria nHCriteria, PetCompleteDTO petCompleteDTO)
+        {
+            var pointSlnDict = Utility.Json.ToObject<Dictionary<int, PetAbilityDTO>>(petAbilityPoint.AbilityPointSln);
+
+            var roleassets = NHibernateQuerier.CriteriaSelectAsync<RoleAssets>(nHCriteria).Result;
+            if (roleassets.SpiritStonesLow >= 0)
+            {
+                //if (pointSlnDict.TryGetValue(petCompleteDTO.PetAbilityPointDTO.SlnNow, out var petAbilityDTO))
+                //{                  
+                //}
+                pointSlnDict.Add(petCompleteDTO.PetAbilityPointDTO.SlnNow, new PetAbilityDTO() {SlnName="方案三" });
+                petAbilityPoint.IsUnlockSlnThree = true;
+                petAbilityPoint.AbilityPointSln = Utility.Json.ToJson(pointSlnDict);
+                roleassets.SpiritStonesLow -= 0;
+
+                petCompleteDTO.PetAbilityPointDTO.IsUnlockSlnThree = true;
+                await NHibernateQuerier.UpdateAsync<RoleAssets>(roleassets);
+                await RedisHelper.Hash.HashSetAsync<RoleAssets>(RedisKeyDefine._RoleAssetsPerfix, roleassets.RoleID.ToString(), roleassets);
+
+                petCompleteDTO.PetAbilityPointDTO.AbilityPointSln = pointSlnDict;
+
+                petCompleteDTO.PetAbilityPointDTO.IsUnlockSlnThree = true;
+                await NHibernateQuerier.UpdateAsync<PetAbilityPoint>(petAbilityPoint);
+                await RedisHelper.Hash.HashSetAsync<PetAbilityPointDTO>(RedisKeyDefine._PetAbilityPointPerfix, petCompleteDTO.RoleID.ToString(), petCompleteDTO.PetAbilityPointDTO);
+
+                S2CPetAbilityPoint(petCompleteDTO.RoleID, Utility.Json.ToJson(petCompleteDTO), ReturnCode.Success);
+            }
+        }
+
+        public void ResetAbilityPoint( PetAbilityPoint petAbilityPoint)
         {
 
         }
+
+        #endregion
+
+        #region 使用丹药
+        /// <summary>
+        /// 宠物培养丹药区分
+        /// </summary>
+        /// <param name="drugID"></param>
+        /// <param name="nHCriteria"></param>
+        /// <param name="pet"></param>
+        public void PetCultivate(int drugID, NHCriteria nHCriteria, Pet pet)
+        {
+            var ringObj = GameManager.ReferencePoolManager.Spawn<RingDTO>();
+            ringObj.RingItems = new Dictionary<int, RingItemsDTO>();
+            ringObj.RingItems.Add(drugID, new RingItemsDTO());
+            var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteria);
+            var nHCriteriaRingID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
+            if (InventoryManager.VerifyIsExist(drugID, nHCriteriaRingID))
+            {
+                if (VerifyDrugEffect(drugID, out DrugData drugData))
+                {
+
+                }
+            }
+        }
+        /// <summary>
+        /// 验证丹药作用
+        /// </summary>
+        public bool VerifyDrugEffect(int drugid, out DrugData drugData)
+        {
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, DrugData>>(out var DrugDataDict);
+            if (DrugDataDict.TryGetValue(drugid, out var drugDatatemp))
+            {
+                if (drugDatatemp.Drug_Type == DrugType.PetExp && drugDatatemp.Drug_Type == DrugType.AddPetTalent)
+                {
+                    drugData = drugDatatemp;
+                    return true;
+                }
+                else
+                {
+                    drugData = null;
+                    return false;
+                }
+            }
+            else
+            {
+                drugData = null;
+                return false;
+            }
+        }
+        /// <summary>
+        /// 增加经验
+        /// </summary>
+        /// <param name="drugData"></param>
+        /// <param name="pet"></param>
+        public void PetExpDrug(DrugData drugData, Pet pet)
+        {
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
+            if (drugData.Need_Level_ID <= pet.PetLevel && drugData.Max_Level_ID >= pet.PetLevel)
+            {
+                pet.PetExp += drugData.Drug_Value;
+                if (petLevelDataDict[pet.PetLevel].ExpLevelUp <= pet.PetExp)
+                {
+                    if (petLevelDataDict[pet.PetLevel].IsFinalLevel)
+                    {
+                        pet.PetExp = petLevelDataDict[pet.PetLevel].ExpLevelUp;
+                    }
+                    else
+                    {
+                        pet.PetLevel += 1;
+                        pet.PetExp = pet.PetExp - petLevelDataDict[pet.PetLevel].ExpLevelUp;
+                        //TODO刷新寵物所有屬性
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// 增加资质
+        /// </summary>
+        public void PetAtitudeDrug(DrugData drugData, Pet pet)
+        {
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
+            //var drugDict = Utility.Json.ToObject<Dictionary<int,int>>();
+            //if (drugData.Need_Level_ID <= pet.PetLevel && drugData.Max_Level_ID >= pet.PetLevel)
+            //{
+
+            //}
+        }
+        #endregion
+
+
     }
 }

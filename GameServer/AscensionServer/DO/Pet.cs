@@ -28,7 +28,7 @@ namespace AscensionServer.Model
         public override void Clear()
         {
             ID = -1;
-            PetLevel = 0;
+            PetLevel =1;
             PetID = 0;
             PetExp = 0;
             PetName = null;

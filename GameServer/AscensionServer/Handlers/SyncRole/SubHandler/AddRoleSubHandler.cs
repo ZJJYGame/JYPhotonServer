@@ -47,7 +47,6 @@ namespace AscensionServer
             Dictionary<int, int> initialSchool = new Dictionary<int, int>();
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, RoleStatusDatas>>(out var roleStatusDict);
             Ring ring = null;
-            Utility.Debug.LogInfo("yzqData添加新角色2"+ roleJsonTmp);
             //如果没有查询到代表角色没被注册过可用
             if (role == null)
             {

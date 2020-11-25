@@ -170,13 +170,17 @@ namespace AscensionProtocol
         /// </summary>
         AddFirstGongfa = 67,
         /// <summary>
+        ///同步角色所有飞行法器
+        /// </summary>
+        SyncRoleFlyMagicTool = 68,
+        /// <summary>
         /// 进入高同步场景的指令
         /// </summary>
         EnterLevelCommand = 111,
         /// <summary>
         /// 离开高同步场景的指令
         /// </summary>
-        ExitLevelCommand=112,
+        ExitLevelCommand =112,
         /// <summary>
         /// 加入战斗
         /// </summary>

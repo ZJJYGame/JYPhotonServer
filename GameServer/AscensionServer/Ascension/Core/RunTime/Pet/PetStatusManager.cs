@@ -95,6 +95,7 @@ namespace AscensionServer
             var pet = GameManager.ReferencePoolManager.Spawn<Pet>();
             pet.PetID = petID;
             pet.PetName = petName;
+            pet.PetLevel = 1;
             pet.PetSkillArray = Utility.Json.ToJson(RestPetSkill(petLevelDataDict[petID].SkillArray));
             pet = NHibernateQuerier.Insert<Pet>(pet);
             var petObj = GameManager.ReferencePoolManager.Spawn<PetDTO>();
@@ -159,7 +160,6 @@ namespace AscensionServer
             S2CRoleAddPetSuccess(rolePet.RoleID);
             GameManager.ReferencePoolManager.Despawns(pet, petStatus, petAptitude, petAbilityPoint, RolepetObj, petAptitudeObj, petAbilityPointObj);
         }
-
 
         /// <summary>
         /// 洗练宠物重置技能
