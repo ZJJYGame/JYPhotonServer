@@ -101,7 +101,6 @@ namespace AscensionServer
         public void AIToRelease(BattleTransferDTO battleTransferDTOs, EnemyStatusDTO enemyStatusData, int roleId,int currentId, int  transfer = 0)
         {
             var defendValue = battleTransferDTOs.BattleCmd == BattleCmd.Defend ? 80 : 100;
-            //TargetInfoDTO tempTransEnemy = new TargetInfoDTO();
             if ((IsTeamDto(roleId) == null))
             {
                 ///TODO  需要怪物的技能表格 释放技能

@@ -219,9 +219,11 @@ namespace AscensionServer
                                         PlayerToSKillRelease(battleTransferDTOs.petBattleTransferDTO, roleId, battleTransferDTOs.petBattleTransferDTO.RoleId);
                                     break;
                                 #endregion
+                                #region 宠物逃跑
                                 case BattleCmd.RunAwayInstruction:
                                     PetToRunAway(battleTransferDTOs.petBattleTransferDTO, roleId, battleTransferDTOs.petBattleTransferDTO.RoleId);
                                     break;
+                                #endregion
                                 default:
                                     break;
                             }

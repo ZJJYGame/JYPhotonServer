@@ -271,20 +271,24 @@ namespace AscensionServer
                     PetStatusDTO = new PetStatusDTO()
                     {
                         PetID = statusPet.PetID,
-                        //PetAbilityPower = statusPet.PetAbilityPower,
-                        //PetAttackDamage = statusPet.PetAttackDamage,
                         PetHP = statusPet.PetHP,
                         PetMaxHP = statusPet.PetMaxHP,
                         PetMaxMP = statusPet.PetMaxMP,
                         PetMaxShenhun = statusPet.PetMaxShenhun,
                         PetMP = statusPet.PetMP,
-                        //PetResistanceAttack = statusPet.PetResistanceAttack,
-                        //PetResistancePower = statusPet.PetResistancePower,
                         PetShenhun = statusPet.PetShenhun,
-                        //PetShenhunDamage = statusPet.PetShenhunDamage,
-                        //PetShenhunResistance = statusPet.PetShenhunResistance,
-                        //PetSpeed = statusPet.PetSpeed,
-                        //PetTalent = statusPet.PetTalent
+                        AttackPhysical = statusPet.AttackPhysical,
+                        AttackPower = statusPet.AttackPower,
+                        AttackSpeed = statusPet.AttackSpeed,
+                        DefendPhysical = statusPet.DefendPhysical,
+                        DefendPower = statusPet.DefendPower,
+                        ExpLevelUp = statusPet.ExpLevelUp,
+                        MagicCritDamage = statusPet.MagicCritDamage,
+                        MagicCritProb = statusPet.MagicCritProb,
+                        PhysicalCritDamage = statusPet.PhysicalCritDamage,
+                        PhysicalCritProb = statusPet.PhysicalCritProb,
+                        ReduceCritDamage = statusPet.ReduceCritDamage,
+                        ReduceCritProb = statusPet.ReduceCritProb
                     }
                 });
             }
@@ -305,20 +309,24 @@ namespace AscensionServer
                         PetStatusDTO = new PetStatusDTO()
                         {
                             PetID = statusPet.PetID,
-                            //PetAbilityPower = statusPet.PetAbilityPower,
-                            //PetAttackDamage = statusPet.PetAttackDamage,
                             PetHP = statusPet.PetHP,
                             PetMaxHP = statusPet.PetMaxHP,
                             PetMaxMP = statusPet.PetMaxMP,
                             PetMaxShenhun = statusPet.PetMaxShenhun,
                             PetMP = statusPet.PetMP,
-                            //PetResistanceAttack = statusPet.PetResistanceAttack,
-                            //PetResistancePower = statusPet.PetResistancePower,
                             PetShenhun = statusPet.PetShenhun,
-                            //    PetShenhunDamage = statusPet.PetShenhunDamage,
-                            //    PetShenhunResistance = statusPet.PetShenhunResistance,
-                            //    PetSpeed = statusPet.PetSpeed,
-                            //    PetTalent = statusPet.PetTalent
+                            AttackPhysical = statusPet.AttackPhysical,
+                            AttackPower = statusPet.AttackPower,
+                            AttackSpeed = statusPet.AttackSpeed,
+                            DefendPhysical = statusPet.DefendPhysical,
+                            DefendPower = statusPet.DefendPower,
+                            ExpLevelUp = statusPet.ExpLevelUp,
+                            MagicCritDamage = statusPet.MagicCritDamage,
+                            MagicCritProb = statusPet.MagicCritProb,
+                            PhysicalCritDamage = statusPet.PhysicalCritDamage,
+                            PhysicalCritProb = statusPet.PhysicalCritProb,
+                            ReduceCritDamage = statusPet.ReduceCritDamage,
+                            ReduceCritProb = statusPet.ReduceCritProb
                         }
                     });
                 }

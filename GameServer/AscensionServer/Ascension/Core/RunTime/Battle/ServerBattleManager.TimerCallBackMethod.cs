@@ -201,11 +201,11 @@ namespace AscensionServer
                 {
                     case "EnemyStatusDTO":
                         var enemyStatusData = objectOwner as EnemyStatusDTO;
-                        Utility.Debug.LogInfo("剔除一个 ====》" + serverBattleManager._roomidToBattleTransfer[teampRoomId].Count);
+                        //Utility.Debug.LogInfo("剔除一个 ====》" + serverBattleManager._roomidToBattleTransfer[teampRoomId].Count);
                         ///返回一个当前要出手的人的个人属性   需要判断TODO
                         if (serverBattleManager._roomidToBattleTransfer[teampRoomId].Count  ==0)
                             break;
-                        var EnemyIndex = RandomManager(speed, 0, serverBattleManager._roomidToBattleTransfer[teampRoomId].Count); // new Random((int)DateTime.Now.Ticks + speed).Next(0, serverBattleManager._roomidToBattleTransfer[teampRoomId].Count);
+                        var EnemyIndex = RandomManager(speed, 0, serverBattleManager._roomidToBattleTransfer[teampRoomId].Count); 
                         var memberCuuentTranferEnemy = serverBattleManager._teamIdToBattleInit[tempRole].playerUnits.Find(x => x.RoleStatusDTO.RoleID == serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex].RoleId);
 
                         if (enemyStatusData.EnemyHP > 0 && memberCuuentTranferEnemy.RoleStatusDTO.RoleHP > 0)
@@ -242,14 +242,26 @@ namespace AscensionServer
                                     serverBattleManager.PlayerToMagicWeapen(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID);
                                 break;
                             #endregion
+                            #region 针对捕捉
                             case BattleCmd.CatchPet:
+                                if (MonsterFormToObject(speedCuurentTransfer.TargetInfos[0].GlobalId) != null)
+                                {
+                                    var targetOwner = MonsterFormToObject(speedCuurentTransfer.TargetInfos[0].GlobalId);
+                                    PlayerToCatchPet(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID, targetOwner);
+                                }
                                 break;
+                            #endregion
+                            #region 针对召唤
                             case BattleCmd.SummonPet:
                                 break;
+                            #endregion
                             case BattleCmd.Tactical:
                                 break;
-                            default:
+                            #region 针对防御
+                            case BattleCmd.Defend:
+                                PlayerToDefend(speedCuurentTransfer, tempRole, serverBattleManager._teamIdToBattleInit[tempRole].battleUnits[speed].ObjectID);
                                 break;
+                                #endregion
                         }
                         break;
                     case "PetStatusDTO":

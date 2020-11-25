@@ -464,7 +464,6 @@ namespace AscensionServer
                     break;
             }
         }
-
         #endregion
 
 
@@ -778,17 +777,18 @@ namespace AscensionServer
             {
                 var petnHCriteriaRoleID = MsqInfo<RolePet>(currentId);
                 GameManager.CustomeModule<PetStatusManager>().InitPet(monsterDatas.Pet_ID, monsterDatas.Monster_Name, petnHCriteriaRoleID);
-
-                var TargetInfosSet = ServerToClientResult(new TargetInfoDTO() { TargetID = currentId, TargetHPDamage = tempSelect });
-                teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = roleId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
             }
+            var TargetInfosSet = ServerToClientResult(new TargetInfoDTO() { TargetID = battleTransferDTOs.TargetInfos[0].TargetID, TargetHPDamage = tempSelect });
+            teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = currentId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
         }
         #endregion
 
         #region 统一针对 召唤
         public void PlayerToSummonPet(BattleTransferDTO battleTransferDTOs, int roleId, int currentId, MonsterDatas monsterDatas = null)
         {
+            //var TargetInfosSet = ServerToClientResult(new TargetInfoDTO() { TargetID = battleTransferDTOs.TargetInfos[0].TargetID, TargetHPDamage = tempSelect });
 
+            //teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = currentId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
         }
         #endregion
 
