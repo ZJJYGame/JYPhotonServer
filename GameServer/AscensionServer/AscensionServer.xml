@@ -545,6 +545,16 @@
             角色所有宠物的key前缀
             </summary>
         </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleAssetsPerfix">
+            <summary>
+            角色所有宠物的key前缀
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleFlyMagicToolPerfix">
+            <summary>
+            角色所有飞行法器的key前缀
+            </summary>
+        </member>
         <member name="T:AscensionServer.DataStream">
             <summary>
             数据流对象
@@ -830,7 +840,7 @@
             <param name="petBattleDataDTOs"></param>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.AIToRelease(AscensionProtocol.DTO.BattleTransferDTO,AscensionProtocol.DTO.EnemyStatusDTO,System.Int32,System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.AIToRelease(AscensionProtocol.DTO.BattleTransferDTO,AscensionProtocol.DTO.EnemyStatusDTO,System.Int32,System.Int32,System.Int32)">
             <summary>
             处理AI 判断玩家是不是死亡 和要选择能出手的Ai                ??? TODO第四个参数有待完善
             </summary>
@@ -1721,6 +1731,16 @@
             <param name="rolePet"></param>
             <param name="rolePetDTO"></param>
         </member>
+        <member name="M:AscensionServer.PetStatusManager.GetPetAllCompeleteStatus(System.Int32,AscensionServer.NHCriteria,System.Int32,AscensionServer.NHCriteria)">
+            <summary>
+            获得宠物所有属性
+            </summary>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.UpdataPetAbilityPoint(AscensionServer.Model.PetAbilityPoint,AscensionProtocol.DTO.PetCompleteDTO,AscensionServer.NHCriteria)">
+            <summary>
+            更新宠物加点方案
+            </summary>
+        </member>
         <member name="M:AscensionServer.PetStatusManager.PetCultivate(System.Int32,AscensionServer.NHCriteria,AscensionServer.Model.Pet)">
             <summary>
             宠物培养丹药区分
@@ -1744,16 +1764,6 @@
         <member name="M:AscensionServer.PetStatusManager.PetAtitudeDrug(AscensionServer.DrugData,AscensionServer.Model.Pet)">
             <summary>
             增加资质
-            </summary>
-        </member>
-        <member name="M:AscensionServer.PetStatusManager.GetPetAllCompeleteStatus(System.Int32,AscensionServer.NHCriteria,System.Int32,AscensionServer.NHCriteria)">
-            <summary>
-            获得宠物所有属性
-            </summary>
-        </member>
-        <member name="M:AscensionServer.PetStatusManager.UpdataPetAbilityPoint">
-            <summary>
-            更新宠物加点方案
             </summary>
         </member>
         <member name="P:AscensionServer.GameResourceManager.ResUnitSetDict">

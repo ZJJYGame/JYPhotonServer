@@ -150,7 +150,7 @@ namespace AscensionServer
                         case "EnemyStatusDTO":
                             var enemyStatusData = objectOwner as EnemyStatusDTO;
                             if (enemyStatusData.EnemyHP > 0 && _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
-                                AIToRelease(battleTransferDTOs, enemyStatusData, roleId,speed);
+                                AIToRelease(battleTransferDTOs, enemyStatusData, roleId,roleId,speed);
                             break;
                         case "RoleStatusDTO":
                             if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP <= 0)
@@ -179,20 +179,25 @@ namespace AscensionServer
                                 #endregion
                                 #region 针对捕捉 
                                 case BattleCmd.CatchPet:
-                                    if (SkillFormToObject(battleTransferDTOs.ClientCmdId) != null)
+                                    if (MonsterFormToObject(battleTransferDTOs.TargetInfos[0].GlobalId) != null)
                                     {
-                                        var targetOwner = SkillFormToObject(battleTransferDTOs.ClientCmdId);
+                                        var targetOwner = MonsterFormToObject(battleTransferDTOs.TargetInfos[0].GlobalId);
                                         PlayerToCatchPet(battleTransferDTOs, roleId, roleId, targetOwner);
-
                                     }
                                     break;
                                 #endregion
+                                #region 针对召唤
                                 case BattleCmd.SummonPet:
+                                    PlayerToSummonPet(battleTransferDTOs, roleId, roleId);
                                     break;
+                                #endregion
                                 case BattleCmd.Tactical:
                                     break;
+                                #region 针对防御
                                 case BattleCmd.Defend:
+                                    PlayerToDefend(battleTransferDTOs, roleId, roleId);
                                     break;
+                                    #endregion
                             }
                             break;
                         case "PetStatusDTO":

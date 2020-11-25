@@ -209,7 +209,7 @@ namespace AscensionServer
                         var memberCuuentTranferEnemy = serverBattleManager._teamIdToBattleInit[tempRole].playerUnits.Find(x => x.RoleStatusDTO.RoleID == serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex].RoleId);
 
                         if (enemyStatusData.EnemyHP > 0 && memberCuuentTranferEnemy.RoleStatusDTO.RoleHP > 0)
-                            serverBattleManager.AIToRelease(serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex], enemyStatusData, tempRole, EnemyIndex);
+                            serverBattleManager.AIToRelease(serverBattleManager._roomidToBattleTransfer[teampRoomId][EnemyIndex], enemyStatusData, tempRole, memberCuuentTranferEnemy.RoleStatusDTO.RoleID, EnemyIndex);
                         break;
                     case "RoleStatusDTO":
                         ///返回一个当前要出手的人的个人选择的传输的战斗数据

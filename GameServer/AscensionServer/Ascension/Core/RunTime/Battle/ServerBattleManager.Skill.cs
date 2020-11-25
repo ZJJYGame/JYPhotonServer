@@ -770,15 +770,31 @@ namespace AscensionServer
         #endregion
 
         #region 统一针对 捕捉
-        public void PlayerToCatchPet(BattleTransferDTO battleTransferDTOs, int roleId, int currentId, BattleSkillData battleSkillData)
+        public void PlayerToCatchPet(BattleTransferDTO battleTransferDTOs, int roleId, int currentId, MonsterDatas  monsterDatas)
         {
+            ///TODO
+            var tempSelect = RandomManager(currentId, 0, 2);
+            if (tempSelect == 1)
+            {
+                var petnHCriteriaRoleID = MsqInfo<RolePet>(currentId);
+                GameManager.CustomeModule<PetStatusManager>().InitPet(monsterDatas.Pet_ID, monsterDatas.Monster_Name, petnHCriteriaRoleID);
 
-            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", currentId);
-            var petnHCriteriaRoleID = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriaRoleID);
-            //GameManager.CustomeModule<PetStatusManager>().InitPet(battleSkillData., "", petnHCriteriaRoleID);
+                var TargetInfosSet = ServerToClientResult(new TargetInfoDTO() { TargetID = currentId, TargetHPDamage = tempSelect });
+                teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = roleId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+            }
         }
         #endregion
 
+        #region 统一针对 召唤
+        public void PlayerToSummonPet(BattleTransferDTO battleTransferDTOs, int roleId, int currentId, MonsterDatas monsterDatas = null)
+        {
 
+        }
+        #endregion
+
+        #region  统一针对 防御
+        public void PlayerToDefend(BattleTransferDTO battleTransferDTOs, int roleId, int currentId)
+        { }
+        #endregion
     }
 }

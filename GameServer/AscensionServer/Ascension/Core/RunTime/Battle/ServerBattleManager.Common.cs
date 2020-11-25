@@ -98,37 +98,27 @@ namespace AscensionServer
         /// <summary>
         /// 处理AI 判断玩家是不是死亡 和要选择能出手的Ai                ??? TODO第四个参数有待完善
         /// </summary>
-        public void AIToRelease(BattleTransferDTO battleTransferDTOs, EnemyStatusDTO enemyStatusData, int roleId,int  transfer = 0)
+        public void AIToRelease(BattleTransferDTO battleTransferDTOs, EnemyStatusDTO enemyStatusData, int roleId,int currentId, int  transfer = 0)
         {
-            TargetInfoDTO tempTransEnemy = new TargetInfoDTO();
-            //Utility.Debug.LogInfo("<enemyStatusData  老陆>" + _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP);
+            var defendValue = battleTransferDTOs.BattleCmd == BattleCmd.Defend ? 80 : 100;
+            //TargetInfoDTO tempTransEnemy = new TargetInfoDTO();
             if ((IsTeamDto(roleId) == null))
             {
-                //Utility.Debug.LogInfo("我来随机啦====>>>" + isPetRunAway);
                 ///TODO  需要怪物的技能表格 释放技能
                 if (_teamIdToBattleInit[roleId].petUnits.Count !=0&& _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP>0&& !isPetRunAway)
                 {
                     //Utility.Debug.LogInfo("我来随机啦+++++>>>" + new Random((int)DateTime.Now.Ticks+transfer).Next(0, 2));
                     var RandomTarget = RandomManager(transfer,0,2);
-                    //if ()
-                    //    RandomTarget= RandomTarget == 0 ? 1 : 0;
-                    var target = RandomTarget == 0 ? _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP -= 100 : _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP -= 100;
-                    tempTransEnemy.TargetID = RandomTarget == 0 ? roleId : _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetID;
-                    tempTransEnemy.TargetHPDamage = -100; //-skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
-                    List<TargetInfoDTO> PlayerInfosSet = new List<TargetInfoDTO>();
-                    PlayerInfosSet.Add(tempTransEnemy);
-                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
+                    var target = RandomTarget == 0 ? _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP -= defendValue : _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP -= defendValue;
+                    var TargetInfosSet = ServerToClientResult(new TargetInfoDTO() { TargetID = RandomTarget == 0 ? currentId : _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetID, TargetHPDamage = -defendValue });
+                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = TargetInfosSet });
                 }
                 else
                 {
-                    _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP -= 100;
-                    tempTransEnemy.TargetID = roleId;
-                    tempTransEnemy.TargetHPDamage = -100; //-skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
-                    List<TargetInfoDTO> PlayerInfosSet = new List<TargetInfoDTO>();
-                    PlayerInfosSet.Add(tempTransEnemy);
-                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
+                    _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP -= defendValue;
+                    var TargetInfosSet = ServerToClientResult(new TargetInfoDTO() { TargetID = currentId, TargetHPDamage = -defendValue });
+                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = TargetInfosSet });
                 }
-               
             }
             else
             {
@@ -138,21 +128,15 @@ namespace AscensionServer
                 {
                     isPetTeamRunAway = false;
                     var RandomTarget = RandomManager(transfer, 0, 2);
-                    var target = RandomTarget == 0 ? _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP -= 100 : petObject.PetStatusDTO.PetHP -= 100;
-                    tempTransEnemy.TargetID = RandomTarget == 0 ? _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleID : petObject.PetStatusDTO.PetID;
-                    tempTransEnemy.TargetHPDamage = -100;
-                    List<TargetInfoDTO> PlayerInfosSet = new List<TargetInfoDTO>();
-                    PlayerInfosSet.Add(tempTransEnemy);
-                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
+                    var target = RandomTarget == 0 ? _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP -= defendValue : petObject.PetStatusDTO.PetHP -= defendValue;
+                    var TargetInfosSet = ServerToClientResult(new TargetInfoDTO() { TargetID = RandomTarget == 0 ? _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleID : petObject.PetStatusDTO.PetID, TargetHPDamage = -defendValue });
+                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = TargetInfosSet });
                 }
                 else
                 {
-                    _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP -= 100;
-                    tempTransEnemy.TargetID = _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleID;
-                    tempTransEnemy.TargetHPDamage = -100;//-skillGongFaDict[battleTransferDTOs.ClientCmdId].Attack_Factor[0];
-                    List<TargetInfoDTO> PlayerInfosSet = new List<TargetInfoDTO>();
-                    PlayerInfosSet.Add(tempTransEnemy);
-                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = PlayerInfosSet });
+                    _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP -= defendValue;
+                    var TargetInfosSet = ServerToClientResult(new TargetInfoDTO() { TargetID = currentId, TargetHPDamage = -defendValue });
+                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = TargetInfosSet });
                 }
             }
         }
