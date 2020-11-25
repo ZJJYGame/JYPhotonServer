@@ -153,18 +153,18 @@ namespace AscensionServer
                                 AIToRelease(battleTransferDTOs, enemyStatusData, roleId,speed);
                             break;
                         case "RoleStatusDTO":
+                            if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP <= 0)
+                                return;
                             switch (battleTransferDTOs.BattleCmd)
                             {
                                 #region 针对道具
                                 case BattleCmd.PropsInstruction:
-                                    if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
-                                        PlayerToPropslnstruction(battleTransferDTOs, roleId,roleId);
+                                    PlayerToPropslnstruction(battleTransferDTOs, roleId, roleId);
                                     break;
                                 #endregion
                                 #region 针对技能
                                 case BattleCmd.SkillInstruction:
-                                    if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
-                                        PlayerToSKillRelease(battleTransferDTOs, roleId, roleId);
+                                    PlayerToSKillRelease(battleTransferDTOs, roleId, roleId);
                                     break;
                                 #endregion
                                 #region 针对逃跑
@@ -174,15 +174,19 @@ namespace AscensionServer
                                 #endregion
                                 #region 针对法宝
                                 case BattleCmd.MagicWeapon:
-                                    if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
-                                        PlayerToMagicWeapen(battleTransferDTOs,roleId,roleId);
+                                    PlayerToMagicWeapen(battleTransferDTOs, roleId, roleId);
                                     break;
                                 #endregion
-                                #region MyRegion
-
-                                #endregion
+                                #region 针对捕捉 
                                 case BattleCmd.CatchPet:
+                                    if (SkillFormToObject(battleTransferDTOs.ClientCmdId) != null)
+                                    {
+                                        var targetOwner = SkillFormToObject(battleTransferDTOs.ClientCmdId);
+                                        PlayerToCatchPet(battleTransferDTOs, roleId, roleId, targetOwner);
+
+                                    }
                                     break;
+                                #endregion
                                 case BattleCmd.SummonPet:
                                     break;
                                 case BattleCmd.Tactical:

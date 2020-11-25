@@ -884,6 +884,30 @@
             <param name="roomId"></param>
             <param name="battleTransferDTOs"></param>
         </member>
+        <member name="M:AscensionServer.ServerBattleManager.BattleCatchPet(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
+            <summary>
+            战斗捕捉
+            </summary>
+            <param name="roleId"></param>
+            <param name="roomId"></param>
+            <param name="battleTransferDTOs"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.BattleSummonPet(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
+            <summary>
+            战斗召唤
+            </summary>
+            <param name="roleId"></param>
+            <param name="roomId"></param>
+            <param name="battleTransferDTOs"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.BattleDefend(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
+            <summary>
+            战斗防御指令
+            </summary>
+            <param name="roleId"></param>
+            <param name="roomId"></param>
+            <param name="battleTransferDTOs"></param>
+        </member>
         <member name="F:AscensionServer.ServerBattleManager._teamIdToBattleInit">
             <summary>
              角色id 和对应的 房间数据对象

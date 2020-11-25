@@ -727,9 +727,6 @@ namespace AscensionServer
             teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = petId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
         }
 
-        #endregion
-
-
 
         /// <summary>
         /// 组队逃跑   可以和并成一个 和单人逃跑的   需要去队伍中标记一下 是不是存在战斗中还是中途退出啦
@@ -770,9 +767,17 @@ namespace AscensionServer
             TargetInfosSet.Add(tempTrans);
             teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = currentRole, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
         }
+        #endregion
 
+        #region 统一针对 捕捉
+        public void PlayerToCatchPet(BattleTransferDTO battleTransferDTOs, int roleId, int currentId, BattleSkillData battleSkillData)
+        {
 
-
+            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", currentId);
+            var petnHCriteriaRoleID = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriaRoleID);
+            GameManager.CustomeModule<PetStatusManager>().InitPet(battleSkillData., "", petnHCriteriaRoleID);
+        }
+        #endregion
 
 
     }

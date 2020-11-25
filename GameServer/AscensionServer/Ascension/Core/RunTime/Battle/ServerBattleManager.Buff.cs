@@ -240,10 +240,14 @@ namespace AscensionServer
                     switch (buffEventSet[i].buffEvent_DamageOrHeal_EffectTargetType)
                     {
                         case BuffEvent_DamageOrHeal_EffectTargetType.Health:
+                            List<BattleBuffEventDTO> battleBuffEvents = new List<BattleBuffEventDTO>();
+                            battleBuffEvents.Add(new BattleBuffEventDTO() { index = i, TargetId = enemySetObject.EnemyStatusDTO.EnemyId, TriggerId = enemySetObject.EnemyStatusDTO.EnemyId, BuffValue = damgeValue });
                             playerSetObject.RoleStatusDTO.RoleHP += damgeValue;
-                            _buffToRoomIdAfter.Add(new BattleBuffDTO() { TargetId = enemySetObject.EnemyStatusDTO.EnemyId, TriggerId = enemySetObject.EnemyStatusDTO.EnemyId, bufferId = buffId, BuffValue = damgeValue });
+                            _buffToRoomIdAfter.Add(new BattleBuffDTO() { bufferId = buffId, battleBuffDTOs = battleBuffEvents }) ;
+
                             #region ob
                             /*
+                             *   _buffToRoomIdAfter.Add(new BattleBuffDTO() { TargetId = enemySetObject.EnemyStatusDTO.EnemyId, TriggerId = enemySetObject.EnemyStatusDTO.EnemyId, bufferId = buffId, BuffValue = damgeValue });
                             List<BattleBuffDTO> battleBuffDTOs = new List<BattleBuffDTO>();
                             battleBuffDTOs.Add(new BattleBuffDTO() { TargetId = enemySetObject.EnemyStatusDTO.EnemyId, TriggerId = roleId, bufferId = buffId, BuffValue = damgeValue });
                             var infoSet = ServerToClientResults(new TargetInfoDTO() { TargetID = enemySetObject.EnemyStatusDTO.EnemyId, TargetHPDamage = damgeValue, battleBuffDTOs = battleBuffDTOs });

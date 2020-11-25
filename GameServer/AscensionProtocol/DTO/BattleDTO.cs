@@ -387,14 +387,20 @@ namespace AscensionProtocol.DTO
     /// </summary>
     public class BattleBuffDTO
     {
-        public int index { get; set; }
         public virtual int bufferId { get; set; }
+        public  List<BattleBuffEventDTO> battleBuffDTOs { get; set; }
+
+    }
+    /// <summary>
+    /// 战斗回合事件
+    /// </summary>
+    public class BattleBuffEventDTO
+    {
+        public int index { get; set; }
         public int BuffValue { get; set; }
         public int TriggerId { get; set; }
         public int TargetId { get; set; }
         public List<BufferData> bufferData { get; set; }
-        public  List<BattleBuffDTO> battleBuffDTOs { get; set; }
-
     }
 
 }

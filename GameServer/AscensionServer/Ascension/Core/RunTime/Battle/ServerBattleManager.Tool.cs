@@ -147,6 +147,16 @@ namespace AscensionServer
                 return battleSkillDict[targetId];
             return null;
         }
+        /// <summary>
+        /// 判断ai 是不是存在json中
+        /// </summary>
+        public MonsterDatas MonsterFormToObject(int targetId)
+        {
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MonsterDatas>>(out var monsterDict);
+            if (monsterDict.ContainsKey(targetId))
+                return monsterDict[targetId];
+            return null;
+        }
 
         /// <summary>
         /// 返回给客户端的计算伤害
