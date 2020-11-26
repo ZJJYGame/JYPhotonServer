@@ -315,7 +315,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
+        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -872,7 +872,7 @@
             </summary>
             
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -1701,7 +1701,7 @@
             洗练宠物重置技能
             </summary>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.RandomSkillRemoveAdd(System.Collections.Generic.List{System.Int32})">
+        <member name="M:AscensionServer.PetStatusManager.RandomSkillRemoveAdd(System.Collections.Generic.List{System.Int32},System.Int32)">
             <summary>
             技能书使用顶替技能
             </summary>
@@ -1761,10 +1761,17 @@
             <param name="drugData"></param>
             <param name="pet"></param>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.PetAtitudeDrug(AscensionServer.DrugData,AscensionServer.Model.Pet)">
+        <member name="M:AscensionServer.PetStatusManager.PetAtitudeDrug(AscensionServer.DrugData,AscensionServer.Model.Pet,AscensionServer.Model.PetAptitude)">
             <summary>
             增加资质
             </summary>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.VerifyPetAbilitypoint(AscensionServer.Model.Pet,System.Int32@)">
+            <summary>
+            验证宠物当前加点数
+            </summary>
+            <param name="pet"></param>
+            <param name="points"></param>
         </member>
         <member name="P:AscensionServer.GameResourceManager.ResUnitSetDict">
             <summary>
@@ -2522,7 +2529,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
+        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；

@@ -75,6 +75,15 @@ namespace AscensionServer
                 var petAbilityPointDataDict = TransObject<List<PetAbilityPointData>>(petAbilityPointData).ToDictionary(key => key.CoefficientType, value => value);
                 #endregion
 
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(PetSkillBookData).Name, out var petSkillBookData);
+                var petSkillBookDataDict = TransObject<List<PetSkillBookData>>(petSkillBookData).ToDictionary(key => key.PetSkillBookID, value => value);
+
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(DemonicSoulData).Name, out var demonicSoulData);
+                var demonicSoulDataDict = TransObject<List<DemonicSoulData>>(demonicSoulData).ToDictionary(key => key.DemonicSoulID, value => value);
+
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(DemonicSoulSkillPool).Name, out var demonicSoulSkillPool);
+                var demonicSoulSkillPoolDict = TransObject<List<DemonicSoulSkillPool>>(demonicSoulSkillPool).ToDictionary(key => key.PetSkillLevel, value => value);
+
                 #region 战斗json
 
 
@@ -108,7 +117,9 @@ namespace AscensionServer
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(BattleBuffData).Name, out var battleSBuffSet);
                 var battleBuffDict = TransObject<List<BattleBuffData>>(battleSBuffSet).ToDictionary(key => key.id, value => value);
                 #endregion
-
+                GameManager.CustomeModule<DataManager>().TryAdd(demonicSoulSkillPoolDict);
+                GameManager.CustomeModule<DataManager>().TryAdd(demonicSoulDataDict);
+                GameManager.CustomeModule<DataManager>().TryAdd(petSkillBookDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(petAbilityPointDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(mishuBookDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(petLevelDataDict);

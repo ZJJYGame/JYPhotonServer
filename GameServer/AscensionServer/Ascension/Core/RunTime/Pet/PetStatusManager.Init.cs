@@ -72,7 +72,7 @@ namespace AscensionServer
 
                     petDtoTemp.ID = petTemp.ID;
                     petDtoTemp.PetExp = petTemp.PetExp;
-                    petDtoTemp.PetExtraSkill = Utility.Json.ToObject<Dictionary<int,int>>(petTemp.PetExtraSkill);
+                    petDtoTemp.DemonicSoul = Utility.Json.ToObject<Dictionary<int,List<int>>>(petTemp.DemonicSoul);
                     petDtoTemp.PetID = petTemp.PetID;
                     petDtoTemp.PetLevel = petTemp.PetLevel;
                     petDtoTemp.PetName = petTemp.PetName;
@@ -129,7 +129,7 @@ namespace AscensionServer
                 var  petObj = GameManager.ReferencePoolManager.Spawn<PetDTO>();
                 petObj.ID = pet.ID;
                 petObj.PetExp = pet.PetExp;
-                petObj.PetExtraSkill =Utility.Json.ToObject<Dictionary<int,int>>(pet.PetExtraSkill);
+                petObj.DemonicSoul = Utility.Json.ToObject<Dictionary<int,List<int>>>(pet.DemonicSoul);
                 petObj.PetLevel = pet.PetLevel;
                 petObj.PetName = pet.PetName;
                 petObj.PetSkillArray = Utility.Json.ToObject<List<int>>(pet.PetSkillArray);
@@ -208,6 +208,7 @@ namespace AscensionServer
                 case PetAbilityPointDTO.AbilityPointType.Reset:
                     break;
                 case PetAbilityPointDTO.AbilityPointType.Update:
+                    Utility.Debug.LogInfo("yzqData更新宠物加点");
                     UpdatePointSln(petAbilityPoint, petCompleteDTO);
                     break;
                 case PetAbilityPointDTO.AbilityPointType.Unlock:
@@ -242,27 +243,25 @@ namespace AscensionServer
             var pointSlnDict = Utility.Json.ToObject<Dictionary<int, PetAbilityDTO>>(petAbilityPoint.AbilityPointSln);
             if (pointSlnDict.TryGetValue(petCompleteDTO.PetAbilityPointDTO.SlnNow, out var petAbilityDTO))
             {
-                if (!petAbilityDTO.IsSet)
-                {
-                    Utility.Debug.LogInfo("yzqData更新宠物加点");
-                    petAbilityDTO.Agility = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Agility;
-                    petAbilityDTO.Power = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Power;
-                    petAbilityDTO.Strength = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Strength;
-                    petAbilityDTO.Soul = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Soul;
-                    petAbilityDTO.Corporeity = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Corporeity;
-                    petAbilityDTO.Stamina = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Stamina;
-                    petAbilityDTO.SurplusAptitudePoint = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].SurplusAptitudePoint;
-                    petAbilityDTO.IsSet = true;
+                Utility.Debug.LogInfo("yzqData更新宠物加点"+Utility.Json.ToJson(pointSlnDict));
+                Utility.Debug.LogInfo("yzqData更新宠物加点");
+                petAbilityDTO.Agility = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Agility;
+                petAbilityDTO.Power = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Power;
+                petAbilityDTO.Strength = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Strength;
+                petAbilityDTO.Soul = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Soul;
+                petAbilityDTO.Corporeity = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Corporeity;
+                petAbilityDTO.Stamina = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Stamina;
+                petAbilityDTO.SurplusAptitudePoint = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].SurplusAptitudePoint;
+                petAbilityDTO.IsSet = true;
 
-                    pointSlnDict[petCompleteDTO.PetAbilityPointDTO.SlnNow] = petAbilityDTO;
+                pointSlnDict[petCompleteDTO.PetAbilityPointDTO.SlnNow] = petAbilityDTO;
 
-                    petCompleteDTO.PetAbilityPointDTO.AbilityPointSln = pointSlnDict;
-                    petAbilityPoint.AbilityPointSln = Utility.Json.ToJson(pointSlnDict);
+                petCompleteDTO.PetAbilityPointDTO.AbilityPointSln = pointSlnDict;
+                petAbilityPoint.AbilityPointSln = Utility.Json.ToJson(pointSlnDict);
 
-                    await NHibernateQuerier.UpdateAsync<PetAbilityPoint>(petAbilityPoint);
-                    await RedisHelper.Hash.HashSetAsync<PetAbilityPointDTO>(RedisKeyDefine._PetAbilityPointPerfix, petCompleteDTO.RoleID.ToString(), petCompleteDTO.PetAbilityPointDTO);
-                    S2CPetAbilityPoint(petCompleteDTO.RoleID, Utility.Json.ToJson(petCompleteDTO), ReturnCode.Success);
-                }
+                await NHibernateQuerier.UpdateAsync<PetAbilityPoint>(petAbilityPoint);
+                await RedisHelper.Hash.HashSetAsync<PetAbilityPointDTO>(RedisKeyDefine._PetAbilityPointPerfix, petCompleteDTO.RoleID.ToString(), petCompleteDTO.PetAbilityPointDTO);
+                S2CPetAbilityPoint(petCompleteDTO.RoleID, Utility.Json.ToJson(petCompleteDTO), ReturnCode.Success);
             }
         }
         public async void UlockPointSln(PetAbilityPoint petAbilityPoint, NHCriteria nHCriteria, PetCompleteDTO petCompleteDTO)
@@ -377,15 +376,88 @@ namespace AscensionServer
         /// <summary>
         /// 增加资质
         /// </summary>
-        public void PetAtitudeDrug(DrugData drugData, Pet pet)
+        public void PetAtitudeDrug(DrugData drugData, Pet pet,PetAptitude petAptitude)
         {
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
-            //var drugDict = Utility.Json.ToObject<Dictionary<int,int>>();
-            //if (drugData.Need_Level_ID <= pet.PetLevel && drugData.Max_Level_ID >= pet.PetLevel)
-            //{
+            var drugDict = Utility.Json.ToObject<Dictionary<int, int>>(petAptitude.PetAptitudeDrug);
+            if (drugData.Need_Level_ID <= pet.PetLevel && drugData.Max_Level_ID >= pet.PetLevel)
+            {
 
-            //}
+            }
         }
+        #endregion
+
+        #region 宠物学习技能
+        public async void PetStudySkill(int bookid, NHCriteria nHCriteria,Pet pet,PetCompleteDTO petCompleteDTO)
+        {
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetSkillBookData>>(out var petSkillBookDataDict);
+
+            var ringObj = GameManager.ReferencePoolManager.Spawn<RingDTO>();
+            ringObj.RingItems = new Dictionary<int, RingItemsDTO>();
+            ringObj.RingItems.Add(bookid, new RingItemsDTO());
+            var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteria);
+            var skillList = Utility.Json.ToObject<List<int>>(pet.PetSkillArray);
+            var nHCriteriaRingID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
+            if (InventoryManager.VerifyIsExist(bookid, nHCriteriaRingID))
+            {
+                skillList = RandomSkillRemoveAdd(skillList, petSkillBookDataDict[bookid].PetSkillID);
+                pet.PetSkillArray = Utility.Json.ToJson(skillList);
+                await NHibernateQuerier.UpdateAsync<Pet>(pet);
+                petCompleteDTO.PetDTO.PetSkillArray = skillList;
+                S2CPetStudySkill(petCompleteDTO.RoleID, Utility.Json.ToJson(petCompleteDTO.PetDTO), ReturnCode.Success);
+                await RedisHelper.Hash.HashSetAsync<PetDTO>(RedisKeyDefine._PetPerfix, petCompleteDTO.RoleID.ToString(), petCompleteDTO.PetDTO);
+                InventoryManager.RemoveCmd(bookid, ringObj, nHCriteriaRingID);
+            }
+            else
+            {
+                S2CPetStudySkill(petCompleteDTO.RoleID, Utility.Json.ToJson(petCompleteDTO.PetDTO), ReturnCode.Fail);
+            }
+
+
+        }
+        #endregion
+
+        #region 妖灵精魄
+
+        public void SetDemonicSoul(int soulid,out List<int> getSkillList)
+        {
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, DemonicSoulData>>(out var DemonicSoulDict);
+
+            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, DemonicSoulSkillPool>>(out var DemonicSoulSkillPoolDict);
+
+            var skillPoolList = DemonicSoulDict[soulid].DemonicSoulSkill;
+            Random random = new Random();
+            int num = random.Next(0, skillPoolList.Count);
+            var skillList = skillPoolList[num];
+            getSkillList = new List<int>();
+            for (int i = 0; i < skillList[0]; i++)
+            {
+                num = random.Next(0, DemonicSoulSkillPoolDict[0].PetSoulSkillPool.Count);
+                if (getSkillList.Contains(DemonicSoulSkillPoolDict[0].PetSoulSkillPool[num]))
+                {
+                    getSkillList.Add(DemonicSoulSkillPoolDict[0].PetSoulSkillPool[num]);
+                }
+            }
+
+            for (int i = 0; i < skillList[1]; i++)
+            {
+                num = random.Next(0, DemonicSoulSkillPoolDict[1].PetSoulSkillPool.Count);
+                if (getSkillList.Contains(DemonicSoulSkillPoolDict[1].PetSoulSkillPool[num]))
+                {
+                    getSkillList.Add(DemonicSoulSkillPoolDict[1].PetSoulSkillPool[num]);
+                }
+            }
+
+            for (int i = 0; i < skillList[2]; i++)
+            {
+                num = random.Next(0, DemonicSoulSkillPoolDict[2].PetSoulSkillPool.Count);
+                if (getSkillList.Contains(DemonicSoulSkillPoolDict[2].PetSoulSkillPool[num]))
+                {
+                    getSkillList.Add(DemonicSoulSkillPoolDict[2].PetSoulSkillPool[num]);
+                }
+            }
+        }
+
         #endregion
 
 

@@ -1,0 +1,7 @@
+﻿[
+{"DemonicSoulID":14701,"DemonicSoulSkill":[[1,0,0]],"MergeNumber":[2,3,4],"MergeSuccessRate":25,"MergeDemonicSoulID":14702},
+{"DemonicSoulID":14702,"DemonicSoulSkill":[[2,0,0],[1,0,0]],"MergeNumber":[2,3,4],"MergeSuccessRate":25,"MergeDemonicSoulID":14703},
+{"DemonicSoulID":14703,"DemonicSoulSkill":[[1,0,0],[0,1,0],[1,1,0]],"MergeNumber":[2,3,4],"MergeSuccessRate":25,"MergeDemonicSoulID":14704},
+{"DemonicSoulID":14704,"DemonicSoulSkill":[[1,1,0],[0,2,0],[0,1,0]],"MergeNumber":[2,3,4],"MergeSuccessRate":25,"MergeDemonicSoulID":14705},
+{"DemonicSoulID":14705,"DemonicSoulSkill":[[0,2,0],[0,0,1],[0,1,1]],"MergeNumber":[2],"MergeSuccessRate":50,"MergeDemonicSoulID":14705}
+]

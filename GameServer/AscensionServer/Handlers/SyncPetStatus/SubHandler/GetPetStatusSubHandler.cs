@@ -23,7 +23,6 @@ namespace AscensionServer
             NHCriteria nHCriteriapetStatus= GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petCompleteObj.PetDTO.ID);
             NHCriteria nHCriteriapet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petCompleteObj.PetDTO.ID);
             NHCriteria nHCriteriarole = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", petCompleteObj.RoleID);
-            Utility.Debug.LogInfo("yzqData变更宠物加点"+ petCompleteJson);
             //var petArray = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriarolepet);
             switch (petCompleteObj.PetOrderType)
             {
@@ -31,6 +30,7 @@ namespace AscensionServer
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetResetAbilitySln:
                     var pointObj= NHibernateQuerier.CriteriaSelect<PetAbilityPoint>(nHCriteriapetStatus);
+                    Utility.Debug.LogInfo("yzqData变更宠物加点" + petCompleteJson);
                     GameManager.CustomeModule<PetStatusManager>().UpdataPetAbilityPoint( pointObj, petCompleteObj, nHCriteriarole);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetResetStatus:

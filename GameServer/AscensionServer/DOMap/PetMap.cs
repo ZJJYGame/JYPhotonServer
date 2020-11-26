@@ -17,7 +17,7 @@ namespace AscensionServer
             Map(x => x.PetLevel).Column("pet_level");
             Map(x => x.PetName).Column("pet_name");
             Map(x => x.PetSkillArray).Column("pet_skill_array");
-            Map(x => x.PetExtraSkill).Column("pet_extra_skill");
+            Map(x => x.DemonicSoul).Column("demonic_soul");
             Table("pet");
         }
     }

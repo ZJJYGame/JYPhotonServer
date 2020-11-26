@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using Cosmos;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
@@ -14,7 +14,7 @@ namespace AscensionProtocol.DTO
         public virtual int PetExp { get; set; }
         public virtual string PetName { get; set; }
         public virtual List<int> PetSkillArray { get; set; }
-        public virtual Dictionary<int,int> PetExtraSkill { get; set; }
+        public virtual Dictionary<int,List<int>> DemonicSoul { get; set; }
         public override void Clear()
         {
             ID = -1;
@@ -23,8 +23,7 @@ namespace AscensionProtocol.DTO
             PetExp = 0;
             PetName = null;
             PetSkillArray.Clear();
-            PetExtraSkill.Clear();
+            DemonicSoul.Clear();
         }
-       
     }
 }

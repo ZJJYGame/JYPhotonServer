@@ -18,11 +18,19 @@ namespace AscensionServer
         protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
             var roleFlyMagicToolJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleFlyMagicTool));
-
             var roleFlyMagicToolObj = Utility.Json.ToObject<FlyMagicToolDTO>(roleFlyMagicToolJson);
             NHCriteria nHCriteriaRole = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleFlyMagicToolObj.RoleID);
             var roleFlyMagicTool= NHibernateQuerier.CriteriaSelectAsync<FlyMagicTool>(nHCriteriaRole).Result;
-            var flyMagicToolRedisObj = RedisHelper.Hash.HashGetAsync<FlyMagicToolDTO>(RedisKeyDefine._RoleFlyMagicToolPerfix, roleFlyMagicToolObj.RoleID.ToString()).Result;
+            Utility.Debug.LogInfo("yzqData获取角色飞行法器"+ roleFlyMagicToolJson);
+            FlyMagicToolDTO flyMagicToolRedisObj = new FlyMagicToolDTO();
+            if (RedisHelper.KeyExistsAsync(RedisKeyDefine._RoleFlyMagicToolPerfix).Result)
+            {
+                flyMagicToolRedisObj = RedisHelper.Hash.HashGetAsync<FlyMagicToolDTO>(RedisKeyDefine._RoleFlyMagicToolPerfix, roleFlyMagicToolObj.RoleID.ToString()).Result;
+            }
+            else
+            {
+                flyMagicToolRedisObj = null;
+            }
             switch (roleFlyMagicToolObj.OprateType)
             {
                 case FlyMagicToolDTO.FlyMagicToolType.Add:
@@ -42,7 +50,7 @@ namespace AscensionServer
                             opData.DataMessage = Utility.Json.ToJson(roleFlyMagicToolObj);
                             opData.OperationCode = (byte)OperationCode.SyncRoleFlyMagicTool;
                             opData.ReturnCode = (byte)ReturnCode.Success;
-                            GameManager.CustomeModule<RoleManager>().SendMessage(flyMagicToolRedisObj.RoleID, opData);
+                            GameManager.CustomeModule<RoleManager>().SendMessage(roleFlyMagicToolObj.RoleID, opData);
                         }
                         else
                         {
@@ -55,28 +63,33 @@ namespace AscensionServer
                     }
                     break;
                 case FlyMagicToolDTO.FlyMagicToolType.Get:
+                    Utility.Debug.LogInfo("yzqData获取角色飞行法器1" );
                     if (flyMagicToolRedisObj == null)
                     {
+                        Utility.Debug.LogInfo("yzqData获取角色飞行法器2");
                         if (roleFlyMagicTool!=null)
                         {
+                            Utility.Debug.LogInfo("yzqData获取角色飞行法器3");
                             roleFlyMagicToolObj.AllFlyMagicTool = Utility.Json.ToObject<List<int>>(roleFlyMagicTool.AllFlyMagicTool);
                             OperationData opData = new OperationData();
                             opData.DataMessage = Utility.Json.ToJson(roleFlyMagicToolObj);
                             opData.OperationCode = (byte)OperationCode.SyncRoleFlyMagicTool;
                             opData.ReturnCode = (byte)ReturnCode.Success;
-                            GameManager.CustomeModule<RoleManager>().SendMessage(flyMagicToolRedisObj.RoleID, opData);
+                            GameManager.CustomeModule<RoleManager>().SendMessage(roleFlyMagicToolObj.RoleID, opData);
                         }
                         else
                         {
+                            Utility.Debug.LogInfo("yzqData获取角色飞行法器4");
                             OperationData opData = new OperationData();
                             opData.DataMessage = Utility.Json.ToJson(roleFlyMagicToolObj);
                             opData.OperationCode = (byte)OperationCode.SyncRoleFlyMagicTool;
                             opData.ReturnCode = (byte)ReturnCode.Fail;
-                            GameManager.CustomeModule<RoleManager>().SendMessage(flyMagicToolRedisObj.RoleID, opData);
+                            GameManager.CustomeModule<RoleManager>().SendMessage(roleFlyMagicToolObj.RoleID, opData);
                         }
                     }
                     else
                     {
+                        Utility.Debug.LogInfo("yzqData获取角色飞行法器5");
                         OperationData opData = new OperationData();
                         opData.DataMessage = Utility.Json.ToJson(flyMagicToolRedisObj);
                         opData.OperationCode = (byte)OperationCode.SyncRoleFlyMagicTool;

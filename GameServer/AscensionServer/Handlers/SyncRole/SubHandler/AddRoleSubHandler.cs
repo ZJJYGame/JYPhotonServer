@@ -226,6 +226,12 @@ namespace AscensionServer
                 RoleAlliance roleAlliance = new RoleAlliance() { RoleID = rolestatus.RoleID, RoleName = role.RoleName,ApplyForAlliance=Utility.Json.ToJson(new List<int>()) ,RoleSchool=900};
                 NHibernateQuerier.Insert(roleAlliance);
                 #endregion
+                FlyMagicTool flyMagicTool = new FlyMagicTool();
+                flyMagicTool.RoleID = role.RoleID;
+                flyMagicTool.AllFlyMagicTool =Utility.Json.ToJson(new List<int>() { 23401,23402});
+                NHibernateQuerier.SaveOrUpdate<FlyMagicTool>(flyMagicTool);
+
+
                 var userRoleJson = Utility.Json.ToJson(roleList);
                 NHibernateQuerier.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });
                 operationResponse.ReturnCode = (short)ReturnCode.Success;

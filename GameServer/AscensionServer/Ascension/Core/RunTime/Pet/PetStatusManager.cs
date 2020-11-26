@@ -101,7 +101,7 @@ namespace AscensionServer
             var petObj = GameManager.ReferencePoolManager.Spawn<PetDTO>();
             petObj.ID = pet.ID;
             petObj.PetExp = pet.PetExp;
-            petObj.PetExtraSkill = Utility.Json.ToObject<Dictionary<int,int>>(pet.PetExtraSkill);
+            petObj.DemonicSoul = Utility.Json.ToObject<Dictionary<int,List<int>>>(pet.DemonicSoul);
             petObj.PetID = pet.PetID;
             petObj.PetLevel = pet.PetLevel;
             petObj.PetName = pet.PetName;
@@ -171,10 +171,11 @@ namespace AscensionServer
         /// <summary>
         /// 技能书使用顶替技能
         /// </summary>
-        public  List<int> RandomSkillRemoveAdd(List<int> skillList)
+        public  List<int> RandomSkillRemoveAdd(List<int> skillList,int skillid)
         {
            int num=(int)AverageRandom(0,skillList.Count);
             skillList.Remove(num);
+            skillList.Add(skillid);           
             return skillList;
         }
 
