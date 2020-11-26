@@ -120,6 +120,7 @@ namespace AscensionServer
         /// 
         bool isRunAway;
         bool isPetRunAway;
+        int tempSelect;
         public void BattleStart(int roleId, int roomId, BattleTransferDTO battleTransferDTOs)
         {
             //Utility.Debug.LogInfo("battleCmd == >>>" + battleTransferDTOs.BattleCmd);
@@ -128,7 +129,8 @@ namespace AscensionServer
             _buffToRoomIdBefore.Clear();
             _buffToRoomIdAfter.Clear();
             isRunAway = false;
-             isPetRunAway = false;
+            isPetRunAway = false;
+            tempSelect = 0;
             if (!_roomidToBattleTransfer.ContainsKey(roomId))
                 return;
 
@@ -138,7 +140,7 @@ namespace AscensionServer
                 ///出手速度
                 for (int speed = 0; speed < _teamIdToBattleInit[roleId].battleUnits.Count; speed++)
                 {
-                    if (isRunAway)
+                    if (isRunAway||tempSelect ==1)
                         break;
                     var objectOwner = ReleaseToOwner(_teamIdToBattleInit[roleId].battleUnits[speed].ObjectID, _teamIdToBattleInit[roleId].battleUnits[speed].ObjectId, roleId);
                     if (objectOwner == null)

@@ -315,7 +315,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -759,7 +759,7 @@
             用于初始化 战斗数据 和管理 战斗的数据缓存
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.BuffManagerMethod(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.BuffManagerMethod(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32,System.Boolean)">
             <summary>
             buff的入口
             </summary>
@@ -768,12 +768,12 @@
             <param name="playerSetObject"></param>
             <param name="enemySetObject"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.BuffConditionMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData})">
+        <member name="M:AscensionServer.ServerBattleManager.BuffConditionMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Boolean)">
             <summary>
             先判断buff 触发的条件
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.BuffEventMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData})">
+        <member name="M:AscensionServer.ServerBattleManager.BuffEventMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Boolean)">
             <summary>
             判断buff 触发事件
             </summary>
@@ -784,7 +784,33 @@
             <param name="enemySetObject"></param>
             <param name="buffDict"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.BuffEventDamageOrHealMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Collections.Generic.List{AscensionServer.BattleBuffEventData},System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.BuffEventRolePropertyChangeMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Collections.Generic.List{AscensionServer.BattleBuffEventData},System.Int32,System.Boolean)">
+             <summary>
+            变动属性类型
+             </summary>
+             <param name="buffId"></param>
+             <param name="roleId"></param>
+             <param name="currentId"></param>
+             <param name="playerSetObject"></param>
+             <param name="enemySetObject"></param>
+             <param name="buffDict"></param>
+             <param name="buffEventSet"></param>
+             <param name="i"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.BuffEventSourceDataTypeMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Collections.Generic.List{AscensionServer.BattleBuffEventData},System.Int32,System.Boolean)">
+            <summary>
+            变动的数值来源
+            </summary>
+            <param name="buffId"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="playerSetObject"></param>
+            <param name="enemySetObject"></param>
+            <param name="buffDict"></param>
+            <param name="buffEventSet"></param>
+            <param name="i"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.BuffEventDamageOrHealMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Collections.Generic.List{AscensionServer.BattleBuffEventData},System.Int32,System.Boolean)">
             <summary>
             伤害 或者治疗
             </summary>
@@ -795,7 +821,7 @@
             <param name="enemySetObject"></param>
             <param name="buffDict"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.BuffEventResultsMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Collections.Generic.List{AscensionServer.BattleBuffEventData},System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.BuffEventResultsMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Collections.Generic.List{AscensionServer.BattleBuffEventData},System.Int32,System.Boolean)">
             <summary>
             buff作用于的目标具体计算
             </summary>
@@ -872,7 +898,7 @@
             </summary>
             
         </member>
-        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -2529,7 +2555,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；

@@ -234,6 +234,7 @@ namespace AscensionProtocol.DTO
     public class BufferData
     {
         public virtual int bufferId { get; set; }
+        public virtual int targetId { get; set; }
         public virtual int RoundNumber{ get; set; }
     }
 

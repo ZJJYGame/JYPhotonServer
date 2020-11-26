@@ -280,10 +280,10 @@ namespace AscensionServer
                 var buffValue =  addBuffDataSet[og].basePropList[index] + (selfTempValue + targetTempValue);
                 if (tempSelect <= buffValue)
                 {
-                    bufferSet.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = addBuffDataSet[og].buffId, RoundNumber = addBuffDataSet[og].round } });
-                    bufferId.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = addBuffDataSet[og].buffId, RoundNumber = addBuffDataSet[og].round } });
+                    bufferSet.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = addBuffDataSet[og].buffId, targetId = addBuffDataSet[og].TargetType ==false?currentId:enemySetObject.EnemyStatusDTO.EnemyId, RoundNumber = addBuffDataSet[og].round } });
+                    bufferId.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = addBuffDataSet[og].buffId,   targetId = addBuffDataSet[og].TargetType == false ? currentId : enemySetObject==null? currentId: enemySetObject.EnemyStatusDTO.EnemyId,RoundNumber = addBuffDataSet[og].round } });
                     //TODO
-                    BuffManagerMethod(addBuffDataSet[og].buffId,roleId, currentId, playerSetObject,enemySetObject,og);
+                    BuffManagerMethod(addBuffDataSet[og].buffId,roleId, currentId, playerSetObject,enemySetObject,og, addBuffDataSet[og].TargetType);
                 }
                 else
                     Utility.Debug.LogInfo("Buffer 添加失败====>>>>" + buffValue);
@@ -483,7 +483,8 @@ namespace AscensionServer
             var pU = _teamIdToBattleInit[roleId].playerUnits;
             var petU = _teamIdToBattleInit[roleId].petUnits;
             var bSD = battleSkillData.battleSkillDamageNumDataList;
-
+            var addBuffDataSet= battleSkillData.battleSkillAddBuffList;
+            var removeBuffDataSet = battleSkillData.battleSkillRemoveBuffDataList;
             ///给自己回血
             if (battleSkillData.TargetNumber == 1)
             {
@@ -494,7 +495,7 @@ namespace AscensionServer
                 else
                     playerObject.RoleStatusDTO.RoleHP += bSD[0].baseNumSourceDataList[0].mulitity;
 
-                var TargetInfosSet = ServerToClientResult(new TargetInfoDTO() { TargetID = currentId, TargetHPDamage = bSD[0].baseNumSourceDataList[0].mulitity });
+                var TargetInfosSet = ServerToClientResult(new TargetInfoDTO() { TargetID = currentId, TargetHPDamage = bSD[0].baseNumSourceDataList[0].mulitity, AddTargetBuff = AddBufferMethod(addBuffDataSet, roleId, currentId, null, -1, null), RemoveTargetBuff = RemoveBufferMethod(removeBuffDataSet, roleId, currentId, -1) });
                 teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = currentId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
             }
             else
@@ -772,7 +773,7 @@ namespace AscensionServer
         public void PlayerToCatchPet(BattleTransferDTO battleTransferDTOs, int roleId, int currentId, MonsterDatas  monsterDatas)
         {
             ///TODO
-            var tempSelect = RandomManager(currentId, 0, 2);
+            tempSelect = RandomManager(currentId, 0, 2);
             if (tempSelect == 1)
             {
                 var petnHCriteriaRoleID = MsqInfo<RolePet>(currentId);

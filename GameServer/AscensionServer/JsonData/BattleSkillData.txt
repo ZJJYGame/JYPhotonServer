@@ -603,7 +603,7 @@
             ],
             "battleSkillAddBuffList": [
                 {
-                    "buffId": 21501,
+                    "buffId": 20501,
                     "round": 2,
                     "TargetType": true,
                     "buffValue": -5,

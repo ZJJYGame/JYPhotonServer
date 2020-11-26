@@ -1507,7 +1507,7 @@
                         "flag": false,
                         "battleBuffCondition_CharacterType": 0
                     },
-                    "battleBuffEventType": 0,
+                    "battleBuffEventType": 5,
                     "battleBuffEventType_RolePropertyChange": 0,
                     "buffRolePropertyChange_SourceDataType": 0,
                     "buffPropertyChangeType": 0,
