@@ -24,6 +24,7 @@ namespace AscensionServer
             NHCriteria nHCriteriapet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petCompleteObj.PetDTO.ID);
             NHCriteria nHCriteriarole = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", petCompleteObj.RoleID);
             //var petArray = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriarolepet);
+            var petObj = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriapetStatus);
             switch (petCompleteObj.PetOrderType)
             {
                 case PetCompleteDTO.PetOperationalOrder.None:
@@ -39,10 +40,12 @@ namespace AscensionServer
 
                     break;
                 case PetCompleteDTO.PetOperationalOrder.DemonicSoul:
-
+                    Utility.Debug.LogInfo("yzqData宠物改名字" + petCompleteJson);
+                    GameManager.CustomeModule<PetStatusManager>().DemonicSoulHandler(petCompleteObj,petObj);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetStudtSkill:
-                    GameManager.CustomeModule<PetStatusManager>().PetStudySkill();
+                    Utility.Debug.LogInfo("yzqData学习技能" + petCompleteJson);
+                    GameManager.CustomeModule<PetStatusManager>().PetStudySkill(petCompleteObj.UseItemID,nHCriteriarole, petObj, petCompleteObj);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetCultivate:
                     break;
