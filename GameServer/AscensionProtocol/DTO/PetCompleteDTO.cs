@@ -15,9 +15,11 @@ namespace AscensionProtocol.DTO
         public virtual PetAbilityPointDTO PetAbilityPointDTO { get; set; }
         public virtual PetAptitudeDTO PetAptitudeDTO { get; set; }
         public virtual PetOperationalOrder PetOrderType { get; set; }
+        public virtual int UseItemID { get; set; }
         public override void Clear()
         {
             RoleID = -1;
+            UseItemID = 0;
             PetDTO.Clear();
             PetStatusDTO.Clear();
             PetAbilityPointDTO.Clear();
@@ -34,6 +36,7 @@ namespace AscensionProtocol.DTO
             PetStudtSkill = 5,//宠物学习技能书
             PetCultivate = 6,//宠物培养
             PetGetStatus = 7,//单个宠物所有数据
+            DemonicSoul = 8,//妖灵精魄所有数据
         }
     }
 }

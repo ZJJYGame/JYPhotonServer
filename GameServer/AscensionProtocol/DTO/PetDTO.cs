@@ -15,6 +15,7 @@ namespace AscensionProtocol.DTO
         public virtual string PetName { get; set; }
         public virtual List<int> PetSkillArray { get; set; }
         public virtual Dictionary<int,List<int>> DemonicSoul { get; set; }
+        public virtual PetOperateType OperateType { get; set; }
         public override void Clear()
         {
             ID = -1;
@@ -24,6 +25,15 @@ namespace AscensionProtocol.DTO
             PetName = null;
             PetSkillArray.Clear();
             DemonicSoul.Clear();
+            OperateType = PetOperateType.None;
+        }
+
+        public enum PetOperateType
+        {
+            None=0,
+            Rename=1,
+            Equip=2,
+            Unequip=3
         }
     }
 }

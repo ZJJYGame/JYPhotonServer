@@ -38,8 +38,11 @@ namespace AscensionServer
                 case PetCompleteDTO.PetOperationalOrder.PetEvolution:
 
                     break;
-                case PetCompleteDTO.PetOperationalOrder.PetStudtSkill:
+                case PetCompleteDTO.PetOperationalOrder.DemonicSoul:
 
+                    break;
+                case PetCompleteDTO.PetOperationalOrder.PetStudtSkill:
+                    GameManager.CustomeModule<PetStatusManager>().PetStudySkill();
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetCultivate:
                     break;
