@@ -25,13 +25,13 @@ namespace AscensionServer
             var occupiedUnitJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.OccupiedUnit));
             Utility.Debug.LogInfo("请求资源数据  :  " + occupiedUnitJson);
             var occupiedUnitObj = Utility.Json.ToObject<OccupiedUnitDTO>(occupiedUnitJson);
-            var result =GameManager.CustomeModule< GameResourceManager>().OccupiedResUnit(occupiedUnitObj);
+            var result =GameManager.CustomeModule< MapResourceManager>().OccupiedResUnit(occupiedUnitObj);
             if (result)
             {
                 operationResponse.ReturnCode = (short)ReturnCode.Success;
 
                 ResourceUnitSetDTO currentDictObj = null;
-                if (GameManager.CustomeModule<GameResourceManager>().ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID,out currentDictObj))
+                if (GameManager.CustomeModule<MapResourceManager>().ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID,out currentDictObj))
                 {
 
                     ResourceUnitDTO resourceUnitDTO = null;
@@ -47,7 +47,7 @@ namespace AscensionServer
                 var levelmanager = GameManager.CustomeModule<LevelManager>();
                 OperationData operationData = new OperationData();
                 operationData.DataMessage = Utility.Json.ToJson(occupiedUnitObj);
-                GameManager.CustomeModule<GameResourceManager>().OccupiedUnitSetCache.Clear();
+                GameManager.CustomeModule<MapResourceManager>().OccupiedUnitSetCache.Clear();
                 levelmanager.SendMsg2AllLevelRoleS2C(0,operationData);
             }
             else

@@ -7,10 +7,10 @@ namespace Protocol
 {
     [Serializable]
     [MessagePackObject]
-    public class S2CEntityContainer : IDataContract
+    public class S2CContainer : IDataContract
     {
         [Key(0)]
-        public int EntityContainerId { get; set; }
+        public int ContainerId { get; set; }
         [Key(1)]
         public List<C2SPlayer> Players { get; set; }
         [Key(2)]

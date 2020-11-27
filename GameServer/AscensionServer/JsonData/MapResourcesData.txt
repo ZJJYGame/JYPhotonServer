@@ -1,0 +1,104 @@
+﻿{
+  "FixMapResourceList": [
+    {
+      "ResId": 11001,
+      "ResAmount": 5,
+      "ResSpawnPositon": {
+        "x": 4.5,
+        "y": 0.0,
+        "z": -15.8
+      },
+      "ResSpawnRange": 5
+    },
+    {
+      "ResId": 11002,
+      "ResAmount": 6,
+      "ResSpawnPositon": {
+        "x": -3.0,
+        "y": 0.0,
+        "z": 13.74
+      },
+      "ResSpawnRange": 10
+    },
+    {
+      "ResId": 11006,
+      "ResAmount": 2,
+      "ResSpawnPositon": {
+        "x": 7.08,
+        "y": 0.0,
+        "z": -13.08
+      },
+      "ResSpawnRange": 10
+    },
+    {
+      "ResId": 11016,
+      "ResAmount": 1,
+      "ResSpawnPositon": {
+        "x": 8.38,
+        "y": 0.0,
+        "z": -12.03
+      },
+      "ResSpawnRange": 16
+    },
+    {
+      "ResId": 11403,
+      "ResAmount": 1,
+      "ResSpawnPositon": {
+        "x": 35.6,
+        "y": 0.0,
+        "z": 12.7
+      },
+      "ResSpawnRange": 20
+    },
+    {
+      "ResId": 22001,
+      "ResAmount": 3,
+      "ResSpawnPositon": {
+        "x": 9.86,
+        "y": 0.0,
+        "z": -9.66
+      },
+      "ResSpawnRange": 10
+    },
+    {
+      "ResId": 22002,
+      "ResAmount": 3,
+      "ResSpawnPositon": {
+        "x": -29.1,
+        "y": 0.0,
+        "z": 15.2
+      },
+      "ResSpawnRange": 10
+    },
+    {
+      "ResId": 22011,
+      "ResAmount": 5,
+      "ResSpawnPositon": {
+        "x": 28.2,
+        "y": 0.0,
+        "z": -25.4
+      },
+      "ResSpawnRange": 16
+    },
+    {
+      "ResId": 22015,
+      "ResAmount": 3,
+      "ResSpawnPositon": {
+        "x": 54.8,
+        "y": 0.0,
+        "z": -33.7
+      },
+      "ResSpawnRange": 20
+    },
+    {
+      "ResId": 22012,
+      "ResAmount": 5,
+      "ResSpawnPositon": {
+        "x": 4.5,
+        "y": 0.0,
+        "z": -39.0
+      },
+      "ResSpawnRange": 10
+    }
+  ]
+}

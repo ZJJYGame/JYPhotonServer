@@ -315,7 +315,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -323,6 +323,11 @@
             图纸区
             灵兽区
             其他区
+            </summary>
+        </member>
+        <member name="T:AscensionServer.FieldResourcesData">
+            <summary>
+            野外历练资源数据集对象
             </summary>
         </member>
         <member name="T:AscensionServer.MagicWeaponData">
@@ -872,7 +877,7 @@
             </summary>
             
         </member>
-        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -1773,6 +1778,7 @@
             <param name="pet"></param>
             <param name="points"></param>
         </member>
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.FixFieldResourceUnit" -->
         <member name="P:AscensionServer.GameResourceManager.ResUnitSetDict">
             <summary>
             资源单位集合的字典
@@ -2529,7 +2535,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；

@@ -12,7 +12,7 @@ namespace Protocol
         /// 实体容器ID，例如房间实体号，场景实体号等等；
         /// </summary>
         [Key(0)]
-        public int EntityContainerId { get; set; }
+        public FixContainer Container { get; set; }
         [Key(1)]
         public List<C2SSkillInput> PlayerSkillList { get; set; }
     }

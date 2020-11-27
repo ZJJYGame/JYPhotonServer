@@ -42,7 +42,7 @@ namespace AscensionServer.Threads
         /// </summary>
         void AdventureRefreshResources()
         {
-            HashSet<OccupiedUnitDTO> occupiedUnitDTOs = GameManager.CustomeModule<GameResourceManager>().OccupiedUnitSetCache;
+            HashSet<OccupiedUnitDTO> occupiedUnitDTOs = GameManager.CustomeModule<MapResourceManager>().OccupiedUnitSetCache;
             var levelmanager = GameManager.CustomeModule<LevelManager>();
             //var loggedList = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
             //var loggedCount = loggedList.Count;
@@ -51,7 +51,7 @@ namespace AscensionServer.Threads
             foreach (var occupiedUnitObj in occupiedUnitDTOs)
             {
                 ResourceUnitSetDTO currentDictObj = null;
-                if (GameManager.CustomeModule<GameResourceManager>().ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID, out currentDictObj))
+                if (GameManager.CustomeModule<MapResourceManager>().ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID, out currentDictObj))
                 {
 
                     ResourceUnitDTO resourceUnitDTO = null;
@@ -70,7 +70,7 @@ namespace AscensionServer.Threads
             //EventData.Parameters = data;
             OperationData operationData = new OperationData();
             operationData.DataMessage = Utility.Json.ToJson(occupiedUnitDTOs);
-            GameManager.CustomeModule<GameResourceManager>().OccupiedUnitSetCache.Clear();
+            GameManager.CustomeModule<MapResourceManager>().OccupiedUnitSetCache.Clear();
             levelmanager.SendMsg2AllLevelRoleS2C(0, operationData);
 
             //foreach (var p in loggedList)

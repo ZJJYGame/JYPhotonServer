@@ -12,7 +12,7 @@ using AscensionProtocol;
 namespace AscensionServer
 {
     [CustomeModule]
-    public class GameResourceManager : Module<GameResourceManager>
+    public class MapResourceManager : Module<MapResourceManager>
     {
         /// <summary>
         /// 资源单位集合的字典

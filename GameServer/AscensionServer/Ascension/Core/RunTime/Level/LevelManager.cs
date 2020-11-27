@@ -242,7 +242,7 @@ namespace AscensionServer
             var input = opData.DataContract as C2SInput;
             if (input != null)
             {
-                if (levelEntityDict.TryGetValue(input.EntityContainer.EntityContainerId, out var sceneEntity))
+                if (levelEntityDict.TryGetValue(input.EntityContainer.ContainerId, out var sceneEntity))
                 {
                     sceneEntity.OnCommandC2S(input);
                 }
@@ -277,8 +277,8 @@ namespace AscensionServer
         {
             try
             {
-                var entity = opData.DataContract as C2SEntityContainer;
-                EnterScene(entity.EntityContainer.EntityContainerId, entity.Player.PlayerId);
+                var entity = opData.DataContract as C2SContainer;
+                EnterScene(entity.Container.ContainerId, entity.Player.PlayerId);
             }
             catch (Exception e)
             {
@@ -289,8 +289,8 @@ namespace AscensionServer
         {
             try
             {
-                var entity = opData.DataContract as C2SEntityContainer;
-                ExitScene(entity.EntityContainer.EntityContainerId, entity.Player.PlayerId);
+                var entity = opData.DataContract as C2SContainer;
+                ExitScene(entity.Container.ContainerId, entity.Player.PlayerId);
             }
             catch (Exception e)
             {

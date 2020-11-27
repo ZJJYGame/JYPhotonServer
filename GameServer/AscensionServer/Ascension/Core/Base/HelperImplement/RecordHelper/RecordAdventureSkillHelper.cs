@@ -12,17 +12,8 @@ using AscensionProtocol.DTO;
 namespace AscensionServer
 {
     [ImplementProvider]
-    class RecordAdventureSkillHelper : IRecordAdventureSkillHelper
+    public class RecordAdventureSkillHelper : IRecordAdventureSkillHelper
     {
-        /// <summary>
-        /// 记录历练道具使用CD
-        /// </summary>
-        /// <param name="roleEntity"></param>
-        public void RecordRoleAdventurePropCD(RoleEntity roleEntity)
-        {
-            Utility.Debug.LogInfo("记录技能使用cd");
-        }
-
         /// <summary>
         /// 玩家进入历练主动发送历练技能布局
         /// </summary>

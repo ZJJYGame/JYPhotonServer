@@ -53,7 +53,7 @@ namespace AscensionServer
             this.LevelId = sceneId;
             this.Available = true;
 #if SERVER
-            this.InputSet.EntityContainerId = sceneId;
+            this.InputSet.ContainerId = sceneId;
 #endif
         }
         public bool ContainsKey(int roleId)

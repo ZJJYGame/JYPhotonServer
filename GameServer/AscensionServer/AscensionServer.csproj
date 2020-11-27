@@ -21,7 +21,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -181,6 +181,7 @@
     <Compile Include="Ascension\Core\Base\DataObject\EquipmentData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\FactionItemData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\FactionSkillData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\MapResourceData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MagicWeaponData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MishuBook.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MiShuData.cs" />
@@ -247,7 +248,7 @@
     <Compile Include="Ascension\Core\RunTime\Pet\PetStatusManager.Verify.cs" />
     <Compile Include="Ascension\Core\RunTime\Record\IRecordHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Record\RecordManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Resource\GameResourceManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Resource\MapResourceManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\IRecordAdventureSkillHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\TacticalDeploymentManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\TacticalEntity.cs" />
@@ -727,6 +728,7 @@
     <EmbeddedResource Include="JsonData\DemonicSoulSkillPool.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <Content Include="JsonData\MapResourcesData.txt" />
     <Content Include="JsonData\Pet.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

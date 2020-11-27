@@ -10,6 +10,5 @@ namespace AscensionServer
     {
         void RecordRoleSkill(RoleEntity roleEntity);
 
-        void RecordRoleAdventurePropCD(RoleEntity roleEntity);
     }
 }

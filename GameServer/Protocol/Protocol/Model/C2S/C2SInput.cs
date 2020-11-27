@@ -19,7 +19,7 @@ namespace Protocol
         /// 实体容器，例如房间实体，场景实体等等；
         /// </summary>
         [Key(2)]
-        public FixEntityContainer EntityContainer { get; set; }
+        public FixContainer EntityContainer { get; set; }
         /// <summary>
         /// 玩家角色的输入；
         /// key:输入的类型,value:输入的数据；

@@ -7,11 +7,11 @@ namespace Protocol
     /// </summary>
     [Serializable]
     [MessagePackObject]
-    public struct FixEntityContainer 
+    public struct FixContainer 
     {
         [Key(0)]
-        public byte EntityContainerType { get; set; }
+        public byte ContainerType { get; set; }
         [Key(1)]
-        public int EntityContainerId { get; set; }
+        public int ContainerId { get; set; }
     }
 }
