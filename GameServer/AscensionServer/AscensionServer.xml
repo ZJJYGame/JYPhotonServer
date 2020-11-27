@@ -1792,16 +1792,33 @@
             <param name="pet"></param>
             <param name="points"></param>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.VerifyPetAllStatus(AscensionProtocol.DTO.PetAbilityPointDTO,AscensionProtocol.DTO.PetStatusDTO,AscensionProtocol.DTO.PetCompleteDTO,AscensionServer.Model.Pet)">
+        <member name="M:AscensionServer.PetStatusManager.VerifyPetAllStatus(AscensionProtocol.DTO.PetAbilityPointDTO,AscensionServer.Model.PetAptitude,AscensionServer.Model.PetStatus,AscensionProtocol.DTO.PetCompleteDTO,AscensionServer.Model.Pet)">
             <summary>
             验证宠物完整属性
             </summary>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.VerifyPetAbilityAddition(AscensionProtocol.DTO.PetAbilityPointDTO,AscensionProtocol.DTO.PetStatusDTO,AscensionServer.PetLevelData)">
+            <summary>
+            验证加点后的加成
+            </summary>
+            <param name="petAbilityPoint"></param>
+            <param name="petStatusDTO"></param>
+            <param name="petLevelData"></param>
+            <returns></returns>
         </member>
         <member name="M:AscensionServer.PetStatusManager.VerifyPetPassivitySkill(System.Collections.Generic.List{System.Int32},System.Collections.Generic.List{AscensionProtocol.DTO.PetStatusDTO}@)">
             <summary>
              获得所有被动技能的加成
             </summary>
             <param name="skillid"></param>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.StatusAddition(AscensionServer.Model.PetStatus,System.Collections.Generic.List{AscensionProtocol.DTO.PetStatusDTO},AscensionProtocol.DTO.PetStatusDTO@)">
+            <summary>
+            加成计算资质后计算加点会的总加成
+            </summary>
+            <param name="petStatus"></param>
+            <param name="petAbilityStatus"></param>
+            <param name="petStatusTemp"></param>
         </member>
         <member name="P:AscensionServer.GameResourceManager.ResUnitSetDict">
             <summary>

@@ -42,7 +42,7 @@ namespace AscensionServer
                     GameManager.CustomeModule<PetStatusManager>().GetRoleAllPet(rolepets, rolepetObj);
                     break;
                 case RolePetDTO.RolePetOperationalOrder.RemovePet:
-                    Utility.Debug.LogInfo("yzqData放生寵物");
+                    Utility.Debug.LogInfo("yzqData放生寵物"+ rolepetObj.AddRemovePetID);
                     var petRemove = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriaRomePet);
                     GameManager.CustomeModule<PetStatusManager>().RemoveRolePet(rolepets, rolepetObj, petRemove);
                     break;

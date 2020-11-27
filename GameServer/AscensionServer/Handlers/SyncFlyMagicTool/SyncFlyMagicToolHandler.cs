@@ -98,8 +98,16 @@ namespace AscensionServer
                     }
                     break;
                 case FlyMagicToolDTO.FlyMagicToolType.Update:
-
-
+                    if (roleFlyMagicTool != null)
+                    {
+                        roleFlyMagicTool.FlyToolLayoutDict = Utility.Json.ToJson(roleFlyMagicToolObj.FlyToolLayoutDict);
+                        NHibernateQuerier.Update<FlyMagicTool>(roleFlyMagicTool);
+                    }
+                    if (flyMagicToolRedisObj!=null)
+                    {
+                        flyMagicToolRedisObj.FlyToolLayoutDict = roleFlyMagicToolObj.FlyToolLayoutDict;
+                        RedisHelper.Hash.HashSet<FlyMagicToolDTO>(RedisKeyDefine._RoleFlyMagicToolPerfix, roleFlyMagicToolObj.RoleID.ToString(), flyMagicToolRedisObj);
+                    }
                     break;
                 default:
                     break;

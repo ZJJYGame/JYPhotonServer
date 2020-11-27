@@ -58,9 +58,9 @@ namespace AscensionServer
 
             foreach (var item in petDict)
             {
-                if (RedisHelper.KeyExistsAsync(RedisKeyDefine._PetPerfix + item.Key).Result)
+                if (RedisHelper.KeyExistsAsync(RedisKeyDefine._PetPerfix ).Result)
                 {
-                    var petDTOTemp = await RedisHelper.Hash.HashGetAsync<PetDTO>(RedisKeyDefine._PetPerfix + item.Key, item.Key.ToString());
+                    var petDTOTemp = await RedisHelper.Hash.HashGetAsync<PetDTO>(RedisKeyDefine._PetPerfix , item.Key.ToString());
                     allPetDict.Add(petDTOTemp.ID, petDTOTemp);
                 }
                 else
@@ -93,24 +93,26 @@ namespace AscensionServer
         public async void RemoveRolePet(RolePet rolePet,RolePetDTO rolePetDTO, Pet pet)
         {
             var rolePetDict = Utility.Json.ToObject<Dictionary<int,int>>(rolePet.PetIDDict);
-            if (rolePetDict.ContainsKey(rolePetDTO.RoleID))
+            if (rolePetDict.ContainsKey(pet.ID))
             {
                 #region Redis逻辑
+                rolePetDict.Remove(pet.ID);
                 rolePet.PetIDDict = Utility.Json.ToJson(rolePetDict);
-                rolePetDict.Remove(rolePetDTO.RoleID);
                 rolePetDTO.PetIDDict = rolePetDict;
                 rolePetDTO.PetIsBattle = rolePet.PetIsBattle;
-                var result = RedisHelper.KeyExistsAsync(RedisKeyDefine._PetPerfix + rolePetDTO.RoleID).Result;
+                var result = RedisHelper.KeyExistsAsync(RedisKeyDefine._PetPerfix ).Result;
                 if (result)
                 {
-                    await RedisHelper.Hash.HashDeleteAsync(RedisKeyDefine._PetPerfix + rolePetDTO.RoleID);
+                    await RedisHelper.Hash.HashDeleteAsync(RedisKeyDefine._PetPerfix , rolePetDTO.RoleID.ToString());
                     await RedisHelper.Hash.HashSetAsync<RolePetDTO>(RedisKeyDefine._PetPerfix, rolePetDTO.RoleID.ToString(), rolePetDTO);
                 }
                 #endregion
-                await NHibernateQuerier.DeleteAsync<Pet>(pet);
-                await NHibernateQuerier.UpdateAsync<RolePet>(rolePet);
+                await NHibernateQuerier.DeleteAsync(pet);
+                Utility.Debug.LogInfo("yzqData已经放生的寵物" + Utility.Json.ToJson(pet));
+                Utility.Debug.LogInfo("yzqData已经放生的寵物" + Utility.Json.ToJson(pet));
+                await NHibernateQuerier.UpdateAsync(rolePet);
+                S2CRemoveRolePet(rolePet.RoleID, Utility.Json.ToJson(rolePetDTO), ReturnCode.Success);
             }
-            S2CRemoveRolePet(rolePet.RoleID, Utility.Json.ToJson(rolePetDTO),ReturnCode.Success);
         }
         /// <summary>
         /// 获得宠物所有属性
@@ -532,7 +534,7 @@ namespace AscensionServer
             exitskill.Remove(soulid);
         }
 
-        public void EquipDemonicSoul(int soulid,out List<int> getSkillList,Pet pet,PetCompleteDTO petCompleteDTO)
+        public void AddDemonicSoul(int soulid,out List<int> getSkillList)
         {
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, DemonicSoulData>>(out var DemonicSoulDict);
 
