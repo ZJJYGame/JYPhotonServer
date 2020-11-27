@@ -764,7 +764,7 @@
             用于初始化 战斗数据 和管理 战斗的数据缓存
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.BuffManagerMethod(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.BuffManagerMethod(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32,System.Boolean)">
             <summary>
             buff的入口
             </summary>
@@ -773,12 +773,12 @@
             <param name="playerSetObject"></param>
             <param name="enemySetObject"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.BuffConditionMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData})">
+        <member name="M:AscensionServer.ServerBattleManager.BuffConditionMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Boolean)">
             <summary>
             先判断buff 触发的条件
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.BuffEventMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData})">
+        <member name="M:AscensionServer.ServerBattleManager.BuffEventMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Boolean)">
             <summary>
             判断buff 触发事件
             </summary>
@@ -789,7 +789,33 @@
             <param name="enemySetObject"></param>
             <param name="buffDict"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.BuffEventDamageOrHealMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Collections.Generic.List{AscensionServer.BattleBuffEventData},System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.BuffEventRolePropertyChangeMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Collections.Generic.List{AscensionServer.BattleBuffEventData},System.Int32,System.Boolean)">
+             <summary>
+            变动属性类型
+             </summary>
+             <param name="buffId"></param>
+             <param name="roleId"></param>
+             <param name="currentId"></param>
+             <param name="playerSetObject"></param>
+             <param name="enemySetObject"></param>
+             <param name="buffDict"></param>
+             <param name="buffEventSet"></param>
+             <param name="i"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.BuffEventSourceDataTypeMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Collections.Generic.List{AscensionServer.BattleBuffEventData},System.Int32,System.Boolean)">
+            <summary>
+            变动的数值来源
+            </summary>
+            <param name="buffId"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="playerSetObject"></param>
+            <param name="enemySetObject"></param>
+            <param name="buffDict"></param>
+            <param name="buffEventSet"></param>
+            <param name="i"></param>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.BuffEventDamageOrHealMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Collections.Generic.List{AscensionServer.BattleBuffEventData},System.Int32,System.Boolean)">
             <summary>
             伤害 或者治疗
             </summary>
@@ -800,7 +826,7 @@
             <param name="enemySetObject"></param>
             <param name="buffDict"></param>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.BuffEventResultsMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Collections.Generic.List{AscensionServer.BattleBuffEventData},System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.BuffEventResultsMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Collections.Generic.List{AscensionServer.BattleBuffEventData},System.Int32,System.Boolean)">
             <summary>
             buff作用于的目标具体计算
             </summary>
@@ -1185,7 +1211,7 @@
             <param name="roleId"></param>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.SelectToTarget(System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO},System.String,System.Object,System.Collections.Generic.List{AscensionServer.BattleSkillDamageNumData},System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.SelectToTarget(System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO},System.String,System.Object,System.Collections.Generic.List{AscensionServer.BattleSkillDamageNumData},System.Int32,System.Collections.Generic.List{AscensionServer.BattleSkillAddBuffData},System.Collections.Generic.List{AscensionServer.BattleSkillRemoveBuffData},System.Int32,System.Int32)">
             <summary>
             2020 11.07  18:00
             选择回血的目标
@@ -1679,13 +1705,6 @@
             <param name="petAbilityPointDTO"></param>
             <param name="petStatusTemp"></param>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.RefreshAbilitty(AscensionProtocol.DTO.PetAbilityPointDTO,AscensionProtocol.DTO.PetStatusDTO@)">
-            <summary>
-            刷新宠物属性点
-            </summary>
-            <param name="petAbilityPointDTO"></param>
-            <param name="petStatusDTO"></param>
-        </member>
         <member name="M:AscensionServer.PetStatusManager.ResetPetAptitude(System.Int32,AscensionServer.Model.PetAptitude@)">
             <summary>
             重置宠物资质
@@ -1778,7 +1797,34 @@
             <param name="pet"></param>
             <param name="points"></param>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.FixFieldResourceUnit" -->
+        <member name="M:AscensionServer.PetStatusManager.VerifyPetAllStatus(AscensionProtocol.DTO.PetAbilityPointDTO,AscensionServer.Model.PetAptitude,AscensionServer.Model.PetStatus,AscensionProtocol.DTO.PetCompleteDTO,AscensionServer.Model.Pet)">
+            <summary>
+            验证宠物完整属性
+            </summary>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.VerifyPetAbilityAddition(AscensionProtocol.DTO.PetAbilityPointDTO,AscensionProtocol.DTO.PetStatusDTO,AscensionServer.PetLevelData)">
+            <summary>
+            验证加点后的加成
+            </summary>
+            <param name="petAbilityPoint"></param>
+            <param name="petStatusDTO"></param>
+            <param name="petLevelData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.VerifyPetPassivitySkill(System.Collections.Generic.List{System.Int32},System.Collections.Generic.List{AscensionProtocol.DTO.PetStatusDTO}@)">
+            <summary>
+             获得所有被动技能的加成
+            </summary>
+            <param name="skillid"></param>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.StatusAddition(AscensionServer.Model.PetStatus,System.Collections.Generic.List{AscensionProtocol.DTO.PetStatusDTO},AscensionProtocol.DTO.PetStatusDTO@)">
+            <summary>
+            加成计算资质后计算加点会的总加成
+            </summary>
+            <param name="petStatus"></param>
+            <param name="petAbilityStatus"></param>
+            <param name="petStatusTemp"></param>
+        </member>
         <member name="P:AscensionServer.GameResourceManager.ResUnitSetDict">
             <summary>
             资源单位集合的字典

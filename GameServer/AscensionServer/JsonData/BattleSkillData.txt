@@ -22,16 +22,19 @@
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 100
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 }
             ],
-            "battleSkillAddBuffList": [   {
+            "battleSkillAddBuffList": [ {
                     "buffId": 20001,
                     "round": 3,
                     "TargetType": true,
@@ -83,34 +86,43 @@
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 80
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 },
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 90
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 },
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 100
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 }
             ],
@@ -146,24 +158,30 @@
                 {
                     "battleSkillDamageType": 1,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 70
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 70
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 70
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 70
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 }
             ],
@@ -199,12 +217,15 @@
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 100
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 }
             ],
@@ -221,13 +242,13 @@
                     ],
                     "selfAddBuffProbability": {
                         "battleSkillBuffProbSource": 5,
-                        "multiplyPropValue": 100,
+                        "multiplyPropValue": 100.0,
                         "fixedPropValue": 0,
                         "addOrReduce": true
                     },
                     "targetAddBuffProbability": {
                         "battleSkillBuffProbSource": 5,
-                        "multiplyPropValue": 100,
+                        "multiplyPropValue": 100.0,
                         "fixedPropValue": 0,
                         "addOrReduce": false
                     }
@@ -264,12 +285,15 @@
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 100
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 }
             ],
@@ -284,13 +308,13 @@
                     ],
                     "selfAddBuffProbability": {
                         "battleSkillBuffProbSource": 0,
-                        "multiplyPropValue": 0,
+                        "multiplyPropValue": 0.0,
                         "fixedPropValue": 0,
                         "addOrReduce": false
                     },
                     "targetAddBuffProbability": {
                         "battleSkillBuffProbSource": 0,
-                        "multiplyPropValue": 0,
+                        "multiplyPropValue": 0.0,
                         "fixedPropValue": 0,
                         "addOrReduce": false
                     }
@@ -334,12 +358,15 @@
                 {
                     "battleSkillDamageType": 1,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 50
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 }
             ],
@@ -352,13 +379,13 @@
                     "basePropList": [],
                     "selfAddBuffProbability": {
                         "battleSkillBuffProbSource": 0,
-                        "multiplyPropValue": 0,
+                        "multiplyPropValue": 0.0,
                         "fixedPropValue": 0,
                         "addOrReduce": false
                     },
                     "targetAddBuffProbability": {
                         "battleSkillBuffProbSource": 0,
-                        "multiplyPropValue": 0,
+                        "multiplyPropValue": 0.0,
                         "fixedPropValue": 0,
                         "addOrReduce": false
                     }
@@ -395,7 +422,9 @@
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 50,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 }
             ],
@@ -431,20 +460,25 @@
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 1000
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 1000
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 1000
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 }
             ],
@@ -480,12 +514,15 @@
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 110
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 }
             ],
@@ -521,34 +558,43 @@
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 80
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 },
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 90
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 },
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 100
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 }
             ],
@@ -584,29 +630,34 @@
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 110
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 100
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 90
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 }
             ],
             "battleSkillAddBuffList": [
                 {
-                    "buffId": 21501,
+                    "buffId": 20501,
                     "round": 2,
                     "TargetType": true,
-                    "buffValue": -5,
+                    "buffValue": 0,
                     "basePropList": [
                         100,
                         100,
@@ -614,13 +665,13 @@
                     ],
                     "selfAddBuffProbability": {
                         "battleSkillBuffProbSource": 0,
-                        "multiplyPropValue": 0,
+                        "multiplyPropValue": 0.0,
                         "fixedPropValue": 0,
                         "addOrReduce": false
                     },
                     "targetAddBuffProbability": {
                         "battleSkillBuffProbSource": 0,
-                        "multiplyPropValue": 0,
+                        "multiplyPropValue": 0.0,
                         "fixedPropValue": 0,
                         "addOrReduce": false
                     }
@@ -657,20 +708,25 @@
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 110
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 100
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 90
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 }
             ],
@@ -687,13 +743,13 @@
                     ],
                     "selfAddBuffProbability": {
                         "battleSkillBuffProbSource": 0,
-                        "multiplyPropValue": 0,
+                        "multiplyPropValue": 0.0,
                         "fixedPropValue": 0,
                         "addOrReduce": false
                     },
                     "targetAddBuffProbability": {
                         "battleSkillBuffProbSource": 0,
-                        "multiplyPropValue": 0,
+                        "multiplyPropValue": 0.0,
                         "fixedPropValue": 0,
                         "addOrReduce": false
                     }
@@ -737,20 +793,25 @@
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 110
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 100
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 90
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 }
             ],
@@ -767,13 +828,13 @@
                     ],
                     "selfAddBuffProbability": {
                         "battleSkillBuffProbSource": 0,
-                        "multiplyPropValue": 0,
+                        "multiplyPropValue": 0.0,
                         "fixedPropValue": 0,
                         "addOrReduce": false
                     },
                     "targetAddBuffProbability": {
                         "battleSkillBuffProbSource": 0,
-                        "multiplyPropValue": 0,
+                        "multiplyPropValue": 0.0,
                         "fixedPropValue": 0,
                         "addOrReduce": false
                     }
@@ -782,7 +843,7 @@
             "battleSkillRemoveBuffDataList": [
                 {
                     "buffIdList": [
-                        20501
+                        20502
                     ],
                     "probability": 100
                 }
@@ -817,67 +878,85 @@
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 60
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 },
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 60
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 },
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 60
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 },
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 60
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 },
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 60
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 },
                 {
                     "battleSkillDamageType": 0,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
                             "mulitity": 60
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 }
             ],
@@ -892,13 +971,13 @@
                     ],
                     "selfAddBuffProbability": {
                         "battleSkillBuffProbSource": 0,
-                        "multiplyPropValue": 0,
+                        "multiplyPropValue": 0.0,
                         "fixedPropValue": 0,
                         "addOrReduce": false
                     },
                     "targetAddBuffProbability": {
                         "battleSkillBuffProbSource": 0,
-                        "multiplyPropValue": 0,
+                        "multiplyPropValue": 0.0,
                         "fixedPropValue": 0,
                         "addOrReduce": false
                     }
@@ -935,12 +1014,15 @@
                 {
                     "battleSkillDamageType": 1,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 110
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 }
             ],
@@ -949,7 +1031,7 @@
             "battleSkillCostData": {
                 "battleSkillCostType": 0,
                 "percentValue": 0,
-                "fixedValue": 0
+                "fixedValue": 20
             },
             "battleSkillEventDataList": []
         },
@@ -976,24 +1058,30 @@
                 {
                     "battleSkillDamageType": 1,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 80
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 80
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 80
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 80
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 }
             ],
@@ -1002,7 +1090,7 @@
             "battleSkillCostData": {
                 "battleSkillCostType": 0,
                 "percentValue": 0,
-                "fixedValue": 0
+                "fixedValue": 200
             },
             "battleSkillEventDataList": []
         },
@@ -1029,30 +1117,38 @@
                 {
                     "battleSkillDamageType": 1,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 60
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 60
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 60
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": [
                         {
+                            "battleSkillDamageTargetProperty": 1,
                             "battleSkillNumSourceType": 12,
                             "mulitity": 10
                         },
                         {
+                            "battleSkillDamageTargetProperty": 1,
                             "battleSkillNumSourceType": 12,
                             "mulitity": 10
                         },
                         {
+                            "battleSkillDamageTargetProperty": 1,
                             "battleSkillNumSourceType": 12,
                             "mulitity": 10
                         }
@@ -1063,8 +1159,8 @@
             "battleSkillRemoveBuffDataList": [],
             "battleSkillCostData": {
                 "battleSkillCostType": 0,
-                "percentValue": 0,
-                "fixedValue": 0
+                "percentValue": 1,
+                "fixedValue": 100
             },
             "battleSkillEventDataList": []
         },
@@ -1091,74 +1187,91 @@
                 {
                     "battleSkillDamageType": 1,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 50
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 50
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 50
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 50
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 50
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 50
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 50
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 50
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 50
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 50
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 50
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 50
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 50
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 50
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 50
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 }
             ],
             "battleSkillAddBuffList": [
                 {
-                    "buffId": 20911,
+                    "buffId": 20915,
                     "round": 3,
                     "TargetType": true,
                     "buffValue": 0,
@@ -1181,13 +1294,13 @@
                     ],
                     "selfAddBuffProbability": {
                         "battleSkillBuffProbSource": 0,
-                        "multiplyPropValue": 0,
+                        "multiplyPropValue": 0.0,
                         "fixedPropValue": 0,
                         "addOrReduce": false
                     },
                     "targetAddBuffProbability": {
                         "battleSkillBuffProbSource": 0,
-                        "multiplyPropValue": 0,
+                        "multiplyPropValue": 0.0,
                         "fixedPropValue": 0,
                         "addOrReduce": false
                     }
@@ -1197,7 +1310,7 @@
             "battleSkillCostData": {
                 "battleSkillCostType": 2,
                 "percentValue": 40,
-                "fixedValue": 1000
+                "fixedValue": 1
             },
             "battleSkillEventDataList": []
         },
@@ -1224,16 +1337,20 @@
                 {
                     "battleSkillDamageType": 1,
                     "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 10
                         },
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
                             "mulitity": 10
                         }
                     ],
+                    "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
                 }
             ],
@@ -1249,13 +1366,13 @@
                     ],
                     "selfAddBuffProbability": {
                         "battleSkillBuffProbSource": 0,
-                        "multiplyPropValue": 0,
+                        "multiplyPropValue": 0.0,
                         "fixedPropValue": 0,
                         "addOrReduce": false
                     },
                     "targetAddBuffProbability": {
                         "battleSkillBuffProbSource": 0,
-                        "multiplyPropValue": 0,
+                        "multiplyPropValue": 0.0,
                         "fixedPropValue": 0,
                         "addOrReduce": false
                     }
@@ -1265,7 +1382,7 @@
             "battleSkillCostData": {
                 "battleSkillCostType": 0,
                 "percentValue": 0,
-                "fixedValue": 0
+                "fixedValue": 50
             },
             "battleSkillEventDataList": []
         },
@@ -1292,9 +1409,18 @@
                 {
                     "battleSkillDamageType": 3,
                     "fixedNum": 0,
-                    "baseNumSourceDataList": [],
+                    "baseDamageAdditionSourceTarget": false,
+                    "baseNumSourceDataList": [
+                        {
+                            "battleSkillDamageTargetProperty": 0,
+                            "battleSkillNumSourceType": 0,
+                            "mulitity": 0
+                        }
+                    ],
+                    "extraDamageAdditionSourceTarget": true,
                     "extraNumSourceData": [
                         {
+                            "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 0,
                             "mulitity": 5
                         }
@@ -1308,7 +1434,17 @@
                 "percentValue": 0,
                 "fixedValue": 0
             },
-            "battleSkillEventDataList": []
+            "battleSkillEventDataList": [
+                {
+                    "battleSkillEventTriggerTime": 0,
+                    "battleSkillEventTriggerCondition": 0,
+                    "battleSkillEventTriggerNumSourceType": 0,
+                    "conditionPercentNum": 0,
+                    "conditionFixedNum": 0,
+                    "battleSkillTriggerEventType": 0,
+                    "EventValue": 0
+                }
+            ]
         },
         {
             "name": "水中月",
@@ -1332,7 +1468,7 @@
             "battleSkillDamageNumDataList": [],
             "battleSkillAddBuffList": [
                 {
-                    "buffId": 20911,
+                    "buffId": 20994,
                     "round": 2,
                     "TargetType": true,
                     "buffValue": 0,
@@ -1343,19 +1479,24 @@
                     ],
                     "selfAddBuffProbability": {
                         "battleSkillBuffProbSource": 5,
-                        "multiplyPropValue": 1,
+                        "multiplyPropValue": 1.0,
                         "fixedPropValue": 0,
                         "addOrReduce": true
                     },
                     "targetAddBuffProbability": {
                         "battleSkillBuffProbSource": 5,
-                        "multiplyPropValue": 1,
+                        "multiplyPropValue": 1.0,
                         "fixedPropValue": 0,
                         "addOrReduce": false
                     }
                 }
             ],
-            "battleSkillRemoveBuffDataList": [],
+            "battleSkillRemoveBuffDataList": [
+                {
+                    "buffIdList": [],
+                    "probability": 0
+                }
+            ],
             "battleSkillCostData": {
                 "battleSkillCostType": 0,
                 "percentValue": 0,
@@ -1393,4 +1534,3 @@
             "battleSkillEventDataList": []
         }
     ]
-

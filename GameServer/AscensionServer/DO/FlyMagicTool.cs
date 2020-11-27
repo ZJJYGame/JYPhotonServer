@@ -11,16 +11,18 @@ namespace AscensionServer.Model
     {
         public virtual int RoleID { get; set; }
         public virtual string  AllFlyMagicTool { get; set; }
-
+        public virtual string FlyToolLayoutDict { get; set; }
         public FlyMagicTool()
         {
             AllFlyMagicTool = null;
+            FlyToolLayoutDict = null;
         }
 
         public override void Clear()
         {
             RoleID = -1;
             AllFlyMagicTool=null;
+            FlyToolLayoutDict = null;
         }
     }
 }

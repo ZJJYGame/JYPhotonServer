@@ -84,6 +84,9 @@ namespace AscensionServer
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(DemonicSoulSkillPool).Name, out var demonicSoulSkillPool);
                 var demonicSoulSkillPoolDict = TransObject<List<DemonicSoulSkillPool>>(demonicSoulSkillPool).ToDictionary(key => key.PetSkillLevel, value => value);
 
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(PetSkillData).Name, out var petSkillData);
+                var petSkillDataDict = TransObject<List<PetSkillData>>(petSkillData).ToDictionary(key => key.SkillID, value => value);
+
                 #region 战斗json
 
 
@@ -117,6 +120,7 @@ namespace AscensionServer
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(BattleBuffData).Name, out var battleSBuffSet);
                 var battleBuffDict = TransObject<List<BattleBuffData>>(battleSBuffSet).ToDictionary(key => key.id, value => value);
                 #endregion
+                GameManager.CustomeModule<DataManager>().TryAdd(petSkillDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(demonicSoulSkillPoolDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(demonicSoulDataDict);
                 GameManager.CustomeModule<DataManager>().TryAdd(petSkillBookDataDict);

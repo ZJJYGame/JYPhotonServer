@@ -120,6 +120,7 @@ namespace AscensionServer
         /// 
         bool isRunAway;
         bool isPetRunAway;
+        int tempSelect;
         public void BattleStart(int roleId, int roomId, BattleTransferDTO battleTransferDTOs)
         {
             //Utility.Debug.LogInfo("battleCmd == >>>" + battleTransferDTOs.BattleCmd);
@@ -128,7 +129,8 @@ namespace AscensionServer
             _buffToRoomIdBefore.Clear();
             _buffToRoomIdAfter.Clear();
             isRunAway = false;
-             isPetRunAway = false;
+            isPetRunAway = false;
+            tempSelect = 0;
             if (!_roomidToBattleTransfer.ContainsKey(roomId))
                 return;
 
@@ -141,7 +143,7 @@ namespace AscensionServer
                     if (isRunAway)
                         break;
                     var objectOwner = ReleaseToOwner(_teamIdToBattleInit[roleId].battleUnits[speed].ObjectID, _teamIdToBattleInit[roleId].battleUnits[speed].ObjectId, roleId);
-                    if (objectOwner == null)
+                    if (objectOwner == null || tempSelect == 1)
                         continue;
                     var typeName = objectOwner.GetType().Name;
                     //Utility.Debug.LogInfo("角色剩余的血量" + _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP);
