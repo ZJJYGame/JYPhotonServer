@@ -1267,7 +1267,7 @@
                     "buffEvent_Shield_SourceDataType": 0,
                     "buffEvent_TakeDamageForOther_TargetType": 0,
                     "fixedValue": 0,
-                    "percentValue": 10,
+                    "percentValue": -10,
                     "idList": [],
                     "flag": false,
                     "flag_2": false,
@@ -1443,7 +1443,7 @@
         },
         {
             "name": "5级燃烧",
-            "id": 20911,
+            "id": 20915,
             "describe": "燃烧状态，不断流失气血",
             "battleBuffTriggerTime": 7,
             "probability": 100,
@@ -1463,7 +1463,7 @@
                         "flag": false,
                         "battleBuffCondition_CharacterType": 0
                     },
-                    "battleBuffEventType": 0,
+                    "battleBuffEventType": 5,
                     "battleBuffEventType_RolePropertyChange": 0,
                     "buffRolePropertyChange_SourceDataType": 0,
                     "buffPropertyChangeType": 0,
@@ -1474,16 +1474,16 @@
                     "BattleSkillDamageType": 0,
                     "buffEvent_Shield_SourceDataType": 0,
                     "buffEvent_TakeDamageForOther_TargetType": 0,
-                    "fixedValue": 1000,
-                    "percentValue": 0,
+                    "fixedValue": 10,
+                    "percentValue": 5,
                     "idList": [],
-                    "flag": false,
-                    "flag_2": false,
-                    "flag_3": false,
+                    "flag": true,
+                    "flag_2": true,
+                    "flag_3": true,
                     "id": 0
                 }
             ],
-            "isShow": false
+            "isShow": true
         },
         {
             "name": "回春术",
@@ -1515,7 +1515,7 @@
                     "buffEvent_DamageOrHeal_ChangeDataType": 0,
                     "buffEvent_DamageOrHeal_SourceDataType": 0,
                     "buffEvent_DamageOrHeal_EffectTargetType": 0,
-                    "BattleSkillDamageType": 0,
+                    "BattleSkillDamageType": 3,
                     "buffEvent_Shield_SourceDataType": 0,
                     "buffEvent_TakeDamageForOther_TargetType": 0,
                     "fixedValue": 10,
@@ -1523,11 +1523,11 @@
                     "idList": [],
                     "flag": false,
                     "flag_2": false,
-                    "flag_3": false,
+                    "flag_3": true,
                     "id": 0
                 }
             ],
-            "isShow": false
+            "isShow": true
         },
         {
             "name": "水中月",
@@ -1571,7 +1571,7 @@
                     "id": 0
                 }
             ],
-            "isShow": false
+            "isShow": true
         },
         {
             "name": "Buff",
@@ -1581,8 +1581,40 @@
             "probability": 0,
             "coldTime": 0,
             "battleBuffTriggerConditionList": [],
-            "battleBuffEventDataList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 3,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 0,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
             "isShow": false
         }
     ]
-

@@ -140,10 +140,10 @@ namespace AscensionServer
                 ///出手速度
                 for (int speed = 0; speed < _teamIdToBattleInit[roleId].battleUnits.Count; speed++)
                 {
-                    if (isRunAway||tempSelect ==1)
+                    if (isRunAway)
                         break;
                     var objectOwner = ReleaseToOwner(_teamIdToBattleInit[roleId].battleUnits[speed].ObjectID, _teamIdToBattleInit[roleId].battleUnits[speed].ObjectId, roleId);
-                    if (objectOwner == null)
+                    if (objectOwner == null || tempSelect == 1)
                         continue;
                     var typeName = objectOwner.GetType().Name;
                     //Utility.Debug.LogInfo("角色剩余的血量" + _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP);

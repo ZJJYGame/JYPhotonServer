@@ -1206,7 +1206,7 @@
             <param name="roleId"></param>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.SelectToTarget(System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO},System.String,System.Object,System.Collections.Generic.List{AscensionServer.BattleSkillDamageNumData},System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.SelectToTarget(System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO},System.String,System.Object,System.Collections.Generic.List{AscensionServer.BattleSkillDamageNumData},System.Int32,System.Collections.Generic.List{AscensionServer.BattleSkillAddBuffData},System.Collections.Generic.List{AscensionServer.BattleSkillRemoveBuffData},System.Int32,System.Int32)">
             <summary>
             2020 11.07  18:00
             选择回血的目标

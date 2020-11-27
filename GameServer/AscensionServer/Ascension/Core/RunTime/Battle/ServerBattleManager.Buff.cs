@@ -22,7 +22,7 @@ namespace AscensionServer
         /// <param name="roleId"></param>
         /// <param name="playerSetObject"></param>
         /// <param name="enemySetObject"></param>
-        public void BuffManagerMethod(int buffId,int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject,int og,bool isSelf)
+        public void BuffManagerMethod(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, int og, bool isSelf)
         {
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, BattleBuffData>>(out var buffDict);
             if (!buffDict.ContainsKey(buffId))
@@ -61,7 +61,7 @@ namespace AscensionServer
         /// <summary>
         /// 先判断buff 触发的条件
         /// </summary>
-        public void BuffConditionMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject,Dictionary<int , BattleBuffData> buffDict,bool isSelf)
+        public void BuffConditionMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict, bool isSelf)
         {
             ///buff 触发判断条件
             if (buffDict[buffId].battleBuffTriggerConditionList.Count == 0)
@@ -112,16 +112,16 @@ namespace AscensionServer
             }
         }
 
-       /// <summary>
-       /// 判断buff 触发事件
-       /// </summary>
-       /// <param name="buffId"></param>
-       /// <param name="roleId"></param>
-       /// <param name="currentId"></param>
-       /// <param name="playerSetObject"></param>
-       /// <param name="enemySetObject"></param>
-       /// <param name="buffDict"></param>
-        public void BuffEventMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict,bool isSelf)
+        /// <summary>
+        /// 判断buff 触发事件
+        /// </summary>
+        /// <param name="buffId"></param>
+        /// <param name="roleId"></param>
+        /// <param name="currentId"></param>
+        /// <param name="playerSetObject"></param>
+        /// <param name="enemySetObject"></param>
+        /// <param name="buffDict"></param>
+        public void BuffEventMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict, bool isSelf)
         {
             ///buff  触发事件
             var buffEventSet = buffDict[buffId].battleBuffEventDataList;
@@ -134,7 +134,7 @@ namespace AscensionServer
                         BuffEventRolePropertyChangeMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i, isSelf);
                         break;
                     case BattleBuffEventType.BuffPropertyChange:
-
+                        BuffEventBuffPropertyChangeMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i, isSelf);
                         break;
                     case BattleBuffEventType.ForbiddenBuff:
                         break;
@@ -143,7 +143,7 @@ namespace AscensionServer
                     case BattleBuffEventType.UseDesignateSkill:
                         break;
                     case BattleBuffEventType.DamageOrHeal:
-                        BuffEventDamageOrHealMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict,buffEventSet,i, isSelf);
+                        BuffEventDamageOrHealMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i, isSelf);
                         break;
                     case BattleBuffEventType.Shield:
                         break;
@@ -177,12 +177,12 @@ namespace AscensionServer
         /// <param name="buffDict"></param>
         /// <param name="buffEventSet"></param>
         /// <param name="i"></param>
-        public void BuffEventRolePropertyChangeMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict, List<BattleBuffEventData> buffEventSet, int i,bool isSelf)
+        public void BuffEventRolePropertyChangeMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict, List<BattleBuffEventData> buffEventSet, int i, bool isSelf)
         {
             switch (buffEventSet[i].battleBuffEventType_RolePropertyChange)
             {
                 case BattleBuffEventType_RolePropertyChange.Health:
-                    BuffEventSourceDataTypeMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i,isSelf);
+                    BuffEventSourceDataTypeMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i, isSelf);
                     break;
                 case BattleBuffEventType_RolePropertyChange.ZhenYuan:
                     break;
@@ -193,7 +193,7 @@ namespace AscensionServer
                 case BattleBuffEventType_RolePropertyChange.PhysicAttack:
                     break;
                 case BattleBuffEventType_RolePropertyChange.PhysicDefend:
-                    BuffEventSourceDataTypeMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i,isSelf);
+                    BuffEventSourceDataTypeMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i, isSelf);
                     break;
                 case BattleBuffEventType_RolePropertyChange.MagicAttack:
                     break;
@@ -245,7 +245,7 @@ namespace AscensionServer
         /// <param name="buffDict"></param>
         /// <param name="buffEventSet"></param>
         /// <param name="i"></param>
-        public void BuffEventSourceDataTypeMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict, List<BattleBuffEventData> buffEventSet, int i,bool isSelf)
+        public void BuffEventSourceDataTypeMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict, List<BattleBuffEventData> buffEventSet, int i, bool isSelf)
         {
             switch (buffEventSet[i].buffRolePropertyChange_SourceDataType)
             {
@@ -302,6 +302,12 @@ namespace AscensionServer
 
         #endregion
 
+        #region BuffPropertyChange buff属性变动
+        public void BuffEventBuffPropertyChangeMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict, List<BattleBuffEventData> buffEventSet, int i, bool isSelf)
+        {
+
+        }
+        #endregion
 
         #region DamageOrHeal 伤害或者治疗
 
@@ -315,7 +321,7 @@ namespace AscensionServer
         /// <param name="enemySetObject"></param>
         /// <param name="buffDict"></param>
 
-        public void BuffEventDamageOrHealMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict,List<BattleBuffEventData> buffEventSet , int i, bool isSelf)
+        public void BuffEventDamageOrHealMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict, List<BattleBuffEventData> buffEventSet, int i, bool isSelf)
         {
             /// 伤害还是治疗
             switch (buffEventSet[i].flag)
@@ -343,10 +349,10 @@ namespace AscensionServer
                             switch (buffEventSet[i].flag_2)
                             {
                                 case true:
-                                    //BuffEventResultsMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i);
+                                    BuffEventResultsMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i, isSelf);
                                     break;
                                 case false:
-                                    BuffEventResultsMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i,isSelf);
+                                    BuffEventResultsMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i, isSelf);
                                     break;
                             }
                             break;
@@ -374,19 +380,36 @@ namespace AscensionServer
         /// <param name="buffDict"></param>
         /// <param name="buffEventSet"></param>
         /// <param name="i"></param>
-        public void BuffEventResultsMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict, List<BattleBuffEventData> buffEventSet, int i,bool isSelf)
+        public void BuffEventResultsMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict, List<BattleBuffEventData> buffEventSet, int i, bool isSelf)
         {
-            var damgeValue = (buffEventSet[i].percentValue * enemySetObject.EnemyStatusDTO.EnemyMaxHP) / 100 + buffEventSet[i].fixedValue;
+            int damgeValue = 0;
             switch (buffEventSet[i].flag_3)
             {
                 case true:
+                    damgeValue = (buffEventSet[i].percentValue * playerSetObject.RoleStatusDTO.RoleMaxHP) / 100 + buffEventSet[i].fixedValue;
+                    switch (buffEventSet[i].buffEvent_DamageOrHeal_EffectTargetType)
+                    {
+                        case BuffEvent_DamageOrHeal_EffectTargetType.Health:
+                            List<BattleBuffEventDTO> battleBuffEvents = new List<BattleBuffEventDTO>();
+                            battleBuffEvents.Add(new BattleBuffEventDTO() { index = i, TargetId = currentId, TriggerId = currentId, BuffValue = damgeValue });
+                            playerSetObject.RoleStatusDTO.RoleHP += damgeValue;
+                            _buffToRoomIdAfter.Add(new BattleBuffDTO() { bufferId = buffId, battleBuffDTOs = battleBuffEvents });
+                            break;
+                        case BuffEvent_DamageOrHeal_EffectTargetType.ShenHun:
+                            break;
+                        case BuffEvent_DamageOrHeal_EffectTargetType.ZhenYuan:
+                            break;
+                    }
+                    break;
+                case false:
+                    damgeValue = (buffEventSet[i].percentValue * enemySetObject.EnemyStatusDTO.EnemyMaxHP) / 100 + buffEventSet[i].fixedValue;
                     switch (buffEventSet[i].buffEvent_DamageOrHeal_EffectTargetType)
                     {
                         case BuffEvent_DamageOrHeal_EffectTargetType.Health:
                             List<BattleBuffEventDTO> battleBuffEvents = new List<BattleBuffEventDTO>();
                             battleBuffEvents.Add(new BattleBuffEventDTO() { index = i, TargetId = enemySetObject.EnemyStatusDTO.EnemyId, TriggerId = enemySetObject.EnemyStatusDTO.EnemyId, BuffValue = damgeValue });
-                            playerSetObject.RoleStatusDTO.RoleHP += damgeValue;
-                            _buffToRoomIdAfter.Add(new BattleBuffDTO() { bufferId = buffId, battleBuffDTOs = battleBuffEvents }) ;
+                            enemySetObject.EnemyStatusDTO.EnemyHP += damgeValue;
+                            _buffToRoomIdAfter.Add(new BattleBuffDTO() { bufferId = buffId, battleBuffDTOs = battleBuffEvents });
 
                             #region ob
                             /*
@@ -403,14 +426,9 @@ namespace AscensionServer
                             break;
                     }
                     break;
-                case false:
-                  
-                    break;
             }
         }
-
         #endregion
-
 
 
     }

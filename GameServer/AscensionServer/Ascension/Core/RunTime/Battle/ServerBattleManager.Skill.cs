@@ -154,8 +154,8 @@ namespace AscensionServer
 
             for (int og = 0; og < addBuffDataSet.Count; og++)
             {
-                int selfTempValue = 0;
-                int targetTempValue = 0;
+                float selfTempValue = 0;
+                float targetTempValue = 0;
                 switch (addBuffDataSet[og].selfAddBuffProbability.battleSkillBuffProbSource)
                 {
                     case BattleSkillNumSourceType.MaxHealth:
@@ -215,10 +215,12 @@ namespace AscensionServer
                             selfTempValue = -(tempSet.RoleStatusDTO.AttackSpeed * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
                         break;
                 }
-
                 switch (addBuffDataSet[og].targetAddBuffProbability.battleSkillBuffProbSource)
                 {
+                    
                     case BattleSkillNumSourceType.MaxHealth:
+                        if (enemySetObject == null)
+                            break;
                         if (addBuffDataSet[og].selfAddBuffProbability.addOrReduce)
                             targetTempValue = (enemySet.EnemyStatusDTO.EnemyHP * addBuffDataSet[og].selfAddBuffProbability.multiplyPropValue) / 10000;
                         else
@@ -280,7 +282,7 @@ namespace AscensionServer
                 var buffValue =  addBuffDataSet[og].basePropList[index] + (selfTempValue + targetTempValue);
                 if (tempSelect <= buffValue)
                 {
-                    bufferSet.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = addBuffDataSet[og].buffId, targetId = addBuffDataSet[og].TargetType ==false?currentId:enemySetObject.EnemyStatusDTO.EnemyId, RoundNumber = addBuffDataSet[og].round } });
+                    bufferSet.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = addBuffDataSet[og].buffId, targetId = addBuffDataSet[og].TargetType ==false?currentId : enemySetObject==null? currentId: enemySetObject.EnemyStatusDTO.EnemyId, RoundNumber = addBuffDataSet[og].round } });
                     bufferId.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = addBuffDataSet[og].buffId,   targetId = addBuffDataSet[og].TargetType == false ? currentId : enemySetObject==null? currentId: enemySetObject.EnemyStatusDTO.EnemyId,RoundNumber = addBuffDataSet[og].round } });
                     //TODO
                     BuffManagerMethod(addBuffDataSet[og].buffId,roleId, currentId, playerSetObject,enemySetObject,og, addBuffDataSet[og].TargetType);
@@ -495,7 +497,7 @@ namespace AscensionServer
                 else
                     playerObject.RoleStatusDTO.RoleHP += bSD[0].baseNumSourceDataList[0].mulitity;
 
-                var TargetInfosSet = ServerToClientResult(new TargetInfoDTO() { TargetID = currentId, TargetHPDamage = bSD[0].baseNumSourceDataList[0].mulitity, AddTargetBuff = AddBufferMethod(addBuffDataSet, roleId, currentId, null, -1, null), RemoveTargetBuff = RemoveBufferMethod(removeBuffDataSet, roleId, currentId, -1) });
+                var TargetInfosSet = ServerToClientResult(new TargetInfoDTO() { TargetID = currentId, TargetHPDamage = bSD[0].baseNumSourceDataList[0].mulitity, AddTargetBuff = AddBufferMethod(addBuffDataSet, roleId, currentId, null, 0, null), RemoveTargetBuff = RemoveBufferMethod(removeBuffDataSet, roleId, currentId, 0) });
                 teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = currentId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
             }
             else
@@ -508,7 +510,7 @@ namespace AscensionServer
                     {
                         var objectOwner = ReleaseToOwner(tempSet[ol], tempSet[ol], roleId);
                         var typeName = objectOwner.GetType().Name;
-                        SelectToTarget(targetInfoDTOsSet, typeName, objectOwner, bSD, ol);
+                        SelectToTarget(targetInfoDTOsSet, typeName, objectOwner, bSD, ol, addBuffDataSet, removeBuffDataSet, roleId, currentId);
                     }
                     teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = currentId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = targetInfoDTOsSet });
                 }
@@ -519,7 +521,7 @@ namespace AscensionServer
                         var RandomTarget = RandomManager(ol, 0, battleSkillData.TargetNumber);
                         var objectOwner = ReleaseToOwner(tempSet[RandomTarget], tempSet[RandomTarget], roleId);
                         var typeName = objectOwner.GetType().Name;
-                        SelectToTarget(targetInfoDTOsSet, typeName, objectOwner, bSD, ol);
+                        SelectToTarget(targetInfoDTOsSet, typeName, objectOwner, bSD, ol, addBuffDataSet, removeBuffDataSet,roleId,currentId);
                         tempSet.RemoveAt(RandomTarget);
                     }
                     teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = currentId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = targetInfoDTOsSet });
@@ -554,7 +556,7 @@ namespace AscensionServer
         /// <param name="objectOwner"></param>
         /// <param name="bSD"></param>
         /// <param name="ol"></param>
-        public void SelectToTarget(List<TargetInfoDTO> targetInfoDTOsSet, string typeName, object objectOwner, List<BattleSkillDamageNumData> bSD, int ol)
+        public void SelectToTarget(List<TargetInfoDTO> targetInfoDTOsSet, string typeName, object objectOwner, List<BattleSkillDamageNumData> bSD, int ol,List<BattleSkillAddBuffData> addBuffDataSet, List<BattleSkillRemoveBuffData> removeBuffDataSet,int roleId,int currentId)
         {
             switch (typeName)
             {
@@ -564,7 +566,7 @@ namespace AscensionServer
                         playerStatusDTO.RoleHP = playerStatusDTO.RoleMaxHP;
                     else
                         playerStatusDTO.RoleHP += bSD[0].baseNumSourceDataList[ol].mulitity;
-                    var TargetInfosSet = ServerToClientResults(new TargetInfoDTO() { TargetID = playerStatusDTO.RoleID, TargetHPDamage = bSD[0].baseNumSourceDataList[ol].mulitity });
+                    var TargetInfosSet = ServerToClientResults(new TargetInfoDTO() { TargetID = playerStatusDTO.RoleID, TargetHPDamage = bSD[0].baseNumSourceDataList[ol].mulitity, AddTargetBuff = AddBufferMethod(addBuffDataSet, roleId, currentId, null, ol, null), RemoveTargetBuff = RemoveBufferMethod(removeBuffDataSet, roleId, currentId, ol) });
                     targetInfoDTOsSet.Add(TargetInfosSet);
                     break;
                 case "PetStatusDTO":
@@ -573,7 +575,7 @@ namespace AscensionServer
                         petStatusDTO.PetHP = petStatusDTO.PetMaxHP;
                     else
                         petStatusDTO.PetHP += bSD[0].baseNumSourceDataList[ol].mulitity;
-                    var tempTrans = ServerToClientResults(new TargetInfoDTO() { TargetID = petStatusDTO.PetID, TargetHPDamage = bSD[0].baseNumSourceDataList[ol].mulitity });
+                    var tempTrans = ServerToClientResults(new TargetInfoDTO() { TargetID = petStatusDTO.PetID, TargetHPDamage = bSD[0].baseNumSourceDataList[ol].mulitity, AddTargetBuff = AddBufferMethod(addBuffDataSet, roleId, currentId, null, ol, null), RemoveTargetBuff = RemoveBufferMethod(removeBuffDataSet, roleId, currentId, ol) });
                     targetInfoDTOsSet.Add(tempTrans);
                     break;
             }
@@ -781,6 +783,12 @@ namespace AscensionServer
             }
             var TargetInfosSet = ServerToClientResult(new TargetInfoDTO() { TargetID = battleTransferDTOs.TargetInfos[0].TargetID, TargetHPDamage = tempSelect });
             teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = currentId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
+            tempSelect = 0;
+
+           var catchTarget = _teamIdToBattleInit[roleId].enemyUnits.Find(x => x.EnemyStatusDTO.EnemyId == battleTransferDTOs.TargetInfos[0].TargetID);
+            _teamIdToBattleInit[roleId].enemyUnits.Remove(catchTarget);
+           var getTarget =  _teamIdToBattleInit[roleId].battleUnits.Find(x => x.ObjectId == battleTransferDTOs.TargetInfos[0].TargetID);
+            _teamIdToBattleInit[roleId].battleUnits.Remove(getTarget);
         }
         #endregion
 

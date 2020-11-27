@@ -115,7 +115,7 @@ namespace AscensionServer
     public class BattleSkillAddBuffProbability
     {
         public BattleSkillNumSourceType battleSkillBuffProbSource;
-        public int multiplyPropValue;
+        public float multiplyPropValue;
         public int fixedPropValue;
         /// <summary>
         /// buff是加成或减少：0=>减少,1=>加成
