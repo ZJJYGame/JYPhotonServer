@@ -315,7 +315,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
+        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -898,7 +898,7 @@
             </summary>
             
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -1700,13 +1700,6 @@
             <param name="petAbilityPointDTO"></param>
             <param name="petStatusTemp"></param>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.RefreshAbilitty(AscensionProtocol.DTO.PetAbilityPointDTO,AscensionProtocol.DTO.PetStatusDTO@)">
-            <summary>
-            刷新宠物属性点
-            </summary>
-            <param name="petAbilityPointDTO"></param>
-            <param name="petStatusDTO"></param>
-        </member>
         <member name="M:AscensionServer.PetStatusManager.ResetPetAptitude(System.Int32,AscensionServer.Model.PetAptitude@)">
             <summary>
             重置宠物资质
@@ -1798,6 +1791,17 @@
             </summary>
             <param name="pet"></param>
             <param name="points"></param>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.VerifyPetAllStatus(AscensionProtocol.DTO.PetAbilityPointDTO,AscensionProtocol.DTO.PetStatusDTO,AscensionProtocol.DTO.PetCompleteDTO,AscensionServer.Model.Pet)">
+            <summary>
+            验证宠物完整属性
+            </summary>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.VerifyPetPassivitySkill(System.Collections.Generic.List{System.Int32},System.Collections.Generic.List{AscensionProtocol.DTO.PetStatusDTO}@)">
+            <summary>
+             获得所有被动技能的加成
+            </summary>
+            <param name="skillid"></param>
         </member>
         <member name="P:AscensionServer.GameResourceManager.ResUnitSetDict">
             <summary>
@@ -2555,7 +2559,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
+        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；

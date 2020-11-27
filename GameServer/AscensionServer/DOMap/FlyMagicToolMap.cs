@@ -13,6 +13,7 @@ namespace AscensionServer
         {
             Id(x => x.RoleID).GeneratedBy.Assigned().Column("roleid");
             Map(x => x.AllFlyMagicTool).Column("all_fly_magic_tool");
+            Map(x => x.FlyToolLayoutDict).Column("all_fly_magic_tool");
             Table("role_fly_magic_tool");
         }
     }

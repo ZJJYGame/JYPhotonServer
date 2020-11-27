@@ -97,6 +97,10 @@ namespace AscensionServer
                         GameManager.CustomeModule<RoleManager>().SendMessage(flyMagicToolRedisObj.RoleID, opData);
                     }
                     break;
+                case FlyMagicToolDTO.FlyMagicToolType.Update:
+
+
+                    break;
                 default:
                     break;
             }
