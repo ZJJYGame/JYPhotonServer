@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Cosmos;
 using AscensionProtocol.DTO;
 using AscensionServer.Threads;
-using EventData = Photon.SocketServer.EventData;
 using AscensionServer.Model;
 using RedisDotNet;
 using Protocol;
@@ -17,7 +16,9 @@ namespace AscensionServer
 
         protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
+            Utility.Debug.LogInfo("yzqData获取角色飞行法器");
             var roleFlyMagicToolJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleFlyMagicTool));
+            Utility.Debug.LogInfo("yzqData获取角色飞行法器" + roleFlyMagicToolJson);
             var roleFlyMagicToolObj = Utility.Json.ToObject<FlyMagicToolDTO>(roleFlyMagicToolJson);
             NHCriteria nHCriteriaRole = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleFlyMagicToolObj.RoleID);
             var roleFlyMagicTool= NHibernateQuerier.CriteriaSelectAsync<FlyMagicTool>(nHCriteriaRole).Result;
@@ -98,6 +99,7 @@ namespace AscensionServer
                     }
                     break;
                 case FlyMagicToolDTO.FlyMagicToolType.Update:
+                    Utility.Debug.LogInfo("yzqData获取角色飞行法器");
                     if (roleFlyMagicTool != null)
                     {
                         roleFlyMagicTool.FlyToolLayoutDict = Utility.Json.ToJson(roleFlyMagicToolObj.FlyToolLayoutDict);

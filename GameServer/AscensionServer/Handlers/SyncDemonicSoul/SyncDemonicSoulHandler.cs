@@ -25,10 +25,11 @@ namespace AscensionServer
             switch (demonicsoulObj.OperateType)
             {
                 case DemonicSoulOperateType.Add:
-
+                    GameManager.CustomeModule<DemonicSoulManager>().AddDemonical( demonicsoulObj.RoleID, demonicSoul,demonicsoulObj.CompoundList[0], nHCriteriaRole);
                     break;
                 case DemonicSoulOperateType.Compound:
 
+                    GameManager.CustomeModule<DemonicSoulManager>().CompoundDemonical(demonicsoulObj.CompoundList, demonicSoul, demonicsoulObj.RoleID, nHCriteriaRole);
                     break;
                 case DemonicSoulOperateType.Get:
 

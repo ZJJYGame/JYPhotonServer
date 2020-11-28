@@ -174,6 +174,10 @@ namespace AscensionProtocol
         /// </summary>
         SyncRoleFlyMagicTool = 68,
         /// <summary>
+        /// 同步妖灵精魄
+        /// </summary>
+        SyncDemonical=69,
+        /// <summary>
         /// 进入高同步场景的指令
         /// </summary>
         EnterLevelCommand = 111,
