@@ -159,8 +159,9 @@ namespace AscensionServer
                     subResponseParametersDict.Add((byte)ParameterCode.SoldOutAuctionGoods, (byte)SyncAuctionType.AuctionGoodsBeBought);
                     opdata.DataMessage = subResponseParametersDict;
                     GameManager.CustomeModule<RoleManager>().SendMessage(auctionGoodsObj.RoleID, opdata);
-                    //todo
                     //物品赋予买家
+                    InventoryManager.AddNewItem(buyerId, auctionGoodsObj.GlobalID, buyAuctionGoodsDTO.Count);
+                    //todo
                     //将商品移除关注列表
                     return 3;
                 }
@@ -220,6 +221,24 @@ namespace AscensionServer
             //添加拍卖品数据
             if (!await RedisHelper.Hash.HashExistAsync("AuctionGoodsData", putAwayGoods.GUID.ToString()))
                 await RedisHelper.Hash.HashSetAsync("AuctionGoodsData", putAwayGoods.GUID.ToString(), putAwayGoods);
+
+            //更新玩家个人拍卖表数据
+            List<string> roleAuctionItemList = new List<string>();
+            if (RedisHelper.Hash.HashExistAsync("RoleAuctionItems", putAwayGoods.RoleID.ToString()).Result)
+            {
+                roleAuctionItemList = RedisHelper.Hash.HashGetAsync<List<string>>("RoleAuctionItems", putAwayGoods  .RoleID.ToString()).Result;
+                roleAuctionItemList.Add(putAwayGoods.GUID);
+                Utility.Debug.LogInfo("玩家拍卖列表存在key");
+                RedisHelper.Hash.HashSet("RoleAuctionItems", putAwayGoods.RoleID.ToString(), roleAuctionItemList);
+            }
+            else
+            {
+                Utility.Debug.LogInfo("玩家拍卖列表不存在key!!!!");
+                roleAuctionItemList.Add(putAwayGoods.GUID);
+                RedisHelper.Hash.HashSet("RoleAuctionItems", putAwayGoods.RoleID.ToString(), roleAuctionItemList);
+            }
+            //移除玩家背包物品
+            
         }
     }
 }
