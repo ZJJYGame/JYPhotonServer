@@ -85,6 +85,19 @@ namespace AscensionServer
                 GameManager.CustomeModule<DataManager>().TryGetValue(typeof(PetSkillData).Name, out var petSkillData);
                 var petSkillDataDict = TransObject<List<PetSkillData>>(petSkillData).ToDictionary(key => key.SkillID, value => value);
 
+                #region 背包json
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(ItemBagBaseData).Name, out var itemBagData);
+                var itemBagDict = TransObject<List<ItemBagBaseData>>(itemBagData).ToDictionary(key => key.ItemID, value => value);
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(RingData).Name, out var ringData);
+                var ringDict = TransObject<List<RingData>>(ringData).ToDictionary(key => key.Ring_ID, value => value);
+                GameManager.CustomeModule<DataManager>().TryGetValue(typeof(MagicWeaponData).Name, out var magicWeaponData);
+                var magicWeaponDict = TransObject<List<MagicWeaponData>>(magicWeaponData).ToDictionary(key => key.Magic_ID, value => value);
+
+                GameManager.CustomeModule<DataManager>().TryAdd(itemBagDict);
+                GameManager.CustomeModule<DataManager>().TryAdd(ringDict);
+                GameManager.CustomeModule<DataManager>().TryAdd(magicWeaponDict);
+                #endregion
+
                 #region 战斗json
 
 
