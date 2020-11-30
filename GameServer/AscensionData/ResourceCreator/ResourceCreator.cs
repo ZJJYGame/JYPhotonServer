@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cosmos;
-using AscensionProtocol.DTO;
+//using AscensionProtocol.DTO;
 using UnityEngine;
 using MathNet.Numerics;
 using MathNet.Numerics.Random;
@@ -25,23 +25,23 @@ namespace AscensionData
         /// <param name="resVariable">资源参数类</param>
         /// <param name="border">边界信息</param>
         /// <returns>被生成后的对象</returns>
-        public ResourceUnitSetDTO CreateRandomResourceSet(ResVariable resVariable, Vector2 border)
-        {
+        //public ResourceUnitSetDTO CreateRandomResourceSet(ResVariable resVariable, Vector2 border)
+        //{
 
-            var resSetDTO = GameManager.ReferencePoolManager.Spawn<ResourceUnitSetDTO>();
-            resSetDTO.GlobalID = resVariable.GlobalID;
-            int count = GetRandomNumber(resVariable.Count, (int)resVariable.CountOffset);
-            for (int i = 0; i < count; i++)
-            {
-                var randonVector = GetRandomVector2(Vector2.zero, border);
-               var randonRotate =  GetRandomVector3(Vector3.zero, new Vector3(0, 360000, 0));
-                int FlowValue = GetRandomNumber(resVariable.FlowValue, (int)resVariable.FlowValueOffset);
-                ResourceUnitDTO resUnit = new ResourceUnitDTO()
-                { ID = i, FlowValue = FlowValue, Position = new TransformDTO() { PositionX= randonVector.x, PositionY = 0, PositionZ =  randonVector.y, RotationX = 0, RotationY = randonRotate.y, RotationZ = 0 } };
-                resSetDTO.AddResUnit(resUnit);
-            }
-            return resSetDTO;
-        }
+        //    var resSetDTO = GameManager.ReferencePoolManager.Spawn<ResourceUnitSetDTO>();
+        //    resSetDTO.GlobalID = resVariable.GlobalID;
+        //    int count = GetRandomNumber(resVariable.Count, (int)resVariable.CountOffset);
+        //    for (int i = 0; i < count; i++)
+        //    {
+        //        var randonVector = GetRandomVector2(Vector2.zero, border);
+        //       var randonRotate =  GetRandomVector3(Vector3.zero, new Vector3(0, 360000, 0));
+        //        int FlowValue = GetRandomNumber(resVariable.FlowValue, (int)resVariable.FlowValueOffset);
+        //        ResourceUnitDTO resUnit = new ResourceUnitDTO()
+        //        { ID = i, FlowValue = FlowValue, Position = new TransformDTO() { PositionX= randonVector.x, PositionY = 0, PositionZ =  randonVector.y, RotationX = 0, RotationY = randonRotate.y, RotationZ = 0 } };
+        //        resSetDTO.AddResUnit(resUnit);
+        //    }
+        //    return resSetDTO;
+        //}
         /// <summary>
         /// 获得扩大千倍后的随机向量
         /// </summary>
