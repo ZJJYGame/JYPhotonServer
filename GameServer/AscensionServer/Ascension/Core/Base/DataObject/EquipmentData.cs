@@ -12,6 +12,8 @@ namespace AscensionServer
     {
         public int Weapon_ID { get; set; }
         public string Weapon_Name { get; set; }
+        public string Weapon_Describe { get; set; }
+        public string Weapon_Icon { get; set; }
         public int Weapon_Quality { get; set; }
         public int Need_Level_ID { get; set; }
         public List<int> Weapon_Attack { get; set; }
@@ -20,6 +22,7 @@ namespace AscensionServer
         public int Weapon_Durable { get; set; }
         public int Weapon_Skill { get; set; }
         public string Weapon_Effect { get; set; }
-        public string Weapon_Type { get; set; }
+        public EquipType Weapon_Type { get; set; }
+
     }
 }

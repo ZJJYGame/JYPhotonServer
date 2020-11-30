@@ -1616,5 +1616,767 @@
                 }
             ],
             "isShow": false
-        }
+        },
+
+
+
+
+
+
+
+                {
+            "name": "20301",
+            "id": 20301,
+            "describe": "物理攻击力增加10%+100点",
+            "battleBuffTriggerTime": 0,
+            "probability": 100,
+            "coldTime": 0,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 0,
+                    "battleBuffEventType_RolePropertyChange": 4,
+                    "buffRolePropertyChange_SourceDataType": 3,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 100,
+                    "percentValue": 10,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "20311",
+            "id": 20311,
+            "describe": "造成伤害增加10%",
+            "battleBuffTriggerTime": 2,
+            "probability": 100,
+            "coldTime": 0,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 1,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 10,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "20312",
+            "id": 20312,
+            "describe": "受到伤害降低20%+10点",
+            "battleBuffTriggerTime": 3,
+            "probability": 100,
+            "coldTime": 0,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 1,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 1,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 10,
+                    "percentValue": 20,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "20313",
+            "id": 20313,
+            "describe": "无视目标20%+10点的防御",
+            "battleBuffTriggerTime": 2,
+            "probability": 100,
+            "coldTime": 0,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 1,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 2,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 10,
+                    "percentValue": 20,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "20314",
+            "id": 20314,
+            "describe": "闪避率增加50%",
+            "battleBuffTriggerTime": 0,
+            "probability": 100,
+            "coldTime": 0,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 1,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 3,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 50,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "20321",
+            "id": 20321,
+            "describe": "自身禁用buff",
+            "battleBuffTriggerTime": 0,
+            "probability": 100,
+            "coldTime": 0,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 2,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 0,
+                    "idList": [
+                        20951
+                    ],
+                    "flag": true,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "20331",
+            "id": 20331,
+            "describe": "眩晕状态",
+            "battleBuffTriggerTime": 0,
+            "probability": 100,
+            "coldTime": 0,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 3,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 0,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "20341",
+            "id": 20341,
+            "describe": "反击",
+            "battleBuffTriggerTime": 3,
+            "probability": 100,
+            "coldTime": 0,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 4,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 50,
+                    "percentValue": 0,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 21001
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "20351",
+            "id": 20351,
+            "describe": "流血",
+            "battleBuffTriggerTime": 7,
+            "probability": 100,
+            "coldTime": 0,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 5,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 3,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 10,
+                    "percentValue": 1,
+                    "idList": [],
+                    "flag": true,
+                    "flag_2": true,
+                    "flag_3": true,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "20352",
+            "id": 20352,
+            "describe": "回血",
+            "battleBuffTriggerTime": 7,
+            "probability": 100,
+            "coldTime": 0,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 5,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 3,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 20,
+                    "percentValue": 2,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": true,
+                    "flag_3": true,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "20361",
+            "id": 20361,
+            "describe": "回合开始时，给自己加10%气血+100点的护盾",
+            "battleBuffTriggerTime": 1,
+            "probability": 100,
+            "coldTime": 0,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 6,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 100,
+                    "percentValue": 10,
+                    "idList": [],
+                    "flag": true,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "20371",
+            "id": 20371,
+            "describe": "该次伤害减免20%，冷却5回合",
+            "battleBuffTriggerTime": 3,
+            "probability": 100,
+            "coldTime": 5,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 7,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 20,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "20381",
+            "id": 20381,
+            "describe": "为队友承受50%的伤害",
+            "battleBuffTriggerTime": 0,
+            "probability": 100,
+            "coldTime": 0,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 8,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 1,
+                    "fixedValue": 0,
+                    "percentValue": 50,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "20391",
+            "id": 20391,
+            "describe": "给打我的人添加buff",
+            "battleBuffTriggerTime": 3,
+            "probability": 100,
+            "coldTime": 0,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 9,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 5,
+                    "percentValue": 0,
+                    "idList": [],
+                    "flag": true,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 20351
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "20401",
+            "id": 20401,
+            "describe": "驱散流血buff",
+            "battleBuffTriggerTime": 0,
+            "probability": 100,
+            "coldTime": 0,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 10,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 0,
+                    "idList": [
+                        20351
+                    ],
+                    "flag": true,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "20411",
+            "id": 20411,
+            "describe": "使目标无法复活",
+            "battleBuffTriggerTime": 5,
+            "probability": 100,
+            "coldTime": 0,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 11,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 0,
+                    "idList": [],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        },
+        {
+            "name": "20421",
+            "id": 20421,
+            "describe": "免疫流血、回血buff",
+            "battleBuffTriggerTime": 0,
+            "probability": 100,
+            "coldTime": 0,
+            "battleBuffTriggerConditionList": [],
+            "battleBuffEventDataList": [
+                {
+                    "eventTriggerCondition": {
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [],
+                        "targetCount": 0,
+                        "battleBuffCondition_DamageType": 0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 0,
+                        "isUp": false,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+                    "battleBuffEventType": 12,
+                    "battleBuffEventType_RolePropertyChange": 0,
+                    "buffRolePropertyChange_SourceDataType": 0,
+                    "buffPropertyChangeType": 0,
+                    "buffRoleStateChangeType": 0,
+                    "buffEvent_DamageOrHeal_ChangeDataType": 0,
+                    "buffEvent_DamageOrHeal_SourceDataType": 0,
+                    "buffEvent_DamageOrHeal_EffectTargetType": 0,
+                    "BattleSkillDamageType": 0,
+                    "buffEvent_Shield_SourceDataType": 0,
+                    "buffEvent_TakeDamageForOther_TargetType": 0,
+                    "fixedValue": 0,
+                    "percentValue": 0,
+                    "idList": [
+                        20351,
+                        20352
+                    ],
+                    "flag": false,
+                    "flag_2": false,
+                    "flag_3": false,
+                    "id": 0
+                }
+            ],
+            "isShow": false
+        }     
     ]

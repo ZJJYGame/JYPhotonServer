@@ -22,6 +22,18 @@ namespace AscensionServer
         public int DamageCalculation(int roleId,int cuurentId,int mulitity)
         {
             var bufferSet = BattleInitObject(roleId).bufferUnits;
+            //var bufferSet = BattleInitObject(roleId).bufferUnits;
+            for (int oc = 0; oc < bufferSet.Count; oc++)
+            {
+                if (bufferSet[oc].BufferData.RoundNumber == 0)
+                {
+                    bufferSet.RemoveAt(oc);
+                    continue;
+                }
+                bufferSet[oc].BufferData.RoundNumber -=1;
+
+
+            }
             //mulitity+ mulitity* bufferSet[0].batt
             return 0;
         }

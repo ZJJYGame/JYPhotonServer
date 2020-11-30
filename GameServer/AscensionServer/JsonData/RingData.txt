@@ -1,0 +1,102 @@
+[{
+		"Ring_ID": 17951,
+		"Ring_Name": "储物袋一",
+		"Ring_Describe": "储物袋一的描述",
+		"Ring_Icon": 17951,
+		"Ring_Quality": 0,
+		"Need_Level_ID": 1,
+		"Ring_Number": 12,
+		"Ring_Type": "PlayerStorageBag"
+	},
+	{
+		"Ring_ID": 17952,
+		"Ring_Name": "储物袋二",
+		"Ring_Describe": "储物袋二的描述",
+		"Ring_Icon": 17952,
+		"Ring_Quality": 1,
+		"Need_Level_ID": 1,
+		"Ring_Number": 24,
+		"Ring_Type": "PlayerStorageBag"
+	},
+	{
+		"Ring_ID": 17953,
+		"Ring_Name": "储物袋三",
+		"Ring_Describe": "储物袋三的描述",
+		"Ring_Icon": 17953,
+		"Ring_Quality": 2,
+		"Need_Level_ID": 1,
+		"Ring_Number": 36,
+		"Ring_Type": "PlayerStorageBag"
+	},
+	{
+		"Ring_ID": 17954,
+		"Ring_Name": "储物袋四",
+		"Ring_Describe": "储物袋四的描述",
+		"Ring_Icon": 17954,
+		"Ring_Quality": 3,
+		"Need_Level_ID": 1,
+		"Ring_Number": 48,
+		"Ring_Type": "PlayerStorageBag"
+	},
+	{
+		"Ring_ID": 17955,
+		"Ring_Name": "储物袋五",
+		"Ring_Describe": "储物袋五的描述",
+		"Ring_Icon": 17955,
+		"Ring_Quality": 4,
+		"Need_Level_ID": 1,
+		"Ring_Number": 60,
+		"Ring_Type": "PlayerStorageBag"
+	},
+	{
+		"Ring_ID": 17981,
+		"Ring_Name": "灵兽袋一",
+		"Ring_Describe": "灵兽袋一的描述",
+		"Ring_Icon": 17981,
+		"Ring_Quality": 0,
+		"Need_Level_ID": 1,
+		"Ring_Number": 1,
+		"Ring_Type": "PlayerSpiritBeastBag"
+	},
+	{
+		"Ring_ID": 17982,
+		"Ring_Name": "灵兽袋二",
+		"Ring_Describe": "灵兽袋二的描述",
+		"Ring_Icon": 17982,
+		"Ring_Quality": 1,
+		"Need_Level_ID": 1,
+		"Ring_Number": 2,
+		"Ring_Type": "PlayerSpiritBeastBag"
+	},
+	{
+		"Ring_ID": 17983,
+		"Ring_Name": "灵兽袋三",
+		"Ring_Describe": "灵兽袋三的描述",
+		"Ring_Icon": 17983,
+		"Ring_Quality": 2,
+		"Need_Level_ID": 1,
+		"Ring_Number": 3,
+		"Ring_Type": "PlayerSpiritBeastBag"
+	},
+	{
+		"Ring_ID": 17984,
+		"Ring_Name": "灵兽袋四",
+		"Ring_Describe": "灵兽袋四的描述",
+		"Ring_Icon": 17984,
+		"Ring_Quality": 3,
+		"Need_Level_ID": 1,
+		"Ring_Number": 4,
+		"Ring_Type": "PlayerSpiritBeastBag"
+	},
+	{
+		"Ring_ID": 17985,
+		"Ring_Name": "灵兽袋五",
+		"Ring_Describe": "灵兽袋五的描述",
+		"Ring_Icon": 17985,
+		"Ring_Quality": 4,
+		"Need_Level_ID": 1,
+		"Ring_Number": 5,
+		"Ring_Type": "PlayerSpiritBeastBag"
+	}
+
+]

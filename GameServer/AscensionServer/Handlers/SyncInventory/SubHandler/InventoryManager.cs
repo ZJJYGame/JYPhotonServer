@@ -14,7 +14,7 @@ using Protocol;
 
 namespace AscensionServer
 {
-    public class InventoryManager
+    public partial class InventoryManager
     {
         /// <summary>
         /// 映射T
