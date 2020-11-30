@@ -37,6 +37,7 @@ namespace AscensionServer
                         else
                         {
                             GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.Remove(RoleObj.RoleID);
+                            GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInitData.Remove(RoleObj.RoleID);
                             GameManager.CustomeModule<ServerBattleManager>().EntryBattle(RoleObj.BattleInitDTO);
                         }
                         break;

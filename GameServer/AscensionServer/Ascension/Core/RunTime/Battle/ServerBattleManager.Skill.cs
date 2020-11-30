@@ -15,6 +15,18 @@ namespace AscensionServer
 {
     public partial class ServerBattleManager
     {
+        /// <summary>
+        /// /伤害计算公式
+        /// </summary>
+        /// <returns></returns>
+        public int DamageCalculation(int roleId,int cuurentId,int mulitity)
+        {
+            var bufferSet = BattleInitObject(roleId).bufferUnits;
+            //mulitity+ mulitity* bufferSet[0].batt
+            return 0;
+        }
+
+
         ///buff  针对buff的技能id
         int buffToSkillId;
          #region 统一技能的修改
@@ -25,7 +37,7 @@ namespace AscensionServer
         /// </summary>
         public void SkillSingleOrStaged(BattleTransferDTO battleTransferDTOs, int roleId, int currentId, BattleSkillData battleSkillData, int special = 0)
         {
-            var enemySet = _teamIdToBattleInit[roleId].enemyUnits;
+            var enemySet = BattleInitObject(roleId).enemyUnits;
             var skillDataDamageNum = battleSkillData.battleSkillDamageNumDataList;
             var  addBuffDataSet  =  battleSkillData.battleSkillAddBuffList;
             var eventDataSet = battleSkillData.battleSkillEventDataList;
@@ -146,8 +158,8 @@ namespace AscensionServer
             List<BufferBattleDataDTO> bufferId = new List<BufferBattleDataDTO>();
             if (addBuffDataSet.Count == 0)
                 return bufferId;
-            var playerSet = _teamIdToBattleInit[roleId].playerUnits;
-            var bufferSet = _teamIdToBattleInit[roleId].bufferUnits;
+            var playerSet = BattleInitObject(roleId).playerUnits;
+            var bufferSet = BattleInitObject(roleId).bufferUnits;
             var playerSetObject = playerSet.Find(x => x.RoleStatusDTO.RoleID == currentId);
             tempSet = playerSetObject;
             enemySet = enemySetObject;
@@ -302,8 +314,8 @@ namespace AscensionServer
             List<int> bufferId = new List<int>();
             if (removeBuffDataSet.Count == 0)
                 return bufferId;
-            var playerSet = _teamIdToBattleInit[roleId].playerUnits;
-            var bufferSet = _teamIdToBattleInit[roleId].bufferUnits;
+            var playerSet = BattleInitObject(roleId).playerUnits;
+            var bufferSet = BattleInitObject(roleId).bufferUnits;
           
             for (int og = 0; og < removeBuffDataSet.Count; og++)
             {
@@ -331,7 +343,7 @@ namespace AscensionServer
         /// </summary>
         public void BattleSkillEventDataMethod(List<BattleSkillEventData> battleSkillEvents, int roleId, int currentId, EnemyBattleDataDTO enemySetObject,int index, List<TargetInfoDTO> targetInfoDTOsSet)
         {
-            var playerSet = _teamIdToBattleInit[roleId].playerUnits;
+            var playerSet = BattleInitObject(roleId).playerUnits;
             var playerSetObject = playerSet.Find(x => x.RoleStatusDTO.RoleID == currentId);
             if (battleSkillEvents.Count == 0)
                 return;
@@ -482,8 +494,8 @@ namespace AscensionServer
         public void PlayerToSkillReturnBlood(BattleTransferDTO battleTransferDTOs, int roleId, int currentId, BattleSkillData battleSkillData)
         {
 
-            var pU = _teamIdToBattleInit[roleId].playerUnits;
-            var petU = _teamIdToBattleInit[roleId].petUnits;
+            var pU = BattleInitObject(roleId).playerUnits;
+            var petU = BattleInitObject(roleId).petUnits;
             var bSD = battleSkillData.battleSkillDamageNumDataList;
             var addBuffDataSet= battleSkillData.battleSkillAddBuffList;
             var removeBuffDataSet = battleSkillData.battleSkillRemoveBuffDataList;
@@ -537,12 +549,12 @@ namespace AscensionServer
         public List<int> PlayerToPetID(int roleId)
         {
             List<int> TargetIdSet = new List<int>();
-            for (int i = 0; i < _teamIdToBattleInit[roleId].playerUnits.Count
+            for (int i = 0; i < BattleInitObject(roleId).playerUnits.Count
 ; i++)
-                TargetIdSet.Add(_teamIdToBattleInit[roleId].playerUnits[i].RoleStatusDTO.RoleID);
-            for (int i = 0; i < _teamIdToBattleInit[roleId].petUnits.Count
+                TargetIdSet.Add(BattleInitObject(roleId).playerUnits[i].RoleStatusDTO.RoleID);
+            for (int i = 0; i < BattleInitObject(roleId).petUnits.Count
 ; i++)
-                TargetIdSet.Add(_teamIdToBattleInit[roleId].petUnits[i].PetStatusDTO.PetID);
+                TargetIdSet.Add(BattleInitObject(roleId).petUnits[i].PetStatusDTO.PetID);
 
             return TargetIdSet;
         }
@@ -699,7 +711,7 @@ namespace AscensionServer
         {
             TargetInfoDTO tempTrans = new TargetInfoDTO();
             tempTrans.TargetID = roleId;
-            tempTrans.TargetHPDamage = _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0 ? 1 : 0;
+            tempTrans.TargetHPDamage = BattleInitObject(roleId).playerUnits[0].RoleStatusDTO.RoleHP > 0 ? 1 : 0;
             if (tempTrans.TargetHPDamage == 1)
                 isRunAway = true;
             List<TargetInfoDTO> TargetInfosSet = new List<TargetInfoDTO>();
@@ -716,13 +728,13 @@ namespace AscensionServer
         {
             TargetInfoDTO tempTrans = new TargetInfoDTO();
             tempTrans.TargetID = petId;
-            tempTrans.TargetHPDamage = _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP > 0 ? 1 : 0;
+            tempTrans.TargetHPDamage = BattleInitObject(roleId).petUnits[0].PetStatusDTO.PetHP > 0 ? 1 : 0;
             ///TODO 缺少同步HP
             if (tempTrans.TargetHPDamage == 1)
             {
                 isPetRunAway = true;
-                _teamIdToBattleInit[roleId].petUnits.RemoveAt(0);
-                //_teamIdToBattleInit[roleId].battleUnits.RemoveAt(_teamIdToBattleInit[roleId].battleUnits.FindIndex(x => x.ObjectId == petId));
+                BattleInitObject(roleId).petUnits.RemoveAt(0);
+                //BattleInitObject(roleId).battleUnits.RemoveAt(BattleInitObject(roleId).battleUnits.FindIndex(x => x.ObjectId == petId));
             }
             List<TargetInfoDTO> TargetInfosSet = new List<TargetInfoDTO>();
             TargetInfosSet.Add(tempTrans);
@@ -740,29 +752,29 @@ namespace AscensionServer
             TargetInfoDTO tempTrans = new TargetInfoDTO();
             tempTrans.TargetID = currentRole;
             if (speed == -1)
-                tempTrans.TargetHPDamage = _teamIdToBattleInit[roleId].petUnits[transfer].PetStatusDTO.PetHP > 0 ? 1 : 0;
+                tempTrans.TargetHPDamage = BattleInitObject(roleId).petUnits[transfer].PetStatusDTO.PetHP > 0 ? 1 : 0;
             else
-                tempTrans.TargetHPDamage = _teamIdToBattleInit[roleId].playerUnits[transfer].RoleStatusDTO.RoleHP > 0 ? 1 : 0;
+                tempTrans.TargetHPDamage = BattleInitObject(roleId).playerUnits[transfer].RoleStatusDTO.RoleHP > 0 ? 1 : 0;
             if (tempTrans.TargetHPDamage == 1)
             {
                 if (speed == -1)
                 {
                     isPetTeamRunAway = true;
-                    _teamIdToBattleInit[roleId].petUnits.Remove(_teamIdToBattleInit[roleId].petUnits.Find(x => x.PetStatusDTO.PetID == currentRole));
-                    //_teamIdToBattleInit[roleId].battleUnits.RemoveAt(_teamIdToBattleInit[roleId].battleUnits.FindIndex(x => x.ObjectId == currentRole));
-                    _roomidToBattleTransfer[_teamIdToBattleInit[roleId].RoomId].RemoveAt(_roomidToBattleTransfer[_teamIdToBattleInit[roleId].RoomId].FindIndex(x => x.petBattleTransferDTO.RoleId == currentRole));
+                    BattleInitObject(roleId).petUnits.Remove(BattleInitObject(roleId).petUnits.Find(x => x.PetStatusDTO.PetID == currentRole));
+                    //BattleInitObject(roleId).battleUnits.RemoveAt(BattleInitObject(roleId).battleUnits.FindIndex(x => x.ObjectId == currentRole));
+                    _roomidToBattleTransfer[BattleInitObject(roleId).RoomId].RemoveAt(_roomidToBattleTransfer[BattleInitObject(roleId).RoomId].FindIndex(x => x.petBattleTransferDTO.RoleId == currentRole));
                 }
                 else
                 {
                     isTeamRunAway++;
-                    // _teamIdToBattleInit[roleId].playerUnits.RemoveAt(_teamIdToBattleInit[roleId].playerUnits.FindIndex(x => x.RoleStatusDTO.RoleID == currentRole));
+                    // BattleInitObject(roleId).playerUnits.RemoveAt(BattleInitObject(roleId).playerUnits.FindIndex(x => x.RoleStatusDTO.RoleID == currentRole));
                     //TODO   需要下午该一下
-                    //_roomidToBattleTransfer[_teamIdToBattleInit[roleId].RoomId].RemoveAt(_roomidToBattleTransfer[_teamIdToBattleInit[roleId].RoomId].FindIndex(x => x.RoleId == currentRole));
+                    //_roomidToBattleTransfer[BattleInitObject(roleId).RoomId].RemoveAt(_roomidToBattleTransfer[BattleInitObject(roleId).RoomId].FindIndex(x => x.RoleId == currentRole));
 
-                    //var petTempId=  _teamIdToBattleInit[roleId].petUnits.Find(x => x.RoleId == currentRole);
-                    // _teamIdToBattleInit[roleId].petUnits.RemoveAt(_teamIdToBattleInit[roleId].petUnits.FindIndex(x => x.RoleId == currentRole));
-                    //_teamIdToBattleInit[roleId].battleUnits.RemoveAt(_teamIdToBattleInit[roleId].battleUnits.FindIndex(x => x.ObjectId == currentRole));
-                    //_teamIdToBattleInit[roleId].battleUnits.RemoveAt(_teamIdToBattleInit[roleId].battleUnits.FindIndex(x => x.ObjectId == petTempId.PetStatusDTO.PetID));
+                    //var petTempId=  BattleInitObject(roleId).petUnits.Find(x => x.RoleId == currentRole);
+                    // BattleInitObject(roleId).petUnits.RemoveAt(BattleInitObject(roleId).petUnits.FindIndex(x => x.RoleId == currentRole));
+                    //BattleInitObject(roleId).battleUnits.RemoveAt(BattleInitObject(roleId).battleUnits.FindIndex(x => x.ObjectId == currentRole));
+                    //BattleInitObject(roleId).battleUnits.RemoveAt(BattleInitObject(roleId).battleUnits.FindIndex(x => x.ObjectId == petTempId.PetStatusDTO.PetID));
                 }
             }
             List<TargetInfoDTO> TargetInfosSet = new List<TargetInfoDTO>();
@@ -785,10 +797,10 @@ namespace AscensionServer
             teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = currentId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
             tempSelect = 0;
 
-           var catchTarget = _teamIdToBattleInit[roleId].enemyUnits.Find(x => x.EnemyStatusDTO.EnemyId == battleTransferDTOs.TargetInfos[0].TargetID);
-            _teamIdToBattleInit[roleId].enemyUnits.Remove(catchTarget);
-           var getTarget =  _teamIdToBattleInit[roleId].battleUnits.Find(x => x.ObjectId == battleTransferDTOs.TargetInfos[0].TargetID);
-            _teamIdToBattleInit[roleId].battleUnits.Remove(getTarget);
+           var catchTarget = BattleInitObject(roleId).enemyUnits.Find(x => x.EnemyStatusDTO.EnemyId == battleTransferDTOs.TargetInfos[0].TargetID);
+            BattleInitObject(roleId).enemyUnits.Remove(catchTarget);
+           var getTarget =  BattleInitObject(roleId).battleUnits.Find(x => x.ObjectId == battleTransferDTOs.TargetInfos[0].TargetID);
+            BattleInitObject(roleId).battleUnits.Remove(getTarget);
         }
         #endregion
 

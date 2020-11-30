@@ -100,34 +100,6 @@ namespace AscensionServer
             OperationData opData = new OperationData();
             opData.DataMessage = RoundServerToClient();
             opData.OperationCode = (byte)OperationCode.SyncBattleTransfer;
-            #region ob
-            /*
-            switch (battleCmd)
-            {
-                case BattleCmd.Init:
-                    break;
-                case BattleCmd.Prepare:
-                    break;
-                case BattleCmd.PropsInstruction:
-                    break;
-                case BattleCmd.SkillInstruction:
-                    opData.OperationCode = (byte)OperationCode.SyncBattleTransfer;
-                    break;
-                case BattleCmd.RunAwayInstruction:
-                    opData.OperationCode = (byte)OperationCode.SyncBattleMessageRunAway;
-                    break;
-                case BattleCmd.PerformBattleComplete:
-                    break;
-                case BattleCmd.MagicWeapon:
-                    break;
-                case BattleCmd.CatchPet:
-                    break;
-                case BattleCmd.SummonPet:
-                    break;
-                case BattleCmd.Tactical:
-                    break;
-            }*/
-            #endregion
             GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
             GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Enqueue(roomId);
             GameManager.CustomeModule<ServerBattleManager>().TimestampBattleEnd(roomId);

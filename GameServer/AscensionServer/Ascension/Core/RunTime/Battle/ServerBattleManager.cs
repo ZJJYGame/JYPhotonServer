@@ -71,6 +71,7 @@ namespace AscensionServer
                 battleInit.battleUnits = AllBattleDataDTOsInfo(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, battleInitDTO);
                 battleInit.bufferUnits = new List<BufferBattleDataDTO>();
                 _teamIdToBattleInit.Add(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, battleInit);
+                _teamIdToBattleInitData.Add(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, battleInit);
                 _roomidToBattleTransfer.Add(battleInit.RoomId, new List<BattleTransferDTO>());
                 _roomidToTimer.Add(battleInit.RoomId, new TimerToManager(RoleBattleTime));
             }
@@ -138,24 +139,24 @@ namespace AscensionServer
             {
                 ReleaseToSpeed(roleId);
                 ///出手速度
-                for (int speed = 0; speed < _teamIdToBattleInit[roleId].battleUnits.Count; speed++)
+                for (int speed = 0; speed < BattleInitObject(roleId).battleUnits.Count; speed++)
                 {
                     if (isRunAway)
                         break;
-                    var objectOwner = ReleaseToOwner(_teamIdToBattleInit[roleId].battleUnits[speed].ObjectID, _teamIdToBattleInit[roleId].battleUnits[speed].ObjectId, roleId);
+                    var objectOwner = ReleaseToOwner(BattleInitObject(roleId).battleUnits[speed].ObjectID, BattleInitObject(roleId).battleUnits[speed].ObjectId, roleId);
                     if (objectOwner == null || tempSelect == 1)
                         continue;
                     var typeName = objectOwner.GetType().Name;
-                    //Utility.Debug.LogInfo("角色剩余的血量" + _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP);
+                    //Utility.Debug.LogInfo("角色剩余的血量" + BattleInitObject(roleId).playerUnits[0].RoleStatusDTO.RoleHP);
                     switch (typeName)
                     {
                         case "EnemyStatusDTO":
                             var enemyStatusData = objectOwner as EnemyStatusDTO;
-                            if (enemyStatusData.EnemyHP > 0 && _teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP > 0)
+                            if (enemyStatusData.EnemyHP > 0 && BattleInitObject(roleId).playerUnits[0].RoleStatusDTO.RoleHP > 0)
                                 AIToRelease(battleTransferDTOs, enemyStatusData, roleId,roleId,speed);
                             break;
                         case "RoleStatusDTO":
-                            if (_teamIdToBattleInit[roleId].playerUnits[0].RoleStatusDTO.RoleHP <= 0)
+                            if (BattleInitObject(roleId).playerUnits[0].RoleStatusDTO.RoleHP <= 0)
                                 return;
                             switch (battleTransferDTOs.BattleCmd)
                             {
@@ -206,18 +207,18 @@ namespace AscensionServer
                             var petStatusDTO = objectOwner as PetStatusDTO;
                             if (petStatusDTO.PetHP <= 0)
                                 continue;
-                            //Utility.Debug.LogInfo("老陆 测试" + _teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP);
+                            //Utility.Debug.LogInfo("老陆 测试" + BattleInitObject(roleId).petUnits[0].PetStatusDTO.PetHP);
                             switch (battleTransferDTOs.petBattleTransferDTO.BattleCmd)
                             {
                                 #region 宠物道具
                                 case BattleCmd.PropsInstruction:
-                                    if (_teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP > 0)
+                                    if (BattleInitObject(roleId).petUnits[0].PetStatusDTO.PetHP > 0)
                                         PlayerToPropslnstruction(battleTransferDTOs.petBattleTransferDTO, roleId, battleTransferDTOs.petBattleTransferDTO.RoleId);
                                     break;
                                 #endregion
                                 #region 宠物技能
                                 case BattleCmd.SkillInstruction:
-                                    if (_teamIdToBattleInit[roleId].petUnits[0].PetStatusDTO.PetHP > 0)
+                                    if (BattleInitObject(roleId).petUnits[0].PetStatusDTO.PetHP > 0)
                                         PlayerToSKillRelease(battleTransferDTOs.petBattleTransferDTO, roleId, battleTransferDTOs.petBattleTransferDTO.RoleId);
                                     break;
                                 #endregion

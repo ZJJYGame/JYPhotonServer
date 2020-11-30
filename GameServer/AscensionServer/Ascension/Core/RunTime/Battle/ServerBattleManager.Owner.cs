@@ -26,9 +26,9 @@ namespace AscensionServer
         /// <param name="skillGongFa"></param>
         public void AlToSurvival(BattleTransferDTO battleTransferDTOs, int roleId, int info, BattleSkillData battleSkillData)
         {
-            var indexNumber = 0; //_teamIdToBattleInit[roleId].enemyUnits.Count;
-            int survivalNumber = AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits).Count;
-            if (_teamIdToBattleInit[roleId].enemyUnits.Find(x => x.EnemyStatusDTO.EnemyId == battleTransferDTOs.TargetInfos[info].TargetID).EnemyStatusDTO.EnemyHP > 0)
+            var indexNumber = 0; //BattleInitObject(roleId).enemyUnits.Count;
+            int survivalNumber = AIToHPMethod(roleId, BattleInitObject(roleId).enemyUnits).Count;
+            if (BattleInitObject(roleId).enemyUnits.Find(x => x.EnemyStatusDTO.EnemyId == battleTransferDTOs.TargetInfos[info].TargetID).EnemyStatusDTO.EnemyHP > 0)
                 TargetID.Add(battleTransferDTOs.TargetInfos[info].TargetID, battleTransferDTOs.TargetInfos[info].GlobalId);
             while (TargetID.Count != battleSkillData.TargetNumber)
             {
@@ -36,13 +36,13 @@ namespace AscensionServer
                     break;
                 //TODO 缺少判断   数量不够 的情况下
                 indexNumber++;
-                //var index = new Random().Next(0, AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits).Count);
-                if (AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits).Count == indexNumber - 1)
+                //var index = new Random().Next(0, AIToHPMethod(roleId, BattleInitObject(roleId).enemyUnits).Count);
+                if (AIToHPMethod(roleId, BattleInitObject(roleId).enemyUnits).Count == indexNumber - 1)
                     break;
-                if (TargetID.ContainsKey(AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits)[indexNumber - 1].EnemyStatusDTO.EnemyId))
+                if (TargetID.ContainsKey(AIToHPMethod(roleId, BattleInitObject(roleId).enemyUnits)[indexNumber - 1].EnemyStatusDTO.EnemyId))
                     continue;
 
-                TargetID.Add(AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits)[indexNumber - 1].EnemyStatusDTO.EnemyId, AIToHPMethod(roleId, _teamIdToBattleInit[roleId].enemyUnits)[indexNumber - 1].GlobalId);
+                TargetID.Add(AIToHPMethod(roleId, BattleInitObject(roleId).enemyUnits)[indexNumber - 1].EnemyStatusDTO.EnemyId, AIToHPMethod(roleId, BattleInitObject(roleId).enemyUnits)[indexNumber - 1].GlobalId);
             }
         }
 

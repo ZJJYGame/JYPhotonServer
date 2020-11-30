@@ -137,27 +137,34 @@ namespace AscensionServer
                         BuffEventBuffPropertyChangeMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i, isSelf);
                         break;
                     case BattleBuffEventType.ForbiddenBuff:
+                        BuffEventForbiddenBuffMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i, isSelf);
                         break;
                     case BattleBuffEventType.RoleStateChange:
+                        BuffEventRoleStateChangeMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i, isSelf);
                         break;
                     case BattleBuffEventType.UseDesignateSkill:
+                        BuffEventUseDesignateSkillMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i, isSelf);
                         break;
                     case BattleBuffEventType.DamageOrHeal:
                         BuffEventDamageOrHealMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i, isSelf);
                         break;
                     case BattleBuffEventType.Shield:
+                        BuffEventShieldMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i, isSelf);
                         break;
                     case BattleBuffEventType.DamageReduce:
+                        BuffEventDamageReduceMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i, isSelf);
                         break;
                     case BattleBuffEventType.TakeHurtForOther:
+                        BuffEventTakeHurtForOtherMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i, isSelf);
                         break;
                     case BattleBuffEventType.AddBuff:
+                        BuffEventAddBuffMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i, isSelf);
                         break;
                     case BattleBuffEventType.DispelBuff:
+                        BuffEventDispelBuffMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i, isSelf);
                         break;
                     case BattleBuffEventType.NotResurgence:
-                        break;
-                    default:
+                        BuffEventNotResurgenceMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i, isSelf);
                         break;
                 }
             }
@@ -302,8 +309,51 @@ namespace AscensionServer
 
         #endregion
 
-        #region BuffPropertyChange buff属性变动
+        #region BuffPropertyChange buff属性变动   TODO
         public void BuffEventBuffPropertyChangeMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict, List<BattleBuffEventData> buffEventSet, int i, bool isSelf)
+        {
+            switch (buffEventSet[i].buffPropertyChangeType)
+            {
+                case BuffEvent_PropertyChangeType.TakeDamage:
+                    break;
+                case BuffEvent_PropertyChangeType.ReceiveDamage:
+                    break;
+                case BuffEvent_PropertyChangeType.IgnoreDefend:
+                    break;
+                case BuffEvent_PropertyChangeType.BasicDodgeRate:
+                    break;
+            }
+        }
+        #endregion
+
+        #region ForbiddenBuff  禁用buff列表   TODO
+        public void BuffEventForbiddenBuffMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict, List<BattleBuffEventData> buffEventSet, int i, bool isSelf)
+        {
+
+        }
+        #endregion
+
+        #region RoleStateChange 角色状态改变  TODO
+        public void BuffEventRoleStateChangeMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict, List<BattleBuffEventData> buffEventSet, int i, bool isSelf)
+        {
+            switch (buffEventSet[i].buffRoleStateChangeType)
+            {
+                case BuffEvent_RoleStateChangeType.Dizziness:
+                    break;
+                case BuffEvent_RoleStateChangeType.Frozen:
+                    break;
+                case BuffEvent_RoleStateChangeType.Chaos:
+                    break;
+                case BuffEvent_RoleStateChangeType.LostHeart:
+                    break;
+                case BuffEvent_RoleStateChangeType.Hide:
+                    break;
+            }
+        }
+        #endregion
+            
+        #region UseDesignateSkill 使用指定技能 TODO
+        public void BuffEventUseDesignateSkillMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict, List<BattleBuffEventData> buffEventSet, int i, bool isSelf)
         {
 
         }
@@ -430,6 +480,47 @@ namespace AscensionServer
         }
         #endregion
 
+        #region Shield 护盾 TODO
+        public void BuffEventShieldMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict, List<BattleBuffEventData> buffEventSet, int i, bool isSelf)
+        {
+
+        }
+        #endregion
+
+        #region DamageReduce 该次伤害减免 TODO
+        public void BuffEventDamageReduceMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict, List<BattleBuffEventData> buffEventSet, int i, bool isSelf)
+        {
+
+        }
+        #endregion
+
+        #region TakeHurtForOther 替他人承担伤害 TODO
+        public void BuffEventTakeHurtForOtherMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict, List<BattleBuffEventData> buffEventSet, int i, bool isSelf)
+        {
+
+        }
+        #endregion
+
+        #region AddBuff 替他人承担伤害 TODO
+        public void BuffEventAddBuffMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict, List<BattleBuffEventData> buffEventSet, int i, bool isSelf)
+        {
+
+        }
+        #endregion
+
+        #region DispelBuff 驱散 TODO
+        public void BuffEventDispelBuffMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict, List<BattleBuffEventData> buffEventSet, int i, bool isSelf)
+        {
+
+        }
+        #endregion
+
+        #region NotResurgence 无法复活 TODO
+        public void BuffEventNotResurgenceMothed(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, Dictionary<int, BattleBuffData> buffDict, List<BattleBuffEventData> buffEventSet, int i, bool isSelf)
+        {
+
+        }
+        #endregion
 
     }
 }

@@ -19,6 +19,11 @@ namespace AscensionServer
     /// </summary>
     public partial class ServerBattleManager
     {
+
+        /// <summary>
+        ///  角色id 和对应的 房间数据对象  缓存数据  2020 11：30 09.36
+        /// </summary>
+        public Dictionary<int, BattleInitDTO> _teamIdToBattleInitData = new Dictionary<int, BattleInitDTO>();
         /// <summary>
         ///  角色id 和对应的 房间数据对象
         /// </summary>
@@ -43,10 +48,6 @@ namespace AscensionServer
         /// 收集每个回合的传输数据
         /// </summary>
         public List<BattleTransferDTO> teamSet ;
-        /// <summary>
-        /// 收集准备战斗指令
-        /// </summary>
-        List<int> teamIdList = new List<int>();
         /// <summary>
         ///玩家的行动目标  怪物的唯一id 对应全局id
         /// </summary>
@@ -121,7 +122,34 @@ namespace AscensionServer
             return GameManager.CustomeModule<ServerTeamManager>()._teamTOModel.Values.ToList().Find(x => x.TeamMembers.Find(q => q.RoleID == roleId) != null);
         }
 
-      
+
+        /// <summary>
+        /// 返回初始化 数据对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public BattleInitDTO BattleInitObject(int roleId)
+        {
+            if (_teamIdToBattleInit.ContainsKey(roleId))
+                return _teamIdToBattleInit[roleId];
+            return null;
+        }
+
+        /// <summary>
+        /// 返回初始化 数据对象 缓存数据
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        public BattleInitDTO BattleInitDataObject(int roleId)
+        {
+            if (_teamIdToBattleInitData.ContainsKey(roleId))
+                return _teamIdToBattleInitData[roleId];
+            return null;
+        }
+
+
 
 
         #region 战斗进入初始化
