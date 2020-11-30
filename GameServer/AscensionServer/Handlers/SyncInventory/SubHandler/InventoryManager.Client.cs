@@ -91,7 +91,7 @@ namespace AscensionServer
         /// json 转换为字典中
         /// </summary>
         /// <returns></returns>
-        public static Dictionary<int,ItemBagBaseData> InventotyDict()
+        public static Dictionary<int, ItemBagBaseData> InventotyDict()
         {
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, ItemBagBaseData>>(out var ItemBagBaseDict);
             return ItemBagBaseDict;
@@ -109,8 +109,6 @@ namespace AscensionServer
             return GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
         }
 
-
-
         /// <summary>
         /// 单个物品
         /// </summary>
@@ -118,13 +116,32 @@ namespace AscensionServer
         /// <param name="_itemId"></param>
         /// <param name="_RingItemCount"></param>
         /// <param name="_RingItemAdorn"></param>
-        public static void AddNewItem(int roleId,int _itemId, int _RingItemCount, string _RingItemAdorn = "0")
+        public static void AddNewItem(int roleId, int _itemId, int _RingItemCount, string _RingItemAdorn = "0")
         {
             AddDataCmd(roleId, new RingDTO() { RingItems = new Dictionary<int, RingItemsDTO>() { { _itemId, new RingItemsDTO() { RingItemAdorn = _RingItemAdorn, RingItemCount = _RingItemCount, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = InventotyDict()[Int32.Parse(_itemId.ToString().Substring(0, 5))].ItemMax, RingItemType = AddRingItemType(Int32.Parse(_itemId.ToString().Substring(0, 5))) } } } }, NHCriteria(roleId));
         }
-     
 
-      
+        /// <summary>
+        /// 更新一个物品
+        /// </summary>
+        /// <param name="_id"></param>
+        /// <param name="_itemId"></param>
+        /// <param name="_RingItemCount"></param>
+        /// <param name="_RingItemAdorn"></param>
+        public static void UpdateNewItem(int roleId, int _itemId, int _RingItemCount, string _RingItemAdorn = "0")
+        {
+            UdpateCmd(roleId, new RingDTO() { RingItems = new Dictionary<int, RingItemsDTO>() { { _itemId, new RingItemsDTO() { RingItemCount = _RingItemCount, RingItemAdorn = _RingItemAdorn, RingItemType = AddRingItemType(Int32.Parse(_itemId.ToString().Substring(0, 5))) } } } }, NHCriteria(roleId));
+        }
+
+
+        /// <summary>
+        /// 移除功能
+        /// </summary>
+        /// <param name="_ItemId"></param>
+        public static void Remove(int roleId, int _ItemId)
+        {
+            RemoveCmd(roleId, new RingDTO() { RingItems = new Dictionary<int, RingItemsDTO>() { { _ItemId, new RingItemsDTO() } } }, NHCriteria(roleId));
+        }
 
     }
 }
