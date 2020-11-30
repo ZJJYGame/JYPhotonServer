@@ -870,11 +870,6 @@
             处理AI 判断玩家是不是死亡 和要选择能出手的Ai                ??? TODO第四个参数有待完善
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.AttactValue(System.Int32,System.Int32,AscensionProtocol.DTO.RoleStatusDTO)">
-            <summary>
-            攻击值
-            </summary>
-        </member>
         <member name="M:AscensionServer.ServerBattleManager.BattleClear(System.Int32)">
             <summary>
             注意 每次进去之前先保证之前的数据都清除掉
@@ -943,6 +938,11 @@
             <param name="roomId"></param>
             <param name="battleTransferDTOs"></param>
         </member>
+        <member name="F:AscensionServer.ServerBattleManager._teamIdToBattleInitData">
+            <summary>
+             角色id 和对应的 房间数据对象  缓存数据  2020 11：30 09.36
+            </summary>
+        </member>
         <member name="F:AscensionServer.ServerBattleManager._teamIdToBattleInit">
             <summary>
              角色id 和对应的 房间数据对象
@@ -971,11 +971,6 @@
         <member name="F:AscensionServer.ServerBattleManager.teamSet">
             <summary>
             收集每个回合的传输数据
-            </summary>
-        </member>
-        <member name="F:AscensionServer.ServerBattleManager.teamIdList">
-            <summary>
-            收集准备战斗指令
             </summary>
         </member>
         <member name="F:AscensionServer.ServerBattleManager.TargetID">
@@ -1048,6 +1043,22 @@
             <summary>
             判断是不是在队伍中
             </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.BattleInitObject(System.Int32)">
+            <summary>
+            返回初始化 数据对象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.BattleInitDataObject(System.Int32)">
+            <summary>
+            返回初始化 数据对象 缓存数据
+            </summary>
+            <typeparam name="T"></typeparam>
             <param name="roleId"></param>
             <returns></returns>
         </member>
@@ -1133,6 +1144,12 @@
             2020 . 11 . 06 13：17
             针对功法  玩家释放  不同技能类型的技能计算伤害
             </summary>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.DamageCalculation(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            /伤害计算公式
+            </summary>
+            <returns></returns>
         </member>
         <member name="F:AscensionServer.ServerBattleManager.buffToSkillId">
             buff  针对buff的技能id
