@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AscensionData;
 using AscensionProtocol.DTO;
 using UnityEngine;
 using Protocol;
@@ -68,14 +67,14 @@ namespace AscensionServer
         /// </summary>
          void ResourcesLoad()
         {
-            Vector2 border = new Vector2(54000, 39000);
-            var str = RegionJsonDataManager.GetRegionJsonContent(AscensionData.Region.Adventure, 0);
-            HashSet<ResVariable> resVarSet = Utility.Json.ToObject<HashSet<ResVariable>>(str);
-            foreach (var res in resVarSet)
-            {
+            //Vector2 border = new Vector2(54000, 39000);
+            //var str = RegionJsonDataManager.GetRegionJsonContent(AscensionData.Region.Adventure, 0);
+            //HashSet<ResVariable> resVarSet = Utility.Json.ToObject<HashSet<ResVariable>>(str);
+            //foreach (var res in resVarSet)
+            //{
                 //var resSetDto = ConcurrentSingleton<ResourceCreator>.Instance.CreateRandomResourceSet(res, border);
                 //ResUnitSetDict.Add(resSetDto.GlobalID, resSetDto);
-            }
+            //}
             //Utility.Debug.LogInfo(Utility.Json.ToJson(ResUnitSetDict));
         }
 

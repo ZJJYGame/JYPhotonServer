@@ -124,5 +124,9 @@ namespace AscensionServer
         /// 角色所有飞行法器的key前缀
         /// </summary>
         public static readonly string _RoleFlyMagicToolPerfix = "RoleFlyMagicTool";
+        /// <summary>
+        /// 地图资源后缀；
+        /// </summary>
+        public static readonly string _MapResPostfix = "MapRes";
     }
 }

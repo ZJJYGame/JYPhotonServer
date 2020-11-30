@@ -8,7 +8,11 @@ namespace AscensionServer
 {
     public partial class ApplicationBuilder
     {
-        public const int SyncResourceInterval = 300000;
+        /// <summary>
+        /// 地图资源刷新周期；
+        /// 以秒计算；
+        /// </summary>
+        public const int MapResourceRefreshInterval = 300000;
         /// <summary>
         /// 服务器帧数；
         /// 换算成毫秒1000/tick;

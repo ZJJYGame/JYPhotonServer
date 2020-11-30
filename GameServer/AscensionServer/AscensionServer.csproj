@@ -21,7 +21,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\..\..\localproject\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -656,13 +656,6 @@
     <Compile Include="Ascension\Core\Base\NHibernate\NHibernateHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SubOperationCode.cs" />
-    <Compile Include="Threads\Base\ISyncEvent.cs" />
-    <Compile Include="Threads\Base\IThreadEventData.cs" />
-    <Compile Include="Threads\Base\SyncEvent.cs" />
-    <Compile Include="Threads\SyncEvent\SyncAdventureSkillEvent.cs" />
-    <Compile Include="Threads\SyncEvent\SyncRefreshResourcesEvent.cs" />
-    <Compile Include="Threads\Base\ThreadEventData.cs" />
-    <Compile Include="Threads\ThreadSyncEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -777,10 +770,6 @@
     <Content Include="Plugin\PhotonHostRuntimeInterfaces.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AscensionData\AscensionData.csproj">
-      <Project>{baf68e5b-51c2-438a-8680-0c689deaedc8}</Project>
-      <Name>AscensionData</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AscensionProtocol\AscensionProtocol.csproj">
       <Project>{142ced7d-c56d-43b2-a11f-9dc0f302bd80}</Project>
       <Name>AscensionProtocol</Name>

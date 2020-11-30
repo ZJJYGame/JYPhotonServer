@@ -15,7 +15,6 @@ using System.Reflection;
 using ExitGames.Concurrency.Fibers;
 using Cosmos;
 using AscensionServer.Model;
-using AscensionData;
 using System.Threading;
 /// <summary>
 /// 组队的具体处理
