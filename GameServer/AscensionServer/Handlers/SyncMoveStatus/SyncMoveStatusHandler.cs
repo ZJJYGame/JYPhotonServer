@@ -8,7 +8,6 @@ using Photon.SocketServer;
 using System;
 using Cosmos;
 using AscensionProtocol.DTO;
-using AscensionServer.Threads;
 using System.Collections.Generic;
 
 namespace AscensionServer

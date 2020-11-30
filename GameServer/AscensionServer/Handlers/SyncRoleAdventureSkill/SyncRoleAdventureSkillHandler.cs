@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using Cosmos;
 using AscensionProtocol.DTO;
-using AscensionServer.Threads;
 using EventData = Photon.SocketServer.EventData;
 using System.Collections;
 using System.Threading.Tasks;
@@ -60,9 +59,9 @@ namespace AscensionServer
                 Thread.Sleep(cd * 1000);
                 //AscensionServer._Log.Info("技能buff线程已经开始》》》》》》》》》》》》》》》》》》》》");
                 //peer.PeerCache.RoleAdventureSkill.IsInUse =false ;
-                var syncAdventureSkillEvent = new SyncAdventureSkillEvent();
-                syncAdventureSkillEvent.OnInitialization();
-                ThreadPool.QueueUserWorkItem(syncAdventureSkillEvent.Handler);
+                //var syncAdventureSkillEvent = new SyncAdventureSkillEvent();
+                //syncAdventureSkillEvent.OnInitialization();
+                //ThreadPool.QueueUserWorkItem(syncAdventureSkillEvent.Handler);
             });
         }
         Task CDIntervalMethod(int cd, AscensionPeer peer,int skillid)

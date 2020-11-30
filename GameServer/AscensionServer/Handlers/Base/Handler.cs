@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System;
 using System.Reflection;
 using Cosmos;
-using AscensionServer.Threads;
 using System.Threading;
 namespace AscensionServer
 {

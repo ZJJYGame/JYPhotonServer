@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using Cosmos;
 using AscensionProtocol.DTO;
-using AscensionServer.Threads;
 using EventData = Photon.SocketServer.EventData;
 using AscensionServer.Model;
 using RedisDotNet;

@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol.DTO;
-using AscensionServer.Threads;
 using Protocol;
 using RedisDotNet;
 namespace AscensionServer
