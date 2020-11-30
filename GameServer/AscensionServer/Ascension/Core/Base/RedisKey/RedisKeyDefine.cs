@@ -125,8 +125,12 @@ namespace AscensionServer
         /// </summary>
         public static readonly string _RoleFlyMagicToolPerfix = "RoleFlyMagicTool";
         /// <summary>
-        /// 地图资源后缀；
+        /// 历练地图资源后缀；
         /// </summary>
-        public static readonly string _MapResPostfix = "MapRes";
+        public static readonly string _WildMapResPostfix = "WildMapRes";
+        /// <summary>
+        /// 秘境地图资源前缀
+        /// </summary>
+        public static readonly string _SecretMapResPerfix = "SecretMapRes";
     }
 }

@@ -5,7 +5,8 @@ using System.Text;
 namespace Cosmos
 {
     /// <summary>
-    /// Server端的模块
+    /// Server端的模块;
+    /// 生命周期OnInitialization->OnActive->OnPreparatory->OnRefresh
     /// </summary>
     /// <typeparam name="TDerived"></typeparam>
     public abstract class Module<TDerived> : ConcurrentSingleton<TDerived>, IModule,IOperable

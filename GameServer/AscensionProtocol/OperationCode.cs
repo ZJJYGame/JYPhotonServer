@@ -65,9 +65,9 @@ namespace AscensionProtocol
         /// </summary>
         SyncResources = 33,
         /// <summary>
-        /// 占用资源单位
+        /// 拾取&占用资源
         /// </summary>
-        OccupiedResourceUnit = 34,
+        TakeUpResource = 34,
         /// <summary>
         /// 同步怪物位置
         /// </summary>

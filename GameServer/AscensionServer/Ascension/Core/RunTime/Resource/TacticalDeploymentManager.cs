@@ -55,7 +55,7 @@ namespace AscensionServer
 
         public override void OnPreparatory()
         {
-            GameManager.CustomeModule<LevelManager>().OnRoleEnterLevel += SendTactical;
+            GameManager.CustomeModule<LevelManager>().OnRoleEnterLevel += OnSendTactical;
         }
         public override void OnRefresh()
         {
@@ -237,7 +237,7 @@ namespace AscensionServer
             operationData.DataMessage = Utility.Json.ToJson(tacticalDTO);
             operationData.ReturnCode = (short)returnCode;
             operationData.OperationCode = (ushort)OperationCode.SyncGetNewTactical;
-            GameManager.CustomeModule<LevelManager>().SendMsg2AllLevelRoleS2C(tacticalDTO.LevelID, operationData);
+            GameManager.CustomeModule<LevelManager>().SendMessageToLevelS2C(tacticalDTO.LevelID, operationData);
         }
         /// <summary>
         /// 监听Redis删除后的回调
@@ -287,12 +287,12 @@ namespace AscensionServer
         /// <summary>
         /// 发送已生成的阵法至指定场景
         /// </summary>
-        void SendTactical(int id, RoleEntity roleEntity)
+        void OnSendTactical(RoleEntity roleEntity)
         {
             if (GetExpendTacticalID() > 0)
             {
                 OperationData operationData = new OperationData();
-                operationData.DataMessage = Utility.Json.ToJson(AllTacticalDict[id]);
+                operationData.DataMessage = Utility.Json.ToJson(AllTacticalDict[roleEntity.RoleId]);
                 operationData.OperationCode = (byte)OperationCode.SyncCreatTactical;
                 GameManager.CustomeModule<RoleManager>().SendMessage(roleEntity.RoleId, operationData);
                 //Utility.Debug.LogInfo("yzqData发送的全部阵法" + Utility.Json.ToJson(AllTacticalDict) + "juese id " + roleEntity.RoleId);

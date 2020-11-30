@@ -1,94 +1,51 @@
 ﻿using Cosmos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AscensionProtocol.DTO;
-using UnityEngine;
 using Protocol;
 using AscensionProtocol;
+using System.Collections.Generic;
+
 namespace AscensionServer
 {
     [CustomeModule]
     public class MapResourceManager : Module<MapResourceManager>
     {
-        /// <summary>
-        /// 资源单位集合的字典
-        /// </summary>
-        public Dictionary<int, ResourceUnitSetDTO> ResUnitSetDict { get; private set; }
-        IRecordAdventureSkillHelper recordAdventureSkillHelper;
-        /// <summary>
-        /// 临时的占用资源单位容器，需要迭代
-        /// </summary>
-        //TODO  临时的占用资源单位容器，需要迭代
-        public HashSet<OccupiedUnitDTO> OccupiedUnitSetCache { get; private set; }
-        public override void OnInitialization()
-        {
-
-            recordAdventureSkillHelper = Utility.Assembly.GetInstanceByAttribute<ImplementProviderAttribute, IRecordAdventureSkillHelper>();
-
-            ResUnitSetDict = new Dictionary<int, ResourceUnitSetDTO>();
-            OccupiedUnitSetCache = new HashSet<OccupiedUnitDTO>();
-        }
+        IMapResourceHelper mapResourceHelper;
+        long latestTime;
+        const int updateInterval = ApplicationBuilder.MapResourceRefreshInterval;
         public override void OnPreparatory()
         {
-            ResourcesLoad();
-            GameManager.CustomeModule<LevelManager>().OnRoleEnterLevel += SendResources;
+            GameManager.CustomeModule<LevelManager>().OnRoleEnterLevel += OnRoleEnterMap;
+            CommandEventCore.Instance.AddEventListener((byte)OperationCode.TakeUpResource, TakeUpResourceC2S);
+            mapResourceHelper = Utility.Assembly.GetInstanceByAttribute<ImplementProviderAttribute, IMapResourceHelper>();
+            mapResourceHelper?.LoadMapResource();
+            latestTime = Utility.Time.MillisecondNow() + updateInterval;
         }
-
-        /// <summary>
-        /// 对资源进行占用；
-        /// 若资源占用成功，则将参数类对象加入被占用的缓存集合中
-        /// </summary>
-        /// <param name="occupiedUnit">占用资源的参数类对象</param>
-        /// <returns>是否占用成功</returns>
-        public bool OccupiedResUnit(OccupiedUnitDTO occupiedUnit)
+        public override void OnRefresh()
         {
-            if (!ResUnitSetDict.ContainsKey(occupiedUnit.GlobalID))
-                return false;
-            bool result = ResUnitSetDict[occupiedUnit.GlobalID].OccupiedResUnit(occupiedUnit.ResID);
-            if (result)
-                OccupiedUnitSetCache.Add(occupiedUnit);
-            return result;
-        }
-        /// <summary>
-        /// 释放被占用的资源
-        /// </summary>
-        /// <param name="occupiedUnit">占用资源的参数类对象</param>
-        /// <returns>是否释放成功</returns>
-        public bool ReleaseResUnit(OccupiedUnitDTO occupiedUnit)
-        {
-            //TODO ReleaseResUnit 释放被占用的资源 ，未完成！
-            return false;
+            if (IsPause)
+                return;
+#if SERVER
+            var now = Utility.Time.MillisecondNow();
+            if (latestTime <= now)
+            {
+                latestTime = now + updateInterval;
+                mapResourceHelper.OnRefreshResource();
+            }
+#endif
         }
         /// <summary>
-        /// 初始化资源分布类，实现
+        /// 占用资源 客户端->服务器
         /// </summary>
-         void ResourcesLoad()
+        void TakeUpResourceC2S(OperationData opData)
         {
-            //Vector2 border = new Vector2(54000, 39000);
-            //var str = RegionJsonDataManager.GetRegionJsonContent(AscensionData.Region.Adventure, 0);
-            //HashSet<ResVariable> resVarSet = Utility.Json.ToObject<HashSet<ResVariable>>(str);
-            //foreach (var res in resVarSet)
-            //{
-                //var resSetDto = ConcurrentSingleton<ResourceCreator>.Instance.CreateRandomResourceSet(res, border);
-                //ResUnitSetDict.Add(resSetDto.GlobalID, resSetDto);
-            //}
-            //Utility.Debug.LogInfo(Utility.Json.ToJson(ResUnitSetDict));
+            mapResourceHelper.TakeUpMapResource(opData.DataMessage  as Dictionary<byte, object>);
         }
-
         /// <summary>
         /// 发送已生成资源至指定场景
         /// </summary>
-        void SendResources(int id, RoleEntity roleEntity)
+        void OnRoleEnterMap(RoleEntity roleEntity)
         {
-            OperationData operationData = new OperationData();
-            operationData.DataMessage = Utility.Json.ToJson(ResUnitSetDict); 
-            operationData.OperationCode = (byte)OperationCode.SyncResources;
-            GameManager.CustomeModule<RoleManager>().SendMessage(roleEntity.RoleId, operationData);
-            Utility.Debug.LogInfo("yzqData" + Utility.Json.ToJson(roleEntity));
-            recordAdventureSkillHelper.RecordRoleSkill(roleEntity);
+            mapResourceHelper.OnRoleEnterMap(roleEntity);
         }
     }
 }

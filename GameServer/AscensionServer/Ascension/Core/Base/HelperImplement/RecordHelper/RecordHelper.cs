@@ -11,21 +11,22 @@ namespace AscensionServer
 {
     [ImplementProvider]
     public class RecordHelper : IRecordHelper
-    {/// <summary>
-    /// 记录离线时间
-    /// </summary>
-    /// <param name="roleId">离线账号</param>
-    /// <param name="data">新上线账号</param>
+    {
+        /// <summary>
+        /// 记录离线时间
+        /// </summary>
+        /// <param name="roleId">离线账号</param>
+        /// <param name="data">新上线账号</param>
         public async void RecordRole(RoleEntity roleEntity)
         {
-            Utility.Debug.LogInfo("yzqData" + "同步离线时间成功" + "原来的角色id为" +roleEntity.RoleId);
+            Utility.Debug.LogInfo("yzqData" + "同步离线时间成功" + "原来的角色id为" + roleEntity.RoleId);
             #region 记录离线时间
-            if (roleEntity.RoleId== -1)
+            if (roleEntity.RoleId == -1)
             {
                 Utility.Debug.LogInfo("============AscensionPeer.RecordOnOffLine() : Can't RecordOnOffLine ============");
                 return;
             }
-            NHCriteria nHCriteriaOnOff = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID",roleEntity.RoleId);
+            NHCriteria nHCriteriaOnOff = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleEntity.RoleId);
             var obj = NHibernateQuerier.CriteriaSelectAsync<OffLineTime>(nHCriteriaOnOff).Result;
             var roleAllianceobj = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriaOnOff).Result;
             if (roleAllianceobj != null)
@@ -34,9 +35,9 @@ namespace AscensionServer
                 var allianceStatusobj = NHibernateQuerier.CriteriaSelectAsync<AllianceStatus>(nHCriteriaAllianceStatus).Result;
                 if (allianceStatusobj != null)
                 {
-                    if (allianceStatusobj.OnLineNum>0)
+                    if (allianceStatusobj.OnLineNum > 0)
                     {
-                        allianceStatusobj.OnLineNum-=1;
+                        allianceStatusobj.OnLineNum -= 1;
                     }
                     await NHibernateQuerier.UpdateAsync(allianceStatusobj);
                 }
@@ -62,7 +63,5 @@ namespace AscensionServer
             //Utility.Debug.LogInfo("yzqData同步离线时间成功"+"原来的角色id为"+ roleId + "新的角色id"+ newrole.RoleID);
             #endregion
         }
-
-       
     }
 }
