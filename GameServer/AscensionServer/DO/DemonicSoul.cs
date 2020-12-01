@@ -18,5 +18,10 @@ namespace AscensionServer.Model
             DemonicSouls = null;
             DemonicSoulIndex = null;
         }
+        public DemonicSoul()
+        {
+            DemonicSouls = "{}";
+            DemonicSoulIndex = "{}";
+        }
     }
 }

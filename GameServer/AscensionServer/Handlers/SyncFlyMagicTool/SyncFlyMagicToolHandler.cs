@@ -23,7 +23,7 @@ namespace AscensionServer
             var roleFlyMagicTool= NHibernateQuerier.CriteriaSelectAsync<FlyMagicTool>(nHCriteriaRole).Result;
             Utility.Debug.LogInfo("yzqData获取角色飞行法器"+ roleFlyMagicToolJson);
             FlyMagicToolDTO flyMagicToolRedisObj = new FlyMagicToolDTO();
-            if (RedisHelper.KeyExistsAsync(RedisKeyDefine._RoleFlyMagicToolPerfix).Result)
+            if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleFlyMagicToolPerfix, roleFlyMagicToolObj.RoleID.ToString()).Result)
             {
                 flyMagicToolRedisObj = RedisHelper.Hash.HashGetAsync<FlyMagicToolDTO>(RedisKeyDefine._RoleFlyMagicToolPerfix, roleFlyMagicToolObj.RoleID.ToString()).Result;
             }
@@ -41,6 +41,8 @@ namespace AscensionServer
                         {
                             tempList.Add(roleFlyMagicToolObj.FlyMagicToolID);
                             roleFlyMagicToolObj.AllFlyMagicTool = tempList;
+                            roleFlyMagicToolObj.RoleID = roleFlyMagicTool.RoleID;
+                            roleFlyMagicToolObj.FlyToolLayoutDict = Utility.Json.ToObject<Dictionary<string, int>>(roleFlyMagicTool.FlyToolLayoutDict);
                             RedisHelper.Hash.HashSet<FlyMagicToolDTO>(RedisKeyDefine._RoleFlyMagicToolPerfix, roleFlyMagicToolObj.RoleID.ToString(), roleFlyMagicToolObj);
 
                             roleFlyMagicTool.AllFlyMagicTool = Utility.Json.ToJson(tempList);
@@ -57,7 +59,7 @@ namespace AscensionServer
                             OperationData opData = new OperationData();
                             opData.DataMessage = Utility.Json.ToJson(roleFlyMagicToolObj);
                             opData.OperationCode = (byte)OperationCode.SyncRoleFlyMagicTool;
-                            opData.ReturnCode = (byte)ReturnCode.Success;
+                            opData.ReturnCode = (byte)ReturnCode.Fail;
                             GameManager.CustomeModule<RoleManager>().SendMessage(flyMagicToolRedisObj.RoleID, opData);
                         }
                     }

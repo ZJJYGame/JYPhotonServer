@@ -168,7 +168,7 @@ namespace AscensionServer
             petAbilityStatus.Add(petstatusFixed);
         }
         /// <summary>
-        /// 加成计算资质后计算加点会的总加成
+        /// 加成计算资质后计算加点后的总加成
         /// </summary>
         /// <param name="petStatus"></param>
         /// <param name="petAbilityStatus"></param>
@@ -193,5 +193,19 @@ namespace AscensionServer
             petStatusTemp.ReduceCritProb = (petStatus.ReduceCritProb ) * petAbilityStatus[0].ReduceCritProb / 100 + petAbilityStatus[1].ReduceCritProb;
         }
 
+        public PetAptitude AssignSameFieldValue(PetAptitude petAptitude, PetAptitudeDTO petAptitudeDTO)
+        {
+            petAptitude.AttackphysicalAptitude = petAptitudeDTO.AttackphysicalAptitude;
+            petAptitude.AttackpowerAptitude = petAptitudeDTO.AttackpowerAptitude;
+            petAptitude.AttackspeedAptitude = petAptitudeDTO.AttackspeedAptitude;
+            petAptitude.DefendphysicalAptitude = petAptitudeDTO.DefendphysicalAptitude;
+            petAptitude.DefendpowerAptitude = petAptitudeDTO.DefendpowerAptitude;
+            petAptitude.HPAptitude = petAptitudeDTO.HPAptitude;
+            petAptitude.Petaptitudecol = petAptitudeDTO.Petaptitudecol;
+            petAptitude.SoulAptitude = petAptitudeDTO.SoulAptitude;
+            petAptitude.PetID = petAptitudeDTO.PetID;
+            petAptitude.PetAptitudeDrug = Utility.Json.ToJson(petAptitudeDTO.PetAptitudeDrug);
+            return petAptitude;
+        }
     }
 }

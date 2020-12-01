@@ -41,7 +41,7 @@ namespace AscensionServer
                     break;
                 case PetCompleteDTO.PetOperationalOrder.DemonicSoul:
                     Utility.Debug.LogInfo("yzqData宠物改名字" + petCompleteJson);
-                    GameManager.CustomeModule<PetStatusManager>().DemonicSoulHandler(petCompleteObj,petObj);
+                    GameManager.CustomeModule<PetStatusManager>().DemonicSoulHandler(petCompleteObj,petObj, nHCriteriarole);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetStudtSkill:
                     Utility.Debug.LogInfo("yzqData学习技能" + petCompleteJson);

@@ -13,14 +13,14 @@ namespace AscensionServer
 {
     public class SyncDemonicSoulHandler : Handler
     {
-        public override byte OpCode { get { return (byte)OperationCode.SyncRoleFlyMagicTool; } }
+        public override byte OpCode { get { return (byte)OperationCode.SyncDemonical; } }
         protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
-            var demonicsoulJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleFlyMagicTool));
+            var demonicsoulJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.DemonicSoul));
             var demonicsoulObj = Utility.Json.ToObject<DemonicSoulDTO>(demonicsoulJson);
             NHCriteria nHCriteriaRole = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", demonicsoulObj.RoleID);
             var demonicSoul = NHibernateQuerier.CriteriaSelectAsync<DemonicSoul>(nHCriteriaRole).Result;
-
+            Utility.Debug.LogInfo("yzqData"+ demonicsoulJson);
             switch (demonicsoulObj.OperateType)
             {
                 case DemonicSoulOperateType.Add:
@@ -31,7 +31,7 @@ namespace AscensionServer
                     GameManager.CustomeModule<DemonicSoulManager>().CompoundDemonical(demonicsoulObj.CompoundList, demonicSoul, demonicsoulObj.RoleID, nHCriteriaRole);
                     break;
                 case DemonicSoulOperateType.Get:
-
+                    GameManager.CustomeModule<DemonicSoulManager>().GetDemonicSoul(demonicsoulObj.RoleID, demonicSoul);
                     break;
                 default:
                     break;

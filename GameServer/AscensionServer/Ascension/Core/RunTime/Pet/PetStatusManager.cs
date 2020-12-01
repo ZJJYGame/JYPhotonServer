@@ -91,7 +91,7 @@ namespace AscensionServer
             petObj.ID = pet.ID;
             petObj.PetExp = pet.PetExp;
             petObj.DemonicSoul = Utility.Json.ToObject<Dictionary<int, List<int>>>(pet.DemonicSoul);
-            petObj.PetID = pet.PetID;
+            petObj.PetID = petID;
             petObj.PetLevel = pet.PetLevel;
             petObj.PetName = pet.PetName;
             petObj.PetSkillArray = Utility.Json.ToObject<List<int>>(pet.PetSkillArray);

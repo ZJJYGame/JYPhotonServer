@@ -14,8 +14,8 @@ namespace AscensionServer.Model
         public virtual string FlyToolLayoutDict { get; set; }
         public FlyMagicTool()
         {
-            AllFlyMagicTool = null;
-            FlyToolLayoutDict = null;
+            AllFlyMagicTool = "[]";
+            FlyToolLayoutDict = "{}";
         }
 
         public override void Clear()
