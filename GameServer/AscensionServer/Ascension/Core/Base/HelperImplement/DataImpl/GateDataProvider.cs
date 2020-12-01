@@ -33,24 +33,26 @@ namespace AscensionServer
         void  ParseData()
         {
             objectDict.Clear();
-            var datSet = Utility.Assembly.GetInstancesByAttribute<ConfigDataAttribute>(typeof(Data), true);
-            for (int i = 0; i < datSet.Length; i++)
+            var datas = Utility.Assembly.GetInstancesByAttribute<ConfigDataAttribute,Data>( true);
+            for (int i = 0; i < datas.Length; i++)
             {
                 string json;
-                var fullName = Utility.Text.Append(datSet[i].GetType().Name, ".txt");
+                //var fullName = Utility.Text.Append(datas[i].GetType().Name, ".txt");
+                var fullName = datas[i].GetType().Name;
                 if (jsonDict.TryGetValue(fullName, out json))
                 {
+                    Utility.Debug.LogWarning($"find json{fullName}");
                     try
                     {
-                        var obj = Utility.Json.ToObject(json, datSet[i].GetType());
+                        var obj = Utility.Json.ToObject(json, datas[i].GetType());
                         if (obj != null)
                         {
-                            objectDict.TryAdd(datSet[i].GetType(), obj);
+                            objectDict.TryAdd(datas[i].GetType(), obj);
                         }
                     }
                     catch (Exception e)
                     {
-                        Utility.Debug.LogError($"IDataProvider ToObject fail . Type :{datSet[i].GetType().Name} ;{e}");
+                        Utility.Debug.LogError($"IDataProvider ToObject fail . Type :{datas[i].GetType().Name} ;{e}");
                     }
                 }
             }

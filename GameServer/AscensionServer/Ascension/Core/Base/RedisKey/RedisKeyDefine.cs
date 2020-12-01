@@ -127,11 +127,11 @@ namespace AscensionServer
         /// <summary>
         /// 历练地图资源后缀；
         /// </summary>
-        public static readonly string _WildMapResPostfix = "WildMapRes";
+        public static readonly string _WildMapResPerfix = "WildMapResource";
         /// <summary>
         /// 秘境地图资源前缀
         /// </summary>
-        public static readonly string _SecretMapResPerfix = "SecretMapRes";
+        public static readonly string _SecretMapResPerfix = "SecretMapReseource";
         /// <summary>
         /// 宠物使用丹药每日刷新
         /// </summary>

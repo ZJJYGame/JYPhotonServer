@@ -13,10 +13,10 @@ namespace AscensionServer
     [Serializable]
     public class MapResourceData : Data
     {
-        public List<FixMapResource> FixMapResourceList { get; set; }
+        public Dictionary<int, FixMapResource> FixFieldResourceDict { get; set; }
         public override void SetData(object data)
         {
-            FixMapResourceList = data as List<FixMapResource>;
+            FixFieldResourceDict = data as Dictionary<int, FixMapResource>;
         }
     }
 }

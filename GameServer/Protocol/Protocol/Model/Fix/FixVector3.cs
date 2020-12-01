@@ -1,4 +1,10 @@
-﻿using MessagePack;
+﻿//***********************************************************
+// 描述：
+// 作者：Don  
+// 创建时间：2020-11-09 13:46:19
+// 版 本：1.0
+//***********************************************************
+using MessagePack;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,24 +13,30 @@ namespace Protocol
 {
     [Serializable]
     [MessagePackObject]
-    public struct FixVector3 
+    public struct FixVector3
     {
-        [Key(0)]
-        public int X { get; set; }
-        [Key(1)]
-        public int Y { get; set; }
-        [Key(2)]
-        public int Z { get; set; }
-        public FixVector3 SetVector(Vector3 vector)
+        public FixVector3(int x, int y, int z)
         {
-            X = Mathf.FloorToInt(vector.x * 1000);
-            Y = Mathf.FloorToInt(vector.y * 1000);
-            Z = Mathf.FloorToInt(vector.z * 1000);
-            return this;
+            this.x = x;
+            this.y = y;
+            this.z = z;
         }
-        public Vector3 GetVector()
+        [Key(0)]
+        public int x;
+        [Key(1)]
+        public int y;
+        [Key(2)]
+        public int z;
+        public static FixVector3 SetVector(Vector3 vector)
         {
-            return new Vector3((float)X / 1000, (float)Y / 1000, (float)Z / 1000);
+            var X = Mathf.FloorToInt(vector.x * 1000);
+            var Y = Mathf.FloorToInt(vector.y * 1000);
+            var Z = Mathf.FloorToInt(vector.z * 1000);
+            return new FixVector3(X, Y, Z);
+        }
+        public static Vector3 GetVector(FixVector3 fixVector3)
+        {
+            return new Vector3((float)fixVector3.x / 1000, (float)fixVector3.y / 1000, (float)fixVector3.z / 1000);
         }
     }
 }

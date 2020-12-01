@@ -60,7 +60,7 @@ namespace Cosmos
                     }
                     catch
                     {
-                        Utility.Debug.LogError($"Custome module create instance fail:{types[i]} is not derived from the{ typeof(Cosmos.Module<>)}");
+                        Utility.Debug.LogError($"Custome module create instance fail:{types[i]} ");
                     }
                 }
             }
