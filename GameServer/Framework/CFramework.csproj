@@ -45,11 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CosmosFramework\Core\Architecture\MVVM\Model.cs" />
-    <Compile Include="CosmosFramework\Core\Architecture\MVVM\MVVM.cs" />
-    <Compile Include="CosmosFramework\Core\Architecture\MVVM\View.cs" />
-    <Compile Include="CosmosFramework\Core\Architecture\MVVM\ViewModel.cs" />
-    <Compile Include="CosmosFramework\Core\Architecture\MVVM\ViewModelAttribute.cs" />
+    <Compile Include="CosmosFramework\Core\Architecture\MVC\Command.cs" />
+    <Compile Include="CosmosFramework\Core\Architecture\MVC\CommandAttribute.cs" />
+    <Compile Include="CosmosFramework\Core\Architecture\MVC\Model.cs" />
+    <Compile Include="CosmosFramework\Core\Architecture\MVC\MVC.cs" />
+    <Compile Include="CosmosFramework\Core\Architecture\MVC\View.cs" />
     <Compile Include="CosmosFramework\Core\Base\Actor\Actor.cs" />
     <Compile Include="CosmosFramework\Core\Base\Actor\ActorBase.cs" />
     <Compile Include="CosmosFramework\Core\Base\Actor\ActorPool.cs" />

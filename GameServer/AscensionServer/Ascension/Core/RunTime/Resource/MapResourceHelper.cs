@@ -63,7 +63,7 @@ namespace AscensionServer
                // operationResponse.ReturnCode = (short)ReturnCode.Success;
 
                 ResourceUnitSetDTO currentDictObj = null;
-                if (GameManager.CustomeModule<MapResourceManager>().ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID, out currentDictObj))
+                //if (GameManager.CustomeModule<MapResourceManager>().ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID, out currentDictObj))
                 {
 
                     ResourceUnitDTO resourceUnitDTO = null;
