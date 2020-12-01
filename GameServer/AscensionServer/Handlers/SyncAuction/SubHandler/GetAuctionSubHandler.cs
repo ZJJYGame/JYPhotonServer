@@ -38,6 +38,10 @@ namespace AscensionServer
                     GameManager.CustomeModule<AuctionManager>().ServerAuctionGoodsGet(auctionGoodsId, startIndex, count, roleId);
                     break;
                 case SyncAuctionType.PutAwayAuctionGoods:
+                    Utility.Debug.LogInfo("进入上架拍卖品事件");
+                    AuctionGoodsDTO putAwayAuctionGoods = Utility.Json.ToObject<AuctionGoodsDTO>(tempDict[(byte)ParameterCode.AddAuctionGoods].ToString());
+                    int putAwayItemId = Convert.ToInt32(tempDict[(byte)ParameterCode.Auction].ToString());
+                    GameManager.CustomeModule<AuctionManager>().SeverAuctionGoodsPutAway(putAwayAuctionGoods, putAwayItemId,roleId);
                     break;
                 case SyncAuctionType.SoldOutAuctionGoods:
                     break;

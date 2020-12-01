@@ -191,7 +191,7 @@ namespace AscensionServer
         /// <summary>
         /// 玩家上架拍卖品的事件
         /// </summary>
-        public async void PutAwayAuctionGoods(AuctionGoodsDTO putAwayGoods)
+        public async Task PutAwayAuctionGoods(AuctionGoodsDTO putAwayGoods,int itemId)
         {
             putAwayGoods.GUID= Guid.NewGuid().ToString("N");
             string redisKey = "AuctionGoods_" + putAwayGoods.GUID;
@@ -224,21 +224,21 @@ namespace AscensionServer
 
             //更新玩家个人拍卖表数据
             List<string> roleAuctionItemList = new List<string>();
-            if (RedisHelper.Hash.HashExistAsync("RoleAuctionItems", putAwayGoods.RoleID.ToString()).Result)
+            if (await RedisHelper.Hash.HashExistAsync("RoleAuctionItems", putAwayGoods.RoleID.ToString()))
             {
                 roleAuctionItemList = RedisHelper.Hash.HashGetAsync<List<string>>("RoleAuctionItems", putAwayGoods  .RoleID.ToString()).Result;
                 roleAuctionItemList.Add(putAwayGoods.GUID);
                 Utility.Debug.LogInfo("玩家拍卖列表存在key");
-                RedisHelper.Hash.HashSet("RoleAuctionItems", putAwayGoods.RoleID.ToString(), roleAuctionItemList);
+                await RedisHelper.Hash.HashSetAsync("RoleAuctionItems", putAwayGoods.RoleID.ToString(), roleAuctionItemList);
             }
             else
             {
                 Utility.Debug.LogInfo("玩家拍卖列表不存在key!!!!");
                 roleAuctionItemList.Add(putAwayGoods.GUID);
-                RedisHelper.Hash.HashSet("RoleAuctionItems", putAwayGoods.RoleID.ToString(), roleAuctionItemList);
+                await RedisHelper.Hash.HashSetAsync("RoleAuctionItems", putAwayGoods.RoleID.ToString(), roleAuctionItemList);
             }
             //移除玩家背包物品
-            
+            InventoryManager.Remove(putAwayGoods.RoleID, itemId);
         }
     }
 }
