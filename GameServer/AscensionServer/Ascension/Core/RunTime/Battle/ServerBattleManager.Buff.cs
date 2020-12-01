@@ -22,9 +22,11 @@ namespace AscensionServer
         /// <param name="roleId"></param>
         /// <param name="playerSetObject"></param>
         /// <param name="enemySetObject"></param>
-        public void BuffManagerMethod(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, int og, bool isSelf)
+        public void BuffManagerMethod(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, int og, bool isSelf, List<BufferBattleDataDTO> bufferId,int numRounder)
         {
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, BattleBuffData>>(out var buffDict);
+            var bufferSet = isSelf == false ? playerSetObject.bufferUnits : enemySetObject.bufferUnits;
+
             if (!buffDict.ContainsKey(buffId))
                 return;
             var tempSelect = RandomManager(og, 0, 100);
@@ -54,6 +56,9 @@ namespace AscensionServer
                     case BattleBuffTriggerTime.BuffRemove:
                         break;
                 }
+                
+                bufferSet.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = buffId, targetId = isSelf == false ? currentId : enemySetObject == null ? currentId : enemySetObject.EnemyStatusDTO.EnemyId, RoundNumber = numRounder, percentValue = buffDict[buffId].battleBuffEventDataList[0].percentValue, fixedValue = buffDict[buffId].battleBuffEventDataList[0].fixedValue } });
+                bufferId.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = buffId, targetId = isSelf == false ? currentId : enemySetObject == null ? currentId : enemySetObject.EnemyStatusDTO.EnemyId, RoundNumber = numRounder, percentValue = buffDict[buffId].battleBuffEventDataList[0].percentValue, fixedValue = buffDict[buffId].battleBuffEventDataList[0].fixedValue } });
             }
         }
 
@@ -477,6 +482,7 @@ namespace AscensionServer
                     }
                     break;
             }
+            
         }
         #endregion
 

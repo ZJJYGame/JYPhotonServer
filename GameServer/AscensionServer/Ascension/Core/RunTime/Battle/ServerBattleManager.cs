@@ -69,7 +69,7 @@ namespace AscensionServer
                 battleInit.enemyPetUnits = battleInitDTO.enemyPetUnits;
                 battleInit.maxRoundCount = battleInitDTO.maxRoundCount;
                 battleInit.battleUnits = AllBattleDataDTOsInfo(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, battleInitDTO);
-                battleInit.bufferUnits = new List<BufferBattleDataDTO>();
+                //battleInit.bufferUnits = new List<BufferBattleDataDTO>();
                 _teamIdToBattleInit.Add(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, battleInit);
                 _teamIdToBattleInitData.Add(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, battleInit);
                 _roomidToBattleTransfer.Add(battleInit.RoomId, new List<BattleTransferDTO>());

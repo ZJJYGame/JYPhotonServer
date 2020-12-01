@@ -48,7 +48,7 @@ namespace AscensionServer
         /// <summary>
         /// 验证宠物完整属性
         /// </summary>
-        public void VerifyPetAllStatus(PetAbilityPointDTO petAbilityPoint, PetAptitude petAptitude,PetStatus petStatus,PetCompleteDTO petCompleteDTO,Pet pet)
+        public PetStatusDTO VerifyPetAllStatus(PetAbilityPointDTO petAbilityPoint, PetAptitude petAptitude,PetStatus petStatus,PetCompleteDTO petCompleteDTO,Pet pet)
         {
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
 
@@ -57,6 +57,7 @@ namespace AscensionServer
             VerifyPetPassivitySkill(skillList,out var petStatusDTOs);
             ResetPetStatus(pet, petAptitude,out var petStatusAtitude);
             StatusAddition(petStatusAtitude, petStatusDTOs, out var petStatusTemp);
+            return petStatusTemp;
         }
         /// <summary>
         /// 验证加点后的加成
@@ -193,6 +194,12 @@ namespace AscensionServer
             petStatusTemp.ReduceCritProb = (petStatus.ReduceCritProb ) * petAbilityStatus[0].ReduceCritProb / 100 + petAbilityStatus[1].ReduceCritProb;
         }
 
+        /// <summary>
+        /// 资质DO转换DTO
+        /// </summary>
+        /// <param name="petAptitude"></param>
+        /// <param name="petAptitudeDTO"></param>
+        /// <returns></returns>
         public PetAptitude AssignSameFieldValue(PetAptitude petAptitude, PetAptitudeDTO petAptitudeDTO)
         {
             petAptitude.AttackphysicalAptitude = petAptitudeDTO.AttackphysicalAptitude;
