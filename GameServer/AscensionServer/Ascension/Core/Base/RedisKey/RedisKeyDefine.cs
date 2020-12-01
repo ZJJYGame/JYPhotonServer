@@ -132,5 +132,9 @@ namespace AscensionServer
         /// 秘境地图资源前缀
         /// </summary>
         public static readonly string _SecretMapResPerfix = "SecretMapRes";
+        /// <summary>
+        /// 宠物使用丹药每日刷新
+        /// </summary>
+        public static readonly string _PetDrugRefreshPostfix = "PetDrugRefresh";
     }
 }
