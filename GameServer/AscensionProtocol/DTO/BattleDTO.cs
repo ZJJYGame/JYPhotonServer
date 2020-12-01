@@ -70,10 +70,10 @@ namespace AscensionProtocol.DTO
         /// 所有参战宠物的列表
         /// </summary>
         public virtual List<PetBattleDataDTO> enemyPetUnits { get; set; }
-        /// <summary>
-        /// buffer的列表
-        /// </summary>
-        public virtual List<BufferBattleDataDTO> bufferUnits { get; set; }
+        ///// <summary>
+        ///// buffer的列表
+        ///// </summary>
+        //public virtual List<BufferBattleDataDTO> bufferUnits { get; set; }
 
         public override void Clear()
         {
@@ -164,19 +164,30 @@ namespace AscensionProtocol.DTO
         public int SpellRate { get; set; }
         public int CriteRate { get; set; }
         public int ReducedDamage { get; set; }
+        /// <summary>
+        /// buffer的列表
+        /// </summary>
+        public virtual List<BufferBattleDataDTO> bufferUnits { get; set; }
     }
     [Serializable]
     public class PetBattleDataDTO : BattleDataBase
     {
         public int RoleId { get; set; }
         public virtual PetStatusDTO PetStatusDTO { get; set; }
+        /// <summary>
+        /// buffer的列表
+        /// </summary>
+        public virtual List<BufferBattleDataDTO> bufferUnits { get; set; }
     }
     [Serializable]
     public class EnemyBattleDataDTO : BattleDataBase
     {
         public virtual int GlobalId { get; set; }
-
         public virtual EnemyStatusDTO EnemyStatusDTO { get; set; }
+        /// <summary>
+        /// buffer的列表
+        /// </summary>
+        public virtual List<BufferBattleDataDTO> bufferUnits { get; set; }
     }
 
 
@@ -236,6 +247,8 @@ namespace AscensionProtocol.DTO
         public virtual int bufferId { get; set; }
         public virtual int targetId { get; set; }
         public virtual int RoundNumber{ get; set; }
+        public virtual float percentValue { set; get; }
+        public virtual float fixedValue { set; get; }
     }
 
 

@@ -62,19 +62,19 @@ namespace AscensionServer
             {
                // operationResponse.ReturnCode = (short)ReturnCode.Success;
 
-                ResourceUnitSetDTO currentDictObj = null;
-                if (GameManager.CustomeModule<MapResourceManager>().ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID, out currentDictObj))
-                {
+                //ResourceUnitSetDTO currentDictObj = null;
+                //if (GameManager.CustomeModule<MapResourceManager>().ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID, out currentDictObj))
+                //{
 
-                    ResourceUnitDTO resourceUnitDTO = null;
-                    if (currentDictObj.ResUnitDict.TryGetValue(occupiedUnitObj.ResID, out resourceUnitDTO))
-                        resourceUnitDTO.Occupied = result;
-                }
-                var levelmanager = GameManager.CustomeModule<LevelManager>();
-                OperationData operationData = new OperationData();
-                operationData.DataMessage = Utility.Json.ToJson(occupiedUnitObj);
-                //GameManager.CustomeModule<MapResourceManager>().OccupiedUnitSetCache.Clear();
-                levelmanager.SendMessageToLevelS2C(0, operationData);
+                //    ResourceUnitDTO resourceUnitDTO = null;
+                //    if (currentDictObj.ResUnitDict.TryGetValue(occupiedUnitObj.ResID, out resourceUnitDTO))
+                //        resourceUnitDTO.Occupied = result;
+                //}
+                //var levelmanager = GameManager.CustomeModule<LevelManager>();
+                //OperationData operationData = new OperationData();
+                //operationData.DataMessage = Utility.Json.ToJson(occupiedUnitObj);
+                ////GameManager.CustomeModule<MapResourceManager>().OccupiedUnitSetCache.Clear();
+                //levelmanager.SendMessageToLevelS2C(0, operationData);
             }
             //else
             //    operationResponse.ReturnCode = (short)ReturnCode.Fail;

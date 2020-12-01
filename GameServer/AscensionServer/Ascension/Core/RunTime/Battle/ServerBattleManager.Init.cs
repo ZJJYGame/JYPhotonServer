@@ -188,13 +188,13 @@ namespace AscensionServer
                         MagicCritProb = status.MagicCritProb,
                         MoveSpeed = status.MoveSpeed,
                         PhysicalCritDamage = status.PhysicalCritDamage,
-                        PhysicalCritProb= status.PhysicalCritProb,
-                        ReduceCritDamage= status.ReduceCritDamage,
-                        ReduceCritProb= status.ReduceCritProb,
-                        RoleMaxPopularity= status.RoleMaxPopularity,
-                        RoleMaxSoul= status.RoleMaxSoul,
-                        RolePopularity= status.RolePopularity,
-                        RoleSoul= status.RoleSoul,
+                        PhysicalCritProb = status.PhysicalCritProb,
+                        ReduceCritDamage = status.ReduceCritDamage,
+                        ReduceCritProb = status.ReduceCritProb,
+                        RoleMaxPopularity = status.RoleMaxPopularity,
+                        RoleMaxSoul = status.RoleMaxSoul,
+                        RolePopularity = status.RolePopularity,
+                        RoleSoul = status.RoleSoul,
                     },
                     AmplifyDamage = 0,
                     BasalEvasionRate = 0,
@@ -209,8 +209,9 @@ namespace AscensionServer
                     PhysicalEvasionRate = 0,
                     SpellCrit = 0,
                     PhysicalRate = 0,
-                    ReducedDamage = 0
-                });
+                    ReducedDamage = 0,
+                    bufferUnits = new List<BufferBattleDataDTO>()
+                }) ;
                  
             }
             else
@@ -262,7 +263,8 @@ namespace AscensionServer
                         PhysicalEvasionRate = 0,
                         SpellCrit = 0,
                         PhysicalRate = 0,
-                        ReducedDamage = 0
+                        ReducedDamage = 0,
+                        bufferUnits = new List<BufferBattleDataDTO>()
                     });
                 }
             }
@@ -416,7 +418,8 @@ namespace AscensionServer
                             EnemyReduceCritDamage = monsterDict[enemyId[i].GlobalId].ReduceCritDamage,
                             EnemyReduceCritProb = monsterDict[enemyId[i].GlobalId].ReduceCritProb,
                              EnemyGig_Level = monsterDict[enemyId[i].GlobalId].Monster_Gig_Level
-                        }
+                        },
+                        bufferUnits = new List<BufferBattleDataDTO>()
                     });
                 }
             }
