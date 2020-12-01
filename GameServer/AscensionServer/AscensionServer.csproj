@@ -21,7 +21,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>Y:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -201,7 +201,6 @@
     <Compile Include="Ascension\Core\Base\EventCore\CommandEventCore.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\DataImpl\GateDataProvider.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\MessagePackHelper\ImplMessagePackHelper.cs" />
-    <Compile Include="Ascension\Core\Base\HelperImplement\RecordHelper\RecordAdventureSkillHelper.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\RecordHelper\RecordHelper.cs" />
     <Compile Include="Ascension\Core\Base\RedisData\RedisData.ReidsDataProcessing.cs" />
     <Compile Include="Ascension\Core\Base\RedisKey\RedisKeyDefine.cs" />
@@ -250,10 +249,12 @@
     <Compile Include="Ascension\Core\RunTime\Pet\PetStatusManager.Init.cs" />
     <Compile Include="Ascension\Core\RunTime\Pet\PetStatusManager.Message.cs" />
     <Compile Include="Ascension\Core\RunTime\Pet\PetStatusManager.Verify.cs" />
+    <Compile Include="Ascension\Core\RunTime\Practice\GongFaManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Record\IRecordHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Record\RecordManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Resource\IMapResourceHelper.cs" />
+    <Compile Include="Ascension\Core\RunTime\Resource\MapResourceHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\MapResourceManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Resource\IRecordAdventureSkillHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\TacticalDeploymentManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\TacticalEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Role\RoleEntity.cs" />

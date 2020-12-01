@@ -30,20 +30,20 @@ namespace AscensionServer
         LevelEntity levelEntity = new LevelEntity();
 #endif
         RoleManager roleMgrInstance;
-        Action<int, RoleEntity> onRoleEnterLevel;
+        Action<RoleEntity> onRoleEnterLevel;
         /// <summary>
         /// 角色进入场景事件
         /// </summary>
-        public event Action<int, RoleEntity> OnRoleEnterLevel
+        public event Action<RoleEntity> OnRoleEnterLevel
         {
             add { onRoleEnterLevel += value; }
             remove { onRoleEnterLevel -= value; }
         }
-        Action<int, RoleEntity> onRoleExitLevel;
+        Action<RoleEntity> onRoleExitLevel;
         /// <summary>
         /// 角色离开场景事件
         /// </summary>
-        public event Action<int, RoleEntity> OnRoleExitLevel
+        public event Action<RoleEntity> OnRoleExitLevel
         {
             add { onRoleExitLevel += value; }
             remove { onRoleExitLevel -= value; }
@@ -94,7 +94,7 @@ namespace AscensionServer
         /// <summary>
         ///广播消息到指定场景，若场景不存在，则不执行； 
         /// </summary>
-        public void SendMsg2AllLevelRoleS2C(int levelId,OperationData opData)
+        public void SendMessageToLevelS2C(int levelId,OperationData opData)
         {
             if (levelEntityDict.TryGetValue(levelId, out var levelEntity))
             {
@@ -117,7 +117,7 @@ namespace AscensionServer
                     result = sceneEntity.TryAdd(roleId, role);
                     if (result)
                     {
-                        onRoleEnterLevel?.Invoke(levelId, role);
+                        onRoleEnterLevel?.Invoke(role);
                     }
                 }
             }
@@ -130,7 +130,7 @@ namespace AscensionServer
                     result = sceneEntity.TryAdd(role.RoleId, role);
                     if (result)
                     {
-                        onRoleEnterLevel?.Invoke(levelId,role);
+                        onRoleEnterLevel?.Invoke(role);
                     }
                     levelEntityDict.TryAdd(sceneEntity.LevelId, sceneEntity);
                 }
@@ -153,7 +153,7 @@ namespace AscensionServer
                     result = sceneEntity.TryAdd(role.RoleId, role);
                     if (result)
                     {
-                        onRoleEnterLevel?.Invoke(levelId, role);
+                        onRoleEnterLevel?.Invoke(role);
                     }
                 }
             }
@@ -166,7 +166,7 @@ namespace AscensionServer
                     result = sceneEntity.TryAdd(role.RoleId, role);
                     if (result)
                     {
-                        onRoleEnterLevel?.Invoke(levelId,role);
+                        onRoleEnterLevel?.Invoke(role);
                     }
                     levelEntityDict.TryAdd(sceneEntity.LevelId, sceneEntity);
                 }
@@ -188,7 +188,7 @@ namespace AscensionServer
                     result = levelEntity.TryRemove(roleId,out var role);
                     if (result)
                     {
-                        onRoleExitLevel?.Invoke(levelId,role);
+                        onRoleExitLevel?.Invoke(role);
                     }
                     if (levelEntity.Empty)
                     {
@@ -218,7 +218,7 @@ namespace AscensionServer
                 result = levelEntity.TryRemove(role.RoleId);
                 if (result)
                 {
-                    onRoleExitLevel?.Invoke(levelId,role);
+                    onRoleExitLevel?.Invoke(role);
                 }
                 if (levelEntity.Empty)
                 {

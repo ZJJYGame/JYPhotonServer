@@ -2,6 +2,7 @@
 using Photon.SocketServer;
 using PhotonHostRuntimeInterfaces;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using Cosmos;
 using System;
 using System.Text;
@@ -16,23 +17,8 @@ namespace AscensionServer
         public int SessionId { get; private set; }
         public bool Available { get; private set; }
         public object Handle { get; private set; }
-        /// <summary>
-        /// 接收消息事件委托；
-        /// 此类消息为非Opcode类型；
-        /// </summary>
-        event Action<object> OnMessageReceive
-        {
-            add { onMessageReceive += value; }
-            remove
-            {
-                try { onMessageReceive -= value; }
-                catch (Exception e) { Utility.Debug.LogError(e); }
-            }
-        }
         SendParameters sendParam = new SendParameters();
         EventData eventData = new EventData();
-        Action<object> onMessageReceive;
-
         public ICollection<object> DataCollection { get { return dataDict.Values; } }
         Dictionary<Type, object> dataDict = new Dictionary<Type, object>();
         #endregion
@@ -131,7 +117,6 @@ namespace AscensionServer
         protected override void OnMessage(object message, SendParameters sendParameters)
         {
             //接收到客户端消息后，进行委托广播；
-            //onMessageReceive?.Invoke(message);
             var opData = Utility.MessagePack.ToObject<OperationData>( message as byte[]);
             CommandEventCore.Instance.Dispatch(opData.OperationCode, opData);
         }

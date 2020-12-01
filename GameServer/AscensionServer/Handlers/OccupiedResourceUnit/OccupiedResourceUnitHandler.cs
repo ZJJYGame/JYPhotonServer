@@ -17,37 +17,31 @@ namespace AscensionServer
     /// </summary>
     public class OccupiedResourceUnitHandler : Handler
     {
-        public override byte OpCode { get { return (byte)OperationCode.OccupiedResourceUnit; } }
+        public override byte OpCode { get { return (byte)OperationCode.TakeUpResource; } }
         protected override OperationResponse OnOperationRequest(OperationRequest operationRequest)
         {
             responseParameters.Clear();
             var occupiedUnitJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.OccupiedUnit));
             Utility.Debug.LogInfo("请求资源数据  :  " + occupiedUnitJson);
             var occupiedUnitObj = Utility.Json.ToObject<OccupiedUnitDTO>(occupiedUnitJson);
-            var result =GameManager.CustomeModule< MapResourceManager>().OccupiedResUnit(occupiedUnitObj);
+            bool result=false;
             if (result)
             {
                 operationResponse.ReturnCode = (short)ReturnCode.Success;
 
                 ResourceUnitSetDTO currentDictObj = null;
-                if (GameManager.CustomeModule<MapResourceManager>().ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID,out currentDictObj))
-                {
+                //if (GameManager.CustomeModule<MapResourceManager>().ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID,out currentDictObj))
+                //{
 
-                    ResourceUnitDTO resourceUnitDTO = null;
-                    if (currentDictObj.ResUnitDict.TryGetValue(occupiedUnitObj.ResID, out resourceUnitDTO))
-                        resourceUnitDTO.Occupied = result;
-                }
-                //var peerSet = AscensionServer.Instance.AdventureScenePeerCache.GetValuesList();
-                //threadEventParameter.Clear();
-                //广播事件
-                //threadEventParameter.Add((byte)ParameterCode.OccupiedUnit, occupiedUnitJson);
-                //QueueThreadEvent(peerSet, EventCode.OccupiedResourceUnit, threadEventParameter);
-
+                //    ResourceUnitDTO resourceUnitDTO = null;
+                //    if (currentDictObj.ResUnitDict.TryGetValue(occupiedUnitObj.ResID, out resourceUnitDTO))
+                //        resourceUnitDTO.Occupied = result;
+                //}
                 var levelmanager = GameManager.CustomeModule<LevelManager>();
                 OperationData operationData = new OperationData();
                 operationData.DataMessage = Utility.Json.ToJson(occupiedUnitObj);
-                GameManager.CustomeModule<MapResourceManager>().OccupiedUnitSetCache.Clear();
-                levelmanager.SendMsg2AllLevelRoleS2C(0,operationData);
+                //GameManager.CustomeModule<MapResourceManager>().OccupiedUnitSetCache.Clear();
+                levelmanager.SendMessageToLevelS2C(0,operationData);
             }
             else
                 operationResponse.ReturnCode = (short)ReturnCode.Fail;

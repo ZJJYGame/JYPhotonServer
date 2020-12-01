@@ -33,7 +33,7 @@ namespace AscensionServer
             providerSet.AddRange(objs);
             latestRefreshTime = Utility.Time.SecondNow() + intervalSec;
         }
-        public override void OnPreparatory()
+        public override void OnActive()
         {
             var objs = Utility.Assembly.GetInstancesByAttribute<ImplementProviderAttribute, IDataConvertor>();
             for (int i = 0; i < objs.Length; i++)
