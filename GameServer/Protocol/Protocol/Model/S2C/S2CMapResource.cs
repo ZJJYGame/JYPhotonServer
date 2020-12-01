@@ -8,7 +8,7 @@ namespace Protocol
 {
     [Serializable]
     [MessagePackObject]
-    public class S2CFieldResource : IDataContract
+    public class S2CMapResource : IDataContract
     {
         [Key(0)]
         public FixContainer Container { get; set; }
@@ -16,6 +16,6 @@ namespace Protocol
         /// 一组C2SWildResource的list集合；
         /// </summary>
         [Key(1)]
-        public List<C2SFieldResource> WildResourceList { get; set; }
+        public List<C2SMapResource> MapResourceList { get; set; }
     }
 }

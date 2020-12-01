@@ -43,7 +43,8 @@ namespace AscensionServer
             NHibernateQuerier.Init();
             GameManager.InitCustomeModule(this.GetType().Assembly);
             RedisDotNet.RedisManager.Instance.OnInitialization();
-            GameManagerAgent.Instance.Start();
+            var thread = new Thread(GameManagerAgent.Instance.Start);
+            thread.Start();
         }
         protected override void TearDown()
         {

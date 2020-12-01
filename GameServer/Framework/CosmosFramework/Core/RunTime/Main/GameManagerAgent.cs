@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Cosmos
 {
-    public class GameManagerAgent : ConcurrentSingleton<GameManagerAgent>, IRefreshable, IControllable
+    public class GameManagerAgent : ConcurrentSingleton<GameManagerAgent>, IRefreshable,IControllable
     {
         public bool IsPause { get; private set; }
         public bool Pause
@@ -41,6 +41,7 @@ namespace Cosmos
                 }
             }
         }
+
         public void OnRefresh()
         {
             if (!IsPause)
@@ -54,5 +55,7 @@ namespace Cosmos
         {
             GameManager.Instance.OnUnPause();
         }
+
+
     }
 }

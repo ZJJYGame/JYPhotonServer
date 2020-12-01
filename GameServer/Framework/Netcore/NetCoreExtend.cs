@@ -58,5 +58,4 @@ public static class NetCoreExtend
     {
         return dict.TryRemove(key, out value);
     }
-
 }
