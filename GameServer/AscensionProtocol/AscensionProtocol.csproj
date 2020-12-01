@@ -14,7 +14,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -77,6 +77,7 @@
     <Compile Include="DTO\PetAbilityDTO.cs" />
     <Compile Include="DTO\PetAbilityPointDTO.cs" />
     <Compile Include="DTO\PetCompleteDTO.cs" />
+    <Compile Include="DTO\PetDrugRefreshDTO.cs" />
     <Compile Include="DTO\RoleAllianceDTO.cs" />
     <Compile Include="DTO\OffLineTimeDTO.cs" />
     <Compile Include="DTO\PetAptitudeDTO.cs" />

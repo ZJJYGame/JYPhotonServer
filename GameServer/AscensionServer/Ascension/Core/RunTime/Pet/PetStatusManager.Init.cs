@@ -58,7 +58,7 @@ namespace AscensionServer
 
             foreach (var item in petDict)
             {
-                if (RedisHelper.KeyExistsAsync(RedisKeyDefine._PetPerfix ).Result)
+                if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._PetPerfix , item.Key.ToString()).Result)
                 {
                     var petDTOTemp = await RedisHelper.Hash.HashGetAsync<PetDTO>(RedisKeyDefine._PetPerfix , item.Key.ToString());
                     allPetDict.Add(petDTOTemp.ID, petDTOTemp);
@@ -196,6 +196,12 @@ namespace AscensionServer
                 petStatusObj = Utility.Json.ToObject<PetStatusDTO>(petAptitudeJson);
                 petCompleteDTO.PetStatusDTO = petStatusObj;
             }
+
+            //var petDrug = RedisHelper.String.StringGetAsync<PetDrugRefreshDTO>(RedisKeyDefine._PetDrugRefreshPostfix + petid);
+            //if (petDrug!=null)
+            //{
+            //    S2CPetAllStatus(roleid, Utility.Json.ToJson(petDrug));
+            //}
             petCompleteDTO.PetOrderType = PetCompleteDTO.PetOperationalOrder.PetGetStatus;
             S2CPetAllStatus(roleid,Utility.Json.ToJson(petCompleteDTO));
         }
@@ -396,10 +402,10 @@ namespace AscensionServer
             {
                 if (VerifyDrugEffect(drugID, pet, petCompleteDTO)) { }
                 else
-                    Utility.Debug.LogInfo("返回使用失败");
+                    S2CPetCultivate(petCompleteDTO.RoleID, Utility.Json.ToJson(petCompleteDTO), ReturnCode.Fail);
             }
             else
-                Utility.Debug.LogInfo("返回使用失败");
+                S2CPetCultivate(petCompleteDTO.RoleID, Utility.Json.ToJson(petCompleteDTO), ReturnCode.Fail);
         }
         /// <summary>
         /// 验证丹药作用
@@ -439,46 +445,75 @@ namespace AscensionServer
         {
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
 
-            //if (RedisHelper.Hash.HashExistAsync<>(RedisKeyDefine._PetDrugRefreshPostfix, pet.ID.ToString()))
-            //{
-
-            //}
+            var petDrugRefreshJson = RedisHelper.String.StringGetAsync(RedisKeyDefine._PetDrugRefreshPostfix + pet.ID.ToString()).Result;
+            PetDrugRefreshDTO petDrugRefreshDTO = new PetDrugRefreshDTO();
+            if (petDrugRefreshJson != null)
+            {
+             petDrugRefreshDTO = Utility.Json.ToObject<PetDrugRefreshDTO>(petDrugRefreshJson);
+                if (petDrugRefreshDTO.PetUsedDrug.TryGetValue(petCompleteDTO.UseItemID,out int count ))
+                {
+                    if (count>=100)
+                    {
+                        S2CPetCultivate(petCompleteDTO.RoleID, null, ReturnCode.Fail);
+                        return;
+                    }
+                }
+            }
             if (drugData.Need_Level_ID <= pet.PetLevel && drugData.Max_Level_ID >= pet.PetLevel)
             {
                 pet.PetExp += drugData.Drug_Value;
+                Utility.Debug.LogInfo("yzqData宠物即将使用加经验丹药"+ pet.PetExp);
                 if (petLevelDataDict[pet.PetLevel].ExpLevelUp <= pet.PetExp)
                 {
                     if (petLevelDataDict[pet.PetLevel].IsFinalLevel)
                     {
                         pet.PetExp = petLevelDataDict[pet.PetLevel].ExpLevelUp;
+                        Utility.Debug.LogInfo("yzqData使用加经验丹药即将进阶");
                     }
                     else
                     {
-                        pet.PetLevel += 1;
                         pet.PetExp = pet.PetExp - petLevelDataDict[pet.PetLevel].ExpLevelUp;
+                        pet.PetLevel += 1;
                         //TODO刷新寵物所有屬性
-                        await NHibernateQuerier.UpdateAsync(pet);
-
-                        var petAbility = await RedisHelper.Hash.HashGetAsync<PetAbilityPointDTO>(RedisKeyDefine._PetAbilityPointPerfix,pet.ID.ToString());
-
-                        var petAptitude= await RedisHelper.Hash.HashGetAsync<PetAptitudeDTO >(RedisKeyDefine._PetAptitudePerfix, pet.ID.ToString());
-
-                        var petStatus = await RedisHelper.Hash.HashGetAsync<PetStatusDTO>(RedisKeyDefine._PetStatusPerfix, pet.ID.ToString());
-
-                        var petObj = await RedisHelper.Hash.HashGetAsync<PetDTO>(RedisKeyDefine._PetPerfix, pet.ID.ToString());
-
-                        PetStatus petStatuObj = new PetStatus();
-                        petStatuObj = Utility.Assembly.AssignSameFieldValue<PetStatusDTO,PetStatus >(petStatus, petStatuObj);
-                        PetAptitude petAptitudeObj = new PetAptitude();
-                        petAptitudeObj = AssignSameFieldValue(petAptitudeObj, petAptitude);
-
-                        VerifyPetAllStatus(petAbility, petAptitudeObj, petStatuObj, petCompleteDTO, pet);
-
-                        
-
+                        Utility.Debug.LogInfo("yzqData使用加经验丹药" + pet.PetExp);
                     }
                 }
+                Utility.Debug.LogInfo("yzqData宠物加经验后" +Utility.Json.ToJson(pet));
+                await NHibernateQuerier.UpdateAsync(pet);
+                var petAbility = await RedisHelper.Hash.HashGetAsync<PetAbilityPointDTO>(RedisKeyDefine._PetAbilityPointPerfix, pet.ID.ToString());
+
+                var petAptitude = await RedisHelper.Hash.HashGetAsync<PetAptitudeDTO>(RedisKeyDefine._PetAptitudePerfix, pet.ID.ToString());
+
+                var petStatus = await RedisHelper.Hash.HashGetAsync<PetStatusDTO>(RedisKeyDefine._PetStatusPerfix, pet.ID.ToString());
+
+                var petObj = await RedisHelper.Hash.HashGetAsync<PetDTO>(RedisKeyDefine._PetPerfix, pet.ID.ToString());
+                petObj.PetLevel = pet.PetLevel;
+                petObj.PetExp = pet.PetExp;
+                await RedisHelper.Hash.HashSetAsync<PetDTO>(RedisKeyDefine._PetPerfix, pet.ID.ToString(), petObj);
+
+
+                PetStatus petStatuObj = new PetStatus();
+                petStatuObj = Utility.Assembly.AssignSameFieldValue<PetStatusDTO, PetStatus>(petStatus, petStatuObj);
+                PetAptitude petAptitudeObj = new PetAptitude();
+                petAptitudeObj = AssignSameFieldValue(petAptitudeObj, petAptitude);
+
+
+                petCompleteDTO.PetDTO = petObj;
+                petCompleteDTO.PetStatusDTO = VerifyPetAllStatus(petAbility, petAptitudeObj, petStatuObj, petCompleteDTO, pet);
+
+                S2CPetCultivate(petCompleteDTO.RoleID, Utility.Json.ToJson(petCompleteDTO), ReturnCode.Success);
+                if (petDrugRefreshDTO.PetUsedDrug.ContainsKey(drugData.Drug_ID))
+                {
+                    petDrugRefreshDTO.PetUsedDrug[drugData.Drug_ID]++;
+                }
+                else
+                {
+                    petDrugRefreshDTO.PetUsedDrug.Add(drugData.Drug_ID,1);                 
+                }
+                S2CPetDrugRefresh(petCompleteDTO.RoleID, Utility.Json.ToJson(petDrugRefreshDTO));
+                InventoryManager.Remove(petCompleteDTO.RoleID, drugData.Drug_ID);
             }
+
         }
         /// <summary>
         /// 增加资质

@@ -178,6 +178,10 @@ namespace AscensionProtocol
         /// </summary>
         SyncDemonical=69,
         /// <summary>
+        /// 同步宠物使用丹药
+        /// </summary>
+        SyncPetDrugFresh=70,
+        /// <summary>
         /// 进入高同步场景的指令
         /// </summary>
         EnterLevelCommand = 111,
