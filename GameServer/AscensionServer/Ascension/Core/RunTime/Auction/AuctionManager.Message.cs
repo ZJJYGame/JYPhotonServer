@@ -56,8 +56,11 @@ namespace AscensionServer
         /// <summary>
         /// 上架拍卖品
         /// </summary>
-       public async void SeverAuctionGoodsPutAway(int roleId)
+       public async void SeverAuctionGoodsPutAway(AuctionGoodsDTO putAwayAuctionGoods,int itemId, int roleId)
         {
+            Utility.Debug.LogInfo("上架拍卖品事件——1");
+            await PutAwayAuctionGoods(putAwayAuctionGoods, itemId);
+            Utility.Debug.LogInfo("上架拍卖品事件——2");
             OperationData opData = new OperationData();
             opData.OperationCode = (byte)OperationCode.SyncAuction;
             Dictionary<byte, object> subResponseParametersDict = new Dictionary<byte, object>();
