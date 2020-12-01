@@ -11,9 +11,9 @@ namespace AscensionServer
     {
         public DemonicSoulMap()
         {
-            Id(x => x.RoleID).GeneratedBy.Increment().Column("roleid");
-            Map(x => x.DemonicSouls).Column("demonicsouls").Nullable();
-            Map(x => x.DemonicSoulIndex).Column("demonicsouls_index").Nullable();
+            Id(x => x.RoleID).GeneratedBy.Assigned().Column("roleid");
+            Map(x => x.DemonicSouls).Column("demonicsouls");
+            Map(x => x.DemonicSoulIndex).Column("demonicsouls_index");
             Table("demonicsoul");
         }
     }

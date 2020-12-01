@@ -323,8 +323,8 @@
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\SyncDailyMessageSubHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SubHandler\UpdateDailyMessageSubHandler.cs" />
     <Compile Include="Handlers\SyncDailyMessage\SyncDailyMessageHandler.cs" />
+    <Compile Include="Handlers\SyncDemonicSoul\DemonicSoulManager.cs" />
     <Compile Include="Handlers\SyncDemonicSoul\SyncDemonicSoulHandler.cs" />
-    <Compile Include="Handlers\SyncFlyMagicTool\DemonicSoulManager.cs" />
     <Compile Include="Handlers\SyncFlyMagicTool\SyncFlyMagicToolHandler.cs" />
     <Compile Include="Handlers\SyncGongFa\SubHandler\GongFaStudyManager.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\RemoveImmortalsAllianceHandler.cs" />

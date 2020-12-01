@@ -203,5 +203,9 @@
         /// 获取飞行法器
         /// </summary>
         RoleFlyMagicTool=104,
+        /// <summary>
+        /// 妖灵精魄
+        /// </summary>
+        DemonicSoul = 105,
     }
 }

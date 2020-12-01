@@ -14,20 +14,7 @@ namespace Runner
         {
             Utility.Json.SetHelper(new NewtonjsonHelper());
             Utility.MessagePack.SetHelper(new ImplMessagePackHelper());
-            RoleStatusDatas rsd = new RoleStatusDatas()
-            {
-                MoveSpeed = 10,
-                RoleHP = 666,
-                RoleMP = 999,
-                AttackPower = 78,
-                AttackSpeed = 55,
-                DefendPower = 88,
-                RoleSoul = 76,
-                BestBlood = 99
-            };
-            RoleStatusDTO rsdto = new RoleStatusDTO();
-            Utility.Assembly.AssignSameFieldValue(rsd, rsdto);
-            Console.WriteLine(Utility.Assembly.TraverseInstanceAllFiled(rsdto));
+            Random random = new Random();
             Console.ReadKey();
         }
     }

@@ -42,7 +42,7 @@ namespace AscensionServer
             var userRole = NHibernateQuerier.CriteriaSelect<UserRole>(nHCriteriaUUID);
             string roleJson = userRole.RoleIDArray;
             string roleStatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleStatus));
-            Utility.Debug.LogInfo("yzqData添加新角色" + userRole.UUID);
+
             //Dictionary<int, int> idRing = new Dictionary<int, int>();
             Dictionary<int, int> initialSchool = new Dictionary<int, int>();
             GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, RoleStatusDatas>>(out var roleStatusDict);
@@ -226,12 +226,10 @@ namespace AscensionServer
                 RoleAlliance roleAlliance = new RoleAlliance() { RoleID = rolestatus.RoleID, RoleName = role.RoleName,ApplyForAlliance=Utility.Json.ToJson(new List<int>()) ,RoleSchool=900};
                 NHibernateQuerier.Insert(roleAlliance);
                 #endregion
-                FlyMagicTool flyMagicTool = new FlyMagicTool();
-                flyMagicTool.RoleID = role.RoleID;
-                flyMagicTool.AllFlyMagicTool =Utility.Json.ToJson(new List<int>() { 23401,23402});
-                NHibernateQuerier.SaveOrUpdate<FlyMagicTool>(flyMagicTool);
-
-
+                NHibernateQuerier.Insert(new FlyMagicTool() { RoleID = role.RoleID, AllFlyMagicTool = Utility.Json.ToJson(new List<int>() { 23401, 23402 }) });
+                Utility.Debug.LogInfo("yzqData添加新角色"+ role.RoleID);
+                NHibernateQuerier.Insert(new DemonicSoul() { RoleID = role.RoleID });
+                Utility.Debug.LogInfo("yzqData添加新角色" + userRole.UUID);
                 var userRoleJson = Utility.Json.ToJson(roleList);
                 NHibernateQuerier.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });
                 operationResponse.ReturnCode = (short)ReturnCode.Success;

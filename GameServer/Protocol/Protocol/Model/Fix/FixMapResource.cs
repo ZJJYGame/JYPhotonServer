@@ -13,14 +13,14 @@ namespace Protocol
     /// </summary>
     [Serializable]
     [MessagePackObject]
-    public class FixMapResourceUnit
+    public class FixMapResource
     {
         [Key(0)]
         public int ResId;
         [Key(1)]
         public int ResAmount;
         [Key(2)]
-        public Vector3 ResSpawnPositon;
+        public FixVector3 ResSpawnPositon;
         [Key(3)]
         public int ResSpawnRange;
     }

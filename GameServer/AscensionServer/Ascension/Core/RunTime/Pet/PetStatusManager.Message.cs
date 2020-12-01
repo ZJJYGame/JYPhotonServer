@@ -86,6 +86,16 @@ namespace AscensionServer
             GameManager.CustomeModule<RoleManager>().SendMessage(roleid, opData);
             Utility.Debug.LogInfo("yzqData宠物更改名字发送了");
         }
+
+        public void S2CPetEquipDemonic(int roleid, string s2cMessage, ReturnCode returnCode)
+        {
+            OperationData opData = new OperationData();
+            opData.DataMessage = s2cMessage;
+            opData.OperationCode = (byte)OperationCode.SyncPetStatus;
+            opData.ReturnCode = (byte)returnCode;
+            GameManager.CustomeModule<RoleManager>().SendMessage(roleid, opData);
+            Utility.Debug.LogInfo("yzqData宠物更改名字发送了");
+        }
         #endregion
     }
 }

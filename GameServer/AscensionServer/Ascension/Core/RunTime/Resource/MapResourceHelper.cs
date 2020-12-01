@@ -8,12 +8,14 @@ using AscensionProtocol.DTO;
 using Cosmos;
 using Protocol;
 using RedisDotNet;
-
+using UnityEngine;
 namespace AscensionServer
 {
     [ImplementProvider]
     public class MapResourceHelper : IMapResourceHelper
     {
+        Dictionary<int, Dictionary<int, ResourceUnitDTO>> resDict
+            =new Dictionary<int, Dictionary<int, ResourceUnitDTO>>();
         public void LoadMapResource()
         {
             Task.Run(() => {
@@ -22,9 +24,36 @@ namespace AscensionServer
                 {
                     var length = mapResourceData.FixMapResourceList.Count;
                     var resList = mapResourceData.FixMapResourceList;
+                    Random random = new Random();
                     for (int i = 0; i < length; i++)
                     {
-                        //resList[i].ResId
+                        var resObj = resList[i];
+                        var len = resObj.ResAmount;
+                        var lftX = resObj.ResSpawnPositon.X + resObj.ResSpawnRange;
+                        var rghX = resObj.ResSpawnPositon.X - resObj.ResSpawnRange;
+                        var lftZ = resObj.ResSpawnPositon.Z + resObj.ResSpawnRange;
+                        var rghZ = resObj.ResSpawnPositon.Z - resObj.ResSpawnRange;
+                        for (int j = 0; j < len; j++)
+                        {
+                            int x;
+                            int z;
+                            if (lftX > rghX)
+                            {
+                                x = random.Next(rghX, lftX);
+                            }else
+                            {
+                                x = random.Next(lftX,rghX);
+                            }
+                            if (lftZ > rghZ)
+                            {
+                                z = random.Next(rghZ, lftZ);
+                            }
+                            else
+                            {
+                                z = random.Next(lftZ,rghZ);
+                            }
+
+                        }
                     }
                 }
                 });
@@ -61,11 +90,6 @@ namespace AscensionServer
             if (result)
             {
                // operationResponse.ReturnCode = (short)ReturnCode.Success;
-
-                //ResourceUnitSetDTO currentDictObj = null;
-                //if (GameManager.CustomeModule<MapResourceManager>().ResUnitSetDict.TryGetValue(occupiedUnitObj.GlobalID, out currentDictObj))
-                //{
-
                 //    ResourceUnitDTO resourceUnitDTO = null;
                 //    if (currentDictObj.ResUnitDict.TryGetValue(occupiedUnitObj.ResID, out resourceUnitDTO))
                 //        resourceUnitDTO.Occupied = result;

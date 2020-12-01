@@ -77,7 +77,7 @@
     <Compile Include="Protocol\Model\Base\OperationData.cs" />
     <Compile Include="Protocol\Model\C2S\C2SAnimateInput.cs" />
     <Compile Include="Protocol\Model\C2S\C2SChatMessage.cs" />
-    <Compile Include="Protocol\Model\C2S\C2SFieldResource.cs" />
+    <Compile Include="Protocol\Model\C2S\C2SMapResource.cs" />
     <Compile Include="Protocol\Model\C2S\C2SInput.cs" />
     <Compile Include="Protocol\Model\C2S\C2SFlyMagicToolInput.cs" />
     <Compile Include="Protocol\Model\C2S\C2SSkillInput.cs" />
@@ -85,9 +85,9 @@
     <Compile Include="Protocol\Model\Define\SkillDefine.cs" />
     <Compile Include="Protocol\Model\Fix\FixAffectValue.cs" />
     <Compile Include="Protocol\Model\Fix\FixContainer.cs" />
-    <Compile Include="Protocol\Model\Fix\FixMapResourceUnit.cs" />
+    <Compile Include="Protocol\Model\Fix\FixMapResource.cs" />
     <Compile Include="Protocol\Model\Fix\FixSkill.cs" />
-    <Compile Include="Protocol\Model\S2C\S2CFieldResource.cs" />
+    <Compile Include="Protocol\Model\S2C\S2CMapResource.cs" />
     <Compile Include="Protocol\Model\S2C\S2CInput.cs" />
     <Compile Include="Protocol\Model\C2S\C2SPlayer.cs" />
     <Compile Include="Protocol\Model\S2C\S2CPlayer.cs" />

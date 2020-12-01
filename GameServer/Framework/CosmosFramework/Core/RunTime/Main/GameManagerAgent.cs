@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace Cosmos
 {
-    public class GameManagerAgent : ConcurrentSingleton<GameManagerAgent>, IRefreshable, IControllable
+    public class GameManagerAgent : ConcurrentSingleton<GameManagerAgent>, IRefreshable,IControllable
     {
         public bool IsPause { get; private set; }
         public bool Pause
@@ -25,13 +26,26 @@ namespace Cosmos
                 }
             }
         }
-        public void OnRefresh()
+        public void Start()
         {
             while (true)
             {
-                if (!IsPause)
-                    GameManager.Instance.OnRefresh();
+                try
+                {
+                    Thread.Sleep(1);
+                    OnRefresh();
+                }
+                catch (System.Exception e)
+                {
+                    Utility.Debug.LogError(e);
+                }
             }
+        }
+
+        public void OnRefresh()
+        {
+            if (!IsPause)
+                GameManager.Instance.OnRefresh();
         }
         public void OnPause()
         {
@@ -41,5 +55,7 @@ namespace Cosmos
         {
             GameManager.Instance.OnUnPause();
         }
+
+
     }
 }
