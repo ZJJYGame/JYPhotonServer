@@ -48,6 +48,8 @@ namespace AscensionServer
                     GameManager.CustomeModule<PetStatusManager>().PetStudySkill(petCompleteObj.UseItemID,nHCriteriarole, petObj, petCompleteObj);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetCultivate:
+                    Utility.Debug.LogInfo("yzqData使用加经验丹药");
+                    GameManager.CustomeModule<PetStatusManager>().PetCultivate(petCompleteObj.UseItemID, nHCriteriarole, petObj, petCompleteObj);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetGetStatus:
                     GameManager.CustomeModule<PetStatusManager>().GetPetAllCompeleteStatus(petCompleteObj.PetDTO.ID, nHCriteriapetStatus, petCompleteObj.RoleID, nHCriteriapet);
