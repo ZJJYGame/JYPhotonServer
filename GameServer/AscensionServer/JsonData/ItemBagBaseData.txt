@@ -6248,17 +6248,6 @@
 		"ItemSale":1
 	},
 	{
-		"ItemID":16040,
-		"ItemName":"真元资质丹",
-		"ItemDescription":"真元资质丹的描述",
-		"Itemtype":"Consumable",
-		"ItemImg":"DanYao/16040",
-		"ItemMax":50,
-		"ItemSellPrice":100,
-		"ItemShop":1,
-		"ItemSale":1
-	},
-	{
 		"ItemID":16041,
 		"ItemName":"神魂资质丹",
 		"ItemDescription":"神魂资质丹的描述",
@@ -6325,31 +6314,20 @@
 		"ItemSale":1
 	},
 	{
-		"ItemID":16047,
-		"ItemName":"神魂攻击资质丹",
-		"ItemDescription":"神魂攻击资质丹的描述",
-		"Itemtype":"Consumable",
-		"ItemImg":"DanYao/16047",
-		"ItemMax":50,
-		"ItemSellPrice":100,
-		"ItemShop":1,
-		"ItemSale":1
-	},
-	{
-		"ItemID":16048,
-		"ItemName":"神魂防御资质丹",
-		"ItemDescription":"神魂防御资质丹的描述",
-		"Itemtype":"Consumable",
-		"ItemImg":"DanYao/16048",
-		"ItemMax":50,
-		"ItemSellPrice":100,
-		"ItemShop":1,
-		"ItemSale":1
-	},
-	{
 		"ItemID":16049,
 		"ItemName":"成长资质丹",
 		"ItemDescription":"成长资质丹的描述",
+		"Itemtype":"Consumable",
+		"ItemImg":"DanYao/16049",
+		"ItemMax":50,
+		"ItemSellPrice":100,
+		"ItemShop":1,
+		"ItemSale":1
+	},
+	{
+		"ItemID":16901,
+		"ItemName":"金柳露",
+		"ItemDescription":"金柳露的描述",
 		"Itemtype":"Consumable",
 		"ItemImg":"DanYao/16049",
 		"ItemMax":50,

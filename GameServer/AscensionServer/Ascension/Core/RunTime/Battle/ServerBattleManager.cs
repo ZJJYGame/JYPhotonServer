@@ -157,7 +157,7 @@ namespace AscensionServer
                             break;
                         case "RoleStatusDTO":
                             if (BattleInitObject(roleId).playerUnits[0].RoleStatusDTO.RoleHP <= 0)
-                                return;
+                                break;
                             switch (battleTransferDTOs.BattleCmd)
                             {
                                 #region 针对道具

@@ -69,6 +69,7 @@ namespace AscensionServer
                 petAptitudeObj.DefendpowerAptitude = petAptitudeData.NaturalAttackPower[0];
                 petAptitudeObj.HPAptitude = petAptitudeData.NaturalHP[0];
                 petAptitudeObj.Petaptitudecol = petAptitudeData.NaturalGrowUp[0];
+                petAptitudeObj.SoulAptitude = petAptitudeData.NaturalSoul[0];
             }
         }
         /// <summary>

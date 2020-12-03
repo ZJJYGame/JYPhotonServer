@@ -45,6 +45,19 @@ namespace AscensionServer
             MagicCritDamage=14,
             ReduceCritDamage=15
         }
+
+        public enum GrowUpDrugType : int
+        {
+            HPGrowUp = 16039,
+            SoulGrowUp = 16041,
+            SpeedGrowUp = 16042,
+            AttackDamageGrowUp = 16043,
+            ResistanceAttackGrowUp = 16044,
+            PowerGrowUp = 16045,
+            ResistancePowerGrowUp = 16046,
+            GrowUp = 16049
+        }
+
         /// <summary>
         /// 验证宠物完整属性
         /// </summary>
@@ -177,21 +190,24 @@ namespace AscensionServer
         public void StatusAddition(PetStatus petStatus, List<PetStatusDTO> petAbilityStatus,out PetStatusDTO petStatusTemp)
         {
             petStatusTemp= GameManager.ReferencePoolManager.Spawn<PetStatusDTO>();
-            petStatusTemp.AttackPhysical = (petStatus.AttackPhysical ) * petAbilityStatus[0].AttackPhysical / 100 + petAbilityStatus[1].AttackPhysical;
-            petStatusTemp.AttackPower = (petStatus.AttackPower) * petAbilityStatus[0].AttackPower / 100 + petAbilityStatus[1].AttackPower;
-            petStatusTemp.AttackSpeed = (petStatus.AttackSpeed ) * petAbilityStatus[0].AttackSpeed / 100 + petAbilityStatus[1].AttackSpeed;
-            petStatusTemp.DefendPhysical = (petStatus.DefendPhysical ) * petAbilityStatus[0].DefendPhysical / 100 + petAbilityStatus[1].DefendPhysical;
-            petStatusTemp.DefendPower = (petStatus.DefendPower ) * petAbilityStatus[0].DefendPower / 100 + petAbilityStatus[1].DefendPower;
-            petStatusTemp.ExpLevelUp = (petStatus.ExpLevelUp ) * petAbilityStatus[0].ExpLevelUp / 100 + petAbilityStatus[1].ExpLevelUp;
-            petStatusTemp.MagicCritDamage = (petStatus.MagicCritDamage ) * petAbilityStatus[0].MagicCritDamage / 100 + petAbilityStatus[1].MagicCritDamage;
-            petStatusTemp.MagicCritProb = (petStatus.MagicCritProb ) * petAbilityStatus[0].MagicCritProb / 100 + petAbilityStatus[1].MagicCritProb;
-            petStatusTemp.PetHP = (petStatus.PetHP ) * petAbilityStatus[0].PetHP / 100 + petAbilityStatus[1].PetHP;
-            petStatusTemp.PetMP = (petStatus.PetMP) * petAbilityStatus[0].PetMP / 100 + petAbilityStatus[1].PetMP;
-            petStatusTemp.PetShenhun = (petStatus.PetShenhun ) * petAbilityStatus[0].PetShenhun / 100 + petAbilityStatus[1].PetShenhun;
-            petStatusTemp.PhysicalCritDamage = (petStatus.PhysicalCritDamage ) * petAbilityStatus[0].PhysicalCritDamage / 100 + petAbilityStatus[1].PhysicalCritDamage;
-            petStatusTemp.PhysicalCritProb = (petStatus.PhysicalCritProb) * petAbilityStatus[0].PhysicalCritProb / 100 + petAbilityStatus[1].PhysicalCritProb;
-            petStatusTemp.ReduceCritDamage = (petStatus.ReduceCritDamage ) * petAbilityStatus[0].ReduceCritDamage / 100 + petAbilityStatus[1].ReduceCritDamage;
-            petStatusTemp.ReduceCritProb = (petStatus.ReduceCritProb ) * petAbilityStatus[0].ReduceCritProb / 100 + petAbilityStatus[1].ReduceCritProb;
+            petStatusTemp.AttackPhysical =(petStatus.AttackPhysical ) + petAbilityStatus[0].AttackPhysical / 100 + petAbilityStatus[1].AttackPhysical;
+            petStatusTemp.AttackPower = (petStatus.AttackPower) + petAbilityStatus[0].AttackPower / 100 + petAbilityStatus[1].AttackPower;
+            petStatusTemp.AttackSpeed =  (petStatus.AttackSpeed ) + petAbilityStatus[0].AttackSpeed / 100 + petAbilityStatus[1].AttackSpeed;
+            petStatusTemp.DefendPhysical = (petStatus.DefendPhysical ) + petAbilityStatus[0].DefendPhysical / 100 + petAbilityStatus[1].DefendPhysical;
+            petStatusTemp.DefendPower = (petStatus.DefendPower ) + petAbilityStatus[0].DefendPower / 100 + petAbilityStatus[1].DefendPower;
+            petStatusTemp.ExpLevelUp =  (petStatus.ExpLevelUp ) + petAbilityStatus[0].ExpLevelUp / 100 + petAbilityStatus[1].ExpLevelUp;
+            petStatusTemp.MagicCritDamage =  (petStatus.MagicCritDamage ) + petAbilityStatus[0].MagicCritDamage / 100 + petAbilityStatus[1].MagicCritDamage;
+            petStatusTemp.MagicCritProb = (petStatus.MagicCritProb ) + petAbilityStatus[0].MagicCritProb / 100 + petAbilityStatus[1].MagicCritProb;
+            petStatusTemp.PetHP = (petStatus.PetHP ) + petAbilityStatus[0].PetHP / 100 + petAbilityStatus[1].PetHP;
+            petStatusTemp.PetMaxHP = petStatusTemp.PetHP;
+            petStatusTemp.PetMP =  (petStatus.PetMP) + petAbilityStatus[0].PetMP / 100 + petAbilityStatus[1].PetMP;
+            petStatusTemp.PetMaxMP = petStatusTemp.PetMP;
+            petStatusTemp.PetShenhun = (petStatus.PetShenhun )+ petAbilityStatus[0].PetShenhun / 100 + petAbilityStatus[1].PetShenhun;
+            petStatusTemp.PetMaxShenhun = petStatusTemp.PetShenhun;
+            petStatusTemp.PhysicalCritDamage =  (petStatus.PhysicalCritDamage ) + petAbilityStatus[0].PhysicalCritDamage / 100 + petAbilityStatus[1].PhysicalCritDamage;
+            petStatusTemp.PhysicalCritProb = (petStatus.PhysicalCritProb) + petAbilityStatus[0].PhysicalCritProb / 100 + petAbilityStatus[1].PhysicalCritProb;
+            petStatusTemp.ReduceCritDamage = (petStatus.ReduceCritDamage ) + petAbilityStatus[0].ReduceCritDamage / 100 + petAbilityStatus[1].ReduceCritDamage;
+            petStatusTemp.ReduceCritProb =  (petStatus.ReduceCritProb ) + petAbilityStatus[0].ReduceCritProb / 100 + petAbilityStatus[1].ReduceCritProb;
         }
 
         /// <summary>
@@ -213,6 +229,20 @@ namespace AscensionServer
             petAptitude.PetID = petAptitudeDTO.PetID;
             petAptitude.PetAptitudeDrug = Utility.Json.ToJson(petAptitudeDTO.PetAptitudeDrug);
             return petAptitude;
+        }
+        public PetAptitudeDTO AssignSameFieldValue(PetAptitudeDTO petAptitudeDTO, PetAptitude petAptitude)
+        {
+            petAptitudeDTO.AttackphysicalAptitude = petAptitude.AttackphysicalAptitude;
+            petAptitudeDTO.AttackpowerAptitude = petAptitude.AttackpowerAptitude;
+            petAptitudeDTO.AttackspeedAptitude = petAptitude.AttackspeedAptitude;
+            petAptitudeDTO.DefendphysicalAptitude = petAptitude.DefendphysicalAptitude;
+            petAptitudeDTO.DefendpowerAptitude = petAptitude.DefendpowerAptitude;
+            petAptitudeDTO.HPAptitude = petAptitude.HPAptitude;
+            petAptitudeDTO.Petaptitudecol = petAptitude.Petaptitudecol;
+            petAptitudeDTO.SoulAptitude = petAptitude.SoulAptitude;
+            petAptitudeDTO.PetID = petAptitude.PetID;
+            petAptitudeDTO.PetAptitudeDrug = Utility.Json.ToObject<Dictionary<int,int>>(petAptitude.PetAptitudeDrug);
+            return petAptitudeDTO;
         }
     }
 }

@@ -27,13 +27,10 @@ namespace AscensionServer.Model
         public virtual string DemonicSoul { get; set; }
         public override void Clear()
         {
-            ID = -1;
             PetLevel =1;
             PetID = 0;
             PetExp = 0;
-            PetName = null;
-            PetSkillArray=null;
-            DemonicSoul = "{}";
+            PetSkillArray= "{}";
         }
     }
 }

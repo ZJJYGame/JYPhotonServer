@@ -149,9 +149,11 @@ namespace AscensionServer
                     }
 
                     //扣除买家金钱
-                    ChangeRoleAssets(auctionGoodsObj, buyAuctionGoodsDTO.Count, buyerId, false);
+                    int spiritStonePrice = auctionGoodsObj.Price * buyAuctionGoodsDTO.Count * (-100);
+                    await ChangeRoleAssets(spiritStonePrice, 0, buyerId);
                     //增加卖家金钱
-                    ChangeRoleAssets(auctionGoodsObj, buyAuctionGoodsDTO.Count, auctionGoodsObj.RoleID, true);
+                    spiritStonePrice = auctionGoodsObj.Price * buyAuctionGoodsDTO.Count * (100);
+                    await ChangeRoleAssets(spiritStonePrice, 0, auctionGoodsObj.RoleID);
                     //告知卖家
                     OperationData opdata = new OperationData();
                     opdata.OperationCode = (byte)OperationCode.SyncAuction;
@@ -168,26 +170,29 @@ namespace AscensionServer
             }
             return 4;
         }
+
         /// <summary>
-        /// 角色金钱修改
+        /// 改变玩家金钱
         /// </summary>
-        public async void ChangeRoleAssets(AuctionGoodsDTO  buyAuctionGoodsDTO,int count,int targetRoleId,bool isAdd)
+        /// <param name="spiritStonePrice"></param>
+        /// <param name="xianYuPrice"></param>
+        /// <param name="targetRoleId"></param>
+        /// <returns></returns>
+        public async Task ChangeRoleAssets(int spiritStonePrice,int xianYuPrice,int targetRoleId)
         {
             NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", targetRoleId);
             bool roleExist = NHibernateQuerier.Verify<Role>(nHCriteriaRoleID);
             bool roleAssetsExist = NHibernateQuerier.Verify<RoleAssets>(nHCriteriaRoleID);
             if (roleExist && roleAssetsExist)
             {
-
                 var assetsServer = NHibernateQuerier.CriteriaSelect<RoleAssets>(nHCriteriaRoleID);
-                Utility.Debug.LogInfo("拍卖品的价格" + buyAuctionGoodsDTO.Price);
-                Utility.Debug.LogInfo(targetRoleId+"开始人物金钱的改变=>" + assetsServer.SpiritStonesLow);
-                assetsServer.SpiritStonesLow += buyAuctionGoodsDTO.Price * count * (isAdd?100:-100);
-                Utility.Debug.LogInfo(targetRoleId+"人物金钱计算完成=>" + assetsServer.SpiritStonesLow);
+                assetsServer.SpiritStonesLow += spiritStonePrice;
+                assetsServer.XianYu += xianYuPrice;
                 NHibernateQuerier.Update<RoleAssets>(new RoleAssets() { RoleID = targetRoleId, SpiritStonesLow = assetsServer.SpiritStonesLow, XianYu = assetsServer.XianYu });
                 await RedisHelper.Hash.HashSetAsync<RoleAssets>("RoleAssets", targetRoleId.ToString(), new RoleAssets() { RoleID = targetRoleId, SpiritStonesLow = assetsServer.SpiritStonesLow, XianYu = assetsServer.XianYu });
             }
         }
+
         /// <summary>
         /// 玩家上架拍卖品的事件
         /// </summary>
@@ -239,6 +244,9 @@ namespace AscensionServer
             }
             //移除玩家背包物品
             InventoryManager.Remove(putAwayGoods.RoleID, itemId);
+            //扣除玩家手续费
+            int spiritStonePrice = -putAwayGoods.Price * putAwayGoods.Count;
+            await ChangeRoleAssets(spiritStonePrice, 0, putAwayGoods.RoleID);
         }
     }
 }
