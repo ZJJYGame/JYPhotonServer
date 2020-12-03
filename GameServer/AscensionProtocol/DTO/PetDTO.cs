@@ -18,7 +18,7 @@ namespace AscensionProtocol.DTO
         public virtual PetOperateType OperateType { get; set; }
         public override void Clear()
         {
-            ID = -1;
+
             PetLevel = 0;
             PetID = 0;
             PetExp = 0;

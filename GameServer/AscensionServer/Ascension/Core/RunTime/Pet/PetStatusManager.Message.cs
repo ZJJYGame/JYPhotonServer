@@ -104,7 +104,7 @@ namespace AscensionServer
             opData.OperationCode = (byte)OperationCode.SyncPetStatus;
             opData.ReturnCode = (byte)returnCode;
             GameManager.CustomeModule<RoleManager>().SendMessage(roleid, opData);
-            Utility.Debug.LogInfo("yzqData宠物使用丹药成功");
+            Utility.Debug.LogInfo("yzqData宠物使用丹药成功" + (byte)returnCode);
         }
         #endregion
 

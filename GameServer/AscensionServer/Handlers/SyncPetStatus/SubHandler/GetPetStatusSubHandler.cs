@@ -27,17 +27,16 @@ namespace AscensionServer
             var petObj = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriapetStatus);
             switch (petCompleteObj.PetOrderType)
             {
-                case PetCompleteDTO.PetOperationalOrder.None:
-                    break;
                 case PetCompleteDTO.PetOperationalOrder.PetResetAbilitySln:
                     var pointObj= NHibernateQuerier.CriteriaSelect<PetAbilityPoint>(nHCriteriapetStatus);
                     Utility.Debug.LogInfo("yzqData变更宠物加点" + petCompleteJson);
                     GameManager.CustomeModule<PetStatusManager>().UpdataPetAbilityPoint( pointObj, petCompleteObj, nHCriteriarole);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetResetStatus:
+                    GameManager.CustomeModule<PetStatusManager>().PetStatusRestoreDefault(petCompleteObj.UseItemID, petCompleteObj.RoleID, petCompleteObj,petObj, nHCriteriarole);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetEvolution:
-
+                    GameManager.CustomeModule<PetStatusManager>().PetEvolution(petCompleteObj, petObj, petCompleteObj.UseItemID, nHCriteriarole);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.DemonicSoul:
                     Utility.Debug.LogInfo("yzqData宠物改名字" + petCompleteJson);
