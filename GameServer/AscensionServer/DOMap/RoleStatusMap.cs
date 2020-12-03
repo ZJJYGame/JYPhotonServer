@@ -37,6 +37,8 @@ namespace AscensionServer
             Map(x => x.MoveSpeed).Column("move_speed");
             Map(x => x.GongfaLearnSpeed).Column("gongfa_learn_speed");
             Map(x => x.MishuLearnSpeed).Column("mishu_learn_speed");
+            Map(x => x.Vitality).Column("vitality");
+            Map(x => x.MaxVitality).Column("max_vitality");
             Table("role_status");
         }
     }

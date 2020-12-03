@@ -88,6 +88,7 @@
     <Compile Include="DTO\RoleAllianceSkilltransferDTO.cs" />
     <Compile Include="DTO\RoleAuctionItemsDTO.cs" />
     <Compile Include="DTO\RolePurchaseRecordDTO.cs" />
+    <Compile Include="DTO\SecondaryJobDTO.cs" />
     <Compile Include="DTO\ShoppingMallDTO.cs" />
     <Compile Include="DTO\Resource\OccupiedUnitDTO.cs" />
     <Compile Include="DTO\Resource\ResourceUnitDTO.cs" />

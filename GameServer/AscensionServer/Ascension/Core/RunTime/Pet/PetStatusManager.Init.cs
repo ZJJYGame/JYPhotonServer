@@ -637,6 +637,7 @@ namespace AscensionServer
                     pet.PetSkillArray = Utility.Json.ToJson(skillList);
                     await NHibernateQuerier.UpdateAsync<Pet>(pet);
                     petCompleteDTO.PetDTO.PetSkillArray = skillList;
+                    petCompleteDTO.PetDTO.DemonicSoul = Utility.Json.ToObject<Dictionary<int,List<int>>>(pet.DemonicSoul);
                     S2CPetStudySkill(petCompleteDTO.RoleID, Utility.Json.ToJson(petCompleteDTO), ReturnCode.Success);
                     await RedisHelper.Hash.HashSetAsync<PetDTO>(RedisKeyDefine._PetPerfix, petCompleteDTO.RoleID.ToString(), petCompleteDTO.PetDTO);
                     InventoryManager.RemoveCmd(bookid, ringObj, nHCriteriaRingID);
@@ -887,6 +888,8 @@ namespace AscensionServer
             }
             //TODO判断物品是否为金柳露
             var petObj = GameManager.ReferencePoolManager.Spawn<PetDTO>();
+            petObj.PetLevel = 1;
+            petObj.PetExp = 0;
             petObj.ID = pet.ID;
             petObj.PetID = pet.PetID;
             petObj.PetName = pet.PetName;

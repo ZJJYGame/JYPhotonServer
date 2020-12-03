@@ -72,6 +72,8 @@ namespace AscensionServer.Model
         public virtual int RoleMaxSoul { get; set; }
         public virtual short BestBlood { get; set; }
         public virtual short BestBloodMax { get; set; }
+        public virtual int Vitality { get; set; }
+        public virtual int MaxVitality { get; set; }
         public virtual int AttackSpeed { get; set; }
         public virtual int AttackPhysical { get; set; }
         public virtual int DefendPhysical { get; set; }
@@ -117,6 +119,8 @@ namespace AscensionServer.Model
             ValueHide = 0;
             GongfaLearnSpeed = 0;
             MishuLearnSpeed = 0;
-        }
+            Vitality = 0;
+            MaxVitality = 0;
+    }
     }
 }

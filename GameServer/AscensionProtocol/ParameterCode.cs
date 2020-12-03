@@ -207,5 +207,9 @@
         /// 妖灵精魄
         /// </summary>
         DemonicSoul = 105,
+        /// <summary>
+        /// 副职业
+        /// </summary>
+        SecondaryJob=106
     }
 }

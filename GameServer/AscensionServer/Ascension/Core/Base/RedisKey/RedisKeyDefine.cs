@@ -136,5 +136,9 @@ namespace AscensionServer
         /// 宠物使用丹药每日刷新
         /// </summary>
         public static readonly string _PetDrugRefreshPostfix = "PetDrugRefresh";
+        /// <summary>
+        /// 副职业炼丹
+        /// </summary>
+        public static readonly string _AlchemyPostfix = "Alchemy";
     }
 }

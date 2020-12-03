@@ -182,6 +182,10 @@ namespace AscensionProtocol
         /// </summary>
         SyncPetDrugFresh=70,
         /// <summary>
+        /// 同步角色副职业
+        /// </summary>
+        SyncSecondaryJob=71,
+        /// <summary>
         /// 进入高同步场景的指令
         /// </summary>
         EnterLevelCommand = 111,

@@ -33,6 +33,7 @@ namespace AscensionServer
         public int ValueHide { get; set; }
         public int GongfaLearnSpeed { get; set; }
         public int MishuLearnSpeed { get; set; }
+        public int Vitality { get; set; }
         public int ExpLevelUp { get; set; }
     }
 }

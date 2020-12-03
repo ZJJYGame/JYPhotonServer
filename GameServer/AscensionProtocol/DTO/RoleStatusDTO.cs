@@ -17,6 +17,8 @@ namespace AscensionProtocol.DTO
         public virtual int RoleMaxSoul { get; set; }
         public virtual short BestBlood { get; set; }
         public virtual short BestBloodMax { get; set; }
+        public virtual int Vitality { get; set; }
+        public virtual int MaxVitality { get; set; }
         public virtual int AttackSpeed { get; set; }
         public virtual int AttackPhysical { get; set; }
         public virtual int DefendPhysical { get; set; }
@@ -81,6 +83,8 @@ namespace AscensionProtocol.DTO
             RolePopularity = 0;
             RoleMaxPopularity = 0;
             ValueHide = 0;
+            Vitality = 0;
+            MaxVitality = 0;
         }
 
         public enum StatusChangeType
