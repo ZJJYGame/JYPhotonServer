@@ -64,7 +64,7 @@ namespace AscensionServer
                     }
                     RedisDotNet.RedisHelper.Hash.HashSet(RedisKeyDefine._WildMapResPerfix, r.Key.ToString(), s2cRes);
                 }
-                Utility.Debug.LogWarning(Utility.Json.ToJson(s2cResDict));
+                Utility.Debug.LogWarning(Utility.Json.ToJson(s2cResDict,true));
             }
         }
         public void OnRefreshResource()

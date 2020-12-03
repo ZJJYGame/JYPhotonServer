@@ -41,7 +41,6 @@ namespace AscensionServer
                 var fullName = datas[i].GetType().Name;
                 if (jsonDict.TryGetValue(fullName, out json))
                 {
-                    Utility.Debug.LogWarning($"find json{fullName}");
                     try
                     {
                         var obj = Utility.Json.ToObject(json, datas[i].GetType());
