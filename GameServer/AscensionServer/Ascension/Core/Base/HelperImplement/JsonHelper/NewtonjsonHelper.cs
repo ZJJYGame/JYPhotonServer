@@ -5,9 +5,12 @@ using System;
 using Newtonsoft.Json;
 public class NewtonjsonHelper : IJsonHelper
 {
-    public string ToJson(object obj)
+    public string ToJson(object obj, bool prettyPrint)
     {
-        return JsonConvert.SerializeObject(obj);
+        if (prettyPrint)
+            return JsonConvert.SerializeObject(obj, Formatting.Indented);
+        else
+            return JsonConvert.SerializeObject(obj);
     }
     public T ToObject<T>(string json)
     {
