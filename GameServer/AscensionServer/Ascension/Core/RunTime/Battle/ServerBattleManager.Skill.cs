@@ -948,7 +948,8 @@ namespace AscensionServer
                 allData.ObjectSpeed = statusPet.AttackSpeed;
                 _teamIdToBattleInit[roleId].battleUnits.Add(allData);
             }
-            var TargetInfosSet = ServerToClientResult(new TargetInfoDTO() { TargetID = statusPet.PetID });
+            //Utility.Debug.LogInfo("Utility.Json.ToJson(enemyObject)" + Utility.Json.ToJson(enemyObject));
+            var TargetInfosSet = ServerToClientResult(new TargetInfoDTO() { TargetID = statusPet.PetID, TypeDTO  = Utility.Json.ToJson(enemyObject) });
             teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = currentId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
         }
         #endregion

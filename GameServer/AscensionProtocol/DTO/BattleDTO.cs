@@ -252,11 +252,6 @@ namespace AscensionProtocol.DTO
     }
 
 
-
-
-
-
-
     #region  战斗传输数据DTO
 
 
@@ -393,6 +388,10 @@ namespace AscensionProtocol.DTO
         public virtual List<int> RemoveTargetBuff { get; set; }
 
         public virtual List<BattleBuffDTO> battleBuffDTOs { get; set; }
+        /// <summary>
+        /// 传输类型对象
+        /// </summary>
+        public virtual string TypeDTO { get; set; }
     }
 
 

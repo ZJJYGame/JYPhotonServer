@@ -144,6 +144,7 @@ namespace AscensionServer
             tempTrans.TargetShieldVaule = targetInfo.TargetShieldVaule;
             tempTrans.AddTargetBuff = targetInfo.AddTargetBuff;
             tempTrans.RemoveTargetBuff = targetInfo.RemoveTargetBuff;
+            tempTrans.TypeDTO = targetInfo.TypeDTO;
             TargetInfosSet.Add(tempTrans);
             return TargetInfosSet;
         }
@@ -162,6 +163,7 @@ namespace AscensionServer
             tempTrans.TargetShieldVaule = targetInfo.TargetShieldVaule;
             tempTrans.AddTargetBuff = targetInfo.AddTargetBuff;
             tempTrans.RemoveTargetBuff = targetInfo.RemoveTargetBuff;
+            tempTrans.TypeDTO = targetInfo.TypeDTO;
             return tempTrans;
         }
         #endregion
