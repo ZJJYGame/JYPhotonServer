@@ -51,12 +51,12 @@ namespace AscensionServer
 
         public void RedisDeleteCaback(string key)
         {
-            GameManager.CustomeModule<TacticalDeploymentManager>().RedisDeleteCaback(key);
+          GameEntry. TacticalDeploymentManager.RedisDeleteCaback(key);
         }
 
         public static TacticalEntity Create(int id,int roleid, int levelid)
         {
-            TacticalEntity  te= GameManager.ReferencePoolManager.Spawn<TacticalEntity>();
+            TacticalEntity  te= CosmosEntry.ReferencePoolManager.Spawn<TacticalEntity>();
             te.Onlnit(id, roleid, levelid);
             return te;
         }
@@ -72,3 +72,5 @@ namespace AscensionServer
         }
     }
 }
+
+

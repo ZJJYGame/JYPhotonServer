@@ -8,8 +8,8 @@ using System.Threading;
 using Cosmos;
 namespace AscensionServer
 {
-    [CustomeModule]
-    public class TeamManager : Module<TeamManager>
+    [Module]
+    public class TeamManager : Module,ITeamManager
     {
         /// <summary>
         /// 房间ID长度
@@ -30,7 +30,7 @@ namespace AscensionServer
         {
             if (teamDict.ContainsKey(createrId))
                 return null;
-            var tc = GameManager.ReferencePoolManager.Spawn<TeamEntity>();
+            var tc = CosmosEntry.ReferencePoolManager.Spawn<TeamEntity>();
             tc.Oninit(createrId, CreateTeamID());
             return tc;
         }
@@ -118,3 +118,5 @@ namespace AscensionServer
         }
     }
 }
+
+

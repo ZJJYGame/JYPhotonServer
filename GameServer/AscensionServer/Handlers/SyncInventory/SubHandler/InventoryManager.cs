@@ -88,7 +88,7 @@ namespace AscensionServer
             OperationData opData = new OperationData();
             opData.DataMessage = ServerToClientParams(ringServerArray);
             opData.OperationCode = (byte)OperationCode.SyncInventoryMessageGet;
-            GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
+            GameEntry.RoleManager.SendMessage(roleId, opData);
         }
 
         public static void AddDataCmd(int roleId, RingDTO InventoryObj, NHCriteria nHCriteria)
@@ -666,3 +666,5 @@ namespace AscensionServer
 
     }
 }
+
+

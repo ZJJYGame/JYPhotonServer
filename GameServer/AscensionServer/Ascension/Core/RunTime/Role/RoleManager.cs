@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Cosmos;
 using AscensionProtocol;
@@ -10,17 +10,17 @@ using System.Collections.Concurrent;
 namespace AscensionServer
 {
     /// <summary>
-    /// ½ÇÉ«¹ÜÀíÆ÷£»
-    /// keyÎªRoleId»òÕßPlayerId
+    /// ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    /// keyÎªRoleIdï¿½ï¿½ï¿½ï¿½PlayerId
     /// </summary>
-    [CustomeModule]
-    public class RoleManager : Module<RoleManager>
+    [Module]
+    public class RoleManager : Module,IRoleManager
     {
         public int RoleCount { get { return roleDict.Count; } }
         ConcurrentDictionary<int, RoleEntity> roleDict = new ConcurrentDictionary<int, RoleEntity>();
         ConcurrentQueue<RoleEntity> playerPoolQueue = new ConcurrentQueue<RoleEntity>();
         /// <summary>
-        /// ¹ã²¥ÊÂ¼þÏûÏ¢ ;
+        /// ï¿½ã²¥ï¿½Â¼ï¿½ï¿½ï¿½Ï¢ ;
         /// </summary>
         event Action<byte, Dictionary<byte, object>> BroadcastEvent
         {
@@ -28,7 +28,7 @@ namespace AscensionServer
             remove{broadcastEvent -= value;}
         }
         /// <summary>
-        /// ¹ã²¥ÆÕÍ¨ÏûÏ¢;
+        /// ï¿½ã²¥ï¿½ï¿½Í¨ï¿½ï¿½Ï¢;
         /// </summary>
         event Action<OperationData> BroadcastMessage
         {
@@ -107,16 +107,16 @@ namespace AscensionServer
             return result;
         }
         /// <summary>
-        /// Í¬²½¹ã²¥ÊÂ¼þ(EVENT)£»
-        /// ´Ë·½·¨»á¶ÔËùÓÐÔÚÏßÇÒAvailableµÄpeer¶ÔÏó½øÐÐÏûÏ¢¹ã²¥£»
+        /// Í¬ï¿½ï¿½ï¿½ã²¥ï¿½Â¼ï¿½(EVENT)ï¿½ï¿½
+        /// ï¿½Ë·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Availableï¿½ï¿½peerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ã²¥ï¿½ï¿½
         /// </summary>
-        /// <param name="userData">ÓÃ»§×Ô¶¨ÒåÊý¾Ý</param>
+        /// <param name="userData">ï¿½Ã»ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</param>
         public void BroadcastEventToAll(byte opCode, Dictionary<byte, object> userData)
         {
             broadcastEvent?.Invoke(opCode, userData);
         }
         /// <summary>
-        ///·¢ËÍÏûÏ¢µ½¾ßÌåµÄSessionId 
+        ///ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SessionId 
         /// </summary>
         public bool SendMessage(int roleId, OperationData message)
         {
@@ -126,43 +126,43 @@ namespace AscensionServer
             return result;
         }
         /// <summary>
-        /// Í¨¹ý¹ã²¥ÆÕÍ¨ÏûÏ¢(MSG)£»
+        /// Í¨ï¿½ï¿½ï¿½ã²¥ï¿½ï¿½Í¨ï¿½ï¿½Ï¢(MSG)ï¿½ï¿½
         /// </summary>
-        /// <param name="message">ÆÕÍ¨ÏûÏ¢</param>
+        /// <param name="message">ï¿½ï¿½Í¨ï¿½ï¿½Ï¢</param>
         public void BroadcastMessageToAll(OperationData message)
         {
             broadcastMessage?.Invoke(message);
         }
         /// <summary>
-        ///Òì²½·¢ËÍÏûÏ¢µ½¾ßÌåµÄSessionId 
+        ///ï¿½ì²½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SessionId 
         /// </summary>
         public async Task<bool> SendMessageAsync(int roleId, OperationData message)
         {
             return await Task.Run(() => { return SendMessage(roleId, message); });
         }
         /// <summary>
-        ///Òì²½¹ã²¥ÏûÏ¢µ½¾ßÌåµÄsessionId 
+        ///ï¿½ì²½ï¿½ã²¥ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sessionId 
         /// </summary>
         public async Task<bool> SendEventAsync(int roleId, byte opCode, Dictionary<byte, object> userData)
         {
             return await Task.Run(() => { return SendEvent(roleId, opCode, userData); });
         }
         /// <summary>
-        /// Òì²½¹ã²¥ÊÂ¼þÏûÏ¢(EVENT)£»
+        /// ï¿½ì²½ï¿½ã²¥ï¿½Â¼ï¿½ï¿½ï¿½Ï¢(EVENT)ï¿½ï¿½
         /// </summary>
-        /// <param name="userData">ÓÃ»§×Ô¶¨ÒåÊý¾Ý</param>
-        /// <param name="callback">¹ã²¥½áÊøºóµÄ»Øµ÷</param>
-        /// <returns>Ïß³ÌTask</returns>
+        /// <param name="userData">ï¿½Ã»ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</param>
+        /// <param name="callback">ï¿½ã²¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»Øµï¿½</param>
+        /// <returns>ï¿½ß³ï¿½Task</returns>
         public async Task BroadcastEventToAllAsync(byte opCode, Dictionary<byte, object> userData, Action callback = null)
         {
             await Task.Run(() => { broadcastEvent?.Invoke(opCode, userData); });
             callback?.Invoke();
         }
         /// <summary>
-        /// Òì²½¹ã²¥ÆÕÍ¨ÏûÏ¢(MSG)£»
+        /// ï¿½ì²½ï¿½ã²¥ï¿½ï¿½Í¨ï¿½ï¿½Ï¢(MSG)ï¿½ï¿½
         /// </summary>
-        /// <param name="message">ÆÕÍ¨ÏûÏ¢</param>
-        /// <param name="callback">ÏûÏ¢¹ã²¥Íê³ÉºóµÄ»Øµ÷</param>
+        /// <param name="message">ï¿½ï¿½Í¨ï¿½ï¿½Ï¢</param>
+        /// <param name="callback">ï¿½ï¿½Ï¢ï¿½ã²¥ï¿½ï¿½Éºï¿½Ä»Øµï¿½</param>
         /// <returns></returns>
         public async Task BroadcastMessageToAllAsync(OperationData message, Action callback = null)
         {
@@ -183,3 +183,4 @@ namespace AscensionServer
         }
     }
 }
+

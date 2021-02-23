@@ -25,8 +25,8 @@ namespace AscensionServer
             var treasureatticObj = Utility.Json.ToObject<TreasureatticDTO>(treasureatticJson);
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
 
-            NHCriteria nHCriteriaTreasureattic = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", treasureatticObj.ID);
-            NHCriteria nHCriteriaschool = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
+            NHCriteria nHCriteriaTreasureattic = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", treasureatticObj.ID);
+            NHCriteria nHCriteriaschool = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
 
             var treasureatticTemp = NHibernateQuerier.CriteriaSelect<Treasureattic>(nHCriteriaTreasureattic);
             var schoolTemp = NHibernateQuerier.CriteriaSelect<School>(nHCriteriaschool);
@@ -131,8 +131,10 @@ namespace AscensionServer
                 });
             }
 
-            GameManager.ReferencePoolManager.Despawns(nHCriteriaTreasureattic, nHCriteriaschool);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaTreasureattic, nHCriteriaschool);
             return operationResponse;
         }
     }
 }
+
+

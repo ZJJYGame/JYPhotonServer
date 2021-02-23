@@ -11,3 +11,5 @@ namespace AscensionServer
         ushort InputCmdType { get; }
     }
 }
+
+

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using Cosmos;
 namespace AscensionServer
 {
-    [CustomeModule]
+    [Module]
     /// <summary>
     /// 玩家的大厅管理器
     /// </summary>
-    public sealed class LobbyManager:Module<LobbyManager>
+    public sealed class LobbyManager:Module,ILobbyManager
     {
         HashSet<int> peerSet=new HashSet<int>();
         public bool TryAdd(int sessionId)
@@ -47,7 +47,9 @@ namespace AscensionServer
             peer = default;
             if (!Contains(sessionId))
                 return false;
-            return PeerManager.Instance.TryGetValue(sessionId, out peer);
+            return GameEntry.PeerManager.TryGetValue(sessionId, out peer);
         }
     }
 }
+
+

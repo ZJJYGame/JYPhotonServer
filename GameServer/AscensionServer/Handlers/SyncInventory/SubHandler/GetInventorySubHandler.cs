@@ -25,14 +25,14 @@ namespace AscensionServer
             Utility.Debug.LogInfo(">>>>>接收背包的数据" + InventoryData + ">>>>>>>>>>>>>");
             var InventoryRoleObj = Utility.Json.ToObject<RoleDTO>(InventoryRoleData);
             var InventoryObj = Utility.Json.ToObject<RingDTO>(InventoryData);
-            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", InventoryRoleObj.RoleID);
+            NHCriteria nHCriteriaRoleID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", InventoryRoleObj.RoleID);
             bool exist = NHibernateQuerier.Verify<RoleRing>(nHCriteriaRoleID);
             bool existRing = false;
             NHCriteria nHCriteriaRingID = null;
             if (exist)
             {
                 var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
-                nHCriteriaRingID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
+                nHCriteriaRingID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
                 existRing = NHibernateQuerier.Verify<Ring>(nHCriteriaRingID);
             }
             switch (InventoryRoleObj.InventoryInstructions)
@@ -75,9 +75,11 @@ namespace AscensionServer
             });
         }*/
             #endregion
-            GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
+            CosmosEntry.ReferencePoolManager.Despawn(nHCriteriaRoleID);
             return operationResponse;
         }
     }
 }
+
+
 

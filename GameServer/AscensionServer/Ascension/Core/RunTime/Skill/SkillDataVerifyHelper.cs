@@ -15,7 +15,7 @@ namespace AscensionServer
         public bool VerifyData(IDataContract data)
         {
             var skill = data as C2SSkillInput;
-            //rsd = GameManager.CustomeModule<ServerBattleManager>().MsqInfo<RoleStatusDTO>(skill.PlayerId);
+            //rsd = GameEntry.ServerBattleManager.MsqInfo<RoleStatusDTO>(skill.PlayerId);
             //var costs = skill.Costs;
             //if (costs != null)
             //{
@@ -123,3 +123,5 @@ namespace AscensionServer
         }
     }
 }
+
+

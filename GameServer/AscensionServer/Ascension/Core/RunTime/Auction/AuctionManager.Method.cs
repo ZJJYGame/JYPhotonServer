@@ -160,7 +160,7 @@ namespace AscensionServer
                     Dictionary<byte, object> subResponseParametersDict = new Dictionary<byte, object>();
                     subResponseParametersDict.Add((byte)ParameterCode.SoldOutAuctionGoods, (byte)SyncAuctionType.AuctionGoodsBeBought);
                     opdata.DataMessage = subResponseParametersDict;
-                    GameManager.CustomeModule<RoleManager>().SendMessage(auctionGoodsObj.RoleID, opdata);
+                    GameEntry.RoleManager.SendMessage(auctionGoodsObj.RoleID, opdata);
                     //物品赋予买家
                     InventoryManager.AddNewItem(buyerId, auctionGoodsObj.GlobalID, buyAuctionGoodsDTO.Count);
                     //todo
@@ -180,7 +180,7 @@ namespace AscensionServer
         /// <returns></returns>
         public async Task ChangeRoleAssets(int spiritStonePrice,int xianYuPrice,int targetRoleId)
         {
-            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", targetRoleId);
+            NHCriteria nHCriteriaRoleID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", targetRoleId);
             bool roleExist = NHibernateQuerier.Verify<Role>(nHCriteriaRoleID);
             bool roleAssetsExist = NHibernateQuerier.Verify<RoleAssets>(nHCriteriaRoleID);
             if (roleExist && roleAssetsExist)
@@ -250,3 +250,5 @@ namespace AscensionServer
         }
     }
 }
+
+

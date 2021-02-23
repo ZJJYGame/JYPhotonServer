@@ -14,3 +14,5 @@ namespace AscensionServer
         AI_TypeB=4
     }
 }
+
+

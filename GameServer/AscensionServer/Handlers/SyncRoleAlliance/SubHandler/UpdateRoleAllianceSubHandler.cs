@@ -22,7 +22,7 @@ namespace AscensionServer
             var roleallianceObj = Utility.Json.ToObject<RoleAllianceDTO>(roleallianceJson);
             Utility.Debug.LogError("储存的成员" + roleallianceJson);
 
-            NHCriteria nHCriteriaroleAlliances = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceObj.RoleID);
+            NHCriteria nHCriteriaroleAlliances = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceObj.RoleID);
             var roleallianceTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriaroleAlliances).Result;
             if (roleallianceTemp!=null)
             {
@@ -57,8 +57,10 @@ namespace AscensionServer
                     operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
-            GameManager.ReferencePoolManager.Despawns(nHCriteriaroleAlliances);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaroleAlliances);
             return operationResponse;
         }
     }
 }
+
+

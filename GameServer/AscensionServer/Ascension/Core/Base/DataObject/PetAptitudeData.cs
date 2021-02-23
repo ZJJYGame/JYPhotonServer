@@ -22,3 +22,5 @@ namespace AscensionServer
         public List<int> SkillArray { get; set; }
     }
 }
+
+

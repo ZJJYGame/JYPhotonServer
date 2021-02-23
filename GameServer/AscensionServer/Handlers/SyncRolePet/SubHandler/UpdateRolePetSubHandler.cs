@@ -22,7 +22,7 @@ namespace AscensionServer
             //string rolepet = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RolePet));
 
             //var rolepetObj = Utility.Json.ToObject<RolePet>(rolepet);
-            //NHCriteria nHCriteriaRolePet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
+            //NHCriteria nHCriteriaRolePet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
 
             //var rolepets = NHibernateQuerier.CriteriaSelectAsync<RolePet>(nHCriteriaRolePet).Result;
 
@@ -48,8 +48,10 @@ namespace AscensionServer
             //        operationResponse.ReturnCode = (short)ReturnCode.Fail;
             //    });
             //}
-            //GameManager.ReferencePoolManager.Despawns(nHCriteriaRolePet);
+            //CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaRolePet);
             return operationResponse;
         }
     }
 }
+
+

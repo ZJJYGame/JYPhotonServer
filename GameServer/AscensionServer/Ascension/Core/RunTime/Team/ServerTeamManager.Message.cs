@@ -23,7 +23,7 @@ namespace AscensionServer
             OperationData opData = new OperationData();
             opData.DataMessage = ServerToClientParams();
             opData.OperationCode = (byte)OperationCode.SyncTeamMessageInit;
-            GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
+            GameEntry. RoleManager.SendMessage(roleId, opData);
         }
         /// <summary>
         /// 创建房间
@@ -34,7 +34,7 @@ namespace AscensionServer
             OperationData opData = new OperationData();
             opData.DataMessage = ServerToClientParams();
             opData.OperationCode = (byte)OperationCode.SyncTeamMessageCreate;
-            GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
+            GameEntry. RoleManager.SendMessage(roleId, opData);
         }
         /// <summary>
         /// 申请加入队伍
@@ -45,7 +45,7 @@ namespace AscensionServer
             OperationData opData = new OperationData();
             opData.DataMessage = ServerToClientParams();
             opData.OperationCode = (byte)OperationCode.SyncTeamMessageApply;
-            GameManager.CustomeModule<RoleManager>().SendMessage(teamLeader, opData);
+            GameEntry. RoleManager.SendMessage(teamLeader, opData);
         }
         
         /// <summary>
@@ -59,7 +59,7 @@ namespace AscensionServer
                 OperationData opData = new OperationData();
                 opData.DataMessage = ServerToClientParams();
                 opData.OperationCode = (byte)OperationCode.SyncTeamMessageJoin;
-                GameManager.CustomeModule<RoleManager>().SendMessage(ov.RoleID, opData);
+                GameEntry. RoleManager.SendMessage(ov.RoleID, opData);
             }
         }
 
@@ -72,7 +72,7 @@ namespace AscensionServer
             OperationData opData = new OperationData();
             opData.DataMessage = ServerToClientParams();
             opData.OperationCode = (byte)OperationCode.SyncTeamMessageRefused;
-            GameManager.CustomeModule<RoleManager>().SendMessage(leaderId, opData);
+            GameEntry. RoleManager.SendMessage(leaderId, opData);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace AscensionServer
                 OperationData opData = new OperationData();
                 opData.DataMessage = ServerToClientParams();
                 opData.OperationCode = (byte)OperationCode.SyncTeamMessageTransfer;
-                GameManager.CustomeModule<RoleManager>().SendMessage(ov.RoleID, opData);
+                GameEntry. RoleManager.SendMessage(ov.RoleID, opData);
             }
         }
 
@@ -102,9 +102,11 @@ namespace AscensionServer
                 OperationData opData = new OperationData();
                 opData.DataMessage = ServerToClientParams();
                 opData.OperationCode = (byte)OperationCode.ExitBattle;
-                GameManager.CustomeModule<RoleManager>().SendMessage(ov.RoleID, opData);
+                GameEntry. RoleManager.SendMessage(ov.RoleID, opData);
             }
         }
 
     }
 }
+
+

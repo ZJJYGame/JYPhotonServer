@@ -35,3 +35,5 @@ namespace AscensionServer
         public AttackProcess_Type AttackProcess_Type { get; set; }
     }
 }
+
+

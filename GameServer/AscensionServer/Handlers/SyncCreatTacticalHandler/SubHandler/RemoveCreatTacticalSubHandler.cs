@@ -23,10 +23,10 @@ namespace AscensionServer
             string tacticJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.CreatTactical));
             var tacticObj = Utility.Json.ToObject<TacticalDTO>(tacticJson);
 
-            //var result = GameManager.CustomeModule<TacticalDeploymentManager>().TryRemove(0, tacticObj.ID);
+            //var result = GameEntry.TacticalDeploymentManager.TryRemove(0, tacticObj.ID);
             //if (result)
             //{
-            //    GameManager.CustomeModule<TacticalDeploymentManager>().SendAllLevelRoleTactical(tacticObj, ReturnCode.Fail);
+            //    GameEntry.TacticalDeploymentManager.SendAllLevelRoleTactical(tacticObj, ReturnCode.Fail);
             //}
             //else
             //    SetResponseParamters(() =>
@@ -37,3 +37,5 @@ namespace AscensionServer
         }
     }
 }
+
+

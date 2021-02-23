@@ -21,7 +21,7 @@ namespace AscensionServer
             var dict = operationRequest.Parameters;
             string roleMSJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.MiShu));
             var roleMiShuObj = Utility.Json.ToObject<RoleMiShuDTO>(roleMSJson);
-            NHCriteria nHCriteriamishu = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleMiShuObj.RoleID);
+            NHCriteria nHCriteriamishu = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleMiShuObj.RoleID);
             RoleMiShu roleMiShu = NHibernateQuerier.CriteriaSelect<RoleMiShu>(nHCriteriamishu);
             Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收到获取秘术的数组" + roleMiShu.MiShuIDArray);
             List<MiShuDTO> miShuIdList = new List<MiShuDTO>();
@@ -38,7 +38,7 @@ namespace AscensionServer
                 OperationData operationData = new OperationData();
                 operationData.DataMessage = Utility.Json.ToJson(miShuIdList);
                 operationData.OperationCode = (byte)OperationCode.SyncMiShu;
-                GameManager.CustomeModule<RoleManager>().SendMessage(roleMiShuObj.RoleID, operationData);
+                GameEntry. RoleManager.SendMessage(roleMiShuObj.RoleID, operationData);
             }
             else
             {
@@ -51,9 +51,9 @@ namespace AscensionServer
                       var roleIDict = Utility.Json.ToObject<Dictionary<int, int>>(rolemishuJson);
                         foreach (var roleid in roleIDict)
                         {
-                            NHCriteria tmpcriteria = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleid.Key);
+                            NHCriteria tmpcriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleid.Key);
                             MiShu miShu = NHibernateQuerier.CriteriaSelect<MiShu>(tmpcriteria);
-                            var mishuMySQL = GameManager.ReferencePoolManager.Spawn<MiShuDTO>();
+                            var mishuMySQL = CosmosEntry.ReferencePoolManager.Spawn<MiShuDTO>();
                             mishuMySQL.ID = miShu.ID;
                             mishuMySQL.MiShuID = miShu.MiShuID;
                             mishuMySQL.MiShuAdventureSkill =Utility.Json.ToObject<List<int>>(miShu.MiShuAdventtureSkill);
@@ -70,9 +70,9 @@ namespace AscensionServer
                     OperationData operationData = new OperationData();
                     operationData.DataMessage = Utility.Json.ToJson(miShuIdList);
                     operationData.OperationCode = (byte)OperationCode.SyncMiShu;
-                    GameManager.CustomeModule<RoleManager>().SendMessage(roleMiShuObj.RoleID, operationData);
-                    GameManager.ReferencePoolManager.Despawns(nHCriteriaslist);
-                    GameManager.ReferencePoolManager.Despawns(mishulist);
+                    GameEntry. RoleManager.SendMessage(roleMiShuObj.RoleID, operationData);
+                    CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaslist);
+                    CosmosEntry.ReferencePoolManager.Despawns(mishulist);
                 }
                 else
                 {
@@ -85,8 +85,9 @@ namespace AscensionServer
                 }
                 #endregion
             }
-            GameManager.ReferencePoolManager.Despawns(nHCriteriamishu);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriamishu);
             return operationResponse;
         }
     }
 }
+

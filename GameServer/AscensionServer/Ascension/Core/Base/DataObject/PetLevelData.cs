@@ -31,3 +31,5 @@ namespace AscensionServer
         public int ExpLevelUp { get; set; }
     }
 }
+
+

@@ -18,20 +18,20 @@ namespace AscensionServer
         {
             var demonicsoulJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.DemonicSoul));
             var demonicsoulObj = Utility.Json.ToObject<DemonicSoulDTO>(demonicsoulJson);
-            NHCriteria nHCriteriaRole = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", demonicsoulObj.RoleID);
+            NHCriteria nHCriteriaRole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", demonicsoulObj.RoleID);
             var demonicSoul = NHibernateQuerier.CriteriaSelectAsync<DemonicSoul>(nHCriteriaRole).Result;
             Utility.Debug.LogInfo("yzqData"+ demonicsoulJson);
             switch (demonicsoulObj.OperateType)
             {
                 case DemonicSoulOperateType.Add:
-                    GameManager.CustomeModule<DemonicSoulManager>().AddDemonical( demonicsoulObj.RoleID, demonicSoul,demonicsoulObj.CompoundList[0], nHCriteriaRole);
+                    GameEntry.DemonicSoulManager.AddDemonical( demonicsoulObj.RoleID, demonicSoul,demonicsoulObj.CompoundList[0], nHCriteriaRole);
                     break;
                 case DemonicSoulOperateType.Compound:
 
-                    GameManager.CustomeModule<DemonicSoulManager>().CompoundDemonical(demonicsoulObj.CompoundList, demonicSoul, demonicsoulObj.RoleID, nHCriteriaRole);
+                    GameEntry.DemonicSoulManager.CompoundDemonical(demonicsoulObj.CompoundList, demonicSoul, demonicsoulObj.RoleID, nHCriteriaRole);
                     break;
                 case DemonicSoulOperateType.Get:
-                    GameManager.CustomeModule<DemonicSoulManager>().GetDemonicSoul(demonicsoulObj.RoleID, demonicSoul);
+                    GameEntry.DemonicSoulManager.GetDemonicSoul(demonicsoulObj.RoleID, demonicSoul);
                     break;
                 default:
                     break;
@@ -40,3 +40,5 @@ namespace AscensionServer
         }
     }
 }
+
+

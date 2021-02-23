@@ -24,7 +24,7 @@ namespace AscensionServer
     //            string rolestatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleStatus));
     //            var rolestatusObj = Utility.Json.ToObject<RoleStatusDTO>(rolestatusJson);
 
-    //            NHCriteria nHCriteriaRoleStatue = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolestatusObj.RoleID);
+    //            NHCriteria nHCriteriaRoleStatue = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolestatusObj.RoleID);
     //            #region 获取数据库映射
     //            var roleStatus = NHibernateQuerier.CriteriaSelect<RoleStatus>(nHCriteriaRoleStatue);
 
@@ -37,7 +37,7 @@ namespace AscensionServer
     //            var allianceObj = NHibernateQuerier.CriteriaSelect<RoleAllianceSkill>(nHCriteriaRoleStatue);
 
     //            var roleringObj = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleStatue);
-    //            NHCriteria nHCriteriaring = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleringObj.RingIdArray);
+    //            NHCriteria nHCriteriaring = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleringObj.RingIdArray);
     //            var ringObj = NHibernateQuerier.CriteriaSelect<Ring>(nHCriteriaring);
     //            var equipDict = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringObj.RingAdorn);
     //            var weaponObj = NHibernateQuerier.CriteriaSelect<Weapon>(nHCriteriaRoleStatue);
@@ -49,15 +49,15 @@ namespace AscensionServer
     //            #endregion
 
     //            #region ServerJson
-    //            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, List<MishuSkillData>>>(out var mishuDict);
+    //            GameEntry. DataManager.TryGetValue<Dictionary<int, List<MishuSkillData>>>(out var mishuDict);
 
-    //            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, GongFa>>(out var gongfaDict);
+    //            GameEntry. DataManager.TryGetValue<Dictionary<int, GongFa>>(out var gongfaDict);
 
-    //            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<string, List<AllianceSkillsData>>>(out var allianceSkilldataDict);
+    //            GameEntry. DataManager.TryGetValue<Dictionary<string, List<AllianceSkillsData>>>(out var allianceSkilldataDict);
 
-    //            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, RoleStatusDatas>>(out var roleStatusDict);
+    //            GameEntry. DataManager.TryGetValue<Dictionary<int, RoleStatusDatas>>(out var roleStatusDict);
 
-    //            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, EquipmentData>>(out var equipmentDict);
+    //            GameEntry. DataManager.TryGetValue<Dictionary<int, EquipmentData>>(out var equipmentDict);
     //            #endregion
 
     //            #region 应用数据
@@ -111,7 +111,7 @@ namespace AscensionServer
     //                    {
     //                        foreach (var item in mishuidDict)
     //                        {
-    //                            NHCriteria nHCriteriamishu = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", item.Key);
+    //                            NHCriteria nHCriteriamishu = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", item.Key);
     //                            var mishuObj = NHibernateQuerier.CriteriaSelect<MiShu>(nHCriteriamishu);
 
     //                            var temp = mishuDict[item.Value].Find(t => t.Mishu_Floor == mishuObj.MiShuLevel);
@@ -165,7 +165,7 @@ namespace AscensionServer
     //                OperationData operationData = new OperationData();
     //                operationData.DataMessage = Utility.Json.ToJson(roleStatus);
     //                operationData.OperationCode = (byte)OperationCode.RoleStatusUpdate;
-    //                GameManager.CustomeModule<RoleManager>().SendMessage(roleObj.RoleID, operationData);
+    //                GameEntry. RoleManager.SendMessage(roleObj.RoleID, operationData);
     //            }
     //            else
     //            {
@@ -175,3 +175,5 @@ namespace AscensionServer
     //        }
     //    }
 }
+
+

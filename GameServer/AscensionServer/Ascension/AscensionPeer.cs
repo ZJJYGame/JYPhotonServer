@@ -26,7 +26,7 @@ namespace AscensionServer
         public AscensionPeer(InitRequest initRequest) : base(initRequest)
         {
             Handle = this; this.SessionId = ConnectionId;
-            GameManager.CustomeModule<PeerManager>().TryAdd(this);
+            GameEntry.PeerManager.TryAdd(this);
             Utility.Debug.LogInfo($"Photon SessionId : {SessionId} Available . RemoteAdress:{initRequest.RemoteIP}");
         }
         public bool TryGetValue(Type key, out object value)
@@ -99,14 +99,14 @@ namespace AscensionServer
                 opData.DataMessage = roleEntity;
                 var t = CommandEventCore.Instance.DispatchAsync(ProtocolDefine.OPR_PLYAER_LOGOFF, opData);
             }
-            GameManager.CustomeModule<PeerManager>().TryRemove(SessionId);
+            GameManager.GetModule<IPeerManager>().TryRemove(SessionId);
             Utility.Debug.LogError($"Photon SessionId : {SessionId} Unavailable . RemoteAdress:{RemoteIPAddress}");
-            var task = GameManager.CustomeModule<PeerManager>().BroadcastEventToAllAsync((byte)reasonCode, ed.Parameters);
+            var task = GameEntry.PeerManager.BroadcastEventToAllAsync((byte)reasonCode, ed.Parameters);
         }
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
         {
             operationRequest.Parameters.Add((byte)ParameterCode.ClientPeer, this);
-            object responseData = GameManager.CustomeModule<NetworkManager>().EncodeMessage(operationRequest);
+            object responseData = GameEntry.NetworkManager.EncodeMessage(operationRequest);
             var op = responseData as OperationResponse;
             op.OperationCode = operationRequest.OperationCode;
             SendOperationResponse(op, sendParameters);
@@ -123,3 +123,4 @@ namespace AscensionServer
         #endregion
     }
 }
+

@@ -24,7 +24,7 @@ namespace AscensionServer
         /// <param name="enemySetObject"></param>
         public void BuffManagerMethod(int buffId, int roleId, int currentId, RoleBattleDataDTO playerSetObject, EnemyBattleDataDTO enemySetObject, int og, bool isSelf, List<BufferBattleDataDTO> bufferId,int numRounder)
         {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, BattleBuffData>>(out var buffDict);
+            GameEntry.DataManager.TryGetValue<Dictionary<int, BattleBuffData>>(out var buffDict);
             var bufferSet = isSelf == false ? playerSetObject.bufferUnits : enemySetObject.bufferUnits;
 
             if (!buffDict.ContainsKey(buffId))
@@ -448,7 +448,7 @@ namespace AscensionServer
                             List<BattleBuffEventDTO> battleBuffEvents = new List<BattleBuffEventDTO>();
                             battleBuffEvents.Add(new BattleBuffEventDTO() { index = i, TargetId = currentId, TriggerId = currentId, BuffValue = damgeValue });
                             playerSetObject.RoleStatusDTO.RoleHP += damgeValue;
-                            _buffToRoomIdAfter.Add(new BattleBuffDTO() { bufferId = buffId, battleBuffDTOs = battleBuffEvents });
+                            BuffToRoomIdAfter.Add(new BattleBuffDTO() { bufferId = buffId, battleBuffDTOs = battleBuffEvents });
                             break;
                         case BuffEvent_DamageOrHeal_EffectTargetType.ShenHun:
                             break;
@@ -464,7 +464,7 @@ namespace AscensionServer
                             List<BattleBuffEventDTO> battleBuffEvents = new List<BattleBuffEventDTO>();
                             battleBuffEvents.Add(new BattleBuffEventDTO() { index = i, TargetId = enemySetObject.EnemyStatusDTO.EnemyId, TriggerId = enemySetObject.EnemyStatusDTO.EnemyId, BuffValue = damgeValue });
                             enemySetObject.EnemyStatusDTO.EnemyHP += damgeValue;
-                            _buffToRoomIdAfter.Add(new BattleBuffDTO() { bufferId = buffId, battleBuffDTOs = battleBuffEvents });
+                            BuffToRoomIdAfter.Add(new BattleBuffDTO() { bufferId = buffId, battleBuffDTOs = battleBuffEvents });
 
                             #region ob
                             /*
@@ -530,3 +530,5 @@ namespace AscensionServer
 
     }
 }
+
+

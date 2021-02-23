@@ -18,3 +18,5 @@ namespace AscensionServer
         public List<int> AddBBUFFID { get; set; }
     }
 }
+
+

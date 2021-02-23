@@ -21,7 +21,7 @@ namespace AscensionServer
             var dict = operationRequest.Parameters;
             string dailyMessageJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.DailyMessage));
             var dailyMessageObj = Utility.Json.ToObject<DailyMessageDTO>(dailyMessageJson);
-            NHCriteria nHCriteriadailyMessage = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleName", dailyMessageObj.Name);
+            NHCriteria nHCriteriadailyMessage = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleName", dailyMessageObj.Name);
             var dailyMessageTemp = NHibernateQuerier.CriteriaSelect<RoleAlliance>(nHCriteriadailyMessage);
             List<DailyMessageDTO> dailyMessages = new List<DailyMessageDTO>();
             if (dailyMessageTemp != null)
@@ -52,3 +52,5 @@ namespace AscensionServer
         }
     }
 }
+
+

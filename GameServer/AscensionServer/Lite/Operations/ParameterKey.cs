@@ -107,3 +107,4 @@ namespace AscensionServer.Lite
         SuppressRoomEvents = 237,
     }
 }
+

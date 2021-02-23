@@ -48,3 +48,5 @@ namespace AscensionServer
         public int Value_Hide { get; set; }
     }
 }
+
+

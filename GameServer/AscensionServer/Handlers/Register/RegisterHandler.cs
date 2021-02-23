@@ -18,7 +18,7 @@ namespace AscensionServer
         {
             var userJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.User));
             var userObj = Utility.Json.ToObject<User>(userJson);
-            NHCriteria nHCriteriaAccount = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
+            NHCriteria nHCriteriaAccount = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("Account", userObj.Account);
             bool isExist = NHibernateQuerier.Verify<User>(nHCriteriaAccount);
             responseParameters.Clear();
             operationResponse.OperationCode = operationRequest.OperationCode;
@@ -29,7 +29,7 @@ namespace AscensionServer
                 //添加输入的用户和密码进数据库
                 userObj =  NHibernateQuerier.Insert(userObj);
                 Utility.Debug.LogInfo("==========\n after add UUID ：" + userJson + "\n" + userObj.UUID+"\n================");
-                NHCriteria nHCriteriaUUID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("UUID", userObj.UUID);
+                NHCriteria nHCriteriaUUID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("UUID", userObj.UUID);
                 bool userRoleExist = NHibernateQuerier.Verify<UserRole>(nHCriteriaUUID);
                 if (!userRoleExist)
                 {
@@ -37,15 +37,17 @@ namespace AscensionServer
                     NHibernateQuerier.Insert(userRole);
                 }
             operationResponse.ReturnCode = (short)ReturnCode.Success;//返回成功
-                GameManager.ReferencePoolManager.Despawns(nHCriteriaUUID);
+                CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaUUID);
             }
             else//否者这个用户被注册了
             {
                 operationResponse.ReturnCode = (short)ReturnCode.Fail;//返回失败
             }
             // 把上面的结果给客户端
-            GameManager.ReferencePoolManager.Despawns(nHCriteriaAccount);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaAccount);
             return operationResponse;
         }
     }
 }
+
+

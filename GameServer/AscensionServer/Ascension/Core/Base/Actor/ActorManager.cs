@@ -11,7 +11,7 @@ namespace AscensionServer
     /// <summary>
     /// Actor类型为Peer类型
     /// </summary>
-    public sealed class ActorManager : Module<ActorManager>
+    public sealed class ActorManager : Module,IActorManager
     {
         /// <summary>
         /// Peer类型的Actor
@@ -68,7 +68,7 @@ namespace AscensionServer
                 if (result)
                 {
                     Actor<AscensionPeer> oldAct=actB as Actor<AscensionPeer>;
-                    GameManager.ReferencePoolManager.Despawn(oldAct);
+                    CosmosEntry.ReferencePoolManager.Despawn(oldAct);
                 }
                 var act = Actor<AscensionPeer>.Create((byte)ActorTypeEnum.Player, id, peer);
                 actorPoolDict[typeID].AddOrUpdate(id, act);
@@ -86,3 +86,5 @@ namespace AscensionServer
         }
     }
 }
+
+

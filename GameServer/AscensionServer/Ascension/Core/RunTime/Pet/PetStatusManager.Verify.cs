@@ -17,7 +17,7 @@ namespace AscensionServer
         public void VerifyPetAbilitypoint(Pet pet,out int points)
         {
             points = 0;          
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
+           GameEntry. DataManager.TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
             foreach (var item in petLevelDataDict)
             {
                 if (pet.PetLevel>= item.Key)
@@ -63,7 +63,7 @@ namespace AscensionServer
         /// </summary>
         public PetStatusDTO VerifyPetAllStatus(PetAbilityPointDTO petAbilityPoint, PetAptitude petAptitude,PetStatus petStatus,PetCompleteDTO petCompleteDTO,Pet pet)
         {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
 
          //  var petStatus=  VerifyPetAbilityAddition(petAbilityPoint, petStatusDTO, petLevelDataDict[pet.PetLevel]);
             var skillList = Utility.Json.ToObject<List<int>>(pet.PetSkillArray);
@@ -98,10 +98,10 @@ namespace AscensionServer
         public void VerifyPetPassivitySkill(List<int>skillid,out List<PetStatusDTO> petAbilityStatus)
         {
             List<PetSkillData> passivitySkillList = new List<PetSkillData>();
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetSkillData>>(out var petSkillDataDict);
+           GameEntry. DataManager.TryGetValue<Dictionary<int, PetSkillData>>(out var petSkillDataDict);
             petAbilityStatus = new List<PetStatusDTO>();
-            var petstatusProp = GameManager.ReferencePoolManager.Spawn<PetStatusDTO>();
-            var petstatusFixed = GameManager.ReferencePoolManager.Spawn<PetStatusDTO>();
+            var petstatusProp =  CosmosEntry.ReferencePoolManager.Spawn<PetStatusDTO>();
+            var petstatusFixed = CosmosEntry.ReferencePoolManager.Spawn<PetStatusDTO>();
             for (int i = 0; i < skillid.Count; i++)
             {
                 if (!petSkillDataDict[skillid[i]].ISActiveSkill&& petSkillDataDict[skillid[i]].AttributionType.Count>0)
@@ -189,7 +189,7 @@ namespace AscensionServer
         /// <param name="petStatusTemp"></param>
         public void StatusAddition(PetStatus petStatus, List<PetStatusDTO> petAbilityStatus,out PetStatusDTO petStatusTemp)
         {
-            petStatusTemp= GameManager.ReferencePoolManager.Spawn<PetStatusDTO>();
+            petStatusTemp= CosmosEntry.ReferencePoolManager.Spawn<PetStatusDTO>();
             petStatusTemp.AttackPhysical =(petStatus.AttackPhysical ) + petAbilityStatus[0].AttackPhysical / 100 + petAbilityStatus[1].AttackPhysical;
             petStatusTemp.AttackPower = (petStatus.AttackPower) + petAbilityStatus[0].AttackPower / 100 + petAbilityStatus[1].AttackPower;
             petStatusTemp.AttackSpeed =  (petStatus.AttackSpeed ) + petAbilityStatus[0].AttackSpeed / 100 + petAbilityStatus[1].AttackSpeed;
@@ -246,3 +246,5 @@ namespace AscensionServer
         }
     }
 }
+
+

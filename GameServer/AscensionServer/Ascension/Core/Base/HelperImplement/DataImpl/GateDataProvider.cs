@@ -27,7 +27,7 @@ namespace AscensionServer
                 //Utility.Debug.LogInfo($"\n{pureStr}\n{str}\n");
 #endif
             }
-            GameManager.CustomeModule<DataManager>().SetDataDict(jsonDict);
+            GameEntry. DataManager.SetDataDict(jsonDict);
             ParseData();
         }
         void  ParseData()
@@ -55,7 +55,9 @@ namespace AscensionServer
                     }
                 }
             }
-            GameManager.CustomeModule<DataManager>().SetDataDict(objectDict);
+            GameEntry. DataManager.SetDataDict(objectDict);
         }
     }
 }
+
+

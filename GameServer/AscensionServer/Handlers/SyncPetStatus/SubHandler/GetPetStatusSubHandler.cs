@@ -20,9 +20,9 @@ namespace AscensionServer
             var dict = operationRequest.Parameters;
             string petCompleteJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.PetStatus));
             var petCompleteObj = Utility.Json.ToObject<PetCompleteDTO>(petCompleteJson);
-            NHCriteria nHCriteriapetStatus= GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petCompleteObj.PetDTO.ID);
-            NHCriteria nHCriteriapet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petCompleteObj.PetDTO.ID);
-            NHCriteria nHCriteriarole = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", petCompleteObj.RoleID);
+            NHCriteria nHCriteriapetStatus= CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petCompleteObj.PetDTO.ID);
+            NHCriteria nHCriteriapet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petCompleteObj.PetDTO.ID);
+            NHCriteria nHCriteriarole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", petCompleteObj.RoleID);
             //var petArray = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriarolepet);
             var petObj = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriapetStatus);
             switch (petCompleteObj.PetOrderType)
@@ -30,28 +30,28 @@ namespace AscensionServer
                 case PetCompleteDTO.PetOperationalOrder.PetResetAbilitySln:
                     var pointObj= NHibernateQuerier.CriteriaSelect<PetAbilityPoint>(nHCriteriapetStatus);
                     Utility.Debug.LogInfo("yzqData变更宠物加点" + petCompleteJson);
-                    GameManager.CustomeModule<PetStatusManager>().UpdataPetAbilityPoint( pointObj, petCompleteObj, nHCriteriarole);
+                    GameEntry.PetStatusManager.UpdataPetAbilityPoint( pointObj, petCompleteObj, nHCriteriarole);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetResetStatus:
-                    GameManager.CustomeModule<PetStatusManager>().PetStatusRestoreDefault(petCompleteObj.UseItemID, petCompleteObj.RoleID, petCompleteObj,petObj, nHCriteriarole);
+                    GameEntry.PetStatusManager.PetStatusRestoreDefault(petCompleteObj.UseItemID, petCompleteObj.RoleID, petCompleteObj,petObj, nHCriteriarole);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetEvolution:
-                    GameManager.CustomeModule<PetStatusManager>().PetEvolution(petCompleteObj, petObj, petCompleteObj.UseItemID, nHCriteriarole);
+                    GameEntry.PetStatusManager.PetEvolution(petCompleteObj, petObj, petCompleteObj.UseItemID, nHCriteriarole);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.DemonicSoul:
                     Utility.Debug.LogInfo("yzqData宠物改名字" + petCompleteJson);
-                    GameManager.CustomeModule<PetStatusManager>().DemonicSoulHandler(petCompleteObj,petObj, nHCriteriarole);
+                    GameEntry.PetStatusManager.DemonicSoulHandler(petCompleteObj,petObj, nHCriteriarole);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetStudtSkill:
                     Utility.Debug.LogInfo("yzqData学习技能" + petCompleteJson);
-                    GameManager.CustomeModule<PetStatusManager>().PetStudySkill(petCompleteObj.UseItemID,nHCriteriarole, petObj, petCompleteObj);
+                    GameEntry.PetStatusManager.PetStudySkill(petCompleteObj.UseItemID,nHCriteriarole, petObj, petCompleteObj);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetCultivate:
                     Utility.Debug.LogInfo("yzqData使用加经验丹药");
-                    GameManager.CustomeModule<PetStatusManager>().PetCultivate(petCompleteObj.UseItemID, nHCriteriarole, petObj, petCompleteObj);
+                    GameEntry.PetStatusManager.PetCultivate(petCompleteObj.UseItemID, nHCriteriarole, petObj, petCompleteObj);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetGetStatus:
-                    GameManager.CustomeModule<PetStatusManager>().GetPetAllCompeleteStatus(petCompleteObj.PetDTO.ID, nHCriteriapetStatus, petCompleteObj.RoleID, nHCriteriapet);
+                    GameEntry.PetStatusManager.GetPetAllCompeleteStatus(petCompleteObj.PetDTO.ID, nHCriteriapetStatus, petCompleteObj.RoleID, nHCriteriapet);
                     break;
                 default:
                     break;
@@ -70,7 +70,7 @@ namespace AscensionServer
             //        petIDList = Utility.Json.ToObject<Dictionary<int, int>>(petdict);
             //        foreach (var petid in petIDList)
             //        {
-            //            NHCriteria nHCriteriapet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petid.Key);
+            //            NHCriteria nHCriteriapet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petid.Key);
             //            var petstatusObj = NHibernateQuerier.CriteriaSelect<PetStatus>(nHCriteriapet);
             //            var petaptitudeObj = NHibernateQuerier.CriteriaSelect<PetaPtitude>(nHCriteriapet);
             //            PetaPtitudeDTO petaPtitudeDTO = new PetaPtitudeDTO() { AttackphysicalAptitude = petaptitudeObj.AttackphysicalAptitude, AttackspeedAptitude = petaptitudeObj.AttackspeedAptitude, AttackpowerAptitude = petaptitudeObj.AttackpowerAptitude, DefendphysicalAptitude = petaptitudeObj.DefendphysicalAptitude, DefendpowerAptitude = petaptitudeObj.DefendpowerAptitude, HPAptitude = petaptitudeObj.HPAptitude, Petaptitudecol = petaptitudeObj.Petaptitudecol, PetaptitudeDrug = Utility.Json.ToObject<Dictionary<int, int>>(petaptitudeObj.PetaptitudeDrug), PetID = petaptitudeObj.PetID, SoulAptitude = petaptitudeObj.SoulAptitude };
@@ -85,7 +85,7 @@ namespace AscensionServer
             //        subResponseParameters.Add((byte)ParameterCode.PetPtitude, Utility.Json.ToJson(petaptitudeList));
             //        operationResponse.ReturnCode = (short)ReturnCode.Success;
             //    });
-            //    GameManager.ReferencePoolManager.Despawns(nHCriteriasList);
+            //    CosmosEntry.ReferencePoolManager.Despawns(nHCriteriasList);
             //}
             //else
             //{
@@ -97,8 +97,10 @@ namespace AscensionServer
             //    });
             //}
             #endregion]
-            GameManager.ReferencePoolManager.Despawns(nHCriteriapetStatus, nHCriteriapet, nHCriteriarole);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriapetStatus, nHCriteriapet, nHCriteriarole);
             return operationResponse;
         }
     }
 }
+
+

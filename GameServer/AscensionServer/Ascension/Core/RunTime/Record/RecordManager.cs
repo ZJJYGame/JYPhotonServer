@@ -9,8 +9,8 @@ using Protocol;
 
 namespace AscensionServer
 {
-    [CustomeModule]
-    public class RecordManager : Module<RecordManager>
+    [ Module]
+    public class RecordManager : Module,IRecordManager
     {
         IRecordHelper recordHelper;
         public override void OnInitialization()
@@ -34,3 +34,4 @@ namespace AscensionServer
         }
     }
 }
+

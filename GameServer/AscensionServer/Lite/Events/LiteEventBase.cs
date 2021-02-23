@@ -1,4 +1,4 @@
-// --------------------------------------------------------------------------------------------------------------------
+﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="LiteEventBase.cs" company="Exit Games GmbH">
 //   Copyright (c) Exit Games GmbH.  All rights reserved.
 // </copyright>
@@ -44,3 +44,4 @@ namespace AscensionServer.Lite
         public byte Code { get; set; }
     }
 }
+

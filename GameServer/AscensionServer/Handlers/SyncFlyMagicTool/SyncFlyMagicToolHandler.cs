@@ -19,7 +19,7 @@ namespace AscensionServer
             var roleFlyMagicToolJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.RoleFlyMagicTool));
             Utility.Debug.LogInfo("yzqData获取角色飞行法器" + roleFlyMagicToolJson);
             var roleFlyMagicToolObj = Utility.Json.ToObject<FlyMagicToolDTO>(roleFlyMagicToolJson);
-            NHCriteria nHCriteriaRole = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleFlyMagicToolObj.RoleID);
+            NHCriteria nHCriteriaRole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleFlyMagicToolObj.RoleID);
             var roleFlyMagicTool= NHibernateQuerier.CriteriaSelectAsync<FlyMagicTool>(nHCriteriaRole).Result;
             Utility.Debug.LogInfo("yzqData获取角色飞行法器"+ roleFlyMagicToolJson);
             FlyMagicToolDTO flyMagicToolRedisObj = new FlyMagicToolDTO();
@@ -52,7 +52,7 @@ namespace AscensionServer
                             opData.DataMessage = Utility.Json.ToJson(roleFlyMagicToolObj);
                             opData.OperationCode = (byte)OperationCode.SyncRoleFlyMagicTool;
                             opData.ReturnCode = (byte)ReturnCode.Success;
-                            GameManager.CustomeModule<RoleManager>().SendMessage(roleFlyMagicToolObj.RoleID, opData);
+                            GameEntry. RoleManager.SendMessage(roleFlyMagicToolObj.RoleID, opData);
                         }
                         else
                         {
@@ -60,7 +60,7 @@ namespace AscensionServer
                             opData.DataMessage = Utility.Json.ToJson(roleFlyMagicToolObj);
                             opData.OperationCode = (byte)OperationCode.SyncRoleFlyMagicTool;
                             opData.ReturnCode = (byte)ReturnCode.Fail;
-                            GameManager.CustomeModule<RoleManager>().SendMessage(flyMagicToolRedisObj.RoleID, opData);
+                            GameEntry. RoleManager.SendMessage(flyMagicToolRedisObj.RoleID, opData);
                         }
                     }
                     break;
@@ -77,7 +77,7 @@ namespace AscensionServer
                             opData.DataMessage = Utility.Json.ToJson(roleFlyMagicToolObj);
                             opData.OperationCode = (byte)OperationCode.SyncRoleFlyMagicTool;
                             opData.ReturnCode = (byte)ReturnCode.Success;
-                            GameManager.CustomeModule<RoleManager>().SendMessage(roleFlyMagicToolObj.RoleID, opData);
+                            GameEntry. RoleManager.SendMessage(roleFlyMagicToolObj.RoleID, opData);
                         }
                         else
                         {
@@ -86,7 +86,7 @@ namespace AscensionServer
                             opData.DataMessage = Utility.Json.ToJson(roleFlyMagicToolObj);
                             opData.OperationCode = (byte)OperationCode.SyncRoleFlyMagicTool;
                             opData.ReturnCode = (byte)ReturnCode.Fail;
-                            GameManager.CustomeModule<RoleManager>().SendMessage(roleFlyMagicToolObj.RoleID, opData);
+                            GameEntry. RoleManager.SendMessage(roleFlyMagicToolObj.RoleID, opData);
                         }
                     }
                     else
@@ -96,7 +96,7 @@ namespace AscensionServer
                         opData.DataMessage = Utility.Json.ToJson(flyMagicToolRedisObj);
                         opData.OperationCode = (byte)OperationCode.SyncRoleFlyMagicTool;
                         opData.ReturnCode = (byte)ReturnCode.Success;
-                        GameManager.CustomeModule<RoleManager>().SendMessage(flyMagicToolRedisObj.RoleID, opData);
+                        GameEntry. RoleManager.SendMessage(flyMagicToolRedisObj.RoleID, opData);
                     }
                     break;
                 case FlyMagicToolDTO.FlyMagicToolType.Update:
@@ -119,3 +119,5 @@ namespace AscensionServer
         }
     }
 }
+
+

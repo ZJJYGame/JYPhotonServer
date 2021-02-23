@@ -10,8 +10,8 @@ using Cosmos;
 using Protocol;
 namespace AscensionServer
 {
-    [CustomeModule]
-    public partial class DemonicSoulManager : Module<DemonicSoulManager>
+    [Module]
+    public partial class DemonicSoulManager : Module,IDemonicSoulManager
     {
         public void AddDemonical(int roleid,DemonicSoul demonicSoul,int soulid, NHCriteria nHCriteria)
         {
@@ -29,7 +29,7 @@ namespace AscensionServer
                 indexDict.Add(soulid, 0);
             }
             demonicSoulEntity.GlobalID = soulid;
-            GameManager.CustomeModule<PetStatusManager>().AddDemonicSoul (soulid,out var skillList);
+            GameEntry.PetStatusManager.AddDemonicSoul (soulid,out var skillList);
             demonicSoulEntity.Skills = new List<int>();
             demonicSoulEntity.Skills = skillList;
             demonicalDict.Add(demonicSoulEntity.UniqueID, demonicSoulEntity);
@@ -53,14 +53,14 @@ namespace AscensionServer
 
         public async void CompoundDemonical(List<int>soulList,DemonicSoul demonicSoul,int roleid,NHCriteria nHCriteria)
         {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, DemonicSoulData>> (out var demonicSoulData);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, DemonicSoulData>> (out var demonicSoulData);
 
             var demonicalDict = Utility.Json.ToObject<Dictionary<int, DemonicSoulEntity>>(demonicSoul.DemonicSouls);
 
-            var ringObj = GameManager.ReferencePoolManager.Spawn<RingDTO>();
+            var ringObj = CosmosEntry.ReferencePoolManager.Spawn<RingDTO>();
 
             var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteria);
-            var nHCriteriaRingID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
+            var nHCriteriaRingID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
             if (soulList.Count==0)
             {
                 S2CDemonicalMessage(roleid, null, ReturnCode.Fail);
@@ -124,8 +124,10 @@ namespace AscensionServer
             opData.DataMessage = message;
             opData.OperationCode = (byte)OperationCode.SyncDemonical;
             opData.ReturnCode = (byte)returnCode;
-            GameManager.CustomeModule<RoleManager>().SendMessage(roleid, opData);
+            GameEntry. RoleManager.SendMessage(roleid, opData);
         }
 
     }
 }
+
+

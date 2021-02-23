@@ -22,9 +22,9 @@ namespace AscensionServer
             var dict = operationRequest.Parameters;
             string bottleneckJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleBottleneck));
             var bottleneckObj = Utility.Json.ToObject<Bottleneck>(bottleneckJson);
-            NHCriteria nHCriteriabottleneck = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", bottleneckObj.RoleID);
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, BottleneckData>>(out var bottleneckData);
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, DemonData>>(out var demonData);
+            NHCriteria nHCriteriabottleneck = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", bottleneckObj.RoleID);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, BottleneckData>>(out var bottleneckData);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, DemonData>>(out var demonData);
             if (RedisHelper.Hash.HashExist("Bottleneck", bottleneckObj.RoleID.ToString()))
             {
                 Utility.Debug.LogInfo("yzqData得到的瓶颈数据，进入redis判断" + bottleneckJson);
@@ -63,7 +63,7 @@ namespace AscensionServer
                         subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckRedis));
                         operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     });
-                    GameManager.ReferencePoolManager.Despawns(nHCriteriabottleneck);
+                    CosmosEntry.ReferencePoolManager.Despawns(nHCriteriabottleneck);
                 }
                 #endregion
             }
@@ -106,7 +106,7 @@ namespace AscensionServer
                         subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckTemp));
                         operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     });
-                    GameManager.ReferencePoolManager.Despawns(nHCriteriabottleneck);
+                    CosmosEntry.ReferencePoolManager.Despawns(nHCriteriabottleneck);
                 }
                 #endregion
             }
@@ -178,3 +178,5 @@ namespace AscensionServer
         }
     }
 }
+
+

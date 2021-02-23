@@ -24,7 +24,7 @@ namespace AscensionServer
             var roleObj = Utility.Json.ToObject<RoleDTO>(json);
             Utility.Debug.LogInfo("yzqData" + json);
             IPeerEntity peerAgent;
-            var result = GameManager.CustomeModule<PeerManager>().TryGetValue(peer.SessionId, out peerAgent);
+            var result = GameEntry.PeerManager.TryGetValue(peer.SessionId, out peerAgent);
             if (result)
             {
                 var remoteRoleType = typeof(RoleEntity);
@@ -33,11 +33,11 @@ namespace AscensionServer
                 if (removeResult)
                 {
                     var remoteRole = remoteRoleObj as RoleEntity;
-                    GameManager.ReferencePoolManager.Despawn(remoteRole);//回收这个RemoteRole对象
-                    GameManager.CustomeModule<RoleManager>().TryRemove(roleObj.RoleID);
+                    CosmosEntry.ReferencePoolManager.Despawn(remoteRole);//回收这个RemoteRole对象
+                    GameEntry. RoleManager.TryRemove(roleObj.RoleID);
                 }
                 operationResponse.ReturnCode = (byte)ReturnCode.Success;
-                GameManager.CustomeModule<RecordManager>().RecordRole(remoteRoleObj as RoleEntity);
+                GameEntry. RecordManager.RecordRole(remoteRoleObj as RoleEntity);
             }
             else
             {
@@ -47,3 +47,5 @@ namespace AscensionServer
         }
     }
 }
+
+

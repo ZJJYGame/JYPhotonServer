@@ -23,3 +23,5 @@ namespace AscensionServer
         public int Gongfa_ID { get; set; }
     }
 }
+
+

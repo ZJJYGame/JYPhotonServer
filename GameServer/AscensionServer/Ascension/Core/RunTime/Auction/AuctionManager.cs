@@ -9,16 +9,14 @@ using RedisDotNet;
 
 namespace AscensionServer
 {
-    [CustomeModule]
-    public partial class AuctionManager: Module<AuctionManager>
+    [Module]
+    public partial class AuctionManager: Module,IAuctionManager
     {
         public HashSet<string> occupyGuidHash;
         public override void OnInitialization()
         {
             occupyGuidHash = new HashSet<string>();
         }
-
-        
         public async Task<bool> IsAuctionGoodsExist(string Guid)
         {
             bool isExist;
@@ -32,3 +30,5 @@ namespace AscensionServer
         //}
     }
 }
+
+

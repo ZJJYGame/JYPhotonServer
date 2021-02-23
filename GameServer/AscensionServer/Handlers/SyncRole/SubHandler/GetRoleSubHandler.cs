@@ -17,9 +17,9 @@ namespace AscensionServer
         {
             var dict = operationRequest.Parameters;
             string account = Utility.Json.ToObject<User>(Convert.ToString (Utility.GetValue(dict, (byte)ParameterCode.User))).Account;
-            NHCriteria nHCriteriaAccount = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("Account", account);
+            NHCriteria nHCriteriaAccount = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("Account", account);
             string _uuid = NHibernateQuerier.CriteriaSelect<User>(nHCriteriaAccount).UUID;
-            NHCriteria nHCriteriaUUID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("UUID", _uuid);
+            NHCriteria nHCriteriaUUID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("UUID", _uuid);
             UserRole userRole = NHibernateQuerier.CriteriaSelect<UserRole>(nHCriteriaUUID);
             if (!string.IsNullOrEmpty(userRole.RoleIDArray))
             {
@@ -34,7 +34,7 @@ namespace AscensionServer
                     roleIDlist = Utility.Json.ToObject<List<string>>(roleIDListJson);
                     for (int i = 0; i < roleIDlist.Count; i++)
                     {
-                        NHCriteria tmpCriteria = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", int.Parse(roleIDlist[i]));
+                        NHCriteria tmpCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", int.Parse(roleIDlist[i]));
                         Role tmpRole = NHibernateQuerier.CriteriaSelect<Role>(tmpCriteria);
                         roleObjList.Add(tmpRole);
                         nHCriteriaList.Add(tmpCriteria);
@@ -45,7 +45,7 @@ namespace AscensionServer
                     subResponseParameters.Add((byte)ParameterCode.RoleSet, Utility.Json.ToJson(roleObjList));
                     operationResponse.ReturnCode = (byte)ReturnCode.Success;
                 });
-                GameManager.ReferencePoolManager.Despawns(nHCriteriaList);
+                CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaList);
             }
             else
             {
@@ -56,8 +56,10 @@ namespace AscensionServer
                 });
             }
             // 把上面的结果给客户端
-            GameManager.ReferencePoolManager.Despawns(nHCriteriaUUID, nHCriteriaAccount);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaUUID, nHCriteriaAccount);
             return operationResponse;
         }
     }
 }
+
+

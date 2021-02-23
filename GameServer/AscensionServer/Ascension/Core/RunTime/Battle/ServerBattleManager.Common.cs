@@ -21,7 +21,7 @@ namespace AscensionServer
         /// </summary>
         public void ReleaseToSpeed(int roleId)
         {
-            if (_teamIdToBattleInit.ContainsKey(roleId))
+            if (TeamIdToBattleInit.ContainsKey(roleId))
                 BattleInitObject(roleId).battleUnits = BattleInitObject(roleId).battleUnits.OrderByDescending(t => t.ObjectSpeed).ToList();
 
             foreach (var item in BattleInitObject(roleId).battleUnits)
@@ -110,32 +110,32 @@ namespace AscensionServer
                     var RandomTarget = RandomManager(transfer,0,2);
                     var target = RandomTarget == 0 ? BattleInitObject(roleId).playerUnits[0].RoleStatusDTO.RoleHP -= defendValue : BattleInitObject(roleId).petUnits[0].PetStatusDTO.PetHP -= defendValue;
                     var TargetInfosSet = ServerToClientResult(new TargetInfoDTO() { TargetID = RandomTarget == 0 ? currentId : BattleInitObject(roleId).petUnits[0].PetStatusDTO.PetID, TargetHPDamage = -defendValue });
-                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = TargetInfosSet });
+                    TeamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = TargetInfosSet });
                 }
                 else
                 {
                     BattleInitObject(roleId).playerUnits[0].RoleStatusDTO.RoleHP -= defendValue;
                     var TargetInfosSet = ServerToClientResult(new TargetInfoDTO() { TargetID = currentId, TargetHPDamage = -defendValue });
-                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = TargetInfosSet });
+                    TeamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = TargetInfosSet });
                 }
             }
             else
             {
                 //Utility.Debug.LogInfo("老陆 ，=>" + BattleInitObject(roleId).playerUnits[transfer].RoleStatusDTO.RoleID);
                 var petObject = BattleInitObject(roleId).petUnits.Find(x => x.PetStatusDTO.PetHP > 0);
-                if (BattleInitObject(roleId).petUnits.Count != 0 && petObject != null&& !isPetTeamRunAway)
+                if (BattleInitObject(roleId).petUnits.Count != 0 && petObject != null&& !IsPetTeamRunAway)
                 {
-                    isPetTeamRunAway = false;
+                    IsPetTeamRunAway = false;
                     var RandomTarget = RandomManager(transfer, 0, 2);
                     var target = RandomTarget == 0 ? BattleInitObject(roleId).playerUnits[transfer].RoleStatusDTO.RoleHP -= defendValue : petObject.PetStatusDTO.PetHP -= defendValue;
                     var TargetInfosSet = ServerToClientResult(new TargetInfoDTO() { TargetID = RandomTarget == 0 ? BattleInitObject(roleId).playerUnits[transfer].RoleStatusDTO.RoleID : petObject.PetStatusDTO.PetID, TargetHPDamage = -defendValue });
-                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = TargetInfosSet });
+                    TeamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = TargetInfosSet });
                 }
                 else
                 {
                     BattleInitObject(roleId).playerUnits[transfer].RoleStatusDTO.RoleHP -= defendValue;
                     var TargetInfosSet = ServerToClientResult(new TargetInfoDTO() { TargetID = currentId, TargetHPDamage = -defendValue });
-                    teamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = TargetInfosSet });
+                    TeamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = BattleCmd.SkillInstruction, RoleId = enemyStatusData.EnemyId, ClientCmdId = 21001, TargetInfos = TargetInfosSet });
                 }
             }
         }
@@ -144,3 +144,5 @@ namespace AscensionServer
         
     }
 }
+
+

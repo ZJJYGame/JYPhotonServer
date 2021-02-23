@@ -21,9 +21,9 @@ namespace AscensionServer
             var mishuJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.MiShu));
             var rolemishuObj = Utility.Json.ToObject<RoleMiShuDTO>(rolemishuJson);
             var mishuObj = Utility.Json.ToObject<MiShuDTO>(mishuJson);
-            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolemishuObj.RoleID);
+            NHCriteria nHCriteriaRoleID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolemishuObj.RoleID);
             Utility.Debug.LogInfo("yzqData收到的角色秘术数据" + mishuJson);
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, List<MishuSkillData>>>(out var MiShuDataDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, List<MishuSkillData>>>(out var MiShuDataDict);
             if (RedisHelper.KeyExistsAsync(RedisKeyDefine._MiShuPerfix).Result)
             {
                 Utility.Debug.LogInfo("yzqData进入Redis判断");
@@ -56,7 +56,7 @@ namespace AscensionServer
                         }
                     }
                     RedisHelper.Hash.HashSet<MiShuDTO>(RedisKeyDefine._MiShuPerfix + rolemishuObj.RoleID, rolemishuObj.RoleID.ToString(), mishuObj);
-                    NHCriteria nHCriteriaMiShuID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", mishuObj.ID);
+                    NHCriteria nHCriteriaMiShuID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", mishuObj.ID);
                     var mishuMySQL = NHibernateQuerier.CriteriaSelect<MiShu>(nHCriteriaMiShuID);
                     mishuMySQL.MiShuSkillArry = Utility.Json.ToJson(mishuRedisObj.MiShuSkillArry);
                     NHibernateQuerier.Update<MiShu>(mishuMySQL);
@@ -69,7 +69,7 @@ namespace AscensionServer
                             operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
                     }
-                    GameManager.ReferencePoolManager.Despawns(nHCriteriaMiShuID);
+                    CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaMiShuID);
                 }else
                     SetResponseParamters(() => operationResponse.ReturnCode = (short)ReturnCode.Fail);
             }
@@ -80,7 +80,7 @@ namespace AscensionServer
                 var mishuDict = Utility.Json.ToObject<Dictionary<int, int>>(roleMishu.MiShuIDArray);
                 if (mishuDict.ContainsKey(mishuObj.ID))
                 {
-                    NHCriteria nHCriteriaMiShuID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", mishuObj.ID);
+                    NHCriteria nHCriteriaMiShuID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", mishuObj.ID);
                     var mishuMySQLObj = NHibernateQuerier.CriteriaSelect<MiShu>(nHCriteriaMiShuID);
                     var mishuSkillList = Utility.Json.ToObject<List<int>>(mishuMySQLObj.MiShuSkillArry);
                     if (mishuObj.MiShuLevel>0)
@@ -108,7 +108,7 @@ namespace AscensionServer
                         }
                     }
                     #region Redis更新部分
-                    var redismishuObj = GameManager.ReferencePoolManager.Spawn<MiShuDTO>();
+                    var redismishuObj = CosmosEntry.ReferencePoolManager.Spawn<MiShuDTO>();
                     redismishuObj.ID = mishuMySQLObj.ID;
                     redismishuObj.MiShuLevel = mishuMySQLObj.MiShuLevel;
                     redismishuObj.MiShuExp = mishuMySQLObj.MiShuExp;
@@ -128,14 +128,16 @@ namespace AscensionServer
                             operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
                     }
-                    GameManager.ReferencePoolManager.Despawns(nHCriteriaMiShuID, redismishuObj);
+                    CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaMiShuID, redismishuObj);
                 }
                 else
                     SetResponseParamters(() => operationResponse.ReturnCode = (short)ReturnCode.Fail);
             }
-            GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
+            CosmosEntry.ReferencePoolManager.Despawn(nHCriteriaRoleID);
             return operationResponse;
         }
     }
 }
+
+
 

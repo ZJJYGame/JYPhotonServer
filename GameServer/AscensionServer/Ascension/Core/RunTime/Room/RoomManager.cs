@@ -7,21 +7,17 @@ using System.Threading.Tasks;
 using Cosmos;
 namespace AscensionServer
 {
-    [CustomeModule]
+    [Module]
     /// <summary>
     /// 房间管理器，用于处理战斗相关
     /// </summary>
-    public sealed class RoomManager : Module<RoomManager>, IKeyValue<int, RoomEntity>
+    public sealed class RoomManager : Module,IRoomManager, IKeyValue<int, RoomEntity>
     {
         readonly int _IntervalSec = 30;
         long latestTime;
         int roomId= 10000;
         ConcurrentDictionary<int, RoomEntity> roomDict 
             = new ConcurrentDictionary<int, RoomEntity>();
-        public void Allocate(ref RoomEntity room)
-        {
-            TryAdd(room.RoomId, room);
-        }
         /// <summary>
         /// 周期轮询释放无用的房间对象；
         /// </summary>
@@ -42,6 +38,14 @@ namespace AscensionServer
             //        }
             //    }
             //}
+        }
+        public override void OnTermination()
+        {
+            CloseAll();
+        }
+        public void Allocate(ref RoomEntity room)
+        {
+            TryAdd(room.RoomId, room);
         }
         public bool TryGetValue(int key, out RoomEntity value)
         {
@@ -72,13 +76,12 @@ namespace AscensionServer
         {
             foreach (var room in roomDict.Values)
             {
-                GameManager.ReferencePoolManager.Despawn(room);
+                CosmosEntry.ReferencePoolManager.Despawn(room);
             }
             roomDict.Clear();
         }
-        public override void OnTermination()
-        {
-            CloseAll();
-        }
+
     }
 }
+
+

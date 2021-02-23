@@ -21,12 +21,12 @@ namespace AscensionServer
             var dict = operationRequest.Parameters;
             string bottleneckJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleBottleneck));
             var bottleneckObj = Utility.Json.ToObject<Bottleneck>(bottleneckJson);
-            NHCriteria nHCriteriabottleneck = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", bottleneckObj.RoleID);
+            NHCriteria nHCriteriabottleneck = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", bottleneckObj.RoleID);
 
             var roleTemp = NHibernateQuerier.CriteriaSelect<Role>(nHCriteriabottleneck);
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, BottleneckData>>(out var bottleneckData);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, BottleneckData>>(out var bottleneckData);
 
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, DemonData>>(out var demonData);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, DemonData>>(out var demonData);
 
             //Utility.Debug.LogInfo("yzqData数据库获得的数据" + Utility.Json.ToJson(bottleneckTemp));
             if (RedisHelper.Hash.HashExist("Bottleneck", bottleneckObj.RoleID.ToString()))
@@ -161,3 +161,5 @@ namespace AscensionServer
         }
     }
 }
+
+

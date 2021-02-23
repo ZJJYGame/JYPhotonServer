@@ -11,8 +11,8 @@ namespace AscensionServer
     {
         public static bool AddGongFaJudge(int gongfaBookId,RoleDTO roleDTO,out CultivationMethodDTO gongfaTemp)
         {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, GongFaBook>>(out var gongfabookDict);
-            gongfaTemp = GameManager.ReferencePoolManager.Spawn<CultivationMethodDTO>();
+            GameEntry. DataManager.TryGetValue<Dictionary<int, GongFaBook>>(out var gongfabookDict);
+            gongfaTemp = CosmosEntry.ReferencePoolManager.Spawn<CultivationMethodDTO>();
             gongfabookDict.TryGetValue(gongfaBookId, out var gongFaBook);
             if (!Utility.Json.ToObject<List<int>>(roleDTO.RoleRoot).Contains(gongFaBook.Book_Property)&& roleDTO.RoleLevel< gongFaBook.Need_Level_ID)
             {
@@ -21,7 +21,7 @@ namespace AscensionServer
             gongfaTemp.CultivationMethodLevel = (short)gongFaBook.Need_Level_ID;
             gongfaTemp.CultivationMethodID = gongFaBook.Gongfa_ID;
             gongfaTemp.CultivationMethodLevelSkillArray = new List<int>();
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, GongFa>>(out var gongfaDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, GongFa>>(out var gongfaDict);
             for (int i = 0; i < gongfaDict[gongfaTemp.CultivationMethodID].Skill_One.Count; i++)
             {
                 gongfaTemp.CultivationMethodLevelSkillArray.Add(gongfaDict[gongfaTemp.CultivationMethodID].Skill_One[i]);
@@ -34,3 +34,5 @@ namespace AscensionServer
 
     }
 }
+
+

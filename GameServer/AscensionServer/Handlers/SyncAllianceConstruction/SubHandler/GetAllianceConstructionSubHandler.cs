@@ -23,7 +23,7 @@ namespace AscensionServer
                 string allianceConstructionJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceConstruction));
 
                 var allianceConstructionObj = Utility.Json.ToObject<AllianceConstructionDTO>(allianceConstructionJson);
-                NHCriteria nHCriteriallianceConstruction = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceConstructionObj.AllianceID);
+                NHCriteria nHCriteriallianceConstruction = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceConstructionObj.AllianceID);
 
                 Utility.Debug.LogError("yzqData獲得的得到的仙盟建設" + allianceConstructionObj.AllianceID);
                 var allianceConstructionTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceConstruction>(nHCriteriallianceConstruction).Result;
@@ -47,9 +47,11 @@ namespace AscensionServer
                         operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     });
                 }
-                GameManager.ReferencePoolManager.Despawns(nHCriteriallianceConstruction);
+                CosmosEntry.ReferencePoolManager.Despawns(nHCriteriallianceConstruction);
                 return operationResponse;
             }
         }
     }
 }
+
+

@@ -14,3 +14,5 @@ namespace AscensionServer
         object EncodeMessage(object message);
     }
 }
+
+

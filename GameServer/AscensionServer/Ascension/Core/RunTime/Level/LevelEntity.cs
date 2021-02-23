@@ -200,7 +200,7 @@ namespace AscensionServer
 #if SERVER
         public static LevelEntity Create(int sceneId, params RoleEntity[] peerEntities)
         {
-            LevelEntity se = GameManager.ReferencePoolManager.Spawn<LevelEntity>();
+            LevelEntity se = CosmosEntry.ReferencePoolManager.Spawn<LevelEntity>();
             se.OnInit(sceneId);
             int length = peerEntities.Length;
             for (int i = 0; i < length; i++)
@@ -211,7 +211,7 @@ namespace AscensionServer
         }
         public static LevelEntity Create(int sceneId, List<RoleEntity> peerEntities)
         {
-            LevelEntity se = GameManager.ReferencePoolManager.Spawn<LevelEntity>();
+            LevelEntity se = CosmosEntry.ReferencePoolManager.Spawn<LevelEntity>();
             se.OnInit(sceneId);
             int length = peerEntities.Count;
             for (int i = 0; i < length; i++)
@@ -222,7 +222,7 @@ namespace AscensionServer
         }
         public static LevelEntity Create(int sceneId)
         {
-            LevelEntity se = GameManager.ReferencePoolManager.Spawn<LevelEntity>();
+            LevelEntity se = CosmosEntry.ReferencePoolManager.Spawn<LevelEntity>();
             se.OnInit(sceneId);
             return se;
         }
@@ -265,3 +265,5 @@ namespace AscensionServer
 #endif
     }
 }
+
+

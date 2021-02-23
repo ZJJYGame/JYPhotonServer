@@ -11,3 +11,5 @@ namespace AscensionServer
         void RecordRole(RoleEntity roleEntity);
     }
 }
+
+

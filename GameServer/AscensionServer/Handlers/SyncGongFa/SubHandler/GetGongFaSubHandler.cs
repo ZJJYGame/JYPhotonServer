@@ -33,7 +33,7 @@ namespace AscensionServer
                     gongFaDic = new Dictionary<int, List<CultivationMethodDTO>>();
                     foreach (var roleId in roleGongFaObj)
                     {
-                        NHCriteria nHCriteriaGongFa = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
+                        NHCriteria nHCriteriaGongFa = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
                         bool exist = NHibernateQuerier.Verify<RoleGongFa>(nHCriteriaGongFa);
                         gongFaIdList = new List<CultivationMethodDTO>();
                         if (exist)
@@ -43,9 +43,9 @@ namespace AscensionServer
                             {
                                 foreach (var gongFaId in Utility.Json.ToObject<Dictionary<int, int>>(roleIdArray.GongFaIDArray))
                                 {
-                                    NHCriteria nHCriteriaGongFaId = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", gongFaId.Key);
+                                    NHCriteria nHCriteriaGongFaId = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", gongFaId.Key);
                                     var gongFaIdArray = NHibernateQuerier.CriteriaSelect<CultivationMethod>(nHCriteriaGongFaId);
-                                var gongfaTemp= GameManager.ReferencePoolManager.Spawn<CultivationMethodDTO>();
+                                var gongfaTemp= CosmosEntry.ReferencePoolManager.Spawn<CultivationMethodDTO>();
                                 gongfaTemp.ID = gongFaIdArray.ID;
                                 gongfaTemp.CultivationMethodExp = gongFaIdArray.CultivationMethodExp;
                                 gongfaTemp.CultivationMethodLevel = gongFaIdArray.CultivationMethodLevel;
@@ -64,7 +64,7 @@ namespace AscensionServer
                             NHibernateQuerier.Insert(new RoleGongFa() { RoleID = roleId });
                             gongFaDic.Add(roleId, new List<CultivationMethodDTO>());
                         }
-                        GameManager.ReferencePoolManager.Despawns(nHCriteriaGongFa);
+                        CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaGongFa);
                     }
                 SetResponseParamters(() => {
                     operationResponse.Parameters = subResponseParameters;
@@ -78,4 +78,6 @@ namespace AscensionServer
         }
     }
 }
+
+
 

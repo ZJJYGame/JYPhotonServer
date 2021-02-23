@@ -24,7 +24,7 @@ namespace AscensionServer
             var roleObj = Utility.Json.ToObject<RoleDTO>(roleJson);
             var gongfaObj = Utility.Json.ToObject<CultivationMethodDTO>(gongfaJson);
 
-            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
+            NHCriteria nHCriteriaRoleID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
             var roleGongfatemp = NHibernateQuerier.CriteriaSelect<RoleGongFa>(nHCriteriaRoleID);
 
             var roleTemp = NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRoleID);
@@ -32,16 +32,16 @@ namespace AscensionServer
             Dictionary<string, string> DTOdict = new Dictionary<string, string>();
 
             #region 背包验证逻辑
-            var ringObj = GameManager.ReferencePoolManager.Spawn<RingDTO>();
+            var ringObj = CosmosEntry.ReferencePoolManager.Spawn<RingDTO>();
             ringObj.RingItems = new Dictionary<int, RingItemsDTO>();
             ringObj.RingItems.Add(gongfaObj.CultivationMethodID, new RingItemsDTO());
             var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
-           var nHCriteriaRingID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
+           var nHCriteriaRingID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
             #endregion
 
             if (InventoryManager.VerifyIsExist(gongfaObj.CultivationMethodID, nHCriteriaRingID))
             {
-                var gongfaTemp = GameManager.ReferencePoolManager.Spawn<CultivationMethodDTO>();
+                var gongfaTemp = CosmosEntry.ReferencePoolManager.Spawn<CultivationMethodDTO>();
 
              var result= GongFaStudyManager.AddGongFaJudge(gongfaObj.CultivationMethodID, roleObj,out gongfaTemp);
 
@@ -72,7 +72,7 @@ namespace AscensionServer
 
                             RedisHelper.Hash.HashSet<CultivationMethodDTO>(RedisKeyDefine._GongfaPerfix+ roleObj.RoleID, roleObj.RoleID.ToString(), gongfaTemp);
 
-                            var roleGongfaObj= GameManager.ReferencePoolManager.Spawn<RoleGongFaDTO>();
+                            var roleGongfaObj= CosmosEntry.ReferencePoolManager.Spawn<RoleGongFaDTO>();
                             roleGongfaObj.RoleID = roleGongfatemp.RoleID;
                             roleGongfaObj.GongFaIDArray = rolegongfaDict;
                             RedisHelper.Hash.HashSet<RoleGongFaDTO>(RedisKeyDefine._RoleGongfaPerfix + roleObj.RoleID, roleObj.RoleID.ToString(), roleGongfaObj);
@@ -87,7 +87,7 @@ namespace AscensionServer
                             OperationData operationData = new OperationData();
                             operationData.DataMessage = Utility.Json.ToJson(DTOdict);
                             operationData.OperationCode = (byte)OperationCode.AddFirstGongfa;
-                            GameManager.CustomeModule<RoleManager>().SendMessage(roleObj.RoleID, operationData);
+                            GameEntry.RoleManager.SendMessage(roleObj.RoleID, operationData);
                             InventoryManager.RemoveCmd(roleObj.RoleID, ringObj, nHCriteriaRingID);
                             #endregion
                         }
@@ -103,7 +103,7 @@ namespace AscensionServer
                                 NHibernateQuerier.Update(roleGongfatemp);
 
                                 RedisHelper.Hash.HashSet<CultivationMethodDTO>(RedisKeyDefine._GongfaPerfix + roleObj.RoleID, roleObj.RoleID.ToString(), gongfaTemp);
-                                var roleGongfaObj = GameManager.ReferencePoolManager.Spawn<RoleGongFaDTO>();
+                                var roleGongfaObj = CosmosEntry.ReferencePoolManager.Spawn<RoleGongFaDTO>();
                                 roleGongfaObj.RoleID = roleGongfatemp.RoleID;
                                 roleGongfaObj.GongFaIDArray = rolegongfaDict;
                                 RedisHelper.Hash.HashSet<RoleGongFaDTO>(RedisKeyDefine._RoleGongfaPerfix + roleObj.RoleID, roleObj.RoleID.ToString(), roleGongfaObj);
@@ -118,7 +118,7 @@ namespace AscensionServer
                                 OperationData operationData = new OperationData();
                                 operationData.DataMessage = Utility.Json.ToJson(DTOdict);
                                 operationData.OperationCode = (byte)OperationCode.SyncGongFa;
-                                GameManager.CustomeModule<RoleManager>().SendMessage(roleObj.RoleID, operationData);
+                                GameEntry.RoleManager.SendMessage(roleObj.RoleID, operationData);
                                 InventoryManager.RemoveCmd(roleObj.RoleID, ringObj, nHCriteriaRingID);
                                 #endregion
                             }
@@ -191,18 +191,20 @@ namespace AscensionServer
             //        OperationData operationData = new OperationData();
             //        operationData.DataMessage = Utility.Json.ToJson(DOdict);
             //        operationData.OperationCode = (byte)OperationCode.AddFirstGongfa;
-            //        GameManager.CustomeModule<RoleManager>().SendMessage(roleObj.RoleID, operationData);
+            //        GameEntry. RoleManager.SendMessage(roleObj.RoleID, operationData);
             #region Redis模块
             //        RedisHelper.Hash.HashSet<CultivationMethod>(RedisKeyDefine._RoleGongfaPerfix, cultivationMethod.CultivationMethodID.ToString(), cultivationMethod);
             //        RedisHelper.Hash.HashSet<RoleGongFa>(RedisKeyDefine._GongfaPerfix, roleObj.RoleID.ToString(), roleGongFaObj);
 
-            //        GameManager.ReferencePoolManager.Despawns(ringObj);
+            //        CosmosEntry.ReferencePoolManager.Despawns(ringObj);
             #endregion
             //    }
             //}
-            //GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
+            //CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaRoleID);
             #endregion
             return operationResponse;
         }
     }
 }
+
+

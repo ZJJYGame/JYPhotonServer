@@ -45,3 +45,5 @@ namespace AscensionServer.Lite
         public byte Action { get; private set; }
     }
 }
+
+

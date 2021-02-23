@@ -27,7 +27,7 @@ namespace AscensionServer
             //Utility.Debug.LogError("添加的角色宠物" + pJson);
             //var petstatusObj = Utility.Json.ToObject<PetStatus>(psJson);
             //var petPtitudeObj = Utility.Json.ToObject<PetaPtitudeDTO>(ppJson);
-            //NHCriteria nHCriteriaroleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
+            //NHCriteria nHCriteriaroleID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
             //var rolepet = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriaroleID);
             //Dictionary<int, int> petDict;
             //List<string> petDoList = new List<string>();
@@ -119,8 +119,10 @@ namespace AscensionServer
             //    subResponseParameters.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(petDoList));
             //    operationResponse.ReturnCode = (short)ReturnCode.Success;
             //});
-            //GameManager.ReferencePoolManager.Despawns(nHCriteriaroleID);
+            //CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaroleID);
             return operationResponse;
         }
     }
 }
+
+

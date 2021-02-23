@@ -28,7 +28,7 @@ namespace AscensionServer
             var allianceConstructionTemp = AlliancelogicManager.Instance.GetNHCriteria<AllianceConstruction>("AllianceID", allianceSigninObj.AllianceID);
             var Role = AlliancelogicManager.Instance.GetNHCriteria<Role>("RoleID", roleallianceTemp.RoleID);
 
-            GameManager.CustomeModule<DataManager>().TryGetValue<List<AllianceSigninData>>(out var allianceSigninList);
+            GameEntry. DataManager.TryGetValue<List<AllianceSigninData>>(out var allianceSigninList);
             var content = RedisHelper.KeyExistsAsync("AllianceSigninDTO"+ allianceTemp.ID).Result;
            // Utility.Debug.LogError("yzqs角色数据数据" + Utility.Json.ToJson(allianceSigninList));
             var alliancesignindata=  allianceSigninList.Find(t=>t.Role_Level[0]<= Role.RoleLevel&& t.Role_Level[1] >=Role.RoleLevel);
@@ -98,3 +98,5 @@ namespace AscensionServer
         }
     }
 }
+
+

@@ -46,3 +46,4 @@ namespace AscensionServer.Lite
         public object Value { get; private set; }
     }
 }
+

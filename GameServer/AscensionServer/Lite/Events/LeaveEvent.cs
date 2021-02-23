@@ -1,4 +1,4 @@
-// --------------------------------------------------------------------------------------------------------------------
+﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="LeaveEvent.cs" company="Exit Games GmbH">
 //   Copyright (c) Exit Games GmbH.  All rights reserved.
 // </copyright>
@@ -41,3 +41,4 @@ namespace AscensionServer.Lite
         public int[] Actors { get; set; }
     }
 }
+

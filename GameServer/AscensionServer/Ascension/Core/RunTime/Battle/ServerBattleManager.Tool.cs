@@ -35,8 +35,8 @@ namespace AscensionServer
         /// <returns></returns>
         public bool IsToSkillForm(int targetId)
         {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, SkillGongFaDatas>>(out var skillGongFaDict);
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, SkillMiShuDatas>>(out var skillMiShuDict);
+           GameEntry. DataManager.TryGetValue<Dictionary<int, SkillGongFaDatas>>(out var skillGongFaDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, SkillMiShuDatas>>(out var skillMiShuDict);
             if (skillGongFaDict.ContainsKey(targetId) || skillMiShuDict.ContainsKey(targetId))
                 return true;
             return false;
@@ -49,8 +49,8 @@ namespace AscensionServer
         /// <returns></returns>
         public object SkillFormToSkillObject(int targerId)
         {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, SkillGongFaDatas>>(out var skillGongFaDict);
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, SkillMiShuDatas>>(out var skillMiShuDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, SkillGongFaDatas>>(out var skillGongFaDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, SkillMiShuDatas>>(out var skillMiShuDict);
             if (skillGongFaDict.ContainsKey(targerId))
                 return skillGongFaDict[targerId];
             if (skillMiShuDict.ContainsKey(targerId))
@@ -64,8 +64,8 @@ namespace AscensionServer
         /// <returns></returns>
         public object PropsInstrutionFormToObject(int targetId)
         {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, DrugData>>(out var drugDict);
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, RunesData>>(out var runesDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, DrugData>>(out var drugDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, RunesData>>(out var runesDict);
             if (drugDict.ContainsKey(targetId))
                 return drugDict[targetId];
             if (runesDict.ContainsKey(targetId))
@@ -79,13 +79,11 @@ namespace AscensionServer
         /// <returns></returns>
         public MagicWeaponData MagicWeaponFormToObject(int targetId)
         {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MagicWeaponData>>(out var magicDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, MagicWeaponData>>(out var magicDict);
             if (magicDict.ContainsKey(targetId))
                 return magicDict[targetId];
             return null;
         }
-
-
 
 
 
@@ -100,9 +98,9 @@ namespace AscensionServer
             OperationData opData = new OperationData();
             opData.DataMessage = RoundServerToClient();
             opData.OperationCode = (byte)OperationCode.SyncBattleTransfer;
-            GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
-            GameManager.CustomeModule<ServerBattleManager>().RecordRoomId.Enqueue(roomId);
-            GameManager.CustomeModule<ServerBattleManager>().TimestampBattleEnd(roomId);
+            GameEntry. RoleManager.SendMessage(roleId, opData);
+             RecordRoomId.Enqueue(roomId);
+             TimestampBattleEnd(roomId);
         }
 
 
@@ -114,7 +112,7 @@ namespace AscensionServer
         /// <returns></returns>
         public BattleSkillData SkillFormToObject(int targetId)
         {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, BattleSkillData>>(out var battleSkillDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, BattleSkillData>>(out var battleSkillDict);
             if (battleSkillDict.ContainsKey(targetId))
                 return battleSkillDict[targetId];
             return null;
@@ -124,7 +122,7 @@ namespace AscensionServer
         /// </summary>
         public MonsterDatas MonsterFormToObject(int targetId)
         {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MonsterDatas>>(out var monsterDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, MonsterDatas>>(out var monsterDict);
             if (monsterDict.ContainsKey(targetId))
                 return monsterDict[targetId];
             return null;
@@ -169,3 +167,5 @@ namespace AscensionServer
         #endregion
     }
 }
+
+

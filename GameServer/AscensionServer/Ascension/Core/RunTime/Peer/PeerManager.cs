@@ -15,8 +15,8 @@ namespace AscensionServer
     /// SessionId在具体的Peer中，由服务器分配；
     /// 其余各个模块都是从此通过SessionID取得Peer对象；
     /// </summary>
-    [CustomeModule]
-    public class PeerManager : Module<PeerManager>, IKeyValue<int, IPeerEntity>
+    [Module]
+    public class PeerManager : Module,IPeerManager, IKeyValue<int, IPeerEntity>
     {
         /// <summary>
         /// 广播事件消息 ;
@@ -180,3 +180,5 @@ namespace AscensionServer
         }
     }
 }
+
+

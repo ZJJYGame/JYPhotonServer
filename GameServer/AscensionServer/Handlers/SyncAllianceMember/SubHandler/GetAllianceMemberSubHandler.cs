@@ -22,7 +22,7 @@ namespace AscensionServer
             var dict = operationRequest.Parameters;
             string allianceMemberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
             var allianceMemberObj = Utility.Json.ToObject<AllianceMemberDTO>(allianceMemberJson);
-            NHCriteria nHCriteriallianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceMemberObj.AllianceID);
+            NHCriteria nHCriteriallianceMember = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceMemberObj.AllianceID);
             var allianceMemberTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceMember>(nHCriteriallianceMember).Result;
             Utility.Debug.LogInfo("发送的仙盟的所有成员" + allianceMemberTemp.Member);
             List<int> memberList = new List<int>();
@@ -35,7 +35,7 @@ namespace AscensionServer
                     memberList = Utility.Json.ToObject<List<int>>(allianceMemberTemp.Member);
                     for (int i = 0; i < memberList.Count; i++)
                     {
-                        NHCriteria nHCriteriMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", memberList[i]);
+                        NHCriteria nHCriteriMember = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", memberList[i]);
                         nHCriterias.Add(nHCriteriMember);
                        var RoleSchol= AlliancelogicManager.Instance.GetNHCriteria<RoleSchool>("RoleID", memberList[i]);
                         var Role = AlliancelogicManager.Instance.GetNHCriteria<Role>("RoleID", memberList[i]);
@@ -60,8 +60,10 @@ namespace AscensionServer
                     });
                 }
             }
-            GameManager.ReferencePoolManager.Despawns(nHCriterias);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriterias);
             return operationResponse;
         }
     }
 }
+
+

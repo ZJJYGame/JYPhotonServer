@@ -6,15 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace AscensionServer 
 {
     /// <summary>
     /// 技能模块；
     /// 注：此模块用于验证客户端角色释放技能时数值的验证、转发等；
     /// </summary>
-    [CustomeModule]
-    public class SkillManager:Module<SkillManager>
+    [Module]
+    public class SkillManager:Module,ISkillManager
     {
         public override void OnInitialization()
         {
@@ -36,3 +35,5 @@ namespace AscensionServer
         }
     }
 }
+
+

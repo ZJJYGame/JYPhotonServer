@@ -21,7 +21,7 @@ namespace AscensionServer
             var dict = operationRequest.Parameters;
             string schoolJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.School));
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
-            NHCriteria  nHCriteriaschool= GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
+            NHCriteria  nHCriteriaschool= CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
             var schooltemp= NHibernateQuerier.CriteriaSelect<School>(nHCriteriaschool);
             var content= RedisData.ReidsDataProcessing.GetData("School"+schooltemp.ID);
             if (schooltemp!=null)
@@ -49,8 +49,10 @@ namespace AscensionServer
                 }
             }
             Utility.Debug.LogInfo("更新后的宗门信息" + Utility.Json.ToJson(schooltemp));
-            GameManager.ReferencePoolManager.Despawns(nHCriteriaschool);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaschool);
             return operationResponse;
         }
     }
 }
+
+

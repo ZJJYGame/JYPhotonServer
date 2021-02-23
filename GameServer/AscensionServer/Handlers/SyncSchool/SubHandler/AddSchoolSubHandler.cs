@@ -27,12 +27,12 @@ namespace AscensionServer
             string sutrasAtticJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.SutrasAtticm));
             var sutrasAtticObj = Utility.Json.ToObject<SutrasAtticDTO>(sutrasAtticJson);
 
-            NHCriteria nHCriteriaSchool = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
-            NHCriteria nHCriteriaTreasureattic = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", treasureatticObj.ID);
-            NHCriteria nHCriteriasutrasAttic = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", sutrasAtticObj.ID);
+            NHCriteria nHCriteriaSchool = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
+            NHCriteria nHCriteriaTreasureattic = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", treasureatticObj.ID);
+            NHCriteria nHCriteriasutrasAttic = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", sutrasAtticObj.ID);
 
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, List<FactionItem>>>(out var factionItemDict);
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, List<FactionSkill>>>(out var factionSkillDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, List<FactionItem>>>(out var factionItemDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, List<FactionSkill>>>(out var factionSkillDict);
 
             Utility.Debug.LogInfo("yzqData>>>>>>>加入宗门的请求收到了" + Utility.Json.ToJson(factionSkillDict));
             var todayTNum = factionItemDict[schoolObj.SchoolID].ToDictionary(key => key.FactionItem_ID, value => value.FactionItem_TodayNum);
@@ -86,8 +86,10 @@ namespace AscensionServer
             else
                 SetResponseParamters(() =>{operationResponse.ReturnCode = (byte)ReturnCode.Fail; });
             Utility.Debug.LogInfo(">>>>>>>加入宗门的请求收到了2" + schoolTemp.SchoolID);
-            GameManager.ReferencePoolManager.Despawns(nHCriteriaSchool, nHCriteriaTreasureattic, nHCriteriasutrasAttic);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaSchool, nHCriteriaTreasureattic, nHCriteriasutrasAttic);
             return operationResponse;
         }
     }
 }
+
+

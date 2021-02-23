@@ -19,8 +19,8 @@ namespace AscensionServer
             var receivedData = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.GongFa));
             var receivedRoleObj = Utility.Json.ToObject<RoleGongFa>(receivedRoleData);
             var receivedObj = Utility.Json.ToObject<CultivationMethod>(receivedData);
-            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, List<GongFa>>>(out var gongFaDataDict);
+            NHCriteria nHCriteriaRoleID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, List<GongFa>>>(out var gongFaDataDict);
 
 
             bool exist = NHibernateQuerier.Verify<RoleGongFa>(nHCriteriaRoleID);
@@ -29,7 +29,7 @@ namespace AscensionServer
             if (exist)
             {
                 RoleGongFa GongfaInfo = NHibernateQuerier.CriteriaSelect<RoleGongFa>(nHCriteriaRoleID);
-                NHCriteria nHCriteriaGongFaID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", receivedObj.ID);
+                NHCriteria nHCriteriaGongFaID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", receivedObj.ID);
                 bool existGongFa = NHibernateQuerier.Verify<CultivationMethod>(nHCriteriaGongFaID);
                 if (existGongFa)
                 {
@@ -64,14 +64,16 @@ namespace AscensionServer
                     }
                 }             
                 operationResponse.Parameters = subResponseParameters;
-                GameManager.ReferencePoolManager.Despawn(nHCriteriaGongFaID);
+                CosmosEntry.ReferencePoolManager.Despawn(nHCriteriaGongFaID);
             }
             else
             {
                 operationResponse.ReturnCode = (short)ReturnCode.Fail;
             }
-            GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
+            CosmosEntry.ReferencePoolManager.Despawn(nHCriteriaRoleID);
             return operationResponse;
         }
     }
 }
+
+

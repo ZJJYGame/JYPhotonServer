@@ -20,3 +20,5 @@ namespace AscensionServer
         public EquipType Ring_Type { get; set; }
     }
 }
+
+

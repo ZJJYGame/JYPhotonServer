@@ -43,3 +43,5 @@ namespace AscensionServer
         public int Mishu_LearnSpeed { get; set; }
     }
 }
+
+

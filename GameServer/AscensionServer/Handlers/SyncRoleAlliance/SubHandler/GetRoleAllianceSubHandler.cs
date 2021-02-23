@@ -20,21 +20,21 @@ namespace AscensionServer
             string roleallianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAlliance));
             var roleallianceObj = Utility.Json.ToObject<RoleAllianceDTO>
               (roleallianceJson);
-            NHCriteria nHCriteriaroleAlliances = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceObj.RoleID);
+            NHCriteria nHCriteriaroleAlliances = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceObj.RoleID);
             var roleallianceTemp = NHibernateQuerier.CriteriaSelect<RoleAlliance>(nHCriteriaroleAlliances);
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, AllianceLevleUpData>>(out var allianceLevleUpDataDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, AllianceLevleUpData>>(out var allianceLevleUpDataDict);
             var content = RedisHelper.KeyExistsAsync("AllianceConstructionDTO" + roleallianceObj.AllianceID).Result;
 
             List<string> Alliancelist = new List<string>();
 
             if (roleallianceTemp != null)
             {
-                NHCriteria nHCriteriaAlliances = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleallianceTemp.AllianceID);
+                NHCriteria nHCriteriaAlliances = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleallianceTemp.AllianceID);
                 var Role = AlliancelogicManager.Instance.GetNHCriteria<Role>("RoleID", roleallianceObj.RoleID);
 
                 RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { AllianceID = roleallianceTemp.AllianceID, AllianceJob = roleallianceTemp.AllianceJob, JoinTime = roleallianceTemp.JoinTime, ApplyForAlliance = Utility.Json.ToObject<List<int>>(roleallianceTemp.ApplyForAlliance), JoinOffline = roleallianceTemp.JoinOffline, Reputation = roleallianceTemp.Reputation, ReputationHistroy = roleallianceTemp.ReputationHistroy, ReputationMonth = roleallianceTemp.ReputationMonth, RoleID = roleallianceTemp.RoleID, RoleName = roleallianceTemp.RoleName, RoleSchool = roleallianceTemp.RoleSchool, RoleLevel = Role.RoleLevel };
                 var allianceTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceStatus>(nHCriteriaAlliances).Result;
-                NHCriteria nHCriteriaAlliancesConstruction = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", roleallianceTemp.AllianceID);
+                NHCriteria nHCriteriaAlliancesConstruction = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", roleallianceTemp.AllianceID);
 
                 var allianceConstructionTemp = NHibernateQuerier.CriteriaSelect<AllianceConstruction>(nHCriteriaAlliancesConstruction);
                 var exist = RedisHelper.KeyExistsAsync("AllianceSigninDTO" + allianceTemp.ID).Result;
@@ -99,7 +99,7 @@ namespace AscensionServer
                     subResponseParameters.Add((byte)ParameterCode.RoleAlliance, Utility.Json.ToJson(Alliancelist));
                     operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
-                GameManager.ReferencePoolManager.Despawns(nHCriteriaroleAlliances, nHCriteriaAlliances, nHCriteriaAlliancesConstruction);
+                CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaroleAlliances, nHCriteriaAlliances, nHCriteriaAlliancesConstruction);
             }
             else
             {
@@ -146,3 +146,5 @@ namespace AscensionServer
 
     }
 }
+
+

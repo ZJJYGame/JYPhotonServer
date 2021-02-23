@@ -12,8 +12,8 @@ namespace AscensionServer
     /// <summary>
     /// 场景管理器，管理野外高同步的数据；
     /// </summary>
-    [CustomeModule]
-    public class LevelManager : Module<LevelManager>
+    [Module]
+    public class LevelManager : Module,ILevelManager
     {
 #if SERVER
         ConcurrentDictionary<int, LevelEntity> levelEntityDict = new ConcurrentDictionary<int, LevelEntity>();
@@ -25,11 +25,11 @@ namespace AscensionServer
             add { sceneRefreshHandler += value; }
             remove{sceneRefreshHandler -= value;}
         }
-        PeerManager peerMgrInstance;
+        IPeerManager peerMgrInstance;
 #else
         LevelEntity levelEntity = new LevelEntity();
 #endif
-        RoleManager roleMgrInstance;
+        IRoleManager roleMgrInstance;
         Action<RoleEntity> onRoleEnterLevel;
         /// <summary>
         /// 角色进入场景事件
@@ -52,8 +52,8 @@ namespace AscensionServer
         {
 #if SERVER
             latestTime = Utility.Time.MillisecondNow() + updateInterval;
-            peerMgrInstance = GameManager.CustomeModule<PeerManager>();
-            roleMgrInstance = GameManager.CustomeModule<RoleManager>();
+            peerMgrInstance = GameEntry.PeerManager;
+            roleMgrInstance = GameEntry.RoleManager;
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPR_PLYAER_INPUT, OnCommandC2S);
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPR_PLYAER_LOGOFF, OnPlayerLogoff);
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPR_PLAYER_ENTER, OnEnterLevelC2S);
@@ -193,7 +193,7 @@ namespace AscensionServer
                     if (levelEntity.Empty)
                     {
                         levelEntityDict.TryRemove(levelId, out _ );
-                        GameManager.ReferencePoolManager.Despawn(levelEntity);
+                        CosmosEntry.ReferencePoolManager.Despawn(levelEntity);
                         SceneRefreshHandler -= levelEntity.OnRefresh;
                     }
                     if (roleMgrInstance.ContainsKey(roleId))
@@ -223,7 +223,7 @@ namespace AscensionServer
                 if (levelEntity.Empty)
                 {
                     levelEntityDict.TryRemove(levelId, out _);
-                    GameManager.ReferencePoolManager.Despawn(levelEntity);
+                    CosmosEntry.ReferencePoolManager.Despawn(levelEntity);
                     SceneRefreshHandler -= levelEntity.OnRefresh;
                 }
                 if (roleMgrInstance.ContainsKey(role.RoleId))
@@ -267,7 +267,7 @@ namespace AscensionServer
                     if (levelEntity.Empty)
                     {
                         levelEntityDict.TryRemove(levelEntity.LevelId, out _);
-                        GameManager.ReferencePoolManager.Despawn(levelEntity);
+                        CosmosEntry.ReferencePoolManager.Despawn(levelEntity);
                         SceneRefreshHandler -= levelEntity.OnRefresh;
                     }
                 }
@@ -299,3 +299,5 @@ namespace AscensionServer
         }
     }
 }
+
+

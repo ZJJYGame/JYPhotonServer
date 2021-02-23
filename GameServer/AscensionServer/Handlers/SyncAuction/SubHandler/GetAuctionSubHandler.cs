@@ -35,13 +35,13 @@ namespace AscensionServer
                     int auctionGoodsId = Int16.Parse(tempDict[(byte)ParameterCode.AddAuctionGoods].ToString());
                     int startIndex = Int16.Parse(tempDict[(byte)ParameterCode.Auction].ToString());
                     int count = Int16.Parse(tempDict[(byte)ParameterCode.PutAwayAuctionGoods].ToString());
-                    GameManager.CustomeModule<AuctionManager>().ServerAuctionGoodsGet(auctionGoodsId, startIndex, count, roleId);
+                    GameEntry.AuctionManager.ServerAuctionGoodsGet(auctionGoodsId, startIndex, count, roleId);
                     break;
                 case SyncAuctionType.PutAwayAuctionGoods:
                     Utility.Debug.LogInfo("进入上架拍卖品事件");
                     AuctionGoodsDTO putAwayAuctionGoods = Utility.Json.ToObject<AuctionGoodsDTO>(tempDict[(byte)ParameterCode.AddAuctionGoods].ToString());
                     int putAwayItemId = Convert.ToInt32(tempDict[(byte)ParameterCode.Auction].ToString());
-                    GameManager.CustomeModule<AuctionManager>().SeverAuctionGoodsPutAway(putAwayAuctionGoods, putAwayItemId,roleId);
+                    GameEntry.AuctionManager.SeverAuctionGoodsPutAway(putAwayAuctionGoods, putAwayItemId,roleId);
                     break;
                 case SyncAuctionType.SoldOutAuctionGoods:
                     break;
@@ -50,7 +50,7 @@ namespace AscensionServer
                     AuctionGoodsDTO auctionGoodsDTO = Utility.Json.ToObject<AuctionGoodsDTO>(tempDict[(byte)ParameterCode.AddAuctionGoods].ToString());
                     startIndex = Convert.ToInt32(tempDict[(byte)ParameterCode.Auction].ToString());
                     count = Convert.ToInt32(tempDict[(byte)ParameterCode.PutAwayAuctionGoods].ToString());
-                    GameManager.CustomeModule<AuctionManager>().SeverAuctionGoodsBuy(auctionGoodsDTO, startIndex, count, roleId);
+                    GameEntry.AuctionManager.SeverAuctionGoodsBuy(auctionGoodsDTO, startIndex, count, roleId);
                     break;
             }
             Dictionary<string, string> resultDict = new Dictionary<string, string>();
@@ -67,3 +67,5 @@ namespace AscensionServer
         }
     }
 }
+
+

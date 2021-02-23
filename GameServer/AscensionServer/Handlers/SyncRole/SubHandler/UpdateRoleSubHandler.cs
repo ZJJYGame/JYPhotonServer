@@ -20,7 +20,7 @@ namespace AscensionServer
 
 
             var roleObj = Utility.Json.ToObject<RoleDTO>(roleJson);
-            NHCriteria nHCriteriaRole = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
+            NHCriteria nHCriteriaRole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
             var roleTemp = NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRole);
 
             if (roleTemp != null)
@@ -44,3 +44,5 @@ namespace AscensionServer
         }
     }
 }
+
+

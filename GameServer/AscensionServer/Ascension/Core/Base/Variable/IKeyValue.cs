@@ -16,3 +16,5 @@ namespace AscensionServer
         bool TryUpdate(TKey key,KValue newValue,KValue comparsionValue);
     }
 }
+
+

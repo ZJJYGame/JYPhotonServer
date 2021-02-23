@@ -19,7 +19,7 @@ namespace AscensionServer
             string petJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Pet));
 
             var petObj = Utility.Json.ToObject<Pet>(petJson);
-            NHCriteria nHCriteriaPet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petObj.ID);
+            NHCriteria nHCriteriaPet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petObj.ID);
             var pet = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriaPet);
             if (pet != null && RedisHelper.Hash.HashExistAsync("Pet", petObj.ID.ToString()).Result)
             {
@@ -49,8 +49,10 @@ namespace AscensionServer
                 Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>传过来的宠物状态为空" + petJson);
                 operationResponse.ReturnCode = (byte)ReturnCode.Fail;
             }
-            GameManager.ReferencePoolManager.Despawns(nHCriteriaPet);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaPet);
             return operationResponse;
         }
     }
 }
+
+

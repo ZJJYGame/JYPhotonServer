@@ -20,3 +20,5 @@ namespace AscensionServer
         public float AttackPhysicalAttribute { get; set; }
     }
 }
+
+

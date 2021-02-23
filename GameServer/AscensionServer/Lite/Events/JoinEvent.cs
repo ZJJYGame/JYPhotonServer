@@ -1,4 +1,4 @@
-namespace AscensionServer.Lite
+﻿namespace AscensionServer.Lite
 
 {
     using System.Collections;
@@ -38,3 +38,4 @@ namespace AscensionServer.Lite
         public int[] Actors { get; set; }
     }
 }
+

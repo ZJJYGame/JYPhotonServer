@@ -27,3 +27,5 @@ namespace AscensionServer
     public delegate void BattleStartDelegateHandle();
 
 }
+
+

@@ -46,10 +46,10 @@ namespace AscensionServer
             var InventoryRoleObj = Utility.Json.ToObject<RoleRing>(InventoryRoleData);
             var InventoryObj = Utility.Json.ToObject<RingDTO>(InventoryData);
 
-            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", InventoryRoleObj.RoleID);
+            NHCriteria nHCriteriaRoleID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", InventoryRoleObj.RoleID);
             bool exist = NHibernateQuerier.Verify<RoleRing>(nHCriteriaRoleID);
             var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
-            NHCriteria nHCriteriaRingID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
+            NHCriteria nHCriteriaRingID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
             bool existRing = NHibernateQuerier.Verify<Ring>(nHCriteriaRingID);
             Utility.Debug.LogInfo("添加 id====》" + existRing);
             if (exist && existRing)
@@ -377,10 +377,12 @@ namespace AscensionServer
                 });
             }
                
-            GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID, nHCriteriaRingID);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaRoleID, nHCriteriaRingID);
             return operationResponse;
         }
     }
 }
+
+
 
 

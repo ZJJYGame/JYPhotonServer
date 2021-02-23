@@ -24,7 +24,7 @@ namespace AscensionServer
             var tacticObj = Utility.Json.ToObject<TacticalDTO>(tacticJson);
 
             //被迫打断或者主动取消的执行移除暂缓集合的操作
-             GameManager.CustomeModule<TacticalDeploymentManager>().TryRemoveTactical(tacticObj.RoleID);
+             GameEntry.TacticalDeploymentManager.TryRemoveTactical(tacticObj.RoleID);
 
             SetResponseParamters(() =>
             {
@@ -34,3 +34,5 @@ namespace AscensionServer
         }
     }
 }
+
+

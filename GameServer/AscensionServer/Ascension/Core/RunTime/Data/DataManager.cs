@@ -6,8 +6,8 @@ using NHibernate.Util;
 
 namespace AscensionServer
 {
-    [CustomeModule]
-    public class DataManager : Module<DataManager>
+    [Module]
+    public class DataManager : Module,IDataManager
     {
         /// <summary>
         /// 间隔秒；
@@ -176,3 +176,5 @@ namespace AscensionServer
         }
     }
 }
+
+

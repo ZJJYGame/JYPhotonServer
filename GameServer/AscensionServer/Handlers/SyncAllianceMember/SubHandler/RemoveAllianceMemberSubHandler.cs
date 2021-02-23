@@ -23,7 +23,7 @@ namespace AscensionServer
             string allianceMemberJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.AllianceMember));
             var allianceMemberObj = Utility.Json.ToObject<AllianceMemberDTO>(allianceMemberJson);
 
-            NHCriteria nHCriteriallianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceMemberObj.AllianceID);
+            NHCriteria nHCriteriallianceMember = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceMemberObj.AllianceID);
             var allianceMemberTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceMember>(nHCriteriallianceMember).Result;
 
             #region 待删
@@ -36,7 +36,7 @@ namespace AscensionServer
                 {
                     for (int i = 0; i < allianceMemberObj.Member.Count; i++)
                     {
-                        NHCriteria nHCriteriMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", allianceMemberObj.Member[i]);
+                        NHCriteria nHCriteriMember = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", allianceMemberObj.Member[i]);
                         nHCriterias.Add(nHCriteriMember);
 
                         var alliancestatus = AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", allianceMemberObj.AllianceID);
@@ -65,8 +65,10 @@ namespace AscensionServer
                 }
             }
             #endregion
-            GameManager.ReferencePoolManager.Despawns(nHCriterias);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriterias);
             return operationResponse;
         }
     }
 }
+
+

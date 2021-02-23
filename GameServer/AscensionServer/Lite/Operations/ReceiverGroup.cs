@@ -31,3 +31,4 @@ namespace AscensionServer.Lite
         MasterClient = 2
     }
 }
+

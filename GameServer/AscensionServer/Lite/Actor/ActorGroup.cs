@@ -17,3 +17,5 @@ namespace AscensionServer.Lite
         public byte GroupId { get; private set; }
     }
 }
+
+

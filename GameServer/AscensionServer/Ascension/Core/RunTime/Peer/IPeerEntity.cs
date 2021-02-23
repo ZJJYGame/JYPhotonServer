@@ -38,3 +38,5 @@ namespace AscensionServer
         void SendMessage(OperationData  opData);
     }
 }
+
+

@@ -35,9 +35,9 @@ namespace AscensionServer
         /// <returns></returns>
         public static EquipType EquipTypeMethod(int _ItemID)
         {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, EquipmentData>>(out var EquipDict);
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, RingData>>(out var RingDict);
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MagicWeaponData>>(out var MagicWeaponDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, EquipmentData>>(out var EquipDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, RingData>>(out var RingDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, MagicWeaponData>>(out var MagicWeaponDict);
             _ItemID = ConvertInt32(_ItemID);
             if (EquipDict.ContainsKey(_ItemID))
                 return EquipDict[_ItemID].Weapon_Type;
@@ -93,7 +93,7 @@ namespace AscensionServer
         /// <returns></returns>
         public static Dictionary<int, ItemBagBaseData> InventotyDict()
         {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, ItemBagBaseData>>(out var ItemBagBaseDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, ItemBagBaseData>>(out var ItemBagBaseDict);
             return ItemBagBaseDict;
         }
 
@@ -104,9 +104,9 @@ namespace AscensionServer
         /// <returns></returns>
         public static NHCriteria NHCriteria(int roleId)
         {
-            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
+            NHCriteria nHCriteriaRoleID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
             var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
-            return GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
+            return CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
         }
 
         /// <summary>
@@ -145,3 +145,5 @@ namespace AscensionServer
 
     }
 }
+
+

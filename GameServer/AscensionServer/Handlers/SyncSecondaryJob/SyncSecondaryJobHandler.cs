@@ -21,7 +21,7 @@ namespace AscensionServer
             string secondaryJobJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)
                 ParameterCode.SecondaryJob));
             var secondaryJobObj = Utility.Json.ToObject<SecondaryJobDTO>(secondaryJobJson);
-            NHCriteria nHCriteriaRole = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", secondaryJobObj.RoleID);
+            NHCriteria nHCriteriaRole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", secondaryJobObj.RoleID);
 
             switch (secondaryJobObj.JobType)
             {
@@ -38,3 +38,5 @@ namespace AscensionServer
         }
     }
 }
+
+

@@ -24,7 +24,7 @@ namespace AscensionServer
             var roleallianceObj = Utility.Json.ToObject<RoleAllianceDTO>(roleallianceJson);
             var dailyMagObj = Utility.Json.ToObject<DailyMessageDTO>(dailyMagJson);
             Utility.Debug.LogError("yzqData储存的成员" + roleallianceJson);
-            NHCriteria nHCriteriaroleAlliances = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceObj.RoleID);
+            NHCriteria nHCriteriaroleAlliances = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceObj.RoleID);
             var roleallianceTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriaroleAlliances).Result;
             List<int> memberlist = new List<int>();
 
@@ -36,7 +36,7 @@ namespace AscensionServer
                     var alliancestatus = AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", roleallianceTemp.AllianceID);
                     alliancestatus.AllianceNumberPeople -= 1;
                   NHibernateQuerier.Update(alliancestatus);
-                    NHCriteria nHCriteriaAlliances = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", roleallianceTemp.AllianceID);
+                    NHCriteria nHCriteriaAlliances = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", roleallianceTemp.AllianceID);
                     var allianceTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceMember>(nHCriteriaAlliances).Result;
                     memberlist = Utility.Json.ToObject<List<int>>(allianceTemp.Member);
                     memberlist.Remove(roleallianceObj.RoleID);
@@ -58,7 +58,7 @@ namespace AscensionServer
                         subResponseParameters.Add((byte)ParameterCode.RoleAlliance, Utility.Json.ToJson(roleAllianceDTO));
                         operationResponse.ReturnCode = (short)ReturnCode.Success;
                     });
-                    GameManager.ReferencePoolManager.Despawns(nHCriteriaAlliances, nHCriteriaroleAlliances);
+                    CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaAlliances, nHCriteriaroleAlliances);
                 }
                 else
                 {
@@ -79,3 +79,5 @@ namespace AscensionServer
         }
     }
 }
+
+

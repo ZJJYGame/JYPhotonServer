@@ -14,3 +14,5 @@ namespace AscensionServer
         OperationResponse EncodeMessage(OperationRequest operationRequest);
     }
 }
+
+

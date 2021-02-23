@@ -60,3 +60,4 @@ namespace AscensionServer.Lite
         public Hashtable Properties { get; set; }
     }
 }
+

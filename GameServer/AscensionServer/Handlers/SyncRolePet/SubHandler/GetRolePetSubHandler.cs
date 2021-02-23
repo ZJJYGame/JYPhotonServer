@@ -22,11 +22,11 @@ namespace AscensionServer
 
             var rolepetObj = Utility.Json.ToObject<RolePetDTO>(rolepet);
 
-            NHCriteria nHCriteriaRolePet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
+            NHCriteria nHCriteriaRolePet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolepetObj.RoleID);
 
-            NHCriteria nHCriteriaPet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", rolepetObj.PetIsBattle);
+            NHCriteria nHCriteriaPet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", rolepetObj.PetIsBattle);
 
-            NHCriteria nHCriteriaRomePet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", rolepetObj.AddRemovePetID);
+            NHCriteria nHCriteriaRomePet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", rolepetObj.AddRemovePetID);
 
             var pet = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriaPet);
 
@@ -36,18 +36,18 @@ namespace AscensionServer
             switch (rolepetObj.RolePetOrderType)
             {
                 case RolePetDTO.RolePetOperationalOrder.Battle:
-                    GameManager.CustomeModule<PetStatusManager>().RolePetSetBattle(rolepetObj, rolepets,nHCriteriaRolePet, pet);
+                   GameEntry. PetStatusManager.RolePetSetBattle(rolepetObj, rolepets,nHCriteriaRolePet, pet);
                     break;
                 case RolePetDTO.RolePetOperationalOrder.GetAllPet:
-                    GameManager.CustomeModule<PetStatusManager>().GetRoleAllPet(rolepets, rolepetObj);
+                     GameEntry. PetStatusManager.GetRoleAllPet(rolepets, rolepetObj);
                     break;
                 case RolePetDTO.RolePetOperationalOrder.RemovePet:
                     Utility.Debug.LogInfo("yzqData放生寵物"+ rolepetObj.AddRemovePetID);
                     var petRemove = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriaRomePet);
-                    GameManager.CustomeModule<PetStatusManager>().RemoveRolePet(rolepets, rolepetObj, petRemove);
+                     GameEntry. PetStatusManager.RemoveRolePet(rolepets, rolepetObj, petRemove);
                     break;
                 case RolePetDTO.RolePetOperationalOrder.AddPet:
-                    GameManager.CustomeModule<PetStatusManager>().InitPet(rolepetObj.AddRemovePetID, rolepetObj.AddPetName,rolepets);
+                     GameEntry. PetStatusManager.InitPet(rolepetObj.AddRemovePetID, rolepetObj.AddPetName,rolepets);
                     break;
                 default:
                     break;
@@ -66,7 +66,7 @@ namespace AscensionServer
             //        petIDList = Utility.Json.ToObject<Dictionary<int, int>>(rolePetTemp.PetIDDict);
             //        foreach (var petid in petIDList)
             //        {
-            //            NHCriteria nHCriteriapet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petid.Key);
+            //            NHCriteria nHCriteriapet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petid.Key);
             //            Pet petObj = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriapet);
             //            petlist.Add(petObj);
             //            nHCriteriasList.Add(nHCriteriapet);
@@ -79,7 +79,7 @@ namespace AscensionServer
             //        subResponseParameters.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(DODict));
             //        operationResponse.ReturnCode = (short)ReturnCode.Success;
             //    });
-            //    GameManager.ReferencePoolManager.Despawns(nHCriteriasList);
+            //    CosmosEntry.ReferencePoolManager.Despawns(nHCriteriasList);
             //    #endregion
             //}
             //else
@@ -99,7 +99,7 @@ namespace AscensionServer
             //            petIDList = Utility.Json.ToObject<Dictionary<int, int>>(RolePetList);
             //            foreach (var petid in petIDList)
             //            {
-            //                NHCriteria nHCriteriapet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petid.Key);
+            //                NHCriteria nHCriteriapet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petid.Key);
             //                Pet petObj = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriapet);
             //                petlist.Add(petObj);
             //                nHCriteriasList.Add(nHCriteriapet);
@@ -112,7 +112,7 @@ namespace AscensionServer
             //            subResponseParameters.Add((byte)ParameterCode.RolePet, Utility.Json.ToJson(DODict));
             //            operationResponse.ReturnCode = (short)ReturnCode.Success;
             //        });
-            //        GameManager.ReferencePoolManager.Despawns(nHCriteriasList);
+            //        CosmosEntry.ReferencePoolManager.Despawns(nHCriteriasList);
             //    }
             //    else
             //    {
@@ -125,8 +125,10 @@ namespace AscensionServer
             #endregion
             //}
             #endregion
-            GameManager.ReferencePoolManager.Despawns(nHCriteriaRolePet);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaRolePet);
             return operationResponse;
         }
     }
 }
+
+

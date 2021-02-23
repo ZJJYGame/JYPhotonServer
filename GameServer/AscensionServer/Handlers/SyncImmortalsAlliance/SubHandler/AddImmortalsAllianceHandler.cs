@@ -27,14 +27,14 @@ namespace AscensionServer
             var roleAllianceObj = Utility.Json.ToObject<RoleAlliance> 
                 (roleAllianceJson);
           
-            NHCriteria nHCriteriaAllianceName = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceName", alliancestatusObj.AllianceName);
+            NHCriteria nHCriteriaAllianceName = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceName", alliancestatusObj.AllianceName);
             var alliance = NHibernateQuerier.CriteriaSelectAsync<AllianceStatus>(nHCriteriaAllianceName).Result;
 
-            NHCriteria nHCriteriaAllianceMaster = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceMaster", alliancestatusObj.AllianceMaster);
+            NHCriteria nHCriteriaAllianceMaster = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceMaster", alliancestatusObj.AllianceMaster);
             var allianceMasterObj = NHibernateQuerier.CriteriaSelectAsync<AllianceStatus>(nHCriteriaAllianceMaster).Result;
 
             List<string> Alliancelist = new List<string>();
-            NHCriteria nHCriteriaroleAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleAllianceObj.RoleID);
+            NHCriteria nHCriteriaroleAlliance = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleAllianceObj.RoleID);
             var roleAllianceTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriaroleAlliance).Result;
 
             var roleAssetsTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAssets>(nHCriteriaroleAlliance).Result;
@@ -43,7 +43,7 @@ namespace AscensionServer
             if (alliance == null&& allianceMasterObj==null&& roleAssetsTemp.SpiritStonesLow>=100000)
             {
                 List<int> gangslist = new List<int>();
-                NHCriteria nHCriteriaAllianceList = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", 1);
+                NHCriteria nHCriteriaAllianceList = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", 1);
                 var allianceTemp = NHibernateQuerier.CriteriaSelectAsync<Alliances>(nHCriteriaAllianceList).Result;
                 gangslist = Utility.Json.ToObject<List<int>>(allianceTemp.AllianceList);
 
@@ -101,7 +101,7 @@ namespace AscensionServer
                 RedisHelper.Hash.HashSet("AllianceStatus", allianceslIstObj.ID.ToString(), allianceslIstObj);
                 RedisHelper.Hash.HashSet<RoleAssets>("RoleAssets", roleAllianceTemp.RoleID.ToString(), new RoleAssets() { RoleID = roleAssetsTemp.RoleID, SpiritStonesLow = roleAssetsTemp.SpiritStonesLow, XianYu = roleAssetsTemp.XianYu });
                 #endregion
-                GameManager.ReferencePoolManager.Despawns(nHCriteriaAllianceList, nHCriteriaAllianceName);
+                CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaAllianceList, nHCriteriaAllianceName);
             }
             else
             {
@@ -115,3 +115,5 @@ namespace AscensionServer
         }
     }
 }
+
+

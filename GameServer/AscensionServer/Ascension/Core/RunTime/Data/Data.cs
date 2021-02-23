@@ -10,3 +10,5 @@ namespace AscensionServer
         public abstract void SetData(object data);
     }
 }
+
+

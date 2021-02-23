@@ -37,7 +37,7 @@ namespace AscensionServer
                 //    if (currentDictObj.ResUnitDict.TryGetValue(occupiedUnitObj.ResID, out resourceUnitDTO))
                 //        resourceUnitDTO.Occupied = result;
                 //}
-                var levelmanager = GameManager.CustomeModule<LevelManager>();
+                var levelmanager = GameEntry.LevelManager;
                 OperationData operationData = new OperationData();
                 operationData.DataMessage = Utility.Json.ToJson(occupiedUnitObj);
                 //GameManager.CustomeModule<MapResourceManager>().OccupiedUnitSetCache.Clear();
@@ -51,3 +51,5 @@ namespace AscensionServer
         }
     }
 }
+
+

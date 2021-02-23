@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-    [CustomeModule]
-    public class ChatManager:Module<ChatManager>
+    [Module]
+    public class ChatManager:Module
     {
         public override void OnPreparatory()
         {
@@ -29,3 +29,5 @@ namespace AscensionServer
         }
     }
 }
+
+

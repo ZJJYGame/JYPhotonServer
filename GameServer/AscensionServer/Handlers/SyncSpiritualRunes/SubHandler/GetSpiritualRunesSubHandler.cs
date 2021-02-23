@@ -20,7 +20,7 @@ namespace AscensionServer
             var dict = operationRequest.Parameters;
             string spiritualrunesJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.JobSpiritualRunes));
             var spiritualrunesObj = Utility.Json.ToObject<SpiritualRunesDTO>(spiritualrunesJson);
-            NHCriteria nHCriteriaspiritualrunes = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", spiritualrunesObj.RoleID);
+            NHCriteria nHCriteriaspiritualrunes = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", spiritualrunesObj.RoleID);
             Utility.Debug.LogInfo("得到的制符配方");
             var spiritualrunestemp =NHibernateQuerier.CriteriaSelect<SpiritualRunes>(nHCriteriaspiritualrunes);
             if (spiritualrunestemp != null)
@@ -45,8 +45,10 @@ namespace AscensionServer
                 operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 subResponseParameters.Add((byte)ParameterCode.JobSpiritualRunes, Utility.Json.ToJson(new List<string>()));
             }
-            GameManager.ReferencePoolManager.Despawns(nHCriteriaspiritualrunes);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaspiritualrunes);
             return operationResponse;
         }
     }
 }
+
+

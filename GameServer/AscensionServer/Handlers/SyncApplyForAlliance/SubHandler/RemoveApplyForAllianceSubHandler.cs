@@ -25,7 +25,7 @@ namespace AscensionServer
             var allianceObj = Utility.Json.ToObject<AllianceMemberDTO>(allianceJson);
             List<int> roleidList = new List<int>();
             roleidList = allianceObj.ApplyforMember;
-            NHCriteria nHCriteriallianceMember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceObj.AllianceID);
+            NHCriteria nHCriteriallianceMember = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceObj.AllianceID);
             var alliancememberTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceMember>(nHCriteriallianceMember).Result;
 
             List<NHCriteria> NHCriterias = new List<NHCriteria>();
@@ -39,7 +39,7 @@ namespace AscensionServer
             for (int i = 0; i < roleidList.Count; i++)
             {
 
-                NHCriteria nHCriteriRoleAlliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleidList[i]);
+                NHCriteria nHCriteriRoleAlliance = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleidList[i]);
 
                 NHCriterias.Add(nHCriteriRoleAlliance);
                 var roleAllianceTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriRoleAlliance).Result;
@@ -65,8 +65,10 @@ namespace AscensionServer
             {
                 operationResponse.ReturnCode = (short)ReturnCode.Success;
             });
-            GameManager.ReferencePoolManager.Despawns(NHCriterias);
+            CosmosEntry.ReferencePoolManager.Despawns(NHCriterias);
             return operationResponse;
         }
     }
 }
+
+

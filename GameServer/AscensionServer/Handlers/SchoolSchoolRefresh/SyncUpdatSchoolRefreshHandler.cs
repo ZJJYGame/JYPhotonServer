@@ -22,7 +22,7 @@ namespace AscensionServer
                 ParameterCode.School));
             Utility.Debug.LogInfo("更新前的宗门信息");
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
-            NHCriteria nHCriteriaschool = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
+            NHCriteria nHCriteriaschool = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
             var schooltemp = NHibernateQuerier.CriteriaSelect<School>(nHCriteriaschool);
             if (schooltemp != null)
             {
@@ -42,8 +42,10 @@ namespace AscensionServer
                 }
             }
             Utility.Debug.LogInfo("更新后的宗门信息" + Utility.Json.ToJson(schooltemp));
-            GameManager.ReferencePoolManager.Despawns(nHCriteriaschool);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaschool);
             return operationResponse;
         }
     }
 }
+
+

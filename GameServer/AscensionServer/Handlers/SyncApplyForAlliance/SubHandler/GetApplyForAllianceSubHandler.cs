@@ -24,7 +24,7 @@ namespace AscensionServer
 
             List<ApplyForAllianceDTO> applyForAllianceList = new List<ApplyForAllianceDTO>();
             List<int> applyForList = new List<int>();
-            NHCriteria nHCriteriaalliancemember = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", alliancememberObj.AllianceID);
+            NHCriteria nHCriteriaalliancemember = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", alliancememberObj.AllianceID);
             var alliancememberTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceMember>(nHCriteriaalliancemember).Result;
             applyForList = Utility.Json.ToObject<List<int>>(alliancememberTemp.ApplyforMember);
             for (int i = 0; i < applyForList.Count; i++)
@@ -42,8 +42,10 @@ namespace AscensionServer
                 subResponseParameters.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(applyForAllianceList));
                 operationResponse.ReturnCode = (short)ReturnCode.Success;
             });
-            GameManager.ReferencePoolManager.Despawns(nHCriteriaalliancemember);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaalliancemember);
             return operationResponse;
         }
     }
 }
+
+

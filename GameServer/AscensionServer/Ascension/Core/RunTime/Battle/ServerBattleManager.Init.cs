@@ -19,35 +19,34 @@ namespace AscensionServer
     /// </summary>
     public partial class ServerBattleManager
     {
-
         /// <summary>
         ///  角色id 和对应的 房间数据对象  缓存数据  2020 11：30 09.36
         /// </summary>
-        public Dictionary<int, BattleInitDTO> _teamIdToBattleInitData = new Dictionary<int, BattleInitDTO>();
+        public Dictionary<int, BattleInitDTO> TeamIdToBattleInitData { get; set; } = new Dictionary<int, BattleInitDTO>();
         /// <summary>
         ///  角色id 和对应的 房间数据对象
         /// </summary>
-        public Dictionary<int, BattleInitDTO> _teamIdToBattleInit = new Dictionary<int, BattleInitDTO>();
+        public Dictionary<int, BattleInitDTO> TeamIdToBattleInit { get; set; } = new Dictionary<int, BattleInitDTO>();
         /// <summary>
         /// 房间id， 每回合战斗传输数据对象
         /// </summary>
-        public Dictionary<int, List<BattleTransferDTO>> _roomidToBattleTransfer = new Dictionary<int, List<BattleTransferDTO>>();
+        public Dictionary<int, List<BattleTransferDTO>> RoomidToBattleTransfer { get; set; } = new Dictionary<int, List<BattleTransferDTO>>();
         /// <summary>
         /// 房间id，对应每回合的倒计时     这个是应对 每回合的战斗
         /// </summary>
-        public Dictionary<int, TimerToManager> _roomidToTimer = new Dictionary<int, TimerToManager>();
+        public Dictionary<int, TimerToManager> RoomidToTimer { get; set; } = new Dictionary<int, TimerToManager>();
         /// <summary>
         /// 队伍id， 对应每个队伍的倒计时
         /// </summary>
-        public Dictionary<int, TimerToManager> _teamidToTimer = new Dictionary<int, TimerToManager>();
+        public Dictionary<int, TimerToManager> TeamidToTimer { get; set; } = new Dictionary<int, TimerToManager>();
         /// <summary>
         /// 回收房间
         /// </summary>
-        public List<int> _oldBattleList = new List<int>();
+        public List<int> OldBattleList { get; set; } = new List<int>();
         /// <summary>
         /// 收集每个回合的传输数据
         /// </summary>
-        public List<BattleTransferDTO> teamSet ;
+        public List<BattleTransferDTO> TeamSet { get; set; }
         /// <summary>
         ///玩家的行动目标  怪物的唯一id 对应全局id
         /// </summary>
@@ -59,36 +58,36 @@ namespace AscensionServer
         /// <summary>
         /// 代表的是倒计时  毫秒
         /// </summary>
-        public int RoleBattleTime = 10000;
+        public int RoleBattleTime { get; set; } = 10000;
 
         /// <summary>
         /// 记录单人每回合 房间id
         /// </summary>
-        public Queue<int> RecordRoomId = new System.Collections.Generic.Queue<int>();
+        public Queue<int> RecordRoomId { get; set; } = new System.Collections.Generic.Queue<int>();
         /// <summary>
         /// 记录队伍id
         /// </summary>
-        public Queue<int> RecordTeamId = new Queue<int>();
+        public Queue<int> RecordTeamId { get; set; } = new Queue<int>();
         /// <summary>
         /// 记录组队的时候房间id
         /// </summary>
-        public Queue<int> RecordTeamRooomId = new Queue<int>();
+        public Queue<int> RecordTeamRooomId { get; set; } = new Queue<int>();
         /// <summary>
         /// 队伍id 和 队伍成员id
         /// </summary>
-        public Dictionary<int, List<int>> _teamIdToMemberDict = new Dictionary<int, List<int>>();
+        public Dictionary<int, List<int>> TeamIdToMemberDict { get; set; } = new Dictionary<int, List<int>>();
         /// <summary>
         /// 队伍id 和 房间id
         /// </summary>
-        public Dictionary<int, int> _teamIdToRoomId = new Dictionary<int, int>();
+        public Dictionary<int, int> TeamIdToRoomId { get; set; } = new Dictionary<int, int>();
         /// <summary>
         /// 房间id 对应的每个回合的buff前
         /// </summary>
-        public  List<BattleBuffDTO> _buffToRoomIdBefore ;
+        public  List<BattleBuffDTO>BuffToRoomIdBefore { get; set; }
         /// <summary>
         /// 房间id 对应的每个回合的buff后
         /// </summary>
-        public List<BattleBuffDTO> _buffToRoomIdAfter;
+        public List<BattleBuffDTO> BuffToRoomIdAfter { get; set; }
         /// <summary>
         /// 映射  Msq
         /// </summary>
@@ -97,7 +96,7 @@ namespace AscensionServer
         /// <returns></returns>
         public T MsqInfo<T>(int roleId)
         {
-            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
+            NHCriteria nHCriteriaRoleID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
             return NHibernateQuerier.CriteriaSelect<T>(nHCriteriaRoleID);
         }
         /// <summary>
@@ -108,7 +107,7 @@ namespace AscensionServer
         /// <returns></returns>
         public T MsqInfoPet<T>(int petId,string petParams)
         {
-            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue(petParams, petId);
+            NHCriteria nHCriteriaRoleID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue(petParams, petId);
             return NHibernateQuerier.CriteriaSelect<T>(nHCriteriaRoleID);
         }
 
@@ -119,7 +118,7 @@ namespace AscensionServer
         /// <returns></returns>
         public TeamDTO IsTeamDto(int roleId)
         {
-            return GameManager.CustomeModule<ServerTeamManager>()._teamTOModel.Values.ToList().Find(x => x.TeamMembers.Find(q => q.RoleID == roleId) != null);
+            return GameEntry.ServerTeamManager.TeamTOModel.Values.ToList().Find(x => x.TeamMembers.Find(q => q.RoleID == roleId) != null);
         }
 
 
@@ -131,8 +130,8 @@ namespace AscensionServer
         /// <returns></returns>
         public BattleInitDTO BattleInitObject(int roleId)
         {
-            if (_teamIdToBattleInit.ContainsKey(roleId))
-                return _teamIdToBattleInit[roleId];
+            if (TeamIdToBattleInit.ContainsKey(roleId))
+                return TeamIdToBattleInit[roleId];
             return null;
         }
 
@@ -144,8 +143,8 @@ namespace AscensionServer
         /// <returns></returns>
         public BattleInitDTO BattleInitDataObject(int roleId)
         {
-            if (_teamIdToBattleInitData.ContainsKey(roleId))
-                return _teamIdToBattleInitData[roleId];
+            if (TeamIdToBattleInitData.ContainsKey(roleId))
+                return TeamIdToBattleInitData[roleId];
             return null;
         }
 
@@ -160,7 +159,7 @@ namespace AscensionServer
         public List<RoleBattleDataDTO> RoleInfo(int roleId)
         {
             List<RoleBattleDataDTO> roleData = new List<RoleBattleDataDTO>();
-            var team = GameManager.CustomeModule<ServerTeamManager>()._teamTOModel.Values.ToList().Find(x => x.TeamMembers.Find(q => q.RoleID == roleId) != null);
+            var team = GameEntry.ServerTeamManager.TeamTOModel.Values.ToList().Find(x => x.TeamMembers.Find(q => q.RoleID == roleId) != null);
             //当前 是不是组队
             if (team == null)
             {
@@ -279,7 +278,7 @@ namespace AscensionServer
         public List<PetBattleDataDTO> PetInfo(int roleId)
         {
             List <PetBattleDataDTO> petData = new List<PetBattleDataDTO>();
-            var team = GameManager.CustomeModule<ServerTeamManager>()._teamTOModel.Values.ToList().Find(x => x.TeamMembers.Find(q => q.RoleID == roleId) != null);
+            var team = GameEntry.ServerTeamManager.TeamTOModel.Values.ToList().Find(x => x.TeamMembers.Find(q => q.RoleID == roleId) != null);
             //先判断是否出战
             //Utility.Debug.LogInfo("宠物名字" + MsqInfo<RolePet>(roleId).PetIsBattle);
            
@@ -372,7 +371,7 @@ namespace AscensionServer
         public List<EnemyBattleDataDTO> EnemyInfo(List<EnemyBattleDataDTO> enemyId)
         {
             int enemyGlobleId = 10000000;
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MonsterDatas>>(out var monsterDict);
+            GameEntry.DataManager.TryGetValue<Dictionary<int, MonsterDatas>>(out var monsterDict);
             List<EnemyBattleDataDTO> enemyData = new List<EnemyBattleDataDTO>();
             for (int i = 0; i < enemyId.Count; i++)
             {
@@ -434,7 +433,7 @@ namespace AscensionServer
         {
             int enemyGlobleId = 10000000;
             List<BattleDataBase> allDataBase = new List<BattleDataBase>();
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, MonsterDatas>>(out var monsterDict);
+            GameEntry.DataManager.TryGetValue<Dictionary<int, MonsterDatas>>(out var monsterDict);
            
             if (IsTeamDto(roleId) == null)
             {
@@ -554,18 +553,18 @@ namespace AscensionServer
                 OperationData opData = new OperationData();
                 opData.DataMessage = InitServerToClient(roleId);
                 opData.OperationCode = (byte)OperationCode.SyncBattleMessageRole;
-                GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
+               GameEntry.RoleManager.SendMessage(roleId, opData);
             }
             else
             {
-                if (GameManager.CustomeModule<ServerTeamManager>()._teamTOModel.ContainsKey(IsTeamDto(roleId).TeamId))
+                if (GameEntry.ServerTeamManager.TeamTOModel.ContainsKey(IsTeamDto(roleId).TeamId))
                 {
-                    for (int ov = 0; ov < GameManager.CustomeModule<ServerTeamManager>()._teamTOModel[IsTeamDto(roleId).TeamId].TeamMembers.Count; ov++)
+                    for (int ov = 0; ov < GameEntry.ServerTeamManager.TeamTOModel[IsTeamDto(roleId).TeamId].TeamMembers.Count; ov++)
                     {
                         OperationData opData = new OperationData();
                         opData.DataMessage = InitServerToClient(roleId);
                         opData.OperationCode = (byte)OperationCode.SyncBattleMessageRole;
-                        GameManager.CustomeModule<RoleManager>().SendMessage(GameManager.CustomeModule<ServerTeamManager>()._teamTOModel[IsTeamDto(roleId).TeamId].TeamMembers[ov].RoleID, opData);
+                        GameEntry.RoleManager.SendMessage(GameEntry.ServerTeamManager.TeamTOModel[IsTeamDto(roleId).TeamId].TeamMembers[ov].RoleID, opData);
                     }
                 }
             }
@@ -579,7 +578,7 @@ namespace AscensionServer
         public Dictionary<byte,object> InitServerToClient(int roleId)
         {
             Dictionary<byte, object> subResponseParametersDict = new Dictionary<byte, object>();
-            subResponseParametersDict.Add((byte)ParameterCode.Role, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit[roleId]));
+            subResponseParametersDict.Add((byte)ParameterCode.Role, Utility.Json.ToJson(GameEntry.ServerBattleManager.TeamIdToBattleInit[roleId]));
             return subResponseParametersDict;
         }
 
@@ -591,12 +590,12 @@ namespace AscensionServer
         {
             ///返回给客户端
             Dictionary<byte, object> subResponseParametersDict = new Dictionary<byte, object>();
-            subResponseParametersDict.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>().teamSet));
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(GameEntry.ServerBattleManager.TeamSet));
             subResponseParametersDict.Add((byte)ParameterCode.RoleBattleCmd, (byte)BattleCmd.SkillInstruction);
             subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTimeStamp, Utility.Json.ToJson(Utility.Time.MillisecondTimeStamp()));
-            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTime, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>().RoleBattleTime));
-            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleBefore, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._buffToRoomIdBefore));
-            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleAfter, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>()._buffToRoomIdAfter));
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTime, Utility.Json.ToJson(GameEntry.ServerBattleManager.RoleBattleTime));
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleBefore, Utility.Json.ToJson(GameEntry.ServerBattleManager.BuffToRoomIdBefore));
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleAfter, Utility.Json.ToJson(GameEntry.ServerBattleManager.BuffToRoomIdAfter));
             return subResponseParametersDict;
         }
 
@@ -608,10 +607,10 @@ namespace AscensionServer
         {
             ///返回给客户端
             Dictionary<byte, object> subResponseParametersDict = new Dictionary<byte, object>();
-            subResponseParametersDict.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>().teamSet));
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(GameEntry.ServerBattleManager.TeamSet));
             subResponseParametersDict.Add((byte)ParameterCode.RoleBattleCmd, (byte)BattleCmd.SkillInstruction);
             subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTimeStamp, Utility.Json.ToJson(Utility.Time.MillisecondTimeStamp()));
-            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTime, Utility.Json.ToJson(GameManager.CustomeModule<ServerBattleManager>().RoleBattleTime));
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTime, Utility.Json.ToJson(GameEntry.ServerBattleManager.RoleBattleTime));
 
             return subResponseParametersDict;
         }
@@ -621,4 +620,6 @@ namespace AscensionServer
 
     }
 }
+
+
 

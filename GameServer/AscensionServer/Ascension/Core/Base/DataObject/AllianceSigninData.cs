@@ -17,3 +17,5 @@ namespace AscensionServer
         public int Alliance_Popularity { get; set; }
     }
 }
+
+

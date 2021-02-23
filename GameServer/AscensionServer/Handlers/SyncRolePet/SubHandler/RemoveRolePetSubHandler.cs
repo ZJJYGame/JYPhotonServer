@@ -25,7 +25,7 @@ namespace AscensionServer
 
 
             //Dictionary<int, int> rolepetList;
-            //NHCriteria nHCriteriarolepet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rpObj.RoleID);
+            //NHCriteria nHCriteriarolepet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rpObj.RoleID);
             //var rolepet = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriarolepet);
             //if (rolepet != null)
             //{
@@ -36,7 +36,7 @@ namespace AscensionServer
             //        //AscensionServer._Log.Info("删除宠物进来了》》》》》》》》》》》》》》》》》》》》》》"+ rolepetList.Count);
             //        if (rolepetList.ContainsKey(pObj.ID))
             //        {
-            //            NHCriteria nHCriteriapet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", pObj.ID);
+            //            NHCriteria nHCriteriapet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", pObj.ID);
             //            var pet = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriapet);
 
             //            if (pet != null)
@@ -45,7 +45,7 @@ namespace AscensionServer
             //                //AscensionServer._Log.Info("删除宠物成功》》》》》》》》》》》》》》》》》》》》》》" + pet);
             //            }
 
-            //            NHCriteria nHCriteriapetstatus = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", pObj.ID);
+            //            NHCriteria nHCriteriapetstatus = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", pObj.ID);
             //            var petstatus = NHibernateQuerier.CriteriaSelect<PetStatus>(nHCriteriapetstatus);
             //            if (petstatus != null)
             //            {
@@ -55,7 +55,7 @@ namespace AscensionServer
             //            rolepetList.Remove(pObj.ID);
             //            NHibernateQuerier.Update<RolePet>(new RolePet() { RoleID = rpObj.RoleID, PetIDDict = Utility.Json.ToJson(rolepetList) });
             //            operationResponse.ReturnCode = (short)ReturnCode.Success;
-            //            GameManager.ReferencePoolManager.Despawns(nHCriteriapet, nHCriteriapetstatus);
+            //            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriapet, nHCriteriapetstatus);
             //        }
             //        if (RedisHelper.Hash.HashExistAsync("RolePet", rpObj.RoleID.ToString()).Result)
             //        {
@@ -88,8 +88,10 @@ namespace AscensionServer
             //    else
             //        operationResponse.ReturnCode = (short)ReturnCode.Fail;
             //}
-            //GameManager.ReferencePoolManager.Despawns(nHCriteriarolepet);
+            //CosmosEntry.ReferencePoolManager.Despawns(nHCriteriarolepet);
             return operationResponse;
         }
     }
 }
+
+

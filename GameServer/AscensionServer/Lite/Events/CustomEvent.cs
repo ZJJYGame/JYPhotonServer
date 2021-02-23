@@ -1,4 +1,4 @@
-
+﻿
 namespace AscensionServer.Lite
 
 {
@@ -38,3 +38,4 @@ namespace AscensionServer.Lite
         public object Data { get; set; }
     }
 }
+

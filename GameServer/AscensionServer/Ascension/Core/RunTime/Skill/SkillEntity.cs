@@ -22,7 +22,7 @@ namespace AscensionServer
         C2SPlayer player;
         IDataVerifyHelper dataVerifier=new SkillDataVerifyHelper();
         protected SkillEntity(){}
-        protected SkillEntity(int id) : base(id){}
+        protected SkillEntity(int id) { base.Id = id; }
         public virtual void OnCastSkill(IDataContract data)
         {
             var skill = data as C2SSkillInput;
@@ -51,3 +51,5 @@ namespace AscensionServer
         public virtual void OnRefresh() { }
     }
 }
+
+

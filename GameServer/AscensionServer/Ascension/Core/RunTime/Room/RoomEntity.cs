@@ -114,7 +114,7 @@ namespace AscensionServer
         public static RoomEntity Create(params RoleEntity [] roles)
         {
             var length = roles.Length;
-            var re = GameManager.ReferencePoolManager.Spawn<RoomEntity>();
+            var re = CosmosEntry.ReferencePoolManager.Spawn<RoomEntity>();
             for (int i = 0; i < length; i++)
             {
                 re.TryAdd(roles[i].RoleId, roles[i]);
@@ -133,7 +133,7 @@ namespace AscensionServer
             var length = roleIds.Length;
             for (int i = 0; i < length; i++)
             {
-                var result = GameManager.CustomeModule<RoleManager>().TryGetValue(roleIds[i], out var  role);
+                var result = GameEntry. RoleManager.TryGetValue(roleIds[i], out var  role);
                 if (result)
                     roleSet.Add(role);
                 else
@@ -162,3 +162,5 @@ namespace AscensionServer
         #endregion
     }
 }
+
+

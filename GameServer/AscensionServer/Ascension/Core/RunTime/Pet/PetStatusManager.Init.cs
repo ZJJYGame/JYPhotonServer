@@ -65,10 +65,10 @@ namespace AscensionServer
                 }
                 else
                 {
-                    NHCriteria nHCriteriaPet = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", item.Key);
+                    NHCriteria nHCriteriaPet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", item.Key);
                     nHCriteriaList.Add(nHCriteriaPet);
                     var petTemp = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriaPet);
-                    var petDtoTemp = GameManager.ReferencePoolManager.Spawn<PetDTO>();
+                    var petDtoTemp = CosmosEntry.ReferencePoolManager.Spawn<PetDTO>();
 
                     petDtoTemp.ID = petTemp.ID;
                     petDtoTemp.PetExp = petTemp.PetExp;
@@ -120,7 +120,7 @@ namespace AscensionServer
         /// </summary>
         public void GetPetAllCompeleteStatus(int petid, NHCriteria nHCriteria, int roleid, NHCriteria nHCriteriapet)
         {
-            PetCompleteDTO petCompleteDTO = GameManager.ReferencePoolManager.Spawn<PetCompleteDTO>();
+            PetCompleteDTO petCompleteDTO = CosmosEntry.ReferencePoolManager.Spawn<PetCompleteDTO>();
             if (RedisHelper.KeyExistsAsync(RedisKeyDefine._PetPerfix + petid).Result)
             {
                 var petObj = RedisHelper.Hash.HashGet<PetDTO>(RedisKeyDefine._PetPerfix, petid.ToString());
@@ -129,7 +129,7 @@ namespace AscensionServer
             else
             {
                 Pet pet = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteria);
-                var petObj = GameManager.ReferencePoolManager.Spawn<PetDTO>();
+                var petObj = CosmosEntry.ReferencePoolManager.Spawn<PetDTO>();
                 petObj.ID = pet.ID;
                 petObj.PetExp = pet.PetExp;
                 petObj.DemonicSoul = Utility.Json.ToObject<Dictionary<int, List<int>>>(pet.DemonicSoul);
@@ -146,7 +146,7 @@ namespace AscensionServer
             else
             {
                 PetAbilityPoint petAbilityPoint = NHibernateQuerier.CriteriaSelect<PetAbilityPoint>(nHCriteria);
-                var petAbilityPointObj = GameManager.ReferencePoolManager.Spawn<PetAbilityPointDTO>();
+                var petAbilityPointObj = CosmosEntry.ReferencePoolManager.Spawn<PetAbilityPointDTO>();
                 petAbilityPointObj.ID = petAbilityPoint.ID;
                 petAbilityPointObj.IsUnlockSlnThree = petAbilityPoint.IsUnlockSlnThree;
                 petAbilityPointObj.SlnNow = petAbilityPoint.SlnNow;
@@ -166,7 +166,7 @@ namespace AscensionServer
             else
             {
                 PetAptitude petAptitude = NHibernateQuerier.CriteriaSelect<PetAptitude>(nHCriteriapet);
-                var petAptitudeObj = GameManager.ReferencePoolManager.Spawn<PetAptitudeDTO>();
+                var petAptitudeObj = CosmosEntry.ReferencePoolManager.Spawn<PetAptitudeDTO>();
                 petAptitudeObj.PetID = petAptitude.PetID;
                 petAptitudeObj.AttackphysicalAptitude = petAptitude.AttackphysicalAptitude;
                 petAptitudeObj.AttackpowerAptitude = petAptitude.AttackpowerAptitude;
@@ -192,7 +192,7 @@ namespace AscensionServer
             else
             {
                 PetStatus petAptitude = NHibernateQuerier.CriteriaSelect<PetStatus>(nHCriteriapet);
-                var petStatusObj = GameManager.ReferencePoolManager.Spawn<PetStatusDTO>();
+                var petStatusObj = CosmosEntry.ReferencePoolManager.Spawn<PetStatusDTO>();
                 var petAptitudeJson = Utility.Json.ToJson(petAptitude);
                 petStatusObj = Utility.Json.ToObject<PetStatusDTO>(petAptitudeJson);
                 petCompleteDTO.PetStatusDTO = petStatusObj;
@@ -210,15 +210,15 @@ namespace AscensionServer
         #region 洗练宠物
         public void ResetPetAllStatus(int petID, string petName, RolePet rolePet)
         {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetAptitudeData>>(out var petLevelDataDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, PetAptitudeData>>(out var petLevelDataDict);
             #region Pet
-            var pet = GameManager.ReferencePoolManager.Spawn<Pet>();
+            var pet = CosmosEntry.ReferencePoolManager.Spawn<Pet>();
             pet.PetID = petID;
             pet.PetName = petName;
             pet.PetLevel = 1;
             pet.PetSkillArray = Utility.Json.ToJson(RestPetSkill(petLevelDataDict[petID].SkillArray));
             pet = NHibernateQuerier.Insert<Pet>(pet);
-            var petObj = GameManager.ReferencePoolManager.Spawn<PetDTO>();
+            var petObj = CosmosEntry.ReferencePoolManager.Spawn<PetDTO>();
             petObj.ID = pet.ID;
             petObj.PetExp = pet.PetExp;
             petObj.DemonicSoul = Utility.Json.ToObject<Dictionary<int, List<int>>>(pet.DemonicSoul);
@@ -229,8 +229,8 @@ namespace AscensionServer
             RedisHelper.Hash.HashSetAsync<PetDTO>(RedisKeyDefine._PetPerfix, pet.ID.ToString(), petObj);
             #endregion
             #region PetAbilityPointDTO
-            var petAbilityPointObj = GameManager.ReferencePoolManager.Spawn<PetAbilityPointDTO>();
-            var petAbilityPoint = GameManager.ReferencePoolManager.Spawn<PetAbilityPoint>();
+            var petAbilityPointObj = CosmosEntry.ReferencePoolManager.Spawn<PetAbilityPointDTO>();
+            var petAbilityPoint = CosmosEntry.ReferencePoolManager.Spawn<PetAbilityPoint>();
             petAbilityPoint.ID = pet.ID;
             petAbilityPoint.AbilityPointSln = Utility.Json.ToJson(petAbilityPointObj.AbilityPointSln);
             Utility.Debug.LogInfo("yzqData宠物加点方案" + Utility.Json.ToJson(petAbilityPointObj.AbilityPointSln));
@@ -239,10 +239,10 @@ namespace AscensionServer
             RedisHelper.Hash.HashSetAsync<PetAbilityPointDTO>(RedisKeyDefine._PetAbilityPointPerfix, pet.ID.ToString(), petAbilityPointObj);
             #endregion
             #region PetAptitudeDTO
-            var petAptitude = GameManager.ReferencePoolManager.Spawn<PetAptitude>();
+            var petAptitude = CosmosEntry.ReferencePoolManager.Spawn<PetAptitude>();
             ResetPetAptitude(petID, out petAptitude);
             petAptitude.PetID = pet.ID;
-            var petAptitudeObj = GameManager.ReferencePoolManager.Spawn<PetAptitudeDTO>();
+            var petAptitudeObj = CosmosEntry.ReferencePoolManager.Spawn<PetAptitudeDTO>();
             petAptitudeObj.PetID = petAptitude.PetID;
             petAptitudeObj.AttackphysicalAptitude = petAptitude.AttackphysicalAptitude;
             petAptitudeObj.AttackpowerAptitude = petAptitude.AttackpowerAptitude;
@@ -258,7 +258,7 @@ namespace AscensionServer
             NHibernateQuerier.SaveOrUpdateAsync<PetAptitude>(petAptitude);
             #endregion
             #region PetStatusDTO
-            var petStatus = GameManager.ReferencePoolManager.Spawn<PetStatus>();
+            var petStatus = CosmosEntry.ReferencePoolManager.Spawn<PetStatus>();
             ResetPetStatus(pet, petAptitude, out petStatus);
             petStatus.PetID = pet.ID;
             RedisHelper.Hash.HashSetAsync<PetStatus>(RedisKeyDefine._PetStatusPerfix, pet.ID.ToString(), petStatus);
@@ -270,7 +270,7 @@ namespace AscensionServer
             petDict.Add(pet.ID, pet.PetID);
             rolePet.PetIDDict = Utility.Json.ToJson(petDict);
             NHibernateQuerier.SaveOrUpdateAsync<RolePet>(rolePet);
-            var RolepetObj = GameManager.ReferencePoolManager.Spawn<RolePetDTO>();
+            var RolepetObj = CosmosEntry.ReferencePoolManager.Spawn<RolePetDTO>();
             RolepetObj.RoleID = rolePet.RoleID;
             RolepetObj.PetIDDict = petDict;
             RolepetObj.PetIsBattle = rolePet.PetIsBattle;
@@ -278,7 +278,7 @@ namespace AscensionServer
             #endregion
 
             S2CRoleAddPetSuccess(rolePet.RoleID);
-            GameManager.ReferencePoolManager.Despawns(pet, petStatus, petAptitude, petAbilityPoint, RolepetObj, petAptitudeObj, petAbilityPointObj);
+            CosmosEntry.ReferencePoolManager.Despawns(pet, petStatus, petAptitude, petAbilityPoint, RolepetObj, petAptitudeObj, petAbilityPointObj);
         }
         #endregion
 
@@ -394,11 +394,11 @@ namespace AscensionServer
         /// <param name="pet"></param>
         public void PetCultivate(int drugID, NHCriteria nHCriteria, Pet pet, PetCompleteDTO petCompleteDTO)
         {
-            var ringObj = GameManager.ReferencePoolManager.Spawn<RingDTO>();
+            var ringObj = CosmosEntry.ReferencePoolManager.Spawn<RingDTO>();
             ringObj.RingItems = new Dictionary<int, RingItemsDTO>();
             ringObj.RingItems.Add(drugID, new RingItemsDTO());
             var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteria);
-            var nHCriteriaRingID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
+            var nHCriteriaRingID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
             if (InventoryManager.VerifyIsExist(drugID, nHCriteriaRingID))
             {
                 if (VerifyDrugEffect(drugID, pet, petCompleteDTO)) { }
@@ -413,7 +413,7 @@ namespace AscensionServer
         /// </summary>
         public bool VerifyDrugEffect(int drugid, Pet pet, PetCompleteDTO petCompleteDTO)
         {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, DrugData>>(out var DrugDataDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, DrugData>>(out var DrugDataDict);
             if (DrugDataDict.TryGetValue(InventoryManager.ConvertInt32(drugid), out var drugDatatemp))
             {
                 if (drugDatatemp.Drug_Type == DrugType.PetExp)
@@ -444,7 +444,7 @@ namespace AscensionServer
         /// <param name="pet"></param>
         public async void PetExpDrug(DrugData drugData, int itemid, Pet pet, PetCompleteDTO petCompleteDTO)
         {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
 
             var petDrugRefreshJson = RedisHelper.String.StringGetAsync(RedisKeyDefine._PetDrugRefreshPostfix + pet.ID.ToString()).Result;
             PetDrugRefreshDTO petDrugRefreshDTO = new PetDrugRefreshDTO();
@@ -535,7 +535,7 @@ namespace AscensionServer
         public async void PetAtitudeDrug(DrugData drugData, int itemid, Pet pet, PetCompleteDTO petCompleteDTO)
         {
             var petAptitude = await RedisHelper.Hash.HashGetAsync<PetAptitudeDTO>(RedisKeyDefine._PetAptitudePerfix, pet.ID.ToString());
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
             if (petAptitude.PetAptitudeDrug.TryGetValue(drugData.Drug_ID, out var num))
             {
                 if (num >= 10)
@@ -620,13 +620,13 @@ namespace AscensionServer
         #region 宠物学习技能
         public async void PetStudySkill(int bookid, NHCriteria nHCriteria, Pet pet, PetCompleteDTO petCompleteDTO)
         {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetSkillBookData>>(out var petSkillBookDataDict);
-            var ringObj = GameManager.ReferencePoolManager.Spawn<RingDTO>();
+            GameEntry. DataManager.TryGetValue<Dictionary<int, PetSkillBookData>>(out var petSkillBookDataDict);
+            var ringObj = CosmosEntry.ReferencePoolManager.Spawn<RingDTO>();
             ringObj.RingItems = new Dictionary<int, RingItemsDTO>();
             ringObj.RingItems.Add(bookid, new RingItemsDTO());
             var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteria);
             var skillList = Utility.Json.ToObject<List<int>>(pet.PetSkillArray);
-            var nHCriteriaRingID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
+            var nHCriteriaRingID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
             Utility.Debug.LogInfo("yzqData学习技能");
             if (InventoryManager.VerifyIsExist(bookid, nHCriteriaRingID))
             {
@@ -701,9 +701,9 @@ namespace AscensionServer
 
         public void AddDemonicSoul(int soulid, out List<int> getSkillList)
         {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, DemonicSoulData>>(out var DemonicSoulDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, DemonicSoulData>>(out var DemonicSoulDict);
 
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, DemonicSoulSkillPool>>(out var DemonicSoulSkillPoolDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, DemonicSoulSkillPool>>(out var DemonicSoulSkillPoolDict);
 
             var skillPoolList = DemonicSoulDict[soulid].DemonicSoulSkill;
             Random random = new Random();
@@ -797,7 +797,7 @@ namespace AscensionServer
 
         public async void PetEvolution(PetCompleteDTO petCompleteDTO, Pet pet, int itemid, NHCriteria nHCriteriarole)
         {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
             var demonicSoul = NHibernateQuerier.CriteriaSelectAsync<DemonicSoul>(nHCriteriarole).Result;
             var roleDemonic = Utility.Json.ToObject<Dictionary<int, DemonicSoulEntity>>(demonicSoul.DemonicSouls);
             if (roleDemonic.ContainsKey(itemid))
@@ -856,7 +856,7 @@ namespace AscensionServer
                         demonicSoulDTO.RoleID = demonicSoul.RoleID;
                         demonicSoulDTO.DemonicSouls = roleDemonic;
                         demonicSoulDTO.OperateType = DemonicSoulOperateType.Get;
-                        GameManager.CustomeModule<DemonicSoulManager>().S2CDemonicalMessage(petCompleteDTO.RoleID, Utility.Json.ToJson(demonicSoulDTO), ReturnCode.Success);
+                        GameEntry. DemonicSoulManager.S2CDemonicalMessage(petCompleteDTO.RoleID, Utility.Json.ToJson(demonicSoulDTO), ReturnCode.Success);
 
                     }
                     else
@@ -878,16 +878,16 @@ namespace AscensionServer
         #region 宠物洗练
         public async void PetStatusRestoreDefault(int itemid,int roleid,PetCompleteDTO petCompleteDTO,Pet pet,NHCriteria nHCriteria)
         {
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, PetAptitudeData>>(out var petLevelDataDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, PetAptitudeData>>(out var petLevelDataDict);
             var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteria);
-            var nHCriteriaRingID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
+            var nHCriteriaRingID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
             if (!InventoryManager.VerifyIsExist(itemid, nHCriteriaRingID))
             {
                 //发送失败
                 return;
             }
             //TODO判断物品是否为金柳露
-            var petObj = GameManager.ReferencePoolManager.Spawn<PetDTO>();
+            var petObj = CosmosEntry.ReferencePoolManager.Spawn<PetDTO>();
             petObj.PetLevel = 1;
             petObj.PetExp = 0;
             petObj.ID = pet.ID;
@@ -902,15 +902,15 @@ namespace AscensionServer
             pet.PetSkillArray = Utility.Json.ToJson(petObj.PetSkillArray);
             await NHibernateQuerier.UpdateAsync(pet);
 
-            var petAbitilyObj= GameManager.ReferencePoolManager.Spawn<PetAbilityPointDTO>();
+            var petAbitilyObj= CosmosEntry.ReferencePoolManager.Spawn<PetAbilityPointDTO>();
             petAbitilyObj.ID = pet.ID;
             await RedisHelper.Hash.HashSetAsync<PetAbilityPointDTO>(RedisKeyDefine._PetAbilityPointPerfix, petObj.ID.ToString(), petAbitilyObj);
-            var petAbitily= GameManager.ReferencePoolManager.Spawn<PetAbilityPoint>();
+            var petAbitily= CosmosEntry.ReferencePoolManager.Spawn<PetAbilityPoint>();
             petAbitily.ID = pet.ID;
             await NHibernateQuerier.UpdateAsync(petAbitily);
 
-            var petAptitudeObj= GameManager.ReferencePoolManager.Spawn<PetAptitudeDTO>();
-            var petAptitude = GameManager.ReferencePoolManager.Spawn<PetAptitude>();
+            var petAptitudeObj= CosmosEntry.ReferencePoolManager.Spawn<PetAptitudeDTO>();
+            var petAptitude = CosmosEntry.ReferencePoolManager.Spawn<PetAptitude>();
             ResetPetAptitude(pet.PetID,out petAptitude);
             petAptitude.PetID = pet.ID;
             petAptitudeObj =AssignSameFieldValue(petAptitudeObj, petAptitude);
@@ -918,8 +918,8 @@ namespace AscensionServer
             await RedisHelper.Hash.HashSetAsync<PetAptitudeDTO>(RedisKeyDefine._PetAptitudePerfix, petObj.ID.ToString(), petAptitudeObj);
             await NHibernateQuerier.UpdateAsync(petAptitude);
 
-            var petstatusObj = GameManager.ReferencePoolManager.Spawn<PetStatusDTO>();
-            var petstatus = GameManager.ReferencePoolManager.Spawn<PetStatus>();
+            var petstatusObj = CosmosEntry.ReferencePoolManager.Spawn<PetStatusDTO>();
+            var petstatus = CosmosEntry.ReferencePoolManager.Spawn<PetStatus>();
             ResetPetStatus(pet, petAptitude,out petstatus);
             petstatus.PetID = pet.ID;
             petstatusObj = Utility.Assembly.AssignSameFieldValue<PetStatus, PetStatusDTO>(petstatus, petstatusObj);
@@ -936,3 +936,5 @@ namespace AscensionServer
         #endregion
     }
 }
+
+

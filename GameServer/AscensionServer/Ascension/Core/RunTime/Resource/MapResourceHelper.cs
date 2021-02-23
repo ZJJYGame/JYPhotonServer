@@ -18,7 +18,7 @@ namespace AscensionServer
             = new Dictionary<int, S2CMapResource>();
         public void LoadMapResource()
         {
-            var hasData = GameManager.CustomeModule<DataManager>().TryGetValue<MapResourceData>(out var mapResourceData);
+            var hasData = GameEntry. DataManager.TryGetValue<MapResourceData>(out var mapResourceData);
             if (hasData)
             {
                 var resDict = mapResourceData.FixFieldResourceDict;
@@ -85,7 +85,7 @@ namespace AscensionServer
                 opData.DataMessage = Utility.Json.ToJson(dict);
                 opData.OperationCode = (byte)OperationCode.RefreshSkillLayout;
                 Utility.Debug.LogInfo("yzqData发送技能布局" + Utility.Json.ToJson(dict));
-                GameManager.CustomeModule<RoleManager>().SendMessage(roleEntity.RoleId, operationData);
+                 GameEntry.RoleManager.SendMessage(roleEntity.RoleId, operationData);
             }
         }
 
@@ -108,7 +108,7 @@ namespace AscensionServer
                     if (currentDictObj.ResUnitDict.TryGetValue(occupiedUnitObj.ResID, out resourceUnitDTO))
                         resourceUnitDTO.Occupied = result;
                 }
-                var levelmanager = GameManager.CustomeModule<LevelManager>();
+                var levelmanager = GameEntry.LevelManager;
                 OperationData operationData = new OperationData();
                 operationData.DataMessage = Utility.Json.ToJson(occupiedUnitObj);
                 //GameManager.CustomeModule<MapResourceManager>().OccupiedUnitSetCache.Clear();
@@ -120,3 +120,5 @@ namespace AscensionServer
         }
     }
 }
+
+

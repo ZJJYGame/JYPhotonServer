@@ -12,8 +12,8 @@ namespace AscensionServer
     /// <summary>
     /// 没统一的服务器战斗功能
     /// </summary>
-    [CustomeModule]
-    public partial class ServerBattleManager : Module<ServerBattleManager>
+    [Module]
+    public partial class ServerBattleManager : Module,IServerBattleManager
     {
         /*
          * 
@@ -26,17 +26,17 @@ namespace AscensionServer
         /// <param name="roleId"></param>
         public void BattleClear(int roleId)
         {
-            teamSet = new List<BattleTransferDTO>();
-            _buffToRoomIdBefore = new List<BattleBuffDTO>();
-            _buffToRoomIdAfter = new List<BattleBuffDTO>();
-            if (_teamidToTimer.ContainsKey(IsTeamDto(roleId).TeamId))
-                _teamidToTimer.Remove(IsTeamDto(roleId).TeamId);
-            if (_teamIdToMemberDict.ContainsKey(IsTeamDto(roleId).TeamId))
-                _teamIdToMemberDict.Remove(IsTeamDto(roleId).TeamId);
+            TeamSet = new List<BattleTransferDTO>();
+            BuffToRoomIdBefore = new List<BattleBuffDTO>();
+            BuffToRoomIdAfter = new List<BattleBuffDTO>();
+            if (TeamidToTimer.ContainsKey(IsTeamDto(roleId).TeamId))
+                TeamidToTimer.Remove(IsTeamDto(roleId).TeamId);
+            if (TeamIdToMemberDict.ContainsKey(IsTeamDto(roleId).TeamId))
+                TeamIdToMemberDict.Remove(IsTeamDto(roleId).TeamId);
             TargetID.Clear();
-            teamSet.Clear();
-            _buffToRoomIdBefore.Clear();
-            _buffToRoomIdAfter.Clear();
+            TeamSet.Clear();
+            BuffToRoomIdBefore.Clear();
+            BuffToRoomIdAfter.Clear();
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace AscensionServer
         /// </summary>
         public void EntryBattle(BattleInitDTO battleInitDTO)
         {
-            var team = GameManager.CustomeModule<ServerTeamManager>()._teamTOModel.Values.ToList().Find(x => x.TeamMembers.Find(q => q.RoleID == battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID) != null);
+            var team =GameEntry.ServerTeamManager.TeamTOModel.Values.ToList().Find(x => x.TeamMembers.Find(q => q.RoleID == battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID) != null);
             if (team != null && team.LeaderId != battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID)
             {
                 Utility.Debug.LogInfo("有自己的队伍,但不是队长！！");
@@ -52,7 +52,7 @@ namespace AscensionServer
             }
 
             BattleInitDTO battleInit;
-            if (_oldBattleList.Count > 0)
+            if (OldBattleList.Count > 0)
             {
                 //int roomid = _oldBattleList[0];
                 //battleInit = _teamIdToBattleInit[roomid];
@@ -70,10 +70,10 @@ namespace AscensionServer
                 battleInit.maxRoundCount = battleInitDTO.maxRoundCount;
                 battleInit.battleUnits = AllBattleDataDTOsInfo(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, battleInitDTO);
                 //battleInit.bufferUnits = new List<BufferBattleDataDTO>();
-                _teamIdToBattleInit.Add(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, battleInit);
-                _teamIdToBattleInitData.Add(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, battleInit);
-                _roomidToBattleTransfer.Add(battleInit.RoomId, new List<BattleTransferDTO>());
-                _roomidToTimer.Add(battleInit.RoomId, new TimerToManager(RoleBattleTime));
+                TeamIdToBattleInit.Add(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, battleInit);
+                TeamIdToBattleInitData.Add(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, battleInit);
+                RoomidToBattleTransfer.Add(battleInit.RoomId, new List<BattleTransferDTO>());
+                RoomidToTimer.Add(battleInit.RoomId, new TimerToManager(RoleBattleTime));
             }
             InitBattle(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);
             BattleClear(battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID);
@@ -90,27 +90,27 @@ namespace AscensionServer
                 OperationData opData = new OperationData();
                 opData.DataMessage = roleId + "=>个人服务器  准备完成， over！";
                 opData.OperationCode = (byte)OperationCode.SyncBattleMessagePrepare;
-                GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
+                GameEntry.RoleManager.SendMessage(roleId, opData);
             }
             else
             {
                 //判断当前队伍
-                if (_teamidToTimer.ContainsKey(IsTeamDto(roleId).TeamId))
+                if (TeamidToTimer.ContainsKey(IsTeamDto(roleId).TeamId))
                 {
-                    _teamIdToMemberDict[IsTeamDto(roleId).TeamId].Add(roleId);
+                    TeamIdToMemberDict[IsTeamDto(roleId).TeamId].Add(roleId);
                     return;
                 }
                 
-                if (GameManager.CustomeModule<ServerBattleManager>().RecordTeamId.Contains(IsTeamDto(roleId).TeamId))
-                    GameManager.CustomeModule<ServerBattleManager>().RecordTeamId.ToList().Remove(IsTeamDto(roleId).TeamId);
-                 GameManager.CustomeModule<ServerBattleManager>().RecordTeamId.Enqueue(IsTeamDto(roleId).TeamId);
-                _teamidToTimer.Add(IsTeamDto(roleId).TeamId, new TimerToManager(6000));
+                if ( RecordTeamId.Contains(IsTeamDto(roleId).TeamId))
+                     RecordTeamId.ToList().Remove(IsTeamDto(roleId).TeamId);
+                 RecordTeamId.Enqueue(IsTeamDto(roleId).TeamId);
+                TeamidToTimer.Add(IsTeamDto(roleId).TeamId, new TimerToManager(6000));
                 List<int> memberSet = new List<int>();
                 memberSet.Add(roleId);
-                _teamIdToMemberDict.Add(IsTeamDto(roleId).TeamId, memberSet);
-                GameManager.CustomeModule<ServerBattleManager>().TimestampBattlePrepare(IsTeamDto(roleId).TeamId);
-                if (_roomidToBattleTransfer.ContainsKey(roomId))
-                    _roomidToBattleTransfer[roomId] = new List<BattleTransferDTO>();
+                TeamIdToMemberDict.Add(IsTeamDto(roleId).TeamId, memberSet);
+                 TimestampBattlePrepare(IsTeamDto(roleId).TeamId);
+                if (RoomidToBattleTransfer.ContainsKey(roomId))
+                    RoomidToBattleTransfer[roomId] = new List<BattleTransferDTO>();
             }
         }
 
@@ -126,13 +126,13 @@ namespace AscensionServer
         {
             //Utility.Debug.LogInfo("battleCmd == >>>" + battleTransferDTOs.BattleCmd);
             TargetID.Clear();
-            teamSet.Clear();
-            _buffToRoomIdBefore.Clear();
-            _buffToRoomIdAfter.Clear();
+            TeamSet.Clear();
+            BuffToRoomIdBefore.Clear();
+            BuffToRoomIdAfter.Clear();
             isRunAway = false;
             isPetRunAway = false;
             tempSelect = 0;
-            if (!_roomidToBattleTransfer.ContainsKey(roomId))
+            if (!RoomidToBattleTransfer.ContainsKey(roomId))
                 return;
 
             if (IsTeamDto(roleId) == null)
@@ -237,15 +237,15 @@ namespace AscensionServer
             }
             else
             {
-                if (_roomidToBattleTransfer.ContainsKey(roomId))
-                    _roomidToBattleTransfer[roomId].Add(battleTransferDTOs);
-                if (!GameManager.CustomeModule<ServerBattleManager>().RecordTeamRooomId.Contains(roomId))
+                if (RoomidToBattleTransfer.ContainsKey(roomId))
+                    RoomidToBattleTransfer[roomId].Add(battleTransferDTOs);
+                if (!RecordTeamRooomId.Contains(roomId))
                 {
-                    if (!_teamIdToRoomId.ContainsKey(IsTeamDto(roleId).TeamId))
-                        _teamIdToRoomId.Add(IsTeamDto(roleId).TeamId, roomId);
-                    GameManager.CustomeModule<ServerBattleManager>().RecordTeamRooomId.Enqueue(roomId);
+                    if (!TeamIdToRoomId.ContainsKey(IsTeamDto(roleId).TeamId))
+                        TeamIdToRoomId.Add(IsTeamDto(roleId).TeamId, roomId);
+                    RecordTeamRooomId.Enqueue(roomId);
                 }
-                Utility.Debug.LogInfo("老陆 ，开始战斗的时候收集客户端一个请求"+ _roomidToBattleTransfer[roomId].Count);
+                Utility.Debug.LogInfo("老陆 ，开始战斗的时候收集客户端一个请求"+ RoomidToBattleTransfer[roomId].Count);
             }
         }
 
@@ -254,8 +254,8 @@ namespace AscensionServer
         /// </summary>
         public void BattleEnd(int RoomId)
         {
-            var tempRoleId = GameManager.CustomeModule<ServerBattleManager>()._teamIdToBattleInit.FirstOrDefault(t => t.Value.RoomId == RoomId).Key;
-            var roleStatusSever = _teamIdToBattleInit[tempRoleId].playerUnits[0].RoleStatusDTO;
+            var tempRoleId =  TeamIdToBattleInit.FirstOrDefault(t => t.Value.RoomId == RoomId).Key;
+            var roleStatusSever = TeamIdToBattleInit[tempRoleId].playerUnits[0].RoleStatusDTO;
             PlayerBattleEndInfo(tempRoleId, roleStatusSever);
         }
 
@@ -328,3 +328,5 @@ namespace AscensionServer
 
     }
 }
+
+

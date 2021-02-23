@@ -18,3 +18,5 @@ public   class RoleTaskProgressMap:ClassMap<RoleTaskProgress>
         }
     }
 }
+
+

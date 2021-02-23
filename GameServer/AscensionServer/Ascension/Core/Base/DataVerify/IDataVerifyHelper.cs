@@ -21,3 +21,5 @@ namespace AscensionServer
         bool VerifyData(IDataContract data);
     }
 }
+
+

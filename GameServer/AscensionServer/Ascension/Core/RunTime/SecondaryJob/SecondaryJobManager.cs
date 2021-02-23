@@ -10,11 +10,13 @@ using RedisDotNet;
 
 namespace AscensionServer
 {
-    [CustomeModule]
-    public partial class SecondaryJobManager : Module<PetStatusManager>
+    [Module]
+    public partial class SecondaryJobManager : Module,ISecondaryJobManager
     {
 
 
 
     }
 }
+
+

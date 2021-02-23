@@ -20,7 +20,7 @@ namespace AscensionServer
             var teamData = Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role) as string;
             Utility.Debug.LogInfo(">>>>>创建队伍" + teamData + ">>>>>>>>>>>>>");
             var RoleObj = Utility.Json.ToObject<RoleDTO>(teamData);
-            NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", RoleObj.RoleID);
+            NHCriteria nHCriteriaRoleID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", RoleObj.RoleID);
             bool exist = NHibernateQuerier.Verify<RoleRing>(nHCriteriaRoleID);
   
             if (exist)
@@ -28,32 +28,32 @@ namespace AscensionServer
                 switch (RoleObj.teamInstructions)
                 {
                     case TeamInstructions.Init:
-                        GameManager.CustomeModule<ServerTeamManager>().ServerToClientInit(RoleObj.RoleID);
+                       GameEntry.ServerTeamManager.ServerToClientInit(RoleObj.RoleID);
                         break;
                     case TeamInstructions.CreateTeam:
-                        if (!GameManager.CustomeModule<ServerTeamManager>()._playerIdToTeamIdDict.ContainsKey(RoleObj.RoleID))
-                            GameManager.CustomeModule<ServerTeamManager>().CreateTeam(RoleObj, new int[] { 0, 99 });
+                        if (!GameEntry.ServerTeamManager.PlayerIdToTeamIdDict.ContainsKey(RoleObj.RoleID))
+                            GameEntry.ServerTeamManager.CreateTeam(RoleObj, new int[] { 0, 99 });
                         break;
                     case TeamInstructions.JoinTeam:
-                        GameManager.CustomeModule<ServerTeamManager>().JoinTeam(RoleObj,RoleObj.teamDTO.TeamId);
+                        GameEntry.ServerTeamManager.JoinTeam(RoleObj,RoleObj.teamDTO.TeamId);
                         break;
                     case TeamInstructions.ApplyTeam:
-                        GameManager.CustomeModule<ServerTeamManager>().ApplyJoinTeam(RoleObj, RoleObj.teamDTO.TeamId);
+                        GameEntry.ServerTeamManager.ApplyJoinTeam(RoleObj, RoleObj.teamDTO.TeamId);
                         break;
                     case TeamInstructions.RefusedTeam:
-                        GameManager.CustomeModule<ServerTeamManager>().RefusedApplyTeam(RoleObj, RoleObj.teamDTO.TeamId);
+                        GameEntry.ServerTeamManager.RefusedApplyTeam(RoleObj, RoleObj.teamDTO.TeamId);
                         break;
                     case TeamInstructions.TransferTeam:
-                        GameManager.CustomeModule<ServerTeamManager>().TransferTeam(RoleObj, RoleObj.teamDTO.TeamId);
+                        GameEntry.ServerTeamManager.TransferTeam(RoleObj, RoleObj.teamDTO.TeamId);
                         break;
                     case TeamInstructions.LevelTeam:
-                        GameManager.CustomeModule<ServerTeamManager>().LevelTeam(RoleObj, RoleObj.teamDTO.TeamId);
+                        GameEntry.ServerTeamManager.LevelTeam(RoleObj, RoleObj.teamDTO.TeamId);
                         break;
                     case TeamInstructions.ExitTeam:
-                        GameManager.CustomeModule<ServerTeamManager>().ExitTeam(RoleObj, RoleObj.teamDTO.TeamId);
+                        GameEntry.ServerTeamManager.ExitTeam(RoleObj, RoleObj.teamDTO.TeamId);
                         break;
                     case TeamInstructions.PositionTeam:
-                        GameManager.CustomeModule<ServerTeamManager>().PositionTeam(RoleObj, RoleObj.teamDTO.TeamId);
+                        GameEntry.ServerTeamManager.PositionTeam(RoleObj, RoleObj.teamDTO.TeamId);
                         break;
                     default:
                         break;
@@ -61,8 +61,8 @@ namespace AscensionServer
                 
                 SetResponseParamters(() =>
                 {
-                    //subResponseParameters.Add((byte)ParameterCode.RoleTeam, Utility.Json.ToJson(GameManager.CustomeModule<ServerTeamManager>()._teamTOModel));
-                    //subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(GameManager.CustomeModule<ServerTeamManager>()._playerIdToTeamIdDict));
+                    //subResponseParameters.Add((byte)ParameterCode.RoleTeam, Utility.Json.ToJson(GameEntry.ServerTeamManager._teamTOModel));
+                    //subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(GameEntry.ServerTeamManager._playerIdToTeamIdDict));
                     operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
             }
@@ -73,8 +73,10 @@ namespace AscensionServer
                     operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
-            GameManager.ReferencePoolManager.Despawn(nHCriteriaRoleID);
+            CosmosEntry.ReferencePoolManager.Despawn(nHCriteriaRoleID);
             return operationResponse;
         }
     }
 }
+
+

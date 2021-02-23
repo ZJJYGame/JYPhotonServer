@@ -14,3 +14,5 @@ namespace AscensionServer
         public List<int> PetSoulSkillPool { get; set; }
     }
 }
+
+

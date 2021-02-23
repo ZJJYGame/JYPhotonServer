@@ -10,8 +10,8 @@ using System;
 
 namespace AscensionServer
 {
-    [CustomeModule]
-    public class TacticalDeploymentManager : Module<TacticalDeploymentManager>
+    [Module]
+    public class TacticalDeploymentManager : Module,ITacticalDeploymentManager
     {
         ConcurrentDictionary<int, ConcurrentDictionary<int, TacticalDTO>> AllTacticalDict { get; set; }
         ConcurrentDictionary<int, RoleEntity> roleDict;
@@ -55,7 +55,7 @@ namespace AscensionServer
 
         public override void OnPreparatory()
         {
-            GameManager.CustomeModule<LevelManager>().OnRoleEnterLevel += OnSendTactical;
+            GameEntry. LevelManager.OnRoleEnterLevel += OnSendTactical;
         }
         public override void OnRefresh()
         {
@@ -121,7 +121,7 @@ namespace AscensionServer
                     ExpendTacticalID.Remove(tacticalEntity.ID);
                 }
                 roletacticaltemp.TryRemove(roleid,out var tactical);
-                GameManager.ReferencePoolManager.Despawn(tacticalEntity);
+                CosmosEntry.ReferencePoolManager.Despawn(tacticalEntity);
             }
         }
         /// <summary>
@@ -198,7 +198,7 @@ namespace AscensionServer
                 if (tacticalDTOs.Count >=3)
                 {
                     //Utility.Debug.LogInfo("yzqData阵法实体数据1" + RoleTactical[roleid].Count);
-                    GameManager.CustomeModule<TacticalDeploymentManager>().SendAllLevelRoleTactical(tacticalDTOs[0], ReturnCode.Fail);
+                     SendAllLevelRoleTactical(tacticalDTOs[0], ReturnCode.Fail);
                     //Utility.Debug.LogInfo("yzqData阵法实体数据2" + RoleTactical[roleid].Count);
                     TryRemove(tacticalDTOs[0]);
                     //Utility.Debug.LogInfo("yzqData阵法实体数据3" + RoleTactical[roleid].Count);
@@ -222,7 +222,7 @@ namespace AscensionServer
             {
                 TacticalEntityDict.TryRemove(tacticalDTO.ID,out var tactical);
                 ExpendTacticalID.Add(tacticalDTO.ID);
-                GameManager.ReferencePoolManager.Despawn(tacticalEntity);
+                CosmosEntry.ReferencePoolManager.Despawn(tacticalEntity);
             }
             return result;
         }
@@ -237,7 +237,7 @@ namespace AscensionServer
             operationData.DataMessage = Utility.Json.ToJson(tacticalDTO);
             operationData.ReturnCode = (short)returnCode;
             operationData.OperationCode = (ushort)OperationCode.SyncGetNewTactical;
-            GameManager.CustomeModule<LevelManager>().SendMessageToLevelS2C(tacticalDTO.LevelID, operationData);
+            GameEntry. LevelManager.SendMessageToLevelS2C(tacticalDTO.LevelID, operationData);
         }
         /// <summary>
         /// 监听Redis删除后的回调
@@ -249,7 +249,7 @@ namespace AscensionServer
             {
                 if (TryGetValue(tacticalEntity.LevelID, out ConcurrentDictionary<int, TacticalDTO> tacticalDict))
                 {
-                    GameManager.CustomeModule<TacticalDeploymentManager>().GetRoleTactic(tacticalEntity.RoleID, out List<TacticalDTO> roletactical);
+                     GetRoleTactic(tacticalEntity.RoleID, out List<TacticalDTO> roletactical);
                     roletactical.Remove(tacticalDict[tacticalEntity.ID]);
                     SendAllLevelRoleTactical(tacticalDict[tacticalEntity.ID], ReturnCode.Fail);
                     var exits = RoleTactical.TryGetValue(tacticalEntity.RoleID, out var tacticalDTOs);
@@ -294,10 +294,12 @@ namespace AscensionServer
                 OperationData operationData = new OperationData();
                 operationData.DataMessage = Utility.Json.ToJson(AllTacticalDict[roleEntity.RoleId]);
                 operationData.OperationCode = (byte)OperationCode.SyncCreatTactical;
-                GameManager.CustomeModule<RoleManager>().SendMessage(roleEntity.RoleId, operationData);
+                GameEntry.RoleManager.SendMessage(roleEntity.RoleId, operationData);
                 //Utility.Debug.LogInfo("yzqData发送的全部阵法" + Utility.Json.ToJson(AllTacticalDict) + "juese id " + roleEntity.RoleId);
                 roleDict.TryAdd(roleEntity.RoleId, roleEntity);
             }
         }
   }
 }
+
+

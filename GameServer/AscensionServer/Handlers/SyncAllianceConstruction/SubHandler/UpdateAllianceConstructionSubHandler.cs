@@ -24,9 +24,9 @@ namespace AscensionServer.Handlers
 
            // Utility.Debug.LogError("yzq仙盟升级数据接收成功为" + allianceConstructionJson);
             var allianceConstructionObj = Utility.Json.ToObject<AllianceConstructionDTO>(allianceConstructionJson);
-            NHCriteria nHCriteriallianceConstruction = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceConstructionObj.AllianceID);
+            NHCriteria nHCriteriallianceConstruction = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", allianceConstructionObj.AllianceID);
 
-            NHCriteria nHCriterialliance = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", allianceConstructionObj.AllianceID);
+            NHCriteria nHCriterialliance = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", allianceConstructionObj.AllianceID);
 
             var allianceConstructionTemp= NHibernateQuerier.CriteriaSelectAsync<AllianceConstruction>(nHCriteriallianceConstruction).Result;
             var allianceStatusTemp = NHibernateQuerier.CriteriaSelectAsync<AllianceStatus>(nHCriterialliance).Result;
@@ -107,7 +107,7 @@ namespace AscensionServer.Handlers
                         allianceConstructionTemp.AllianceAssets -= allianceConstructionObj.AllianceAssets;
                         NHibernateQuerier.Update(allianceConstructionTemp);
                         allianceStatusTemp.AllianceLevel += 1;
-                        //GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, AllianceLevleUpData>>(out var allianceDict);
+                        //GameEntry. DataManager.TryGetValue<Dictionary<int, AllianceLevleUpData>>(out var allianceDict);
                         //allianceStatusTemp.AlliancePeopleMax = allianceDict[allianceStatusTemp.AllianceLevel].LevelUp_Describe;
                         NHibernateQuerier.Update(allianceStatusTemp);
 
@@ -128,8 +128,10 @@ namespace AscensionServer.Handlers
                 }
             }
 
-            GameManager.ReferencePoolManager.Despawns(nHCriteriallianceConstruction, nHCriterialliance);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriallianceConstruction, nHCriterialliance);
             return operationResponse;
         }
     }
 }
+
+

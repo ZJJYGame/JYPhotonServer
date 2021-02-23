@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace Cosmos
+using Cosmos;
+namespace AscensionServer
 {
-    public interface ISerializeToEntity
+    public interface IMapResourceManager:IModuleManager
     {
     }
 }
+
+

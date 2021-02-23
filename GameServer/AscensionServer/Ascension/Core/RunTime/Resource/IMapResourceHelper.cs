@@ -15,3 +15,5 @@ namespace AscensionServer
         void OnRefreshResource();
     }
 }
+
+

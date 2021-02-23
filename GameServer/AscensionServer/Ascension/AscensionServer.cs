@@ -42,14 +42,15 @@ namespace AscensionServer
             }
             NHibernateQuerier.Init();
             RedisDotNet.RedisManager.Instance.OnInitialization();
-            GameManager.InitCustomeModule(this.GetType().Assembly);
-            var thread = new Thread(GameManagerAgent.Instance.Start);
+            CosmosEntry.LaunchModules();
+            var thread = new Thread(CosmosEntry.Run);
             thread.Start();
         }
         protected override void TearDown()
         {
             Utility.Debug.LogInfo("Server Shutdown");
-            GameManager.Instance.Dispose();
         }
     }
 }
+
+

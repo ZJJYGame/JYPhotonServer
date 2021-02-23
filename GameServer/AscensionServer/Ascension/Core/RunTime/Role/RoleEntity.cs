@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Cosmos;
 using System;
@@ -7,7 +7,7 @@ using Protocol;
 namespace AscensionServer
 {
     /// <summary>
-    /// ÓÎÏ·ÖÐµÄ½ÇÉ«ÊµÌå¶ÔÏó£»
+    /// ï¿½ï¿½Ï·ï¿½ÐµÄ½ï¿½É«Êµï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public class RoleEntity : Entity,IReference
     {
@@ -78,11 +78,11 @@ namespace AscensionServer
 #endif
         public void SendMessage(OperationData data)
         {
-            GameManager.CustomeModule<PeerManager>().SendMessage(SessionId,  data);
+           GameEntry.PeerManager.SendMessage(SessionId,  data);
         }
         public void SendEvent(byte opCode, Dictionary<byte, object> data)
         {
-            GameManager.CustomeModule<PeerManager>().SendEvent(SessionId, opCode, data);
+            GameEntry.PeerManager.SendEvent(SessionId, opCode, data);
         }
         public void Clear()
         {
@@ -102,7 +102,7 @@ namespace AscensionServer
         }
         public static RoleEntity Create(int roleId,int sessionId, params object[] datas)
         {
-            var entity = GameManager.ReferencePoolManager.Spawn<RoleEntity>();
+            var entity = CosmosEntry.ReferencePoolManager.Spawn<RoleEntity>();
             entity.OnInit(roleId,sessionId);
             for (int i = 0; i < datas.Length; i++)
             {
@@ -114,3 +114,4 @@ namespace AscensionServer
      
     }
 }
+

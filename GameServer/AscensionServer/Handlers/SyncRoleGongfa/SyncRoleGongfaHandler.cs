@@ -22,7 +22,7 @@ namespace AscensionServer
             var roleJson = Convert.ToString(Utility.GetValue(operationRequest.Parameters, (byte)ParameterCode.Role));
             Utility.Debug.LogInfo("yzqData收到的功法数据"+ roleJson);
             var roleObj = Utility.Json.ToObject<RoleGongFaDTO>(roleJson);
-            NHCriteria nHCriteriaRoleStatue = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
+            NHCriteria nHCriteriaRoleStatue = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
             var rolegongfaObj = NHibernateQuerier.CriteriaSelect<RoleGongFa>(nHCriteriaRoleStatue);
             List<CultivationMethodDTO> gongfaList = new List<CultivationMethodDTO>();
             List<NHCriteria> nHCriteriaList= new List<NHCriteria>();
@@ -33,10 +33,10 @@ namespace AscensionServer
                 {
                     foreach (var item in gongfaDict)
                     {
-                        NHCriteria nHCriteriaGongFaId = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", item.Key);
+                        NHCriteria nHCriteriaGongFaId = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", item.Key);
                         var gongFaIdArray = NHibernateQuerier.CriteriaSelect<CultivationMethod>(nHCriteriaGongFaId);
                         nHCriteriaList.Add(nHCriteriaGongFaId);
-                        var gongfaTemp = GameManager.ReferencePoolManager.Spawn<CultivationMethodDTO>();
+                        var gongfaTemp = CosmosEntry.ReferencePoolManager.Spawn<CultivationMethodDTO>();
                         gongfaTemp.ID = gongFaIdArray.ID;
                         gongfaTemp.CultivationMethodExp = gongFaIdArray.CultivationMethodExp;
                         gongfaTemp.CultivationMethodLevel = gongFaIdArray.CultivationMethodLevel;
@@ -47,12 +47,14 @@ namespace AscensionServer
                     OperationData operationData = new OperationData();
                     operationData.DataMessage = Utility.Json.ToJson(gongfaList);
                     operationData.OperationCode = (byte)OperationCode.SyncRoleGongfa;
-                    GameManager.CustomeModule<RoleManager>().SendMessage(roleObj.RoleID, operationData);
+                    GameEntry. RoleManager.SendMessage(roleObj.RoleID, operationData);
                 }
             }
-            GameManager.ReferencePoolManager.Despawns(nHCriteriaList);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaList);
             return operationResponse;
         }
 
         }
 }
+
+

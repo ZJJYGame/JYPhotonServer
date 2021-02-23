@@ -22,7 +22,7 @@ namespace AscensionServer
 
             var schoolObj = Utility.Json.ToObject<SchoolDTO>(schoolJson);
             SutrasAtticDTO sutrasatticObj = new SutrasAtticDTO();
-            NHCriteria nHCriteriaSutrasAttic = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.SutrasAtticID);
+            NHCriteria nHCriteriaSutrasAttic = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.SutrasAtticID);
 
             var sutrasatticTemp = NHibernateQuerier.CriteriaSelect<SutrasAttic>(nHCriteriaSutrasAttic);
             var content = RedisHelper.Hash.HashExist("SutrasAttic", sutrasatticTemp.ID.ToString());
@@ -62,3 +62,5 @@ namespace AscensionServer
         }
     }
 }
+
+

@@ -22,7 +22,7 @@ namespace AscensionServer
             string roleallianceskillJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAllianceSkill));
 
             var roleallianceskillObj = Utility.Json.ToObject<RoleAllianceSkilltransferDTO>(roleallianceskillJson);
-            NHCriteria nHCriteriroleallianceskill = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceskillObj.RoleID);
+            NHCriteria nHCriteriroleallianceskill = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceskillObj.RoleID);
 
             var roleallianceskillTemp= NHibernateQuerier.CriteriaSelectAsync<RoleAllianceSkill>(nHCriteriroleallianceskill).Result;
 
@@ -67,8 +67,10 @@ namespace AscensionServer
                     operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
-            GameManager.ReferencePoolManager.Despawns(nHCriteriroleallianceskill);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriroleallianceskill);
             return operationResponse;
         }
         }
     }
+
+

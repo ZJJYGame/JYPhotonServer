@@ -51,7 +51,7 @@ namespace AscensionServer
 
                 if (alchemy != null)
                 {
-                    var alchemyObj = GameManager.ReferencePoolManager.Spawn<AlchemyDTO>();
+                    var alchemyObj = CosmosEntry.ReferencePoolManager.Spawn<AlchemyDTO>();
                     alchemyObj.RoleID = alchemy.RoleID;
                     alchemyObj.JobLevelExp = alchemy.JobLevelExp;
                     alchemyObj.Recipe_Array = Utility.Json.ToObject<HashSet<int>>(alchemy.Recipe_Array);
@@ -76,7 +76,7 @@ namespace AscensionServer
         public async void UpdateRoleAlchemy(SecondaryJobDTO secondaryJobDTO, NHCriteria nHCriteriarole)
         {
             var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriarole);
-            var nHCriteriaRingID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
+            var nHCriteriaRingID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
 
             if (InventoryManager.VerifyIsExist(secondaryJobDTO.UseItemID, nHCriteriaRingID))
             {
@@ -90,7 +90,7 @@ namespace AscensionServer
                         alchemy.Recipe_Array = Utility.Json.ToJson(recipe);
                         await NHibernateQuerier.UpdateAsync(alchemy);
 
-                        var alchemytemp = GameManager.ReferencePoolManager.Spawn<AlchemyDTO>();
+                        var alchemytemp = CosmosEntry.ReferencePoolManager.Spawn<AlchemyDTO>();
                         alchemytemp.RoleID = alchemy.RoleID;
                         alchemytemp.JobLevel = alchemy.JobLevel;
                         alchemytemp.JobLevelExp = alchemy.JobLevelExp;
@@ -98,7 +98,7 @@ namespace AscensionServer
                         await RedisHelper.Hash.HashSetAsync<AlchemyDTO>(RedisKeyDefine._AlchemyPostfix, secondaryJobDTO.RoleID.ToString(), alchemytemp);
 
                         S2CAlchemyMessage(secondaryJobDTO.RoleID,Utility.Json.ToJson(alchemytemp),ReturnCode.Success);
-                        GameManager.ReferencePoolManager.Despawns(alchemytemp);
+                        CosmosEntry.ReferencePoolManager.Despawns(alchemytemp);
                     }
                     else
                     { S2CAlchemyMessage(secondaryJobDTO.RoleID, null, ReturnCode.Fail); }
@@ -115,7 +115,7 @@ namespace AscensionServer
             var alchemy = NHibernateQuerier.CriteriaSelect<Alchemy>(nHCriteriarole);
             if (alchemy!=null)
             {
-                GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, FormulaData>>(out var formulaDataDict);
+                GameEntry. DataManager.TryGetValue<Dictionary<int, FormulaData>>(out var formulaDataDict);
                 var recipe = Utility.Json.ToObject<List<int>>(alchemy.Recipe_Array);
                 if (recipe.Contains(secondaryJobDTO.UseItemID))
                 {
@@ -140,8 +140,10 @@ namespace AscensionServer
             opData.DataMessage = s2cMessage;
             opData.OperationCode = (byte)OperationCode.SyncSecondaryJob;
             opData.ReturnCode = (byte)returnCode;
-            GameManager.CustomeModule<RoleManager>().SendMessage(roleid, opData);
+            GameEntry. RoleManager.SendMessage(roleid, opData);
         }
 
     }
 }
+
+

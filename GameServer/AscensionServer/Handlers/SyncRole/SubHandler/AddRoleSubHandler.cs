@@ -29,7 +29,7 @@ namespace AscensionServer
             var dict = operationRequest.Parameters;
             string roleJsonTmp = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role));
             Role roleTmp = Utility.Json.ToObject<Role>(roleJsonTmp);
-            NHCriteria nHCriteriaRoleName = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleName", roleTmp.RoleName);
+            NHCriteria nHCriteriaRoleName = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleName", roleTmp.RoleName);
             var isExisted = NHibernateQuerier.Verify<Role>(nHCriteriaRoleName);
             if (isExisted)
                 Utility.Debug.LogInfo("----------------------------  Role >>Role name:+" + roleTmp.RoleName + " already exist !!!  ---------------------------------");
@@ -38,14 +38,14 @@ namespace AscensionServer
             string userJsonTmp = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.User));
             User userTmp = Utility.Json.ToObject<User>(userJsonTmp);
             string str_uuid = userTmp.UUID;
-            NHCriteria nHCriteriaUUID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("UUID", str_uuid);
+            NHCriteria nHCriteriaUUID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("UUID", str_uuid);
             var userRole = NHibernateQuerier.CriteriaSelect<UserRole>(nHCriteriaUUID);
             string roleJson = userRole.RoleIDArray;
             string roleStatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleStatus));
 
             //Dictionary<int, int> idRing = new Dictionary<int, int>();
             Dictionary<int, int> initialSchool = new Dictionary<int, int>();
-            GameManager.CustomeModule<DataManager>().TryGetValue<Dictionary<int, RoleStatusDatas>>(out var roleStatusDict);
+            GameEntry. DataManager.TryGetValue<Dictionary<int, RoleStatusDatas>>(out var roleStatusDict);
             Ring ring = null;
             //如果没有查询到代表角色没被注册过可用
             if (role == null)
@@ -131,7 +131,7 @@ namespace AscensionServer
                 #endregion
                 #region 背包
                 NHibernateQuerier.Insert(new RoleRing() { RoleID = rolestatus.RoleID });
-                NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolestatus.RoleID);
+                NHCriteria nHCriteriaRoleID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolestatus.RoleID);
                 var ringArray = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
                 if (ringArray.RingIdArray == 0)
                 {
@@ -255,8 +255,10 @@ namespace AscensionServer
 
             }
             //把上面的回应给客户端
-            GameManager.ReferencePoolManager.Despawns(nHCriteriaUUID, nHCriteriaRoleName);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaUUID, nHCriteriaRoleName);
             return operationResponse;
         }
     }
 }
+
+

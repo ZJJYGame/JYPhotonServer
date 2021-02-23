@@ -38,7 +38,7 @@ namespace AscensionServer
             else
             {
                 #region MySql
-                NHCriteria nHCriteriaRoleID = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
+                NHCriteria nHCriteriaRoleID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleObj.RoleID);
                 var obj = NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRoleID);
                 if (obj != null)
                 {
@@ -63,10 +63,12 @@ namespace AscensionServer
                     Utility.Debug.LogError("获取人物资源的书序5");
                     operationResponse.ReturnCode = (byte)ReturnCode.Fail;
                 }
-                GameManager.ReferencePoolManager.Despawns(nHCriteriaRoleID);
+                CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaRoleID);
                 #endregion
             }
             return operationResponse;
         }
     }
 }
+
+

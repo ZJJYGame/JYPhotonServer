@@ -22,7 +22,7 @@ namespace AscensionServer
             var dict = operationRequest.Parameters;
             string subDataJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.OnOffLine));
             var onofflinetemp = Utility.Json.ToObject<OnOffLine>(subDataJson);
-            NHCriteria nHCriteriaOnoff = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
+            NHCriteria nHCriteriaOnoff = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
             var obj = NHibernateQuerier.CriteriaSelect<OnOffLine>(nHCriteriaOnoff);
             if (obj != null)
             {
@@ -38,8 +38,10 @@ namespace AscensionServer
             {
                 NHibernateQuerier.Insert(onofflinetemp);
             }
-            GameManager.ReferencePoolManager.Despawns(nHCriteriaOnoff);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaOnoff);
             return operationResponse;
         }
     }
 }
+
+

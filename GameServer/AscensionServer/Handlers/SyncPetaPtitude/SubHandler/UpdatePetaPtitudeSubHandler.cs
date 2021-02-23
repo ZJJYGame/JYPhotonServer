@@ -22,7 +22,7 @@ namespace AscensionServer
             string petptitudeJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.PetPtitude));
 
             var petaptitudeObj = Utility.Json.ToObject<PetAptitudeDTO>(petptitudeJson);
-            NHCriteria nHCriteriapetaptitude = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petaptitudeObj.PetID);
+            NHCriteria nHCriteriapetaptitude = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petaptitudeObj.PetID);
             var petaptitudeTemp = NHibernateQuerier.CriteriaSelect<PetAptitude>(nHCriteriapetaptitude);
 
             if (petaptitudeTemp != null)
@@ -37,7 +37,7 @@ namespace AscensionServer
                 });
             }else
                 operationResponse.ReturnCode = (short)ReturnCode.Fail;
-            GameManager.ReferencePoolManager.Despawns(nHCriteriapetaptitude);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriapetaptitude);
             return operationResponse;
         }
 
@@ -99,3 +99,5 @@ namespace AscensionServer
         //}
     }
 }
+
+

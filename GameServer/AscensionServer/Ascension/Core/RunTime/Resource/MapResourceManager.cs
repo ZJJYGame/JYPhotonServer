@@ -6,15 +6,15 @@ using System.Collections.Generic;
 
 namespace AscensionServer
 {
-    [CustomeModule]
-    public class MapResourceManager : Module<MapResourceManager>
+    [Module]
+    public class MapResourceManager : Module,IMapResourceManager
     {
         IMapResourceHelper mapResourceHelper;
         long latestTime;
         const int updateInterval = ApplicationBuilder.MapResourceRefreshInterval;
         public override void OnPreparatory()
         {
-            GameManager.CustomeModule<LevelManager>().OnRoleEnterLevel += OnRoleEnterMap;
+            GameEntry. LevelManager.OnRoleEnterLevel += OnRoleEnterMap;
             CommandEventCore.Instance.AddEventListener((byte)OperationCode.TakeUpResource, TakeUpResourceC2S);
             mapResourceHelper = Utility.Assembly.GetInstanceByAttribute<ImplementProviderAttribute, IMapResourceHelper>();
             mapResourceHelper?.LoadMapResource();
@@ -49,3 +49,5 @@ namespace AscensionServer
         }
     }
 }
+
+

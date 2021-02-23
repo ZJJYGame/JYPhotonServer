@@ -23,3 +23,5 @@ namespace AscensionServer
         public List<int> Demon_ID { get; set; }
     }
 }
+
+

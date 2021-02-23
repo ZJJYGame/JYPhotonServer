@@ -13,3 +13,5 @@ namespace AscensionServer
       void LoadData();
     }
 }
+
+

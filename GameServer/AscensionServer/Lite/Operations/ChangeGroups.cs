@@ -30,3 +30,5 @@ namespace AscensionServer.Lite
         public byte[] Add { get; set; }
     }
 }
+
+

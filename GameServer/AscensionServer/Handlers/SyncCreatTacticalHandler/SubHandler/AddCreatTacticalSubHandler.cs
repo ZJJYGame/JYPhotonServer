@@ -22,12 +22,12 @@ namespace AscensionServer
             var dict = operationRequest.Parameters;
             string tacticJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.CreatTactical));
             var tacticObj = Utility.Json.ToObject<TacticalDTO>(tacticJson);
-           var id= GameManager.CustomeModule<TacticalDeploymentManager>().GetExpendTacticalID();
+           var id= GameEntry.TacticalDeploymentManager.GetExpendTacticalID();
             tacticObj.ID = id;
-        var result= GameManager.CustomeModule<TacticalDeploymentManager>().IsCreatTactic();
+        var result= GameEntry.TacticalDeploymentManager.IsCreatTactic();
             if (result)
             {
-                var Exits= GameManager.CustomeModule<TacticalDeploymentManager>().TacticalCreateAdd(tacticObj);
+                var Exits= GameEntry.TacticalDeploymentManager.TacticalCreateAdd(tacticObj);
                 if (Exits)
                 {
                     SetResponseParamters(() =>
@@ -45,3 +45,5 @@ namespace AscensionServer
         }
     }
 }
+
+

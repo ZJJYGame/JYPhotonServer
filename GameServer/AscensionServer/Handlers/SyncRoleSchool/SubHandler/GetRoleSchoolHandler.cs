@@ -25,18 +25,18 @@ namespace AscensionServer
             {          
                 foreach (var roleId in roleobj)
                 {
-                    NHCriteria nHCriteriarole = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
+                    NHCriteria nHCriteriarole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
                     var roleschoolObj =NHibernateQuerier.CriteriaSelect<RoleSchool>(nHCriteriarole);
                     var verify= NHibernateQuerier.Verify<RoleSchool>(nHCriteriarole);
                     if (verify)
                     {
                         if (roleschoolObj.RoleJoiningSchool!=null)
                         {
-                            NHCriteria nHCriteriaSchool = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleschoolObj.RoleJoiningSchool);
+                            NHCriteria nHCriteriaSchool = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleschoolObj.RoleJoiningSchool);
                             var schoolObj = NHibernateQuerier.CriteriaSelect<School>(nHCriteriaSchool);
                             schoolDict.Add(roleId, schoolObj);
 
-                            GameManager.ReferencePoolManager.Despawns(nHCriteriaSchool);
+                            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaSchool);
                         }else
                             schoolDict.Clear();
 
@@ -48,7 +48,7 @@ namespace AscensionServer
                          operationResponse.ReturnCode = (byte)ReturnCode.Fail;
                         });
                     }
-                    GameManager.ReferencePoolManager.Despawns(nHCriteriarole);
+                    CosmosEntry.ReferencePoolManager.Despawns(nHCriteriarole);
                 }
              
                 if (schoolDict.Count == roleobj.Count)
@@ -72,3 +72,5 @@ namespace AscensionServer
         }
     }
 }
+
+

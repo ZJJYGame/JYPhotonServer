@@ -22,21 +22,21 @@ namespace AscensionServer
     /// 待完善
     /// 未统一的服务器端组队功能；
     /// </summary>
-    [CustomeModule]
-    public partial class ServerTeamManager:Module<ServerTeamManager>
+    [Module]
+    public partial class ServerTeamManager:Cosmos. Module,IServerTeamManager
     {
         /// <summary>
         /// 玩家id 和队伍id 之间的映射
         /// </summary>
-        public Dictionary<int, int> _playerIdToTeamIdDict = new Dictionary<int, int>();
+        public Dictionary<int, int> PlayerIdToTeamIdDict { get; set; } = new Dictionary<int, int>();
         /// <summary>
         /// 队伍id 和队伍信息模型映射
         /// </summary>
-        public Dictionary<int, TeamDTO> _teamTOModel = new Dictionary<int, TeamDTO>();
+        public Dictionary<int, TeamDTO> TeamTOModel { get; set; } = new Dictionary<int, TeamDTO>();
         /// <summary>
         /// 收集，释放解散的存在的队伍信息
         /// </summary>
-        public List<int> _oldTeamList = new List<int>();
+        public List<int> OldTeamList { get; set; } = new List<int>();
 
         int teamid = 1000;
 
@@ -47,9 +47,9 @@ namespace AscensionServer
         /// <returns></returns>
         public bool IsLeader(int playerId)
         {
-            if (!_playerIdToTeamIdDict.ContainsKey(playerId))
+            if (!PlayerIdToTeamIdDict.ContainsKey(playerId))
                 return false;
-            if (_teamTOModel[_playerIdToTeamIdDict[playerId]].LeaderId != 0)
+            if (TeamTOModel[PlayerIdToTeamIdDict[playerId]].LeaderId != 0)
                 return true;
             return false;
         }
@@ -60,9 +60,11 @@ namespace AscensionServer
         public Dictionary<byte,object> ServerToClientParams()
         {
             Dictionary<byte, object> subResponseParametersDict = new Dictionary<byte, object>();
-            subResponseParametersDict.Add((byte)ParameterCode.RoleTeam, Utility.Json.ToJson(GameManager.CustomeModule<ServerTeamManager>()._teamTOModel));
-            subResponseParametersDict.Add((byte)ParameterCode.Role, Utility.Json.ToJson(GameManager.CustomeModule<ServerTeamManager>()._playerIdToTeamIdDict));
+            subResponseParametersDict.Add((byte)ParameterCode.RoleTeam, Utility.Json.ToJson( TeamTOModel));
+            subResponseParametersDict.Add((byte)ParameterCode.Role, Utility.Json.ToJson( PlayerIdToTeamIdDict));
             return subResponseParametersDict;
         }
     }
 }
+
+

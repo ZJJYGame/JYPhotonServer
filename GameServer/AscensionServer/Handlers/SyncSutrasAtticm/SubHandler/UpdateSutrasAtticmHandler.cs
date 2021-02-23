@@ -23,9 +23,9 @@ namespace AscensionServer
 
             var sutrasAtticObj = Utility.Json.ToObject<SutrasAtticDTO>(sutrasAtticJson);
             var schoolObj = Utility.Json.ToObject<School>(schoolJson);
-            NHCriteria nHCriteriasutrasAttic = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", sutrasAtticObj.ID);
+            NHCriteria nHCriteriasutrasAttic = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", sutrasAtticObj.ID);
             Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>" + Utility.Json.ToJson(schoolObj.SutrasAtticID) + "更新2藏宝阁" + Utility.Json.ToJson(sutrasAtticObj.SutrasRedeemedDictl));
-            NHCriteria nHCriteriaschool = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
+            NHCriteria nHCriteriaschool = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", schoolObj.ID);
             var sutrasAtticTemp = NHibernateQuerier.CriteriaSelect<SutrasAttic>(nHCriteriasutrasAttic);
             var schoolTemp = NHibernateQuerier.CriteriaSelect<School>(nHCriteriaschool);
             var exit = NHibernateQuerier.Verify<SutrasAttic>(nHCriteriasutrasAttic);
@@ -89,9 +89,11 @@ namespace AscensionServer
                     operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
-            GameManager.ReferencePoolManager.Despawns(nHCriteriasutrasAttic, nHCriteriaschool);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriasutrasAttic, nHCriteriaschool);
             Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>传回到的藏宝阁" + Utility.Json.ToJson(DOdict));
             return operationResponse;
         }
     }
 }
+
+

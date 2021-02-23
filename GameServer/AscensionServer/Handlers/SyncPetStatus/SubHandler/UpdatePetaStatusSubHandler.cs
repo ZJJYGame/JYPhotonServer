@@ -21,7 +21,7 @@ namespace AscensionServer
             Utility.Debug.LogInfo("收到的宠物状态数据" + petstatusJson);
 
             var petstatusObj = Utility.Json.ToObject<PetStatus>(petstatusJson);
-            NHCriteria nHCriteriapetstatus = GameManager.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petstatusObj.PetID);
+            NHCriteria nHCriteriapetstatus = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petstatusObj.PetID);
             var petstatusTemp = NHibernateQuerier.CriteriaSelect<PetStatus>(nHCriteriapetstatus);
 
             if (petstatusTemp!=null)
@@ -42,8 +42,10 @@ namespace AscensionServer
                     operationResponse.ReturnCode = (short)ReturnCode.Fail;
                 });
             }
-            GameManager.ReferencePoolManager.Despawns(nHCriteriapetstatus);
+            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriapetstatus);
             return operationResponse;
         }
     }
 }
+
+

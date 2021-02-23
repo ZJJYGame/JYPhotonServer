@@ -30,7 +30,7 @@ namespace AscensionServer
             subResponseParametersDict.Add((byte)ParameterCode.SoldOutAuctionGoods, (byte)SyncAuctionType.GetAuctionGoods);
 
             opData.DataMessage = subResponseParametersDict;
-            GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
+            GameEntry.RoleManager.SendMessage(roleId, opData);
         } 
         /// <summary>
         /// 购买拍卖品
@@ -51,7 +51,7 @@ namespace AscensionServer
             subResponseParametersDict.Add((byte)ParameterCode.SoldOutAuctionGoods, (byte)SyncAuctionType.BuyAuctionGoods);
 
             opData.DataMessage = subResponseParametersDict;
-            GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
+            GameEntry.RoleManager.SendMessage(roleId, opData);
         }
         /// <summary>
         /// 上架拍卖品
@@ -67,7 +67,9 @@ namespace AscensionServer
             subResponseParametersDict.Add((byte)ParameterCode.SoldOutAuctionGoods, (byte)SyncAuctionType.PutAwayAuctionGoods);
 
             opData.DataMessage = subResponseParametersDict;
-            GameManager.CustomeModule<RoleManager>().SendMessage(roleId, opData);
+            GameEntry.RoleManager.SendMessage(roleId, opData);
         }
     }
 }
+
+
