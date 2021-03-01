@@ -11,7 +11,7 @@ using System;
 namespace AscensionServer
 {
     [Module]
-    public class TacticalDeploymentManager : Module,ITacticalDeploymentManager
+    public class TacticalDeploymentManager :Cosmos. Module,ITacticalDeploymentManager
     {
         ConcurrentDictionary<int, ConcurrentDictionary<int, TacticalDTO>> AllTacticalDict { get; set; }
         ConcurrentDictionary<int, RoleEntity> roleDict;

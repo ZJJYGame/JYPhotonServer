@@ -97,9 +97,9 @@ namespace AscensionServer
                 var opData = new OperationData();
                 opData.OperationCode = ProtocolDefine.OPR_PLYAER_LOGOFF;
                 opData.DataMessage = roleEntity;
-                var t = CommandEventCore.Instance.DispatchAsync(ProtocolDefine.OPR_PLYAER_LOGOFF, opData);
+                var t = CommandEventCore.Instance.DispatchAsync(ProtocolDefine.OPR_PLYAER_LOGOFF,SessionId ,opData);
             }
-            GameManager.GetModule<IPeerManager>().TryRemove(SessionId);
+            GameEntry.PeerManager.TryRemove(SessionId);
             Utility.Debug.LogError($"Photon SessionId : {SessionId} Unavailable . RemoteAdress:{RemoteIPAddress}");
             var task = GameEntry.PeerManager.BroadcastEventToAllAsync((byte)reasonCode, ed.Parameters);
         }
@@ -118,7 +118,7 @@ namespace AscensionServer
         {
             //接收到客户端消息后，进行委托广播；
             var opData = Utility.MessagePack.ToObject<OperationData>( message as byte[]);
-            CommandEventCore.Instance.Dispatch(opData.OperationCode, opData);
+            CommandEventCore.Instance.Dispatch(opData.OperationCode,SessionId, opData);
         }
         #endregion
     }

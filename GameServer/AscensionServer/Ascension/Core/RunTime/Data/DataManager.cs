@@ -7,7 +7,7 @@ using NHibernate.Util;
 namespace AscensionServer
 {
     [Module]
-    public class DataManager : Module,IDataManager
+    public class DataManager : Cosmos. Module,IDataManager
     {
         /// <summary>
         /// 间隔秒；

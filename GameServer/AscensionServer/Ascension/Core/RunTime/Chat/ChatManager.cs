@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-    [Module]
-    public class ChatManager:Module
+    //[Module]
+    public class ChatManager:Cosmos. Module
     {
         public override void OnPreparatory()
         {
-            CommandEventCore.Instance.AddEventListener(ProtocolDefine.PORT_CHAT,OnChatMessageC2S);
+            //CommandEventCore.Instance.AddEventListener(ProtocolDefine.PORT_CHAT,OnChatMessageC2S);
         }
         void OnChatMessageC2S(object msg)
         {

@@ -11,7 +11,7 @@ namespace AscensionServer
     /// <summary>
     /// 房间管理器，用于处理战斗相关
     /// </summary>
-    public sealed class RoomManager : Module,IRoomManager, IKeyValue<int, RoomEntity>
+    public class RoomManager :Cosmos. Module,IRoomManager, IKeyValue<int, RoomEntity>
     {
         readonly int _IntervalSec = 30;
         long latestTime;

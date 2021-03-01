@@ -9,7 +9,7 @@ using Cosmos;
 namespace AscensionServer
 {
     [Module]
-    public class TeamManager : Module,ITeamManager
+    public class TeamManager :Cosmos. Module,ITeamManager
     {
         /// <summary>
         /// 房间ID长度

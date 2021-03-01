@@ -7,7 +7,6 @@ using System;
 using NHibernate;
 using NHibernate.Criterion;
 using Cosmos;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace AscensionServer
@@ -16,6 +15,35 @@ namespace AscensionServer
     {
         public static void Init() { NHibernateHelper.SessionFactory.ToString(); }
         #region Sync
+        /// <summary>
+        /// 单条件查找；
+        /// </summary>
+        /// <typeparam name="T">需要的目标</typeparam>
+        /// <param name="propertyName">属性名</param>
+        /// <param name="value">值</param>
+        /// <returns>数据对象</returns>
+        public static T Query<T>(string propertyName, object value)
+        {
+            var criteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue(propertyName, value);
+            var result= CriteriaSelect<T>(criteria);
+            CosmosEntry.ReferencePoolManager.Despawn(criteria);
+            return result;
+        }
+        /// <summary>
+        /// 单条件验证；
+        /// </summary>
+        /// <typeparam name="T">需要的目标</typeparam>
+        /// <param name="propertyName">属性名</param>
+        /// <param name="value">值</param>
+        /// <returns>是否验证成功</returns>
+        public static bool Verify<T>(string propertyName, object value)
+        {
+            var criteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue(propertyName, value);
+            var result = Verify<T>(criteria);
+            CosmosEntry.ReferencePoolManager.Despawn(criteria);
+            return result;
+        }
+
         /// <summary>
         /// 可覆写非空虚函数;
         /// 添加数据

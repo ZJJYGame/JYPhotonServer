@@ -13,7 +13,7 @@ namespace AscensionServer
     /// 没统一的服务器战斗功能
     /// </summary>
     [Module]
-    public partial class ServerBattleManager : Module,IServerBattleManager
+    public partial class ServerBattleManager :Cosmos. Module,IServerBattleManager
     {
         /*
          * 

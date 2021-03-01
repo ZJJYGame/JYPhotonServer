@@ -67,9 +67,9 @@ namespace Cosmos
                 }
             }
         }
-        public static void LaunchModules()
+        public static void LaunchCustomeModules(System.Reflection.Assembly assembly)
         {
-            GameManager.PreparatoryModule();
+            GameManager.InitCustomeModule(assembly);
         }
         public  static void Run()
         {

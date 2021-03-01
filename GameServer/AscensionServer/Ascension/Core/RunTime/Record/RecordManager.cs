@@ -9,11 +9,11 @@ using Protocol;
 
 namespace AscensionServer
 {
-    [ Module]
-    public class RecordManager : Module,IRecordManager
+    [Module]
+    public class RecordManager :Cosmos. Module, IRecordManager
     {
         IRecordHelper recordHelper;
-        public override void OnInitialization()
+        public override void OnActive()
         {
             recordHelper = Utility.Assembly.GetInstanceByAttribute<ImplementProviderAttribute, IRecordHelper>();
             if (recordHelper == null)
@@ -21,13 +21,13 @@ namespace AscensionServer
         }
         public override void OnPreparatory()
         {
-            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPR_PLYAER_LOGOFF,OnPlayerLogoff);
+            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPR_PLYAER_LOGOFF, OnPlayerLogoff);
         }
         public void RecordRole(RoleEntity roleEntity)
         {
             recordHelper.RecordRole(roleEntity);
         }
-        void OnPlayerLogoff(OperationData opData)
+        void OnPlayerLogoff(int sessionId, OperationData opData)
         {
             var roleEntity = opData.DataMessage as RoleEntity;
             recordHelper.RecordRole(roleEntity);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cosmos;
 using System;
 using Newtonsoft.Json;
+[ImplementProvider]
 public class NewtonjsonHelper: IJsonHelper
 {
     public string ToJson(object obj)

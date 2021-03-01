@@ -15,7 +15,8 @@ namespace AscensionProtocol
         /// <summary>
         /// 同步当前这个角色的数据
         /// </summary>
-        SyncRole=4,
+        //TODO SyncRole需要改成当前账号的信息；
+        SyncRole = 4,
         /// <summary>
         /// 同步当前角色的位置信息，position&rotation 
         /// </summary>

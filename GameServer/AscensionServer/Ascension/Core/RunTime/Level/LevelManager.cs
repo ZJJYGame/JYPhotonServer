@@ -13,7 +13,7 @@ namespace AscensionServer
     /// 场景管理器，管理野外高同步的数据；
     /// </summary>
     [Module]
-    public class LevelManager : Module,ILevelManager
+    public class LevelManager : Cosmos. Module,ILevelManager
     {
 #if SERVER
         ConcurrentDictionary<int, LevelEntity> levelEntityDict = new ConcurrentDictionary<int, LevelEntity>();
@@ -237,7 +237,7 @@ namespace AscensionServer
             return result;
         }
 #if SERVER
-        void OnCommandC2S(OperationData opData)
+        void OnCommandC2S(int sessionId,OperationData opData)
         {
             var input = opData.DataContract as C2SInput;
             if (input != null)
@@ -254,7 +254,7 @@ namespace AscensionServer
             levelEntity?.OnCommandS2C(opData.DataContract);
         }
 #endif
-        void OnPlayerLogoff(OperationData opData)
+        void OnPlayerLogoff(int sessionId, OperationData opData)
         {
             var roleEntity = opData.DataMessage as RoleEntity;
             if (roleEntity != null)
@@ -273,7 +273,7 @@ namespace AscensionServer
                 }
             }
         }
-        void OnEnterLevelC2S(OperationData opData)
+        void OnEnterLevelC2S(int sessionId, OperationData opData)
         {
             try
             {
@@ -285,7 +285,7 @@ namespace AscensionServer
                 Utility.Debug.LogError(e);
             }
         }
-        void OnExitLevelC2S(OperationData opData)
+        void OnExitLevelC2S(int sessionId, OperationData opData)
         {
             try
             {

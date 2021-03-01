@@ -20,30 +20,34 @@ namespace AscensionServer
         {
             StackTrace st = new StackTrace(new StackFrame(2, true));
             StackTrace str = new StackTrace(new StackFrame(3, true));
+            StackTrace stri = new StackTrace(new StackFrame(4, true));
             context = context == null ? "null" : context;
-            _Logger.Error($"Message :{msg}, Context:{context};\nStackTrace[ - ]：\n{st}{str}");
+            _Logger.Error($"Message :{msg}, Context:{context};\nStackTrace[ - ]：\n{st}{str}{stri}");
         }
 
         public void LogInfo(object msg, object context=null)
         {
             StackTrace st = new StackTrace(new StackFrame(2, true));
             StackTrace str = new StackTrace(new StackFrame(3, true));
+            StackTrace stri = new StackTrace(new StackFrame(4, true));
             context = context == null ? "null" : context;
-            _Logger.Info($"Message :{msg}, Context:{context};\nStackTrace[ - ]：\n{st}{str}");
+            _Logger.Info($"Message :{msg}, Context:{context};\nStackTrace[ - ]：\n{st}{str}{stri}");
         }
         public void LogInfo(object msg, string msgColor, object context=null)
         {
             StackTrace st = new StackTrace(new StackFrame(2, true));
             StackTrace str = new StackTrace(new StackFrame(3, true));
+            StackTrace stri = new StackTrace(new StackFrame(4, true));
             context = context == null ? "null" : context;
-            _Logger.Info($"Message :{msg}, Context:{context};\nStackTrace[ - ]：\n{st}{str}");
+            _Logger.Info($"Message :{msg}, Context:{context};\nStackTrace[ - ]：\n{st}{str}{stri}");
         }
         public void LogWarning(object msg, object context)
         {
             StackTrace st = new StackTrace(new StackFrame(2, true));
             StackTrace str = new StackTrace(new StackFrame(3, true));
+            StackTrace stri = new StackTrace(new StackFrame(4, true));
             context = context == null ? "null" : context;
-            _Logger.Warn($"Message :{msg}, Context:{context};\nStackTrace[ - ]：\n{st}{str}");
+            _Logger.Warn($"Warning:{msg}, Context:{context};\nStackTrace[ - ]：\n{st}{str}{stri}");
         }
         /// <summary>
         /// 谨慎使用；
@@ -54,8 +58,9 @@ namespace AscensionServer
         {
             StackTrace st = new StackTrace(new StackFrame(2, true));
             StackTrace str = new StackTrace(new StackFrame(3, true));
+            StackTrace stri = new StackTrace(new StackFrame(4, true));
             context = context == null ? "null" : context;
-            _Logger.Fatal($"Message :{msg}, Context:{context};\nStackTrace[ - ]：\n{st}{str}");
+            _Logger.Fatal($"Fatal :{msg}, Context:{context};\nStackTrace[ - ]：\n{st}{str}{stri}");
         }
     }
 }

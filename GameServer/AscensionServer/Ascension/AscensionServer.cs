@@ -29,6 +29,7 @@ namespace AscensionServer
         }
         protected override void Setup()
         {
+            //CosmosEntry.LaunchHelpers();
             Utility.Debug.SetHelper(new Log4NetDebugHelper());
             Utility.Json.SetHelper(new NewtonjsonHelper());
             Utility.MessagePack.SetHelper(new ImplMessagePackHelper());
@@ -42,7 +43,7 @@ namespace AscensionServer
             }
             NHibernateQuerier.Init();
             RedisDotNet.RedisManager.Instance.OnInitialization();
-            CosmosEntry.LaunchModules();
+            CosmosEntry.LaunchCustomeModules(typeof(AscensionServer).Assembly);
             var thread = new Thread(CosmosEntry.Run);
             thread.Start();
         }

@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Cosmos.Network
 {
-    internal sealed partial class NetworkManager 
-    {
+    //internal sealed partial class NetworkManager 
+    //{
         //public int PeerCount { get { return clientPeerDict.Count; } }
         //ConcurrentDictionary<long, IRemotePeer> clientPeerDict = new ConcurrentDictionary<long, IRemotePeer>();
         //Action<IRemotePeer> peerConnectHandler;
@@ -61,5 +61,5 @@ namespace Cosmos.Network
         //    }
         //    return result;
         //}
-    }
+    //}
 }

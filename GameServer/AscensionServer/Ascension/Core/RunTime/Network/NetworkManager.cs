@@ -8,7 +8,7 @@ using Cosmos;
 namespace AscensionServer
 {
     [Module]
-    public class NetworkManager:Module ,INetworkManager
+    public class NetworkManager:Cosmos. Module ,INetworkManager
     {
         INetworkMessageHelper messageHelper;
         public override void OnInitialization()

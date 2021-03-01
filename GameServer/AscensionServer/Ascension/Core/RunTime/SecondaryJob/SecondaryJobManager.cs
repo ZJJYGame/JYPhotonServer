@@ -11,7 +11,7 @@ using RedisDotNet;
 namespace AscensionServer
 {
     [Module]
-    public partial class SecondaryJobManager : Module,ISecondaryJobManager
+    public partial class SecondaryJobManager : Cosmos. Module,ISecondaryJobManager
     {
 
 

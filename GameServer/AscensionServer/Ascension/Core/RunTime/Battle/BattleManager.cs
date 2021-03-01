@@ -13,15 +13,22 @@ namespace AscensionServer
     /// 此模块用于转发客户端发送过来的消息到具体战斗容器中；
     /// 此模块非逻辑层，若处理逻辑，则在具体的战斗容器中处理；
     /// </summary>
-    public  class BattleManager : Module,IBattleManager
+    public  class BattleManager :Cosmos. Module,IBattleManager
     {
         IBattleAlgorithmProvider algorithmProvider;
         Dictionary<int, RoomEntity> roomDict = new Dictionary<int, RoomEntity>();
         public override void OnInitialization()
         {
-            algorithmProvider = Utility.Assembly.GetInstanceByAttribute<ImplementProviderAttribute, IBattleAlgorithmProvider>();
-            if (algorithmProvider == null)
-                Utility.Debug.LogError($"{this.GetType()} has no helper instance ,base type: {typeof(IBattleAlgorithmProvider)}");
+            try
+            {
+                //algorithmProvider = Utility.Assembly.GetInstanceByAttribute<ImplementProviderAttribute, IBattleAlgorithmProvider>();
+                //if (algorithmProvider == null)
+                //    Utility.Debug.LogError($"{this.GetType()} has no helper instance ,base type: {typeof(IBattleAlgorithmProvider)}");
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
         }
         ///// <summary>
         ///// 转发战斗消息

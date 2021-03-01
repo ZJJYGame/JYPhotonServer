@@ -5,7 +5,7 @@ using System;
 namespace Cosmos.Reference
 {
     [Module]
-    public sealed class ReferencePoolManager :Module,IReferencePoolManager
+    public class ReferencePoolManager :Module,IReferencePoolManager
     {
         #region Properties
         /// <summary>

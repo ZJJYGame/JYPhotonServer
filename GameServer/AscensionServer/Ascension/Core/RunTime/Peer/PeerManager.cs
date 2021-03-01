@@ -16,7 +16,7 @@ namespace AscensionServer
     /// 其余各个模块都是从此通过SessionID取得Peer对象；
     /// </summary>
     [Module]
-    public class PeerManager : Module,IPeerManager, IKeyValue<int, IPeerEntity>
+    public class PeerManager : Cosmos. Module,IPeerManager 
     {
         /// <summary>
         /// 广播事件消息 ;

@@ -10,7 +10,7 @@ using RedisDotNet;
 namespace AscensionServer
 {
     [Module]
-    public partial class AuctionManager: Module,IAuctionManager
+    public partial class AuctionManager: Cosmos. Module,IAuctionManager
     {
         public HashSet<string> occupyGuidHash;
         public override void OnInitialization()

@@ -13,7 +13,7 @@ namespace AscensionServer
     /// 注：此模块用于验证客户端角色释放技能时数值的验证、转发等；
     /// </summary>
     [Module]
-    public class SkillManager:Module,ISkillManager
+    public class SkillManager:Cosmos. Module,ISkillManager
     {
         public override void OnInitialization()
         {
@@ -22,7 +22,7 @@ namespace AscensionServer
         /// <summary>
         /// 接收来自客户端的技能输入
         /// </summary>
-        async void OnPlayerSkillC2S(OperationData opData)
+        async void OnPlayerSkillC2S(int sessionId, OperationData opData)
         {
             await Task.Run(() =>
             {

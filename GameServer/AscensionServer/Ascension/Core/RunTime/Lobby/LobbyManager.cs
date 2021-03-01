@@ -11,7 +11,7 @@ namespace AscensionServer
     /// <summary>
     /// 玩家的大厅管理器
     /// </summary>
-    public sealed class LobbyManager:Module,ILobbyManager
+    public class LobbyManager:Cosmos. Module,ILobbyManager
     {
         HashSet<int> peerSet=new HashSet<int>();
         public bool TryAdd(int sessionId)

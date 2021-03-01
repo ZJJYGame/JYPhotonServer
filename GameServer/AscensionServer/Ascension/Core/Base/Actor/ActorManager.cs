@@ -11,7 +11,7 @@ namespace AscensionServer
     /// <summary>
     /// Actor类型为Peer类型
     /// </summary>
-    public sealed class ActorManager : Module,IActorManager
+    public class ActorManager : Cosmos. Module,IActorManager
     {
         /// <summary>
         /// Peer类型的Actor

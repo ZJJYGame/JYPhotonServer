@@ -14,7 +14,7 @@ namespace AscensionServer
     /// keyΪRoleId����PlayerId
     /// </summary>
     [Module]
-    public class RoleManager : Module,IRoleManager
+    public class RoleManager : Cosmos. Module,IRoleManager
     {
         public int RoleCount { get { return roleDict.Count; } }
         ConcurrentDictionary<int, RoleEntity> roleDict = new ConcurrentDictionary<int, RoleEntity>();
@@ -169,11 +169,11 @@ namespace AscensionServer
             await Task.Run(() => { broadcastMessage?.Invoke(message); });
             callback?.Invoke();
         }
-        void OnChatMessage(OperationData opData)
+        void OnChatMessage(int sessionId, OperationData opData)
         {
 
         }
-        void OnPlayerLogoff(OperationData opData)
+        void OnPlayerLogoff(int sessionId, OperationData opData)
         {
             var roleEntity= opData.DataMessage as RoleEntity;
             if (roleEntity != null)

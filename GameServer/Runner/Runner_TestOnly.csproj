@@ -96,10 +96,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleDebugHelper.cs" />
     <Compile Include="ImplMessagePackHelper.cs" />
     <Compile Include="InheritedAttribute.cs" />
     <Compile Include="NetworkHandlerAttribute.cs" />
     <Compile Include="NewtonjsonHelper.cs" />
+    <Compile Include="ParMgr.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoleStatusDatas.cs" />
@@ -108,6 +110,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <Compile Include="ParMgr.Net.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Framework\CFramework.csproj">

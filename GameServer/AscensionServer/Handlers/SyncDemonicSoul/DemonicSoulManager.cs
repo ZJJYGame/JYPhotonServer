@@ -11,7 +11,7 @@ using Protocol;
 namespace AscensionServer
 {
     [Module]
-    public partial class DemonicSoulManager : Module,IDemonicSoulManager
+    public partial class DemonicSoulManager : Cosmos. Module,IDemonicSoulManager
     {
         public void AddDemonical(int roleid,DemonicSoul demonicSoul,int soulid, NHCriteria nHCriteria)
         {

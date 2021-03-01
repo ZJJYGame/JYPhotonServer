@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Cosmos
 {
-    public sealed partial class GameManager 
+    public sealed partial class GameManager
     {
         #region Properties
         /// <summary>
@@ -87,7 +87,7 @@ namespace Cosmos
                 moduleDict = new ConcurrentDictionary<Type, Module>();
                 interfaceModuleDict = new Dictionary<Type, Type>();
             }
-            InitModule();
+            //InitModule();
         }
         internal static void OnPause()
         {
@@ -128,7 +128,7 @@ namespace Cosmos
                 module.OnDeactive();
                 var m = moduleDict[type];
                 RefreshHandler -= module.OnRefresh;
-                moduleDict.TryRemove(type,out _ );
+                moduleDict.TryRemove(type, out _);
                 moduleCount--;
                 module.OnTermination();
                 Utility.Debug.LogInfo($"Module :{module} is OnTermination", MessageColor.DARKBLUE);
@@ -136,7 +136,70 @@ namespace Cosmos
             else
                 throw new ArgumentException($"Module : {module} is not exist!");
         }
-        static void InitModule()
+        internal static void InitCosmosModule()
+        {
+            var modules = Utility.Assembly.GetInstancesByAttribute<ModuleAttribute, Module>();
+            for (int i = 0; i < modules.Length; i++)
+            {
+                var type = modules[i].GetType();
+                if (typeof(IModuleManager).IsAssignableFrom(type))
+                {
+
+                    if (!HasModule(type))
+                    {
+                        if (moduleDict.TryAdd(type, modules[i]))
+                        {
+                            try
+                            {
+                                modules[i].OnInitialization();
+                                moduleCount++;
+                                Utility.Debug.LogInfo($"Module :{modules[i]} has  been initialized");
+                            }
+                            catch (Exception e)
+                            {
+                                Utility.Debug.LogError(e);
+                            }
+                        }
+                    }
+                    else
+                        Utility.Debug.LogError($"Module : {type} is already exist!");
+                }
+            }
+            //ActiveModule();
+        }
+        internal static void InitCustomeModule(System.Reflection.Assembly assembly)
+        {
+            InitCosmosModule();
+            var modules = Utility.Assembly.GetInstancesByAttribute<ModuleAttribute, Module>(assembly);
+            for (int i = 0; i < modules.Length; i++)
+            {
+                var type = modules[i].GetType();
+                if (typeof(IModuleManager).IsAssignableFrom(type))
+                {
+
+                    if (!HasModule(type))
+                    {
+                        if (moduleDict.TryAdd(type, modules[i]))
+                        {
+                            try
+                            {
+                                modules[i].OnInitialization();
+                                moduleCount++;
+                                Utility.Debug.LogInfo($"Module :{modules[i]} has  been initialized");
+                            }
+                            catch (Exception e)
+                            {
+                                Utility.Debug.LogError(e);
+                            }
+                        }
+                    }
+                    else
+                        Utility.Debug.LogError($"Module : {type} is already exist!");
+                }
+            }
+            ActiveModule();
+        }
+        internal static void InitModule()
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             var assemblyLength = assemblies.Length;
@@ -146,23 +209,27 @@ namespace Cosmos
                 for (int i = 0; i < modules.Length; i++)
                 {
                     var type = modules[i].GetType();
-                    if (!HasModule(type))
+                    if (typeof(IModuleManager).IsAssignableFrom(type))
                     {
-                        if (moduleDict.TryAdd(type, modules[i]))
+
+                        if (!HasModule(type))
                         {
-                            try
+                            if (moduleDict.TryAdd(type, modules[i]))
                             {
-                                modules[i].OnInitialization();
-                                moduleCount++;
-                            }
-                            catch (Exception e)
-                            {
-                                Utility.Debug.LogError(e);
+                                try
+                                {
+                                    modules[i].OnInitialization();
+                                    moduleCount++;
+                                }
+                                catch (Exception e)
+                                {
+                                    Utility.Debug.LogError(e);
+                                }
                             }
                         }
+                        else
+                            Utility.Debug.LogError($"Module : {type} is already exist!");
                     }
-                    else
-                        throw new ArgumentException($"Module : {type} is already exist!");
                 }
             }
             ActiveModule();

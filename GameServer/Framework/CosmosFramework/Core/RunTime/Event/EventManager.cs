@@ -5,7 +5,7 @@ using System;
 namespace Cosmos.Event
 {
     [Module]
-    internal sealed class EventManager : Module, IEventManager
+    public class EventManager : Module, IEventManager
     {
         /// <summary>
         /// 支持并发的字典

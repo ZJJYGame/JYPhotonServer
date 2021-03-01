@@ -10,7 +10,7 @@ using RedisDotNet;
 namespace AscensionServer
 {
     [Module]
-    public partial class PetStatusManager : Module,IPetStatusManager
+    public partial class PetStatusManager :Cosmos. Module,IPetStatusManager
     {
         /// <summary>
         /// 宠物洗练属性重置

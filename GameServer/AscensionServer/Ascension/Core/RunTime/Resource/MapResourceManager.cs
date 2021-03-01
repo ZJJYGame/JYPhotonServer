@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace AscensionServer
 {
     [Module]
-    public class MapResourceManager : Module,IMapResourceManager
+    public class MapResourceManager :Cosmos. Module,IMapResourceManager
     {
         IMapResourceHelper mapResourceHelper;
         long latestTime;
@@ -36,7 +36,7 @@ namespace AscensionServer
         /// <summary>
         /// 占用资源 客户端->服务器
         /// </summary>
-        void TakeUpResourceC2S(OperationData opData)
+        void TakeUpResourceC2S(int sessionId, OperationData opData)
         {
             mapResourceHelper.TakeUpMapResource(opData.DataMessage  as Dictionary<byte, object>);
         }

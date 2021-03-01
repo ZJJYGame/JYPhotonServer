@@ -10,15 +10,13 @@ using UnityEngine;
 namespace AscensionServer
 {
     [Module]
-   public class GongFaManager : Module,IGongFaManager
+   public class GongFaManager : Cosmos. Module,IGongFaManager
     {
         public Dictionary<int, GongFa> gongfaDataDict = new Dictionary<int, GongFa>();
-
-        public GongFaManager()
+        public override void OnActive()
         {
             GameEntry.DataManager.TryGetValue<Dictionary<int, GongFa>>(out gongfaDataDict);
         }
-
         public List<int> GetSkillList(int level,int gongfaid)
         {
             var result = GetGngFa(gongfaid);
