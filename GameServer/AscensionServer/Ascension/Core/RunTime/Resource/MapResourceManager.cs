@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace AscensionServer
 {
-    [Module]
+    //[Module]
     public class MapResourceManager :Cosmos. Module,IMapResourceManager
     {
         IMapResourceHelper mapResourceHelper;

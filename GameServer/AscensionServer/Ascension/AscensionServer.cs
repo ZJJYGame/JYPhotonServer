@@ -41,9 +41,10 @@ namespace AscensionServer
                 XmlConfigurator.ConfigureAndWatch(configFileInfo);//让log4net读取配置文件
                 Utility.Debug.LogInfo("Server Start Running");
             }
-            NHibernateQuerier.Init();
-            RedisDotNet.RedisManager.Instance.OnInitialization();
             CosmosEntry.LaunchCustomeModules(typeof(AscensionServer).Assembly);
+            NHibernateQuerier.Init();
+            GameEntry.DataManager.TryGetValue<RedisConfig>(out var redisConfig);
+            RedisDotNet.RedisManager.Instance.ConnectRedis(redisConfig.Configuration);
             var thread = new Thread(CosmosEntry.Run);
             thread.Start();
         }

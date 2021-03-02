@@ -31,11 +31,12 @@ namespace RedisDotNet
         public IDatabase RedisDB { get; private set; }
         ConcurrentDictionary<string, Action<string>> eventDict 
             = new ConcurrentDictionary<string,  Action<string>>();
-        public void OnInitialization()
+
+        public void ConnectRedis(string connectStr)
         {
             try
             {
-                Redis = ConnectionMultiplexer.Connect(ConnectStr);
+                Redis = ConnectionMultiplexer.Connect(connectStr);
                 if(Redis==null)
                     throw new ArgumentNullException("Redis Connect Fail");
                 else

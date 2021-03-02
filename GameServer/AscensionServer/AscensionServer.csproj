@@ -167,6 +167,9 @@
   <ItemGroup>
     <Compile Include="Ascension\Core\Base\Actor\IActorManager.cs" />
     <Compile Include="Ascension\Core\Base\Attribute\ConfigDataAttribute.cs" />
+    <Compile Include="Ascension\Core\Base\ConfigData\ConfigDataProvider.cs" />
+    <Compile Include="Ascension\Core\Base\ConfigData\MySqlData.cs" />
+    <Compile Include="Ascension\Core\Base\ConfigData\RedisConfig.cs" />
     <Compile Include="Ascension\Core\Base\DatabaseQuerier\DatabaseQuerier.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\AllianceLevleUpData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\AllianceSigninData.cs" />
@@ -687,10 +690,15 @@
     <Compile Include="Ascension\Core\Base\NHibernate\NHCriteria.cs" />
     <Compile Include="Ascension\Core\Base\NHibernate\NHibernateHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SubOperationCode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="ConfigData\MySqlData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ConfigData\RedisConfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

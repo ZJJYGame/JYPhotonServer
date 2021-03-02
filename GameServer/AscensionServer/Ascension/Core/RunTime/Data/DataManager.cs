@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Text;
 using Cosmos;
 using NHibernate.Util;
@@ -7,7 +8,7 @@ using NHibernate.Util;
 namespace AscensionServer
 {
     [Module]
-    public class DataManager : Cosmos. Module,IDataManager
+    public class DataManager : Cosmos.Module, IDataManager
     {
         /// <summary>
         /// 间隔秒；
@@ -17,11 +18,11 @@ namespace AscensionServer
         /// <summary>
         /// 对象字典；
         /// </summary>
-        Dictionary<Type, object> typeObjectDict;
+          ConcurrentDictionary<Type, object> typeObjectDict = new ConcurrentDictionary<Type, object>();
         /// <summary>
         /// json数据字典；
         /// </summary>
-        Dictionary<string, string> jsonDict;
+        ConcurrentDictionary<string, string> jsonDict=new ConcurrentDictionary<string, string>();
         List<IDataProvider> providerSet = new List<IDataProvider>();
         public override void OnInitialization()
         {
@@ -35,10 +36,21 @@ namespace AscensionServer
         }
         public override void OnActive()
         {
-            var objs = Utility.Assembly.GetInstancesByAttribute<ImplementProviderAttribute, IDataConvertor>();
-            for (int i = 0; i < objs.Length; i++)
             {
-                objs[i].ConvertData();
+                var objs = Utility.Assembly.GetInstancesByAttribute<ImplementProviderAttribute, IDataProvider>();
+                for (int i = 0; i < objs.Length; i++)
+                {
+                    objs[i]?.LoadData();
+                }
+                providerSet.AddRange(objs);
+                latestRefreshTime = Utility.Time.SecondNow() + intervalSec;
+            }
+            {
+                var objs = Utility.Assembly.GetInstancesByAttribute<ImplementProviderAttribute, IDataConvertor>();
+                for (int i = 0; i < objs.Length; i++)
+                {
+                    objs[i].ConvertData();
+                }
             }
         }
         /// <summary>
@@ -56,14 +68,6 @@ namespace AscensionServer
                 RunProvider();
                 latestRefreshTime = now + intervalSec;
             }
-        }
-        public void SetDataDict(Dictionary<string, string> dict)
-        {
-            this.jsonDict = dict;
-        }
-        public void SetDataDict(Dictionary<Type, object> dict)
-        {
-            this.typeObjectDict = dict;
         }
 #endif
         public bool ContainsKey(Type key)

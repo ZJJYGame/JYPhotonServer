@@ -26,7 +26,7 @@ namespace AscensionServer
         public int[] GetAccountRolesId(User user)
         {
             string _uuid = NHibernateQuerier.Query<User>("Account", user.Account).UUID;
-            var userRoleObj = NHibernateQuerier.Query<UserRole> ("UUID", _uuid);
+            var userRoleObj = NHibernateQuerier.Query<UserRole>("UUID", _uuid);
             string roleIdListJson = userRoleObj.RoleIDArray;
             var roleIdListStr = Utility.Json.ToObject<List<string>>(roleIdListJson);
             var length = roleIdListStr.Count;
@@ -40,7 +40,7 @@ namespace AscensionServer
         void ProcessHandlerC2S(int sessionId, OperationData packet)
         {
             var dict = Utility.Json.ToObject<Dictionary<byte, object>>(Convert.ToString(packet.DataMessage));
-            var subCode = (SubOperationCode)Utility.GetValue(dict, (byte)OperationCode.SubOperationCode);
+            var subCode = (SubOperationCode)Convert.ToByte(Utility.GetValue(dict, (byte)OperationCode.SubOperationCode));
             switch (subCode)
             {
                 case SubOperationCode.Add:
@@ -64,11 +64,13 @@ namespace AscensionServer
         /// <param name="packet">进入的请求数据</param>
         void GetAccountRolesS2C(int sessionId, Dictionary<byte, object> dataMessage)
         {
+            Utility.Debug.LogInfo($"{sessionId} : GetAccountRolesS2C");
             var opData = new OperationData();
+            opData.OperationCode = (byte)OperationCode.SyncRole;
             var messageDict = new Dictionary<byte, object>();
             //验证角色；
             var userObj = Utility.Json.ToObject<User>(Convert.ToString(Utility.GetValue(dataMessage, (byte)ParameterCode.User)));
-            var roleIdList= GetAccountRolesId(userObj);
+            var roleIdList = GetAccountRolesId(userObj);
             if (roleIdList == null)
             {
                 opData.ReturnCode = (short)ReturnCode.Empty;

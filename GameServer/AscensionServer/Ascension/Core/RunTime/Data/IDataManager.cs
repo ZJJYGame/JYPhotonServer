@@ -8,8 +8,6 @@ namespace AscensionServer
 {
     public interface IDataManager:IModuleManager
     {
-        void SetDataDict(Dictionary<string, string> dict);
-        void SetDataDict(Dictionary<Type, object> dict);
         bool ContainsKey(Type key);
         bool TryAdd(Type key, object value);
         bool TryGetValue(Type key, out object value);
