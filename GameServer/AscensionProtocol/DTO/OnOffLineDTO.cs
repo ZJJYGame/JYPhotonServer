@@ -9,16 +9,14 @@ namespace AscensionProtocol.DTO
    public class OnOffLineDTO: DataTransferObject
     {
         public virtual int RoleID { get; set; }
-        public virtual int GongFaExp { get; set; }
-        public virtual int MiShuExp { get; set; }
-        public virtual int MsGfID { get; set; }
-        public virtual int ExpType { get; set; }
+        public virtual int MsGfID { get; set; }//当前秘术的唯一ID
+        public virtual int ExpType { get; set; }//1为功法2为秘术
+        public virtual string OffTime { get; set; }
         public override void Clear()
         {
             RoleID = -1;
-            GongFaExp = 0;
-            MiShuExp = 0;
             MsGfID = 0;
+            OffTime = null;
         }
     }
 }

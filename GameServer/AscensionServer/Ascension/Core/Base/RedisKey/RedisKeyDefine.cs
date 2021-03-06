@@ -140,6 +140,10 @@ namespace AscensionServer
         /// 副职业炼丹
         /// </summary>
         public static readonly string _AlchemyPostfix = "Alchemy";
+        /// <summary>
+        /// 角色修炼功法秘书记录
+        /// </summary>
+        public static readonly string _RoleOnOffLinePostfix = "RoleOnOffLine";
     }
 }
 
