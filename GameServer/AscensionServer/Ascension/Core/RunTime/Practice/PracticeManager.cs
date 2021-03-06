@@ -52,6 +52,8 @@ namespace AscensionServer
 
                         break;
                     case PracticeOpcode.GetOffLineExp:
+                        role = Utility.Json.ToObject<RoleDTO>(item.Value.ToString());
+                        GetOffLineExpS2C(role.RoleID);
                         break;
                     case PracticeOpcode.TriggerBottleneck:
                         break;

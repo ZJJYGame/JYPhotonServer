@@ -58,12 +58,20 @@ namespace AscensionServer
                     switch (redisOnOffLine.ExpType)
                     {
                         case 1:
+                            if (redisGongfa==null)
+                            {
+                                GetOffLineExpMySql(roleID);
+                            }
                             exp = (int)interval.TotalSeconds / 5* redisRoleStatus.GongfaLearnSpeed;
                           var gongfaObj= AddGongFaExp(redisGongfa, exp,out CultivationMethod method);
                             ResultSuccseS2C(roleID, PracticeOpcode.GetOffLineExp, gongfaObj);
                             await RedisHelper.Hash.HashSetAsync<CultivationMethod>(RedisKeyDefine._GongfaPerfix, redisOnOffLine.MsGfID.ToString(), method);
                             break;
-                        case 2:                        
+                        case 2:
+                            if (redisMiShu == null)
+                            {
+                                GetOffLineExpMySql(roleID);
+                            }
                             interval = (DateTime.Now).Subtract(Convert.ToDateTime(redisOnOffLine.OffTime));
                             exp = (int)interval.TotalSeconds / 5* redisRoleStatus.MishuLearnSpeed;
                          var mishuObj =AddMiShu(redisMiShu,exp,out var miShuData);
@@ -107,6 +115,7 @@ namespace AscensionServer
         /// <param name="roleID"></param>
         async void GetOffLineExpMySql(int roleID)
         {
+            var exp = 0;
             NHCriteria nHCriteriaRole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
             var onOffLineObj = NHibernateQuerier.CriteriaSelectAsync<OnOffLine>(nHCriteriaRole).Result;
             var redisRoleStatus = NHibernateQuerier.CriteriaSelectAsync<RoleStatus>(nHCriteriaRole).Result;
@@ -115,11 +124,38 @@ namespace AscensionServer
             {
                 NHCriteria nHCriteriaid = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", onOffLineObj.MsGfID);
                 var gongfa = NHibernateQuerier.CriteriaSelectAsync<CultivationMethod>(nHCriteriaid).Result;
+                var mishu = NHibernateQuerier.CriteriaSelectAsync<MiShu>(nHCriteriaid).Result;
                 interval = (DateTime.Now).Subtract(Convert.ToDateTime(onOffLineObj.OffTime));
-
+                switch (onOffLineObj.ExpType)
+                {
+                    case 1:
+                        if (gongfa==null)
+                        {
+                            ResultFailS2C(roleID,PracticeOpcode.GetOffLineExp);
+                            return;
+                        }
+                        exp = (int)interval.TotalSeconds / 5 * redisRoleStatus.GongfaLearnSpeed;
+                        var gongfaObj = AddGongFaExp(gongfa, exp, out CultivationMethod method);
+                        ResultSuccseS2C(roleID, PracticeOpcode.GetOffLineExp, gongfaObj);
+                        await  NHibernateQuerier.UpdateAsync(method);
+                        break;
+                    case 2:
+                        if (mishu == null)
+                        {
+                            ResultFailS2C(roleID, PracticeOpcode.GetOffLineExp);
+                            return;
+                        }
+                        exp = (int)interval.TotalSeconds / 5 * redisRoleStatus.GongfaLearnSpeed;
+                        var mishuObj = AddMiShu(mishu, exp, out MiShu mishuData);
+                        ResultSuccseS2C(roleID, PracticeOpcode.GetOffLineExp, mishuObj);
+                        await NHibernateQuerier.UpdateAsync(mishuData);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
-        
+       
         #endregion
 
         /// <summary>
