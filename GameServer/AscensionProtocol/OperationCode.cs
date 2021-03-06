@@ -358,6 +358,7 @@ namespace AscensionProtocol
         SyncInventoryMessageRemove = 158,
         SyncInventoryMessageSort = 159,
         #endregion
+        SyncPractice=160,
         /// <summary>
         /// 测试消息队列
         /// </summary>

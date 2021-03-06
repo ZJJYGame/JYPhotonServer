@@ -21,7 +21,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -197,6 +197,7 @@
     <Compile Include="Ascension\Core\Base\DataObject\PetSkillBookData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\PetSkillData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RingData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\RoleLevelData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RoleStatusDatas.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RunesData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\SkillGongFaDatas.cs" />
@@ -269,6 +270,10 @@
     <Compile Include="Ascension\Core\RunTime\Pet\PetStatusManager.Verify.cs" />
     <Compile Include="Ascension\Core\RunTime\Practice\GongFaManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Practice\IGongFaManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Practice\IPracticeManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Practice\PracticeManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Practice\PracticeManager.GongFa.cs" />
+    <Compile Include="Ascension\Core\RunTime\Practice\PracticeManager.OnOffLine.cs" />
     <Compile Include="Ascension\Core\RunTime\Record\IRecordHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Record\IRecordManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Record\RecordManager.cs" />
@@ -807,6 +812,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonData\FormulaData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\RoleLevelData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="Plugin\ExitGames.Logging.Log4Net.dll">
