@@ -22,6 +22,11 @@ namespace Protocol
         public object DataMessage { get; set; }
         [Key(3)]
         public short ReturnCode { get; set; }
+        /// <summary>
+        /// 子操作码
+        /// </summary>
+        [Key(4)]
+        public short SubOperationCode { get; set; }
         public OperationData() { }
         public OperationData(ushort operationCode)
         {
@@ -34,7 +39,8 @@ namespace Protocol
                 DataContract = this.DataContract,
                 OperationCode = this.OperationCode,
                 ReturnCode = this.ReturnCode,
-                DataMessage=this.DataMessage
+                DataMessage = this.DataMessage,
+                SubOperationCode = this.SubOperationCode
             };
         }
         public virtual void Dispose()
@@ -43,6 +49,7 @@ namespace Protocol
             DataContract = null;
             ReturnCode = 0;
             DataMessage = null;
+            SubOperationCode = 0;
         }
     }
 }
