@@ -202,6 +202,7 @@
     <Compile Include="Ascension\Core\Base\DataObject\SkillGongFaDatas.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\SkillMiShuDatas.cs" />
     <Compile Include="Ascension\Core\Base\EventCore\CommandEventCore.cs" />
+    <Compile Include="Ascension\Core\Base\GameArea\GameArea.cs" />
     <Compile Include="Ascension\Core\Base\GameEntry.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\DataImpl\GateDataProvider.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\MessagePackHelper\ImplMessagePackHelper.cs" />
@@ -594,7 +595,6 @@
     <Compile Include="Handlers\SyncRole\SubHandler\VerifyRoleSubHandler.cs" />
     <Compile Include="Handlers\SyncRole\SubHandler\SyncRoleSubHandler.cs" />
     <Compile Include="Handlers\HeartBeat\HeartBeatHandler.cs" />
-    <Compile Include="Handlers\Register\RegisterHandler.cs" />
     <Compile Include="Handlers\SyncRoleAssets\SyncRoleAssetsHandler.cs" />
     <Compile Include="Handlers\SyncRoleStatus\SyncRoleStatusHandler.cs" />
     <Compile Include="Handlers\SyncRole\SyncRoleHandler.cs" />
