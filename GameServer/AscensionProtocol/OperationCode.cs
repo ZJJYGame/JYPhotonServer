@@ -358,6 +358,10 @@ namespace AscensionProtocol
         SyncInventoryMessageSort = 159,
         #endregion
         /// <summary>
+        /// 同步统一修炼
+        /// </summary>
+        SyncPractice =160,
+        /// <summary>
         /// 测试消息队列
         /// </summary>
         MessageQueue = 187,
