@@ -16,10 +16,9 @@ namespace AscensionProtocol
         /// </summary>
         Signup = 3,
         /// <summary>
-        /// 同步当前这个角色的数据
+        /// 游戏中登录模块区域的区域码
         /// </summary>
-        //TODO SyncRole需要改成当前账号的信息；
-        SyncRole = 4,
+        LoginArea = 4,
         /// <summary>
         /// 同步当前角色的位置信息，position&rotation 
         /// </summary>
@@ -358,7 +357,6 @@ namespace AscensionProtocol
         SyncInventoryMessageRemove = 158,
         SyncInventoryMessageSort = 159,
         #endregion
-        SyncPractice=160,
         /// <summary>
         /// 测试消息队列
         /// </summary>

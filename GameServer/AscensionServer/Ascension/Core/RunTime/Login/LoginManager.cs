@@ -16,7 +16,7 @@ namespace AscensionServer
     {
         public override void OnPreparatory()
         {
-            CommandEventCore.Instance.AddEventListener((byte)OperationCode.SyncRole, ProcessHandlerC2S);
+            CommandEventCore.Instance.AddEventListener((byte)OperationCode.LoginArea, ProcessHandlerC2S);
         }
         /// <summary>
         /// 获取账号下的角色ID；
@@ -66,7 +66,7 @@ namespace AscensionServer
         {
             Utility.Debug.LogInfo($"{sessionId} : GetAccountRolesS2C");
             var opData = new OperationData();
-            opData.OperationCode = (byte)OperationCode.SyncRole;
+            opData.OperationCode = (byte)OperationCode.LoginArea;
             var messageDict = new Dictionary<byte, object>();
             //验证角色；
             var userObj = Utility.Json.ToObject<User>(Convert.ToString(Utility.GetValue(dataMessage, (byte)ParameterCode.User)));
