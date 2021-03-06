@@ -21,95 +21,95 @@ namespace AscensionServer
 
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = operationRequest.Parameters;
-            string subDataJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.OnOffLine));
-            var onofflinetemp = Utility.Json.ToObject<OnOffLine>(subDataJson);
-            Bottleneck bottleneck = new Bottleneck() {RoleID= onofflinetemp.RoleID };
-            NHCriteria nHCriteriabottleneck = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", bottleneck.RoleID);
-            NHCriteria nHCriteriaRole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
-            var bottleneckObj= NHibernateQuerier.CriteriaSelect<Bottleneck>(nHCriteriabottleneck);
-            ///获取的时间秒
-            OffLineTimeDTO offLineTime = new OffLineTimeDTO() { RoleID = onofflinetemp.RoleID };
-            var obj = NHibernateQuerier.CriteriaSelect<OffLineTime>(nHCriteriaRole);
-            TimeSpan interval = (DateTime.Now).Subtract(Convert.ToDateTime(obj.OffTime));
+            //        var dict = operationRequest.Parameters;
+            //        string subDataJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.OnOffLine));
+            //        var onofflinetemp = Utility.Json.ToObject<OnOffLine>(subDataJson);
+            //        Bottleneck bottleneck = new Bottleneck() {RoleID= onofflinetemp.RoleID };
+            //        NHCriteria nHCriteriabottleneck = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", bottleneck.RoleID);
+            //        NHCriteria nHCriteriaRole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", onofflinetemp.RoleID);
+            //        var bottleneckObj= NHibernateQuerier.CriteriaSelect<Bottleneck>(nHCriteriabottleneck);
+            //        ///获取的时间秒
+            //        OffLineTimeDTO offLineTime = new OffLineTimeDTO() { RoleID = onofflinetemp.RoleID };
+            //        var obj = NHibernateQuerier.CriteriaSelect<OffLineTime>(nHCriteriaRole);
+            //        TimeSpan interval = (DateTime.Now).Subtract(Convert.ToDateTime(obj.OffTime));
 
-            if (obj != null)
-            {
-                var Exptypeobj = NHibernateQuerier.CriteriaSelect<OnOffLine>(nHCriteriaRole);
-                if (Exptypeobj.ExpType==1)
+            //        if (obj != null)
+            //        {
+            //            var Exptypeobj = NHibernateQuerier.CriteriaSelect<OnOffLine>(nHCriteriaRole);
+            //            if (Exptypeobj.ExpType==1)
 
-                {
-                    List<int> date = new List<int>();
-                    int AllExperience = (int)(onofflinetemp.GongFaExp * interval.TotalSeconds / 5);
-                    date.Add(AllExperience);
-                    date.Add(Exptypeobj.MsGfID);
-                    date.Add(Exptypeobj.ExpType);
-                    if (bottleneckObj != null)
-                    {
-                        SetResponseParamters(() =>
-                        {
-                            subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
-                            subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckObj));
-                            operationResponse.ReturnCode = (short)ReturnCode.Success;
-                        });
-                    }
-                    else
-                    {
-                        Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>得到的离线时间1" + Exptypeobj.MsGfID + "id" + Exptypeobj.ExpType);
-                        SetResponseParamters(() =>
-                        {
-                            subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
-                            subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(new BottleneckDTO()));
-                            operationResponse.ReturnCode = (short)ReturnCode.Success;
-                        });
-                    }
-                }
-                else if (Exptypeobj.ExpType==2)
+            //            {
+            //                List<int> date = new List<int>();
+            //                int AllExperience = (int)(onofflinetemp.GongFaExp * interval.TotalSeconds / 5);
+            //                date.Add(AllExperience);
+            //                date.Add(Exptypeobj.MsGfID);
+            //                date.Add(Exptypeobj.ExpType);
+            //                if (bottleneckObj != null)
+            //                {
+            //                    SetResponseParamters(() =>
+            //                    {
+            //                        subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
+            //                        subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckObj));
+            //                        operationResponse.ReturnCode = (short)ReturnCode.Success;
+            //                    });
+            //                }
+            //                else
+            //                {
+            //                    Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>得到的离线时间1" + Exptypeobj.MsGfID + "id" + Exptypeobj.ExpType);
+            //                    SetResponseParamters(() =>
+            //                    {
+            //                        subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
+            //                        subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(new BottleneckDTO()));
+            //                        operationResponse.ReturnCode = (short)ReturnCode.Success;
+            //                    });
+            //                }
+            //            }
+            //            else if (Exptypeobj.ExpType==2)
 
-                {
-                    List<int> date = new List<int>();
-                    int AllExperience =(int)(onofflinetemp.MiShuExp * interval.TotalSeconds / 5);
-                    date.Add(AllExperience);
-                    date.Add(Exptypeobj.MsGfID);
-                    date.Add(Exptypeobj.ExpType);
-                    if (bottleneckObj != null)
-                    {
-                        SetResponseParamters(() =>
-                        {
-                            subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
-                            subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckObj));
-                            operationResponse.ReturnCode = (short)ReturnCode.Success;
-                        });
-                    }
-                    else
-                    {
-                        Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>得到的离线时间2" + Exptypeobj.MsGfID + "id" + Exptypeobj.ExpType);
-                        SetResponseParamters(() =>
-                        {
-                            subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
-                            subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(new BottleneckDTO()));
-                            operationResponse.ReturnCode = (short)ReturnCode.Success;
-                        });
-                    }
-                }
-                else
-                {
-                    SetResponseParamters(() =>
-                    {
-                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
-                    });
-                }
-                }else{
-                SetResponseParamters(() =>
-                {
-                operationResponse.ReturnCode = (short)ReturnCode.Fail;
-                });
-                }
-            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaRole);
+            //            {
+            //                List<int> date = new List<int>();
+            //                int AllExperience =(int)(onofflinetemp.MiShuExp * interval.TotalSeconds / 5);
+            //                date.Add(AllExperience);
+            //                date.Add(Exptypeobj.MsGfID);
+            //                date.Add(Exptypeobj.ExpType);
+            //                if (bottleneckObj != null)
+            //                {
+            //                    SetResponseParamters(() =>
+            //                    {
+            //                        subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
+            //                        subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckObj));
+            //                        operationResponse.ReturnCode = (short)ReturnCode.Success;
+            //                    });
+            //                }
+            //                else
+            //                {
+            //                    Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>得到的离线时间2" + Exptypeobj.MsGfID + "id" + Exptypeobj.ExpType);
+            //                    SetResponseParamters(() =>
+            //                    {
+            //                        subResponseParameters.Add((byte)ParameterCode.OnOffLine, Utility.Json.ToJson(date));
+            //                        subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(new BottleneckDTO()));
+            //                        operationResponse.ReturnCode = (short)ReturnCode.Success;
+            //                    });
+            //                }
+            //            }
+            //            else
+            //            {
+            //                SetResponseParamters(() =>
+            //                {
+            //                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
+            //                });
+            //            }
+            //            }else{
+            //            SetResponseParamters(() =>
+            //            {
+            //            operationResponse.ReturnCode = (short)ReturnCode.Fail;
+            //            });
+            //            }
+            //        CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaRole);
             return operationResponse;
         }
     }
-    }
+}
 
 
 
