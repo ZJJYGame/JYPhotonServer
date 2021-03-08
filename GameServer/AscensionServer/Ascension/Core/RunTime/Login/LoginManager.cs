@@ -14,9 +14,11 @@ namespace AscensionServer
     [Module]
     public class LoginManager : Cosmos.Module, ILoginManager
     {
+        Type createRoleHelperType;
         public override void OnPreparatory()
         {
             CommandEventCore.Instance.AddEventListener((byte)OperationCode.LoginArea, ProcessHandlerC2S);
+            createRoleHelperType = Utility.Assembly.GetDerivedTypesByAttribute<ImplementProviderAttribute, ICreateRoleHelper>(GetType().Assembly)[0];
         }
         /// <summary>
         /// 获取账号下的角色ID；
@@ -39,22 +41,29 @@ namespace AscensionServer
         }
         void ProcessHandlerC2S(int sessionId, OperationData packet)
         {
+            var areaSubCode = (LoginAreaOpCode)packet.SubOperationCode;
             var dict = Utility.Json.ToObject<Dictionary<byte, object>>(Convert.ToString(packet.DataMessage));
-            var subCode = (SubOperationCode)Convert.ToByte(Utility.GetValue(dict, (byte)OperationCode.SubOperationCode));
-            switch (subCode)
+            switch (areaSubCode)
             {
-                case SubOperationCode.Add:
-                    break;
-                case SubOperationCode.Remove:
-                    break;
-                case SubOperationCode.Get:
+                case LoginAreaOpCode.GetAccountRoles:
                     {
                         GetAccountRolesS2C(sessionId, dict);
                     }
                     break;
-                case SubOperationCode.Update:
+                case LoginAreaOpCode.CreateRole:
+                    {
+                        CreateRoleS2C(sessionId, dict);
+                    }
                     break;
-                case SubOperationCode.Verify:
+                case LoginAreaOpCode.LoginRole:
+                    {
+                        LoginRoleS2C(sessionId, dict);
+                    }
+                    break;
+                case LoginAreaOpCode.LogoffRole:
+                    {
+                        LogoffRoleS2C(sessionId, dict);
+                    }
                     break;
             }
         }
@@ -65,8 +74,11 @@ namespace AscensionServer
         void GetAccountRolesS2C(int sessionId, Dictionary<byte, object> dataMessage)
         {
             Utility.Debug.LogInfo($"{sessionId} : GetAccountRolesS2C");
-            var opData = new OperationData();
-            opData.OperationCode = (byte)OperationCode.LoginArea;
+            var opData = new OperationData()
+            {
+                OperationCode = (byte)OperationCode.LoginArea,
+                SubOperationCode = (short)LoginAreaOpCode.GetAccountRoles
+            };
             var messageDict = new Dictionary<byte, object>();
             //验证角色；
             var userObj = Utility.Json.ToObject<User>(Convert.ToString(Utility.GetValue(dataMessage, (byte)ParameterCode.User)));
@@ -87,6 +99,140 @@ namespace AscensionServer
                 opData.ReturnCode = (short)ReturnCode.Success;
             }
             opData.DataMessage = Utility.Json.ToJson(messageDict);
+            GameEntry.PeerManager.SendMessage(sessionId, opData);
+        }
+        void CreateRoleS2C(int sessionId, Dictionary<byte, object> dataMessage)
+        {
+            var createRoleHelper = CosmosEntry.ReferencePoolManager.Spawn(createRoleHelperType) as ICreateRoleHelper;
+            var opData = createRoleHelper.CreateRole(dataMessage);
+            opData.OperationCode = (byte)OperationCode.LoginArea;
+            opData.SubOperationCode = (short)LoginAreaOpCode.CreateRole;
+            GameEntry.PeerManager.SendMessage(sessionId, opData);
+            CosmosEntry.ReferencePoolManager.Despawn(createRoleHelper);
+        }
+        void LoginRoleS2C(int sessionId, Dictionary<byte, object> dataMessage)
+        {
+            var opData = new OperationData()
+            {
+                OperationCode = (byte)OperationCode.LoginArea,
+                SubOperationCode = (short)LoginAreaOpCode.LoginRole
+            };
+            var json = Convert.ToString(Utility.GetValue(dataMessage, (byte)ParameterCode.Role));
+            var roleObj = Utility.Json.ToObject<RoleDTO>(json);
+            var role = RoleEntity.Create(roleObj.RoleID, sessionId, roleObj);
+            RoleEntity remoteRole;
+            var roleExist = GameEntry.RoleManager.TryGetValue(roleObj.RoleID, out remoteRole);
+            if (roleExist)
+            {
+                IPeerEntity pa;
+                GameEntry.PeerManager.TryGetValue(remoteRole.SessionId, out pa);
+                pa.SendEventMsg((byte)EventCode.ReplacePlayer, null);//从这里发送挤下线消息；
+                GameEntry.RoleManager.TryRemove(roleObj.RoleID);
+            }
+            IPeerEntity peerAgent;
+            var result = GameEntry.PeerManager.TryGetValue(sessionId, out peerAgent);
+            if (result)
+            {
+                Utility.Debug.LogInfo("yzqData" + "验证登录的Sessionid:" + sessionId);
+                var remoteRoleType = typeof(RoleEntity);
+                var exist = peerAgent.ContainsKey(remoteRoleType);
+                if (!exist)
+                {
+                    GameEntry.RoleManager.TryAdd(roleObj.RoleID, role);
+                    Utility.Debug.LogInfo("yzqData" + "进入角色判断只有一个账号选择角色");
+                    #region 
+                    var roleAllianceobj = NHibernateQuerier.Query<RoleAlliance>("RoleID", roleObj.RoleID);
+                    if (roleAllianceobj != null)
+                    {
+                        Utility.Debug.LogInfo("yzqData判断仙盟查找到了" + roleAllianceobj.AllianceID);
+                        var allianceStatusobj = NHibernateQuerier.Query<AllianceStatus>("ID", roleAllianceobj.AllianceID);
+
+                        if (allianceStatusobj != null)
+                        {
+                            allianceStatusobj.OnLineNum += 1;
+                            NHibernateQuerier.Update(allianceStatusobj);
+                            Utility.Debug.LogInfo("yzqData仙盟在线人数增加了" + allianceStatusobj.OnLineNum);
+                        }
+                        roleAllianceobj.JoinOffline = "在线";
+                        NHibernateQuerier.Update(roleAllianceobj);
+                    }
+                    #endregion
+                    peerAgent.TryAdd(remoteRoleType, role);
+                    opData.ReturnCode = (byte)ReturnCode.Success;
+                }
+                else
+                {
+                    Utility.Debug.LogInfo("yzqData" + "已有账号登陆角色");
+                    object legacyRole;
+                    peerAgent.TryGetValue(remoteRoleType, out legacyRole);
+                    var remoteRoleObj = legacyRole as RoleEntity;
+                    var updateResult = peerAgent.TryUpdate(remoteRoleType, role, legacyRole);
+                    if (updateResult)
+                    {
+                        Utility.Debug.LogInfo("yzqData" + "已有账号登陆角色，替换相同角色成功");
+                        #region 
+                        var roleAllianceobj = NHibernateQuerier.Query<RoleAlliance>("RoleID", roleObj.RoleID);
+                        if (roleAllianceobj != null)
+                        {
+                            var allianceStatusobj = NHibernateQuerier.Query<AllianceStatus>("ID", roleAllianceobj.AllianceID);
+                            if (allianceStatusobj != null)
+                            {
+                                NHibernateQuerier.Update(allianceStatusobj);
+                                Utility.Debug.LogInfo("yzqData仙盟在线人数增加了" + allianceStatusobj.OnLineNum);
+                            }
+                            roleAllianceobj.JoinOffline = "在线";
+                            NHibernateQuerier.Update(roleAllianceobj);
+                        }
+                        #endregion
+                        GameEntry.RoleManager.TryRemove(roleObj.RoleID);
+                        GameEntry.RoleManager.TryAdd(roleObj.RoleID, role);
+                        opData.ReturnCode = (byte)ReturnCode.Success;//登录成功
+                        GameEntry.RecordManager.RecordRole(remoteRoleObj as RoleEntity);
+                        CosmosEntry.ReferencePoolManager.Despawn(remoteRoleObj);//回收这个RemoteRole对象
+                    }
+                    else
+                    {
+                        Utility.Debug.LogInfo("yzqData" + "替换角色失败");
+                        opData.ReturnCode = (byte)ReturnCode.Fail;//登录失败
+                    }
+                }
+            }
+            else
+                opData.ReturnCode = (byte)ReturnCode.Fail;//登录失败
+            GameEntry.PeerManager.SendMessage(sessionId, opData);
+        }
+        void LogoffRoleS2C(int sessionId, Dictionary<byte, object> dataMessage)
+        {
+            var opData = new OperationData()
+            {
+                OperationCode = (byte)OperationCode.LoginArea,
+                SubOperationCode = (short)LoginAreaOpCode.GetAccountRoles
+            };
+            IPeerEntity peer;
+            GameEntry.PeerManager.TryGetValue(sessionId, out peer);
+            var json = Convert.ToString(Utility.GetValue(dataMessage, (byte)ParameterCode.Role));
+            var roleObj = Utility.Json.ToObject<RoleDTO>(json);
+            Utility.Debug.LogInfo("yzqData" + json);
+            IPeerEntity peerAgent;
+            var result = GameEntry.PeerManager.TryGetValue(peer.SessionId, out peerAgent);
+            if (result)
+            {
+                var remoteRoleType = typeof(RoleEntity);
+                object remoteRoleObj;
+                var removeResult = peerAgent.TryRemove(remoteRoleType, out remoteRoleObj);
+                if (removeResult)
+                {
+                    var remoteRole = remoteRoleObj as RoleEntity;
+                    CosmosEntry.ReferencePoolManager.Despawn(remoteRole);//回收这个RemoteRole对象
+                    GameEntry.RoleManager.TryRemove(roleObj.RoleID);
+                }
+                opData.ReturnCode = (byte)ReturnCode.Success;
+                GameEntry.RecordManager.RecordRole(remoteRoleObj as RoleEntity);
+            }
+            else
+            {
+                opData.ReturnCode = (byte)ReturnCode.ItemNotFound;
+            }
             GameEntry.PeerManager.SendMessage(sessionId, opData);
         }
     }

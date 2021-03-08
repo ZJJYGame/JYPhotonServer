@@ -24,20 +24,10 @@ namespace AscensionServer
         /// </summary>
         ConcurrentDictionary<string, string> jsonDict=new ConcurrentDictionary<string, string>();
         List<IDataProvider> providerSet = new List<IDataProvider>();
-        public override void OnInitialization()
-        {
-            var objs = Utility.Assembly.GetInstancesByAttribute<ImplementProviderAttribute, IDataProvider>();
-            for (int i = 0; i < objs.Length; i++)
-            {
-                objs[i]?.LoadData();
-            }
-            providerSet.AddRange(objs);
-            latestRefreshTime = Utility.Time.SecondNow() + intervalSec;
-        }
         public override void OnActive()
         {
             {
-                var objs = Utility.Assembly.GetInstancesByAttribute<ImplementProviderAttribute, IDataProvider>();
+                var objs = Utility.Assembly.GetInstancesByAttribute<ImplementProviderAttribute, IDataProvider>(GetType().Assembly);
                 for (int i = 0; i < objs.Length; i++)
                 {
                     objs[i]?.LoadData();
@@ -46,7 +36,7 @@ namespace AscensionServer
                 latestRefreshTime = Utility.Time.SecondNow() + intervalSec;
             }
             {
-                var objs = Utility.Assembly.GetInstancesByAttribute<ImplementProviderAttribute, IDataConvertor>();
+                var objs = Utility.Assembly.GetInstancesByAttribute<ImplementProviderAttribute, IDataConvertor>(GetType().Assembly);
                 for (int i = 0; i < objs.Length; i++)
                 {
                     objs[i].ConvertData();

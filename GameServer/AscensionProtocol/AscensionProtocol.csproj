@@ -127,7 +127,7 @@
     <Compile Include="ErrorCode.cs" />
     <Compile Include="EventCode.cs" />
     <Compile Include="MessageChannel.cs" />
-    <Compile Include="ModuleOpCode\LoginOpCode.cs" />
+    <Compile Include="AreaOpCode\LoginAreaOpCode.cs" />
     <Compile Include="OperaOrder\PracticeOpcode.cs" />
     <Compile Include="OperationCode.cs" />
     <Compile Include="ParameterCode.cs" />

@@ -21,7 +21,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -251,6 +251,8 @@
     <Compile Include="Ascension\Core\RunTime\Data\IDataProvider.cs" />
     <Compile Include="Ascension\Core\RunTime\Level\ILevelManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Lobby\ILobbyManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Login\DefaultCreateRole.cs" />
+    <Compile Include="Ascension\Core\RunTime\Login\ICreateRoleHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Login\ILoginManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Login\LoginManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Network\INetworkManager.cs" />
@@ -321,8 +323,6 @@
     <Compile Include="DO\RoleAllianceSkill.cs" />
     <Compile Include="DO\RoleAuctionItems.cs" />
     <Compile Include="Handlers\RefreshSkillLayout\RefreshSkillLayoutHandler.cs" />
-    <Compile Include="Handlers\RoleLogon\LoginRoleHandler.cs" />
-    <Compile Include="Handlers\RoleLogon\LogoffRoleHandler.cs" />
     <Compile Include="Handlers\SyncAdventurePlayerInfo\SyncAdventurePlayerInfoHandler.cs" />
     <Compile Include="Handlers\SyncAllianceAlchemy\SubHandler\GetAllianceAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceAlchemy\SubHandler\SyncAllianceAlchemySubHandler.cs" />
@@ -593,9 +593,6 @@
     <Compile Include="Handlers\SyncRoleStatus\SubHandler\GetRoleStatusSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleStatus\SubHandler\SyncRoleStatusSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleStatus\SubHandler\UpdateRoleStatusSubHandler.cs" />
-    <Compile Include="Handlers\SyncRole\SubHandler\AddRoleSubHandler.cs" />
-    <Compile Include="Handlers\SyncRole\SubHandler\GetRoleSubHandler.cs" />
-    <Compile Include="Handlers\SyncRole\SubHandler\RemoveRoleSubHandler.cs" />
     <Compile Include="Handlers\SyncRole\SubHandler\UpdateRoleSubHandler.cs" />
     <Compile Include="Handlers\SyncRole\SubHandler\VerifyRoleSubHandler.cs" />
     <Compile Include="Handlers\SyncRole\SubHandler\SyncRoleSubHandler.cs" />

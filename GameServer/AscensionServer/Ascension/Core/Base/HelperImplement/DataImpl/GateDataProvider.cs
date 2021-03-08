@@ -34,7 +34,7 @@ namespace AscensionServer
         void  ParseData()
         {
             objectDict.Clear();
-            var datas = Utility.Assembly.GetDerivedTypesByAttribute<ConfigDataAttribute,Data>( true);
+            var datas = Utility.Assembly.GetDerivedTypesByAttribute<ConfigDataAttribute,Data>( true,GetType().Assembly);
             for (int i = 0; i < datas.Length; i++)
             {
                 string json;

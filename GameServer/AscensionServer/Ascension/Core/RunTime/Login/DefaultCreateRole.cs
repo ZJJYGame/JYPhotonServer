@@ -1,20 +1,18 @@
-﻿using System;
+﻿using AscensionProtocol;
+using AscensionProtocol.DTO;
+using AscensionServer.Model;
+using Cosmos;
+using Protocol;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AscensionProtocol;
-using Photon.SocketServer;
-using AscensionServer.Model;
-using Cosmos;
-using AscensionProtocol.DTO;
 
 namespace AscensionServer
 {
-    /// <summary>
-    /// 添加新角色子操作码
-    /// </summary>
-    public class AddRoleSubHandler : SyncRoleSubHandler
+    [ImplementProvider]
+    public class DefaultCreateRole : ICreateRoleHelper
     {
         Dictionary<int, int> RoleGFDict = new Dictionary<int, int>();
         Dictionary<int, int> RoleMiShuDict = new Dictionary<int, int>();
@@ -22,11 +20,17 @@ namespace AscensionServer
         Dictionary<string, RoleTaskItemDTO> roleTaskDic = new Dictionary<string, RoleTaskItemDTO>();
         Dictionary<int, RingItemsDTO> ringDict = new Dictionary<int, RingItemsDTO>();
         Dictionary<int, int> magicRingDict = new Dictionary<int, int>();
-        public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Add;
-
-        public override OperationResponse EncodeMessage(OperationRequest operationRequest)
+        public OperationData CreateRole(Dictionary<byte, object> dataMessage)
         {
-            var dict = operationRequest.Parameters;
+            var opData = new OperationData();
+            //{
+            //    OperationCode = (byte)OperationCode.LoginArea,
+            //    SubOperationCode = (short)LoginAreaOpCode.CreateRole,
+            //};
+
+            var messageDict = new Dictionary<byte, object>();
+
+            var dict = dataMessage;
             string roleJsonTmp = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role));
             Role roleTmp = Utility.Json.ToObject<Role>(roleJsonTmp);
             NHCriteria nHCriteriaRoleName = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleName", roleTmp.RoleName);
@@ -34,7 +38,7 @@ namespace AscensionServer
             if (isExisted)
                 Utility.Debug.LogInfo("----------------------------  Role >>Role name:+" + roleTmp.RoleName + " already exist !!!  ---------------------------------");
             Role role = NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRoleName);//根据username查询数据
-           //TODO AddRoleSubHandler查询uuid未处理
+                                                                                   //TODO AddRoleSubHandler查询uuid未处理
             string userJsonTmp = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.User));
             User userTmp = Utility.Json.ToObject<User>(userJsonTmp);
             string str_uuid = userTmp.UUID;
@@ -45,7 +49,7 @@ namespace AscensionServer
 
             //Dictionary<int, int> idRing = new Dictionary<int, int>();
             Dictionary<int, int> initialSchool = new Dictionary<int, int>();
-            GameEntry. DataManager.TryGetValue<Dictionary<int, RoleStatusDatas>>(out var roleStatusDict);
+            GameEntry.DataManager.TryGetValue<Dictionary<int, RoleStatusDatas>>(out var roleStatusDict);
             Ring ring = null;
             //如果没有查询到代表角色没被注册过可用
             if (role == null)
@@ -81,7 +85,7 @@ namespace AscensionServer
                     RolePopularity = roleStatusDict[0].RolePopularity,
                     RoleMaxPopularity = roleStatusDict[0].RolePopularity,
                     ValueHide = roleStatusDict[0].ValueHide,
-                    GongfaLearnSpeed= roleStatusDict[0].GongfaLearnSpeed,
+                    GongfaLearnSpeed = roleStatusDict[0].GongfaLearnSpeed,
                     MishuLearnSpeed = roleStatusDict[0].MishuLearnSpeed,
                 };
                 role = NHibernateQuerier.Insert<Role>(role);
@@ -124,9 +128,9 @@ namespace AscensionServer
                 //petaPtitude = ConcurrentSingleton<NHManager>.Instance.Insert(petaPtitude);
                 //RolePetDict.Add(pet.ID, pet.PetID);
                 NHibernateQuerier.Insert(new RolePet() { RoleID = rolestatus.RoleID, PetIDDict = "{}" });
-                RolePurchaseRecord rolePurchaseRecord = new RolePurchaseRecord() { RoleID = rolestatus.RoleID ,GoodsPurchasedCount=Utility.Json.ToJson(new Dictionary<int, int>()) };
+                RolePurchaseRecord rolePurchaseRecord = new RolePurchaseRecord() { RoleID = rolestatus.RoleID, GoodsPurchasedCount = Utility.Json.ToJson(new Dictionary<int, int>()) };
                 NHibernateQuerier.Insert(rolePurchaseRecord);
-                Weapon weapon = new Weapon() { RoleID= rolestatus.RoleID, Weaponindex = Utility.Json.ToJson(new Dictionary<int, int>()), WeaponStatusDict=Utility.Json.ToJson(new Dictionary<int, int>()) };
+                Weapon weapon = new Weapon() { RoleID = rolestatus.RoleID, Weaponindex = Utility.Json.ToJson(new Dictionary<int, int>()), WeaponStatusDict = Utility.Json.ToJson(new Dictionary<int, int>()) };
                 NHibernateQuerier.Insert(weapon);
                 #endregion
                 #region 背包
@@ -137,24 +141,24 @@ namespace AscensionServer
                 {
                     ringDict.Clear();
                     magicRingDict.Clear();
-                    ringDict.Add(17701, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =1, RingItemType =1 });
-                    ringDict.Add(17711, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =1, RingItemType = 2 });
-                    ringDict.Add(17716, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =1, RingItemType = 3 });
-                    ringDict.Add(17721, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =1, RingItemType = 4 });
-                    ringDict.Add(17952, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =1, RingItemType = 0 });
-                    ringDict.Add(15001, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =1, RingItemType = 0 });
-                    ringDict.Add(15002, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =1, RingItemType = 0 });
-                    ringDict.Add(15003, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =1, RingItemType = 0 });
-                    ringDict.Add(15004, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =1, RingItemType = 0 });
-                    ringDict.Add(15005, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =1, RingItemType = 0 });
-                    ringDict.Add(15006, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =1, RingItemType = 0 });
-                    ringDict.Add(15007, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =1, RingItemType = 0 });
-                    ringDict.Add(15008, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =1, RingItemType = 0 });
-                    ringDict.Add(15009, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =1, RingItemType = 0 });
-                    ringDict.Add(15010, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =1, RingItemType = 0 });
-                    ringDict.Add(17001, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =1, RingItemType = 0 });
-                    ringDict.Add(17016, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =1, RingItemType = 0 });
-                    ringDict.Add(17006, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =1, RingItemType = 0 });
+                    ringDict.Add(17701, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = 1, RingItemType = 1 });
+                    ringDict.Add(17711, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = 1, RingItemType = 2 });
+                    ringDict.Add(17716, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = 1, RingItemType = 3 });
+                    ringDict.Add(17721, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = 1, RingItemType = 4 });
+                    ringDict.Add(17952, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = 1, RingItemType = 0 });
+                    ringDict.Add(15001, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = 1, RingItemType = 0 });
+                    ringDict.Add(15002, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = 1, RingItemType = 0 });
+                    ringDict.Add(15003, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = 1, RingItemType = 0 });
+                    ringDict.Add(15004, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = 1, RingItemType = 0 });
+                    ringDict.Add(15005, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = 1, RingItemType = 0 });
+                    ringDict.Add(15006, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = 1, RingItemType = 0 });
+                    ringDict.Add(15007, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = 1, RingItemType = 0 });
+                    ringDict.Add(15008, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = 1, RingItemType = 0 });
+                    ringDict.Add(15009, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = 1, RingItemType = 0 });
+                    ringDict.Add(15010, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = 1, RingItemType = 0 });
+                    ringDict.Add(17001, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = 1, RingItemType = 0 });
+                    ringDict.Add(17016, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = 1, RingItemType = 0 });
+                    ringDict.Add(17006, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = 1, RingItemType = 0 });
                     //ringDict.Add(14301, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =20 });
                     //ringDict.Add(14302, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =20 });
                     //ringDict.Add(14303, new RingItemsDTO() { RingItemAdorn = "0", RingItemCount = 1, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax =20 });
@@ -199,7 +203,7 @@ namespace AscensionServer
 
                 #endregion
                 #region 临时背包
-                NHibernateQuerier.Insert(new TemporaryRing() { RoleID = rolestatus.RoleID ,  RingItems = Utility.Json.ToJson(new Dictionary<int,RingItemsDTO>())});
+                NHibernateQuerier.Insert(new TemporaryRing() { RoleID = rolestatus.RoleID, RingItems = Utility.Json.ToJson(new Dictionary<int, RingItemsDTO>()) });
                 #endregion
                 #region 副职业
                 NHibernateQuerier.Insert<Alchemy>(new Alchemy() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
@@ -223,42 +227,43 @@ namespace AscensionServer
                 NHibernateQuerier.Insert(new RoleSchool() { RoleID = rolestatus.RoleID, RoleJoiningSchool = school.ID, RoleJoinedSchool = 0 });
                 #endregion
                 #region 仙盟
-                RoleAlliance roleAlliance = new RoleAlliance() { RoleID = rolestatus.RoleID, RoleName = role.RoleName,ApplyForAlliance=Utility.Json.ToJson(new List<int>()) ,RoleSchool=900};
+                RoleAlliance roleAlliance = new RoleAlliance() { RoleID = rolestatus.RoleID, RoleName = role.RoleName, ApplyForAlliance = Utility.Json.ToJson(new List<int>()), RoleSchool = 900 };
                 NHibernateQuerier.Insert(roleAlliance);
                 #endregion
                 NHibernateQuerier.Insert(new FlyMagicTool() { RoleID = role.RoleID, AllFlyMagicTool = Utility.Json.ToJson(new List<int>() { 23401, 23402 }) });
-                Utility.Debug.LogInfo("yzqData添加新角色"+ role.RoleID);
+                Utility.Debug.LogInfo("yzqData添加新角色" + role.RoleID);
                 NHibernateQuerier.Insert(new DemonicSoul() { RoleID = role.RoleID });
                 Utility.Debug.LogInfo("yzqData添加新角色" + userRole.UUID);
                 var userRoleJson = Utility.Json.ToJson(roleList);
                 NHibernateQuerier.Update(new UserRole() { RoleIDArray = userRoleJson, UUID = str_uuid });
-                operationResponse.ReturnCode = (short)ReturnCode.Success;
+                opData.ReturnCode = (short)ReturnCode.Success;
                 RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { RoleID = rolestatus.RoleID, RoleName = role.RoleName, ApplyForAlliance = new List<int>() };
                 DOdict.Add("Role", Utility.Json.ToJson(role));
                 DOdict.Add("RoleStatus", Utility.Json.ToJson(rolestatus));
                 //DOdict.Add("GongFa", Utility.Json.ToJson(gongFa));
                 DOdict.Add("School", Utility.Json.ToJson(school));
-                MiShuDTO miShuDTO = new MiShuDTO() {ID= miShu.ID,MiShuID= miShu.MiShuID,MiShuSkillArry= Utility.Json.ToObject<List<int>>(miShu.MiShuSkillArry) };
+                MiShuDTO miShuDTO = new MiShuDTO() { ID = miShu.ID, MiShuID = miShu.MiShuID, MiShuSkillArry = Utility.Json.ToObject<List<int>>(miShu.MiShuSkillArry) };
                 DOdict.Add("MiShu", Utility.Json.ToJson(miShuDTO));
                 DOdict.Add("RoleAlliance", Utility.Json.ToJson(roleAllianceDTO));
-                SetResponseParamters(() => {
-                    subResponseParameters.Add((byte)ParameterCode.Role, Utility.Json.ToJson(DOdict));
-                    operationResponse.Parameters = subResponseParameters;
-                });
-
+                messageDict.Add((byte)ParameterCode.Role, Utility.Json.ToJson(DOdict));
+                opData.DataMessage = Utility.Json.ToJson(messageDict);
             }
             else
             {
-                SetResponseParamters(() => {
-                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
-                });
-
+                opData.ReturnCode = (short)ReturnCode.Fail;
             }
             //把上面的回应给客户端
             CosmosEntry.ReferencePoolManager.Despawns(nHCriteriaUUID, nHCriteriaRoleName);
-            return operationResponse;
+            return opData;
+        }
+        public void Clear()
+        {
+            RoleGFDict.Clear();
+            RoleMiShuDict.Clear();
+            RolePetDict.Clear();
+            roleTaskDic.Clear();
+            ringDict.Clear();
+            magicRingDict.Clear();
         }
     }
 }
-
-

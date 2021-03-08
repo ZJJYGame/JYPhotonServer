@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 namespace AscensionProtocol
 
 {
-    public enum LoginOpCode:byte
+    public enum LoginAreaOpCode : byte
     {
         GetAccountRoles=0,
-        CreateRole=1
+        CreateRole=1,
+        LoginRole=2,
+        LogoffRole=3
     }
 }
