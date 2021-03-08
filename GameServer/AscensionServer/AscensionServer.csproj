@@ -273,6 +273,7 @@
     <Compile Include="Ascension\Core\RunTime\Practice\GongFaManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Practice\IGongFaManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Practice\IPracticeManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Practice\PracticeManager.Bottleneck.cs" />
     <Compile Include="Ascension\Core\RunTime\Practice\PracticeManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Practice\PracticeManager.GongFa.cs" />
     <Compile Include="Ascension\Core\RunTime\Practice\PracticeManager.OnOffLine.cs" />

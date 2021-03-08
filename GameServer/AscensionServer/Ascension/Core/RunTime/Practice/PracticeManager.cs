@@ -22,7 +22,7 @@ namespace AscensionServer
         void ProcessHandlerC2S(int seeionid ,OperationData packet)
         {
             var dict = Utility.Json.ToObject<Dictionary<byte, object>>(Convert.ToString(packet.DataMessage));
-            //Utility.Debug.LogInfo("YZQjueseid为" + Convert.ToString(packet.DataMessage));
+            Utility.Debug.LogInfo("YZQjueseid为" + Convert.ToString(packet.DataMessage));
             RoleDTO role;
             OnOffLineDTO onOffLine;
             foreach (var item in dict)
@@ -59,7 +59,7 @@ namespace AscensionServer
                         break;
                     case PracticeOpcode.UseBottleneckElixir:
                         break;
-                    case PracticeOpcode.UpdateBottleneck:
+                    case PracticeOpcode.UpdateBottleneck://突破使用
                         break;
                     case PracticeOpcode.DemonicFail:
                         break;
@@ -69,14 +69,6 @@ namespace AscensionServer
                         break;
                 }
             }
-
-
-
-
-
-
-
-
         }
 
         /// <summary>
@@ -104,6 +96,20 @@ namespace AscensionServer
             var dataDict = new Dictionary<byte, object>();
             dataDict.Add((byte)opcode, Utility.Json.ToJson(data));
             opData.DataMessage = Utility.Json.ToJson(dataDict);
+            GameEntry.RoleManager.SendMessage(roleID, opData);
+            Utility.Debug.LogInfo("yzqjueseid发送成功" + Utility.Json.ToJson(opData));
+        }
+        /// <summary>
+        /// 结果成功返回多参数
+        /// </summary>
+        /// <param name="roleID"></param>
+        /// <param name="opcode"></param>
+        /// <param name="dict"></param>
+        void ResultSuccseS2C(int roleID, PracticeOpcode opcode, Dictionary<byte,object> dict)
+        {
+            OperationData opData = new OperationData();
+            opData.OperationCode = (byte)OperationCode.SyncPractice;
+            opData.DataMessage = Utility.Json.ToJson(Utility.Json.ToJson(dict));
             GameEntry.RoleManager.SendMessage(roleID, opData);
             Utility.Debug.LogInfo("yzqjueseid发送成功" + Utility.Json.ToJson(opData));
         }

@@ -59,7 +59,8 @@ namespace AscensionServer
                 else
                 {
                     NHibernateQuerier.Update<Bottleneck>(bottleneckRedis);
-                    SetResponseParamters(() => {
+                    SetResponseParamters(() =>
+                    {
                         subResponseParameters.Add((byte)ParameterCode.RoleBottleneck, Utility.Json.ToJson(bottleneckRedis));
                         operationResponse.ReturnCode = (short)ReturnCode.Fail;
                     });

@@ -21,6 +21,10 @@ namespace AscensionServer
         /// </summary>
         public static readonly string _CultivatiionMethodPerfix = "Gongfa";
         /// <summary>
+        /// 角色的Ke前缀
+        /// </summary>
+        public static readonly string _RolePostfix = "Role";
+        /// <summary>
         /// 秘术的Key前缀
         /// </summary>
         public static readonly string _MiShuPerfix = "MiShu";
@@ -144,6 +148,11 @@ namespace AscensionServer
         /// 角色修炼功法秘书记录
         /// </summary>
         public static readonly string _RoleOnOffLinePostfix = "RoleOnOffLine";
+        /// <summary>
+        /// 角色瓶颈触发
+        /// </summary>
+        public static readonly string _RoleBottleneckPostfix = "RoleBottleneck";
+        
     }
 }
 
