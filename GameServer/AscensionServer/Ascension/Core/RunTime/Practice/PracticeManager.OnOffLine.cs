@@ -48,6 +48,7 @@ namespace AscensionServer
             {
                 var exp = 0;
                 var redisOnOffLine = await RedisHelper.Hash.HashGetAsync<OnOffLineDTO>(RedisKeyDefine._RoleOnOffLinePostfix, roleID.ToString());
+                var redisBottleneck = await RedisHelper.Hash.HashGetAsync<BottleneckDTO>(RedisKeyDefine._RoleBottleneckPostfix, roleID.ToString());            
                 var redisRoleStatus = await RedisHelper.Hash.HashGetAsync<RoleStatus>(RedisKeyDefine._RoleStatsuPerfix, roleID.ToString());
                 TimeSpan interval;
                 if (redisOnOffLine!=null&&redisRoleStatus!=null)
@@ -58,6 +59,18 @@ namespace AscensionServer
                     switch (redisOnOffLine.ExpType)
                     {
                         case 1:
+                            if (redisBottleneck != null)
+                            {
+                                if (redisBottleneck.IsBottleneck || redisBottleneck.IsDemon || redisBottleneck.IsThunder)
+                                {
+                                    ResultSuccseS2C(roleID, PracticeOpcode.TriggerBottleneck, redisBottleneck);
+                                    return;
+                                }
+                                else
+                                {
+                                    ResultSuccseS2C(roleID, PracticeOpcode.TriggerBottleneck, redisBottleneck);
+                                }
+                            }
                             if (redisGongfa==null)
                             {
                                 GetOffLineExpMySql(roleID);
@@ -116,8 +129,12 @@ namespace AscensionServer
         async void GetOffLineExpMySql(int roleID)
         {
             var exp = 0;
+            Dictionary<byte, object> dict;
             NHCriteria nHCriteriaRole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
             var onOffLineObj = NHibernateQuerier.CriteriaSelectAsync<OnOffLine>(nHCriteriaRole).Result;
+
+            var bottleneck= NHibernateQuerier.CriteriaSelectAsync<Bottleneck>(nHCriteriaRole).Result;
+
             var redisRoleStatus = NHibernateQuerier.CriteriaSelectAsync<RoleStatus>(nHCriteriaRole).Result;
             TimeSpan interval;
             if (onOffLineObj!=null&& redisRoleStatus!=null)
@@ -129,6 +146,18 @@ namespace AscensionServer
                 switch (onOffLineObj.ExpType)
                 {
                     case 1:
+                        if (bottleneck != null)
+                        {
+                            if (bottleneck.IsBottleneck || bottleneck.IsDemon || bottleneck.IsThunder)
+                            {
+                                ResultSuccseS2C(roleID, PracticeOpcode.TriggerBottleneck, bottleneck);
+                                return;
+                            }
+                            else
+                            {
+                                ResultSuccseS2C(roleID, PracticeOpcode.TriggerBottleneck, bottleneck);
+                            }
+                        }
                         if (gongfa==null)
                         {
                             ResultFailS2C(roleID,PracticeOpcode.GetOffLineExp);
@@ -136,7 +165,9 @@ namespace AscensionServer
                         }
                         exp = (int)interval.TotalSeconds / 5 * redisRoleStatus.GongfaLearnSpeed;
                         var gongfaObj = AddGongFaExp(gongfa, exp, out CultivationMethod method);
-                        ResultSuccseS2C(roleID, PracticeOpcode.GetOffLineExp, gongfaObj);
+                        dict = new Dictionary<byte, object>();
+                        dict.Add((byte)PracticeOpcode.GetOffLineExp, onOffLineObj);
+                        ResultSuccseS2C(roleID, PracticeOpcode.GetRoleGongfa, dict);
                         await  NHibernateQuerier.UpdateAsync(method);
                         break;
                     case 2:
@@ -147,7 +178,9 @@ namespace AscensionServer
                         }
                         exp = (int)interval.TotalSeconds / 5 * redisRoleStatus.GongfaLearnSpeed;
                         var mishuObj = AddMiShu(mishu, exp, out MiShu mishuData);
-                        ResultSuccseS2C(roleID, PracticeOpcode.GetOffLineExp, mishuObj);
+                        dict = new Dictionary<byte, object>();
+                        dict.Add((byte)PracticeOpcode.GetOffLineExp, onOffLineObj);
+                        ResultSuccseS2C(roleID, PracticeOpcode.GetRoleMiShu, dict);
                         await NHibernateQuerier.UpdateAsync(mishuData);
                         break;
                     default:
@@ -201,7 +234,7 @@ namespace AscensionServer
                 {
                     miShu.MiShuExp = miShu.MiShuLevel + exp - roleData.ExpLevelUp;
                     miShu.MiShuLevel++;
-                    //TODO添加升级的逻辑
+                    //TODO添加升级的逻辑,先判断瓶颈在升级
                     AddMiShu(miShu, 0,out miShudata);
                 }
             }

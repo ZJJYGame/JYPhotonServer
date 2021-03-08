@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Protocol;
 
 namespace AscensionServer
 {
@@ -32,7 +33,12 @@ namespace AscensionServer
             {
                 IPeerEntity pa;
                 GameEntry. PeerManager.TryGetValue(remoteRole.SessionId, out pa);
-                pa.SendEventMsg((byte)EventCode.ReplacePlayer, null);//从这里发送挤下线消息；
+                #region 替换挤下线
+                //pa.SendEventMsg((byte)EventCode.ReplacePlayer, null);//从这里发送挤下线消息；
+                #endregion
+                OperationData data = new OperationData();
+                data.OperationCode = (byte)LoginOffOpCode.ReplacePlayer;
+                pa.SendMessage(data);
                 GameEntry. RoleManager.TryRemove(roleObj.RoleID);
             }
             IPeerEntity peerAgent;
