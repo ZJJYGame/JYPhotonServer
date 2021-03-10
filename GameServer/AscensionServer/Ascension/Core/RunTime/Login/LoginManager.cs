@@ -30,14 +30,19 @@ namespace AscensionServer
             string _uuid = NHibernateQuerier.Query<User>("Account", user.Account).UUID;
             var userRoleObj = NHibernateQuerier.Query<UserRole>("UUID", _uuid);
             string roleIdListJson = userRoleObj.RoleIDArray;
-            var roleIdListStr = Utility.Json.ToObject<List<string>>(roleIdListJson);
-            var length = roleIdListStr.Count;
-            var roleIdListInt = new List<int>();
-            for (int i = 0; i < length; i++)
+            int length = 0;
+            if (!string.IsNullOrEmpty(roleIdListJson))
             {
-                roleIdListInt.Add(int.Parse(roleIdListStr[i]));
+                var roleIdListStr = Utility.Json.ToObject<List<string>>(roleIdListJson);
+                length = roleIdListStr.Count;
+                var roleIdListInt = new List<int>();
+                for (int i = 0; i < length; i++)
+                {
+                    roleIdListInt.Add(int.Parse(roleIdListStr[i]));
+                }
+                return  roleIdListInt.ToArray();
             }
-            return length == 0 ? null : roleIdListInt.ToArray();
+            return null;
         }
         void ProcessHandlerC2S(int sessionId, OperationData packet)
         {
