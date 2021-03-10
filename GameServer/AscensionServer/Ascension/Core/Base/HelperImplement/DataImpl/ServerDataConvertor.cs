@@ -91,6 +91,9 @@ namespace AscensionServer
                 GameEntry.DataManager.TryGetValue(typeof(RoleLevelData).Name, out var roleLevelData);
                 var roleLevelDataDict = TransObject<List<RoleLevelData>>(roleLevelData).ToDictionary(key=>key.LevelID,value=>value);
 
+                GameEntry.DataManager.TryGetValue(typeof(FlyMagicToolData).Name, out var flyMagicToolData);
+                var flyMagicToolDict = TransObject<List<FlyMagicToolData>>(flyMagicToolData).ToDictionary(key => key.FlyMagicToolID, value => value);
+
                 #region 背包json
                 GameEntry. DataManager.TryGetValue(typeof(ItemBagBaseData).Name, out var itemBagData);
                 var itemBagDict = TransObject<List<ItemBagBaseData>>(itemBagData).ToDictionary(key => key.ItemID, value => value);
@@ -138,6 +141,7 @@ namespace AscensionServer
                 var battleBuffDict = TransObject<List<BattleBuffData>>(battleSBuffSet).ToDictionary(key => key.id, value => value);
                 #endregion
 
+                GameEntry.DataManager.TryAdd(flyMagicToolDict);
                 GameEntry.DataManager.TryAdd(roleLevelDataDict);
                 GameEntry. DataManager.TryAdd(formulaDataDict);
                 GameEntry. DataManager.TryAdd(petSkillDataDict);

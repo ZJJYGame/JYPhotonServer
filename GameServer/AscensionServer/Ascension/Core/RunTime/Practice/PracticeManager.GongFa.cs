@@ -23,22 +23,21 @@ namespace AscensionServer
         {
             if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleGongfaPerfix, RoleID.ToString()).Result)
             {
-                var dict = await RedisHelper.Hash.HashGetAsync<Dictionary<string, int>>(RedisKeyDefine._RoleGongfaPerfix, RoleID.ToString());
+                var dict = await RedisHelper.Hash.HashGetAsync<RoleGongFaDTO>(RedisKeyDefine._RoleGongfaPerfix, RoleID.ToString());
                 List<CultivationMethodDTO> gongFaIdList = new List<CultivationMethodDTO>();
-                if (dict.Count != 0)
+                if (dict.GongFaIDArray.Count != 0)
                 {
-                    foreach (var item in dict)
+                    foreach (var item in dict.GongFaIDArray)
                     {
-                        if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._GongfaPerfix, item.Key).Result)
+                        if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._GongfaPerfix, item.Key.ToString()).Result)
                         {
                             gongFaIdList.Add(await RedisHelper.Hash.HashGetAsync<CultivationMethodDTO>(RedisKeyDefine._RoleGongfaPerfix, RoleID.ToString()));
                         }
                     }
-                    OperationData opData = new OperationData();
-                    opData.DataMessage = Utility.Json.ToJson(gongFaIdList);
-                    opData.OperationCode = (byte)OperationCode.SyncPractice;
-                    opData.ReturnCode = (byte)ReturnCode.Success;
-                    GameEntry.RoleManager.SendMessage(RoleID, opData);
+                    Dictionary<byte, object> dictData = new Dictionary<byte, object>();
+                    dictData.Add((byte)ParameterCode.GongFa, gongFaIdList);
+                    dictData.Add((byte)ParameterCode.RoleGongFa, dict);
+                    ResultSuccseS2C(RoleID,PracticeOpcode.GetRoleGongfa,dictData);
                 }
                 else
                     GetRoleGongFaMySql(RoleID);
@@ -54,22 +53,21 @@ namespace AscensionServer
         {
             if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleMiShuPerfix, RoleID.ToString()).Result)
             {
-                var dict = await RedisHelper.Hash.HashGetAsync<Dictionary<string, int>>(RedisKeyDefine._RoleMiShuPerfix, RoleID.ToString());
+                var dict = await RedisHelper.Hash.HashGetAsync<RoleMiShuDTO>(RedisKeyDefine._RoleMiShuPerfix, RoleID.ToString());
                 List<MiShuDTO> miShuIdList = new List<MiShuDTO>();
-                if (dict.Count != 0)
+                if (dict.MiShuIDArray.Count != 0)
                 {
-                    foreach (var item in dict)
+                    foreach (var item in dict.MiShuIDArray)
                     {
-                        if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._MiShuPerfix, item.Key).Result)
+                        if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._MiShuPerfix, item.Key.ToString()).Result)
                         {
                             miShuIdList.Add(await RedisHelper.Hash.HashGetAsync<MiShuDTO>(RedisKeyDefine._RoleMiShuPerfix, RoleID.ToString()));
                         }
                     }
-                    OperationData opData = new OperationData();
-                    opData.DataMessage = Utility.Json.ToJson(miShuIdList);
-                    opData.OperationCode = (byte)OperationCode.SyncPractice;
-                    opData.ReturnCode = (byte)ReturnCode.Success;
-                    GameEntry.RoleManager.SendMessage(RoleID, opData);
+                    Dictionary<byte, object> dataDict = new Dictionary<byte, object>();
+                    dataDict.Add((byte)ParameterCode.MiShu, miShuIdList);
+                    dataDict.Add((byte)ParameterCode.RoleMiShu, dict);
+                    ResultSuccseS2C(RoleID, PracticeOpcode.GetRoleMiShu, dataDict);
                 }
                 else
                     GetRoleMiShuMySql(RoleID);
@@ -89,7 +87,6 @@ namespace AscensionServer
         {
             List<NHCriteria> nHCriterias = new List<NHCriteria>();
             List<CultivationMethodDTO> gongFaIdList = new List<CultivationMethodDTO>();
-            OperationData opData = new OperationData();
             Dictionary<byte, object> dataDict = new Dictionary<byte, object>();
             NHCriteria nHCriteriaRole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", RoleID);
             var role = NHibernateQuerier.CriteriaSelectAsync<RoleGongFa>(nHCriteriaRole).Result;
@@ -107,29 +104,19 @@ namespace AscensionServer
                             gongFaIdList.Add(ChangeGongFa(gongfa));
                         }
                     }
-                    opData.OperationCode = (byte)OperationCode.SyncPractice;
                     dataDict = new Dictionary<byte, object>();
-                    dataDict.Add((byte)PracticeOpcode.GetRoleGongfa, gongFaIdList);
-                    opData.DataMessage = Utility.Json.ToJson(dataDict);
-                    GameEntry.RoleManager.SendMessage(RoleID, opData);
+                    dataDict.Add((byte)ParameterCode.GongFa, gongFaIdList);                    
+                    dataDict.Add((byte)ParameterCode.RoleGongFa, ChangeDataType(role));
+                    ResultSuccseS2C(RoleID, PracticeOpcode.GetRoleGongfa, dataDict);
                 }
                 else
                 {
-                    opData.OperationCode = (byte)OperationCode.SyncPractice;
-                    dataDict = new Dictionary<byte, object>();
-                    dataDict.Add((byte)PracticeOpcode.GetRoleGongfa, null);
-                    opData.DataMessage = Utility.Json.ToJson(dataDict);
-                    GameEntry.RoleManager.SendMessage(RoleID, opData);
-                    Utility.Debug.LogInfo("yzqjueseid发送成功");
+                    ResultFailS2C(RoleID,PracticeOpcode.GetRoleGongfa);
                 }
             }
             else
             {
-                opData.OperationCode = (byte)OperationCode.SyncPractice;
-                dataDict = new Dictionary<byte, object>();
-                dataDict.Add((byte)PracticeOpcode.GetRoleGongfa, null);
-                opData.DataMessage = Utility.Json.ToJson(dataDict);
-                GameEntry.RoleManager.SendMessage(RoleID, opData);
+                ResultFailS2C(RoleID, PracticeOpcode.GetRoleGongfa);
             }
 
         }
@@ -159,29 +146,19 @@ namespace AscensionServer
                             mishuIdList.Add(ChangeMiShu(mishu));
                         }
                     }
-                    opData.OperationCode = (byte)OperationCode.SyncPractice;
                     dataDict = new Dictionary<byte, object>();
-                    dataDict.Add((byte)PracticeOpcode.GetRoleMiShu, mishuIdList);
-                    opData.DataMessage = Utility.Json.ToJson(dataDict);
-                    GameEntry.RoleManager.SendMessage(RoleID, opData);
+                    dataDict.Add((byte)ParameterCode.MiShu, mishuIdList);
+                    dataDict.Add((byte)ParameterCode.RoleMiShu, ChangeDataType(role));
+                    ResultSuccseS2C(RoleID, PracticeOpcode.GetRoleMiShu, dataDict);
                 }
                 else
                 {
-                    opData.OperationCode = (byte)OperationCode.SyncPractice;
-                    dataDict = new Dictionary<byte, object>();
-                    dataDict.Add((byte)PracticeOpcode.GetRoleMiShu, null);
-                    opData.DataMessage = Utility.Json.ToJson(dataDict);
-                    GameEntry.RoleManager.SendMessage(RoleID, opData);
+                    ResultFailS2C(RoleID, PracticeOpcode.GetRoleMiShu); 
                 }
             }
             else
             {
-                opData.OperationCode = (byte)OperationCode.SyncPractice;
-                dataDict = new Dictionary<byte, object>();
-                dataDict.Add((byte)PracticeOpcode.GetRoleMiShu, null);
-                opData.DataMessage = Utility.Json.ToJson(dataDict);
-                GameEntry.RoleManager.SendMessage(RoleID, opData);
-    
+                ResultFailS2C(RoleID, PracticeOpcode.GetRoleMiShu);
             }
 
         }
@@ -210,6 +187,22 @@ namespace AscensionServer
             miShuDTO.MiShuSkillArry = Utility.Json.ToObject<List<int>>(miShu.MiShuSkillArry);
 
             return miShuDTO;
+        }
+
+        RoleGongFaDTO ChangeDataType(RoleGongFa roleGongFa)
+        {
+            RoleGongFaDTO roleGongFaObj = new RoleGongFaDTO();
+            roleGongFaObj.RoleID = roleGongFa.RoleID;
+            roleGongFaObj.GongFaIDArray = Utility.Json.ToObject<Dictionary<int ,int>>(roleGongFa.GongFaIDArray);
+            return roleGongFaObj;
+        }
+
+        RoleMiShuDTO ChangeDataType(RoleMiShu roleMiShu)
+        {
+            RoleMiShuDTO roleMiShuObj = new RoleMiShuDTO();
+            roleMiShuObj.RoleID = roleMiShu.RoleID;
+            roleMiShuObj.MiShuIDArray = Utility.Json.ToObject<Dictionary<int, int>>(roleMiShu.MiShuIDArray);
+            return roleMiShuObj;
         }
         #endregion
 

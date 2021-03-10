@@ -27,8 +27,6 @@ namespace AscensionServer
             OnOffLineDTO onOffLine;
             foreach (var item in dict)
             {
-
-                Utility.Debug.LogInfo("YZQ接受数据进来了");
                 switch ((PracticeOpcode)item.Key)
                 {
                     case PracticeOpcode.GetRoleGongfa:
@@ -44,18 +42,16 @@ namespace AscensionServer
                     case PracticeOpcode.AddMiShu:
                         break;
                     case PracticeOpcode.SwitchPracticeType:
-                        Utility.Debug.LogInfo("YZQjueseid为" + Convert.ToString(packet.DataMessage));
                         onOffLine = Utility.Json.ToObject<OnOffLineDTO>(item.Value.ToString());
                         SwitchPracticeTypeS2C(onOffLine);
                         break;
                     case PracticeOpcode.UploadingExp:
-
+                        var obj = Utility.Json.ToObject<OnOffLineDTO>(item.Value.ToString());
+                        UploadingExpS2C(obj);
                         break;
                     case PracticeOpcode.GetOffLineExp:
                         role = Utility.Json.ToObject<RoleDTO>(item.Value.ToString());
                         GetOffLineExpS2C(role.RoleID);
-                        break;
-                    case PracticeOpcode.TriggerBottleneck:
                         break;
                     case PracticeOpcode.UseBottleneckElixir:
                         break;
@@ -109,9 +105,11 @@ namespace AscensionServer
         {
             OperationData opData = new OperationData();
             opData.OperationCode = (byte)OperationCode.SyncPractice;
-            opData.DataMessage = Utility.Json.ToJson(Utility.Json.ToJson(dict));
+            var dataDict = new Dictionary<byte, object>();
+            dataDict.Add((byte)opcode, Utility.Json.ToJson(dict));
+            opData.DataMessage = Utility.Json.ToJson(dataDict);
             GameEntry.RoleManager.SendMessage(roleID, opData);
-            Utility.Debug.LogInfo("yzqjueseid发送成功" + Utility.Json.ToJson(opData));
+            Utility.Debug.LogInfo("YZQ发送成功" +(byte)opcode+">>"+ Utility.Json.ToJson(dict));
         }
     }
 }

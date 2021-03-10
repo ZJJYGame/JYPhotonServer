@@ -21,7 +21,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -184,6 +184,7 @@
     <Compile Include="Ascension\Core\Base\DataObject\EquipmentData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\FactionItemData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\FactionSkillData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\FlyMagicToolData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\FormulaData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\ItemBagBaseData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MapResourceData.cs" />
@@ -249,6 +250,8 @@
     <Compile Include="Ascension\Core\RunTime\Data\IDataConvertor.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\IDataManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\IDataProvider.cs" />
+    <Compile Include="Ascension\Core\RunTime\FlyMagicTool\FlyMagicToolManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\FlyMagicTool\IFlyMagicToolManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Level\ILevelManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Lobby\ILobbyManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Login\DefaultCreateRole.cs" />
@@ -287,6 +290,8 @@
     <Compile Include="Ascension\Core\RunTime\Resource\MapResourceManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\TacticalDeploymentManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\TacticalEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\RoleStatus\IRoleStatusManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\RoleStatus\RoleStatusManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Role\IRoleManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Role\RoleEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Role\RoleManager.cs" />
