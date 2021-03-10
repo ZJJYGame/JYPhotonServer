@@ -18,34 +18,51 @@ namespace AscensionServer
         /// </summary>
         /// <param name="roleID"></param>
         /// <param name="level"></param>
-        async void TriggerBottleneckS2C(int roleID,int level)
+        Bottleneck TriggerBottleneckS2C(int roleID,int level, out bool isbottleneck)
         {
-            if (RedisHelper.Hash.HashExist(RedisKeyDefine._RoleBottleneckPostfix, roleID.ToString()))
+            isbottleneck = false;
+            var bottleneckExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleBottleneckPostfix, roleID.ToString()).Result;
+            var roleExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RolePostfix, roleID.ToString()).Result;
+            if (!bottleneckExist  || !roleExist )
             {
-                var bottleneckRedis = RedisHelper.Hash.HashGet<Bottleneck>(RedisKeyDefine._RoleBottleneckPostfix, roleID.ToString());
-                var role =  RedisHelper.Hash.HashGetAsync<RoleDTO>(RedisKeyDefine._RolePostfix, roleID.ToString()).Result;
-                if (bottleneckRedis==null)
+                var result = TriggerBottleneck(roleID, level,out isbottleneck);
+                if (result != null)
                 {
-                    TriggerBottleneck(roleID, level);
-                    return;
+                    return result;
                 }
-                if (role==null)
-                {
-                    TriggerBottleneck(roleID, level);
-                    return;
-                }
-                int count = Utility.Json.ToObject<List<int>>(role.RoleRoot).Count;
-                //var bottleneck = JudgeBottleneck(level, count, bottleneckRedis);
-                #region 待优化
+                else
+                    return null;
+            }
+            var bottleneck = RedisHelper.Hash.HashGet<Bottleneck>(RedisKeyDefine._RoleBottleneckPostfix, roleID.ToString());
+            var role = RedisHelper.Hash.HashGetAsync<RoleDTO>(RedisKeyDefine._RolePostfix, roleID.ToString()).Result;
 
-                #endregion
-                //if (bottleneck != null)
-                //{
-                //    ResultSuccseS2C(roleID, PracticeOpcode.TriggerBottleneck, bottleneck);
-                //}
+            int count = Utility.Json.ToObject<List<int>>(role.RoleRoot).Count;
+            #region 待优化
+            List<int> rootPercentNum;
+            GameEntry.DataManager.TryGetValue<Dictionary<int, BottleneckData>>(out var bottleneckData);
+            GameEntry.DataManager.TryGetValue<Dictionary<int, DemonData>>(out var demonData);
+            GetRootPercent(bottleneckData[level], count, out rootPercentNum);
+            if (GetPercent(rootPercentNum[0] / (float)100))
+            {
+                bottleneck.IsBottleneck = true;
+                bottleneck.BreakThroughVauleMax = rootPercentNum[1];
+                if (bottleneckData[level].IsFinalLevel)
+                {
+                    bottleneck.IsThunder = true;
+                    bottleneck.ThunderRound = bottleneckData[level].Thunder_Round;//获取天劫回合数
+                    int demonIndex = GetDemonPercent(demonData[level], bottleneck.CraryVaule);
+                    if (GetPercent(demonData[level].Trigger_Chance[demonIndex] / (float)100))
+                    {
+                        bottleneck.IsDemon = true;
+                        bottleneck.DemonID = demonData[level].Demon_ID[demonIndex];
+                    }
+                    isbottleneck = true;
+                }
             }
             else
-                TriggerBottleneck(roleID,level);
+                isbottleneck = false;
+         return bottleneck;
+            #endregion
         }
         #endregion
         #region MySql模块
@@ -54,19 +71,20 @@ namespace AscensionServer
         /// </summary>
         /// <param name="roleID"></param>
         /// <param name="level"></param>
-         Bottleneck TriggerBottleneck(int roleID, int level)
+        Bottleneck TriggerBottleneck(int roleID, int level, out bool isbottleneck)
         {
+            isbottleneck = false;
             NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
             var bottleneck = NHibernateQuerier.CriteriaSelectAsync<Bottleneck>(nHCriteria).Result;
             if (bottleneck == null)
             {
-                ResultFailS2C(roleID, PracticeOpcode.TriggerBottleneck);
+                isbottleneck = false;
                 return null;
             }
             var roleObj = NHibernateQuerier.CriteriaSelectAsync<Role>(nHCriteria).Result;
             if (roleObj == null)
             {
-                ResultFailS2C(roleID, PracticeOpcode.TriggerBottleneck);
+               // ResultFailS2C(roleID, PracticeOpcode.TriggerBottleneck);
                 return null;
             }
             int count = Utility.Json.ToObject<List<int>>(roleObj.RoleRoot).Count;
@@ -88,12 +106,11 @@ namespace AscensionServer
                         bottleneck.IsDemon = true;
                         bottleneck.DemonID = demonData[level].Demon_ID[demonIndex];
                     }
+                    isbottleneck = true;
                 }
-                ResultSuccseS2C(roleID, PracticeOpcode.TriggerBottleneck, bottleneck);//触发瓶颈结束
-                return bottleneck;
-            }
-            else
-                return null;        
+            }else
+                isbottleneck = false;
+            return bottleneck;        
         }
         #endregion
         /// <summary>

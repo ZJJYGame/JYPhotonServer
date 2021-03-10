@@ -27,7 +27,7 @@ namespace AscensionServer
                 return;
             }
             NHCriteria nHCriteriaOnOff = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleEntity.RoleId);
-            var obj = NHibernateQuerier.CriteriaSelectAsync<OffLineTime>(nHCriteriaOnOff).Result;
+            var obj = NHibernateQuerier.CriteriaSelectAsync<OnOffLine>(nHCriteriaOnOff).Result;
             var roleAllianceobj = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriaOnOff).Result;
             if (roleAllianceobj != null)
             {
@@ -53,7 +53,14 @@ namespace AscensionServer
             }
             else
             {
-                var offLineTimeTmp = CosmosEntry.ReferencePoolManager.Spawn<OffLineTime>();
+                #region 待删
+                //var offLineTimeTmp = CosmosEntry.ReferencePoolManager.Spawn<OffLineTime>();
+                //offLineTimeTmp.RoleID = roleEntity.RoleId;
+                //offLineTimeTmp.OffTime = DateTime.Now.ToString();
+                //NHibernateQuerier.Insert(offLineTimeTmp);
+                //CosmosEntry.ReferencePoolManager.Despawn(offLineTimeTmp);
+                #endregion
+                var offLineTimeTmp = CosmosEntry.ReferencePoolManager.Spawn<OnOffLine>();
                 offLineTimeTmp.RoleID = roleEntity.RoleId;
                 offLineTimeTmp.OffTime = DateTime.Now.ToString();
                 NHibernateQuerier.Insert(offLineTimeTmp);
