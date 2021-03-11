@@ -20,6 +20,7 @@ namespace AscensionServer
             var dict = operationRequest.Parameters;
             string petCompleteJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.PetStatus));
             var petCompleteObj = Utility.Json.ToObject<PetCompleteDTO>(petCompleteJson);
+            Utility.Debug.LogInfo("yzqData拿到宠物数据" + petCompleteJson);
             NHCriteria nHCriteriapetStatus= CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petCompleteObj.PetDTO.ID);
             NHCriteria nHCriteriapet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petCompleteObj.PetDTO.ID);
             NHCriteria nHCriteriarole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", petCompleteObj.RoleID);
@@ -51,6 +52,7 @@ namespace AscensionServer
                     GameEntry.PetStatusManager.PetCultivate(petCompleteObj.UseItemID, nHCriteriarole, petObj, petCompleteObj);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetGetStatus:
+                    Utility.Debug.LogInfo("yzqData获得宠物数据" );
                     GameEntry.PetStatusManager.GetPetAllCompeleteStatus(petCompleteObj.PetDTO.ID, nHCriteriapetStatus, petCompleteObj.RoleID, nHCriteriapet);
                     break;
                 default:

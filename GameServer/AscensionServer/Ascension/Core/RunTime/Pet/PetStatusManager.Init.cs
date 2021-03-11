@@ -153,8 +153,8 @@ namespace AscensionServer
                 petAbilityPointObj.SlnNow = petAbilityPoint.SlnNow;
                 if (!string.IsNullOrEmpty(petAbilityPoint.AbilityPointSln))
                 {
-                    petAbilityPointObj.AbilityPointSln = new Dictionary<int, PetAbilityDTO>();
-                    petAbilityPointObj.AbilityPointSln = Utility.Json.ToObject<Dictionary<int, PetAbilityDTO>>(petAbilityPoint.AbilityPointSln);
+                    petAbilityPointObj.AbilityPointSln = new Dictionary<int, AbilityDTO>();
+                    petAbilityPointObj.AbilityPointSln = Utility.Json.ToObject<Dictionary<int, AbilityDTO>>(petAbilityPoint.AbilityPointSln);
                 }
                 petCompleteDTO.PetAbilityPointDTO = petAbilityPointObj;
 
@@ -310,11 +310,11 @@ namespace AscensionServer
 
         public async void RenamePointSln(PetAbilityPoint petAbilityPoint, PetCompleteDTO petCompleteDTO)
         {
-            var pointSlnDict = Utility.Json.ToObject<Dictionary<int, PetAbilityDTO>>(petAbilityPoint.AbilityPointSln);
-            if (pointSlnDict.TryGetValue(petCompleteDTO.PetAbilityPointDTO.SlnNow, out var petAbilityDTO))
+            var pointSlnDict = Utility.Json.ToObject<Dictionary<int, AbilityDTO>>(petAbilityPoint.AbilityPointSln);
+            if (pointSlnDict.TryGetValue(petCompleteDTO.PetAbilityPointDTO.SlnNow, out var AbilityDTO))
             {
-                petAbilityDTO.SlnName = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].SlnName;
-                pointSlnDict[petCompleteDTO.PetAbilityPointDTO.SlnNow] = petAbilityDTO;
+                AbilityDTO.SlnName = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].SlnName;
+                pointSlnDict[petCompleteDTO.PetAbilityPointDTO.SlnNow] = AbilityDTO;
 
                 petCompleteDTO.PetAbilityPointDTO.AbilityPointSln = pointSlnDict;
                 petCompleteDTO.PetAbilityPointDTO.IsUnlockSlnThree = petAbilityPoint.IsUnlockSlnThree;
@@ -326,21 +326,21 @@ namespace AscensionServer
         }
         public async void UpdatePointSln(PetAbilityPoint petAbilityPoint, PetCompleteDTO petCompleteDTO)
         {
-            var pointSlnDict = Utility.Json.ToObject<Dictionary<int, PetAbilityDTO>>(petAbilityPoint.AbilityPointSln);
-            if (pointSlnDict.TryGetValue(petCompleteDTO.PetAbilityPointDTO.SlnNow, out var petAbilityDTO))
+            var pointSlnDict = Utility.Json.ToObject<Dictionary<int, AbilityDTO>>(petAbilityPoint.AbilityPointSln);
+            if (pointSlnDict.TryGetValue(petCompleteDTO.PetAbilityPointDTO.SlnNow, out var AbilityDTO))
             {
                 Utility.Debug.LogInfo("yzqData更新宠物加点" + Utility.Json.ToJson(pointSlnDict));
                 Utility.Debug.LogInfo("yzqData更新宠物加点");
-                petAbilityDTO.Agility = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Agility;
-                petAbilityDTO.Power = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Power;
-                petAbilityDTO.Strength = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Strength;
-                petAbilityDTO.Soul = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Soul;
-                petAbilityDTO.Corporeity = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Corporeity;
-                petAbilityDTO.Stamina = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Stamina;
-                petAbilityDTO.SurplusAptitudePoint = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].SurplusAptitudePoint;
-                petAbilityDTO.IsSet = true;
+                AbilityDTO.Agility = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Agility;
+                AbilityDTO.Power = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Power;
+                AbilityDTO.Strength = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Strength;
+                AbilityDTO.Soul = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Soul;
+                AbilityDTO.Corporeity = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Corporeity;
+                AbilityDTO.Stamina = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].Stamina;
+                AbilityDTO.SurplusAptitudePoint = petCompleteDTO.PetAbilityPointDTO.AbilityPointSln[petCompleteDTO.PetAbilityPointDTO.SlnNow].SurplusAptitudePoint;
+                AbilityDTO.IsSet = true;
 
-                pointSlnDict[petCompleteDTO.PetAbilityPointDTO.SlnNow] = petAbilityDTO;
+                pointSlnDict[petCompleteDTO.PetAbilityPointDTO.SlnNow] = AbilityDTO;
 
                 petCompleteDTO.PetAbilityPointDTO.AbilityPointSln = pointSlnDict;
                 petAbilityPoint.AbilityPointSln = Utility.Json.ToJson(pointSlnDict);
@@ -352,15 +352,15 @@ namespace AscensionServer
         }
         public async void UlockPointSln(PetAbilityPoint petAbilityPoint, NHCriteria nHCriteria, PetCompleteDTO petCompleteDTO)
         {
-            var pointSlnDict = Utility.Json.ToObject<Dictionary<int, PetAbilityDTO>>(petAbilityPoint.AbilityPointSln);
+            var pointSlnDict = Utility.Json.ToObject<Dictionary<int, AbilityDTO>>(petAbilityPoint.AbilityPointSln);
 
             var roleassets = NHibernateQuerier.CriteriaSelectAsync<RoleAssets>(nHCriteria).Result;
             if (roleassets.SpiritStonesLow >= 0)
             {
-                //if (pointSlnDict.TryGetValue(petCompleteDTO.PetAbilityPointDTO.SlnNow, out var petAbilityDTO))
+                //if (pointSlnDict.TryGetValue(petCompleteDTO.PetAbilityPointDTO.SlnNow, out var AbilityDTO))
                 //{                  
                 //}
-                pointSlnDict.Add(petCompleteDTO.PetAbilityPointDTO.SlnNow, new PetAbilityDTO() { SlnName = "方案三" });
+                pointSlnDict.Add(petCompleteDTO.PetAbilityPointDTO.SlnNow, new AbilityDTO() { SlnName = "方案三" });
                 petAbilityPoint.IsUnlockSlnThree = true;
                 petAbilityPoint.AbilityPointSln = Utility.Json.ToJson(pointSlnDict);
                 roleassets.SpiritStonesLow -= 0;

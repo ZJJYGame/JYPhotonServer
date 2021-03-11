@@ -113,51 +113,7 @@ namespace AscensionServer
             return bottleneck;        
         }
         #endregion
-        /// <summary>
-        /// 判断是否触发瓶颈
-        /// </summary>
-        //Bottleneck JudgeBottleneck(int level,int roleID)
-        //{
-        //    NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
-        //    var bottleneck = NHibernateQuerier.CriteriaSelectAsync<Bottleneck>(nHCriteria).Result;
-
-        //    if (bottleneck== null)
-        //    {
-        //        ResultFailS2C(roleID, PracticeOpcode.TriggerBottleneck);
-        //        return null;
-        //    }
-        //    var roleObj = NHibernateQuerier.CriteriaSelectAsync<Role>(nHCriteria).Result;
-        //    if (roleObj == null)
-        //    {
-        //        ResultFailS2C(roleID, PracticeOpcode.TriggerBottleneck);
-        //        return null;
-        //    }
-        //    int count = Utility.Json.ToObject<List<int>>(roleObj.RoleRoot).Count;
-        //    List<int> rootPercentNum;
-        //    GameEntry.DataManager.TryGetValue<Dictionary<int, BottleneckData>>(out var bottleneckData);
-        //    GameEntry.DataManager.TryGetValue<Dictionary<int, DemonData>>(out var demonData);
-        //    GetRootPercent(bottleneckData[level], count, out rootPercentNum);
-        //    if (GetPercent(rootPercentNum[0] / (float)100))
-        //    {
-        //        bottleneck.IsBottleneck = true;
-        //        bottleneck.BreakThroughVauleMax = rootPercentNum[1];
-        //        if (bottleneckData[level].IsFinalLevel)
-        //        {
-        //            bottleneck.IsThunder = true;
-        //            bottleneck.ThunderRound = bottleneckData[level].Thunder_Round;//获取天劫回合数
-        //            int demonIndex = GetDemonPercent(demonData[level], bottleneck.CraryVaule);
-        //            if (GetPercent(demonData[level].Trigger_Chance[demonIndex] / (float)100))
-        //            {
-        //                bottleneck.IsDemon = true;
-        //                bottleneck.DemonID = demonData[level].Demon_ID[demonIndex];
-        //            }
-        //        }
-        //        return bottleneck;
-        //    }
-        //    else
-        //        return null;
-        //}
-        //获取概率值
+    
         private bool GetPercent(float num)
         {
             Random random = new Random();

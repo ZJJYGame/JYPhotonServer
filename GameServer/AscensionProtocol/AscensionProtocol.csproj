@@ -76,7 +76,7 @@
     <Compile Include="DTO\FlyMagicToolDTO.cs" />
     <Compile Include="DTO\ForgeDTO.cs" />
     <Compile Include="DTO\HerbsFieldDTO.cs" />
-    <Compile Include="DTO\PetAbilityDTO.cs" />
+    <Compile Include="DTO\AbilityDTO.cs" />
     <Compile Include="DTO\PetAbilityPointDTO.cs" />
     <Compile Include="DTO\PetCompleteDTO.cs" />
     <Compile Include="DTO\PetDrugRefreshDTO.cs" />
@@ -90,6 +90,7 @@
     <Compile Include="DTO\RoleAllianceSkilltransferDTO.cs" />
     <Compile Include="DTO\RoleAuctionItemsDTO.cs" />
     <Compile Include="DTO\RolePurchaseRecordDTO.cs" />
+    <Compile Include="DTO\RoleStatusPointDTO.cs" />
     <Compile Include="DTO\SecondaryJobDTO.cs" />
     <Compile Include="DTO\ShoppingMallDTO.cs" />
     <Compile Include="DTO\Resource\OccupiedUnitDTO.cs" />

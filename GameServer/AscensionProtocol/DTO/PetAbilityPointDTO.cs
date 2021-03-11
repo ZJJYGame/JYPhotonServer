@@ -12,16 +12,16 @@ namespace AscensionProtocol.DTO
         public virtual int ID { get; set; }
         public virtual int SlnNow { get; set; }
         public virtual bool IsUnlockSlnThree { get; set; }
-        public virtual Dictionary<int, PetAbilityDTO> AbilityPointSln { get; set; }
+        public virtual Dictionary<int, AbilityDTO> AbilityPointSln { get; set; }
         public virtual AbilityPointType AddPointType { get; set; }
 
         public PetAbilityPointDTO()
         {
             SlnNow = 0;
             IsUnlockSlnThree = false;
-            AbilityPointSln = new Dictionary<int, PetAbilityDTO>();
-            AbilityPointSln.Add(0,new PetAbilityDTO() { SlnName="方案一"});
-            AbilityPointSln.Add(1, new PetAbilityDTO() { SlnName = "方案二" });
+            AbilityPointSln = new Dictionary<int, AbilityDTO>();
+            AbilityPointSln.Add(0,new AbilityDTO() { SlnName="方案一"});
+            AbilityPointSln.Add(1, new AbilityDTO() { SlnName = "方案二" });
             AddPointType = AbilityPointType.None;
         }
 

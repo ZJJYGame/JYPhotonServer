@@ -152,7 +152,11 @@ namespace AscensionServer
         /// 角色瓶颈触发
         /// </summary>
         public static readonly string _RoleBottleneckPostfix = "RoleBottleneck";
-        
+        /// <summary>
+        /// 角色属性加点
+        /// </summary>
+        public static readonly string _RoleAbilityPointPostfix = "RoleAbilityPoint";
+
     }
 }
 

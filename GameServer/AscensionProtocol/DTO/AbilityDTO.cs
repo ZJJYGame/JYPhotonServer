@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AscensionProtocol.DTO
 {
     [Serializable]
-    public class PetAbilityDTO : DataTransferObject
+    public class AbilityDTO : DataTransferObject
     {
         public virtual int Strength { get; set; }
         public virtual int Power { get; set; }
@@ -18,7 +18,7 @@ namespace AscensionProtocol.DTO
         public virtual int SurplusAptitudePoint { get; set; }
         public virtual bool IsSet { get; set; }
         public virtual string  SlnName { get; set; }
-        public PetAbilityDTO()
+        public AbilityDTO()
         {
             IsSet = false;
             Strength = 0;

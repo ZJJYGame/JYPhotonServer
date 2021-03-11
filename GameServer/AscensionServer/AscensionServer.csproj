@@ -291,6 +291,7 @@
     <Compile Include="Ascension\Core\RunTime\Resource\TacticalDeploymentManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\TacticalEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\RoleStatus\IRoleStatusManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\RoleStatus\RoleStatusManager.Ability.cs" />
     <Compile Include="Ascension\Core\RunTime\RoleStatus\RoleStatusManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Role\IRoleManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Role\RoleEntity.cs" />
@@ -322,12 +323,14 @@
     <Compile Include="DOMap\FlyMagicToolMap.cs" />
     <Compile Include="DOMap\PetAbilityPointMap.cs" />
     <Compile Include="DOMap\RoleAllianceSkillMap.cs" />
+    <Compile Include="DOMap\RoleStatusPointMap.cs" />
     <Compile Include="DO\AllianceConstruction.cs" />
     <Compile Include="DO\DemonicSoul.cs" />
     <Compile Include="DO\FlyMagicTool.cs" />
     <Compile Include="DO\PetAbilityPoint.cs" />
     <Compile Include="DO\RoleAllianceSkill.cs" />
     <Compile Include="DO\RoleAuctionItems.cs" />
+    <Compile Include="DO\RoleStatusPoint.cs" />
     <Compile Include="Handlers\RefreshSkillLayout\RefreshSkillLayoutHandler.cs" />
     <Compile Include="Handlers\SyncAdventurePlayerInfo\SyncAdventurePlayerInfoHandler.cs" />
     <Compile Include="Handlers\SyncAllianceAlchemy\SubHandler\GetAllianceAlchemySubHandler.cs" />
