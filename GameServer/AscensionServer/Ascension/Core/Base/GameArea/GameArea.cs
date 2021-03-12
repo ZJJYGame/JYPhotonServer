@@ -108,5 +108,10 @@ namespace AscensionServer
         /// 十进制：20
         /// </summary>
         Team = 0x14,
+        /// <summary>
+        /// 货币系统；
+        /// 十进制：21
+        /// </summary>
+        Currency = 0x15,
     }
 }
