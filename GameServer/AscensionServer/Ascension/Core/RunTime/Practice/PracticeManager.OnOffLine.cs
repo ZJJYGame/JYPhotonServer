@@ -32,6 +32,8 @@ namespace AscensionServer
                     redisOnOffLine.ExpType = onOffLineDTO.ExpType;
                     redisOnOffLine.MsGfID = onOffLineDTO.MsGfID;
                     ResultSuccseS2C(onOffLineDTO.RoleID, PracticeOpcode.SwitchPracticeType, redisOnOffLine);
+                   await RedisHelper.Hash.HashSetAsync<OnOffLineDTO>(RedisKeyDefine._RoleOnOffLinePostfix, onOffLineDTO.RoleID.ToString(), redisOnOffLine);
+                    UpdateOnOffLine(redisOnOffLine);
                     //发送
                 }
                 else
@@ -73,7 +75,11 @@ namespace AscensionServer
                             Utility.Debug.LogInfo("YZQ获取离线经验进来了2");
                             if (redisBottleneck.IsBottleneck || redisBottleneck.IsDemon || redisBottleneck.IsThunder)
                             {
-                                //ResultSuccseS2C(roleID, PracticeOpcode.TriggerBottleneck, redisBottleneck);
+                                dict = new Dictionary<byte, object>();
+                                dict.Add((byte)PracticeOpcode.TriggerBottleneck, redisBottleneck);
+                                dict.Add((byte)PracticeOpcode.GetOffLineExp, redisOnOffLine);
+                                dict.Add((byte)PracticeOpcode.GetRoleGongfa, redisGongfa);
+                                ResultSuccseS2C(roleID, PracticeOpcode.GetOffLineExp, dict);
                                 return;
                             }
                         }
@@ -88,7 +94,14 @@ namespace AscensionServer
                         dict.Add((byte)PracticeOpcode.GetOffLineExp, redisOnOffLine);
                         dict.Add((byte)PracticeOpcode.GetRoleGongfa, method);
                         ResultSuccseS2C(roleID, PracticeOpcode.GetOffLineExp, dict);
-                        //await RedisHelper.Hash.HashSetAsync<CultivationMethod>(RedisKeyDefine._GongfaPerfix, redisOnOffLine.MsGfID.ToString(), method);
+
+                        #region 更新数据至数据库 redis
+                        await RedisHelper.Hash.HashSetAsync<Bottleneck>(RedisKeyDefine._RoleBottleneckPostfix, roleID.ToString(), bottleneckObj);
+                        await RedisHelper.Hash.HashSetAsync<CultivationMethodDTO>(RedisKeyDefine._GongfaPerfix, redisOnOffLine.MsGfID.ToString(), method);
+                        await NHibernateQuerier.UpdateAsync(bottleneckObj);
+                        await NHibernateQuerier.UpdateAsync(ChangeDataType(method));
+                        #endregion
+
                         break;
                     case 2:
                         if (redisMiShu == null)
@@ -177,6 +190,8 @@ namespace AscensionServer
                 onOffLineObj.ExpType = onOffLineDTO.ExpType;
                 onOffLineObj.MsGfID = onOffLineDTO.MsGfID;
                 await NHibernateQuerier.UpdateAsync(onOffLineObj);
+                await RedisHelper.Hash.HashSetAsync<OnOffLine>(RedisKeyDefine._RoleOnOffLinePostfix, onOffLineDTO.RoleID.ToString(), onOffLineObj);
+
                 ResultSuccseS2C(onOffLineDTO.RoleID, PracticeOpcode.SwitchPracticeType, onOffLineObj);
             }
             else
@@ -214,6 +229,11 @@ namespace AscensionServer
                         {
                             if (bottleneck.IsBottleneck || bottleneck.IsDemon || bottleneck.IsThunder)
                             {
+                                dict = new Dictionary<byte, object>();
+                                dict.Add((byte)PracticeOpcode.TriggerBottleneck, bottleneck);
+                                dict.Add((Byte)PracticeOpcode.GetOffLineExp, onOffLineObj);
+                                dict.Add((byte)PracticeOpcode.GetRoleGongfa, ChangeGongFa(gongfa));
+                                ResultSuccseS2C(roleID, PracticeOpcode.GetOffLineExp, dict);
                                 //ResultSuccseS2C(roleID, PracticeOpcode.TriggerBottleneck, bottleneck);
                                 return;
                             }
@@ -223,14 +243,22 @@ namespace AscensionServer
                                 return;
                             }
                             exp = (int)interval.TotalSeconds / 5 * redisRoleStatus.GongfaLearnSpeed;
-                            var gongfaObj = AddGongFaExp(roleID, gongfa, exp, out CultivationMethodDTO method);
+                            var bottleneckObj = AddGongFaExp(roleID, gongfa, exp, out CultivationMethodDTO method);
                             dict = new Dictionary<byte, object>();
-                            dict.Add((byte)PracticeOpcode.TriggerBottleneck, gongfaObj);
+                            dict.Add((byte)PracticeOpcode.TriggerBottleneck, bottleneckObj);
                             dict.Add((Byte)PracticeOpcode.GetOffLineExp, onOffLineObj);
                             dict.Add((byte)PracticeOpcode.GetRoleGongfa, method);
                             //TODO添加onoffline到字典中
                             ResultSuccseS2C(roleID, PracticeOpcode.GetOffLineExp, dict);
                             //await NHibernateQuerier.UpdateAsync(method);
+
+                            #region 更新数据至数据库 redis
+                            await RedisHelper.Hash.HashSetAsync<Bottleneck>(RedisKeyDefine._RoleBottleneckPostfix, roleID.ToString(), bottleneckObj);
+                            await RedisHelper.Hash.HashSetAsync<CultivationMethodDTO>(RedisKeyDefine._GongfaPerfix, onOffLineObj.MsGfID.ToString(), method);
+                            await NHibernateQuerier.UpdateAsync(bottleneckObj);
+                            await NHibernateQuerier.UpdateAsync(ChangeDataType(method));
+                            #endregion
+
                         }
                         break;
                     case 2:
@@ -368,5 +396,32 @@ namespace AscensionServer
             return miShuDTO;
         }
 
+        /// <summary>
+        /// 更新数据至数据库
+        /// </summary>
+        /// <param name="onOffLineDTO"></param>
+        async void UpdateOnOffLine(OnOffLineDTO onOffLineDTO)
+        {
+            OnOffLine onOffLine = new OnOffLine();
+            onOffLine.ExpType = onOffLineDTO.ExpType;
+            onOffLine.MsGfID = onOffLineDTO.MsGfID;
+            onOffLine.OffTime = onOffLineDTO.OffTime;
+            onOffLine.RoleID = onOffLineDTO.RoleID;
+            await NHibernateQuerier.UpdateAsync(onOffLine);
+        }
+        /// <summary>
+        /// 更新离线经验相关的数据
+        /// </summary>
+
+        CultivationMethod ChangeDataType(CultivationMethodDTO methodDTO)
+        {
+            CultivationMethod cultivation = new CultivationMethod();
+            cultivation.CultivationMethodExp = methodDTO.CultivationMethodExp;
+            cultivation.CultivationMethodID = methodDTO.CultivationMethodID;
+            cultivation.CultivationMethodLevel = methodDTO.CultivationMethodLevel;
+            cultivation.CultivationMethodLevelSkillArray =Utility.Json.ToJson(methodDTO.CultivationMethodLevelSkillArray);
+            cultivation.ID = methodDTO.ID;
+            return cultivation;
+        }
     }
 }
