@@ -12,6 +12,7 @@ namespace AscensionServer
     {
         public int LevelID { get; set; }
         public int NextLevelID { get; set; }
+        public int IsFinalLevel { get; set; }
         public int FreeAttributes { get; set; }
         public int RoleHP { get; set; }
         public int RoleMP { get; set; }
