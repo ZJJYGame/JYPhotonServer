@@ -16,18 +16,18 @@ namespace AscensionServer
         /// 获取人物加点方案
         /// </summary>
         /// <param name="pointDTO"></param>
-        async void GetRolePointAbilityS2C(RoleStatusPointDTO pointDTO)
+         void GetRolePointAbilityS2C(RoleStatusPointDTO pointDTO)
         {
             if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString()).Result)
             {
                 var AbilityPoint = RedisHelper.Hash.HashGetAsync<RoleStatusPointDTO>(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString());
                 if (AbilityPoint != null)
                 {
-                   
+                    RoleStatusSuccessS2C(pointDTO.RoleID, RoleStatusOPcode.GetStatus, AbilityPoint);
                 }
                 else
                 {
-                    
+                    GetRoleStatusMySql(pointDTO);
                 }
             }
 
@@ -132,9 +132,24 @@ namespace AscensionServer
             RoleStatusFailS2C(pointDTO.RoleID, RoleStatusOpCode.SetAddPoint);
 
         }
-        
-        
+
+
         #region MySql模块
+        /// <summary>
+        /// 获取MySql中的角色数据
+        /// </summary>
+        void GetRoleStatusMySql(RoleStatusPointDTO pointDTO)
+        {
+            NHCriteria nHCriteriaRoleStatue = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", pointDTO.RoleID);
+            var rolePoint = NHibernateQuerier.CriteriaSelect<RoleStatusPoint>(nHCriteriaRoleStatue);
+            if (rolePoint != null)
+            {
+                RoleStatusSuccessS2C(pointDTO.RoleID, RoleStatusOPcode.GetStatus, ChangeRoleStatusPointType(rolePoint));
+            }
+            else
+                RoleStatusFailS2C(pointDTO.RoleID, RoleStatusOPcode.GetStatus);
+        }
+
        async  void SetRolePointMySql(RoleStatusPointDTO pointDTO)
         {
             NHCriteria nHCriteriaRoleStatue = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", pointDTO.RoleID);

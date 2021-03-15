@@ -19,6 +19,7 @@ namespace AscensionProtocol.DTO
             AbilityPointSln = new Dictionary<int, AbilityDTO>();
             AbilityPointSln.Add(0, new AbilityDTO() { SlnName = "方案一" });
             AbilityPointSln.Add(1, new AbilityDTO() { SlnName = "方案二" });
+            AbilityPointSln.Add(2, new AbilityDTO() { SlnName = "方案三" });
         }
 
         public override void Clear()

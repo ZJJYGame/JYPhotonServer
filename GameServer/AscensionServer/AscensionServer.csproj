@@ -292,6 +292,7 @@
     <Compile Include="Ascension\Core\RunTime\Resource\TacticalEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\RoleStatus\IRoleStatusManager.cs" />
     <Compile Include="Ascension\Core\RunTime\RoleStatus\RoleStatusManager.Ability.cs" />
+    <Compile Include="Ascension\Core\RunTime\RoleStatus\RoleStatusManager.Calculate.cs" />
     <Compile Include="Ascension\Core\RunTime\RoleStatus\RoleStatusManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Role\IRoleManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Role\RoleEntity.cs" />

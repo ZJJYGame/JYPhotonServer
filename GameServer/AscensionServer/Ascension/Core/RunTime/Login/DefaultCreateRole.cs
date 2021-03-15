@@ -231,6 +231,8 @@ namespace AscensionServer
                 NHibernateQuerier.Insert(roleAlliance);
                 #endregion
                 NHibernateQuerier.Insert(new FlyMagicTool() { RoleID = role.RoleID, AllFlyMagicTool = Utility.Json.ToJson(new List<int>() { 23401, 23402 }) });
+                RoleStatusPointDTO roleStatusPointDTO = new RoleStatusPointDTO();
+                NHibernateQuerier.Insert(new RoleStatusPoint() { RoleID = role.RoleID,AbilityPointSln= Utility.Json.ToJson(roleStatusPointDTO.AbilityPointSln) });
                 Utility.Debug.LogInfo("yzqData添加新角色" + role.RoleID);
                 NHibernateQuerier.Insert(new DemonicSoul() { RoleID = role.RoleID });
                 Utility.Debug.LogInfo("yzqData添加新角色" + userRole.UUID);

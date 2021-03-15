@@ -108,16 +108,22 @@ namespace AscensionServer
         /// <param name="flyMagic"></param>
         void GetFlyMagicToolS2C(FlyMagicToolDTO flyMagic)
         {
-            var flyObj = RedisHelper.Hash.HashGetAsync<FlyMagicToolDTO>(RedisKeyDefine._RoleFlyMagicToolPerfix, flyMagic.RoleID.ToString()).Result;
-            if (flyObj!=null)
+            var result = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleFlyMagicToolPerfix, flyMagic.RoleID.ToString()).Result;
+
+            if (result)
             {
-                ResultSuccseS2C(flyObj.RoleID,FlyMagicToolOpCode.GetToolData, flyObj);
-            }
-            else
-            {
-                //TODO数据库模块
+                var flyObj = RedisHelper.Hash.HashGetAsync<FlyMagicToolDTO>(RedisKeyDefine._RoleFlyMagicToolPerfix, flyMagic.RoleID.ToString()).Result;
+                if (flyObj != null)
+                {
+                    ResultSuccseS2C(flyObj.RoleID, FlyMagicToolOpCode.GetToolData, flyObj);
+                }
+                else
+                {
+                    //TODO数据库模块
+                    GetFlyMagicToolMySql(flyMagic);
+                }
+            }else
                 GetFlyMagicToolMySql(flyMagic);
-            }
         }
         /// <summary>
         /// 更新飞行法器状态更改人物属性数据

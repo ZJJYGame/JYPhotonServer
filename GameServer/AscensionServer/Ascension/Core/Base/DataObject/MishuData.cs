@@ -27,25 +27,32 @@ namespace AscensionServer
     {
         public int Mishu_Floor { get; set; }
         public int Need_Level_ID { get; set; }
+        public byte Mishu_Type { get; set; }
+        public byte Mishu_Quality { get; set; }
+        public byte Mishu_Property { get; set; }
         public List<int> Skill_Array_One { get; set; }
         public List<int> Skill_Array_Two { get; set; }
         public int Exp_Level_Up { get; set; }
         public int Role_HP { get; set; }
         public int Role_MP { get; set; }
         public int Role_Soul { get; set; }
-        public int Best_Blood { get; set; }
+        public float Best_Blood { get; set; }
         public int Attact_Speed { get; set; }
         public int Attact_Physical { get; set; }
         public int Defend_Physical { get; set; }
         public int Attact_Power { get; set; }
         public int Defend_Power { get; set; }
-        public float Attact_Soul { get; set; }
-        public float Defend_Soul { get; set; }
-        public int Up_Double { get; set; }
-        public int Down_Double { get; set; }
         public int Move_Speed { get; set; }
         public int Role_Popularity { get; set; }
         public int Value_Hide { get; set; }
+        public float ReduceCritProb { get; set; }
+        public int PhysicalCritDamage { get; set; }
+        public int MagicCritDamage { get; set; }
+        public int ReduceCritDamage { get; set; }
+        public int Gongfa_LearnSpeed { get; set; }
+        public int Mishu_LearnSpeed { get; set; }
+        public int PhysicalCritProb { get; set; }
+        public int MagicCritProb { get; set; }
     }
 }
 
