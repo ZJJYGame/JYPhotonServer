@@ -23,7 +23,7 @@ namespace AscensionServer
                 var AbilityPoint = RedisHelper.Hash.HashGetAsync<RoleStatusPointDTO>(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString());
                 if (AbilityPoint != null)
                 {
-                    RoleStatusSuccessS2C(pointDTO.RoleID, RoleStatusOPcode.GetStatus, AbilityPoint);
+                    RoleStatusSuccessS2C(pointDTO.RoleID, RoleStatusOpCode.GetStatus, AbilityPoint);
                 }
                 else
                 {
@@ -144,10 +144,10 @@ namespace AscensionServer
             var rolePoint = NHibernateQuerier.CriteriaSelect<RoleStatusPoint>(nHCriteriaRoleStatue);
             if (rolePoint != null)
             {
-                RoleStatusSuccessS2C(pointDTO.RoleID, RoleStatusOPcode.GetStatus, ChangeRoleStatusPointType(rolePoint));
+                RoleStatusSuccessS2C(pointDTO.RoleID, RoleStatusOpCode.GetStatus, ChangeRoleStatusPointType(rolePoint));
             }
             else
-                RoleStatusFailS2C(pointDTO.RoleID, RoleStatusOPcode.GetStatus);
+                RoleStatusFailS2C(pointDTO.RoleID, RoleStatusOpCode.GetStatus);
         }
 
        async  void SetRolePointMySql(RoleStatusPointDTO pointDTO)

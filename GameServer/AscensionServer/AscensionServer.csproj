@@ -21,7 +21,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -198,6 +198,7 @@
     <Compile Include="Ascension\Core\Base\DataObject\PetSkillBookData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\PetSkillData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RingData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\RoleAbilityPointData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RoleLevelData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RoleStatusDatas.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RunesData.cs" />
@@ -822,6 +823,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonData\RoleLevelData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\RoleAbilityPointData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="Plugin\ExitGames.Logging.Log4Net.dll">

@@ -145,6 +145,7 @@ namespace AscensionServer
         public void SumRolestatus(int flyID,RoleStatusPointDTO roleStatusPoint)
         {
             GameEntry.DataManager.TryGetValue<Dictionary<int, RoleStatusDatas>>(out var roleDataDict);
+            GameEntry.DataManager.TryGetValue<Dictionary<int, FlyMagicToolData>>(out var FlyDataDict);
         }
     }
 }

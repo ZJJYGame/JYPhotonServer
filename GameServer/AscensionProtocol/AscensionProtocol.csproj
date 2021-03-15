@@ -132,7 +132,7 @@
     <Compile Include="EventCode.cs" />
     <Compile Include="MessageChannel.cs" />
     <Compile Include="AreaOpCode\LoginAreaOpCode.cs" />
-    <Compile Include="OperaOrder\PracticeOpcode.cs" />
+    <Compile Include="AreaOpCode\PracticeOpcode.cs" />
     <Compile Include="OperationCode.cs" />
     <Compile Include="ParameterCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
