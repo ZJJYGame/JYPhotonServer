@@ -44,7 +44,7 @@ namespace AscensionServer
                 var obj = RolePointCalculate(pointObj, pointDTO);
                 if (obj != null)
                 {
-                    RoleStatusSuccessS2C(pointDTO.RoleID, RoleStatusOPcode.Rename, obj);
+                    RoleStatusSuccessS2C(pointDTO.RoleID, RoleStatusOpCode.Rename, obj);
                     await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString(), obj);
                     await NHibernateQuerier.UpdateAsync(ChangeRoleStatusPointType(obj));
                 }
@@ -70,16 +70,16 @@ namespace AscensionServer
                 {
                     ability.SlnName = abilitydto.SlnName;
                     obj.AbilityPointSln[pointDTO.SlnNow] = ability;
-                    RoleStatusSuccessS2C(pointDTO.RoleID,RoleStatusOPcode.Rename, obj);
+                    RoleStatusSuccessS2C(pointDTO.RoleID,RoleStatusOpCode.Rename, obj);
 
                     await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString(), obj);
                     await NHibernateQuerier.UpdateAsync(ChangeRoleStatusPointType(obj));
                 }
                 else
-                    RoleStatusFailS2C(pointDTO.RoleID, RoleStatusOPcode.SetAddPoint);
+                    RoleStatusFailS2C(pointDTO.RoleID, RoleStatusOpCode.SetAddPoint);
             }
             else
-                RoleStatusFailS2C(pointDTO.RoleID, RoleStatusOPcode.SetAddPoint);
+                RoleStatusFailS2C(pointDTO.RoleID, RoleStatusOpCode.SetAddPoint);
         }
         /// <summary>
         /// 重置加点
@@ -121,15 +121,15 @@ namespace AscensionServer
                     ability.Agility = 0;
                     obj.AbilityPointSln[pointDTO.SlnNow] = ability;
 
-                    RoleStatusSuccessS2C(pointDTO.RoleID, RoleStatusOPcode.Rename, obj);
+                    RoleStatusSuccessS2C(pointDTO.RoleID, RoleStatusOpCode.Rename, obj);
                     await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString(), obj);
                     await NHibernateQuerier.UpdateAsync(ChangeRoleStatusPointType(obj));
                 }
                 else
-                    RoleStatusFailS2C(pointDTO.RoleID, RoleStatusOPcode.SetAddPoint);
+                    RoleStatusFailS2C(pointDTO.RoleID, RoleStatusOpCode.SetAddPoint);
             }
             else
-            RoleStatusFailS2C(pointDTO.RoleID, RoleStatusOPcode.SetAddPoint);
+            RoleStatusFailS2C(pointDTO.RoleID, RoleStatusOpCode.SetAddPoint);
 
         }
         
@@ -145,14 +145,14 @@ namespace AscensionServer
                 var pointObj = RolePointCalculate(obj, pointDTO);
                 if (pointObj != null)
                 {
-                    RoleStatusSuccessS2C(pointDTO.RoleID, RoleStatusOPcode.Rename, pointObj);
+                    RoleStatusSuccessS2C(pointDTO.RoleID, RoleStatusOpCode.Rename, pointObj);
                     await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString(), pointObj);
                     await NHibernateQuerier.UpdateAsync(ChangeRoleStatusPointType(pointObj));
                 }
                 else
-                    RoleStatusFailS2C(pointDTO.RoleID, RoleStatusOPcode.SetAddPoint);
+                    RoleStatusFailS2C(pointDTO.RoleID, RoleStatusOpCode.SetAddPoint);
             }else
-                RoleStatusFailS2C(pointDTO.RoleID, RoleStatusOPcode.SetAddPoint);
+                RoleStatusFailS2C(pointDTO.RoleID, RoleStatusOpCode.SetAddPoint);
         }
         #endregion
 
