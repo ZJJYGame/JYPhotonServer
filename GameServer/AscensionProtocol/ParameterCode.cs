@@ -210,6 +210,10 @@
         /// <summary>
         /// 副职业
         /// </summary>
-        SecondaryJob=106
+        SecondaryJob=106,
+        /// <summary>
+        /// 人物加点
+        /// </summary>
+        RoleStatusPoint=107
     }
 }

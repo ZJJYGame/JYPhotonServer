@@ -48,7 +48,7 @@ namespace AscensionServer
         /// <param name="gongfaList"></param>
         /// <param name="mishuList"></param>
         /// <param name="roleStatusDatas"></param>
-        public void GetRoleStatus(int roleID)
+        public void GetRoleStatus(int roleID,RoleStatusDTO roleStatusDTO)
         {
             GameEntry.DataManager.TryGetValue<Dictionary<int, List<MishuSkillData>>>(out var mishuDict);
 
@@ -140,12 +140,83 @@ namespace AscensionServer
             }
 
             #endregion
-        }
 
-        public void SumRolestatus(int flyID,RoleStatusPointDTO roleStatusPoint)
+            if (gongfaList.Count>0)
+            {
+                for (int i = 0; i < gongfaList.Count; i++)
+                {
+                    roleStatusDTO.AttackPhysical *= gongfaDict[gongfaList[i]].Attact_Physical/100;
+                    roleStatusDTO.AttackPower *= gongfaDict[gongfaList[i]].Attact_Physical / 100;
+                    roleStatusDTO.AttackSpeed *= gongfaDict[gongfaList[i]].Attact_Physical / 100;
+                    roleStatusDTO.BestBlood = (short)(gongfaDict[gongfaList[i]].Attact_Physical * roleStatusDTO.BestBlood / 100);
+                    roleStatusDTO.DefendPhysical *= gongfaDict[gongfaList[i]].Attact_Physical / 100;
+                    roleStatusDTO.DefendPower *= gongfaDict[gongfaList[i]].Attact_Physical / 100;
+                    roleStatusDTO.GongfaLearnSpeed *= gongfaDict[gongfaList[i]].Attact_Physical / 100;
+                    roleStatusDTO.MagicCritDamage *= gongfaDict[gongfaList[i]].Attact_Physical / 100;
+                    roleStatusDTO.MagicCritProb *= gongfaDict[gongfaList[i]].Attact_Physical / 100;
+                    roleStatusDTO.MaxVitality *= gongfaDict[gongfaList[i]].Attact_Physical / 100;
+                    roleStatusDTO.MishuLearnSpeed *= gongfaDict[gongfaList[i]].Attact_Physical / 100;
+                    roleStatusDTO.MoveSpeed *= gongfaDict[gongfaList[i]].Attact_Physical / 100;
+                    roleStatusDTO.PhysicalCritDamage *= gongfaDict[gongfaList[i]].Attact_Physical / 100;
+                    roleStatusDTO.PhysicalCritProb *= gongfaDict[gongfaList[i]].Attact_Physical / 100;
+                    roleStatusDTO.ReduceCritDamage *= gongfaDict[gongfaList[i]].Attact_Physical / 100;
+                    roleStatusDTO.ReduceCritProb *= gongfaDict[gongfaList[i]].Attact_Physical / 100;
+                    roleStatusDTO.RoleHP *= gongfaDict[gongfaList[i]].Attact_Physical / 100;
+                    roleStatusDTO.RoleMP *= gongfaDict[gongfaList[i]].Attact_Physical / 100;
+                    roleStatusDTO.RolePopularity *= gongfaDict[gongfaList[i]].Attact_Physical / 100;
+                    roleStatusDTO.RoleSoul *= gongfaDict[gongfaList[i]].Attact_Physical / 100;
+                    roleStatusDTO.ValueHide *= gongfaDict[gongfaList[i]].Attact_Physical / 100;
+                    roleStatusDTO.Vitality *= gongfaDict[gongfaList[i]].Attact_Physical / 100;
+
+                    roleStatusDTO.RoleMaxHP = roleStatusDTO.RoleHP;
+                    roleStatusDTO.RoleMaxMP = roleStatusDTO.RoleMP;
+                    roleStatusDTO.RoleMaxPopularity = roleStatusDTO.RolePopularity;
+                    roleStatusDTO.RoleMaxSoul = roleStatusDTO.RoleSoul;
+                    roleStatusDTO.BestBloodMax = roleStatusDTO.BestBlood;
+                }
+            }
+        }
+        /// <summary>
+        /// 飞行法器数值加上人物加点数值
+        /// </summary>
+        /// <param name="flyID"></param>
+        /// <param name="roleStatusPoint"></param>
+        /// <param name="roleStatusDTO"></param>
+        /// <returns></returns>
+        public RoleStatusDTO SumRolestatus(int flyID,RoleStatusPointDTO roleStatusPoint,RoleStatusDTO roleStatusDTO)
         {
-            GameEntry.DataManager.TryGetValue<Dictionary<int, RoleStatusDatas>>(out var roleDataDict);
-            GameEntry.DataManager.TryGetValue<Dictionary<int, FlyMagicToolData>>(out var FlyDataDict);
+            GameEntry.DataManager.TryGetValue<Dictionary<string, RoleAbilityPointData>>(out var abilityDict);
+            GameEntry.DataManager.TryGetValue<Dictionary<int, FlyMagicToolData>>(out var flyDataDict);
+
+           var result= flyDataDict.TryGetValue(flyID,out var flyMagicDict);
+            if (result)
+            {
+                if (flyMagicDict.FixedSpeed!=-1)
+                    roleStatusDTO.MoveSpeed = flyMagicDict.FixedSpeed;
+                else
+                    roleStatusDTO.MoveSpeed += flyMagicDict.AddMoveSpeed;
+                roleStatusDTO.AttackPhysical += flyMagicDict.AddPhysicAttack;
+                roleStatusDTO.AttackPower += flyMagicDict.AddMagicAttack;
+                roleStatusDTO.RoleHP += flyMagicDict.AddRoleHp;
+                roleStatusDTO.RoleMaxHP += flyMagicDict.AddRoleHp;
+            }
+
+            var pointResult = roleStatusPoint.AbilityPointSln.TryGetValue(roleStatusPoint.SlnNow,out var pointDict);
+            if (pointResult)
+            {
+                roleStatusDTO.RoleHP = pointDict.Corporeity * 10;
+                roleStatusDTO.RoleMP = pointDict.Power * 6+ pointDict.Corporeity;
+                roleStatusDTO.RoleSoul = pointDict.Soul * 10;
+                roleStatusDTO.BestBlood = (short)(pointDict.Corporeity * 0.1f);
+                roleStatusDTO.AttackPhysical = pointDict.Strength * 2;
+                roleStatusDTO.DefendPhysical = pointDict.Stamina * 2;
+                roleStatusDTO.AttackPower = pointDict.Power * 2;
+                roleStatusDTO.DefendPower = (int)(pointDict.Strength * 1.2f + pointDict.Power + pointDict.Corporeity * 0.4f + pointDict.Stamina * 0.8f);
+                roleStatusDTO.AttackSpeed = (int)(pointDict.Soul * 0.2f + pointDict.Stamina * 0.1f + pointDict.Corporeity * 0.1 + pointDict.Agility * 0.5f + pointDict.Strength * 0.1f);
+                roleStatusDTO.MoveSpeed = (int)(pointDict.Agility * 0.1f);
+            }
+
+            return roleStatusDTO;
         }
     }
 }

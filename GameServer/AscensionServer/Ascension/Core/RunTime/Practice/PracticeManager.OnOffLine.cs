@@ -287,7 +287,7 @@ namespace AscensionServer
         /// 挂機經驗的結算
         /// </summary>
         /// <param name="onOffLine"></param>
-         void UpLoadingExpMySql(OnOffLineDTO onOffLine)
+        async  void UpLoadingExpMySql(OnOffLineDTO onOffLine)
         {
             Utility.Debug.LogInfo("YZQ自动加经验MYSQL进来了"+Utility.Json.ToJson(onOffLine));
             Utility.Debug.LogInfo("YZQ自动加经验MYSQL进来了" + onOffLine.RoleID);
@@ -312,6 +312,8 @@ namespace AscensionServer
                             dict.Add((byte)PracticeOpcode.TriggerBottleneck, bottleneckData);
                             dict.Add((byte)PracticeOpcode.GetRoleGongfa, methodDTO);
                             ResultSuccseS2C(onOffLine.RoleID, PracticeOpcode.UploadingExp, dict);
+                            await NHibernateQuerier.UpdateAsync(ChangeDataType(methodDTO));
+                            await NHibernateQuerier.UpdateAsync(bottleneckData);
                         }
                         else
                         {
@@ -372,7 +374,7 @@ namespace AscensionServer
                 }
             }
              bottleneck = TriggerBottleneckS2C(roleID, cultivation.CultivationMethodLevel, out  isbottleneck);
-            cultivationDTO.CultivationMethodExp = cultivation.CultivationMethodExp;
+            cultivationDTO.CultivationMethodExp = cultivation.CultivationMethodExp+exp;
             cultivationDTO.CultivationMethodID = cultivation.CultivationMethodID;
             cultivationDTO.ID = cultivation.ID;
             cultivationDTO.CultivationMethodLevel = cultivation.CultivationMethodLevel;
