@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="AreaOpCode\FlyMagicToolOpCode.cs" />
     <Compile Include="AreaOpCode\LoginOffOpCode.cs" />
+    <Compile Include="AreaOpCode\RoleAssetsOpCode.cs" />
     <Compile Include="AreaOpCode\RoleStatusOpCode.cs" />
     <Compile Include="DTO\AdventurePlayerDTO.cs" />
     <Compile Include="DTO\AdventureSkillLayoutDTO.cs" />

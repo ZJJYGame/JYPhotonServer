@@ -57,6 +57,7 @@ namespace AscensionServer
             opData.SubOperationCode = (byte)oPcode;
             opData.DataMessage = Utility.Json.ToJson(data);
             GameEntry.RoleManager.SendMessage(roleID, opData);
+            Utility.Debug.LogInfo("YZQ加点数据发送成功" + Utility.Json.ToJson(opData));
         }
         /// <summary>
         /// 处理角色属性失败发送

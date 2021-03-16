@@ -291,6 +291,9 @@
     <Compile Include="Ascension\Core\RunTime\Resource\MapResourceManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\TacticalDeploymentManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\TacticalEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\RoleAssets\IRoleAssetsManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\RoleAssets\RoleAssetsManager.Calculate.cs" />
+    <Compile Include="Ascension\Core\RunTime\RoleAssets\RoleAssetsManager.cs" />
     <Compile Include="Ascension\Core\RunTime\RoleStatus\IRoleStatusManager.cs" />
     <Compile Include="Ascension\Core\RunTime\RoleStatus\RoleStatusManager.Ability.cs" />
     <Compile Include="Ascension\Core\RunTime\RoleStatus\RoleStatusManager.Calculate.cs" />
