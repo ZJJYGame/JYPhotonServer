@@ -33,11 +33,11 @@ namespace AscensionServer.Handlers
 
             if (allianceConstructionTemp != null)
             {
-                if (allianceConstructionObj.AllianceCave>0)
+                if (allianceConstructionObj.AllianceArmsDrillSite>0)
                 {
                     if (allianceConstructionTemp .AllianceAssets> allianceConstructionObj.AllianceAssets)
                     {
-                        allianceConstructionTemp.AllianceCave += allianceConstructionObj.AllianceCave;
+                        allianceConstructionTemp.AllianceArmsDrillSite += allianceConstructionObj.AllianceArmsDrillSite;
                         allianceConstructionTemp.AllianceAssets -= allianceConstructionObj.AllianceAssets;
                         NHibernateQuerier.Update(allianceConstructionTemp);
                         SetResponseParamters(() =>
@@ -101,7 +101,7 @@ namespace AscensionServer.Handlers
                 }
                 if (allianceConstructionObj.AllianceChamber > 0)
                 {
-                    if (allianceConstructionTemp.AllianceChamber == allianceConstructionTemp.AllianceCave&& allianceConstructionTemp.AllianceChamber == allianceConstructionTemp.AllianceAlchemyStorage&& allianceConstructionTemp.AllianceChamber == allianceConstructionTemp.AllianceScripturesPlatform&& allianceConstructionTemp.AllianceAssets >=allianceConstructionObj.AllianceAssets)
+                    if (allianceConstructionTemp.AllianceChamber == allianceConstructionTemp.AllianceArmsDrillSite&& allianceConstructionTemp.AllianceChamber == allianceConstructionTemp.AllianceAlchemyStorage&& allianceConstructionTemp.AllianceChamber == allianceConstructionTemp.AllianceScripturesPlatform&& allianceConstructionTemp.AllianceAssets >=allianceConstructionObj.AllianceAssets)
                     {
                         allianceConstructionTemp.AllianceChamber += allianceConstructionObj.AllianceChamber;
                         allianceConstructionTemp.AllianceAssets -= allianceConstructionObj.AllianceAssets;

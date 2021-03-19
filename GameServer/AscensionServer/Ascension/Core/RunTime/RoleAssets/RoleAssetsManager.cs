@@ -19,6 +19,7 @@ namespace AscensionServer
         }
         void ProcessHandlerC2S(int seeionid, OperationData packet)
         {
+            Utility.Debug.LogInfo("角色资产收到了"+ packet.DataMessage.ToString());
             var pointObj = Utility.Json.ToObject<RoleAssetsDTO>(packet.DataMessage.ToString());
             switch ((RoleAssetsOpCode)packet.SubOperationCode)
             {
@@ -26,7 +27,7 @@ namespace AscensionServer
 
                     break;
                 case RoleAssetsOpCode.GetAssets:
-
+                    GetRoleAssetsS2C(pointObj.RoleID);
                     break;
                 case RoleAssetsOpCode.ReduceAssets:
 

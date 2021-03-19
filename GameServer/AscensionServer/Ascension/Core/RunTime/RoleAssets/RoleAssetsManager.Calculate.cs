@@ -29,7 +29,6 @@ namespace AscensionServer
                 GetRoleAssetsMySql(roleID);
         }
 
-
         void GetRoleAssetsMySql(int roleID)
         {
             NHCriteria nHCriteriarole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);

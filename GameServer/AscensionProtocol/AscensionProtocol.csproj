@@ -51,6 +51,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AreaOpCode\AllianceOpCode.cs" />
     <Compile Include="AreaOpCode\FlyMagicToolOpCode.cs" />
     <Compile Include="AreaOpCode\LoginOffOpCode.cs" />
     <Compile Include="AreaOpCode\RoleAssetsOpCode.cs" />
@@ -88,7 +89,6 @@
     <Compile Include="DTO\PetStatusDTO.cs" />
     <Compile Include="DTO\PuppetDTO.cs" />
     <Compile Include="DTO\RoleAllianceSkillDTO.cs" />
-    <Compile Include="DTO\RoleAllianceSkilltransferDTO.cs" />
     <Compile Include="DTO\RoleAuctionItemsDTO.cs" />
     <Compile Include="DTO\RolePurchaseRecordDTO.cs" />
     <Compile Include="DTO\RoleStatusPointDTO.cs" />

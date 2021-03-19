@@ -24,14 +24,16 @@ namespace AscensionServer
         /// <param name="roleStatusDatas"></param>
         public RoleStatusDTO GetRoleStatus(int roleID,RoleStatusDatas roleStatus)
         {
+            List<int> gongfaList = new List<int>();
+            List<MishuSkillData> mishuList = new List<MishuSkillData>();
+
             GameEntry.DataManager.TryGetValue<Dictionary<int, List<MishuSkillData>>>(out var mishuDict);
 
             RoleStatusDTO roleStatusGF = new RoleStatusDTO();
             RoleStatusDTO roleStatusmishu = new RoleStatusDTO();
 
             GameEntry.DataManager.TryGetValue<Dictionary<int, GongFa>>(out var gongfaDict);
-            List<int> gongfaList = new List<int>();
-            List<MishuSkillData> mishuList = new List<MishuSkillData>();
+
             #region 获取角色所有功法
             if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleGongfaPerfix, roleID.ToString()).Result)
             {

@@ -177,6 +177,7 @@
     <Compile Include="Ascension\Core\Base\DataObject\BattleBuffData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\BattleSkillData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\BottleneckData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\CreatAllianceData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\DemonData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\DemonicSoulData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\DemonicSoulSkillPool.cs" />
@@ -253,6 +254,10 @@
     <Compile Include="Ascension\Core\RunTime\Data\IDataProvider.cs" />
     <Compile Include="Ascension\Core\RunTime\FlyMagicTool\FlyMagicToolManager.cs" />
     <Compile Include="Ascension\Core\RunTime\FlyMagicTool\IFlyMagicToolManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\GangsSchool\GangsMananger.cs" />
+    <Compile Include="Ascension\Core\RunTime\GangsSchool\GangsMananger.Member.cs" />
+    <Compile Include="Ascension\Core\RunTime\GangsSchool\GangsMananger.Status.cs" />
+    <Compile Include="Ascension\Core\RunTime\GangsSchool\IGangsMananger.cs" />
     <Compile Include="Ascension\Core\RunTime\Level\ILevelManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Lobby\ILobbyManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Login\DefaultCreateRole.cs" />
@@ -829,6 +834,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonData\RoleAbilityPointData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\CreatAllianceData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="Plugin\ExitGames.Logging.Log4Net.dll">

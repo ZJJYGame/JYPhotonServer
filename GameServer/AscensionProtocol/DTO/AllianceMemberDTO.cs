@@ -10,7 +10,13 @@ namespace AscensionProtocol.DTO
     public class AllianceMemberDTO : DataTransferObject
     {
         public virtual int AllianceID { get; set; }
+        /// <summary>
+        /// 宗门申请人员列表
+        /// </summary>
         public virtual List<int> ApplyforMember { get; set; }
+        /// <summary>
+        /// 宗门成员列表
+        /// </summary>
         public virtual List<int> Member { get; set; }
 
 

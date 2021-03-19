@@ -20,7 +20,7 @@ namespace AscensionServer
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             var dict = operationRequest.Parameters;
-            string immortalsAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ImmortalsAlliance));
+            string immortalsAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Alliances));
             var immortalsAllianceObj = Utility.Json.ToObject<AllianceStatusDTO>
                 (immortalsAllianceJson);
             var allianceMemberTemp = AlliancelogicManager.Instance.GetNHCriteria<AllianceStatus>("ID", immortalsAllianceObj.ID);
@@ -33,7 +33,7 @@ namespace AscensionServer
                     NHibernateQuerier.Update(allianceMemberTemp);
                     SetResponseParamters(() =>
                     {
-                        subResponseParameters.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(allianceMemberTemp));
+                        subResponseParameters.Add((byte)ParameterCode.Alliances, Utility.Json.ToJson(allianceMemberTemp));
                         operationResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }else

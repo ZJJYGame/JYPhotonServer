@@ -15,7 +15,7 @@ namespace AscensionServer.Model
 
         public AllianceMember()
         {
-            ApplyforMember = null;
+            ApplyforMember ="[]";
             Member = null;
         }
 

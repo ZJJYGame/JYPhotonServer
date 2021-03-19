@@ -23,7 +23,7 @@ namespace AscensionServer
             string alliancestatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAlliance));
             var alliancestatusObj = Utility.Json.ToObject<AllianceStatus>
                 (alliancestatusJson);
-            string roleAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ImmortalsAlliance));
+            string roleAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Alliances));
             var roleAllianceObj = Utility.Json.ToObject<RoleAlliance> 
                 (roleAllianceJson);
           
@@ -89,7 +89,7 @@ namespace AscensionServer
                 Alliancelist.Add(Utility.Json.ToJson(allianceConstruction));
                 SetResponseParamters(() =>
                 {
-                    subResponseParameters.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(Alliancelist));
+                    subResponseParameters.Add((byte)ParameterCode.Alliances, Utility.Json.ToJson(Alliancelist));
                     operationResponse.ReturnCode = (short)ReturnCode.Success;
                 });
 

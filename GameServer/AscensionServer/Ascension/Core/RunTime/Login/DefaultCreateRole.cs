@@ -229,6 +229,9 @@ namespace AscensionServer
                 #region 仙盟
                 RoleAlliance roleAlliance = new RoleAlliance() { RoleID = rolestatus.RoleID, RoleName = role.RoleName, ApplyForAlliance = Utility.Json.ToJson(new List<int>()), RoleSchool = 900 };
                 NHibernateQuerier.Insert(roleAlliance);
+                RoleAllianceSkill roleAllianceSkill = new RoleAllianceSkill() { };
+                roleAllianceSkill.RoleID = rolestatus.RoleID;
+                NHibernateQuerier.Insert(roleAllianceSkill);
                 #endregion
                 NHibernateQuerier.Insert(new FlyMagicTool() { RoleID = role.RoleID, AllFlyMagicTool = Utility.Json.ToJson(new List<int>() { 23401, 23402 }) });
                 RoleStatusPointDTO roleStatusPointDTO = new RoleStatusPointDTO();

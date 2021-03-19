@@ -91,11 +91,15 @@ namespace AscensionServer
         /// <summary>
         ///个人仙盟数据的Key前缀
         /// </summary>
-        public static readonly string _RoleAlliancePerfix = "RoleAnlliance";
+        public static readonly string _RoleAlliancePerfix = "RoleAlliance";
         /// <summary>
         ///仙盟建设的Key前缀
         /// </summary>
         public static readonly string _AllianceConstructionPerfix = "AllianceConstruction";
+        /// <summary>
+        ///仙盟成员的Key前缀
+        /// </summary>
+        public static readonly string _AllianceMemberPerfix = "AllianceMember";
         /// <summary>
         ///仙盟内广播的消息内容的Key前缀
         /// </summary>

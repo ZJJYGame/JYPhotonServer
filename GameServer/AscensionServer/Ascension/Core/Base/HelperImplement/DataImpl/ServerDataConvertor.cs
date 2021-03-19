@@ -74,7 +74,9 @@ namespace AscensionServer
 
                 GameEntry.DataManager.TryGetValue(typeof(RoleAbilityPointData).Name, out var roleAbilityPointData);
                 var roleAbilityPointDataDict = TransObject<List<RoleAbilityPointData>>(roleAbilityPointData).ToDictionary(key => key.CoefficientType, value => value);
-                
+
+                GameEntry.DataManager.TryGetValue(typeof(CreatAllianceData).Name, out var creatAllianceData);
+                var creatAllianceDataDict = TransObject<List<CreatAllianceData>>(creatAllianceData).ToDictionary(key => key.ID, value => value);
                 #endregion
 
                 GameEntry. DataManager.TryGetValue(typeof(PetSkillBookData).Name, out var petSkillBookData);
@@ -145,7 +147,7 @@ namespace AscensionServer
                 var battleBuffDict = TransObject<List<BattleBuffData>>(battleSBuffSet).ToDictionary(key => key.id, value => value);
                 #endregion
 
-
+                GameEntry.DataManager.TryAdd(creatAllianceDataDict);
                 GameEntry.DataManager.TryAdd(roleAbilityPointDataDict);
                 GameEntry.DataManager.TryAdd(flyMagicToolDict);
                 GameEntry.DataManager.TryAdd(roleLevelDataDict);
