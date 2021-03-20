@@ -7,7 +7,7 @@ using Protocol;
 namespace AscensionServer
 {
     /// <summary>
-    /// ��Ϸ�еĽ�ɫʵ�����
+    ///
     /// </summary>
     public class RoleEntity : Entity,IReference
     {

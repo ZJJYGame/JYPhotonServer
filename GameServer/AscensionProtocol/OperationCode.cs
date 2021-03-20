@@ -22,7 +22,7 @@ namespace AscensionProtocol
         /// <summary>
         /// 同步当前角色的位置信息，position&rotation 
         /// </summary>
-        PlayerInputCommand = 5,
+        RoleStatus = 5,
     /// <summary>
     /// 登录角色
     /// </summary>

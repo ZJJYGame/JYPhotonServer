@@ -177,6 +177,7 @@
     <Compile Include="Ascension\Core\Base\DataObject\BattleBuffData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\BattleSkillData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\BottleneckData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\CreatAllianceData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\DemonData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\DemonicSoulData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\DemonicSoulSkillPool.cs" />
@@ -198,6 +199,7 @@
     <Compile Include="Ascension\Core\Base\DataObject\PetSkillBookData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\PetSkillData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RingData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\RoleAbilityPointData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RoleLevelData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RoleStatusDatas.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RunesData.cs" />
@@ -252,6 +254,10 @@
     <Compile Include="Ascension\Core\RunTime\Data\IDataProvider.cs" />
     <Compile Include="Ascension\Core\RunTime\FlyMagicTool\FlyMagicToolManager.cs" />
     <Compile Include="Ascension\Core\RunTime\FlyMagicTool\IFlyMagicToolManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\GangsSchool\GangsMananger.cs" />
+    <Compile Include="Ascension\Core\RunTime\GangsSchool\GangsMananger.Member.cs" />
+    <Compile Include="Ascension\Core\RunTime\GangsSchool\GangsMananger.Status.cs" />
+    <Compile Include="Ascension\Core\RunTime\GangsSchool\IGangsMananger.cs" />
     <Compile Include="Ascension\Core\RunTime\Level\ILevelManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Lobby\ILobbyManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Login\DefaultCreateRole.cs" />
@@ -290,6 +296,9 @@
     <Compile Include="Ascension\Core\RunTime\Resource\MapResourceManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\TacticalDeploymentManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\TacticalEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\RoleAssets\IRoleAssetsManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\RoleAssets\RoleAssetsManager.Calculate.cs" />
+    <Compile Include="Ascension\Core\RunTime\RoleAssets\RoleAssetsManager.cs" />
     <Compile Include="Ascension\Core\RunTime\RoleStatus\IRoleStatusManager.cs" />
     <Compile Include="Ascension\Core\RunTime\RoleStatus\RoleStatusManager.Ability.cs" />
     <Compile Include="Ascension\Core\RunTime\RoleStatus\RoleStatusManager.Calculate.cs" />
@@ -822,6 +831,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonData\RoleLevelData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\RoleAbilityPointData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\CreatAllianceData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="Plugin\ExitGames.Logging.Log4Net.dll">

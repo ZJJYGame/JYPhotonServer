@@ -9,7 +9,7 @@ namespace AscensionProtocol
     /// <summary>
     /// 人物属性等相关操作
     /// </summary>
-    public enum RoleStatusOPcode
+    public enum RoleStatusOpCode
     {
         GetStatus=1,
         UpdateStatus=2,

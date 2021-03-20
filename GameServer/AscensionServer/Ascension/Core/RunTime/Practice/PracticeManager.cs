@@ -47,6 +47,7 @@ namespace AscensionServer
                         break;
                     case PracticeOpcode.UploadingExp:
                         var obj = Utility.Json.ToObject<OnOffLineDTO>(item.Value.ToString());
+                        Utility.Debug.LogInfo("YZQ更新挂机经验收到请求了"+Utility.Json.ToJson(obj));
                         UploadingExpS2C(obj);
                         break;
                     case PracticeOpcode.GetOffLineExp:
@@ -109,7 +110,10 @@ namespace AscensionServer
             dataDict.Add((byte)opcode, Utility.Json.ToJson(dict));
             opData.DataMessage = Utility.Json.ToJson(dataDict);
             GameEntry.RoleManager.SendMessage(roleID, opData);
-            Utility.Debug.LogInfo("YZQ发送成功" +(byte)opcode+">>"+ Utility.Json.ToJson(dict));
+            if ((byte)opcode==7)
+            {
+                Utility.Debug.LogInfo("YZQonoffLine发送成功" + (byte)opcode + ">>" + Utility.Json.ToJson(dict));
+            }
         }
     }
 }

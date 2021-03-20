@@ -20,25 +20,25 @@ namespace AscensionServer
         {
             var pointObj = Utility.Json.ToObject<RoleStatusPointDTO>(packet.DataMessage.ToString());
             Utility.Debug.LogInfo("YZQ加点数据"+packet.DataMessage.ToString());
-            switch ((RoleStatusOPcode)packet.SubOperationCode)
+            switch ((RoleStatusOpCode)packet.SubOperationCode)
             {
-                case RoleStatusOPcode.GetStatus:
-                    Utility.Debug.LogInfo("YZQ加点数据"+ (RoleStatusOPcode)packet.SubOperationCode);
+                case RoleStatusOpCode.GetStatus:
+                    Utility.Debug.LogInfo("YZQ加点数据"+ (RoleStatusOpCode)packet.SubOperationCode);
                     GetRolePointAbilityS2C(pointObj);
                     break;
-                case RoleStatusOPcode.UpdateStatus:
-                    Utility.Debug.LogInfo("YZQ加点数据" + (RoleStatusOPcode)packet.SubOperationCode);
+                case RoleStatusOpCode.UpdateStatus:
+                    Utility.Debug.LogInfo("YZQ加点数据" + (RoleStatusOpCode)packet.SubOperationCode);
                     break;
-                case RoleStatusOPcode.Rename:
-                    Utility.Debug.LogInfo("YZQ加点数据" + (RoleStatusOPcode)packet.SubOperationCode);
+                case RoleStatusOpCode.Rename:
+                    Utility.Debug.LogInfo("YZQ加点数据" + (RoleStatusOpCode)packet.SubOperationCode);
                     SetRoleSlnNameS2C(pointObj);
                     break;
-                case RoleStatusOPcode.RestartAddPoint:
-                    Utility.Debug.LogInfo("YZQ加点数据" + (RoleStatusOPcode)packet.SubOperationCode);
+                case RoleStatusOpCode.RestartAddPoint:
+                    Utility.Debug.LogInfo("YZQ加点数据" + (RoleStatusOpCode)packet.SubOperationCode);
                     RestartPointS2C(pointObj);
                     break;
-                case RoleStatusOPcode.SetAddPoint:
-                    Utility.Debug.LogInfo("YZQ加点数据" + (RoleStatusOPcode)packet.SubOperationCode);
+                case RoleStatusOpCode.SetAddPoint:
+                    Utility.Debug.LogInfo("YZQ加点数据" + (RoleStatusOpCode)packet.SubOperationCode);
                     SetRolePointS2C(pointObj);
                     break;
                 default:
@@ -50,7 +50,7 @@ namespace AscensionServer
         /// <summary>
         /// 处理角色属性成功发送
         /// </summary>
-        void RoleStatusSuccessS2C(int roleID,RoleStatusOPcode oPcode,object data)
+        void RoleStatusSuccessS2C(int roleID,RoleStatusOpCode oPcode,object data)
         {
             OperationData opData = new OperationData();
             opData.OperationCode = (byte)OperationCode.SyncRoleStatus;
@@ -62,7 +62,7 @@ namespace AscensionServer
         /// <summary>
         /// 处理角色属性失败发送
         /// </summary>
-        void RoleStatusFailS2C(int roleID, RoleStatusOPcode oPcode)
+        void RoleStatusFailS2C(int roleID, RoleStatusOpCode oPcode)
         {
             OperationData opData = new OperationData();
             opData.OperationCode = (byte)OperationCode.SyncRoleStatus;

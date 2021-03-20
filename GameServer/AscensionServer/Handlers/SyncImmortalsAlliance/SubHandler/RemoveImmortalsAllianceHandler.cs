@@ -74,10 +74,10 @@ namespace AscensionServer
                 NHibernateQuerier.Delete(allianceMemberTemp);
 
                 var roleallianceTemp = AlliancelogicManager.Instance.GetNHCriteria<RoleAlliance>("RoleID", roleselfObj.RoleID);
-                RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { RoleID= roleallianceTemp.RoleID,RoleSchool= roleallianceTemp .RoleSchool,RoleName= roleallianceTemp .RoleName,ApplyForAlliance=new List<int>()};
+                RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { RoleID= roleallianceTemp.RoleID,RoleName= roleallianceTemp .RoleName,ApplyForAlliance=new List<int>()};
                 SetResponseParamters(() =>
                    {
-                       subResponseParameters.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(roleAllianceDTO));
+                       subResponseParameters.Add((byte)ParameterCode.Alliances, Utility.Json.ToJson(roleAllianceDTO));
                        operationResponse.ReturnCode = (short)ReturnCode.Success;
                    });
             }

@@ -76,7 +76,14 @@ namespace AscensionServer
                     petDtoTemp.PetLevel = petTemp.PetLevel;
                     petDtoTemp.PetName = petTemp.PetName;
                     Utility.Debug.LogInfo("YZQ技能列表"+Utility.Json.ToJson(petTemp.PetSkillArray));
-                    petDtoTemp.PetSkillArray = Utility.Json.ToObject<List<int>>(petTemp.PetSkillArray);
+                    try
+                    {
+                        petDtoTemp.PetSkillArray = Utility.Json.ToObject<List<int>>(petTemp.PetSkillArray);
+                    }
+                    catch (Exception)
+                    {
+                        petDtoTemp.PetSkillArray=null;
+                    }
                     allPetDict.Add(petDtoTemp.ID, petDtoTemp);
                 }
             }

@@ -1,0 +1,13 @@
+﻿[
+    {
+        "ID":1,
+        "RoleLevel":21,
+        "SpiritStones":1000000,
+        "AllianceLevel":1,
+        "Chamber":1,
+        "ArmsDrillSite":1,
+        "ScripturesPlatform":1,
+        "AlchemyStorage":1,
+        "Popularity":1000
+    }
+]

@@ -18,59 +18,59 @@ namespace AscensionServer
         public override byte SubOpCode { get; protected set; } = (byte)SubOperationCode.Update;
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
-            var dict = operationRequest.Parameters;
-            string roleallianceskillJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAllianceSkill));
+            //    var dict = operationRequest.Parameters;
+            //    string roleallianceskillJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleAllianceSkill));
 
-            var roleallianceskillObj = Utility.Json.ToObject<RoleAllianceSkilltransferDTO>(roleallianceskillJson);
-            NHCriteria nHCriteriroleallianceskill = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceskillObj.RoleID);
+            //    var roleallianceskillObj = Utility.Json.ToObject<RoleAllianceSkillDTO>(roleallianceskillJson);
+            //    NHCriteria nHCriteriroleallianceskill = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleallianceskillObj.RoleID);
 
-            var roleallianceskillTemp= NHibernateQuerier.CriteriaSelectAsync<RoleAllianceSkill>(nHCriteriroleallianceskill).Result;
+            //    var roleallianceskillTemp= NHibernateQuerier.CriteriaSelectAsync<RoleAllianceSkill>(nHCriteriroleallianceskill).Result;
 
-            var rolealliancesTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriroleallianceskill).Result;
-            var roleAssetsTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAssets>(nHCriteriroleallianceskill).Result;
+            //    var rolealliancesTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriroleallianceskill).Result;
+            //    var roleAssetsTemp = NHibernateQuerier.CriteriaSelectAsync<RoleAssets>(nHCriteriroleallianceskill).Result;
 
-            if (roleallianceskillTemp!=null&& rolealliancesTemp != null && roleAssetsTemp != null)
-            {
-                if (roleAssetsTemp.SpiritStonesLow >= roleallianceskillObj.RoleAssets && rolealliancesTemp.Reputation >= roleallianceskillObj.Contribution)
-                {
-                    roleallianceskillTemp.SkillInsight += roleallianceskillObj.SkillInsight;
-                    roleallianceskillTemp.SkillMeditation += roleallianceskillObj.SkillMeditation;
-                    roleallianceskillTemp.SkillRapid += roleallianceskillObj.SkillRapid;
-                    roleallianceskillTemp.SkillStrong += roleallianceskillObj.SkillStrong;
-                    roleAssetsTemp.SpiritStonesLow -= roleallianceskillObj.RoleAssets;
-                    rolealliancesTemp.Reputation -= roleallianceskillObj.Contribution;
+            //    if (roleallianceskillTemp!=null&& rolealliancesTemp != null && roleAssetsTemp != null)
+            //    {
+            //        if (roleAssetsTemp.SpiritStonesLow >= roleallianceskillObj.RoleAssets && rolealliancesTemp.Reputation >= roleallianceskillObj.Contribution)
+            //        {
+            //            roleallianceskillTemp.SkillInsight += roleallianceskillObj.SkillInsight;
+            //            roleallianceskillTemp.SkillMeditation += roleallianceskillObj.SkillMeditation;
+            //            roleallianceskillTemp.SkillRapid += roleallianceskillObj.SkillRapid;
+            //            roleallianceskillTemp.SkillStrong += roleallianceskillObj.SkillStrong;
+            //            roleAssetsTemp.SpiritStonesLow -= roleallianceskillObj.RoleAssets;
+            //            rolealliancesTemp.Reputation -= roleallianceskillObj.Contribution;
 
-                  NHibernateQuerier.Update(roleallianceskillTemp);
-                  NHibernateQuerier.Update(rolealliancesTemp);
-                  NHibernateQuerier.Update(roleAssetsTemp);
+            //          NHibernateQuerier.Update(roleallianceskillTemp);
+            //          NHibernateQuerier.Update(rolealliancesTemp);
+            //          NHibernateQuerier.Update(roleAssetsTemp);
 
-                    RedisHelper.Hash.HashSet<RoleAssets>("RoleAssets", roleAssetsTemp.RoleID.ToString(), roleAssetsTemp);
-                    SetResponseParamters(() =>
-                    {
-                        subResponseParameters.Add((byte)ParameterCode.RoleAllianceSkill, Utility.Json.ToJson(roleallianceskillTemp));
-                        subResponseParameters.Add((byte)ParameterCode.RoleAssets, Utility.Json.ToJson(roleAssetsTemp));
-                        operationResponse.ReturnCode = (short)ReturnCode.Success;
-                    });
-                }
-                else
-                {
-                    SetResponseParamters(() =>
-                    {
-                        operationResponse.ReturnCode = (short)ReturnCode.Fail;
-                    });
-                }
-            }
-            else
-            {
-                SetResponseParamters(() =>
-                {
-                    operationResponse.ReturnCode = (short)ReturnCode.Fail;
-                });
-            }
-            CosmosEntry.ReferencePoolManager.Despawns(nHCriteriroleallianceskill);
+            //            RedisHelper.Hash.HashSet<RoleAssets>("RoleAssets", roleAssetsTemp.RoleID.ToString(), roleAssetsTemp);
+            //            SetResponseParamters(() =>
+            //            {
+            //                subResponseParameters.Add((byte)ParameterCode.RoleAllianceSkill, Utility.Json.ToJson(roleallianceskillTemp));
+            //                subResponseParameters.Add((byte)ParameterCode.RoleAssets, Utility.Json.ToJson(roleAssetsTemp));
+            //                operationResponse.ReturnCode = (short)ReturnCode.Success;
+            //            });
+            //        }
+            //        else
+            //        {
+            //            SetResponseParamters(() =>
+            //            {
+            //                operationResponse.ReturnCode = (short)ReturnCode.Fail;
+            //            });
+            //        }
+            //    }
+            //    else
+            //    {
+            //        SetResponseParamters(() =>
+            //        {
+            //            operationResponse.ReturnCode = (short)ReturnCode.Fail;
+            //        });
+            //    }
+            //    CosmosEntry.ReferencePoolManager.Despawns(nHCriteriroleallianceskill);
             return operationResponse;
         }
-        }
     }
+}
 
 

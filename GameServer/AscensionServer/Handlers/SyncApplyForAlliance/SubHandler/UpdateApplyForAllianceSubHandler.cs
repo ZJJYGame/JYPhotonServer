@@ -59,7 +59,7 @@ namespace AscensionServer
                         roleAllianceTemp.ApplyForAlliance = "[]";
                        NHibernateQuerier.Update(roleAllianceTemp);
                         var Role = AlliancelogicManager.Instance.GetNHCriteria<Role>("RoleID", roleidList[i]);
-                        RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { RoleID = roleAllianceTemp.RoleID, ApplyForAlliance = new List<int>(), AllianceID = roleAllianceTemp.AllianceID, ReputationHistroy = roleAllianceTemp.ReputationHistroy, AllianceJob = roleAllianceTemp.AllianceJob, JoinOffline = roleAllianceTemp.JoinOffline, JoinTime = roleAllianceTemp.JoinTime, Reputation = roleAllianceTemp.Reputation, ReputationMonth = roleAllianceTemp.ReputationMonth, RoleName = roleAllianceTemp.RoleName,RoleSchool= roleAllianceTemp.RoleSchool ,RoleLevel= Role .RoleLevel};
+                        RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() { RoleID = roleAllianceTemp.RoleID, ApplyForAlliance = new List<int>(), AllianceID = roleAllianceTemp.AllianceID, ReputationHistroy = roleAllianceTemp.ReputationHistroy, AllianceJob = roleAllianceTemp.AllianceJob, JoinOffline = roleAllianceTemp.JoinOffline, JoinTime = roleAllianceTemp.JoinTime, Reputation = roleAllianceTemp.Reputation, ReputationMonth = roleAllianceTemp.ReputationMonth, RoleName = roleAllianceTemp.RoleName,RoleLevel= Role .RoleLevel};
                         roleAllianceDTOs.Add(roleAllianceDTO);
                         allianceStatusTemp.AllianceNumberPeople++;
                         applyList.Remove(roleidList[i]);

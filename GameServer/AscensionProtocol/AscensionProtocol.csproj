@@ -51,9 +51,11 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AreaOpCode\AllianceOpCode.cs" />
     <Compile Include="AreaOpCode\FlyMagicToolOpCode.cs" />
     <Compile Include="AreaOpCode\LoginOffOpCode.cs" />
-    <Compile Include="AreaOpCode\RoleStatusOPcode.cs" />
+    <Compile Include="AreaOpCode\RoleAssetsOpCode.cs" />
+    <Compile Include="AreaOpCode\RoleStatusOpCode.cs" />
     <Compile Include="DTO\AdventurePlayerDTO.cs" />
     <Compile Include="DTO\AdventureSkillLayoutDTO.cs" />
     <Compile Include="DTO\AlchemyDTO.cs" />
@@ -87,7 +89,6 @@
     <Compile Include="DTO\PetStatusDTO.cs" />
     <Compile Include="DTO\PuppetDTO.cs" />
     <Compile Include="DTO\RoleAllianceSkillDTO.cs" />
-    <Compile Include="DTO\RoleAllianceSkilltransferDTO.cs" />
     <Compile Include="DTO\RoleAuctionItemsDTO.cs" />
     <Compile Include="DTO\RolePurchaseRecordDTO.cs" />
     <Compile Include="DTO\RoleStatusPointDTO.cs" />
@@ -132,7 +133,7 @@
     <Compile Include="EventCode.cs" />
     <Compile Include="MessageChannel.cs" />
     <Compile Include="AreaOpCode\LoginAreaOpCode.cs" />
-    <Compile Include="OperaOrder\PracticeOpcode.cs" />
+    <Compile Include="AreaOpCode\PracticeOpcode.cs" />
     <Compile Include="OperationCode.cs" />
     <Compile Include="ParameterCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

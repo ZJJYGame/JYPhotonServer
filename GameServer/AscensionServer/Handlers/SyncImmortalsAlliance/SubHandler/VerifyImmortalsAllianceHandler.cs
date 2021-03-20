@@ -19,7 +19,7 @@ namespace AscensionServer
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             var dict = operationRequest.Parameters;
-            string alliancestatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ImmortalsAlliance));
+            string alliancestatusJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Alliances));
             var alliancestatusObj = Utility.Json.ToObject<AllianceStatusDTO>
                 (alliancestatusJson);
             List<AllianceStatusDTO> allianceStatusDTOs = new List<AllianceStatusDTO>();
@@ -56,7 +56,7 @@ namespace AscensionServer
                     SetResponseParamters(() =>
                     {
                         Utility.Debug.LogInfo("发送的所有仙盟列表" + Utility.Json.ToJson(allianceStatusDTOs));
-                        subResponseParameters.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(allianceStatusDTOs));
+                        subResponseParameters.Add((byte)ParameterCode.Alliances, Utility.Json.ToJson(allianceStatusDTOs));
                         operationResponse.ReturnCode = (short)ReturnCode.Success;
                     });
                 }
@@ -101,7 +101,7 @@ namespace AscensionServer
                         SetResponseParamters(() =>
                         {
                             Utility.Debug.LogInfo("发送的所有仙盟列表" + Utility.Json.ToJson(allianceStatusDTOs));
-                            subResponseParameters.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(allianceStatusDTOs));
+                            subResponseParameters.Add((byte)ParameterCode.Alliances, Utility.Json.ToJson(allianceStatusDTOs));
                             operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
                     }
@@ -129,7 +129,7 @@ namespace AscensionServer
                         SetResponseParamters(() =>
                         {
                             Utility.Debug.LogInfo("发送的所有仙盟列表" + Utility.Json.ToJson(allianceStatusDTOs));
-                            subResponseParameters.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(allianceStatusDTOs));
+                            subResponseParameters.Add((byte)ParameterCode.Alliances, Utility.Json.ToJson(allianceStatusDTOs));
                             operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
                     }
@@ -155,7 +155,7 @@ namespace AscensionServer
                         SetResponseParamters(() =>
                         {
                             Utility.Debug.LogInfo("发送的所有仙盟列表" + Utility.Json.ToJson(allianceStatusDTOs));
-                            subResponseParameters.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(allianceStatusDTOs));
+                            subResponseParameters.Add((byte)ParameterCode.Alliances, Utility.Json.ToJson(allianceStatusDTOs));
                             operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
                     }

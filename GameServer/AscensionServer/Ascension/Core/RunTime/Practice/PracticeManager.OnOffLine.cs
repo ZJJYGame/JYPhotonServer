@@ -233,19 +233,19 @@ namespace AscensionServer
                                 Utility.Debug.LogInfo("YZQ派发功法经验2");
                                 dict = new Dictionary<byte, object>();
                                 dict.Add((byte)PracticeOpcode.TriggerBottleneck, bottleneck);
-                                dict.Add((Byte)PracticeOpcode.GetOffLineExp, onOffLineObj);
+                                dict.Add((byte)PracticeOpcode.GetOffLineExp, onOffLineObj);
                                 dict.Add((byte)PracticeOpcode.GetRoleGongfa, ChangeGongFa(gongfa));
                                 ResultSuccseS2C(roleID, PracticeOpcode.GetOffLineExp, dict);
                                 return;
                             }
                             if (gongfa == null)
                             {
-                                Utility.Debug.LogInfo("YZQ派发功法经验3");
                                 ResultFailS2C(roleID, PracticeOpcode.GetOffLineExp);
                                 return;
                             }
 
                             exp = (int)interval.TotalSeconds / 5 * redisRoleStatus.GongfaLearnSpeed;
+                            Utility.Debug.LogInfo("YZQonoffLine計算的功法经验為"+ exp);
                             var bottleneckObj = AddGongFaExp(roleID, gongfa, exp, out CultivationMethodDTO method);
                             dict = new Dictionary<byte, object>();
                             dict.Add((byte)PracticeOpcode.TriggerBottleneck, bottleneckObj);
@@ -287,7 +287,7 @@ namespace AscensionServer
         /// 挂機經驗的結算
         /// </summary>
         /// <param name="onOffLine"></param>
-        async void UpLoadingExpMySql(OnOffLineDTO onOffLine)
+        async  void UpLoadingExpMySql(OnOffLineDTO onOffLine)
         {
             Utility.Debug.LogInfo("YZQ自动加经验MYSQL进来了"+Utility.Json.ToJson(onOffLine));
             Utility.Debug.LogInfo("YZQ自动加经验MYSQL进来了" + onOffLine.RoleID);
@@ -306,19 +306,21 @@ namespace AscensionServer
                     case 1:
                         if (!bottleneckObj.IsBottleneck || !bottleneckObj.IsDemon || !bottleneckObj.IsThunder)
                         {
-                            Utility.Debug.LogInfo("YZQ自动加经验MYSQL进来了3");
+                            Utility.Debug.LogInfo("YZQonoffLineMYSQL自动加经验的數值為" + roleStatusObj.GongfaLearnSpeed);
                             var bottleneckData = AddGongFaExp(onOffLine.RoleID, cultivationObj, roleStatusObj.GongfaLearnSpeed, out var methodDTO);
                             dict = new Dictionary<byte, object>();
                             dict.Add((byte)PracticeOpcode.TriggerBottleneck, bottleneckData);
                             dict.Add((byte)PracticeOpcode.GetRoleGongfa, methodDTO);
                             ResultSuccseS2C(onOffLine.RoleID, PracticeOpcode.UploadingExp, dict);
+                            await NHibernateQuerier.UpdateAsync(ChangeDataType(methodDTO));
+                            await NHibernateQuerier.UpdateAsync(bottleneckData);
                         }
                         else
                         {
-                          var bottleneck=  AddGongFaExp(onOffLine.RoleID, cultivationObj, roleStatusObj.GongfaLearnSpeed,out var methodDTO);
+                          //var bottleneck=  AddGongFaExp(onOffLine.RoleID, cultivationObj, roleStatusObj.GongfaLearnSpeed,out var methodDTO);
                             dict = new Dictionary<byte, object>();
                             dict.Add((byte)PracticeOpcode.TriggerBottleneck, bottleneckObj);
-                            dict.Add((byte)PracticeOpcode.GetRoleGongfa, methodDTO);
+                            dict.Add((byte)PracticeOpcode.GetRoleGongfa, ChangeGongFa(cultivationObj));
                             //TODO添加onoffline到字典中
                             ResultSuccseS2C(onOffLine.RoleID, PracticeOpcode.UploadingExp, dict);
                         }
@@ -372,7 +374,7 @@ namespace AscensionServer
                 }
             }
              bottleneck = TriggerBottleneckS2C(roleID, cultivation.CultivationMethodLevel, out  isbottleneck);
-            cultivationDTO.CultivationMethodExp = cultivation.CultivationMethodExp;
+            cultivationDTO.CultivationMethodExp = cultivation.CultivationMethodExp+exp;
             cultivationDTO.CultivationMethodID = cultivation.CultivationMethodID;
             cultivationDTO.ID = cultivation.ID;
             cultivationDTO.CultivationMethodLevel = cultivation.CultivationMethodLevel;

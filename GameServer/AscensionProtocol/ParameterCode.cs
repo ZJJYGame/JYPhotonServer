@@ -142,7 +142,7 @@
         /// <summary>
         /// 仙盟
         /// </summary>
-        ImmortalsAlliance = 78,
+        Alliances = 78,
         RoleAlliance=81,
         AllianceMember=82,
         ApplyForAlliance=83,
@@ -210,6 +210,18 @@
         /// <summary>
         /// 副职业
         /// </summary>
-        SecondaryJob=106
+        SecondaryJob=106,
+        /// <summary>
+        /// 人物加点
+        /// </summary>
+        RoleStatusPoint=107,
+        /// <summary>
+        /// 宗门展示数据
+        /// </summary>
+        AllianceStatus=108,
+        /// <summary>
+        /// 宗門申請人員
+        /// </summary>
+        ApplyMember=109,
     }
 }

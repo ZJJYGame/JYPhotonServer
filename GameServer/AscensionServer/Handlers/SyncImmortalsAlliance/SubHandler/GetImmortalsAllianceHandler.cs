@@ -18,7 +18,7 @@ namespace AscensionServer
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             var dict = operationRequest.Parameters;
-            string immortalsAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.ImmortalsAlliance));
+            string immortalsAllianceJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Alliances));
             var immortalsAllianceObj = Utility.Json.ToObject<AlliancesDTO>
                 (immortalsAllianceJson);
             var name = RedisData.ReidsDataProcessing.InsertName("(Alliance", immortalsAllianceObj.ID);
@@ -54,7 +54,7 @@ namespace AscensionServer
                         SetResponseParamters(() =>
                         {
                             Utility.Debug.LogError("发送的所有仙盟列表" + Utility.Json.ToJson(ImmortalsAllianceList));
-                            subResponseParameters.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(ImmortalsAllianceList));
+                            subResponseParameters.Add((byte)ParameterCode.Alliances, Utility.Json.ToJson(ImmortalsAllianceList));
                             operationResponse.ReturnCode = (short)ReturnCode.Success;
                         });
                     }
@@ -73,7 +73,7 @@ namespace AscensionServer
                         SetResponseParamters(() =>
                         {
                             Utility.Debug.LogError("发送的所有仙盟列表" + Utility.Json.ToJson(ImmortalsAllianceList));
-                            subResponseParameters.Add((byte)ParameterCode.ImmortalsAlliance, Utility.Json.ToJson(ImmortalsAllianceList));
+                            subResponseParameters.Add((byte)ParameterCode.Alliances, Utility.Json.ToJson(ImmortalsAllianceList));
                             operationResponse.ReturnCode = (short)ReturnCode.ItemAlreadyExists;
                         });
                     }
