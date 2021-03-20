@@ -21,7 +21,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\..\localproject\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -265,6 +265,22 @@
     <Compile Include="Ascension\Core\RunTime\Login\ILoginManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Login\LoginManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Network\INetworkManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleCharacter\BattleAIEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleCharacter\BattleCharacterEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleCharacter\BattleCharacterManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleCharacter\BattlePetEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleCharacter\BattlePlayerEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleCharacter\IBattleCharacterManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleController.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleDamageData.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleEnum.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleRoom\BattleRoomEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleRoom\BattleRoomEntity.Message.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleRoom\BattleRoomManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleRoom\IBattleRoomManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\BattleSkillBase.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\BattleSkillController.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\CharacterBattleData.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\IPeerEntity.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\DataImpl\ServerDataConvertor.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\IPeerManager.cs" />
