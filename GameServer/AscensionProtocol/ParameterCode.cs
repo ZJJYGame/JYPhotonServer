@@ -219,6 +219,9 @@
         /// 宗门展示数据
         /// </summary>
         AllianceStatus=108,
-
+        /// <summary>
+        /// 宗門申請人員
+        /// </summary>
+        ApplyMember=109,
     }
 }

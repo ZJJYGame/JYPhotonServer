@@ -218,7 +218,11 @@ namespace AscensionServer
                     RoleStatusFailS2C(roleID, AllianceOpCode.GetAlliancecallboard);
             }
         }
-
+        /// <summary>
+        /// 宗門建設升級
+        /// </summary>
+        /// <param name="roleID"></param>
+        /// <param name="constructionDTO"></param>
         async void BuildAlllianceS2C(int roleID,AllianceConstructionDTO constructionDTO)
         {
             var result = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceConstructionPerfix, constructionDTO.AllianceID.ToString()).Result;
@@ -232,10 +236,60 @@ namespace AscensionServer
             }
 
         }
-        
-        
-        
-        
+        /// <summary>
+        /// 修改宗門名稱
+        /// </summary>
+        /// <param name="roleID"></param>
+        /// <param name="statusDTO"></param>
+        async void ChangeAllianceNameS2C(int roleID,AllianceStatusDTO statusDTO)
+        {
+            var allianceExit = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString()).Result;
+            if (allianceExit)
+            {
+                var alliance = RedisHelper.Hash.HashGetAsync<AllianceStatusDTO>(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString()).Result;
+                if (alliance != null)
+                {
+                    alliance.AllianceName = statusDTO.AllianceName;
+                    ///TODO發送給客戶端
+                }
+                else
+                {
+                    ChangeAllianceNameMySQL(roleID, statusDTO);
+                }
+            }
+            else
+            {
+                ChangeAllianceNameMySQL(roleID, statusDTO);
+            }
+        }
+
+        /// <summary>
+        /// 修改宗門宗旨
+        /// </summary>
+        /// <param name="roleID"></param>
+        /// <param name="statusDTO"></param>
+        async void ChangeAlliancePurposeS2C(int roleID,AllianceStatusDTO statusDTO)
+        {
+            var allianceExit = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString()).Result;
+            if (allianceExit)
+            {
+                var alliance = RedisHelper.Hash.HashGetAsync<AllianceStatusDTO>(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString()).Result;
+                if (alliance != null)
+                {
+                    alliance.Manifesto = statusDTO.Manifesto;
+                    ///TODO發送給客戶端
+                }
+                else
+                {
+                    ChangeAllianceNameMySQL(roleID, statusDTO);
+                }
+            }
+            else
+            {
+                ChangeAllianceNameMySQL(roleID, statusDTO);
+            }
+        }
+
         #endregion
         #region MySql模块
         /// <summary>
@@ -274,10 +328,41 @@ namespace AscensionServer
             else
                 RoleStatusFailS2C(roleID, AllianceOpCode.GetAllianceStatus);
         }
+        /// <summary>
+        /// 修改宗門名稱
+        /// </summary>
+        void ChangeAllianceNameMySQL(int roleID, AllianceStatusDTO statusDTO)
+        {
+            NHCriteria nHCriteriaAlliance = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", statusDTO.ID);
+            var alliance = NHibernateQuerier.CriteriaSelect<AllianceStatus>(nHCriteriaAlliance);
+            if (alliance != null)
+            {
+                alliance.AllianceName = statusDTO.AllianceName;
+                //TODO 發送至客戶端
+            }
+            else
+                RoleStatusFailS2C(roleID,AllianceOpCode.ChangeAllianceName);
+
+        }
+        /// <summary>
+        /// 修改宗門宗旨
+        /// </summary>
+        void ChangeAlliancePurposeMySql(int roleID, AllianceStatusDTO statusDTO)
+        {
+            NHCriteria nHCriteriaAlliance = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", statusDTO.ID);
+            var alliance = NHibernateQuerier.CriteriaSelect<AllianceStatus>(nHCriteriaAlliance);
+            if (alliance != null)
+            {
+                alliance.Manifesto = statusDTO.Manifesto;
+                //TODO 發送至客戶端
+            }
+            else
+                RoleStatusFailS2C(roleID, AllianceOpCode.ChangeAllianceName);
+        }
         #endregion
 
 
-        RoleAllianceDTO ChangeDataType(RoleAlliance roleAlliance) 
+           RoleAllianceDTO ChangeDataType(RoleAlliance roleAlliance) 
         {
             RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO();
             roleAllianceDTO.AllianceID = roleAlliance.AllianceID;

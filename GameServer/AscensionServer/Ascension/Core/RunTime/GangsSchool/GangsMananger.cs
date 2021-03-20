@@ -32,10 +32,13 @@ namespace AscensionServer
                     dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
                     roleObj = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
                     allianceStatusObj = Utility.Json.ToObject<AllianceStatus>(dict[(byte)ParameterCode.AllianceStatus].ToString());
-                    Utility.Debug.LogInfo("创建宗門进来" + roleObj.RoleID+""+Utility.Json.ToJson(allianceStatusObj));
+                    Utility.Debug.LogInfo("创建宗門进来" + roleObj.RoleID + "" + Utility.Json.ToJson(allianceStatusObj));
                     CreatAllianceS2C(roleObj.RoleID, allianceStatusObj);
                     break;
                 case AllianceOpCode.JoinAlliance:
+                    roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(packet.DataMessage.ToString());
+                    Utility.Debug.LogInfo("申请加入宗門进来" + roleObj.RoleID + "" + Utility.Json.ToJson(roleAllianceObj));
+                    ApplyJoinAllianceS2C(roleAllianceObj.RoleID, roleAllianceObj.AllianceID);
                     break;
                 case AllianceOpCode.GetAlliances:
                     dict = Utility.Json.ToObject<Dictionary<byte,object>>(packet.DataMessage.ToString());
@@ -66,6 +69,7 @@ namespace AscensionServer
                 case AllianceOpCode.RefuseApply:
                     break;
                 case AllianceOpCode.ConsentApply:
+                   // ConsentApplyS2C();
                     break;
                 case AllianceOpCode.UpdateAllianceSkill:
                     break;
@@ -78,10 +82,6 @@ namespace AscensionServer
                 case AllianceOpCode.CareerAdvancement:
                     break;
                 case AllianceOpCode.SearchAlliance:
-                    break;
-                case AllianceOpCode.SearchAllianceMember:
-                    break;
-                case AllianceOpCode.SearchAllianceApply:
                     break;
                 case AllianceOpCode.ExchangeElixir:
                     break;

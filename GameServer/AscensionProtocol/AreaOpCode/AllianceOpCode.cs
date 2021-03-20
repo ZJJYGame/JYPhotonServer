@@ -73,14 +73,6 @@ namespace AscensionProtocol
         /// </summary>
         SearchAlliance=16,
         /// <summary>
-        /// 搜索宗门成员
-        /// </summary>
-        SearchAllianceMember = 17,
-        /// <summary>
-        /// 搜索申请列表
-        /// </summary>
-        SearchAllianceApply= 18,
-        /// <summary>
         /// 兑换丹药
         /// </summary>
         ExchangeElixir=19,
