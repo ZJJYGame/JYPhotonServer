@@ -257,6 +257,7 @@
     <Compile Include="Ascension\Core\RunTime\GangsSchool\GangsMananger.Member.cs" />
     <Compile Include="Ascension\Core\RunTime\GangsSchool\GangsMananger.Status.cs" />
     <Compile Include="Ascension\Core\RunTime\GangsSchool\IGangsMananger.cs" />
+    <Compile Include="Ascension\Core\RunTime\Inventory\IInventoryManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Level\ILevelManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Lobby\ILobbyManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Login\DefaultCreateRole.cs" />
@@ -384,8 +385,8 @@
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\RemoveImmortalsAllianceHandler.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\UpdateImmortalsAllianceHandler.cs" />
     <Compile Include="Handlers\SyncImmortalsAlliance\SubHandler\VerifyImmortalsAllianceHandler.cs" />
-    <Compile Include="Handlers\SyncInventory\SubHandler\InventoryManager.Client.cs" />
-    <Compile Include="Handlers\SyncInventory\SubHandler\InventoryManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Inventory\InventoryManager.Client.cs" />
+    <Compile Include="Ascension\Core\RunTime\Inventory\InventoryManager.cs" />
     <Compile Include="Handlers\SyncMiShu\SubHandler\MishuStudyHelper.cs" />
     <Compile Include="Handlers\SyncRoleAllianceSkill\SubHandler\GetRoleAllianceSkillSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleAllianceSkill\SubHandler\SyncRoleAllianceSkillSubHandler.cs" />
@@ -539,7 +540,6 @@
     <Compile Include="Handlers\SyncHerbsField\SubHandler\GetHerbsFieldSubHandler.cs" />
     <Compile Include="Handlers\SyncHerbsField\SubHandler\SyncHerbsFieldSubHandler.cs" />
     <Compile Include="Handlers\SyncHerbsField\SyncHerbsFieldHandler.cs" />
-    <Compile Include="Handlers\SyncInventory\SubHandler\GetInventorySubHandler.cs" />
     <Compile Include="Handlers\SyncMonsterTransformSet\SyncMonsterTransformSetHandler.cs" />
     <Compile Include="Handlers\SyncMoveStatus\SyncMoveStatusHandler.cs" />
     <Compile Include="Handlers\SyncRoleAdventureSkill\SyncRoleAdventureSkillHandler.cs" />
@@ -577,8 +577,6 @@
     <Compile Include="Handlers\SyncGongFa\SubHandler\SyncGongFaSubHandler.cs" />
     <Compile Include="Handlers\SyncGongFa\SubHandler\UpdateGongFaSubHandler.cs" />
     <Compile Include="Handlers\SyncGongFa\SyncGongFaHandler.cs" />
-    <Compile Include="Handlers\SyncInventory\SubHandler\SyncInventorySubHandler.cs" />
-    <Compile Include="Handlers\SyncInventory\SyncInventoryHandler.cs" />
     <Compile Include="Handlers\SyncMiShu\SubHandler\AddMiShuSubHandler.cs" />
     <Compile Include="Handlers\SyncMiShu\SubHandler\GetMiShuSubHandle.cs" />
     <Compile Include="Handlers\SyncMiShu\SubHandler\SyncMiShuSubHandler.cs" />

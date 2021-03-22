@@ -35,7 +35,7 @@ namespace AscensionServer
                 ///buff  时机
                 switch (buffDict[buffId].battleBuffTriggerTime)
                 {
-                    case BattleBuffTriggerTime.BuffAdd:
+                    case BattleBuffTriggerTime.BuffAdd://这个buff添加
                         BuffConditionMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, isSelf);
                         break;
                     case BattleBuffTriggerTime.RoundStart:
@@ -53,7 +53,7 @@ namespace AscensionServer
                     case BattleBuffTriggerTime.RoundEnd:
                         BuffConditionMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, isSelf);
                         break;
-                    case BattleBuffTriggerTime.BuffRemove:
+                    case BattleBuffTriggerTime.BuffRemove:  //buff 移除还没处理这个地方
                         break;
                 }
                 
