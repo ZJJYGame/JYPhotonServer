@@ -21,13 +21,12 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>AscensionServer.xml</DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>7.1</LangVersion>
   </PropertyGroup>
@@ -405,8 +404,6 @@
     <Compile Include="Handlers\SyncRoleAuctionItems\SyncRoleAuctionItemsHandler.cs" />
     <Compile Include="Handlers\SyncRoleGongfa\SyncRoleGongfaHandler.cs" />
     <Compile Include="Handlers\SyncRolePet\SubHandler\UpdateRolePetSubHandler.cs" />
-    <Compile Include="Handlers\SyncInventory\SubHandler\RemoveInventorySubHandler.cs" />
-    <Compile Include="Handlers\SyncInventory\SubHandler\SortingInventorySubHandler.cs" />
     <Compile Include="Handlers\SyncSecondaryJob\SyncSecondaryJobHandler.cs" />
     <Compile Include="Handlers\SyncTeam\SubHandler\GetTeamSubHandler.cs" />
     <Compile Include="Handlers\SyncTeam\SubHandler\SyncTeamSubHandler.cs" />
@@ -580,9 +577,7 @@
     <Compile Include="Handlers\SyncGongFa\SubHandler\SyncGongFaSubHandler.cs" />
     <Compile Include="Handlers\SyncGongFa\SubHandler\UpdateGongFaSubHandler.cs" />
     <Compile Include="Handlers\SyncGongFa\SyncGongFaHandler.cs" />
-    <Compile Include="Handlers\SyncInventory\SubHandler\AddInventorySubHandler.cs" />
     <Compile Include="Handlers\SyncInventory\SubHandler\SyncInventorySubHandler.cs" />
-    <Compile Include="Handlers\SyncInventory\SubHandler\UpdateInventorySubHandler.cs" />
     <Compile Include="Handlers\SyncInventory\SyncInventoryHandler.cs" />
     <Compile Include="Handlers\SyncMiShu\SubHandler\AddMiShuSubHandler.cs" />
     <Compile Include="Handlers\SyncMiShu\SubHandler\GetMiShuSubHandle.cs" />

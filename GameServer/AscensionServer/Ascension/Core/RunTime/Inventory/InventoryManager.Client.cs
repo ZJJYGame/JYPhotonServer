@@ -14,6 +14,9 @@ using Protocol;
 
 namespace AscensionServer
 {
+    /// <summary>
+    /// InventoryManager  InventoryManager.Client    就这两个有用拉   剩下的都可以删除拉
+    /// </summary>
     public partial class InventoryManager
     {
 
@@ -118,7 +121,7 @@ namespace AscensionServer
         /// <param name="_RingItemAdorn"></param>
         public static void AddNewItem(int roleId, int _itemId, int _RingItemCount, string _RingItemAdorn = "0")
         {
-            AddDataCmd(roleId, new RingDTO() { RingItems = new Dictionary<int, RingItemsDTO>() { { _itemId, new RingItemsDTO() { RingItemAdorn = _RingItemAdorn, RingItemCount = _RingItemCount, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = InventotyDict()[Int32.Parse(_itemId.ToString().Substring(0, 5))].ItemMax, RingItemType = AddRingItemType(Int32.Parse(_itemId.ToString().Substring(0, 5))) } } } }, NHCriteria(roleId));
+            AddDataCmdS2C(roleId, new RingDTO() { RingItems = new Dictionary<int, RingItemsDTO>() { { _itemId, new RingItemsDTO() { RingItemAdorn = _RingItemAdorn, RingItemCount = _RingItemCount, RingItemTime = DateTime.Now.ToString("yyyyMMddHHmmss"), RingItemMax = InventotyDict()[Int32.Parse(_itemId.ToString().Substring(0, 5))].ItemMax, RingItemType = AddRingItemType(Int32.Parse(_itemId.ToString().Substring(0, 5))) } } } }, NHCriteria(roleId));
         }
 
         /// <summary>
@@ -130,7 +133,7 @@ namespace AscensionServer
         /// <param name="_RingItemAdorn"></param>
         public static void UpdateNewItem(int roleId, int _itemId, int _RingItemCount, string _RingItemAdorn = "0")
         {
-            UdpateCmd(roleId, new RingDTO() { RingItems = new Dictionary<int, RingItemsDTO>() { { _itemId, new RingItemsDTO() { RingItemCount = _RingItemCount, RingItemAdorn = _RingItemAdorn, RingItemType = AddRingItemType(Int32.Parse(_itemId.ToString().Substring(0, 5))) } } } }, NHCriteria(roleId));
+            UdpateCmdS2C(roleId, new RingDTO() { RingItems = new Dictionary<int, RingItemsDTO>() { { _itemId, new RingItemsDTO() { RingItemCount = _RingItemCount, RingItemAdorn = _RingItemAdorn, RingItemType = AddRingItemType(Int32.Parse(_itemId.ToString().Substring(0, 5))) } } } }, NHCriteria(roleId));
         }
 
 
@@ -140,7 +143,7 @@ namespace AscensionServer
         /// <param name="_ItemId"></param>
         public static void Remove(int roleId, int _ItemId)
         {
-            RemoveCmd(roleId, new RingDTO() { RingItems = new Dictionary<int, RingItemsDTO>() { { _ItemId, new RingItemsDTO() } } }, NHCriteria(roleId));
+            RemoveCmdS2C(roleId, new RingDTO() { RingItems = new Dictionary<int, RingItemsDTO>() { { _ItemId, new RingItemsDTO() } } }, NHCriteria(roleId));
         }
 
     }

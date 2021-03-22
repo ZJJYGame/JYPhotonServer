@@ -74,7 +74,7 @@ namespace HttpServer
         }
 
 
-        public static void Main(string[] args)
+        public static void Fake_Main(string[] args)
         {
             // Create a Http server and start listening for incoming connections
             listener = new HttpListener();

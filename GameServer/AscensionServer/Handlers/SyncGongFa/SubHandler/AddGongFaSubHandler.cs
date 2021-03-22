@@ -88,7 +88,7 @@ namespace AscensionServer
                             operationData.DataMessage = Utility.Json.ToJson(DTOdict);
                             operationData.OperationCode = (byte)OperationCode.AddFirstGongfa;
                             GameEntry.RoleManager.SendMessage(roleObj.RoleID, operationData);
-                            InventoryManager.RemoveCmd(roleObj.RoleID, ringObj, nHCriteriaRingID);
+                            InventoryManager.RemoveCmdS2C(roleObj.RoleID, ringObj, nHCriteriaRingID);
                             #endregion
                         }
                         else
@@ -119,7 +119,7 @@ namespace AscensionServer
                                 operationData.DataMessage = Utility.Json.ToJson(DTOdict);
                                 operationData.OperationCode = (byte)OperationCode.SyncGongFa;
                                 GameEntry.RoleManager.SendMessage(roleObj.RoleID, operationData);
-                                InventoryManager.RemoveCmd(roleObj.RoleID, ringObj, nHCriteriaRingID);
+                                InventoryManager.RemoveCmdS2C(roleObj.RoleID, ringObj, nHCriteriaRingID);
                                 #endregion
                             }
                             else

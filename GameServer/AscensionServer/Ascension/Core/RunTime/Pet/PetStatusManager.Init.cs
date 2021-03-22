@@ -647,7 +647,7 @@ namespace AscensionServer
                     petCompleteDTO.PetDTO.DemonicSoul = Utility.Json.ToObject<Dictionary<int,List<int>>>(pet.DemonicSoul);
                     S2CPetStudySkill(petCompleteDTO.RoleID, Utility.Json.ToJson(petCompleteDTO), ReturnCode.Success);
                     await RedisHelper.Hash.HashSetAsync<PetDTO>(RedisKeyDefine._PetPerfix, petCompleteDTO.RoleID.ToString(), petCompleteDTO.PetDTO);
-                    InventoryManager.RemoveCmd(bookid, ringObj, nHCriteriaRingID);
+                    InventoryManager.RemoveCmdS2C(bookid, ringObj, nHCriteriaRingID);
                 }
                 else
                 {

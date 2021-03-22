@@ -14,8 +14,51 @@ using Protocol;
 
 namespace AscensionServer
 {
-    public partial class InventoryManager
+    [Module]
+    public partial class InventoryManager: Module, IInventoryManager
     {
+        public override void OnPreparatory()
+        {
+            CommandEventCore.Instance.AddEventListener((byte)OperationCode.SyncInventory, ProcessHandlerC2S);
+        }
+        void ProcessHandlerC2S(int sessionId, OperationData packet)
+        {
+            var dictData = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
+            var InventoryRoleData = Utility.GetValue(dictData, (byte)ParameterCode.Role) as string;
+            var InventoryData = Utility.GetValue(dictData, (byte)ParameterCode.Inventory) as string;
+            Utility.Debug.LogInfo($"InventoryManager : ==>>\n接收roleId{ InventoryRoleData }\n接收背包的数据{InventoryData }");
+            var InventoryRoleObj = Utility.Json.ToObject<RoleDTO>(InventoryRoleData);
+            var InventoryObj = Utility.Json.ToObject<RingDTO>(InventoryData);
+            NHCriteria nHCriteriaRoleID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", InventoryRoleObj.RoleID);
+            bool exist = NHibernateQuerier.Verify<RoleRing>(nHCriteriaRoleID);
+            NHCriteria nHCriteriaRingID = null;
+            if (exist)
+            {
+                var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRoleID);
+                nHCriteriaRingID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
+            }
+            //数据就这样解析一下就行
+            var areaSubCode = (InventoryInstructions)packet.SubOperationCode;
+            switch (areaSubCode)
+            {
+                case InventoryInstructions.GetData:
+                    GetDataCmdS2C(InventoryRoleObj.RoleID, InventoryObj, nHCriteriaRingID);
+                    break;
+                case InventoryInstructions.AddData:
+                    AddDataCmdS2C(InventoryRoleObj.RoleID, InventoryObj, nHCriteriaRingID);
+                    break;
+                case InventoryInstructions.UpdateData:
+                    UdpateCmdS2C(InventoryRoleObj.RoleID, InventoryObj, nHCriteriaRingID);
+                    break;
+                case InventoryInstructions.RemoveData:
+                    RemoveCmdS2C(InventoryRoleObj.RoleID, InventoryObj, nHCriteriaRingID);
+                    break;
+                case InventoryInstructions.SortingData:
+                    SortingCmdS2C(InventoryRoleObj.RoleID, InventoryObj, nHCriteriaRingID);
+                    break;
+            }
+            CosmosEntry.ReferencePoolManager.Despawn(nHCriteriaRoleID);
+        }
         /// <summary>
         /// 映射T
         /// </summary>
@@ -40,7 +83,6 @@ namespace AscensionServer
             subResponseParametersDict.Add((byte)ParameterCode.RoleTemInventory, ringServerArray.RingAdorn);
             return subResponseParametersDict;
         }
-
         /// <summary>
         /// 需要count
         /// </summary>
@@ -61,8 +103,6 @@ namespace AscensionServer
         {
             return _ItemHeld % _ItemMax;
         }
-
-
         /// <summary>
         /// 验证是否存在
         /// </summary>
@@ -75,14 +115,13 @@ namespace AscensionServer
                 return true;
             return false;
         }
-
         /// <summary>
         /// 获得背包数据的Cmd
         /// </summary>
         /// <param name="roleId"></param>
         /// <param name="InventoryObj"></param>
-        /// <param name="nHCriteria"></param>
-        public static void GetDataCmd(int roleId, RingDTO InventoryObj, NHCriteria nHCriteria)
+        /// <param name="nHCriteria"></param>    //都是通过这个来 我看到了，你这个发出去就是属于CMD的，  只是进入服务器需要做一下修改，我看来下  对需要修改的不多，就是那个入口handler你处理下
+        public static void GetDataCmdS2C(int roleId, RingDTO InventoryObj, NHCriteria nHCriteria)
         {
             var ringServerArray = CriteriaSelectMethod<Ring>(nHCriteria);
             OperationData opData = new OperationData();
@@ -90,8 +129,13 @@ namespace AscensionServer
             opData.OperationCode = (byte)OperationCode.SyncInventoryMessageGet;
             GameEntry.RoleManager.SendMessage(roleId, opData);
         }
-
-        public static void AddDataCmd(int roleId, RingDTO InventoryObj, NHCriteria nHCriteria)
+        /// <summary>
+        /// 添加
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="InventoryObj"></param>
+        /// <param name="nHCriteria"></param>
+        public static void AddDataCmdS2C(int roleId, RingDTO InventoryObj, NHCriteria nHCriteria)
         {
             var ringServerArray = CriteriaSelectMethod<Ring>(nHCriteria);
             var ServerDict = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingItems);
@@ -392,12 +436,16 @@ namespace AscensionServer
                     }
                 }
                 NHibernateQuerier.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDict), RingMagicDictServer = ringServerArray.RingMagicDictServer, RingAdorn = Utility.Json.ToJson(ServerDictAdorn) });
-                GetDataCmd(roleId, InventoryObj, nHCriteria);
+                GetDataCmdS2C(roleId, InventoryObj, nHCriteria);
             }
         }
-
-
-        public static void UdpateCmd(int roleId, RingDTO InventoryObj, NHCriteria nHCriteria)
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="InventoryObj"></param>
+        /// <param name="nHCriteria"></param>
+        public static void UdpateCmdS2C(int roleId, RingDTO InventoryObj, NHCriteria nHCriteria)
         {
             var ringServerArray = CriteriaSelectMethod<Ring>(nHCriteria);
             var ServerDic = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingItems);
@@ -600,11 +648,16 @@ namespace AscensionServer
                     }
                 }
                 NHibernateQuerier.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDic), RingMagicDictServer = Utility.Json.ToJson(ServerMagicDic), RingAdorn = Utility.Json.ToJson(ServerDictAdorn) });
-                GetDataCmd(roleId, InventoryObj, nHCriteria);
+                GetDataCmdS2C(roleId, InventoryObj, nHCriteria);
             }
         }
-
-        public static void RemoveCmd(int roleId, RingDTO InventoryObj, NHCriteria nHCriteria)
+        /// <summary>
+        /// 移除
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="InventoryObj"></param>
+        /// <param name="nHCriteria"></param>
+        public static void RemoveCmdS2C(int roleId, RingDTO InventoryObj, NHCriteria nHCriteria)
         {
             var ringServerArray = CriteriaSelectMethod<Ring>(nHCriteria);
             var ServerDic = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingItems);
@@ -641,10 +694,15 @@ namespace AscensionServer
                 }
             }
             NHibernateQuerier.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(ServerDic), RingMagicDictServer = Utility.Json.ToJson(ServerMagicDic), RingAdorn = Utility.Json.ToJson(ServerDictAdorn) });
-            GetDataCmd(roleId, InventoryObj, nHCriteria);
+            GetDataCmdS2C(roleId, InventoryObj, nHCriteria);
         }
-
-        public static void SortingCmd(int roleId, RingDTO InventoryObj, NHCriteria nHCriteria)
+        /// <summary>
+        /// 排序
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="InventoryObj"></param>
+        /// <param name="nHCriteria"></param>
+        public static void SortingCmdS2C(int roleId, RingDTO InventoryObj, NHCriteria nHCriteria)
         {
             var ringServerArray = CriteriaSelectMethod<Ring>(nHCriteria);
             var ServerDict = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingItems);
@@ -660,7 +718,7 @@ namespace AscensionServer
             }
             var sortDict = ServerDict.OrderByDescending(s => s.Key.ToString().Substring(0, 5)).ToDictionary(s => s.Key, s => s.Value);
             NHibernateQuerier.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(sortDict), RingMagicDictServer = Utility.Json.ToJson(ServerMagicDic), RingAdorn = Utility.Json.ToJson(ServerDictAdorn) });
-            GetDataCmd(roleId, InventoryObj, nHCriteria);
+            GetDataCmdS2C(roleId, InventoryObj, nHCriteria);
         }
 
 

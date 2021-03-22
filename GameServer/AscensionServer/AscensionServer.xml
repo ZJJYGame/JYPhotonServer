@@ -4,6 +4,29 @@
         <name>AscensionServer</name>
     </assembly>
     <members>
+        <member name="M:AscensionServer.IActorManager.TryAdd(System.Byte,System.Int32,AscensionServer.AscensionPeer)">
+            <summary>
+            添加Actor
+            </summary>
+            <param name="id"></param>
+            <param name="peer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IActorManager.AddOrUpdate(System.Byte,System.Int32,AscensionServer.AscensionPeer)">
+            <summary>
+            添加或更新Actor;
+            若存在，则更新；
+            若不存在，则添加；
+            </summary>
+            <param name="id"></param>
+            <param name="peer"></param>
+            <returns></returns>
+        </member>
+        <member name="P:AscensionServer.RedisConfig.Configuration">
+             <summary>
+            192.168.0.117:6379,password=123456,DefaultDatabase=3
+             </summary>
+        </member>
         <member name="M:AscensionServer.DatabaseQuerier.GetStringObject``1(System.String,System.Nullable{System.TimeSpan},AscensionServer.NHCriteria[])">
             <summary>
             获取一个对象；
@@ -289,6 +312,11 @@
             雷劫回合数
             </summary>
         </member>
+        <member name="T:AscensionServer.CreatAllianceData">
+            <summary>
+            创建宗门所需条件，及创建初始化数据
+            </summary>
+        </member>
         <member name="T:AscensionServer.DemonData">
             <summary>
             角色等级
@@ -323,6 +351,36 @@
             图纸区
             灵兽区
             其他区
+            </summary>
+        </member>
+        <member name="P:AscensionServer.ItemBagBaseData.ItemID">
+             <summary>
+            物品的唯一id
+             </summary>
+        </member>
+        <member name="P:AscensionServer.ItemBagBaseData.Id">
+            <summary>
+             全局id
+            </summary>
+        </member>
+        <member name="T:AscensionServer.ItemType">
+            <summary>
+            物品种类
+            1.全部
+            2.法宝
+            3.消耗品
+            4.材料
+            5.最近获取
+            </summary>
+        </member>
+        <member name="T:AscensionServer.ItemQuality">
+            <summary>
+            物品品质
+            1.普通的
+            2.稀有的
+            3.非常稀有的
+            4.史诗的
+            5.传说的
             </summary>
         </member>
         <member name="T:AscensionServer.MapResourceData">
@@ -373,11 +431,136 @@
             byte表示 ProtocolDefine.OPERATION中的操作码
             </summary>
         </member>
-        <member name="M:AscensionServer.RecordAdventureSkillHelper.RecordRoleSkill(AscensionServer.RoleEntity)">
+        <member name="T:AscensionServer.GameArea">
             <summary>
-            玩家进入历练主动发送历练技能布局
+            游戏模块分区
             </summary>
-            <param name="roleEntity"></param>
+        </member>
+        <member name="F:AscensionServer.GameArea.GameApplication">
+            <summary>
+            游戏应用设置；
+            十进制：1
+            </summary>
+        </member>
+        <member name="F:AscensionServer.GameArea.Login">
+            <summary>
+            登录；
+            十进制：2
+            </summary>
+        </member>
+        <member name="F:AscensionServer.GameArea.Chat">
+            <summary>
+            聊天；
+            十进制：3
+            </summary>
+        </member>
+        <member name="F:AscensionServer.GameArea.RoleStatus">
+            <summary>
+            角色数据状态；
+            十进制：4
+            </summary>
+        </member>
+        <member name="F:AscensionServer.GameArea.Cultivate">
+            <summary>
+            历练；
+            十进制：5
+            </summary>
+        </member>
+        <member name="F:AscensionServer.GameArea.SpiritBeasts">
+            <summary>
+            灵兽；
+            十进制：6
+            </summary>
+        </member>
+        <member name="F:AscensionServer.GameArea.NoviceGuide">
+            <summary>
+            新手引导；
+            十进制：7
+            </summary>
+        </member>
+        <member name="F:AscensionServer.GameArea.Battle">
+            <summary>
+            战斗；
+            十进制：8
+            </summary>
+        </member>
+        <member name="F:AscensionServer.GameArea.Gangs_School">
+            <summary>
+            新宗门；
+            十进制：9
+            </summary>
+        </member>
+        <member name="F:AscensionServer.GameArea.SecondaryJob">
+            <summary>
+            副职业；
+            十进制：10
+            </summary>
+        </member>
+        <member name="F:AscensionServer.GameArea.Inventory">
+            <summary>
+            背包；
+            十进制：11
+            </summary>
+        </member>
+        <member name="F:AscensionServer.GameArea.Adventure">
+            <summary>
+            历练；
+            十进制：12
+            </summary>
+        </member>
+        <member name="F:AscensionServer.GameArea.SecretArea">
+            <summary>
+            秘境；
+            十进制：13
+            </summary>
+        </member>
+        <member name="F:AscensionServer.GameArea.FlyMagicTool">
+            <summary>
+            飞行法器；
+            十进制：14
+            </summary>
+        </member>
+        <member name="F:AscensionServer.GameArea.Activity">
+            <summary>
+            活动；
+            十进制：15
+            </summary>
+        </member>
+        <member name="F:AscensionServer.GameArea.Shop">
+            <summary>
+            商场；
+            十进制：16
+            </summary>
+        </member>
+        <member name="F:AscensionServer.GameArea.Friend">
+            <summary>
+            好友；
+            十进制：17
+            </summary>
+        </member>
+        <member name="F:AscensionServer.GameArea.Match_CompareNotes">
+            <summary>
+            匹配/切磋；
+            十进制：18
+            </summary>
+        </member>
+        <member name="F:AscensionServer.GameArea.Repository">
+            <summary>
+            仓库；
+            十进制：19
+            </summary>
+        </member>
+        <member name="F:AscensionServer.GameArea.Team">
+            <summary>
+            组队；
+            十进制：20
+            </summary>
+        </member>
+        <member name="F:AscensionServer.GameArea.Currency">
+            <summary>
+            货币系统；
+            十进制：21
+            </summary>
         </member>
         <member name="M:AscensionServer.RecordHelper.RecordRole(AscensionServer.RoleEntity)">
             <summary>
@@ -422,6 +605,11 @@
         <member name="F:AscensionServer.RedisKeyDefine._CultivatiionMethodPerfix">
             <summary>
             功法的key前缀
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RolePostfix">
+            <summary>
+            角色的Ke前缀
             </summary>
         </member>
         <member name="F:AscensionServer.RedisKeyDefine._MiShuPerfix">
@@ -514,6 +702,11 @@
             仙盟建设的Key前缀
              </summary>
         </member>
+        <member name="F:AscensionServer.RedisKeyDefine._AllianceMemberPerfix">
+             <summary>
+            仙盟成员的Key前缀
+             </summary>
+        </member>
         <member name="F:AscensionServer.RedisKeyDefine._DailyMessagePerfix">
              <summary>
             仙盟内广播的消息内容的Key前缀
@@ -552,6 +745,41 @@
         <member name="F:AscensionServer.RedisKeyDefine._RoleFlyMagicToolPerfix">
             <summary>
             角色所有飞行法器的key前缀
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._WildMapResPerfix">
+            <summary>
+            历练地图资源后缀；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._SecretMapResPerfix">
+            <summary>
+            秘境地图资源前缀
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._PetDrugRefreshPostfix">
+            <summary>
+            宠物使用丹药每日刷新
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._AlchemyPostfix">
+            <summary>
+            副职业炼丹
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleOnOffLinePostfix">
+            <summary>
+            角色修炼功法秘书记录
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleBottleneckPostfix">
+            <summary>
+            角色瓶颈触发
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleAbilityPointPostfix">
+            <summary>
+            角色属性加点
             </summary>
         </member>
         <member name="T:AscensionServer.DataStream">
@@ -704,7 +932,7 @@
             购买拍卖品
             </summary>
         </member>
-        <member name="M:AscensionServer.AuctionManager.SeverAuctionGoodsPutAway(System.Int32)">
+        <member name="M:AscensionServer.AuctionManager.SeverAuctionGoodsPutAway(AscensionProtocol.DTO.AuctionGoodsDTO,System.Int32,System.Int32)">
             <summary>
             上架拍卖品
             </summary>
@@ -735,12 +963,66 @@
             3=》购买成功
             4=》意外情况
         </member>
-        <member name="M:AscensionServer.AuctionManager.ChangeRoleAssets(AscensionProtocol.DTO.AuctionGoodsDTO,System.Int32,System.Int32,System.Boolean)">
+        <member name="M:AscensionServer.AuctionManager.ChangeRoleAssets(System.Int32,System.Int32,System.Int32)">
             <summary>
-            角色金钱修改
+            改变玩家金钱
+            </summary>
+            <param name="spiritStonePrice"></param>
+            <param name="xianYuPrice"></param>
+            <param name="targetRoleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.AuctionManager.PutAwayAuctionGoods(AscensionProtocol.DTO.AuctionGoodsDTO,System.Int32)">
+            <summary>
+            玩家上架拍卖品的事件
             </summary>
         </member>
-        <member name="M:AscensionServer.AuctionManager.PutAwayAuctionGoods(AscensionProtocol.DTO.AuctionGoodsDTO)">
+        <member name="M:AscensionServer.IAuctionManager.SeverAuctionGoodsBuy(AscensionProtocol.DTO.AuctionGoodsDTO,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            购买拍卖品
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IAuctionManager.SeverAuctionGoodsPutAway(AscensionProtocol.DTO.AuctionGoodsDTO,System.Int32,System.Int32)">
+            <summary>
+            上架拍卖品
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IAuctionManager.GetAuctionGoodsList(System.Int32)">
+            <summary>
+            获取某一种物品的所有物品信息
+            </summary>
+            <param name="auctionGoodsID"></param>
+            <param name="startIndex"></param>
+            <param name="count"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IAuctionManager.GetTargetAuctionGoodList(System.Collections.Generic.List{AscensionProtocol.DTO.AuctionGoodsDTO},System.Int32,System.Int32)">
+            <summary>
+            获取目标范围的商品信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IAuctionManager.BuyAuctionGoods(AscensionProtocol.DTO.AuctionGoodsDTO,System.Int32)">
+            <summary>
+            玩家购买物品的事件处理
+            </summary>
+            <param name="buyAuctionGoodsDTO"></param>
+            0=》别人购买中
+            1=>商品不存在
+            2=》数量不足
+            3=》购买成功
+            4=》意外情况
+        </member>
+        <member name="M:AscensionServer.IAuctionManager.ChangeRoleAssets(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            改变玩家金钱
+            </summary>
+            <param name="spiritStonePrice"></param>
+            <param name="xianYuPrice"></param>
+            <param name="targetRoleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IAuctionManager.PutAwayAuctionGoods(AscensionProtocol.DTO.AuctionGoodsDTO,System.Int32)">
             <summary>
             玩家上架拍卖品的事件
             </summary>
@@ -750,6 +1032,617 @@
             战斗算法提供者；
             </summary>
         </member>
+        <member name="M:AscensionServer.IServerBattleManager.RandomManager(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            针对战斗中的随机数
+            </summary>
+            <param name="ov"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.IsToSkillForm(System.Int32)">
+            <summary>
+            判断技能功法秘术是不是存在json 数据表格里
+            </summary>
+            <param name="targetId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.SkillFormToSkillObject(System.Int32)">
+            <summary>
+            返回 一个存在的技能对象
+            </summary>
+            <param name="targerId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.PropsInstrutionFormToObject(System.Int32)">
+            <summary>
+            针对 道具中得 丹药和符箓
+            </summary>
+            <param name="targetId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.MagicWeaponFormToObject(System.Int32)">
+            <summary>
+            针对 法宝
+            </summary>
+            <param name="targetId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.SkillActionDifferentCmd(AscensionProtocol.DTO.BattleCmd,System.Int32,System.Int32)">
+            <summary>
+            不同技能行为的Cmd
+            </summary>
+            <param name="battleCmd"></param>
+            <param name="roleId"></param>
+            <param name="roomId"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.SkillFormToObject(System.Int32)">
+            <summary>
+            判断释放的技能是不是存在json中
+            </summary>
+            <param name="targetId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.MonsterFormToObject(System.Int32)">
+            <summary>
+            判断ai 是不是存在json中
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.ServerToClientResult(AscensionProtocol.DTO.TargetInfoDTO)">
+            <summary>
+            返回给客户端的计算伤害
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.ServerToClientResults(AscensionProtocol.DTO.TargetInfoDTO)">
+            <summary>
+            计算多段伤害用的
+            </summary>
+            <param name="targetInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.AlToSurvival(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData)">
+            <summary>
+            2020.11.06 12:00
+            筛选出来存活的Ai
+            </summary>
+            <param name="battleTransferDTOs"></param>
+            <param name="roleId"></param>
+            <param name="info"></param>
+            <param name="skillGongFa"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.PlayerToSKillRelease(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32)">
+             <summary>
+            玩家出手 释放技能
+             </summary>
+             <param name="battleTransferDTOs"></param>
+             <param name="roleId"></param>
+             <param name="special"></param>
+             <param name="petId"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.PlayerToSkillDamage(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData,System.Int32)">
+            <summary>
+            2020 . 11 . 06 13：17
+            针对功法  玩家释放  不同技能类型的技能计算伤害
+            </summary>
+        </member>
+        <member name="P:AscensionServer.IServerBattleManager.TeamIdToBattleInitData">
+            <summary>
+             角色id 和对应的 房间数据对象  缓存数据  2020 11：30 09.36
+            </summary>
+        </member>
+        <member name="P:AscensionServer.IServerBattleManager.TeamIdToBattleInit">
+            <summary>
+             角色id 和对应的 房间数据对象
+            </summary>
+        </member>
+        <member name="P:AscensionServer.IServerBattleManager.RoomidToBattleTransfer">
+            <summary>
+            房间id， 每回合战斗传输数据对象
+            </summary>
+        </member>
+        <member name="P:AscensionServer.IServerBattleManager.RoomidToTimer">
+            <summary>
+            房间id，对应每回合的倒计时     这个是应对 每回合的战斗
+            </summary>
+        </member>
+        <member name="P:AscensionServer.IServerBattleManager.TeamidToTimer">
+            <summary>
+            队伍id， 对应每个队伍的倒计时
+            </summary>
+        </member>
+        <member name="P:AscensionServer.IServerBattleManager.OldBattleList">
+            <summary>
+            回收房间
+            </summary>
+        </member>
+        <member name="P:AscensionServer.IServerBattleManager.TeamSet">
+            <summary>
+            收集每个回合的传输数据
+            </summary>
+        </member>
+        <member name="P:AscensionServer.IServerBattleManager.RoleBattleTime">
+            <summary>
+            代表的是倒计时  毫秒
+            </summary>
+        </member>
+        <member name="P:AscensionServer.IServerBattleManager.RecordRoomId">
+            <summary>
+            记录单人每回合 房间id
+            </summary>
+        </member>
+        <member name="P:AscensionServer.IServerBattleManager.RecordTeamId">
+            <summary>
+            记录队伍id
+            </summary>
+        </member>
+        <member name="P:AscensionServer.IServerBattleManager.RecordTeamRooomId">
+            <summary>
+            记录组队的时候房间id
+            </summary>
+        </member>
+        <member name="P:AscensionServer.IServerBattleManager.TeamIdToMemberDict">
+            <summary>
+            队伍id 和 队伍成员id
+            </summary>
+        </member>
+        <member name="P:AscensionServer.IServerBattleManager.TeamIdToRoomId">
+            <summary>
+            队伍id 和 房间id
+            </summary>
+        </member>
+        <member name="P:AscensionServer.IServerBattleManager.BuffToRoomIdBefore">
+            <summary>
+            房间id 对应的每个回合的buff前
+            </summary>
+        </member>
+        <member name="P:AscensionServer.IServerBattleManager.BuffToRoomIdAfter">
+            <summary>
+            房间id 对应的每个回合的buff后
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.MsqInfo``1(System.Int32)">
+            <summary>
+            映射  Msq
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.MsqInfoPet``1(System.Int32,System.String)">
+            <summary>
+            针对宠物  ID  PetID
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.IsTeamDto(System.Int32)">
+            <summary>
+            判断是不是在队伍中
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.BattleInitObject(System.Int32)">
+            <summary>
+            返回初始化 数据对象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.BattleInitDataObject(System.Int32)">
+            <summary>
+            返回初始化 数据对象 缓存数据
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.RoleInfo(System.Int32)">
+            <summary>
+            获取玩家 并初始化
+            </summary>
+            <param name="roleId"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.PetInfo(System.Int32)">
+            <summary>
+            获取宠物  并初始化
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.EnemyInfo(System.Collections.Generic.List{AscensionProtocol.DTO.EnemyBattleDataDTO})">
+            <summary>
+            获取AI 并初始化
+            </summary>
+            <param name="enemyId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.AllBattleDataDTOsInfo(System.Int32,AscensionProtocol.DTO.BattleInitDTO)">
+            <summary>
+            玩家宠物AI  初始化所有信息  应对出手速度
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.PlayerBattleEndInfo(System.Int32,AscensionProtocol.DTO.RoleStatusDTO)">
+            <summary>
+            针对 玩家战斗结束的同步数据
+            </summary>
+            <param name="roleId"></param>
+            <param name="roleStatusSever"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.InitBattle(System.Int32)">
+            <summary>
+            针对 单人和组队  服务器给客户端 发送初始化数据
+            </summary>
+            <param name="roleId"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.InitServerToClient(System.Int32)">
+            <summary>
+            战斗初始化 参数服务器 返回给客户端
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.RoundServerToClient">
+            <summary>
+            每回合 战斗 技能计算 参数服务器 返回给客户端
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.RoundRunAwayServerToClient(System.Boolean)">
+            <summary>
+            每回合 战斗 技能逃跑计算 参数服务器返回给客户端
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.DamageCalculation(System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32)">
+            <summary>
+            /AI伤害计算公式
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.DamageCalculation(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO)">
+            <summary>
+            /玩家伤害计算公式
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.SkillSingleOrStaged(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData,System.Int32)">
+            <summary>
+            2020.11.06 20:06
+            统一计算技能 单段 多段
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.AddBufferMethod(System.Collections.Generic.List{AscensionServer.BattleSkillAddBuffData},System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO})">
+            <summary>
+            技能 添加buff
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.RemoveBufferMethod(System.Collections.Generic.List{AscensionServer.BattleSkillRemoveBuffData},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            技能 移除buff
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.BattleSkillEventDataMethod(System.Collections.Generic.List{AscensionServer.BattleSkillEventData},System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO})">
+             <summary>
+            技能触发时机
+             </summary>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.battleSkillEventTriggerCondition(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,AscensionProtocol.DTO.RoleBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO})">
+            <summary>
+             技能 触发来源
+            </summary>
+            <param name="battleSkillEvents"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="enemySetObject"></param>
+            <param name="targetInfoDTOsSet"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.battleSkillEventTriggerNumSourceType(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,AscensionProtocol.DTO.RoleBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO})">
+            <summary>
+            技能触发条件
+            </summary>
+            <param name="battleSkillEvents"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="enemySetObject"></param>
+            <param name="targetInfoDTOsSet"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.battleSkillTriggerEventType(AscensionServer.BattleSkillEventData,System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,AscensionProtocol.DTO.RoleBattleDataDTO,System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO})">
+            <summary>
+            技能触发事件类型
+            </summary>
+            <param name="battleSkillEvents"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="enemySetObject"></param>
+            <param name="targetInfoDTOsSet"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.PlayerToSkillReturnBlood(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.BattleSkillData)">
+            <summary>
+            2020.11.06 20:45
+            统一技能治疗术
+            </summary>
+            <param name="battleTransferDTOs"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="battleSkillData"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.PlayerToPetID(System.Int32)">
+            <summary>
+            2020 11.07 17:21
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.SelectToTarget(System.Collections.Generic.List{AscensionProtocol.DTO.TargetInfoDTO},System.String,System.Object,System.Collections.Generic.List{AscensionServer.BattleSkillDamageNumData},System.Int32,System.Collections.Generic.List{AscensionServer.BattleSkillAddBuffData},System.Collections.Generic.List{AscensionServer.BattleSkillRemoveBuffData},System.Int32,System.Int32)">
+            <summary>
+            2020 11.07  18:00
+            选择回血的目标
+            </summary>
+            <param name="targetInfoDTOsSet"></param>
+            <param name="typeName"></param>
+            <param name="objectOwner"></param>
+            <param name="bSD"></param>
+            <param name="ol"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.PlayerToMagicWeapen(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32)">
+            <summary>
+            针对法宝的使用
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.RunesDataToUser(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.RunesData)">
+            <summary>
+            符箓的使用
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.DrugDataToUser(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,AscensionServer.DrugData)">
+            <summary>
+            丹药的使用
+            </summary>
+            <param name="battleTransferDTOs"></param>
+            <param name="roleId"></param>
+            <param name="drugData"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.PlayerToRunAway(AscensionProtocol.DTO.BattleTransferDTO,System.Int32)">
+            <summary>
+            针对  单人逃跑的 返回计算处理
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.PetToRunAway(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32)">
+            <summary>
+            针对 宠物逃跑的 返回计算处理
+            </summary>
+            <param name="battleTransferDTOs"></param>
+            <param name="roleId"></param>
+            <param name="petId"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.PlayerTeamToRunAway(AscensionProtocol.DTO.BattleTransferDTO,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            组队逃跑   可以和并成一个 和单人逃跑的   需要去队伍中标记一下 是不是存在战斗中还是中途退出啦
+            需要继续完善   ///TODO
+            </summary>
+            speed = -1 的话 代表这回合计算是宠物逃跑
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.TimestampBattleEnd(System.Int32)">
+             <summary>
+            针对每回合  开始倒计时
+             </summary>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.TimestampBattlePrepare(System.Int32)">
+            <summary>
+            针对初始化准备加载 倒计时
+            </summary>
+            <param name="teamId"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.TimestampBattleStart(System.Int32)">
+            <summary>
+            针对组队 开始之前倒计时
+            </summary>
+            <param name="teamId"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.BattleIsDieCallBack(System.Int32)">
+             <summary>
+            每个回合倒计时 AI 玩家 是否死亡 战斗结束 发起事件 
+             </summary>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.BattleTimerPrepareCallBack(System.Int32)">
+            <summary>
+            针对组队 战斗准备阶段倒计时  回调事件
+            </summary>
+            <param name="tempTeamId"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.RoundTeamMember(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            针对 组队情况下的 不选取指令  随机分配一个默认指令     ??? 需要处理 不发消息的时候怎么办
+            </summary>
+        </member>
+        <member name="P:AscensionServer.IServerBattleManager.IsTeamRunAway">
+            <summary>
+            针对每回合组队 技能释放计算 并返回给客户端
+            </summary>
+            <param name="tempRole"></param>
+            <param name="teampRoomId"></param>
+            <param name="tempTeamId"></param>
+            
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.BuffManagerMethod(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32,System.Boolean,System.Collections.Generic.List{AscensionProtocol.DTO.BufferBattleDataDTO},System.Int32)">
+            <summary>
+            buff的入口
+            </summary>
+            <param name="buffId"></param>
+            <param name="roleId"></param>
+            <param name="playerSetObject"></param>
+            <param name="enemySetObject"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.BuffConditionMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Boolean)">
+            <summary>
+            先判断buff 触发的条件
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.BuffEventMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Boolean)">
+            <summary>
+            判断buff 触发事件
+            </summary>
+            <param name="buffId"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="playerSetObject"></param>
+            <param name="enemySetObject"></param>
+            <param name="buffDict"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.BuffEventRolePropertyChangeMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Collections.Generic.List{AscensionServer.BattleBuffEventData},System.Int32,System.Boolean)">
+             <summary>
+            变动属性类型
+             </summary>
+             <param name="buffId"></param>
+             <param name="roleId"></param>
+             <param name="currentId"></param>
+             <param name="playerSetObject"></param>
+             <param name="enemySetObject"></param>
+             <param name="buffDict"></param>
+             <param name="buffEventSet"></param>
+             <param name="i"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.BuffEventSourceDataTypeMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Collections.Generic.List{AscensionServer.BattleBuffEventData},System.Int32,System.Boolean)">
+            <summary>
+            变动的数值来源
+            </summary>
+            <param name="buffId"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="playerSetObject"></param>
+            <param name="enemySetObject"></param>
+            <param name="buffDict"></param>
+            <param name="buffEventSet"></param>
+            <param name="i"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.BuffEventDamageOrHealMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Collections.Generic.List{AscensionServer.BattleBuffEventData},System.Int32,System.Boolean)">
+            <summary>
+            伤害 或者治疗
+            </summary>
+            <param name="buffId"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="playerSetObject"></param>
+            <param name="enemySetObject"></param>
+            <param name="buffDict"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.BuffEventResultsMothed(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Collections.Generic.Dictionary{System.Int32,AscensionServer.BattleBuffData},System.Collections.Generic.List{AscensionServer.BattleBuffEventData},System.Int32,System.Boolean)">
+            <summary>
+            buff作用于的目标具体计算
+            </summary>
+            <param name="buffId"></param>
+            <param name="roleId"></param>
+            <param name="currentId"></param>
+            <param name="playerSetObject"></param>
+            <param name="enemySetObject"></param>
+            <param name="buffDict"></param>
+            <param name="buffEventSet"></param>
+            <param name="i"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.ReleaseToSpeed(System.Int32)">
+            <summary>
+            出手速度
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.ReleaseToOwner(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            返回一个出手拥有者  玩家或者AI或者宠物
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.AIToHPMethod(System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.EnemyBattleDataDTO})">
+            <summary>
+            针对AI  血量 >0
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.PlayerToHPMethod(System.Int32,System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.RoleBattleDataDTO})">
+            <summary>
+            针对玩家  血量 >0
+            </summary>
+            <param name="roleId"></param>
+            <param name="roleBattleDatas"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.PetToHPMethod(System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.PetBattleDataDTO})">
+            <summary>
+            针对宠物 血量>0
+            </summary>
+            <param name="roleId"></param>
+            <param name="petBattleDataDTOs"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.AIToRelease(AscensionProtocol.DTO.BattleTransferDTO,AscensionProtocol.DTO.EnemyStatusDTO,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            处理AI 判断玩家是不是死亡 和要选择能出手的Ai                ??? TODO第四个参数有待完善
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.BattleClear(System.Int32)">
+            <summary>
+            注意 每次进去之前先保证之前的数据都清除掉
+            </summary>
+            <param name="roleId"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.EntryBattle(AscensionProtocol.DTO.BattleInitDTO)">
+            <summary>
+            初始化战斗数据  
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.PrepareBattle(System.Int32,System.Int32)">
+            <summary>
+            准备指令战斗 
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)" -->
+        <member name="M:AscensionServer.IServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
+            <summary>
+            战斗逃跑
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.BattlePropsInstrution(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
+            <summary>
+            战斗道具
+            </summary>
+            <param name="roleId"></param>
+            <param name="roomId"></param>
+            <param name="battleTransferDTOs"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.BattleMagicWeapen(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
+            <summary>
+            战斗法宝
+            </summary>
+            <param name="roleId"></param>
+            <param name="roomId"></param>
+            <param name="battleTransferDTOs"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.BattleCatchPet(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
+            <summary>
+            战斗捕捉
+            </summary>
+            <param name="roleId"></param>
+            <param name="roomId"></param>
+            <param name="battleTransferDTOs"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.BattleSummonPet(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
+            <summary>
+            战斗召唤
+            </summary>
+            <param name="roleId"></param>
+            <param name="roomId"></param>
+            <param name="battleTransferDTOs"></param>
+        </member>
+        <member name="M:AscensionServer.IServerBattleManager.BattleDefend(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
+            <summary>
+            战斗防御指令
+            </summary>
+            <param name="roleId"></param>
+            <param name="roomId"></param>
+            <param name="battleTransferDTOs"></param>
+        </member>
         <member name="T:AscensionServer.ServerBattleManager">
             <summary>
             没统一的服务器战斗功能
@@ -758,7 +1651,7 @@
             用于初始化 战斗数据 和管理 战斗的数据缓存
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.BuffManagerMethod(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32,System.Boolean)">
+        <member name="M:AscensionServer.ServerBattleManager.BuffManagerMethod(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32,System.Boolean,System.Collections.Generic.List{AscensionProtocol.DTO.BufferBattleDataDTO},System.Int32)">
             <summary>
             buff的入口
             </summary>
@@ -938,37 +1831,37 @@
             <param name="roomId"></param>
             <param name="battleTransferDTOs"></param>
         </member>
-        <member name="F:AscensionServer.ServerBattleManager._teamIdToBattleInitData">
+        <member name="P:AscensionServer.ServerBattleManager.TeamIdToBattleInitData">
             <summary>
              角色id 和对应的 房间数据对象  缓存数据  2020 11：30 09.36
             </summary>
         </member>
-        <member name="F:AscensionServer.ServerBattleManager._teamIdToBattleInit">
+        <member name="P:AscensionServer.ServerBattleManager.TeamIdToBattleInit">
             <summary>
              角色id 和对应的 房间数据对象
             </summary>
         </member>
-        <member name="F:AscensionServer.ServerBattleManager._roomidToBattleTransfer">
+        <member name="P:AscensionServer.ServerBattleManager.RoomidToBattleTransfer">
             <summary>
             房间id， 每回合战斗传输数据对象
             </summary>
         </member>
-        <member name="F:AscensionServer.ServerBattleManager._roomidToTimer">
+        <member name="P:AscensionServer.ServerBattleManager.RoomidToTimer">
             <summary>
             房间id，对应每回合的倒计时     这个是应对 每回合的战斗
             </summary>
         </member>
-        <member name="F:AscensionServer.ServerBattleManager._teamidToTimer">
+        <member name="P:AscensionServer.ServerBattleManager.TeamidToTimer">
             <summary>
             队伍id， 对应每个队伍的倒计时
             </summary>
         </member>
-        <member name="F:AscensionServer.ServerBattleManager._oldBattleList">
+        <member name="P:AscensionServer.ServerBattleManager.OldBattleList">
             <summary>
             回收房间
             </summary>
         </member>
-        <member name="F:AscensionServer.ServerBattleManager.teamSet">
+        <member name="P:AscensionServer.ServerBattleManager.TeamSet">
             <summary>
             收集每个回合的传输数据
             </summary>
@@ -983,42 +1876,42 @@
             房间id
             </summary>
         </member>
-        <member name="F:AscensionServer.ServerBattleManager.RoleBattleTime">
+        <member name="P:AscensionServer.ServerBattleManager.RoleBattleTime">
             <summary>
             代表的是倒计时  毫秒
             </summary>
         </member>
-        <member name="F:AscensionServer.ServerBattleManager.RecordRoomId">
+        <member name="P:AscensionServer.ServerBattleManager.RecordRoomId">
             <summary>
             记录单人每回合 房间id
             </summary>
         </member>
-        <member name="F:AscensionServer.ServerBattleManager.RecordTeamId">
+        <member name="P:AscensionServer.ServerBattleManager.RecordTeamId">
             <summary>
             记录队伍id
             </summary>
         </member>
-        <member name="F:AscensionServer.ServerBattleManager.RecordTeamRooomId">
+        <member name="P:AscensionServer.ServerBattleManager.RecordTeamRooomId">
             <summary>
             记录组队的时候房间id
             </summary>
         </member>
-        <member name="F:AscensionServer.ServerBattleManager._teamIdToMemberDict">
+        <member name="P:AscensionServer.ServerBattleManager.TeamIdToMemberDict">
             <summary>
             队伍id 和 队伍成员id
             </summary>
         </member>
-        <member name="F:AscensionServer.ServerBattleManager._teamIdToRoomId">
+        <member name="P:AscensionServer.ServerBattleManager.TeamIdToRoomId">
             <summary>
             队伍id 和 房间id
             </summary>
         </member>
-        <member name="F:AscensionServer.ServerBattleManager._buffToRoomIdBefore">
+        <member name="P:AscensionServer.ServerBattleManager.BuffToRoomIdBefore">
             <summary>
             房间id 对应的每个回合的buff前
             </summary>
         </member>
-        <member name="F:AscensionServer.ServerBattleManager._buffToRoomIdAfter">
+        <member name="P:AscensionServer.ServerBattleManager.BuffToRoomIdAfter">
             <summary>
             房间id 对应的每个回合的buff后
             </summary>
@@ -1145,9 +2038,15 @@
             针对功法  玩家释放  不同技能类型的技能计算伤害
             </summary>
         </member>
-        <member name="M:AscensionServer.ServerBattleManager.DamageCalculation(System.Int32,System.Int32,System.Int32)">
+        <member name="M:AscensionServer.ServerBattleManager.DamageCalculation(System.Int32,System.Int32,AscensionProtocol.DTO.EnemyBattleDataDTO,System.Int32)">
             <summary>
-            /伤害计算公式
+            /AI伤害计算公式
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ServerBattleManager.DamageCalculation(System.Int32,System.Int32,System.Int32,AscensionProtocol.DTO.RoleBattleDataDTO)">
+            <summary>
+            /玩家伤害计算公式
             </summary>
             <returns></returns>
         </member>
@@ -1304,7 +2203,7 @@
             针对 组队情况下的 不选取指令  随机分配一个默认指令     ??? 需要处理 不发消息的时候怎么办
             </summary>
         </member>
-        <member name="F:AscensionServer.ServerBattleManager.isTeamRunAway">
+        <member name="P:AscensionServer.ServerBattleManager.IsTeamRunAway">
             <summary>
             针对每回合组队 技能释放计算 并返回给客户端
             </summary>
@@ -1554,11 +2453,257 @@
             <param name="value">json数据</param>
             <returns>是否获取成功</returns>
         </member>
+        <member name="M:AscensionServer.IDataManager.TryGetValue(System.String,System.String@)">
+            <summary>
+            通过类名获取json数据；
+            typeof(Data).Name可作为key；
+            </summary>
+            <param name="key">类名</param>
+            <param name="value">json数据</param>
+            <returns>是否获取成功</returns>
+        </member>
         <member name="T:AscensionServer.IDataProvider">
             <summary>
             允许多派生；
             只要继承自此类，并挂载[ImplementProviderAttribute]特性，皆可在初始化时加载数据；
             </summary>
+        </member>
+        <member name="M:AscensionServer.FlyMagicToolManager.ResultFailS2C(System.Int32,AscensionProtocol.FlyMagicToolOpCode)">
+            <summary>
+            失败返回
+            </summary>
+        </member>
+        <member name="M:AscensionServer.FlyMagicToolManager.ResultSuccseS2C(System.Int32,AscensionProtocol.FlyMagicToolOpCode,System.Object)">
+            <summary>
+            结果成功返回
+            </summary>
+            <param name="roleID"></param>
+            <param name="opcode"></param>
+            <param name="data"></param>
+        </member>
+        <member name="M:AscensionServer.FlyMagicToolManager.AddFlyMagicToolS2C(AscensionProtocol.DTO.FlyMagicToolDTO)">
+            <summary>
+            添加新的飞行法器
+            </summary>
+        </member>
+        <member name="M:AscensionServer.FlyMagicToolManager.GetFlyMagicToolS2C(AscensionProtocol.DTO.FlyMagicToolDTO)">
+            <summary>
+            获得任务所有飞行法器
+            </summary>
+            <param name="flyMagic"></param>
+        </member>
+        <member name="M:AscensionServer.FlyMagicToolManager.UpdateFlyMagicToolS2C(AscensionProtocol.DTO.FlyMagicToolDTO)">
+            <summary>
+            更新飞行法器状态更改人物属性数据
+            </summary>
+            <param name="flyMagic"></param>
+        </member>
+        <member name="M:AscensionServer.FlyMagicToolManager.GetFlyMagicToolMySql(AscensionProtocol.DTO.FlyMagicToolDTO)">
+            <summary>
+            获取MySql数据
+            </summary>
+        </member>
+        <member name="M:AscensionServer.FlyMagicToolManager.flyMagicToolChange(AscensionServer.Model.FlyMagicTool)">
+            <summary>
+            类型转换
+            </summary>
+            <param name="flyMagic"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.RoleStatusSuccessS2C(System.Int32,AscensionProtocol.AllianceOpCode,System.Object)">
+            <summary>
+            处理角色宗门成功发送
+            </summary>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.RoleStatusFailS2C(System.Int32,AscensionProtocol.AllianceOpCode)">
+            <summary>
+            处理角色宗门失败发送
+            </summary>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.ApplyJoinAllianceS2C(System.Int32,System.Int32)">
+            <summary>
+            申请加入宗门
+            </summary>
+            <param name="roleID"></param>
+            <param name="id"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.ConsentApplyS2C(System.Int32,System.Int32,System.Collections.Generic.List{System.Int32})">
+            <summary>
+            一鍵同意入宗申請
+            </summary>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.RefuseApplyS2C(System.Int32,System.Int32,System.Collections.Generic.List{System.Int32})">
+            <summary>
+            一鍵拒絕
+            </summary>
+            <param name="roleID"></param>
+            <param name="id"></param>
+            <param name="roleIDs"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.GetAllianceMemberS2C(System.Int32,System.Int32)">
+            <summary>
+            獲取宗門成員數據
+            </summary>
+            <param name="roleID"></param>
+            <param name="id"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.SearchAllianceS2C(System.Int32,System.Int32,System.String)">
+            <summary>
+            模糊搜索宗门信息
+            </summary>
+            <param name="roleID"></param>
+            <param name="id"></param>
+            <param name="name"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.ApplyJoinAllianceMySql(System.Int32,System.Int32)">
+            <summary>
+            申請加入宗門
+            </summary>
+            <param name="roleID"></param>
+            <param name="id"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.ConsentApplyMySql(System.Int32,System.Int32,System.Collections.Generic.List{System.Int32})">
+            <summary>
+            一鍵同意申請加入宗廟
+            </summary>
+            <param name="id"></param>
+            <param name="roleIDs"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.RefuseApplyMySql(System.Int32,System.Int32,System.Collections.Generic.List{System.Int32})">
+            <summary>
+            一鍵拒絕加入宗門
+            </summary>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.GetAllianceMemberMySql(System.Int32,System.Int32)">
+            <summary>
+            獲取宗門成員數據
+            </summary>
+            <param name="roleID"></param>
+            <param name="id"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.GetAllAllianceS2C(System.Int32,AscensionProtocol.DTO.AlliancesDTO)">
+            <summary>
+            获得现有宗门,按照
+            </summary>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.CreatAllianceS2C(System.Int32,AscensionServer.Model.AllianceStatus)">
+            <summary>
+            创建宗门
+            </summary>
+            <param name="statusDTO"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.GetAllianceConstructionS2C(System.Int32,System.Int32)">
+            <summary>
+            获得宗门属性及建设
+            </summary>
+            <param name="ID"></param>
+            <param name="roleID"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.GetAllianceCallboardS2C(System.Int32,System.Int32,AscensionProtocol.DTO.DailyMessageDTO)">
+            <summary>
+            获得宗门通告
+            </summary>
+            <param name="roleID"></param>
+            <param name="ID"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.BuildAlllianceS2C(System.Int32,AscensionProtocol.DTO.AllianceConstructionDTO)">
+            <summary>
+            宗門建設升級
+            </summary>
+            <param name="roleID"></param>
+            <param name="constructionDTO"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.ChangeAllianceNameS2C(System.Int32,AscensionProtocol.DTO.AllianceStatusDTO)">
+            <summary>
+            修改宗門名稱
+            </summary>
+            <param name="roleID"></param>
+            <param name="statusDTO"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.ChangeAlliancePurposeS2C(System.Int32,AscensionProtocol.DTO.AllianceStatusDTO)">
+            <summary>
+            修改宗門宗旨
+            </summary>
+            <param name="roleID"></param>
+            <param name="statusDTO"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.GetRoleAliianceMySql(System.Int32)">
+            <summary>
+            获取角色自身宗门数据
+            </summary>
+            <param name="roleID"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.GetRoleAliianceConstructionMySql(System.Int32,System.Int32)">
+            <summary>
+            获取仙盟建筑信息
+            </summary>
+            <param name="ID"></param>
+            <param name="roleID"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.ChangeAllianceNameMySQL(System.Int32,AscensionProtocol.DTO.AllianceStatusDTO)">
+            <summary>
+            修改宗門名稱
+            </summary>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.ChangeAlliancePurposeMySql(System.Int32,AscensionProtocol.DTO.AllianceStatusDTO)">
+            <summary>
+            修改宗門宗旨
+            </summary>
+        </member>
+        <member name="E:AscensionServer.ILevelManager.OnRoleExitLevel">
+            <summary>
+            角色离开场景事件
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ILevelManager.LevelHasRole(System.Int32,System.Int32)">
+             <summary>
+            场景是否包含有角色； 
+             </summary>
+        </member>
+        <member name="M:AscensionServer.ILevelManager.SendMessageToLevelS2C(System.Int32,Protocol.OperationData)">
+             <summary>
+            广播消息到指定场景，若场景不存在，则不执行； 
+             </summary>
+        </member>
+        <member name="M:AscensionServer.ILevelManager.EnterScene(System.Int32,System.Int32)">
+             <summary>
+            玩家或peer进入场景 
+             </summary>
+        </member>
+        <member name="M:AscensionServer.ILobbyManager.TryRemove(System.Int32)">
+            <summary>
+            离开大厅；
+            这个离开可能玩家进行了进入探索界面，或者副本
+            </summary>
+            <param name="sessionId">peerID</param>
+            <returns>是否离开成功</returns>
+        </member>
+        <member name="M:AscensionServer.ILobbyManager.Contains(System.Int32)">
+            <summary>
+            是否在大厅中
+            </summary>
+            <param name="sessionId">id</param>
+            <returns>是否存在</returns>
+        </member>
+        <member name="M:AscensionServer.ILobbyManager.TryGetValue(System.Int32,AscensionServer.IPeerEntity@)">
+            <summary>
+            在大厅中通过ID查找Peer
+            </summary>
+            <param name="sessionId">id</param>
+            <returns>查找到的对象</returns>
+        </member>
+        <member name="M:AscensionServer.LoginManager.GetAccountRolesId(AscensionServer.Model.User)">
+            <summary>
+            获取账号下的角色ID；
+            </summary>
+            <param name="user">需要查询的用户</param>
+            <returns>账号对应的角色ID数组</returns>
+        </member>
+        <member name="M:AscensionServer.LoginManager.GetAccountRolesS2C(System.Int32,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
+             <summary>
+            客户端从服务器端获取当前账号下拥有角色的信息；
+             </summary>
+             <param name="packet">进入的请求数据</param>
         </member>
         <member name="T:AscensionServer.IPeerEntity">
             <summary>
@@ -1604,6 +2749,61 @@
             </summary>
             <typeparam name="T"></typeparam>
             <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IPeerManager.TryUpdate(System.Int32,AscensionServer.IPeerEntity,AscensionServer.IPeerEntity)">
+            <summary>
+            将指定键的现有值与指定值进行比较，如果相等，则用第三个值更新该键。
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IPeerManager.SendEvent(System.Int32,System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
+             <summary>
+            发送事件(EVENT)到具体的sessionId； 
+            若不存在session对象，则不发送，并返回false；
+             </summary>
+        </member>
+        <member name="M:AscensionServer.IPeerManager.BroadcastEventToAll(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
+            <summary>
+            同步广播事件(EVENT)；
+            此方法会对所有在线且Available的peer对象进行消息广播；
+            </summary>
+            <param name="userData">用户自定义数据</param>
+        </member>
+        <member name="M:AscensionServer.IPeerManager.SendMessage(System.Int32,Protocol.OperationData)">
+             <summary>
+            发送消息到具体的SessionId 
+             </summary>
+        </member>
+        <member name="M:AscensionServer.IPeerManager.BroadcastMessageToAll(Protocol.OperationData)">
+            <summary>
+            通过广播消息(MSG)；
+            </summary>
+            <param name="message">普通消息</param>
+        </member>
+        <member name="M:AscensionServer.IPeerManager.SendMessageAsync(System.Int32,Protocol.OperationData)">
+             <summary>
+            异步发送消息到具体的SessionId 
+             </summary>
+        </member>
+        <member name="M:AscensionServer.IPeerManager.SendEventAsync(System.Int32,System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
+             <summary>
+            异步广播消息到具体的sessionId 
+             </summary>
+        </member>
+        <member name="M:AscensionServer.IPeerManager.BroadcastEventToAllAsync(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object},System.Action)">
+            <summary>
+            异步广播事件消息(EVENT)；
+            </summary>
+            <param name="userData">用户自定义数据</param>
+            <param name="callback">广播结束后的回调</param>
+            <returns>线程Task</returns>
+        </member>
+        <member name="M:AscensionServer.IPeerManager.BroadcastMessageToAllAsync(Protocol.OperationData,System.Action)">
+            <summary>
+            异步广播消息(MSG)；
+            </summary>
+            <param name="message">普通消息</param>
+            <param name="callback">消息广播完成后的回调</param>
             <returns></returns>
         </member>
         <member name="T:AscensionServer.PeerManager">
@@ -1707,6 +2907,86 @@
             <param name="sessionId">id</param>
             <returns>查找到的对象</returns>
         </member>
+        <member name="M:AscensionServer.IPetStatusManager.ResetPetAptitude(System.Int32,AscensionServer.Model.PetAptitude@)">
+            <summary>
+            重置宠物资质
+            </summary>
+            <param name="petID"></param>
+            <param name="petAptitudeObj"></param>
+        </member>
+        <member name="M:AscensionServer.IPetStatusManager.InitPet(System.Int32,System.String,AscensionServer.Model.RolePet)">
+            <summary>
+            新增新宠物
+            </summary>
+            <param name="petID"></param>
+            <param name="petName"></param>
+            <param name="rolePet"></param>
+        </member>
+        <member name="M:AscensionServer.IPetStatusManager.RestPetSkill(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            洗练宠物重置技能
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IPetStatusManager.RandomSkillRemoveAdd(System.Collections.Generic.List{System.Int32},System.Int32)">
+            <summary>
+            技能书使用顶替技能
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IPetStatusManager.RolePetSetBattle(AscensionProtocol.DTO.RolePetDTO,AscensionServer.Model.RolePet,AscensionServer.NHCriteria,AscensionServer.Model.Pet)">
+            <summary>
+            宠物设置出战
+            </summary>
+            <param name="rolePetDTO"></param>
+            <param name="rolePet"></param>
+        </member>
+        <member name="M:AscensionServer.IPetStatusManager.GetRoleAllPet(AscensionServer.Model.RolePet,AscensionProtocol.DTO.RolePetDTO)">
+            <summary>
+            获得角色所有宠物
+            </summary>
+            <param name="rolePet"></param>
+        </member>
+        <member name="M:AscensionServer.IPetStatusManager.RemoveRolePet(AscensionServer.Model.RolePet,AscensionProtocol.DTO.RolePetDTO,AscensionServer.Model.Pet)">
+            <summary>
+            移除角色宠物
+            </summary>
+            <param name="rolePet"></param>
+            <param name="rolePetDTO"></param>
+        </member>
+        <member name="M:AscensionServer.IPetStatusManager.GetPetAllCompeleteStatus(System.Int32,AscensionServer.NHCriteria,System.Int32,AscensionServer.NHCriteria)">
+            <summary>
+            获得宠物所有属性
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IPetStatusManager.UpdataPetAbilityPoint(AscensionServer.Model.PetAbilityPoint,AscensionProtocol.DTO.PetCompleteDTO,AscensionServer.NHCriteria)">
+            <summary>
+            更新宠物加点方案
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IPetStatusManager.PetCultivate(System.Int32,AscensionServer.NHCriteria,AscensionServer.Model.Pet,AscensionProtocol.DTO.PetCompleteDTO)">
+            <summary>
+            宠物培养丹药区分
+            </summary>
+            <param name="drugID"></param>
+            <param name="nHCriteria"></param>
+            <param name="pet"></param>
+        </member>
+        <member name="M:AscensionServer.IPetStatusManager.VerifyDrugEffect(System.Int32,AscensionServer.Model.Pet,AscensionProtocol.DTO.PetCompleteDTO)">
+            <summary>
+            验证丹药作用
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IPetStatusManager.PetExpDrug(AscensionServer.DrugData,System.Int32,AscensionServer.Model.Pet,AscensionProtocol.DTO.PetCompleteDTO)">
+            <summary>
+            增加经验
+            </summary>
+            <param name="drugData"></param>
+            <param name="pet"></param>
+        </member>
+        <member name="M:AscensionServer.IPetStatusManager.PetAtitudeDrug(AscensionServer.DrugData,System.Int32,AscensionServer.Model.Pet,AscensionProtocol.DTO.PetCompleteDTO)">
+            <summary>
+            增加资质
+            </summary>
+        </member>
         <member name="M:AscensionServer.PetStatusManager.ResetPetStatus(AscensionServer.Model.Pet,AscensionServer.Model.PetAptitude,AscensionServer.Model.PetStatus@)">
             <summary>
             宠物洗练属性重置
@@ -1776,7 +3056,7 @@
             更新宠物加点方案
             </summary>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.PetCultivate(System.Int32,AscensionServer.NHCriteria,AscensionServer.Model.Pet)">
+        <member name="M:AscensionServer.PetStatusManager.PetCultivate(System.Int32,AscensionServer.NHCriteria,AscensionServer.Model.Pet,AscensionProtocol.DTO.PetCompleteDTO)">
             <summary>
             宠物培养丹药区分
             </summary>
@@ -1784,19 +3064,19 @@
             <param name="nHCriteria"></param>
             <param name="pet"></param>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.VerifyDrugEffect(System.Int32,AscensionServer.DrugData@)">
+        <member name="M:AscensionServer.PetStatusManager.VerifyDrugEffect(System.Int32,AscensionServer.Model.Pet,AscensionProtocol.DTO.PetCompleteDTO)">
             <summary>
             验证丹药作用
             </summary>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.PetExpDrug(AscensionServer.DrugData,AscensionServer.Model.Pet)">
+        <member name="M:AscensionServer.PetStatusManager.PetExpDrug(AscensionServer.DrugData,System.Int32,AscensionServer.Model.Pet,AscensionProtocol.DTO.PetCompleteDTO)">
             <summary>
             增加经验
             </summary>
             <param name="drugData"></param>
             <param name="pet"></param>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.PetAtitudeDrug(AscensionServer.DrugData,AscensionServer.Model.Pet,AscensionServer.Model.PetAptitude)">
+        <member name="M:AscensionServer.PetStatusManager.PetAtitudeDrug(AscensionServer.DrugData,System.Int32,AscensionServer.Model.Pet,AscensionProtocol.DTO.PetCompleteDTO)">
             <summary>
             增加资质
             </summary>
@@ -1830,43 +3110,216 @@
         </member>
         <member name="M:AscensionServer.PetStatusManager.StatusAddition(AscensionServer.Model.PetStatus,System.Collections.Generic.List{AscensionProtocol.DTO.PetStatusDTO},AscensionProtocol.DTO.PetStatusDTO@)">
             <summary>
-            加成计算资质后计算加点会的总加成
+            加成计算资质后计算加点后的总加成
             </summary>
             <param name="petStatus"></param>
             <param name="petAbilityStatus"></param>
             <param name="petStatusTemp"></param>
         </member>
-        <member name="P:AscensionServer.MapResourceManager.ResUnitSetDict">
+        <member name="M:AscensionServer.PetStatusManager.AssignSameFieldValue(AscensionServer.Model.PetAptitude,AscensionProtocol.DTO.PetAptitudeDTO)">
             <summary>
-            资源单位集合的字典
+            资质DO转换DTO
+            </summary>
+            <param name="petAptitude"></param>
+            <param name="petAptitudeDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.TriggerBottleneckS2C(System.Int32,System.Int32,System.Boolean@)">
+            <summary>
+            触发瓶颈发送
+            </summary>
+            <param name="roleID"></param>
+            <param name="level"></param>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.TriggerBottleneck(System.Int32,System.Int32,System.Boolean@)">
+            <summary>
+            
+            </summary>
+            <param name="roleID"></param>
+            <param name="level"></param>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.GetRootPercent(AscensionServer.BottleneckData,System.Int32,System.Collections.Generic.List{System.Int32}@)">
+            <summary>
+            获取零灵根概率
+            </summary>
+            <param name="bottleneckData"></param>
+            <param name="rootnum"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.GetDemonPercent(AscensionServer.DemonData,System.Int32)">
+            <summary>
+            获取心魔对应数组的下标
+            </summary>
+            <param name="demonData"></param>
+            <param name="CraryVaule"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.ResultFailS2C(System.Int32,AscensionProtocol.PracticeOpcode)">
+            <summary>
+            失败返回
             </summary>
         </member>
-        <member name="P:AscensionServer.MapResourceManager.OccupiedUnitSetCache">
+        <member name="M:AscensionServer.PracticeManager.ResultSuccseS2C(System.Int32,AscensionProtocol.PracticeOpcode,System.Object)">
             <summary>
-            临时的占用资源单位容器，需要迭代
+            结果成功返回
+            </summary>
+            <param name="roleID"></param>
+            <param name="opcode"></param>
+            <param name="data"></param>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.ResultSuccseS2C(System.Int32,AscensionProtocol.PracticeOpcode,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
+            <summary>
+            结果成功返回多参数
+            </summary>
+            <param name="roleID"></param>
+            <param name="opcode"></param>
+            <param name="dict"></param>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.GetRoleGongFaS2C(System.Int32)">
+            <summary>
+            获得角色所有功法
+            </summary>
+            <param name="RoleID"></param>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.GetRoleMiShuS2C(System.Int32)">
+            <summary>
+            获得角色秘术模块
+            </summary>
+            <param name="RoleID"></param>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.GetRoleGongFaMySql(System.Int32)">
+            <summary>
+            获取数据库数据
+            </summary>
+            <param name="RoleID"></param>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.GetRoleMiShuMySql(System.Int32)">
+            <summary>
+            获取数据库数据
+            </summary>
+            <param name="RoleID"></param>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.SwitchPracticeTypeS2C(AscensionProtocol.DTO.OnOffLineDTO)">
+            <summary>
+            切换修炼秘书功法
+            </summary>
+            <param name="onOffLineDTO"></param>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.GetOffLineExpS2C(System.Int32)">
+             <summary>
+            计算离线经验发送给客户端
+             </summary>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.UploadingExpS2C(AscensionProtocol.DTO.OnOffLineDTO)">
+            <summary>
+            自动加经验
             </summary>
         </member>
-        <member name="M:AscensionServer.MapResourceManager.OccupiedResUnit(AscensionProtocol.DTO.OccupiedUnitDTO)">
+        <member name="M:AscensionServer.PracticeManager.GetOffLineExpMySql(System.Int32)">
             <summary>
-            对资源进行占用；
-            若资源占用成功，则将参数类对象加入被占用的缓存集合中
+            计算离线经验
             </summary>
-            <param name="occupiedUnit">占用资源的参数类对象</param>
-            <returns>是否占用成功</returns>
+            <param name="roleID"></param>
         </member>
-        <member name="M:AscensionServer.MapResourceManager.ReleaseResUnit(AscensionProtocol.DTO.OccupiedUnitDTO)">
+        <member name="M:AscensionServer.PracticeManager.UpLoadingExpMySql(AscensionProtocol.DTO.OnOffLineDTO)">
             <summary>
-            释放被占用的资源
+            挂機經驗的結算
             </summary>
-            <param name="occupiedUnit">占用资源的参数类对象</param>
-            <returns>是否释放成功</returns>
+            <param name="onOffLine"></param>
         </member>
-        <member name="M:AscensionServer.MapResourceManager.ResourcesLoad">
+        <member name="M:AscensionServer.PracticeManager.AddGongFaExp(System.Int32,AscensionServer.Model.CultivationMethod,System.Int32,AscensionProtocol.DTO.CultivationMethodDTO@)">
             <summary>
-            初始化资源分布类，实现
+            添加功法经验方法
             </summary>
         </member>
-        <member name="M:AscensionServer.MapResourceManager.SendResources(System.Int32,AscensionServer.RoleEntity)">
+        <member name="M:AscensionServer.PracticeManager.AddMiShu(AscensionServer.Model.MiShu,System.Int32,AscensionServer.Model.MiShu@)">
+            <summary>
+            添加秘术
+            </summary>
+            <param name="miShu"></param>
+            <param name="exp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.UpdateOnOffLine(AscensionProtocol.DTO.OnOffLineDTO)">
+            <summary>
+            更新数据至数据库
+            </summary>
+            <param name="onOffLineDTO"></param>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.ChangeDataType(AscensionProtocol.DTO.CultivationMethodDTO)">
+            <summary>
+            更新离线经验相关的数据
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ITacticalDeploymentManager.TacticalCreateAdd(AscensionProtocol.DTO.TacticalDTO)">
+            <summary>
+            创建新的阵法实体，并添加到临时集合
+            </summary>
+            <param name="roleid"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ITacticalDeploymentManager.TryAddRemoveTactical(System.Int32,AscensionProtocol.DTO.TacticalDTO@)">
+            <summary>
+            移除暂存集合放入总集合
+            </summary>
+            <param name="roleid"></param>
+            <param name="tacticalDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ITacticalDeploymentManager.TryRemoveTactical(System.Int32)">
+            <summary>
+            打断操作移除临时集合储存阵法
+            </summary>
+            <param name="roleid"></param>
+        </member>
+        <member name="M:AscensionServer.ITacticalDeploymentManager.GetExpendTacticalID">
+            <summary>
+            获取自增ID
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ITacticalDeploymentManager.TryGetValue(System.Int32,System.Collections.Concurrent.ConcurrentDictionary{System.Int32,AscensionProtocol.DTO.TacticalDTO}@)">
+            <summary>
+            获取当前地图块的所有阵法
+            </summary>
+            <param name="roleId"></param>
+            <param name="tactical"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ITacticalDeploymentManager.GetRoleTactic(System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.TacticalDTO}@)">
+            <summary>
+            获取本地的暂存角色阵法
+            </summary>
+            <param name="roleid"></param>
+            <param name="roletactical"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.ITacticalDeploymentManager.SendAllLevelRoleTactical(AscensionProtocol.DTO.TacticalDTO,AscensionProtocol.ReturnCode)">
+            <summary>
+            广播给当前场景所有人对阵法的操作
+            </summary>
+            <param name="tacticalDTO"></param>
+            <param name="returnCode">成功为生成，失败为销毁</param>
+        </member>
+        <member name="M:AscensionServer.ITacticalDeploymentManager.RedisDeleteCaback(System.String)">
+            <summary>
+            监听Redis删除后的回调
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ITacticalDeploymentManager.TryAddRoleAllTactical(System.Int32,AscensionProtocol.DTO.TacticalDTO)">
+            <summary>
+            储存每个角色的所有阵法
+            </summary>
+            <param name="roleid"></param>
+            <param name="tacticalDTO"></param>
+        </member>
+        <member name="M:AscensionServer.MapResourceManager.TakeUpResourceC2S(System.Int32,Protocol.OperationData)">
+            <summary>
+            占用资源 客户端->服务器
+            </summary>
+        </member>
+        <member name="M:AscensionServer.MapResourceManager.OnRoleEnterMap(AscensionServer.RoleEntity)">
             <summary>
             发送已生成资源至指定场景
             </summary>
@@ -1949,7 +3402,7 @@
             <param name="roleid"></param>
             <param name="tacticalDTO"></param>
         </member>
-        <member name="M:AscensionServer.TacticalDeploymentManager.SendTactical(System.Int32,AscensionServer.RoleEntity)">
+        <member name="M:AscensionServer.TacticalDeploymentManager.OnSendTactical(AscensionServer.RoleEntity)">
             <summary>
             发送已生成的阵法至指定场景
             </summary>
@@ -1959,56 +3412,120 @@
             触碰或进入玩家ID
             </summary>
         </member>
-        <member name="T:AscensionServer.RoleEntity">
+        <member name="M:AscensionServer.RoleAssetsManager.RoleStatusSuccessS2C(System.Int32,AscensionProtocol.RoleAssetsOpCode,System.Object)">
             <summary>
-            游戏中的角色实体对象；
+            处理角色资产成功发送
             </summary>
         </member>
-        <member name="T:AscensionServer.RoleManager">
+        <member name="M:AscensionServer.RoleAssetsManager.RoleStatusFailS2C(System.Int32,AscensionProtocol.RoleAssetsOpCode)">
             <summary>
-            角色管理器；
-            key为RoleId或者PlayerId
+            处理角色资产失败发送
             </summary>
         </member>
-        <member name="E:AscensionServer.RoleManager.BroadcastEvent">
+        <member name="M:AscensionServer.RoleStatusManager.GetRolePointAbilityS2C(AscensionProtocol.DTO.RoleStatusPointDTO)">
             <summary>
-            广播事件消息 ;
+            获取人物加点方案
+            </summary>
+            <param name="pointDTO"></param>
+        </member>
+        <member name="M:AscensionServer.RoleStatusManager.SetRolePointS2C(AscensionProtocol.DTO.RoleStatusPointDTO)">
+             <summary>
+            设置人物加点
+             </summary>
+        </member>
+        <member name="M:AscensionServer.RoleStatusManager.SetRoleSlnNameS2C(AscensionProtocol.DTO.RoleStatusPointDTO)">
+            <summary>
+            设置加点方案名称
             </summary>
         </member>
-        <member name="E:AscensionServer.RoleManager.BroadcastMessage">
+        <member name="M:AscensionServer.RoleStatusManager.RestartPointS2C(AscensionProtocol.DTO.RoleStatusPointDTO)">
             <summary>
-            广播普通消息;
+            重置加点
             </summary>
         </member>
-        <member name="M:AscensionServer.RoleManager.BroadcastEventToAll(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
+        <member name="M:AscensionServer.RoleStatusManager.GetRoleStatusMySql(AscensionProtocol.DTO.RoleStatusPointDTO)">
+            <summary>
+            获取MySql中的角色数据
+            </summary>
+        </member>
+        <member name="M:AscensionServer.RoleStatusManager.RolePointCalculate(AscensionProtocol.DTO.RoleStatusPointDTO,AscensionProtocol.DTO.RoleStatusPointDTO)">
+            <summary>
+            人物加点计算验证
+            </summary>
+            <param name="pointObj">数据库</param>
+            <param name="pointDTO">客户端接收数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.RoleStatusManager.ChangeRoleStatusPointType(AscensionProtocol.DTO.RoleStatusPointDTO)">
+            <summary>
+            数据类型转换
+            </summary>
+            <param name="pointDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.RoleStatusManager.ChangeRoleStatusPointType(AscensionServer.Model.RoleStatusPoint)">
+            <summary>
+            数据类型转换
+            </summary>
+            <param name="pointDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.RoleStatusManager.GetRoleStatus(System.Int32,AscensionServer.RoleStatusDatas)">
+             <summary>
+            获取数据库功法秘术数值
+             </summary>
+             <param name="gongfaList"></param>
+             <param name="mishuList"></param>
+             <param name="roleStatusDatas"></param>
+        </member>
+        <member name="M:AscensionServer.RoleStatusManager.SumRolestatus(System.Int32,AscensionProtocol.DTO.RoleStatusPointDTO,AscensionProtocol.DTO.RoleStatusDTO)">
+            <summary>
+            飞行法器数值加上人物加点数值
+            </summary>
+            <param name="flyID"></param>
+            <param name="roleStatusPoint"></param>
+            <param name="roleStatusDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.RoleStatusManager.RoleStatusSuccessS2C(System.Int32,AscensionProtocol.RoleStatusOpCode,System.Object)">
+            <summary>
+            处理角色属性成功发送
+            </summary>
+        </member>
+        <member name="M:AscensionServer.RoleStatusManager.RoleStatusFailS2C(System.Int32,AscensionProtocol.RoleStatusOpCode)">
+            <summary>
+            处理角色属性失败发送
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IRoleManager.BroadcastEventToAll(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
             <summary>
             同步广播事件(EVENT)；
             此方法会对所有在线且Available的peer对象进行消息广播；
             </summary>
             <param name="userData">用户自定义数据</param>
         </member>
-        <member name="M:AscensionServer.RoleManager.SendMessage(System.Int32,Protocol.OperationData)">
+        <member name="M:AscensionServer.IRoleManager.SendMessage(System.Int32,Protocol.OperationData)">
              <summary>
             发送消息到具体的SessionId 
              </summary>
         </member>
-        <member name="M:AscensionServer.RoleManager.BroadcastMessageToAll(Protocol.OperationData)">
+        <member name="M:AscensionServer.IRoleManager.BroadcastMessageToAll(Protocol.OperationData)">
             <summary>
             通过广播普通消息(MSG)；
             </summary>
             <param name="message">普通消息</param>
         </member>
-        <member name="M:AscensionServer.RoleManager.SendMessageAsync(System.Int32,Protocol.OperationData)">
+        <member name="M:AscensionServer.IRoleManager.SendMessageAsync(System.Int32,Protocol.OperationData)">
              <summary>
             异步发送消息到具体的SessionId 
              </summary>
         </member>
-        <member name="M:AscensionServer.RoleManager.SendEventAsync(System.Int32,System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
+        <member name="M:AscensionServer.IRoleManager.SendEventAsync(System.Int32,System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
              <summary>
             异步广播消息到具体的sessionId 
              </summary>
         </member>
-        <member name="M:AscensionServer.RoleManager.BroadcastEventToAllAsync(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object},System.Action)">
+        <member name="M:AscensionServer.IRoleManager.BroadcastEventToAllAsync(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object},System.Action)">
             <summary>
             异步广播事件消息(EVENT)；
             </summary>
@@ -2016,12 +3533,77 @@
             <param name="callback">广播结束后的回调</param>
             <returns>线程Task</returns>
         </member>
-        <member name="M:AscensionServer.RoleManager.BroadcastMessageToAllAsync(Protocol.OperationData,System.Action)">
+        <member name="M:AscensionServer.IRoleManager.BroadcastMessageToAllAsync(Protocol.OperationData,System.Action)">
             <summary>
             异步广播普通消息(MSG)；
             </summary>
             <param name="message">普通消息</param>
             <param name="callback">消息广播完成后的回调</param>
+            <returns></returns>
+        </member>
+        <member name="T:AscensionServer.RoleEntity">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:AscensionServer.RoleManager">
+            <summary>
+            ��ɫ��������
+            keyΪRoleId����PlayerId
+            </summary>
+        </member>
+        <member name="E:AscensionServer.RoleManager.BroadcastEvent">
+            <summary>
+            �㲥�¼���Ϣ ;
+            </summary>
+        </member>
+        <member name="E:AscensionServer.RoleManager.BroadcastMessage">
+            <summary>
+            �㲥��ͨ��Ϣ;
+            </summary>
+        </member>
+        <member name="M:AscensionServer.RoleManager.BroadcastEventToAll(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
+            <summary>
+            ͬ���㲥�¼�(EVENT)��
+            �˷����������������Available��peer���������Ϣ�㲥��
+            </summary>
+            <param name="userData">�û��Զ�������</param>
+        </member>
+        <member name="M:AscensionServer.RoleManager.SendMessage(System.Int32,Protocol.OperationData)">
+             <summary>
+            ������Ϣ�������SessionId 
+             </summary>
+        </member>
+        <member name="M:AscensionServer.RoleManager.BroadcastMessageToAll(Protocol.OperationData)">
+            <summary>
+            ͨ���㲥��ͨ��Ϣ(MSG)��
+            </summary>
+            <param name="message">��ͨ��Ϣ</param>
+        </member>
+        <member name="M:AscensionServer.RoleManager.SendMessageAsync(System.Int32,Protocol.OperationData)">
+             <summary>
+            �첽������Ϣ�������SessionId 
+             </summary>
+        </member>
+        <member name="M:AscensionServer.RoleManager.SendEventAsync(System.Int32,System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
+             <summary>
+            �첽�㲥��Ϣ�������sessionId 
+             </summary>
+        </member>
+        <member name="M:AscensionServer.RoleManager.BroadcastEventToAllAsync(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object},System.Action)">
+            <summary>
+            �첽�㲥�¼���Ϣ(EVENT)��
+            </summary>
+            <param name="userData">�û��Զ�������</param>
+            <param name="callback">�㲥������Ļص�</param>
+            <returns>�߳�Task</returns>
+        </member>
+        <member name="M:AscensionServer.RoleManager.BroadcastMessageToAllAsync(Protocol.OperationData,System.Action)">
+            <summary>
+            �첽�㲥��ͨ��Ϣ(MSG)��
+            </summary>
+            <param name="message">��ͨ��Ϣ</param>
+            <param name="callback">��Ϣ�㲥��ɺ�Ļص�</param>
             <returns></returns>
         </member>
         <member name="P:AscensionServer.RoomEntity.Available">
@@ -2128,7 +3710,7 @@
             场景是否包含有角色； 
              </summary>
         </member>
-        <member name="M:AscensionServer.LevelManager.SendMsg2AllLevelRoleS2C(System.Int32,Protocol.OperationData)">
+        <member name="M:AscensionServer.LevelManager.SendMessageToLevelS2C(System.Int32,Protocol.OperationData)">
              <summary>
             广播消息到指定场景，若场景不存在，则不执行； 
              </summary>
@@ -2150,6 +3732,34 @@
             验证数据是否正确； 
              </summary>
         </member>
+        <member name="M:AscensionServer.ISecondaryJobManager.GetRoleAlchemy(AscensionProtocol.DTO.SecondaryJobDTO,AscensionServer.NHCriteria)">
+            <summary>
+            获得所有已学配方
+            </summary>
+            <param name="secondaryJobDTO"></param>
+            <param name="nHCriteriarole"></param>
+        </member>
+        <member name="M:AscensionServer.ISecondaryJobManager.UpdateRoleAlchemy(AscensionProtocol.DTO.SecondaryJobDTO,AscensionServer.NHCriteria)">
+            <summary>
+            学习新配方
+            </summary>
+            <param name="secondaryJobDTO"></param>
+            <param name="nHCriteriarole"></param>
+        </member>
+        <member name="M:AscensionServer.SecondaryJobManager.GetRoleAlchemy(AscensionProtocol.DTO.SecondaryJobDTO,AscensionServer.NHCriteria)">
+            <summary>
+            获得所有已学配方
+            </summary>
+            <param name="secondaryJobDTO"></param>
+            <param name="nHCriteriarole"></param>
+        </member>
+        <member name="M:AscensionServer.SecondaryJobManager.UpdateRoleAlchemy(AscensionProtocol.DTO.SecondaryJobDTO,AscensionServer.NHCriteria)">
+            <summary>
+            学习新配方
+            </summary>
+            <param name="secondaryJobDTO"></param>
+            <param name="nHCriteriarole"></param>
+        </member>
         <member name="T:AscensionServer.SkillEntity">
             <summary>
             技能实体对象；
@@ -2168,7 +3778,7 @@
             注：此模块用于验证客户端角色释放技能时数值的验证、转发等；
             </summary>
         </member>
-        <member name="M:AscensionServer.SkillManager.OnPlayerSkillC2S(Protocol.OperationData)">
+        <member name="M:AscensionServer.SkillManager.OnPlayerSkillC2S(System.Int32,Protocol.OperationData)">
             <summary>
             接收来自客户端的技能输入
             </summary>
@@ -2193,6 +3803,140 @@
             <summary>
             技能Id；
             </summary>
+        </member>
+        <member name="P:AscensionServer.IServerTeamManager.PlayerIdToTeamIdDict">
+            <summary>
+            玩家id 和队伍id 之间的映射
+            </summary>
+        </member>
+        <member name="P:AscensionServer.IServerTeamManager.TeamTOModel">
+            <summary>
+            队伍id 和队伍信息模型映射
+            </summary>
+        </member>
+        <member name="P:AscensionServer.IServerTeamManager.OldTeamList">
+            <summary>
+            收集，释放解散的存在的队伍信息
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IServerTeamManager.IsLeader(System.Int32)">
+            <summary>
+            判断是否是队长
+            </summary>
+            <param name="playerId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerTeamManager.ServerToClientParams">
+            <summary>
+            服务器返回给客户端的参数
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IServerTeamManager.ServerToClientCreate(System.Int32)">
+            <summary>
+            创建房间
+            </summary>
+            <param name="roleId"></param>
+        </member>
+        <member name="M:AscensionServer.IServerTeamManager.ServerToClientApply(System.Int32)">
+            <summary>
+            申请加入队伍
+            </summary>
+            <param name="roleId"></param>
+        </member>
+        <member name="M:AscensionServer.IServerTeamManager.ServerToClientJoin(System.Collections.Generic.List{AscensionProtocol.DTO.RoleDTO})">
+            <summary>
+            同意加入队伍
+            </summary>
+            <param name="roleId"></param>
+        </member>
+        <member name="M:AscensionServer.IServerTeamManager.ServerToClientRefused(System.Int32)">
+            <summary>
+            拒绝加入队伍
+            </summary>
+            <param name="roleId"></param>
+        </member>
+        <member name="M:AscensionServer.IServerTeamManager.ServerToClientTransfer(System.Collections.Generic.List{AscensionProtocol.DTO.RoleDTO})">
+             <summary>
+            转让队长
+             </summary>
+             <param name="roleDTOs"></param>
+        </member>
+        <member name="M:AscensionServer.IServerTeamManager.ServerToClientDissolveTeam(System.Collections.Generic.List{AscensionProtocol.DTO.RoleDTO})">
+            <summary>
+            退出队伍 
+            </summary>
+            <param name="roleId"></param>
+        </member>
+        <member name="M:AscensionServer.IServerTeamManager.CreateTeam(AscensionProtocol.DTO.RoleDTO,System.Int32[])">
+            <summary>
+            创建一个队伍  
+            </summary>
+            <param name="roleDTO"></param>
+            <param name="levelLimint"></param>
+        </member>
+        <member name="M:AscensionServer.IServerTeamManager.ApplyJoinTeam(AscensionProtocol.DTO.RoleDTO,System.Int32)">
+            <summary>
+            加入队伍申请
+            </summary>
+            <param name="roleDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IServerTeamManager.JoinTeam(AscensionProtocol.DTO.RoleDTO,System.Int32)">
+            <summary>
+            同意加入队伍  
+            </summary>
+            <param name="roleDTO"></param>
+        </member>
+        <member name="M:AscensionServer.IServerTeamManager.RefusedApplyTeam(AscensionProtocol.DTO.RoleDTO,System.Int32)">
+            <summary>
+            拒绝队伍申请
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IServerTeamManager.TransferTeam(AscensionProtocol.DTO.RoleDTO,System.Int32)">
+            <summary>
+            转让队长
+            </summary>
+            <param name="roleDTO"></param>
+            <param name="teamId"></param>
+        </member>
+        <member name="M:AscensionServer.IServerTeamManager.LevelTeam(AscensionProtocol.DTO.RoleDTO,System.Int32)">
+            <summary>
+            离开队伍   踢人
+            </summary>
+            <param name="roleDTO"></param>
+            <param name="teamId"></param>
+        </member>
+        <member name="M:AscensionServer.IServerTeamManager.ExitTeam(AscensionProtocol.DTO.RoleDTO,System.Int32)">
+            <summary>
+            退出队伍
+            </summary>
+            <param name="roleDTO"></param>
+            <param name="teamId"></param>
+        </member>
+        <member name="M:AscensionServer.IServerTeamManager.PositionTeam(AscensionProtocol.DTO.RoleDTO,System.Int32)">
+            <summary>
+            调整站位
+            </summary>
+        </member>
+        <member name="M:AscensionServer.ITeamManager.JoinMatchQueue(System.Int32)">
+             <summary>
+            加入随机匹配队列
+             </summary>
+        </member>
+        <member name="M:AscensionServer.ITeamManager.MatchTeam">
+            <summary>
+            服务端会一直运行；
+            异步随机匹配组队
+            </summary>
+            <returns>异步运行</returns>
+        </member>
+        <member name="M:AscensionServer.ITeamManager.JoinTeam(System.Int32,System.Int32)">
+            <summary>
+            加入指定的小队
+            </summary>
+            <param name="teamID">小队ID</param>
+            <param name="roleId">peerID</param>
+            <returns>是否加入成功</returns>
         </member>
         <member name="T:AscensionServer.ServerTeamManager">
             <summary>
@@ -2292,17 +4036,17 @@
             </summary>
             <param name="roleId"></param>
         </member>
-        <member name="F:AscensionServer.ServerTeamManager._playerIdToTeamIdDict">
+        <member name="P:AscensionServer.ServerTeamManager.PlayerIdToTeamIdDict">
             <summary>
             玩家id 和队伍id 之间的映射
             </summary>
         </member>
-        <member name="F:AscensionServer.ServerTeamManager._teamTOModel">
+        <member name="P:AscensionServer.ServerTeamManager.TeamTOModel">
             <summary>
             队伍id 和队伍信息模型映射
             </summary>
         </member>
-        <member name="F:AscensionServer.ServerTeamManager._oldTeamList">
+        <member name="P:AscensionServer.ServerTeamManager.OldTeamList">
             <summary>
             收集，释放解散的存在的队伍信息
             </summary>
@@ -2479,18 +4223,6 @@
             隐匿值
             </summary>
         </member>
-        <member name="T:AscensionServer.LoginRoleHandler">
-            <summary>
-            角色登录；
-            这里使用了类似ECS的结构，RemoteRole对象可以作为Peer的数据负载存在；
-            </summary>
-        </member>
-        <member name="T:AscensionServer.LogoffRoleHandler">
-            <summary>
-            角色登出；
-            这里使用了类似ECS的结构，RemoteRole对象可以作为Peer的数据负载存在；
-            </summary>
-        </member>
         <member name="M:AscensionServer.AddBottleneckSubHandler.GetRootPercent(AscensionServer.BottleneckData,System.Int32,System.Collections.Generic.List{System.Int32}@)">
             <summary>
             获取零灵根概率
@@ -2506,6 +4238,64 @@
             <param name="demonData"></param>
             <param name="CraryVaule"></param>
             <returns></returns>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.ConvertInt32(System.Int32)">
+            <summary>
+            转换为五位的全局id
+            </summary>
+            <param name="_ItemID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.EquipTypeMethod(System.Int32)">
+            <summary>
+            装备的类型
+            </summary>
+            <param name="_ItemID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.AddRingItemType(System.Int32)">
+            <summary>
+            添加的类型
+            </summary>
+            <param name="_itemId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.InventotyDict">
+            <summary>
+            json 转换为字典中
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.NHCriteria(System.Int32)">
+            <summary>
+            返回一个NHCriteria  映射对象
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.AddNewItem(System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            单个物品
+            </summary>
+            <param name="_id"></param>
+            <param name="_itemId"></param>
+            <param name="_RingItemCount"></param>
+            <param name="_RingItemAdorn"></param>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.UpdateNewItem(System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            更新一个物品
+            </summary>
+            <param name="_id"></param>
+            <param name="_itemId"></param>
+            <param name="_RingItemCount"></param>
+            <param name="_RingItemAdorn"></param>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.Remove(System.Int32,System.Int32)">
+            <summary>
+            移除功能
+            </summary>
+            <param name="_ItemId"></param>
         </member>
         <member name="M:AscensionServer.InventoryManager.CriteriaSelectMethod``1(AscensionServer.NHCriteria)">
             <summary>
@@ -2570,6 +4360,12 @@
             矿石被占用，则其他玩家无法拾取
             </summary>
         </member>
+        <member name="F:AscensionServer.ApplicationBuilder.MapResourceRefreshInterval">
+            <summary>
+            地图资源刷新周期；
+            以秒计算；
+            </summary>
+        </member>
         <member name="F:AscensionServer.ApplicationBuilder.TICKRATE">
             <summary>
             服务器帧数；
@@ -2579,12 +4375,6 @@
         <member name="F:AscensionServer.ApplicationBuilder._MSPerTick">
             <summary>
             每个tick所持续的毫秒；
-            </summary>
-        </member>
-        <member name="E:AscensionServer.AscensionPeer.OnMessageReceive">
-            <summary>
-            接收消息事件委托；
-            此类消息为非Opcode类型；
             </summary>
         </member>
         <member name="M:AscensionServer.AscensionPeer.SendMessage(Protocol.OperationData)">
@@ -2651,11 +4441,6 @@
             设置返回数据
             </summary>
             <param name="callBack">在回调中设置数据</param>
-        </member>
-        <member name="T:AscensionServer.AddRoleSubHandler">
-            <summary>
-            添加新角色子操作码
-            </summary>
         </member>
         <member name="M:AscensionServer.HeartBeatHandler.OnOperationRequest(Photon.SocketServer.OperationRequest)">
             <summary>
@@ -4516,6 +6301,24 @@
             Removes the room instance from the cache if there are no references to the instance left.
             </summary>
         </member>
+        <member name="M:AscensionServer.NHibernateQuerier.Query``1(System.String,System.Object)">
+            <summary>
+            单条件查找；
+            </summary>
+            <typeparam name="T">需要的目标</typeparam>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>数据对象</returns>
+        </member>
+        <member name="M:AscensionServer.NHibernateQuerier.Verify``1(System.String,System.Object)">
+            <summary>
+            单条件验证；
+            </summary>
+            <typeparam name="T">需要的目标</typeparam>
+            <param name="propertyName">属性名</param>
+            <param name="value">值</param>
+            <returns>是否验证成功</returns>
+        </member>
         <member name="M:AscensionServer.NHibernateQuerier.Insert``1(``0)">
             <summary>
             可覆写非空虚函数;
@@ -4775,108 +6578,6 @@
         <member name="T:AscensionServer.NHCriteria">
             <summary>
             SQL Colum对应类，一个column对应一个传入数值
-            </summary>
-        </member>
-        <member name="P:AscensionServer.Threads.IThreadEventData.PeerCollection">
-            <summary>
-            客户端集合
-            </summary>
-        </member>
-        <member name="P:AscensionServer.Threads.IThreadEventData.EventCode">
-            <summary>
-            事件码
-            </summary>
-        </member>
-        <member name="P:AscensionServer.Threads.IThreadEventData.Parameters">
-            <summary>
-            序列化后的字典数据
-            </summary>
-        </member>
-        <member name="M:AscensionServer.Threads.IThreadEventData.SetValue(System.Collections.Generic.ICollection{AscensionServer.AscensionPeer},System.Byte)">
-            <summary>
-            设置对象的初始值
-            </summary>
-            <param name="peerCollection">peer的集合</param>
-            <param name="eventCode">事件码</param>
-        </member>
-        <member name="M:AscensionServer.Threads.IThreadEventData.AddData(System.Byte,System.Object)">
-            <summary>
-            添加数据
-            </summary>
-            <param name="parameterCode">参数码</param>
-            <param name="data">序列化后的数据</param>
-        </member>
-        <member name="P:AscensionServer.Threads.SyncEvent.ConcurrentEventDataDict">
-            <summary>
-            线程安全字典
-            </summary>
-        </member>
-        <member name="M:AscensionServer.Threads.SyncEvent.Handler(System.Object)">
-            <summary>
-            被线程调用的委托
-            </summary>
-            <param name="state">委托参数</param>
-        </member>
-        <member name="M:AscensionServer.Threads.SyncEvent.AddFinishedHandler(System.Action)">
-            <summary>
-            添加线程执行结束后的委托
-            </summary>
-            <param name="handler"></param>
-        </member>
-        <member name="M:AscensionServer.Threads.SyncRefreshResourcesEvent.AdventureRefreshResources">
-            <summary>
-            针对当前历练资源刷新的简易应对方法
-            </summary>
-        </member>
-        <member name="T:AscensionServer.Threads.ThreadEventData">
-            <summary>
-            通用线程事件数据
-            </summary>
-        </member>
-        <member name="P:AscensionServer.Threads.ThreadEventData.PeerCollection">
-            <summary>
-            客户端集合
-            </summary>
-        </member>
-        <member name="P:AscensionServer.Threads.ThreadEventData.EventCode">
-            <summary>
-            事件码
-            </summary>
-        </member>
-        <member name="P:AscensionServer.Threads.ThreadEventData.Parameters">
-            <summary>
-            序列化后的字典数据
-            </summary>
-        </member>
-        <member name="M:AscensionServer.Threads.ThreadEventData.SetValue(System.Collections.Generic.ICollection{AscensionServer.AscensionPeer},System.Byte)">
-            <summary>
-            设置对象的初始值
-            </summary>
-            <param name="peerCollection">peer的集合</param>
-            <param name="eventCode">事件码</param>
-        </member>
-        <member name="M:AscensionServer.Threads.ThreadEventData.AddData(System.Byte,System.Object)">
-            <summary>
-            添加数据
-            </summary>
-            <param name="parameterCode">参数码</param>
-            <param name="data">序列化后的数据</param>
-        </member>
-        <member name="M:AscensionServer.Threads.ThreadEventData.SetData(System.Collections.Generic.Dictionary{System.Byte,System.Object})">
-            <summary>
-            设置数据
-            </summary>
-            <param name="parameters"></param>
-        </member>
-        <member name="M:AscensionServer.Threads.ThreadEventData.Clear">
-            <summary>
-            引用池回收时候调用的函数
-            </summary>
-        </member>
-        <member name="T:AscensionServer.Threads.ThreadSyncEvent">
-            <summary>
-            线程的同步事件；
-            若无特殊线程，例如同步玩家位置信息这类特殊线程事件，其余都统一使用此线程同步事件
             </summary>
         </member>
         <member name="T:BattleSkillUseConditionType">
