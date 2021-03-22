@@ -14,10 +14,7 @@ namespace AscensionServer.DOMap
             Map(x => x.AllianceChamber).Nullable().Column("alliance_chamber");
             Map(x => x.AllianceScripturesPlatform).Nullable().Column("alliance_scriptures_platform");
             Table("alliance_construction");
-
-
         }
-
     }
 }
 

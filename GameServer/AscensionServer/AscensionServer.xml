@@ -343,7 +343,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
+        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -1597,7 +1597,7 @@
             准备指令战斗 
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.IServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -1785,7 +1785,7 @@
             </summary>
             
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -2510,6 +2510,25 @@
             <param name="flyMagic"></param>
             <returns></returns>
         </member>
+        <member name="M:AscensionServer.GangsMananger.GetAllianceConstructionS2C(System.Int32,System.Int32)">
+            <summary>
+            获得宗门属性及建设
+            </summary>
+            <param name="ID"></param>
+            <param name="roleID"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.BuildAllianceConstructionS2C(System.Int32,System.Int32,AscensionProtocol.DTO.AllianceConstructionDTO)">
+            <summary>
+            宗门建筑升级
+            </summary>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.GetRoleAliianceConstructionMySql(System.Int32,System.Int32)">
+            <summary>
+            获取仙盟建筑信息
+            </summary>
+            <param name="ID"></param>
+            <param name="roleID"></param>
+        </member>
         <member name="M:AscensionServer.GangsMananger.RoleStatusSuccessS2C(System.Int32,AscensionProtocol.AllianceOpCode,System.Object)">
             <summary>
             处理角色宗门成功发送
@@ -2555,6 +2574,11 @@
             <param name="id"></param>
             <param name="name"></param>
         </member>
+        <member name="M:AscensionServer.GangsMananger.CareerAdvancementS2C(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            修改宗门职位
+            </summary>
+        </member>
         <member name="M:AscensionServer.GangsMananger.ApplyJoinAllianceMySql(System.Int32,System.Int32)">
             <summary>
             申請加入宗門
@@ -2592,13 +2616,6 @@
             </summary>
             <param name="statusDTO"></param>
         </member>
-        <member name="M:AscensionServer.GangsMananger.GetAllianceConstructionS2C(System.Int32,System.Int32)">
-            <summary>
-            获得宗门属性及建设
-            </summary>
-            <param name="ID"></param>
-            <param name="roleID"></param>
-        </member>
         <member name="M:AscensionServer.GangsMananger.GetAllianceCallboardS2C(System.Int32,System.Int32,AscensionProtocol.DTO.DailyMessageDTO)">
             <summary>
             获得宗门通告
@@ -2631,13 +2648,6 @@
             <summary>
             获取角色自身宗门数据
             </summary>
-            <param name="roleID"></param>
-        </member>
-        <member name="M:AscensionServer.GangsMananger.GetRoleAliianceConstructionMySql(System.Int32,System.Int32)">
-            <summary>
-            获取仙盟建筑信息
-            </summary>
-            <param name="ID"></param>
             <param name="roleID"></param>
         </member>
         <member name="M:AscensionServer.GangsMananger.ChangeAllianceNameMySQL(System.Int32,AscensionProtocol.DTO.AllianceStatusDTO)">
@@ -2704,6 +2714,149 @@
             客户端从服务器端获取当前账号下拥有角色的信息；
              </summary>
              <param name="packet">进入的请求数据</param>
+        </member>
+        <member name="P:AscensionServer.BattleCharacterEntity.RoomID">
+            <summary>
+            房间ID
+            </summary>
+        </member>
+        <member name="P:AscensionServer.BattleCharacterEntity.UniqueID">
+            <summary>
+            唯一ID
+            </summary>
+        </member>
+        <member name="P:AscensionServer.BattleCharacterEntity.GlobalID">
+            <summary>
+            公共ID
+            </summary>
+        </member>
+        <member name="P:AscensionServer.BattleCharacterEntity.CharacterBattleData">
+            <summary>
+            属性数据
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleCharacterEntity.SetFriendAndEnemy(System.Collections.Generic.List{AscensionServer.BattleCharacterEntity},System.Collections.Generic.List{AscensionServer.BattleCharacterEntity})">
+            <summary>
+            设置该角色的敌方和友方
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleCharacterEntity.ToBattleDataBase``1">
+            <summary>
+            转换成发送用的人物初始化数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.BattleCharacterEntity.SetBattleAction(AscensionProtocol.DTO.BattleCmd,AscensionProtocol.DTO.BattleTransferDTO)">
+            <summary>
+            设置角色该回合战斗行为
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleCharacterManager.AddPlayerCharacter(System.Int32,System.Int32,AscensionServer.BattleFactionType)">
+            <summary>
+            添加玩家角色
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleCharacterManager.AddPetCharacter(System.Int32,System.Int32,AscensionServer.BattleFactionType)">
+            <summary>
+            添加宠物角色
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleCharacterManager.AddAICharacter(System.Int32,System.Int32,AscensionServer.BattleFactionType)">
+            <summary>
+            添加Ai角色
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleCharacterManager.DestoryCharacter(System.Int32)">
+            <summary>
+            移除角色
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IBattleCharacterManager.AddPlayerCharacter(System.Int32,System.Int32,AscensionServer.BattleFactionType)">
+            <summary>
+            添加玩家角色
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IBattleCharacterManager.AddPetCharacter(System.Int32,System.Int32,AscensionServer.BattleFactionType)">
+            <summary>
+            添加宠物角色
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IBattleCharacterManager.AddAICharacter(System.Int32,System.Int32,AscensionServer.BattleFactionType)">
+            <summary>
+            添加Ai角色
+            </summary>
+        </member>
+        <member name="M:AscensionServer.IBattleCharacterManager.GetCharacterEntity(System.Int32)">
+            <summary>
+            获取角色实体对象
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleDamageData">
+            <summary>
+            战斗伤害数据
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleRoomEntity.InitRoom(System.Int32,AscensionProtocol.DTO.BattleInitDTO)">
+            <summary>
+            初始化房间
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleRoomEntity.CharacterPrepare(System.Int32)">
+            <summary>
+            指定角色准备完成
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleRoomEntity.StartGetBattleCmdWait">
+            <summary>
+            开始收集战斗指令倒计时等待
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleRoomEntity.SendInitDataS2C">
+            <summary>
+            发送战斗初始化信息给客户端
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleRoomEntity.SendMessageToAllPlayerS2C(Protocol.OperationData)">
+            <summary>
+            发送数据给战斗房间中所有玩家
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleRoomManager.CreateRoom(AscensionProtocol.DTO.BattleInitDTO)">
+            <summary>
+            创建房间
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleRoomManager.DestoryRoom">
+            <summary>
+            销毁房间
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleRoomManager.GetRoomId">
+            <summary>
+            获取可使用的roomId
+            </summary>
+            <returns>返回房间号</returns>
+        </member>
+        <member name="M:AscensionServer.BattleRoomManager.EnterBattleC2S(System.Int32,Protocol.OperationData)">
+            <summary>
+            进入战斗的请求
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleSkillBase.GetDamageData(System.Int32)">
+            <summary>
+            获取该技能的伤害
+            </summary>
+            <param name="index">第几段伤害</param>
+        </member>
+        <member name="T:AscensionServer.BattleSkillController">
+            <summary>
+            战斗角色技能控制器,每个角色实体持有，用来管理角色技能
+            </summary>
+        </member>
+        <member name="T:AscensionServer.CharacterBattleData">
+            <summary>
+            用于进行战斗中角色的属性数据处理
+            </summary>
         </member>
         <member name="T:AscensionServer.IPeerEntity">
             <summary>
@@ -4239,6 +4392,11 @@
             <param name="CraryVaule"></param>
             <returns></returns>
         </member>
+        <member name="T:AscensionServer.InventoryManager">
+            <summary>
+            InventoryManager  InventoryManager.Client    就这两个有用拉   剩下的都可以删除拉
+            </summary>
+        </member>
         <member name="M:AscensionServer.InventoryManager.ConvertInt32(System.Int32)">
             <summary>
             转换为五位的全局id
@@ -4333,9 +4491,41 @@
             验证是否存在
             </summary>
         </member>
-        <member name="M:AscensionServer.InventoryManager.GetDataCmd(System.Int32,AscensionProtocol.DTO.RingDTO,AscensionServer.NHCriteria)">
+        <member name="M:AscensionServer.InventoryManager.GetDataCmdS2C(System.Int32,AscensionProtocol.DTO.RingDTO,AscensionServer.NHCriteria)">
             <summary>
             获得背包数据的Cmd
+            </summary>
+            <param name="roleId"></param>
+            <param name="InventoryObj"></param>
+            <param name="nHCriteria"></param>    //都是通过这个来 我看到了，你这个发出去就是属于CMD的，  只是进入服务器需要做一下修改，我看来下  对需要修改的不多，就是那个入口handler你处理下
+        </member>
+        <member name="M:AscensionServer.InventoryManager.AddDataCmdS2C(System.Int32,AscensionProtocol.DTO.RingDTO,AscensionServer.NHCriteria)">
+            <summary>
+            添加
+            </summary>
+            <param name="roleId"></param>
+            <param name="InventoryObj"></param>
+            <param name="nHCriteria"></param>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.UdpateCmdS2C(System.Int32,AscensionProtocol.DTO.RingDTO,AscensionServer.NHCriteria)">
+            <summary>
+            更新
+            </summary>
+            <param name="roleId"></param>
+            <param name="InventoryObj"></param>
+            <param name="nHCriteria"></param>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.RemoveCmdS2C(System.Int32,AscensionProtocol.DTO.RingDTO,AscensionServer.NHCriteria)">
+            <summary>
+            移除
+            </summary>
+            <param name="roleId"></param>
+            <param name="InventoryObj"></param>
+            <param name="nHCriteria"></param>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.SortingCmdS2C(System.Int32,AscensionProtocol.DTO.RingDTO,AscensionServer.NHCriteria)">
+            <summary>
+            排序
             </summary>
             <param name="roleId"></param>
             <param name="InventoryObj"></param>
@@ -4382,7 +4572,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
+        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；
@@ -4397,22 +4587,6 @@
             <summary>
             非空虚函数
             </summary>
-        </member>
-        <member name="M:AscensionServer.AddInventorySubHandler.NumberCountMethod(System.Int32,System.Int32)">
-            <summary>
-            需要count
-            </summary>
-            <param name="_ItemHeld"></param>
-            <param name="_ItemMax"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.AddInventorySubHandler.HeldMethod(System.Int32,System.Int32)">
-            <summary>
-            剩余的个数
-            </summary>
-            <param name="_ItemHeld"></param>
-            <param name="_ItemMax"></param>
-            <returns></returns>
         </member>
         <member name="T:AscensionServer.SubHandler">
             <summary>

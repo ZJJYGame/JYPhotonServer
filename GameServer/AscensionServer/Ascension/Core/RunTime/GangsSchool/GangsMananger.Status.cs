@@ -160,33 +160,7 @@ namespace AscensionServer
             }
             else
                 RoleStatusFailS2C(roleID, AllianceOpCode.CreatAlliance);
-        }
-        /// <summary>
-        /// 获得宗门属性及建设
-        /// </summary>
-        /// <param name="ID"></param>
-        /// <param name="roleID"></param>
-        async void GetAllianceConstructionS2C(int ID,int roleID)
-        {
-            var roleAllianceExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceConstructionPerfix, ID.ToString()).Result;
-            var AllianceExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, ID.ToString()).Result;
-            if (roleAllianceExist&& AllianceExist)
-            {
-                var Construction = RedisHelper.Hash.HashGetAsync<AllianceConstructionDTO>(RedisKeyDefine._AllianceConstructionPerfix, ID.ToString()).Result;
-                var Alliance = RedisHelper.Hash.HashGetAsync<AllianceStatusDTO>(RedisKeyDefine._AlliancePerfix, ID.ToString()).Result;
-                if (Construction != null&& Alliance!=null)
-                {
-                    Dictionary<byte, object> dict = new Dictionary<byte, object>();
-                    dict.Add((byte)ParameterCode.AllianceStatus, Alliance);
-                    dict.Add((byte)ParameterCode.AllianceConstruction, Construction);
-                    RoleStatusSuccessS2C(roleID, AllianceOpCode.GetAllianceStatus, dict);
-                }
-                else
-                    GetRoleAliianceConstructionMySql(ID,roleID);
-            }
-            else
-                GetRoleAliianceConstructionMySql(ID,roleID);
-        }
+        }    
         /// <summary>
         /// 获得宗门通告
         /// </summary>
@@ -300,33 +274,13 @@ namespace AscensionServer
         {
             NHCriteria nHCriteriaRole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
             var roleAlliance = NHibernateQuerier.CriteriaSelect<RoleAlliance>(nHCriteriaRole);
+            Utility.Debug.LogInfo("获得角色宗門数据2" +Utility.Json.ToJson(roleAlliance));
             if (roleAlliance != null)
             {
-                RoleStatusSuccessS2C(roleID, AllianceOpCode.GetAllianceStatus, ChangeDataType(roleAlliance));
+                RoleStatusSuccessS2C(roleID, AllianceOpCode.GetRoleAlliance, ChangeDataType(roleAlliance));
             }
             else
-                RoleStatusFailS2C(roleID, AllianceOpCode.GetAllianceStatus);
-        }
-        /// <summary>
-        /// 获取仙盟建筑信息
-        /// </summary>
-        /// <param name="ID"></param>
-        /// <param name="roleID"></param>
-        void GetRoleAliianceConstructionMySql(int ID, int roleID)
-        {
-            NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", ID);
-            NHCriteria nHCriteriaAlliance = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ID);
-            var Construction = NHibernateQuerier.CriteriaSelect<AllianceConstruction>(nHCriteria);
-            var Alliance = NHibernateQuerier.CriteriaSelect<AllianceStatus>(nHCriteriaAlliance);
-            if (Alliance!=null&& Alliance!=null)
-            {
-                Dictionary<byte, object> dict = new Dictionary<byte, object>();
-                dict.Add((byte)ParameterCode.AllianceStatus, Alliance);
-                dict.Add((byte)ParameterCode.AllianceConstruction, Construction);
-                RoleStatusSuccessS2C(roleID, AllianceOpCode.GetAllianceStatus, dict);
-            }
-            else
-                RoleStatusFailS2C(roleID, AllianceOpCode.GetAllianceStatus);
+                RoleStatusFailS2C(roleID, AllianceOpCode.GetRoleAlliance);
         }
         /// <summary>
         /// 修改宗門名稱

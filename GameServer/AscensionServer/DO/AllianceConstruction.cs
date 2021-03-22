@@ -15,7 +15,6 @@ namespace AscensionServer.Model
         public virtual int AllianceChamber { get; set; }
         public virtual int AllianceArmsDrillSite { get; set; }
         public virtual int AllianceAssets { get; set; }
-
         public AllianceConstruction()
         {
             AllianceID = -1;
@@ -23,7 +22,7 @@ namespace AscensionServer.Model
             AllianceArmsDrillSite = 1;
             AllianceScripturesPlatform = 1;
             AllianceChamber = 1;
-            AllianceAssets = 1000000;
+            AllianceAssets = 0;
         }
         public override void Clear()
         {

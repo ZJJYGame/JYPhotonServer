@@ -11,7 +11,7 @@ namespace AscensionServer.Model
     {
         public virtual int RoleID { get; set; }
         public virtual int AllianceID { get; set; }
-        public virtual byte AllianceJob { get; set; }
+        public virtual int AllianceJob { get; set; }
         public virtual int Reputation { get; set; }
         public virtual int ReputationMonth { get; set; }
         public virtual int ReputationHistroy { get; set; }

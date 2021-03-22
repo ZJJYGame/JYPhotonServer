@@ -25,30 +25,40 @@ namespace AscensionServer
             var roleAllianceObj = new RoleAllianceDTO();
             var allianceStatusObj = new AllianceStatus();
             Utility.Debug.LogInfo("角色宗門" + packet.DataMessage.ToString());
+            Utility.Debug.LogInfo("角色宗門" + (byte)packet.SubOperationCode);
             switch ((AllianceOpCode)packet.SubOperationCode)
             {
                 case AllianceOpCode.CreatAlliance:
-
+                    #region 
                     dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
                     roleObj = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
                     allianceStatusObj = Utility.Json.ToObject<AllianceStatus>(dict[(byte)ParameterCode.AllianceStatus].ToString());
                     Utility.Debug.LogInfo("创建宗門进来" + roleObj.RoleID + "" + Utility.Json.ToJson(allianceStatusObj));
                     CreatAllianceS2C(roleObj.RoleID, allianceStatusObj);
+                    #endregion
                     break;
                 case AllianceOpCode.JoinAlliance:
+                    #region
                     roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(packet.DataMessage.ToString());
                     Utility.Debug.LogInfo("申请加入宗門进来" + roleObj.RoleID + "" + Utility.Json.ToJson(roleAllianceObj));
                     ApplyJoinAllianceS2C(roleAllianceObj.RoleID, roleAllianceObj.AllianceID);
+                    #endregion
                     break;
                 case AllianceOpCode.GetAlliances:
-                    dict = Utility.Json.ToObject<Dictionary<byte,object>>(packet.DataMessage.ToString());
+                    #region
+                    Utility.Debug.LogInfo("获得角色宗門" + packet.DataMessage.ToString());
+                    dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
                     roleObj = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
                     allianceObj = Utility.Json.ToObject<AlliancesDTO>(dict[(byte)ParameterCode.Alliances].ToString());
                     GetAllAllianceS2C(roleObj.RoleID, allianceObj);
+                    #endregion
                     break;
                 case AllianceOpCode.GetAllianceStatus:
+                    #region
+                    Utility.Debug.LogInfo("获得宗門建设数据" + packet.DataMessage.ToString());
                     roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(packet.DataMessage.ToString());
-                    GetAllianceConstructionS2C(roleAllianceObj.RoleID, roleAllianceObj.AllianceID);
+                    GetAllianceConstructionS2C(roleAllianceObj.AllianceID, roleAllianceObj.RoleID);
+                    #endregion
                     break;
                 case AllianceOpCode.GetRoleAlliance:
                     roleObj = Utility.Json.ToObject<RoleDTO>(packet.DataMessage.ToString());

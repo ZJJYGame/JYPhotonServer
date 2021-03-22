@@ -78,14 +78,16 @@ namespace AscensionServer
                                 await NHibernateQuerier.UpdateAsync(ChangeDataType(rolealliance));
                             }
                         }
-
                     }
-
                     allianceObj.ApplyforMember.Except(consents);
                     allianceObj.Member.AddRange(consents);
                     alliancestatusObj.AllianceNumberPeople += consents.Count;
 
                     //TODO發送數據至客戶端
+                    Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                    dict.Add((byte)ParameterCode.AllianceStatus, alliancestatusObj);
+
+                    RoleStatusSuccessS2C(roleID,AllianceOpCode.ConsentApply, dict);
 
                     //更新到数据库
                     await RedisHelper.Hash.HashSetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, id.ToString(), allianceObj);
@@ -257,6 +259,45 @@ namespace AscensionServer
                     }
 
                 }
+            }
+        }
+        /// <summary>
+        /// 修改宗门职位
+        /// </summary>
+        async void CareerAdvancementS2C(int roleID,int id,int jobID)
+        {
+            GameEntry.DataManager.TryGetValue<Dictionary<int, AllianceJobData>>(out var jobDict);
+
+            var allianceExit = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
+            List<RoleAllianceDTO> roleAlliances = new List<RoleAllianceDTO>();
+            if (allianceExit)
+            {
+                var roleAlliance= RedisHelper.Hash.HashGetAsync<AllianceMemberDTO>(RedisKeyDefine._RoleAlliancePerfix, id.ToString()).Result;
+                if (roleAlliance!=null)
+                {
+                    for (int i = 0; i < roleAlliance.Member.Count; i++)
+                    {
+                        var memberExit= RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceMemberPerfix, roleAlliance.Member[i].ToString()).Result;
+
+                        if (memberExit)
+                        {
+                            var member = RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._AllianceMemberPerfix, roleAlliance.Member[i].ToString()).Result;
+                            if (member!=null)
+                            {
+                                roleAlliances.Add(member);
+                            }
+                        }
+                    }
+                }
+
+                var num = roleAlliances.FindAll((x) => x.AllianceJob == jobID).Count;//获得当前职位的人数
+
+                var result = jobDict.TryGetValue(jobID, out var jobData);
+                if (result)
+                {
+                    //判断可安排职位人数是否足够，更新至数据库
+                }
+
             }
         }
         #endregion

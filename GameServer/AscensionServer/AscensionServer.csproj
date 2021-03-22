@@ -21,7 +21,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -170,7 +170,9 @@
     <Compile Include="Ascension\Core\Base\ConfigData\MySqlData.cs" />
     <Compile Include="Ascension\Core\Base\ConfigData\RedisConfig.cs" />
     <Compile Include="Ascension\Core\Base\DatabaseQuerier\DatabaseQuerier.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\AllianceJobData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\AllianceLevleUpData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\AllianceScripturesPlatformData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\AllianceSigninData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\AllianceSkillData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\BattleBuffData.cs" />
@@ -253,6 +255,7 @@
     <Compile Include="Ascension\Core\RunTime\Data\IDataProvider.cs" />
     <Compile Include="Ascension\Core\RunTime\FlyMagicTool\FlyMagicToolManager.cs" />
     <Compile Include="Ascension\Core\RunTime\FlyMagicTool\IFlyMagicToolManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\GangsSchool\GangsMananger.Build.cs" />
     <Compile Include="Ascension\Core\RunTime\GangsSchool\GangsMananger.cs" />
     <Compile Include="Ascension\Core\RunTime\GangsSchool\GangsMananger.Member.cs" />
     <Compile Include="Ascension\Core\RunTime\GangsSchool\GangsMananger.Status.cs" />
@@ -266,6 +269,22 @@
     <Compile Include="Ascension\Core\RunTime\Login\ILoginManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Login\LoginManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Network\INetworkManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleCharacter\BattleAIEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleCharacter\BattleCharacterEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleCharacter\BattleCharacterManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleCharacter\BattlePetEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleCharacter\BattlePlayerEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleCharacter\IBattleCharacterManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleController.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleDamageData.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleEnum.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleRoom\BattleRoomEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleRoom\BattleRoomEntity.Message.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleRoom\BattleRoomManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleRoom\IBattleRoomManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\BattleSkillBase.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\BattleSkillController.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\CharacterBattleData.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\IPeerEntity.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\DataImpl\ServerDataConvertor.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\IPeerManager.cs" />
@@ -330,12 +349,14 @@
     <Compile Include="Ascension\Core\RunTime\Team\TeamManager.cs" />
     <Compile Include="Ascension\Core\Base\Concurrent\ConcurrentInt.cs" />
     <Compile Include="DOMap\AllianceConstructionMap.cs" />
+    <Compile Include="DOMap\AllianceExchangeGoodsMap.cs" />
     <Compile Include="DOMap\DemonicSoulMap.cs" />
     <Compile Include="DOMap\FlyMagicToolMap.cs" />
     <Compile Include="DOMap\PetAbilityPointMap.cs" />
     <Compile Include="DOMap\RoleAllianceSkillMap.cs" />
     <Compile Include="DOMap\RoleStatusPointMap.cs" />
     <Compile Include="DO\AllianceConstruction.cs" />
+    <Compile Include="DO\AllianceExchangeGoods.cs" />
     <Compile Include="DO\DemonicSoul.cs" />
     <Compile Include="DO\FlyMagicTool.cs" />
     <Compile Include="DO\PetAbilityPoint.cs" />
@@ -831,6 +852,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonData\CreatAllianceData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\AllianceConstructionData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\AllianceJobData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\AllianceScripturesPlatformData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="Plugin\ExitGames.Logging.Log4Net.dll">
