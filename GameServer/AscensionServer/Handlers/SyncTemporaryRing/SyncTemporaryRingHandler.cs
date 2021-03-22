@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-    public class SyncTemporaryRingHandler: Handler
+    public class SyncTemporaryRingHandler:Handler
     {
         public override byte OpCode { get { return (byte)OperationCode.SyncTemInventory; } }
         public override void OnInitialization()
         {
             base.OnInitialization();
-            OnSubHandlerInitialization<SyncTemporarySubHandler>();
+           // OnSubHandlerInitialization<SyncTemporarySubHandler>();
         }
     }
 }

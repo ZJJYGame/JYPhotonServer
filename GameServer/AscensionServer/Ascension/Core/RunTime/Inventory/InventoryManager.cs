@@ -19,9 +19,10 @@ namespace AscensionServer
     {
         public override void OnPreparatory()
         {
-            CommandEventCore.Instance.AddEventListener((byte)OperationCode.SyncInventory, ProcessHandlerC2S);
+            CommandEventCore.Instance.AddEventListener((byte)OperationCode.SyncInventory, ProcessInvHandlerC2S);
+            CommandEventCore.Instance.AddEventListener((byte)OperationCode.SyncTemInventory, ProcessTempInvHandlerC2S);
         }
-        void ProcessHandlerC2S(int sessionId, OperationData packet)
+        void ProcessInvHandlerC2S(int sessionId, OperationData packet)
         {
             var dictData = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
             var InventoryRoleData = Utility.GetValue(dictData, (byte)ParameterCode.Role) as string;
@@ -114,20 +115,6 @@ namespace AscensionServer
             if (ServerDict.ContainsKey(ItemId))
                 return true;
             return false;
-        }
-        /// <summary>
-        /// 获得背包数据的Cmd
-        /// </summary>
-        /// <param name="roleId"></param>
-        /// <param name="InventoryObj"></param>
-        /// <param name="nHCriteria"></param>    //都是通过这个来 我看到了，你这个发出去就是属于CMD的，  只是进入服务器需要做一下修改，我看来下  对需要修改的不多，就是那个入口handler你处理下
-        public static void GetDataCmdS2C(int roleId, RingDTO InventoryObj, NHCriteria nHCriteria)
-        {
-            var ringServerArray = CriteriaSelectMethod<Ring>(nHCriteria);
-            OperationData opData = new OperationData();
-            opData.DataMessage = ServerToClientParams(ringServerArray);
-            opData.OperationCode = (byte)OperationCode.SyncInventoryMessageGet;
-            GameEntry.RoleManager.SendMessage(roleId, opData);
         }
         /// <summary>
         /// 添加
@@ -720,8 +707,20 @@ namespace AscensionServer
             NHibernateQuerier.Update(new Ring() { ID = ringServerArray.ID, RingId = ringServerArray.RingId, RingItems = Utility.Json.ToJson(sortDict), RingMagicDictServer = Utility.Json.ToJson(ServerMagicDic), RingAdorn = Utility.Json.ToJson(ServerDictAdorn) });
             GetDataCmdS2C(roleId, InventoryObj, nHCriteria);
         }
-
-
+        /// <summary>
+        /// 获得背包数据的Cmd
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="InventoryObj"></param>
+        /// <param name="nHCriteria"></param>    //都是通过这个来 我看到了，你这个发出去就是属于CMD的，  只是进入服务器需要做一下修改，我看来下  对需要修改的不多，就是那个入口handler你处理下
+         static void GetDataCmdS2C(int roleId, RingDTO InventoryObj, NHCriteria nHCriteria)
+        {
+            var ringServerArray = CriteriaSelectMethod<Ring>(nHCriteria);
+            OperationData opData = new OperationData();
+            opData.DataMessage = ServerToClientParams(ringServerArray);
+            opData.OperationCode = (byte)OperationCode.SyncInventory;
+            GameEntry.RoleManager.SendMessage(roleId, opData);
+        }
     }
 }
 

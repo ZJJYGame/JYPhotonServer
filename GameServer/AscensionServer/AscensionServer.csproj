@@ -258,6 +258,7 @@
     <Compile Include="Ascension\Core\RunTime\GangsSchool\GangsMananger.Status.cs" />
     <Compile Include="Ascension\Core\RunTime\GangsSchool\IGangsMananger.cs" />
     <Compile Include="Ascension\Core\RunTime\Inventory\IInventoryManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Inventory\InventoryManager.TempInv.cs" />
     <Compile Include="Ascension\Core\RunTime\Level\ILevelManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Lobby\ILobbyManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Login\DefaultCreateRole.cs" />
