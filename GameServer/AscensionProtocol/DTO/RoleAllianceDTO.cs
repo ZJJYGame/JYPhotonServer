@@ -20,7 +20,7 @@ namespace AscensionProtocol.DTO
         /// <summary>
         /// 宗门职位
         /// </summary>
-        public virtual byte AllianceJob { get; set; }
+        public virtual int AllianceJob { get; set; }
         /// <summary>
         /// 宗门贡献
         /// </summary>

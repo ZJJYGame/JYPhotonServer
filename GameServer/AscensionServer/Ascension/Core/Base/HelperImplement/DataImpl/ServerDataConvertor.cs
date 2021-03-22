@@ -100,6 +100,12 @@ namespace AscensionServer
                 GameEntry.DataManager.TryGetValue(typeof(FlyMagicToolData).Name, out var flyMagicToolData);
                 var flyMagicToolDict = TransObject<List<FlyMagicToolData>>(flyMagicToolData).ToDictionary(key => key.FlyMagicToolID, value => value);
 
+                GameEntry.DataManager.TryGetValue(typeof(AllianceJobData).Name, out var allianceJobData);
+                var allianceJobDataDict = TransObject<List<AllianceJobData>>(allianceJobData).ToDictionary(key => key.JobID, value => value);
+
+                GameEntry.DataManager.TryGetValue(typeof(AllianceScripturesPlatformData).Name, out var allianceScripturesPlatformData);
+                var allianceScripturesPlatformDataDict = TransObject<List<AllianceScripturesPlatformData>>(allianceScripturesPlatformData).ToDictionary(key => key.ItemID, value => value);
+                
                 #region 背包json
                 GameEntry. DataManager.TryGetValue(typeof(ItemBagBaseData).Name, out var itemBagData);
                 var itemBagDict = TransObject<List<ItemBagBaseData>>(itemBagData).ToDictionary(key => key.ItemID, value => value);
@@ -147,6 +153,8 @@ namespace AscensionServer
                 var battleBuffDict = TransObject<List<BattleBuffData>>(battleSBuffSet).ToDictionary(key => key.id, value => value);
                 #endregion
 
+                GameEntry.DataManager.TryAdd(allianceScripturesPlatformDataDict);
+                GameEntry.DataManager.TryAdd(allianceJobDataDict);
                 GameEntry.DataManager.TryAdd(creatAllianceDataDict);
                 GameEntry.DataManager.TryAdd(roleAbilityPointDataDict);
                 GameEntry.DataManager.TryAdd(flyMagicToolDict);

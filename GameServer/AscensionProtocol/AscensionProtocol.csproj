@@ -61,6 +61,7 @@
     <Compile Include="DTO\AlchemyDTO.cs" />
     <Compile Include="DTO\AllianceAlchemyNumDTO.cs" />
     <Compile Include="DTO\AllianceConstructionDTO.cs" />
+    <Compile Include="DTO\AllianceExchangeGoodsDTO.cs" />
     <Compile Include="DTO\AllianceMemberDTO.cs" />
     <Compile Include="DTO\AlliancesDTO.cs" />
     <Compile Include="DTO\AllianceSigninDTO.cs" />
