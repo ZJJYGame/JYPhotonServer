@@ -17,9 +17,11 @@ namespace AscensionServer
     [ConfigData]
     public class AllianceSkillsData
     {
-        public string Skill_Type { get; set; }
-        public int Skill_Level { get; set; }
+        public string SkillType { get; set; }
+        public int SkillLevel { get; set; }
         public int AddCoefficient { get; set; }
+        public int SpiritStones { get; set; }
+        public int AllianceContribution { get; set; }
     }
 
 }

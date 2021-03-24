@@ -2660,6 +2660,145 @@
             修改宗門宗旨
             </summary>
         </member>
+        <member name="T:AscensionServer.InventoryManager">
+            <summary>
+            InventoryManager  InventoryManager.Client    就这两个有用拉   剩下的都可以删除拉
+            </summary>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.ConvertInt32(System.Int32)">
+            <summary>
+            转换为五位的全局id
+            </summary>
+            <param name="_ItemID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.EquipTypeMethod(System.Int32)">
+            <summary>
+            装备的类型
+            </summary>
+            <param name="_ItemID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.AddRingItemType(System.Int32)">
+            <summary>
+            添加的类型
+            </summary>
+            <param name="_itemId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.InventotyDict">
+            <summary>
+            json 转换为字典中
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.NHCriteria(System.Int32)">
+            <summary>
+            返回一个NHCriteria  映射对象
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.AddNewItem(System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            单个物品
+            </summary>
+            <param name="_id"></param>
+            <param name="_itemId"></param>
+            <param name="_RingItemCount"></param>
+            <param name="_RingItemAdorn"></param>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.UpdateNewItem(System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            更新一个物品
+            </summary>
+            <param name="_id"></param>
+            <param name="_itemId"></param>
+            <param name="_RingItemCount"></param>
+            <param name="_RingItemAdorn"></param>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.Remove(System.Int32,System.Int32)">
+            <summary>
+            移除功能
+            </summary>
+            <param name="_ItemId"></param>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.CriteriaSelectMethod``1(AscensionServer.NHCriteria)">
+            <summary>
+            映射T
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="nHCriteria"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.ServerToClientParams(AscensionServer.Model.Ring)">
+            <summary>
+            返回给客端户的参数
+            </summary>
+            <param name="ringServerArray"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.NumberCountMethod(System.Int32,System.Int32)">
+            <summary>
+            需要count
+            </summary>
+            <param name="_ItemHeld"></param>
+            <param name="_ItemMax"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.HeldMethod(System.Int32,System.Int32)">
+            <summary>
+            剩余的个数
+            </summary>
+            <param name="_ItemHeld"></param>
+            <param name="_ItemMax"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.VerifyIsExist(System.Int32,AscensionServer.NHCriteria)">
+            <summary>
+            验证是否存在
+            </summary>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.AddDataCmdS2C(System.Int32,AscensionProtocol.DTO.RingDTO,AscensionServer.NHCriteria)">
+            <summary>
+            添加
+            </summary>
+            <param name="roleId"></param>
+            <param name="InventoryObj"></param>
+            <param name="nHCriteria"></param>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.UdpateCmdS2C(System.Int32,AscensionProtocol.DTO.RingDTO,AscensionServer.NHCriteria)">
+            <summary>
+            更新
+            </summary>
+            <param name="roleId"></param>
+            <param name="InventoryObj"></param>
+            <param name="nHCriteria"></param>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.RemoveCmdS2C(System.Int32,AscensionProtocol.DTO.RingDTO,AscensionServer.NHCriteria)">
+            <summary>
+            移除
+            </summary>
+            <param name="roleId"></param>
+            <param name="InventoryObj"></param>
+            <param name="nHCriteria"></param>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.SortingCmdS2C(System.Int32,AscensionProtocol.DTO.RingDTO,AscensionServer.NHCriteria)">
+            <summary>
+            排序
+            </summary>
+            <param name="roleId"></param>
+            <param name="InventoryObj"></param>
+            <param name="nHCriteria"></param>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.GetDataCmdS2C(System.Int32,AscensionProtocol.DTO.RingDTO,AscensionServer.NHCriteria)">
+            <summary>
+            获得背包数据的Cmd
+            </summary>
+            <param name="roleId"></param>
+            <param name="InventoryObj"></param>
+            <param name="nHCriteria"></param>    //都是通过这个来 我看到了，你这个发出去就是属于CMD的，  只是进入服务器需要做一下修改，我看来下  对需要修改的不多，就是那个入口handler你处理下
+        </member>
         <member name="E:AscensionServer.ILevelManager.OnRoleExitLevel">
             <summary>
             角色离开场景事件
@@ -4391,145 +4530,6 @@
             <param name="demonData"></param>
             <param name="CraryVaule"></param>
             <returns></returns>
-        </member>
-        <member name="T:AscensionServer.InventoryManager">
-            <summary>
-            InventoryManager  InventoryManager.Client    就这两个有用拉   剩下的都可以删除拉
-            </summary>
-        </member>
-        <member name="M:AscensionServer.InventoryManager.ConvertInt32(System.Int32)">
-            <summary>
-            转换为五位的全局id
-            </summary>
-            <param name="_ItemID"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.InventoryManager.EquipTypeMethod(System.Int32)">
-            <summary>
-            装备的类型
-            </summary>
-            <param name="_ItemID"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.InventoryManager.AddRingItemType(System.Int32)">
-            <summary>
-            添加的类型
-            </summary>
-            <param name="_itemId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.InventoryManager.InventotyDict">
-            <summary>
-            json 转换为字典中
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.InventoryManager.NHCriteria(System.Int32)">
-            <summary>
-            返回一个NHCriteria  映射对象
-            </summary>
-            <param name="roleId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.InventoryManager.AddNewItem(System.Int32,System.Int32,System.Int32,System.String)">
-            <summary>
-            单个物品
-            </summary>
-            <param name="_id"></param>
-            <param name="_itemId"></param>
-            <param name="_RingItemCount"></param>
-            <param name="_RingItemAdorn"></param>
-        </member>
-        <member name="M:AscensionServer.InventoryManager.UpdateNewItem(System.Int32,System.Int32,System.Int32,System.String)">
-            <summary>
-            更新一个物品
-            </summary>
-            <param name="_id"></param>
-            <param name="_itemId"></param>
-            <param name="_RingItemCount"></param>
-            <param name="_RingItemAdorn"></param>
-        </member>
-        <member name="M:AscensionServer.InventoryManager.Remove(System.Int32,System.Int32)">
-            <summary>
-            移除功能
-            </summary>
-            <param name="_ItemId"></param>
-        </member>
-        <member name="M:AscensionServer.InventoryManager.CriteriaSelectMethod``1(AscensionServer.NHCriteria)">
-            <summary>
-            映射T
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="nHCriteria"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.InventoryManager.ServerToClientParams(AscensionServer.Model.Ring)">
-            <summary>
-            返回给客端户的参数
-            </summary>
-            <param name="ringServerArray"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.InventoryManager.NumberCountMethod(System.Int32,System.Int32)">
-            <summary>
-            需要count
-            </summary>
-            <param name="_ItemHeld"></param>
-            <param name="_ItemMax"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.InventoryManager.HeldMethod(System.Int32,System.Int32)">
-            <summary>
-            剩余的个数
-            </summary>
-            <param name="_ItemHeld"></param>
-            <param name="_ItemMax"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AscensionServer.InventoryManager.VerifyIsExist(System.Int32,AscensionServer.NHCriteria)">
-            <summary>
-            验证是否存在
-            </summary>
-        </member>
-        <member name="M:AscensionServer.InventoryManager.GetDataCmdS2C(System.Int32,AscensionProtocol.DTO.RingDTO,AscensionServer.NHCriteria)">
-            <summary>
-            获得背包数据的Cmd
-            </summary>
-            <param name="roleId"></param>
-            <param name="InventoryObj"></param>
-            <param name="nHCriteria"></param>    //都是通过这个来 我看到了，你这个发出去就是属于CMD的，  只是进入服务器需要做一下修改，我看来下  对需要修改的不多，就是那个入口handler你处理下
-        </member>
-        <member name="M:AscensionServer.InventoryManager.AddDataCmdS2C(System.Int32,AscensionProtocol.DTO.RingDTO,AscensionServer.NHCriteria)">
-            <summary>
-            添加
-            </summary>
-            <param name="roleId"></param>
-            <param name="InventoryObj"></param>
-            <param name="nHCriteria"></param>
-        </member>
-        <member name="M:AscensionServer.InventoryManager.UdpateCmdS2C(System.Int32,AscensionProtocol.DTO.RingDTO,AscensionServer.NHCriteria)">
-            <summary>
-            更新
-            </summary>
-            <param name="roleId"></param>
-            <param name="InventoryObj"></param>
-            <param name="nHCriteria"></param>
-        </member>
-        <member name="M:AscensionServer.InventoryManager.RemoveCmdS2C(System.Int32,AscensionProtocol.DTO.RingDTO,AscensionServer.NHCriteria)">
-            <summary>
-            移除
-            </summary>
-            <param name="roleId"></param>
-            <param name="InventoryObj"></param>
-            <param name="nHCriteria"></param>
-        </member>
-        <member name="M:AscensionServer.InventoryManager.SortingCmdS2C(System.Int32,AscensionProtocol.DTO.RingDTO,AscensionServer.NHCriteria)">
-            <summary>
-            排序
-            </summary>
-            <param name="roleId"></param>
-            <param name="InventoryObj"></param>
-            <param name="nHCriteria"></param>
         </member>
         <member name="M:AscensionServer.Log4NetDebugHelper.LogFatal(System.Object,System.Object)">
             <summary>

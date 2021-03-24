@@ -104,5 +104,9 @@ namespace AscensionProtocol
         /// 获得任务宗门信息
         /// </summary>
         GetRoleAlliance=26,
+        /// <summary>
+        /// 获得宗门兑换表
+        /// </summary>
+        GetExchangeGoods=27,
     }
 }
