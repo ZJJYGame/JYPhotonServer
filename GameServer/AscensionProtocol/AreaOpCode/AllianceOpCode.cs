@@ -108,5 +108,9 @@ namespace AscensionProtocol
         /// 获得宗门兑换表
         /// </summary>
         GetExchangeGoods=27,
+        /// <summary>
+        /// 获得宗门技能数据
+        /// </summary>
+        GetAllianceSkill = 28,
     }
 }

@@ -54,8 +54,9 @@ namespace AscensionServer
                 GameEntry. DataManager.TryGetValue(typeof(RoleStatusDatas).Name, out var roleStatusDatas);
                 var roleStatusDatasDict = TransObject<List<RoleStatusDatas>>(roleStatusDatas).ToDictionary(key => key.LevelID, value => value);
 
-                GameEntry. DataManager.TryGetValue(typeof(AllianceSkillData).Name, out var allianceSkillDatas);
-                var allianceSkillDatasDict = TransObject<List<AllianceSkillData>>(allianceSkillDatas).ToDictionary(key => key.GangsSkillType, value => value.allianceSkillsDatas);
+                GameEntry. DataManager.TryGetValue(typeof(AllianceSkillsData).Name, out var allianceSkillDatas);
+                Utility.Debug.LogInfo("YZQ " +Utility.Json.ToJson(allianceSkillDatas));
+                var allianceSkillDatasDict = TransObject<List<AllianceSkillsData>>(allianceSkillDatas).ToDictionary(key => key.GangsSkillType, value => value);
 
                 GameEntry. DataManager.TryGetValue(typeof(EquipmentData).Name, out var equipmentData);
                 var equipmentDataDict = TransObject<List<EquipmentData>>(equipmentData).ToDictionary(key => key.Weapon_ID, value => value);
@@ -105,6 +106,12 @@ namespace AscensionServer
 
                 GameEntry.DataManager.TryGetValue(typeof(AllianceScripturesPlatformData).Name, out var allianceScripturesPlatformData);
                 var allianceScripturesPlatformDataDict = TransObject<List<AllianceScripturesPlatformData>>(allianceScripturesPlatformData).ToDictionary(key => key.ItemID, value => value);
+
+                GameEntry.DataManager.TryGetValue(typeof(AllianceConstructionData).Name, out var allianceConstructionData);
+                var allianceConstructionDataDict = TransObject<List<AllianceConstructionData>>(allianceConstructionData).ToDictionary(key => key.BuildingType, value => value);
+
+                GameEntry.DataManager.TryGetValue(typeof(AllianceDrugData).Name, out var allianceDrugData);
+                var allianceDrugDataDict = TransObject<List<AllianceDrugData>>(allianceDrugData).ToDictionary(key => key.DrugID, value => value);
                 
                 #region 背包json
                 GameEntry. DataManager.TryGetValue(typeof(ItemBagBaseData).Name, out var itemBagData);
@@ -152,7 +159,8 @@ namespace AscensionServer
                 GameEntry. DataManager.TryGetValue(typeof(BattleBuffData).Name, out var battleSBuffSet);
                 var battleBuffDict = TransObject<List<BattleBuffData>>(battleSBuffSet).ToDictionary(key => key.id, value => value);
                 #endregion
-
+                GameEntry.DataManager.TryAdd(allianceDrugDataDict);
+                GameEntry.DataManager.TryAdd(allianceConstructionDataDict);
                 GameEntry.DataManager.TryAdd(allianceScripturesPlatformDataDict);
                 GameEntry.DataManager.TryAdd(allianceJobDataDict);
                 GameEntry.DataManager.TryAdd(creatAllianceDataDict);
@@ -191,7 +199,6 @@ namespace AscensionServer
                 GameEntry. DataManager.TryAdd(battleBuffDict);
 
                 //GameEntry. DataManager.TryGetValue<Dictionary<int, MonsterDatas>>(out var set);
-                //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + skillGongFaDict[21001].Skill_Describe);
                 //Utility.Debug.LogInfo("<DataManager> 测试 TryGetValue " + skillMiShuDict[21009].Skill_Describe);
 
                 //Utility.Debug.LogInfo("<DataManager> 测试 ConvertData Step0211111111111====>" + monsterDict.Count);

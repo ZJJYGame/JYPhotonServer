@@ -24,6 +24,9 @@ namespace AscensionServer
             var allianceObj = new AlliancesDTO();
             var roleAllianceObj = new RoleAllianceDTO();
             var allianceStatusObj = new AllianceStatus();
+            var allianceConstructionObj = new AllianceConstructionDTO();
+            var allianceExchangeGoodsDTO = new AllianceExchangeGoodsDTO();
+            var roleAllianceSkillDTO = new RoleAllianceSkillDTO();
             Utility.Debug.LogInfo("角色宗門" + packet.DataMessage.ToString());
             Utility.Debug.LogInfo("角色宗門" + (byte)packet.SubOperationCode);
             switch ((AllianceOpCode)packet.SubOperationCode)
@@ -66,13 +69,21 @@ namespace AscensionServer
                     break;
 
                 case AllianceOpCode.BuildAlliance:
-
-
+                    #region
+                    dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
+                    roleObj = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
+                    allianceConstructionObj = Utility.Json.ToObject<AllianceConstructionDTO>(dict[(byte)ParameterCode.AllianceConstruction].ToString());
+                    Utility.Debug.LogInfo("YZQ升级宗门建设成员");
+                    BuildAllianceConstructionS2C(allianceConstructionObj.AllianceID, roleObj.RoleID, allianceConstructionObj);
+                    #endregion
                     break;
                 case AllianceOpCode.GetAllianceMember:
+                    roleAllianceObj= Utility.Json.ToObject<RoleAllianceDTO>(packet.DataMessage.ToString());
+                    GetAllianceMemberS2C(roleAllianceObj.RoleID, roleAllianceObj.AllianceID);
 
                     break;
                 case AllianceOpCode.QuitAlliance:
+
                     break;
                 case AllianceOpCode.AllianceSignin:
                     break;
@@ -82,6 +93,15 @@ namespace AscensionServer
                    // ConsentApplyS2C();
                     break;
                 case AllianceOpCode.UpdateAllianceSkill:
+                    roleAllianceSkillDTO = Utility.Json.ToObject<RoleAllianceSkillDTO>(packet.DataMessage.ToString());
+                    Utility.Debug.LogInfo("角色宗門技能升级");
+                    UpdateAllianceSkillS2C(roleAllianceSkillDTO.RoleID, roleAllianceSkillDTO);
+                    break;
+                case AllianceOpCode.GetAllianceSkill:
+                    #region 
+                    roleObj = Utility.Json.ToObject<RoleDTO>(packet.DataMessage.ToString());
+                    GetAllianceSkillS2C(roleObj.RoleID);
+                    #endregion
                     break;
                 case AllianceOpCode.ChangeAllianceName:
                     break;
@@ -100,6 +120,11 @@ namespace AscensionServer
                 case AllianceOpCode.ExchangeMiShu:
                     break;
                 case AllianceOpCode.SetExchangeGoods:
+                    dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
+                    roleObj = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
+                    allianceExchangeGoodsDTO = Utility.Json.ToObject<AllianceExchangeGoodsDTO>(dict[(byte)ParameterCode.ExchangeGoods].ToString());
+                    Utility.Debug.LogInfo("角色宗門设置兑换数据" );
+                    SetExchangeGoodsS2C(roleObj.RoleID, allianceExchangeGoodsDTO);
                     break;
                 case AllianceOpCode.GetAlliancecallboard:
                     dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
@@ -111,6 +136,10 @@ namespace AscensionServer
                 case AllianceOpCode.PreemptDongFu:
                     break;
                 case AllianceOpCode.GetDongFuStatus:
+                    break;
+                case AllianceOpCode.GetExchangeGoods:
+                    roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(packet.DataMessage.ToString());
+                    GetExchangeGoodsS2C(roleAllianceObj.RoleID, roleAllianceObj.AllianceID);
                     break;
                 default:
                     break;

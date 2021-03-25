@@ -157,6 +157,7 @@ namespace AscensionServer
             var allianceExit = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
             if (allianceExit)
             {
+                Utility.Debug.LogInfo("YZQ请求宗门成员1");
                 var allianceObj = RedisHelper.Hash.HashGetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
                 List<RoleAllianceDTO> member = new List<RoleAllianceDTO>();
                 List<RoleAllianceDTO> apply = new List<RoleAllianceDTO>();
@@ -437,7 +438,8 @@ namespace AscensionServer
         /// <param name="id"></param>
         async void GetAllianceMemberMySql(int roleID, int id)
         {
-            NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", id);
+            Utility.Debug.LogInfo("YZQ请求宗门成员2");
+            NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", id);
             var allianceObj = NHibernateQuerier.CriteriaSelect<AllianceMember>(nHCriteria);
             List<RoleAllianceDTO> memberlist = new List<RoleAllianceDTO>();
             List<RoleAllianceDTO> applylist = new List<RoleAllianceDTO>();

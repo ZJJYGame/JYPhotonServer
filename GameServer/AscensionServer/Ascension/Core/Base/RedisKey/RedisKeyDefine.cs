@@ -97,6 +97,14 @@ namespace AscensionServer
         /// </summary>
         public static readonly string _AllianceConstructionPerfix = "AllianceConstruction";
         /// <summary>
+        ///仙盟设置的兑换Key前缀
+        /// </summary>
+        public static readonly string _AllianceExchangeGoodsPerfix = "AllianceExchangeGoods";
+        /// <summary>
+        ///角色仙盟技能的Key前缀
+        /// </summary>
+        public static readonly string _RoleAllianceSkillPerfix = "RoleAllianceSkill";
+        /// <summary>
         ///仙盟成员的Key前缀
         /// </summary>
         public static readonly string _AllianceMemberPerfix = "AllianceMember";

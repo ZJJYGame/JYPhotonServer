@@ -1,1 +1,18 @@
-﻿
+﻿[
+	{
+		"BuildingType":1,
+		"AllianceBuildingData":[{"BuildingLevel":1,"NeedAllianceSpiritStones":1200000,"DailyFeeSpiritStones":200000,"DailyFee":200,"MaxValue":30},{"BuildingLevel":2,"NeedAllianceSpiritStones":2400000,"DailyFeeSpiritStones":400000,"DailyFee":400,"MaxValue":60},{"BuildingLevel":3,"NeedAllianceSpiritStones":6000000,"DailyFeeSpiritStones":600000,"DailyFee":600,"MaxValue":90},{"BuildingLevel":4,"NeedAllianceSpiritStones":12000000,"DailyFeeSpiritStones":800000,"DailyFee":800,"MaxValue":120},{"BuildingLevel":5,"NeedAllianceSpiritStones":0,"DailyFeeSpiritStones":1000000,"DailyFee":1000,"MaxValue":150}]
+	},
+	{
+		"BuildingType":2,
+		"AllianceBuildingData":[{"BuildingLevel":1,"NeedAllianceSpiritStones":800000,"DailyFeeSpiritStones":0,"DailyFee":0,"MaxValue":30},{"BuildingLevel":2,"NeedAllianceSpiritStones":1600000,"DailyFeeSpiritStones":0,"DailyFee":0,"MaxValue":60},{"BuildingLevel":3,"NeedAllianceSpiritStones":2400000,"DailyFeeSpiritStones":0,"DailyFee":0,"MaxValue":90},{"BuildingLevel":4,"NeedAllianceSpiritStones":6000000,"DailyFeeSpiritStones":0,"DailyFee":0,"MaxValue":120},{"BuildingLevel":5,"NeedAllianceSpiritStones":0,"DailyFeeSpiritStones":0,"DailyFee":0,"MaxValue":150}]
+	},
+	{
+		"BuildingType":3,
+		"AllianceBuildingData":[{"BuildingLevel":1,"NeedAllianceSpiritStones":800000,"DailyFeeSpiritStones":0,"DailyFee":0,"MaxValue":1},{"BuildingLevel":2,"NeedAllianceSpiritStones":1600000,"DailyFeeSpiritStones":0,"DailyFee":0,"MaxValue":2},{"BuildingLevel":3,"NeedAllianceSpiritStones":2400000,"DailyFeeSpiritStones":0,"DailyFee":0,"MaxValue":3},{"BuildingLevel":4,"NeedAllianceSpiritStones":6000000,"DailyFeeSpiritStones":0,"DailyFee":0,"MaxValue":4},{"BuildingLevel":5,"NeedAllianceSpiritStones":0,"DailyFeeSpiritStones":0,"DailyFee":0,"MaxValue":5}]
+	},
+	{
+		"BuildingType":4,
+		"AllianceBuildingData":[{"BuildingLevel":1,"NeedAllianceSpiritStones":800000,"DailyFeeSpiritStones":0,"DailyFee":0,"MaxValue":2},{"BuildingLevel":2,"NeedAllianceSpiritStones":1600000,"DailyFeeSpiritStones":0,"DailyFee":0,"MaxValue":4},{"BuildingLevel":3,"NeedAllianceSpiritStones":2400000,"DailyFeeSpiritStones":0,"DailyFee":0,"MaxValue":6},{"BuildingLevel":4,"NeedAllianceSpiritStones":6000000,"DailyFeeSpiritStones":0,"DailyFee":0,"MaxValue":8},{"BuildingLevel":5,"NeedAllianceSpiritStones":0,"DailyFeeSpiritStones":0,"DailyFee":0,"MaxValue":10}]
+	}
+]
