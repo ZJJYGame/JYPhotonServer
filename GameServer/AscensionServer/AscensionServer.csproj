@@ -170,11 +170,13 @@
     <Compile Include="Ascension\Core\Base\ConfigData\MySqlData.cs" />
     <Compile Include="Ascension\Core\Base\ConfigData\RedisConfig.cs" />
     <Compile Include="Ascension\Core\Base\DatabaseQuerier\DatabaseQuerier.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\AllianceConstructionData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\AllianceDrugData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\AllianceJobData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\AllianceLevleUpData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\AllianceScripturesPlatformData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\AllianceSigninData.cs" />
-    <Compile Include="Ascension\Core\Base\DataObject\AllianceSkillData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\AllianceSkillsData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\BattleBuffData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\BattleSkillData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\BottleneckData.cs" />
@@ -257,6 +259,7 @@
     <Compile Include="Ascension\Core\RunTime\FlyMagicTool\IFlyMagicToolManager.cs" />
     <Compile Include="Ascension\Core\RunTime\GangsSchool\GangsMananger.Build.cs" />
     <Compile Include="Ascension\Core\RunTime\GangsSchool\GangsMananger.cs" />
+    <Compile Include="Ascension\Core\RunTime\GangsSchool\GangsMananger.Exchange.cs" />
     <Compile Include="Ascension\Core\RunTime\GangsSchool\GangsMananger.Member.cs" />
     <Compile Include="Ascension\Core\RunTime\GangsSchool\GangsMananger.Status.cs" />
     <Compile Include="Ascension\Core\RunTime\GangsSchool\IGangsMananger.cs" />
@@ -782,7 +785,7 @@
     <EmbeddedResource Include="JsonData\BattleSkillData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="JsonData\AllianceSkillData.txt">
+    <EmbeddedResource Include="JsonData\AllianceSkillsData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonData\EquipmentData.txt">
@@ -861,6 +864,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonData\AllianceScripturesPlatformData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\AllianceDrugData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="Plugin\ExitGames.Logging.Log4Net.dll">

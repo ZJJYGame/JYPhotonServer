@@ -223,5 +223,9 @@
         /// 宗門申請人員
         /// </summary>
         ApplyMember=109,
+        /// <summary>
+        /// 兑换物品
+        /// </summary>
+        ExchangeGoods=110,
     }
 }

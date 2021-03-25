@@ -702,6 +702,16 @@
             仙盟建设的Key前缀
              </summary>
         </member>
+        <member name="F:AscensionServer.RedisKeyDefine._AllianceExchangeGoodsPerfix">
+             <summary>
+            仙盟设置的兑换Key前缀
+             </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleAllianceSkillPerfix">
+             <summary>
+            角色仙盟技能的Key前缀
+             </summary>
+        </member>
         <member name="F:AscensionServer.RedisKeyDefine._AllianceMemberPerfix">
              <summary>
             仙盟成员的Key前缀
@@ -2522,11 +2532,29 @@
             宗门建筑升级
             </summary>
         </member>
+        <member name="M:AscensionServer.GangsMananger.UpdateAllianceSkillS2C(System.Int32,AscensionProtocol.DTO.RoleAllianceSkillDTO)">
+            <summary>
+            升级宗门技能等级
+            </summary>
+            <param name="roleID"></param>
+            <param name="skillDTO"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.GetAllianceSkillS2C(System.Int32)">
+            <summary>
+            获得宗门技能
+            </summary>
+        </member>
         <member name="M:AscensionServer.GangsMananger.GetRoleAliianceConstructionMySql(System.Int32,System.Int32)">
             <summary>
             获取仙盟建筑信息
             </summary>
             <param name="ID"></param>
+            <param name="roleID"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.GetAllianceSkillMySql(System.Int32)">
+            <summary>
+            获得角色宗门技能
+            </summary>
             <param name="roleID"></param>
         </member>
         <member name="M:AscensionServer.GangsMananger.RoleStatusSuccessS2C(System.Int32,AscensionProtocol.AllianceOpCode,System.Object)">
@@ -2538,6 +2566,25 @@
             <summary>
             处理角色宗门失败发送
             </summary>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.GetExchangeGoodsS2C(System.Int32,System.Int32)">
+            <summary>
+            获得宗门物品设置
+            </summary>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.SetExchangeGoodsS2C(System.Int32,AscensionProtocol.DTO.AllianceExchangeGoodsDTO)">
+            <summary>
+            设置宗门物品兑换
+            </summary>
+            <param name="roleID"></param>
+            <param name="goodsDTO"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.GetExchangeGoodsMySql(System.Int32,System.Int32)">
+            <summary>
+            获得宗门物品设置
+            </summary>
+            <param name="roleID"></param>
+            <param name="goodsDTO"></param>
         </member>
         <member name="M:AscensionServer.GangsMananger.ApplyJoinAllianceS2C(System.Int32,System.Int32)">
             <summary>
