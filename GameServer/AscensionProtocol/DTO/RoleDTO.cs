@@ -51,11 +51,11 @@ namespace AscensionProtocol.DTO
     /// </summary>
     public enum InventoryInstructions
     {
-        GetData,
-        AddData,
-        UpdateData,
-        RemoveData,
-        SortingData
+        GetData = 0,
+        AddData = 1,
+        UpdateData = 2,
+        RemoveData = 3,
+        SortingData = 4
     }
 
 
