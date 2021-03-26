@@ -211,13 +211,12 @@ namespace AscensionServer
             var opData = new OperationData()
             {
                 OperationCode = (byte)OperationCode.LoginArea,
-                SubOperationCode = (short)LoginAreaOpCode.GetAccountRoles
+                SubOperationCode = (short)LoginAreaOpCode.LogoffRole
             };
             IPeerEntity peer;
             GameEntry.PeerManager.TryGetValue(sessionId, out peer);
             var json = Convert.ToString(Utility.GetValue(dataMessage, (byte)ParameterCode.Role));
             var roleObj = Utility.Json.ToObject<RoleDTO>(json);
-            Utility.Debug.LogInfo("yzqData" + json);
             IPeerEntity peerAgent;
             var result = GameEntry.PeerManager.TryGetValue(peer.SessionId, out peerAgent);
             if (result)

@@ -8,7 +8,8 @@ namespace AscensionProtocol
 {
     public enum OperationCode:byte//区分请求和响应
     {
-        Default =0,
+        #region 修改完成的区域码
+        Default = 0,
         Login = 1,
         Logoff=2,
         /// <summary>
@@ -46,16 +47,21 @@ namespace AscensionProtocol
         SyncMoveStatus =20,
 
 
-        SyncAlchemy=21,
+        /// <summary>
+        /// 历练区域码；
+        /// </summary>
+        AdventureArea = 111,
+
+        #endregion
+
+
+        SyncAlchemy = 21,
         SyncForge=22,
         SyncHerbsField=23,
         SyncSpiritualRunes=24,
         SyncTacticFormation=25,
         SyncPuppet=26,
-        /// <summary>
-        /// 同步自身位置的集合，参考消息队列
-        /// </summary>
-        SyncSelfRoleTransformQueue = 28,
+
         /// <summary>
         /// 同步宗门数据，藏宝阁，藏经阁，排行榜
         /// </summary>
@@ -188,14 +194,7 @@ namespace AscensionProtocol
         /// 同步角色副职业
         /// </summary>
         SyncSecondaryJob=71,
-        /// <summary>
-        /// 进入高同步场景的指令
-        /// </summary>
-        EnterLevelCommand = 111,
-        /// <summary>
-        /// 离开高同步场景的指令
-        /// </summary>
-        ExitLevelCommand =112,
+
         /// <summary>
         /// 加入战斗
         /// </summary>

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cosmos;
 using Protocol;
-
+using AscensionProtocol;
 namespace AscensionServer
 {
     /// <summary>
@@ -56,8 +56,8 @@ namespace AscensionServer
             roleMgrInstance = GameEntry.RoleManager;
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPR_PLYAER_INPUT, OnCommandC2S);
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPR_PLYAER_LOGOFF, OnPlayerLogoff);
-            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPR_PLAYER_ENTER, OnEnterLevelC2S);
-            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPR_PLAYER_EXIT, OnExitLevelC2S);
+            CommandEventCore.Instance.AddEventListener((byte)OperationCode.AdventureArea, OnEnterLevelC2S);
+            //CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPR_PLAYER_EXIT, OnExitLevelC2S);
 #else
             roleMgrInstance = Facade.CustomeModule<RoleManager>();
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAERINPUT, OnCommandS2C);
