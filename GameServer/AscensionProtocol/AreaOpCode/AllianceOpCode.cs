@@ -108,5 +108,13 @@ namespace AscensionProtocol
         /// 获得宗门技能数据
         /// </summary>
         GetAllianceSkill = 28,
+        /// <summary>
+        ///通知占领挑战
+        /// </summary>
+        NoticetPreemptChallenge=29,
+        /// <summary>
+        /// 加入成功后的被动接受
+        /// </summary>
+        JoinAllianceSuccess = 30,
     }
 }

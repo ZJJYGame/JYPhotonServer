@@ -85,6 +85,14 @@ namespace AscensionServer
         /// </summary>
         public static readonly string _AllianceListPerfix = "AllianceList";
         /// <summary>
+        ///仙盟签到的Key前缀
+        /// </summary>
+        public static readonly string _AllianceSigninPerfix = "AllianceSignin";
+        /// <summary>
+        ///仙盟签到的Key前缀
+        /// </summary>
+        public static readonly string _RefreshAllianceSigninPerfix = "RefreshAllianceSignin";
+        /// <summary>
         ///仙盟的Key前缀
         /// </summary>
         public static readonly string _AlliancePerfix = "Alliance";

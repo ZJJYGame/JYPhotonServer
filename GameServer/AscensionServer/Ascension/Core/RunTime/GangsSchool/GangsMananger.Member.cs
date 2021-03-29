@@ -20,7 +20,7 @@ namespace AscensionServer
         /// </summary>
         /// <param name="roleID"></param>
         /// <param name="id"></param>
-        void ApplyJoinAllianceS2C(int roleID, int id)
+       async void ApplyJoinAllianceS2C(int roleID, int id)
         {
             var result = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString()).Result;
             var alianceExists = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
@@ -36,6 +36,13 @@ namespace AscensionServer
                         roleAlliance.ApplyForAlliance.Add(id);
                         alliance.ApplyforMember.Add(roleID);
                         RoleStatusSuccessS2C(roleID, AllianceOpCode.JoinAlliance, roleAlliance);
+
+                        await NHibernateQuerier.UpdateAsync(ChangeDataType(roleAlliance));
+                        await NHibernateQuerier.UpdateAsync(alliance);
+
+                        await RedisHelper.Hash.HashSetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString(), roleAlliance);
+
+                        await RedisHelper.Hash.HashSetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, roleID.ToString(), alliance);
                         //TODO更新到数据库
                     }
                     else
@@ -44,10 +51,10 @@ namespace AscensionServer
                     }
                 }
                 else
-                {
                     ApplyJoinAllianceMySql(roleID, id);
-                }
             }
+            else
+                ApplyJoinAllianceMySql(roleID, id);
         }
         /// <summary>
         /// 一鍵同意入宗申請
@@ -56,8 +63,11 @@ namespace AscensionServer
         {
             var allianceExists = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
             var alliancestatusExists = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
+            var onofflineExists = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RolePostfix, roleID.ToString()).Result;
             List<int> consents = new List<int>();
-            if (allianceExists && alliancestatusExists)
+            List<RoleAllianceDTO> member = new List<RoleAllianceDTO>();
+            List<RoleAllianceDTO> apply = new List<RoleAllianceDTO>();
+            if (allianceExists && alliancestatusExists&& onofflineExists)
             {
                 var allianceObj = RedisHelper.Hash.HashGetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
                 var alliancestatusObj = RedisHelper.Hash.HashGetAsync<AllianceStatusDTO>(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
@@ -68,12 +78,20 @@ namespace AscensionServer
                         if (allianceObj.ApplyforMember.Contains(roleIDs[i]) && (alliancestatusObj.AllianceNumberPeople + consents.Count) <= alliancestatusObj.AlliancePeopleMax)
                         {
                             var rolealliance = RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleIDs[i].ToString()).Result;
-                            if (rolealliance != null)
+                            var onofflineObj = RedisHelper.Hash.HashGetAsync<OnOffLineDTO>(RedisKeyDefine._RoleAlliancePerfix, roleIDs[i].ToString()).Result;
+
+                            if (rolealliance != null && onofflineObj != null)
                             {
+                                if (onofflineObj.OffTime.Equals("在线"))
+                                {
+                                    alliancestatusObj.OnLineNum++;
+                                }
                                 rolealliance.AllianceID = id;
                                 rolealliance.ApplyForAlliance.Clear();
                                 rolealliance.JoinTime = DateTime.Now.ToString();
                                 consents.Add(roleIDs[i]);
+                                RoleStatusSuccessS2C(roleIDs[i], AllianceOpCode.JoinAllianceSuccess, rolealliance);
+
                                 await RedisHelper.Hash.HashSetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleIDs[i].ToString(), rolealliance);
                                 await NHibernateQuerier.UpdateAsync(ChangeDataType(rolealliance));
                             }
@@ -84,10 +102,33 @@ namespace AscensionServer
                     alliancestatusObj.AllianceNumberPeople += consents.Count;
 
                     //TODO發送數據至客戶端
-                    Dictionary<byte, object> dict = new Dictionary<byte, object>();
-                    dict.Add((byte)ParameterCode.AllianceStatus, alliancestatusObj);
+                    for (int i = 0; i < allianceObj.ApplyforMember.Count; i++)
+                    {
+                        if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAlliancePerfix, allianceObj.ApplyforMember[i].ToString()).Result)
+                        {
+                            var roleAlliance = await RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, allianceObj.ApplyforMember[i].ToString());
+                            if (roleAlliance != null)
+                            {
+                                apply.Add(roleAlliance);
+                            }
+                        }
 
-                    RoleStatusSuccessS2C(roleID,AllianceOpCode.ConsentApply, dict);
+                    }
+                    for (int i = 0; i < allianceObj.Member.Count; i++)
+                    {
+                        if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAlliancePerfix, allianceObj.Member[i].ToString()).Result)
+                        {
+                            var roleAlliance = await RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, allianceObj.Member[i].ToString());
+                            if (roleAlliance != null)
+                            {
+                                member.Add(roleAlliance);
+                            }
+                        }
+                    }
+                    Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                    dict.Add((byte)ParameterCode.AllianceMember, member);
+                    dict.Add((byte)ParameterCode.ApplyMember, apply);
+                    RoleStatusSuccessS2C(roleID, AllianceOpCode.ConsentApply, dict);
 
                     //更新到数据库
                     await RedisHelper.Hash.HashSetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, id.ToString(), allianceObj);
@@ -112,7 +153,8 @@ namespace AscensionServer
         {
             var allianceExists = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
             var alliancestatusExists = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
-            List<int> refuses = new List<int>();
+            List<RoleAllianceDTO> refuses = new List<RoleAllianceDTO>();
+            List<int> refuseList = new List<int>();
             if (allianceExists && alliancestatusExists)
             {
                 var allianceObj = RedisHelper.Hash.HashGetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
@@ -126,25 +168,44 @@ namespace AscensionServer
                             var rolealliance = RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleIDs[i].ToString()).Result;
                             if (rolealliance != null)
                             {
-                                if (rolealliance.ApplyForAlliance.Contains(roleIDs[i]))
+                                if (rolealliance.ApplyForAlliance.Contains(id))
                                 {
-                                    rolealliance.ApplyForAlliance.Remove(roleIDs[i]);
+                                    rolealliance.ApplyForAlliance.Remove(id);
+                                    refuseList.Add(roleIDs[i]);
                                 }
-                                refuses.Add(roleIDs[i]);
                                 await RedisHelper.Hash.HashSetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleIDs[i].ToString(), rolealliance);
                                 await NHibernateQuerier.UpdateAsync(ChangeDataType(rolealliance));
                             }
                         }
                     }
+                    Utility.Debug.LogInfo("YZQ删除过后的申请列表"+ Utility.Json.ToJson(allianceObj.ApplyforMember)+ "申请后" + Utility.Json.ToJson(refuseList) );
+                    var apply = allianceObj.ApplyforMember.Except(refuseList);
+                    Utility.Debug.LogInfo("YZQ删除过后的申请列表" + Utility.Json.ToJson(apply) );
+                    allianceObj.ApplyforMember = apply.ToList();
+                    for (int i = 0; i < allianceObj.ApplyforMember.Count; i++)
+                    {
+                        if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAlliancePerfix, allianceObj.ApplyforMember[i].ToString()).Result)
+                        {
+                            var roleAlliance = await RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, allianceObj.ApplyforMember[i].ToString());
+                            if (roleAlliance != null)
+                            {
+                                refuses.Add(roleAlliance);
+                            }
+                        }
+                    }
+                    RoleStatusSuccessS2C(roleID, AllianceOpCode.RefuseApply, refuses);
+
+                   await RedisHelper.Hash.HashSetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix,id.ToString(), allianceObj);
+                   await NHibernateQuerier.UpdateAsync(ChangeDataType(allianceObj));
                 }
                 else
                 {
-                    //TODOMySql模塊
+                    RefuseApplyMySql(roleID,id, roleIDs);
                 }
             }
             else
             {
-                //TODOMySql模塊
+                RefuseApplyMySql(roleID, id, roleIDs);
             }
         }
         /// <summary>
@@ -177,7 +238,7 @@ namespace AscensionServer
                     }
                     for (int i = 0; i < allianceObj.Member.Count; i++)
                     {
-                        if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAlliancePerfix, allianceObj.ApplyforMember[i].ToString()).Result)
+                        if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAlliancePerfix, allianceObj.Member[i].ToString()).Result)
                         {
                             var roleAlliance = await RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, allianceObj.Member[i].ToString());
                             if (roleAlliance != null)
@@ -312,9 +373,10 @@ namespace AscensionServer
         /// <param name="id"></param>
         async void ApplyJoinAllianceMySql(int roleID, int id)
         {
+            Utility.Debug.LogInfo("角色宗门加入申请");
             NHCriteria nHCriteriaRole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
             var roleAlliance = NHibernateQuerier.CriteriaSelect<RoleAlliance>(nHCriteriaRole);
-            NHCriteria nHCriteriaAlliance = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", id);
+            NHCriteria nHCriteriaAlliance = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", id);
             var alliance = NHibernateQuerier.CriteriaSelect<AllianceMember>(nHCriteriaAlliance);
             if (alliance != null && roleAlliance != null)
             {
@@ -354,8 +416,11 @@ namespace AscensionServer
         {
             List<int> consents = new List<int>();
             NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", id);
-            var allianceObj = NHibernateQuerier.CriteriaSelect<AllianceMember>(nHCriteria);
+            NHCriteria nHCriteriamember = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", id);
+            var allianceObj = NHibernateQuerier.CriteriaSelect<AllianceMember>(nHCriteriamember);
             var alliance = NHibernateQuerier.CriteriaSelect<AllianceStatus>(nHCriteria);
+            List<RoleAllianceDTO> memberlist = new List<RoleAllianceDTO>();
+            List<RoleAllianceDTO> applylist = new List<RoleAllianceDTO>();
             if (allianceObj != null && alliance != null)
             {
                 var applyeList = Utility.Json.ToObject<List<int>>(allianceObj.ApplyforMember);
@@ -367,12 +432,21 @@ namespace AscensionServer
                     {
                         NHCriteria nHCriteriaRole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleIDs[i]);
                         var roleAlliancej = NHibernateQuerier.CriteriaSelect<RoleAlliance>(nHCriteriaRole);
+                        var onofflineObj = NHibernateQuerier.CriteriaSelect<OnOffLine>(nHCriteriaRole);
+
                         if (roleAlliancej != null)
                         {
+                            if (onofflineObj.OffTime.Equals("在线"))
+                            {
+                                alliance.OnLineNum++;
+                            }
                             roleAlliancej.AllianceID = id;
                             roleAlliancej.ApplyForAlliance = "[]";
                             roleAlliancej.JoinTime = DateTime.Now.ToString();
                             consents.Add(roleIDs[i]);
+
+                            RoleStatusSuccessS2C(roleIDs[i], AllianceOpCode.JoinAllianceSuccess, roleAlliancej);
+
                             await RedisHelper.Hash.HashSetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleIDs[i].ToString(), ChangeDataType(roleAlliancej));
                             await NHibernateQuerier.UpdateAsync(roleAlliancej);
                         }
@@ -380,18 +454,36 @@ namespace AscensionServer
                     else
                         RoleStatusFailS2C(roleid, AllianceOpCode.ConsentApply);
                 }
-
-                allianceObj.ApplyforMember = Utility.Json.ToJson(applyeList.Except(consents));
+               var  applyeMember = applyeList.Except(consents);
+                allianceObj.ApplyforMember = Utility.Json.ToJson(applyeMember);
                 memberList.AddRange(consents);
                 allianceObj.Member = Utility.Json.ToJson(memberList);
                 alliance.AllianceNumberPeople += consents.Count;
 
-                //TODO發送數據至客戶端
+                Utility.Debug.LogInfo("YZQ"+Utility.Json.ToJson(allianceObj.ApplyforMember)+">>>><<<<"+ Utility.Json.ToJson(memberList));
 
-                //更新到数据库
+                for (int i = 0; i < applyeMember.ToList().Count; i++)
+                {
+                    NHCriteria nHCriteriaalliance = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", applyeList[i]);
+                    var allianceTemp = NHibernateQuerier.CriteriaSelect<RoleAlliance>(nHCriteriaalliance);
+                    applylist.Add(ChangeDataType(allianceTemp));
+
+                }
+                for (int i = 0; i < memberList.Count; i++)
+                {
+                    NHCriteria nHCriteriaalliance = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", memberList[i]);
+                    var allianceTemp = NHibernateQuerier.CriteriaSelect<RoleAlliance>(nHCriteriaalliance);
+                    memberlist.Add(ChangeDataType(allianceTemp));
+                }
+
+                Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                dict.Add((byte)ParameterCode.AllianceMember, memberlist);
+                dict.Add((byte)ParameterCode.ApplyMember, applylist);
+                RoleStatusSuccessS2C(roleid, AllianceOpCode.ConsentApply, dict);
+
                 await RedisHelper.Hash.HashSetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, id.ToString(), ChangeDataType(allianceObj));
                 await RedisHelper.Hash.HashSetAsync<AllianceStatus>(RedisKeyDefine._AlliancePerfix, id.ToString(), alliance);
-                await NHibernateQuerier.UpdateAsync(ChangeDataType(allianceObj));
+                await NHibernateQuerier.UpdateAsync(allianceObj);
                 await NHibernateQuerier.UpdateAsync(alliance);
             } else
                 RoleStatusFailS2C(roleid, AllianceOpCode.ConsentApply);
@@ -401,7 +493,8 @@ namespace AscensionServer
         /// </summary>
         async void RefuseApplyMySql(int roleid, int id, List<int> roleIDs)
         {
-            List<int> refuses = new List<int>();
+            List<RoleAllianceDTO> refuses = new List<RoleAllianceDTO>();
+            List<int> refuseList = new List<int>();
             NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", id);
             var allianceObj = NHibernateQuerier.CriteriaSelect<AllianceMember>(nHCriteria);
             var alliance = NHibernateQuerier.CriteriaSelect<AllianceStatus>(nHCriteria);
@@ -420,14 +513,26 @@ namespace AscensionServer
                             if (applys.Contains(id))
                             {
                                 applys.Remove(id);
+                                refuseList.Add(roleIDs[i]);
                             }
                             roleAlliancej.ApplyForAlliance = Utility.Json.ToJson(applys);
-                            refuses.Add(roleIDs[i]);
                             await RedisHelper.Hash.HashSetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleIDs[i].ToString(), ChangeDataType(roleAlliancej));
                             await NHibernateQuerier.UpdateAsync(roleAlliancej);
                         }
                     }
                 }
+                var apply = applyeList.Except(refuseList);
+                allianceObj.ApplyforMember = Utility.Json.ToJson(apply);
+                for (int i = 0; i < apply.ToList().Count; i++)
+                {
+                    NHCriteria nHCriteriaalliance = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", applyeList[i]);
+                    var allianceTemp = NHibernateQuerier.CriteriaSelect<RoleAlliance>(nHCriteriaalliance);
+                    refuses.Add(ChangeDataType(allianceTemp));
+                }
+                RoleStatusSuccessS2C(roleid, AllianceOpCode.RefuseApply, refuses);
+
+                await RedisHelper.Hash.HashSetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, id.ToString(), ChangeDataType(allianceObj));
+                await NHibernateQuerier.UpdateAsync(allianceObj);
             } else
                 RoleStatusFailS2C(roleid, AllianceOpCode.RefuseApply);
         }
@@ -449,14 +554,14 @@ namespace AscensionServer
                 var apply = Utility.Json.ToObject<List<int>>(allianceObj.ApplyforMember);
                 for (int i = 0; i < apply.Count; i++)
                 {
-                    NHCriteria nHCriteriaalliance = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
+                    NHCriteria nHCriteriaalliance = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", apply[i]);
                     var alliance = NHibernateQuerier.CriteriaSelect<RoleAlliance>(nHCriteriaalliance);
                     applylist.Add(ChangeDataType(alliance));
 
                 }
                 for (int i = 0; i < member.Count; i++)
                 {
-                    NHCriteria nHCriteriaalliance = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
+                    NHCriteria nHCriteriaalliance = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", member[i]);
                     var alliance = NHibernateQuerier.CriteriaSelect<RoleAlliance>(nHCriteriaalliance);
                     memberlist.Add(ChangeDataType(alliance));
                 }

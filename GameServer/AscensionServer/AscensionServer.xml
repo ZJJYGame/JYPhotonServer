@@ -343,7 +343,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
+        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -685,6 +685,16 @@
         <member name="F:AscensionServer.RedisKeyDefine._AllianceListPerfix">
              <summary>
             仙盟列表的Key前缀
+             </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._AllianceSigninPerfix">
+             <summary>
+            仙盟签到的Key前缀
+             </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RefreshAllianceSigninPerfix">
+             <summary>
+            仙盟签到的Key前缀
              </summary>
         </member>
         <member name="F:AscensionServer.RedisKeyDefine._AlliancePerfix">
@@ -1612,7 +1622,7 @@
             准备指令战斗 
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.IServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -1800,7 +1810,7 @@
             </summary>
             
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -2554,6 +2564,13 @@
             獲得領洞府信息
             </summary>
         </member>
+        <member name="M:AscensionServer.GangsMananger.GetAllianceSigninS2C(System.Int32,System.Int32)">
+            <summary>
+            获得签到数据
+            </summary>
+            <param name="roleID"></param>
+            <param name="id"></param>
+        </member>
         <member name="M:AscensionServer.GangsMananger.GetRoleAliianceConstructionMySql(System.Int32,System.Int32)">
             <summary>
             获取仙盟建筑信息
@@ -2581,6 +2598,18 @@
             <summary>
             处理角色宗门失败发送
             </summary>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.RefreshSignin(System.String)">
+            <summary>
+            刷新签到的方法
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.DeleteSignin(System.String)">
+             <summary>
+            回调删除签到表
+             </summary>
+             <param name="key"></param>
         </member>
         <member name="M:AscensionServer.GangsMananger.GetExchangeGoodsS2C(System.Int32,System.Int32)">
             <summary>
@@ -3728,7 +3757,7 @@
             更新离线经验相关的数据
             </summary>
         </member>
-        <member name="M:AscensionServer.ITacticalDeploymentManager.TacticalCreateAdd(AscensionProtocol.DTO.TacticalDTO)">
+        <member name="M:AscensionServer.ITacticalManager.TacticalCreateAdd(AscensionProtocol.DTO.TacticalDTO)">
             <summary>
             创建新的阵法实体，并添加到临时集合
             </summary>
@@ -3736,7 +3765,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.ITacticalDeploymentManager.TryAddRemoveTactical(System.Int32,AscensionProtocol.DTO.TacticalDTO@)">
+        <member name="M:AscensionServer.ITacticalManager.TryAddRemoveTactical(System.Int32,AscensionProtocol.DTO.TacticalDTO@)">
             <summary>
             移除暂存集合放入总集合
             </summary>
@@ -3744,19 +3773,19 @@
             <param name="tacticalDTO"></param>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.ITacticalDeploymentManager.TryRemoveTactical(System.Int32)">
+        <member name="M:AscensionServer.ITacticalManager.TryRemoveTactical(System.Int32)">
             <summary>
             打断操作移除临时集合储存阵法
             </summary>
             <param name="roleid"></param>
         </member>
-        <member name="M:AscensionServer.ITacticalDeploymentManager.GetExpendTacticalID">
+        <member name="M:AscensionServer.ITacticalManager.GetExpendTacticalID">
             <summary>
             获取自增ID
             </summary>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.ITacticalDeploymentManager.TryGetValue(System.Int32,System.Collections.Concurrent.ConcurrentDictionary{System.Int32,AscensionProtocol.DTO.TacticalDTO}@)">
+        <member name="M:AscensionServer.ITacticalManager.TryGetValue(System.Int32,System.Collections.Concurrent.ConcurrentDictionary{System.Int32,AscensionProtocol.DTO.TacticalDTO}@)">
             <summary>
             获取当前地图块的所有阵法
             </summary>
@@ -3764,7 +3793,7 @@
             <param name="tactical"></param>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.ITacticalDeploymentManager.GetRoleTactic(System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.TacticalDTO}@)">
+        <member name="M:AscensionServer.ITacticalManager.GetRoleTactic(System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.TacticalDTO}@)">
             <summary>
             获取本地的暂存角色阵法
             </summary>
@@ -3772,19 +3801,19 @@
             <param name="roletactical"></param>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.ITacticalDeploymentManager.SendAllLevelRoleTactical(AscensionProtocol.DTO.TacticalDTO,AscensionProtocol.ReturnCode)">
+        <member name="M:AscensionServer.ITacticalManager.SendAllLevelRoleTactical(AscensionProtocol.DTO.TacticalDTO,AscensionProtocol.ReturnCode)">
             <summary>
             广播给当前场景所有人对阵法的操作
             </summary>
             <param name="tacticalDTO"></param>
             <param name="returnCode">成功为生成，失败为销毁</param>
         </member>
-        <member name="M:AscensionServer.ITacticalDeploymentManager.RedisDeleteCaback(System.String)">
+        <member name="M:AscensionServer.ITacticalManager.RedisDeleteCaback(System.String)">
             <summary>
             监听Redis删除后的回调
             </summary>
         </member>
-        <member name="M:AscensionServer.ITacticalDeploymentManager.TryAddRoleAllTactical(System.Int32,AscensionProtocol.DTO.TacticalDTO)">
+        <member name="M:AscensionServer.ITacticalManager.TryAddRoleAllTactical(System.Int32,AscensionProtocol.DTO.TacticalDTO)">
             <summary>
             储存每个角色的所有阵法
             </summary>
@@ -3801,50 +3830,43 @@
             发送已生成资源至指定场景
             </summary>
         </member>
-        <member name="P:AscensionServer.TacticalDeploymentManager.TacticalEntityDict">
+        <member name="P:AscensionServer.TacticalManager.TacticalEntityDict">
             <summary>
             记录确认创建的阵法实体
             </summary>
         </member>
-        <member name="P:AscensionServer.TacticalDeploymentManager.roletacticaltemp">
+        <member name="P:AscensionServer.TacticalManager.roletacticaltemp">
             <summary>
             记录临时储存的阵法，用于打断后撤销,key为roleid
             </summary>
         </member>
-        <member name="P:AscensionServer.TacticalDeploymentManager.RecordDelTactical">
+        <member name="P:AscensionServer.TacticalManager.RecordDelTactical">
             <summary>
             通过Redis返回的值取总集合中value移除，list下标0为地图id,1为阵法自增ID
             </summary>
         </member>
-        <member name="M:AscensionServer.TacticalDeploymentManager.TacticalCreateAdd(AscensionProtocol.DTO.TacticalDTO)">
+        <member name="M:AscensionServer.TacticalManager.TacticalCreateAdd(AscensionProtocol.DTO.TacticalDTO)">
             <summary>
             创建新的阵法实体，并添加到临时集合
             </summary>
-            <param name="roleid"></param>
-            <param name="id"></param>
-            <returns></returns>
         </member>
-        <member name="M:AscensionServer.TacticalDeploymentManager.TryAddRemoveTactical(System.Int32,AscensionProtocol.DTO.TacticalDTO@)">
+        <member name="M:AscensionServer.TacticalManager.TryAddRemoveTactical(System.Int32,AscensionProtocol.DTO.TacticalDTO@)">
             <summary>
             移除暂存集合放入总集合
             </summary>
-            <param name="roleid"></param>
-            <param name="tacticalDTO"></param>
-            <returns></returns>
         </member>
-        <member name="M:AscensionServer.TacticalDeploymentManager.TryRemoveTactical(System.Int32)">
+        <member name="M:AscensionServer.TacticalManager.TryRemoveTactical(System.Int32)">
             <summary>
             打断操作移除临时集合储存阵法
             </summary>
-            <param name="roleid"></param>
         </member>
-        <member name="M:AscensionServer.TacticalDeploymentManager.GetExpendTacticalID">
+        <member name="M:AscensionServer.TacticalManager.GetExpendTacticalID">
             <summary>
             获取自增ID
             </summary>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.TacticalDeploymentManager.TryGetValue(System.Int32,System.Collections.Concurrent.ConcurrentDictionary{System.Int32,AscensionProtocol.DTO.TacticalDTO}@)">
+        <member name="M:AscensionServer.TacticalManager.TryGetValue(System.Int32,System.Collections.Concurrent.ConcurrentDictionary{System.Int32,AscensionProtocol.DTO.TacticalDTO}@)">
             <summary>
             获取当前地图块的所有阵法
             </summary>
@@ -3852,7 +3874,7 @@
             <param name="tactical"></param>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.TacticalDeploymentManager.GetRoleTactic(System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.TacticalDTO}@)">
+        <member name="M:AscensionServer.TacticalManager.GetRoleTactic(System.Int32,System.Collections.Generic.List{AscensionProtocol.DTO.TacticalDTO}@)">
             <summary>
             获取本地的暂存角色阵法
             </summary>
@@ -3860,26 +3882,26 @@
             <param name="roletactical"></param>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.TacticalDeploymentManager.SendAllLevelRoleTactical(AscensionProtocol.DTO.TacticalDTO,AscensionProtocol.ReturnCode)">
+        <member name="M:AscensionServer.TacticalManager.SendAllLevelRoleTactical(AscensionProtocol.DTO.TacticalDTO,AscensionProtocol.ReturnCode)">
             <summary>
             广播给当前场景所有人对阵法的操作
             </summary>
             <param name="tacticalDTO"></param>
             <param name="returnCode">成功为生成，失败为销毁</param>
         </member>
-        <member name="M:AscensionServer.TacticalDeploymentManager.RedisDeleteCaback(System.String)">
+        <member name="M:AscensionServer.TacticalManager.RedisDeleteCaback(System.String)">
             <summary>
             监听Redis删除后的回调
             </summary>
         </member>
-        <member name="M:AscensionServer.TacticalDeploymentManager.TryAddRoleAllTactical(System.Int32,AscensionProtocol.DTO.TacticalDTO)">
+        <member name="M:AscensionServer.TacticalManager.TryAddRoleAllTactical(System.Int32,AscensionProtocol.DTO.TacticalDTO)">
             <summary>
             储存每个角色的所有阵法
             </summary>
             <param name="roleid"></param>
             <param name="tacticalDTO"></param>
         </member>
-        <member name="M:AscensionServer.TacticalDeploymentManager.OnSendTactical(AscensionServer.RoleEntity)">
+        <member name="M:AscensionServer.TacticalManager.OnSendTactical(AscensionServer.RoleEntity)">
             <summary>
             发送已生成的阵法至指定场景
             </summary>
@@ -4643,7 +4665,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
+        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；

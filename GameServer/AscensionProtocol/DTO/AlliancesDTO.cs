@@ -25,11 +25,15 @@ namespace AscensionProtocol.DTO
         /// 宗门的宗门数量
         /// </summary>
         public virtual int AllIndex { get; set; }
-
+        /// <summary>
+        /// 是否刷新
+        /// </summary>
+        public virtual bool ISRefresh { get; set; }
         public override void Clear()
         {
             ID = -1;
             AllianceList = null;
+            ISRefresh = true;
         }
     }
 }

@@ -34,10 +34,10 @@ namespace AscensionServer
         /// </summary>
         async void GetAllAllianceS2C(int roleID,AlliancesDTO alliances)
         {
-            //获取所有的宗门列表
-            var allianceList = RedisHelper.List.ListRangeAsync<int>(RedisKeyDefine._AlliancePerfix).Result;
-            if (allianceList != null)
+            var alliancesExist = RedisHelper.String.StringGetAsync(RedisKeyDefine._AllianceListPerfix).Result;
+            if (alliancesExist != null)
             {
+                var allianceList = Utility.Json.ToObject<List<int>>(alliancesExist);
                 List<AllianceStatusDTO> AllianceList = new List<AllianceStatusDTO>();
                 if (alliances.Index <= allianceList.Count)
                 {
@@ -45,10 +45,10 @@ namespace AscensionServer
                     {
                         for (int i = alliances.Index; i < alliances.AllIndex; i++)
                         {
-                            var result = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, alliances.AllianceList[i].ToString()).Result;
+                            var result = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, allianceList[i].ToString()).Result;
                             if (result)
                             {
-                                var alliance = RedisHelper.Hash.HashGetAsync<AllianceStatusDTO>(RedisKeyDefine._AlliancePerfix, alliances.AllianceList[i].ToString()).Result;
+                                var alliance = RedisHelper.Hash.HashGetAsync<AllianceStatusDTO>(RedisKeyDefine._AlliancePerfix, allianceList[i].ToString()).Result;
                                 if (alliance != null)
                                 {
                                     AllianceList.Add(alliance);
@@ -60,24 +60,31 @@ namespace AscensionServer
                     {
                         for (int i = alliances.Index; i < allianceList.Count; i++)
                         {
-                            var result = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, alliances.AllianceList[i].ToString()).Result;
+                            Utility.Debug.LogInfo("YZQ获取的Redis宗门的列表的元素" + allianceList[i]);
+                            var result = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, allianceList[i].ToString()).Result;
                             if (result)
                             {
-                                var alliance = RedisHelper.Hash.HashGetAsync<AllianceStatusDTO>(RedisKeyDefine._AlliancePerfix, alliances.AllianceList[i].ToString()).Result;
+                                var alliance = RedisHelper.Hash.HashGetAsync<AllianceStatusDTO>(RedisKeyDefine._AlliancePerfix, allianceList[i].ToString()).Result;
                                 if (alliance != null)
                                 {
                                     AllianceList.Add(alliance);
                                 }
                             }
                         }
+                        alliances.ISRefresh = false;
                     }
+                }
+                else
+                {
+                    alliances.ISRefresh = false;
                 }
                 alliances.AllianceList = allianceList;
                 Dictionary<byte, object> dict = new Dictionary<byte, object>();
                 dict.Add((byte)ParameterCode.Alliances, alliances);
                 dict.Add((byte)ParameterCode.AllianceStatus, AllianceList);
                 RoleStatusSuccessS2C(roleID, AllianceOpCode.GetAlliances, dict);
-            }else
+            }
+            else
                 RoleStatusFailS2C(roleID, AllianceOpCode.GetAlliances);
         }
         /// <summary>
