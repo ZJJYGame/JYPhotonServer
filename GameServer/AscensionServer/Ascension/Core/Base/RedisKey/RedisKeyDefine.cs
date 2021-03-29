@@ -168,7 +168,10 @@ namespace AscensionServer
         /// 角色属性加点
         /// </summary>
         public static readonly string _RoleAbilityPointPostfix = "RoleAbilityPoint";
-
+        /// <summary>
+        /// 宗門所有洞府信息
+        /// </summary>
+        public static readonly string _AllianceDongFuPostfix = "AllianceDongFu";
     }
 }
 

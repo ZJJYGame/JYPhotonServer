@@ -7,7 +7,7 @@ using AscensionServer.Model;
 using FluentNHibernate.Mapping;
 namespace AscensionServer.DOMap
 {
-    class AllianceExchangeGoodsMap : ClassMap<AllianceExchangeGoods>
+   public class AllianceExchangeGoodsMap : ClassMap<AllianceExchangeGoods>
     {
         public AllianceExchangeGoodsMap()
         {

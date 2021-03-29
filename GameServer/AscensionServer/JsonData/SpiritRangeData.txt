@@ -1,0 +1,37 @@
+﻿[
+	{
+		"SpiritRangeID":0,
+		"SpiritRangeLevel":1,
+		"DongFuLevel":[9,8,7,6,5],
+		"DongFuNum":[5,10,20,40,60],
+		"Location":[123,110]
+	},
+	{
+		"SpiritRangeID":1,
+		"SpiritRangeLevel":2,
+		"DongFuLevel":[8,7,6,5,4],
+		"DongFuNum":[5,10,20,40,61],
+		"Location":[1234,555]
+	},
+	{
+		"SpiritRangeID":2,
+		"SpiritRangeLevel":3,
+		"DongFuLevel":[7,6,5,4,3],
+		"DongFuNum":[5,10,20,40,62],
+		"Location":[333,444]
+	},
+	{
+		"SpiritRangeID":3,
+		"SpiritRangeLevel":4,
+		"DongFuLevel":[6,5,4,3,2],
+		"DongFuNum":[5,10,20,40,63],
+		"Location":[666,666]
+	},
+	{
+		"SpiritRangeID":4,
+		"SpiritRangeLevel":5,
+		"DongFuLevel":[5,4,3,2,1],
+		"DongFuNum":[5,10,20,40,64],
+		"Location":[777,777]
+	}
+]

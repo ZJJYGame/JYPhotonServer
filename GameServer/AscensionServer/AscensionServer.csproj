@@ -21,7 +21,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -208,6 +208,7 @@
     <Compile Include="Ascension\Core\Base\DataObject\RunesData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\SkillGongFaDatas.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\SkillMiShuDatas.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\SpiritRangeData.cs" />
     <Compile Include="Ascension\Core\Base\EventCore\CommandEventCore.cs" />
     <Compile Include="Ascension\Core\Base\GameArea\GameArea.cs" />
     <Compile Include="Ascension\Core\Base\GameEntry.cs" />
@@ -352,6 +353,7 @@
     <Compile Include="Ascension\Core\RunTime\Team\TeamManager.cs" />
     <Compile Include="Ascension\Core\Base\Concurrent\ConcurrentInt.cs" />
     <Compile Include="DOMap\AllianceConstructionMap.cs" />
+    <Compile Include="DOMap\AllianceDongFuMap.cs" />
     <Compile Include="DOMap\AllianceExchangeGoodsMap.cs" />
     <Compile Include="DOMap\DemonicSoulMap.cs" />
     <Compile Include="DOMap\FlyMagicToolMap.cs" />
@@ -359,6 +361,7 @@
     <Compile Include="DOMap\RoleAllianceSkillMap.cs" />
     <Compile Include="DOMap\RoleStatusPointMap.cs" />
     <Compile Include="DO\AllianceConstruction.cs" />
+    <Compile Include="DO\AllianceDongFu.cs" />
     <Compile Include="DO\AllianceExchangeGoods.cs" />
     <Compile Include="DO\DemonicSoul.cs" />
     <Compile Include="DO\FlyMagicTool.cs" />
@@ -866,6 +869,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonData\AllianceDrugData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\SpiritRangeData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="Plugin\ExitGames.Logging.Log4Net.dll">

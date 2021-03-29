@@ -27,6 +27,7 @@ namespace AscensionServer
             var allianceConstructionObj = new AllianceConstructionDTO();
             var allianceExchangeGoodsDTO = new AllianceExchangeGoodsDTO();
             var roleAllianceSkillDTO = new RoleAllianceSkillDTO();
+            var exchangeObj =new ExchangeDTO();
             Utility.Debug.LogInfo("角色宗門" + packet.DataMessage.ToString());
             Utility.Debug.LogInfo("角色宗門" + (byte)packet.SubOperationCode);
             switch ((AllianceOpCode)packet.SubOperationCode)
@@ -114,32 +115,48 @@ namespace AscensionServer
                 case AllianceOpCode.SearchAlliance:
                     break;
                 case AllianceOpCode.ExchangeElixir:
+                    #region
+                    exchangeObj = Utility.Json.ToObject<ExchangeDTO>(packet.DataMessage.ToString());
+                    Utility.Debug.LogInfo("YZQ兑换宗门丹药");
+                    ExchangeElixirS2C(exchangeObj.RoleID, exchangeObj.AllianceID, exchangeObj);
+                    #endregion
                     break;
-                case AllianceOpCode.ExchangeGongFa:
-                    break;
-                case AllianceOpCode.ExchangeMiShu:
+                case AllianceOpCode.ExchangeScripturesPlatform:
+                    #region
+                    exchangeObj = Utility.Json.ToObject<ExchangeDTO>(packet.DataMessage.ToString());
+                    Utility.Debug.LogInfo("YZQ兌換藏經閣數據");
+                    ExchangeScripturesPlatformS2C(exchangeObj.RoleID, exchangeObj.AllianceID, exchangeObj);
+                    #endregion
                     break;
                 case AllianceOpCode.SetExchangeGoods:
+                    #region
                     dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
                     roleObj = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
                     allianceExchangeGoodsDTO = Utility.Json.ToObject<AllianceExchangeGoodsDTO>(dict[(byte)ParameterCode.ExchangeGoods].ToString());
-                    Utility.Debug.LogInfo("角色宗門设置兑换数据" );
+                    Utility.Debug.LogInfo("角色宗門设置兑换数据");
                     SetExchangeGoodsS2C(roleObj.RoleID, allianceExchangeGoodsDTO);
+                    #endregion
                     break;
                 case AllianceOpCode.GetAlliancecallboard:
+                    #region
                     dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
                     roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(dict[(byte)ParameterCode.RoleAlliance].ToString());
                     var daily = Utility.Json.ToObject<DailyMessageDTO>(dict[(byte)ParameterCode.DailyMessage].ToString());
                     GetAllianceCallboardS2C(roleAllianceObj.RoleID, roleAllianceObj.AllianceID, daily);
 
+                    #endregion
                     break;
                 case AllianceOpCode.PreemptDongFu:
                     break;
                 case AllianceOpCode.GetDongFuStatus:
+                    var Obj = Utility.Json.ToObject<RoleAllianceDTO>(packet.DataMessage.ToString());
+                    GetDongFuStatusS2C(Obj.RoleID, Obj.AllianceID);
                     break;
                 case AllianceOpCode.GetExchangeGoods:
+                    #region
                     roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(packet.DataMessage.ToString());
                     GetExchangeGoodsS2C(roleAllianceObj.RoleID, roleAllianceObj.AllianceID);
+                    #endregion
                     break;
                 default:
                     break;

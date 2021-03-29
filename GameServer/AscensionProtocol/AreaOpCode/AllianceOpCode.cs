@@ -79,11 +79,7 @@ namespace AscensionProtocol
         /// <summary>
         /// 兑换功法
         /// </summary>
-        ExchangeGongFa = 20,
-        /// <summary>
-        /// 兑换秘术
-        /// </summary>
-        ExchangeMiShu= 21,
+        ExchangeScripturesPlatform = 20,
         /// <summary>
         /// 设置兑换物品
         /// </summary>

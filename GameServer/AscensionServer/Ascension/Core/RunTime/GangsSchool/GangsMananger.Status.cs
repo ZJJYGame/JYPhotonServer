@@ -217,8 +217,8 @@ namespace AscensionServer
         /// <param name="statusDTO"></param>
         async void ChangeAllianceNameS2C(int roleID,AllianceStatusDTO statusDTO)
         {
-            var allianceExit = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString()).Result;
-            if (allianceExit)
+            var allianceExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString()).Result;
+            if (allianceExist)
             {
                 var alliance = RedisHelper.Hash.HashGetAsync<AllianceStatusDTO>(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString()).Result;
                 if (alliance != null)
@@ -244,8 +244,8 @@ namespace AscensionServer
         /// <param name="statusDTO"></param>
         async void ChangeAlliancePurposeS2C(int roleID,AllianceStatusDTO statusDTO)
         {
-            var allianceExit = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString()).Result;
-            if (allianceExit)
+            var allianceExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString()).Result;
+            if (allianceExist)
             {
                 var alliance = RedisHelper.Hash.HashGetAsync<AllianceStatusDTO>(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString()).Result;
                 if (alliance != null)

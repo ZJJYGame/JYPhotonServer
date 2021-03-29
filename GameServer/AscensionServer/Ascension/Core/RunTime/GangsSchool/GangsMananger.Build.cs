@@ -116,9 +116,9 @@ namespace AscensionServer
         async void UpdateAllianceSkillS2C(int roleID,RoleAllianceSkillDTO skillDTO)
         {
             GameEntry.DataManager.TryGetValue<Dictionary<string, AllianceSkillsData>>(out var SkillDict);
-            var skillexit = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAllianceSkillPerfix,roleID.ToString()).Result;
-            var assetsexit = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString()).Result;
-            if (skillexit && assetsexit)
+            var skillExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAllianceSkillPerfix,roleID.ToString()).Result;
+            var assetsExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString()).Result;
+            if (skillExist && assetsExist)
             {
                 var skillObj = RedisHelper.Hash.HashGetAsync<RoleAllianceSkill>(RedisKeyDefine._RoleAllianceSkillPerfix, roleID.ToString()).Result;
                 var assetsObj = RedisHelper.Hash.HashGetAsync<RoleAssets>(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString()).Result;
@@ -206,8 +206,8 @@ namespace AscensionServer
         /// </summary>
          void GetAllianceSkillS2C(int roleID)
         {
-            var skillExit = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAllianceSkillPerfix,roleID.ToString()).Result;
-            if (skillExit)
+            var skillExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAllianceSkillPerfix,roleID.ToString()).Result;
+            if (skillExist)
             {
                 var skillObj = RedisHelper.Hash.HashGetAsync<RoleAllianceSkillDTO>(RedisKeyDefine._RoleAllianceSkillPerfix, roleID.ToString()).Result;
                 if (skillObj != null)
@@ -221,7 +221,27 @@ namespace AscensionServer
             else
                 GetAllianceSkillMySql(roleID);
         }
-        #endregion
+        /// <summary>
+        /// 獲得領洞府信息
+        /// </summary>
+        void GetDongFuStatusS2C(int roleid,int id)
+        {
+            var dondfuExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceDongFuPostfix,id.ToString()).Result;
+            if (dondfuExist)
+            {
+                var dondfuObj =RedisHelper.Hash.HashGetAsync<AllianceDongFuDTO>(RedisKeyDefine._AllianceDongFuPostfix, id.ToString()).Result;
+                if (dondfuObj != null)
+                {
+                    RoleStatusSuccessS2C(roleid, AllianceOpCode.GetDongFuStatus, dondfuObj);
+                }
+                else
+                    GetDongFuStatusMySql(roleid, id);
+            }
+            else
+                GetDongFuStatusMySql(roleid, id);
+        }
+
+       #endregion
 
         #region MySql模块
         /// <summary>
@@ -406,6 +426,37 @@ namespace AscensionServer
                 RoleStatusFailS2C(roleID, AllianceOpCode.UpdateAllianceSkill);
             }
         }
+
+        /// <summary>
+        /// 獲得洞府
+        /// </summary>
+        async void GetDongFuStatusMySql(int roleid, int id)
+        {
+            NHCriteria nHCriteriAlliance = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", id);
+            var dongfu = NHibernateQuerier.CriteriaSelect<AllianceDongFu>(nHCriteriAlliance);
+            if (dongfu != null)
+            {
+                RoleStatusSuccessS2C(roleid, AllianceOpCode.GetDongFuStatus, ChangeDataType(dongfu));
+            }
+            else
+                RoleStatusFailS2C(roleid,AllianceOpCode.GetDongFuStatus);
+
+        }
         #endregion
+
+        AllianceDongFuDTO ChangeDataType(AllianceDongFu dongFu)
+        {
+            AllianceDongFuDTO dongFuDTO = new AllianceDongFuDTO();
+            dongFuDTO.AllianceID = dongFu.AllianceID;
+            dongFuDTO.Occupant = dongFu.Occupant;
+            dongFuDTO.SpiritRangeID = dongFu.SpiritRangeID;
+            dongFuDTO.PreemptOne = Utility.Json.ToObject<List<PreemptInfo>>(dongFu.PreemptOne);
+            dongFuDTO.PreemptTow = Utility.Json.ToObject<List<PreemptInfo>>(dongFu.PreemptTow);
+            dongFuDTO.PreemptThree = Utility.Json.ToObject<List<PreemptInfo>>(dongFu.PreemptThree);
+            dongFuDTO.PreemptFour = Utility.Json.ToObject<List<PreemptInfo>>(dongFu.PreemptFour);
+            dongFuDTO.PreemptFive = Utility.Json.ToObject<List<PreemptInfo>>(dongFu.PreemptFive);
+            return dongFuDTO;
+        }
+
     }
 }

@@ -55,7 +55,6 @@ namespace AscensionServer
                 var roleStatusDatasDict = TransObject<List<RoleStatusDatas>>(roleStatusDatas).ToDictionary(key => key.LevelID, value => value);
 
                 GameEntry. DataManager.TryGetValue(typeof(AllianceSkillsData).Name, out var allianceSkillDatas);
-                Utility.Debug.LogInfo("YZQ " +Utility.Json.ToJson(allianceSkillDatas));
                 var allianceSkillDatasDict = TransObject<List<AllianceSkillsData>>(allianceSkillDatas).ToDictionary(key => key.GangsSkillType, value => value);
 
                 GameEntry. DataManager.TryGetValue(typeof(EquipmentData).Name, out var equipmentData);
@@ -112,7 +111,9 @@ namespace AscensionServer
 
                 GameEntry.DataManager.TryGetValue(typeof(AllianceDrugData).Name, out var allianceDrugData);
                 var allianceDrugDataDict = TransObject<List<AllianceDrugData>>(allianceDrugData).ToDictionary(key => key.DrugID, value => value);
-                
+
+                GameEntry.DataManager.TryGetValue(typeof(SpiritRangeData).Name, out var spiritRangeData);
+                var spiritRangeDataDict = TransObject<List<SpiritRangeData>>(spiritRangeData).ToDictionary(key => key.SpiritRangeID, value => value);               
                 #region 背包json
                 GameEntry. DataManager.TryGetValue(typeof(ItemBagBaseData).Name, out var itemBagData);
                 var itemBagDict = TransObject<List<ItemBagBaseData>>(itemBagData).ToDictionary(key => key.ItemID, value => value);
@@ -159,6 +160,7 @@ namespace AscensionServer
                 GameEntry. DataManager.TryGetValue(typeof(BattleBuffData).Name, out var battleSBuffSet);
                 var battleBuffDict = TransObject<List<BattleBuffData>>(battleSBuffSet).ToDictionary(key => key.id, value => value);
                 #endregion
+                GameEntry.DataManager.TryAdd(spiritRangeDataDict);
                 GameEntry.DataManager.TryAdd(allianceDrugDataDict);
                 GameEntry.DataManager.TryAdd(allianceConstructionDataDict);
                 GameEntry.DataManager.TryAdd(allianceScripturesPlatformDataDict);

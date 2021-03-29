@@ -23,8 +23,8 @@ namespace AscensionServer
         void ApplyJoinAllianceS2C(int roleID, int id)
         {
             var result = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString()).Result;
-            var alianceExits = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
-            if (result && alianceExits)
+            var alianceExists = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
+            if (result && alianceExists)
             {
                 var roleAlliance = RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString()).Result;
                 var alliance = RedisHelper.Hash.HashGetAsync<AllianceMemberDTO>(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
@@ -54,10 +54,10 @@ namespace AscensionServer
         /// </summary>
         async void ConsentApplyS2C(int roleID, int id, List<int> roleIDs)
         {
-            var allianceExits = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
-            var alliancestatusExits = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
+            var allianceExists = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
+            var alliancestatusExists = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
             List<int> consents = new List<int>();
-            if (allianceExits && alliancestatusExits)
+            if (allianceExists && alliancestatusExists)
             {
                 var allianceObj = RedisHelper.Hash.HashGetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
                 var alliancestatusObj = RedisHelper.Hash.HashGetAsync<AllianceStatusDTO>(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
@@ -110,10 +110,10 @@ namespace AscensionServer
         /// <param name="roleIDs"></param>
         async void RefuseApplyS2C(int roleID, int id, List<int> roleIDs)
         {
-            var allianceExits = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
-            var alliancestatusExits = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
+            var allianceExists = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
+            var alliancestatusExists = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
             List<int> refuses = new List<int>();
-            if (allianceExits && alliancestatusExits)
+            if (allianceExists && alliancestatusExists)
             {
                 var allianceObj = RedisHelper.Hash.HashGetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
                 var alliancestatusObj = RedisHelper.Hash.HashGetAsync<AllianceStatusDTO>(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
@@ -154,8 +154,8 @@ namespace AscensionServer
         /// <param name="id"></param>
         async void GetAllianceMemberS2C(int roleID, int id)
         {
-            var allianceExit = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
-            if (allianceExit)
+            var allianceExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
+            if (allianceExist)
             {
                 Utility.Debug.LogInfo("YZQ请求宗门成员1");
                 var allianceObj = RedisHelper.Hash.HashGetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
@@ -269,18 +269,18 @@ namespace AscensionServer
         {
             GameEntry.DataManager.TryGetValue<Dictionary<int, AllianceJobData>>(out var jobDict);
 
-            var allianceExit = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
+            var allianceExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
             List<RoleAllianceDTO> roleAlliances = new List<RoleAllianceDTO>();
-            if (allianceExit)
+            if (allianceExist)
             {
                 var roleAlliance= RedisHelper.Hash.HashGetAsync<AllianceMemberDTO>(RedisKeyDefine._RoleAlliancePerfix, id.ToString()).Result;
                 if (roleAlliance!=null)
                 {
                     for (int i = 0; i < roleAlliance.Member.Count; i++)
                     {
-                        var memberExit= RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceMemberPerfix, roleAlliance.Member[i].ToString()).Result;
+                        var memberExist= RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceMemberPerfix, roleAlliance.Member[i].ToString()).Result;
 
-                        if (memberExit)
+                        if (memberExist)
                         {
                             var member = RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._AllianceMemberPerfix, roleAlliance.Member[i].ToString()).Result;
                             if (member!=null)

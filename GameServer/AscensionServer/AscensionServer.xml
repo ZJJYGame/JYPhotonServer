@@ -343,7 +343,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
+        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -790,6 +790,11 @@
         <member name="F:AscensionServer.RedisKeyDefine._RoleAbilityPointPostfix">
             <summary>
             角色属性加点
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._AllianceDongFuPostfix">
+            <summary>
+            宗門所有洞府信息
             </summary>
         </member>
         <member name="T:AscensionServer.DataStream">
@@ -1607,7 +1612,7 @@
             准备指令战斗 
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.IServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -1795,7 +1800,7 @@
             </summary>
             
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -2544,6 +2549,11 @@
             获得宗门技能
             </summary>
         </member>
+        <member name="M:AscensionServer.GangsMananger.GetDongFuStatusS2C(System.Int32,System.Int32)">
+            <summary>
+            獲得領洞府信息
+            </summary>
+        </member>
         <member name="M:AscensionServer.GangsMananger.GetRoleAliianceConstructionMySql(System.Int32,System.Int32)">
             <summary>
             获取仙盟建筑信息
@@ -2556,6 +2566,11 @@
             获得角色宗门技能
             </summary>
             <param name="roleID"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.GetDongFuStatusMySql(System.Int32,System.Int32)">
+            <summary>
+            獲得洞府
+            </summary>
         </member>
         <member name="M:AscensionServer.GangsMananger.RoleStatusSuccessS2C(System.Int32,AscensionProtocol.AllianceOpCode,System.Object)">
             <summary>
@@ -2579,12 +2594,22 @@
             <param name="roleID"></param>
             <param name="goodsDTO"></param>
         </member>
+        <member name="M:AscensionServer.GangsMananger.ExchangeScripturesPlatformS2C(System.Int32,System.Int32,AscensionProtocol.DTO.ExchangeDTO)">
+            <summary>
+            兑换功法
+            </summary>
+        </member>
         <member name="M:AscensionServer.GangsMananger.GetExchangeGoodsMySql(System.Int32,System.Int32)">
             <summary>
             获得宗门物品设置
             </summary>
             <param name="roleID"></param>
             <param name="goodsDTO"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.ExchangeElixirMySql(System.Int32,System.Int32,AscensionProtocol.DTO.ExchangeDTO)">
+            <summary>
+            兑换丹药
+            </summary>
         </member>
         <member name="M:AscensionServer.GangsMananger.ApplyJoinAllianceS2C(System.Int32,System.Int32)">
             <summary>
@@ -4619,7 +4644,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
+        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；

@@ -51,6 +51,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AreaOpCode\AdventureOpCode.cs" />
     <Compile Include="AreaOpCode\AllianceOpCode.cs" />
     <Compile Include="AreaOpCode\FlyMagicToolOpCode.cs" />
     <Compile Include="AreaOpCode\LoginOffOpCode.cs" />
@@ -59,8 +60,8 @@
     <Compile Include="DTO\AdventurePlayerDTO.cs" />
     <Compile Include="DTO\AdventureSkillLayoutDTO.cs" />
     <Compile Include="DTO\AlchemyDTO.cs" />
-    <Compile Include="DTO\AllianceAlchemyNumDTO.cs" />
     <Compile Include="DTO\AllianceConstructionDTO.cs" />
+    <Compile Include="DTO\AllianceDongFuDTO.cs" />
     <Compile Include="DTO\AllianceExchangeGoodsDTO.cs" />
     <Compile Include="DTO\AllianceMemberDTO.cs" />
     <Compile Include="DTO\AlliancesDTO.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="DTO\CultivationMethodDTO.cs" />
     <Compile Include="DTO\DailyMessageDTO.cs" />
     <Compile Include="DTO\DemonicSoulDTO.cs" />
+    <Compile Include="DTO\ExchangeDTO.cs" />
     <Compile Include="DTO\FlyMagicToolDTO.cs" />
     <Compile Include="DTO\ForgeDTO.cs" />
     <Compile Include="DTO\HerbsFieldDTO.cs" />
