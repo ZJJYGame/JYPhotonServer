@@ -343,7 +343,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -1612,7 +1612,7 @@
             准备指令战斗 
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="M:AscensionServer.IServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -1800,7 +1800,7 @@
             </summary>
             
         </member>
-        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -2876,19 +2876,49 @@
             角色离开场景事件
             </summary>
         </member>
-        <member name="M:AscensionServer.ILevelManager.LevelHasRole(System.Int32,System.Int32)">
+        <member name="M:AscensionServer.ILevelManager.LevelHasRole(AscensionServer.LevelTypeEnum,System.Int32,System.Int32)">
              <summary>
             场景是否包含有角色； 
              </summary>
         </member>
-        <member name="M:AscensionServer.ILevelManager.SendMessageToLevelS2C(System.Int32,Protocol.OperationData)">
+        <member name="M:AscensionServer.ILevelManager.SendMessageToLevelS2C(AscensionServer.LevelTypeEnum,System.Int32,Protocol.OperationData)">
              <summary>
             广播消息到指定场景，若场景不存在，则不执行； 
              </summary>
         </member>
-        <member name="M:AscensionServer.ILevelManager.EnterScene(System.Int32,System.Int32)">
+        <member name="T:AscensionServer.LevelManager">
+            <summary>
+            场景管理器，管理野外高同步的数据；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.LevelManager.adventureLevelEntityDict">
+            <summary>
+            历练场景字典;
+            </summary>
+        </member>
+        <member name="F:AscensionServer.LevelManager.secretAreaLevelEntityDict">
+            <summary>
+            秘境场景字典;
+            </summary>
+        </member>
+        <member name="E:AscensionServer.LevelManager.OnRoleEnterLevel">
+            <summary>
+            角色进入场景事件
+            </summary>
+        </member>
+        <member name="E:AscensionServer.LevelManager.OnRoleExitLevel">
+            <summary>
+            角色离开场景事件
+            </summary>
+        </member>
+        <member name="M:AscensionServer.LevelManager.LevelHasRole(AscensionServer.LevelTypeEnum,System.Int32,System.Int32)">
              <summary>
-            玩家或peer进入场景 
+            场景是否包含有角色； 
+             </summary>
+        </member>
+        <member name="M:AscensionServer.LevelManager.SendMessageToLevelS2C(AscensionServer.LevelTypeEnum,System.Int32,Protocol.OperationData)">
+             <summary>
+            广播消息到指定场景，若场景不存在，则不执行； 
              </summary>
         </member>
         <member name="M:AscensionServer.ILobbyManager.TryRemove(System.Int32)">
@@ -3120,46 +3150,73 @@
             将指定键的现有值与指定值进行比较，如果相等，则用第三个值更新该键。
             </summary>
         </member>
-        <member name="M:AscensionServer.IPeerManager.SendEvent(System.Int32,System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
-             <summary>
-            发送事件(EVENT)到具体的sessionId； 
-            若不存在session对象，则不发送，并返回false；
-             </summary>
-        </member>
-        <member name="M:AscensionServer.IPeerManager.BroadcastEventToAll(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
-            <summary>
-            同步广播事件(EVENT)；
-            此方法会对所有在线且Available的peer对象进行消息广播；
-            </summary>
-            <param name="userData">用户自定义数据</param>
-        </member>
         <member name="M:AscensionServer.IPeerManager.SendMessage(System.Int32,Protocol.OperationData)">
              <summary>
             发送消息到具体的SessionId 
              </summary>
         </member>
+        <member name="M:AscensionServer.IPeerManager.SendMessage(System.Int32,System.Byte,System.Int16,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
+            <summary>
+            同步方法；
+            通过广播消息(MSG)；
+            </summary>
+            <param name="sessionId">会话Id</param>
+            <param name="opCode">操作码</param>
+            <param name="subCode">子操作码</param>
+            <param name="userData">用户自定义数据</param>
+            <returns>是否能够发送</returns>
+        </member>
+        <member name="M:AscensionServer.IPeerManager.SendMessage(System.Int32,System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
+             <summary>
+             同步方法；
+             通过广播消息(MSG)；
+            若不存在session对象，则不发送，并返回false；
+             </summary>
+        </member>
+        <member name="M:AscensionServer.IPeerManager.BroadcastMessageToAll(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
+            <summary>
+            通过广播消息(MSG)；
+            此方法会对所有在线且Available的peer对象进行消息广播；
+            </summary>
+            <param name="userData">用户自定义数据</param>
+        </member>
+        <member name="M:AscensionServer.IPeerManager.BroadcastMessageToAll(System.Byte,System.Int16,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
+            <summary>
+            同步方法；
+            通过广播消息(MSG)；
+            </summary>
+            <param name="opCode">操作码</param>
+            <param name="subCode">子操作码</param>
+            <param name="userData">用户自定义数据</param>
+        </member>
         <member name="M:AscensionServer.IPeerManager.BroadcastMessageToAll(Protocol.OperationData)">
             <summary>
+            同步方法；
             通过广播消息(MSG)；
             </summary>
             <param name="message">普通消息</param>
         </member>
         <member name="M:AscensionServer.IPeerManager.SendMessageAsync(System.Int32,Protocol.OperationData)">
-             <summary>
-            异步发送消息到具体的SessionId 
-             </summary>
+            <summary>
+            异步广播消息(MSG)；
+            </summary>
+            <param name="sessionId">会话Id</param>
+            <param name="message">普通消息</param>
+            <returns>线程Task</returns>
         </member>
-        <member name="M:AscensionServer.IPeerManager.SendEventAsync(System.Int32,System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
+        <member name="M:AscensionServer.IPeerManager.SendMessageAsync(System.Int32,System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
              <summary>
             异步广播消息到具体的sessionId 
              </summary>
         </member>
-        <member name="M:AscensionServer.IPeerManager.BroadcastEventToAllAsync(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object},System.Action)">
+        <member name="M:AscensionServer.IPeerManager.SendMessageAsync(System.Int32,System.Byte,System.Int16,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
             <summary>
-            异步广播事件消息(EVENT)；
+            异步广播消息(MSG)；
             </summary>
+            <param name="sessionId">会话Id</param>
+            <param name="opCode">操作码</param>
+            <param name="subCode">子操作码</param>
             <param name="userData">用户自定义数据</param>
-            <param name="callback">广播结束后的回调</param>
             <returns>线程Task</returns>
         </member>
         <member name="M:AscensionServer.IPeerManager.BroadcastMessageToAllAsync(Protocol.OperationData,System.Action)">
@@ -3168,7 +3225,26 @@
             </summary>
             <param name="message">普通消息</param>
             <param name="callback">消息广播完成后的回调</param>
-            <returns></returns>
+            <returns>线程Task</returns>
+        </member>
+        <member name="M:AscensionServer.IPeerManager.BroadcastMessageToAllAsync(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object},System.Action)">
+            <summary>
+            异步广播消息(MSG)；
+            </summary>
+            <param name="opCode">操作码</param>
+            <param name="userData">用户自定义数据</param>
+            <param name="callback">广播结束后的回调</param>
+            <returns>线程Task</returns>
+        </member>
+        <member name="M:AscensionServer.IPeerManager.BroadcastMessageToAllAsync(System.Byte,System.Int16,System.Collections.Generic.Dictionary{System.Byte,System.Object},System.Action)">
+            <summary>
+            异步广播消息(MSG)；
+            </summary>
+            <param name="opCode">操作码</param>
+            <param name="subCode">子操作码</param>
+            <param name="userData">用户自定义数据</param>
+            <param name="callback">广播结束后的回调</param>
+            <returns>线程Task</returns>
         </member>
         <member name="T:AscensionServer.PeerManager">
             <summary>
@@ -3178,61 +3254,79 @@
             其余各个模块都是从此通过SessionID取得Peer对象；
             </summary>
         </member>
-        <member name="E:AscensionServer.PeerManager.BroadcastEvent">
-            <summary>
-            广播事件消息 ;
-            </summary>
-        </member>
-        <member name="E:AscensionServer.PeerManager.BroadcastMessage">
-            <summary>
-            广播普通消息;
-            </summary>
-        </member>
         <member name="M:AscensionServer.PeerManager.TryUpdate(System.Int32,AscensionServer.IPeerEntity,AscensionServer.IPeerEntity)">
             <summary>
             将指定键的现有值与指定值进行比较，如果相等，则用第三个值更新该键。
             </summary>
-        </member>
-        <member name="M:AscensionServer.PeerManager.SendEvent(System.Int32,System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
-             <summary>
-            发送事件(EVENT)到具体的sessionId； 
-            若不存在session对象，则不发送，并返回false；
-             </summary>
-        </member>
-        <member name="M:AscensionServer.PeerManager.BroadcastEventToAll(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
-            <summary>
-            同步广播事件(EVENT)；
-            此方法会对所有在线且Available的peer对象进行消息广播；
-            </summary>
-            <param name="userData">用户自定义数据</param>
         </member>
         <member name="M:AscensionServer.PeerManager.SendMessage(System.Int32,Protocol.OperationData)">
              <summary>
             发送消息到具体的SessionId 
              </summary>
         </member>
+        <member name="M:AscensionServer.PeerManager.SendMessage(System.Int32,System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
+             <summary>
+             同步方法；
+             通过广播消息(MSG)；
+            若不存在session对象，则不发送，并返回false；
+             </summary>
+        </member>
+        <member name="M:AscensionServer.PeerManager.SendMessage(System.Int32,System.Byte,System.Int16,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
+            <summary>
+            同步方法；
+            通过广播消息(MSG)；
+            </summary>
+            <param name="sessionId">会话Id</param>
+            <param name="opCode">操作码</param>
+            <param name="subCode">子操作码</param>
+            <param name="userData">用户自定义数据</param>
+            <returns>是否能够发送</returns>
+        </member>
         <member name="M:AscensionServer.PeerManager.BroadcastMessageToAll(Protocol.OperationData)">
             <summary>
+            同步方法；
             通过广播消息(MSG)；
             </summary>
             <param name="message">普通消息</param>
         </member>
-        <member name="M:AscensionServer.PeerManager.SendMessageAsync(System.Int32,Protocol.OperationData)">
-             <summary>
-            异步发送消息到具体的SessionId 
-             </summary>
+        <member name="M:AscensionServer.PeerManager.BroadcastMessageToAll(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
+            <summary>
+            通过广播消息(MSG)；
+            此方法会对所有在线且Available的peer对象进行消息广播；
+            </summary>
+            <param name="opCode">操作码</param>
+            <param name="userData">用户自定义数据</param>
         </member>
-        <member name="M:AscensionServer.PeerManager.SendEventAsync(System.Int32,System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
+        <member name="M:AscensionServer.PeerManager.BroadcastMessageToAll(System.Byte,System.Int16,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
+            <summary>
+            同步方法；
+            通过广播消息(MSG)；
+            </summary>
+            <param name="opCode">操作码</param>
+            <param name="subCode">子操作码</param>
+            <param name="userData">用户自定义数据</param>
+        </member>
+        <member name="M:AscensionServer.PeerManager.SendMessageAsync(System.Int32,Protocol.OperationData)">
+            <summary>
+            异步广播消息(MSG)；
+            </summary>
+            <param name="sessionId">会话Id</param>
+            <param name="message">普通消息</param>
+            <returns>线程Task</returns>
+        </member>
+        <member name="M:AscensionServer.PeerManager.SendMessageAsync(System.Int32,System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
              <summary>
             异步广播消息到具体的sessionId 
              </summary>
         </member>
-        <member name="M:AscensionServer.PeerManager.BroadcastEventToAllAsync(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object},System.Action)">
+        <member name="M:AscensionServer.PeerManager.SendMessageAsync(System.Int32,System.Byte,System.Int16,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
             <summary>
-            异步广播事件消息(EVENT)；
+            异步广播消息(MSG)；
             </summary>
+            <param name="sessionId">会话Id</param>
+            <param name="opCode">操作码</param>
+            <param name="subCode">子操作码</param>
             <param name="userData">用户自定义数据</param>
-            <param name="callback">广播结束后的回调</param>
             <returns>线程Task</returns>
         </member>
         <member name="M:AscensionServer.PeerManager.BroadcastMessageToAllAsync(Protocol.OperationData,System.Action)">
@@ -3241,7 +3335,26 @@
             </summary>
             <param name="message">普通消息</param>
             <param name="callback">消息广播完成后的回调</param>
-            <returns></returns>
+            <returns>线程Task</returns>
+        </member>
+        <member name="M:AscensionServer.PeerManager.BroadcastMessageToAllAsync(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object},System.Action)">
+            <summary>
+            异步广播消息(MSG)；
+            </summary>
+            <param name="opCode">操作码</param>
+            <param name="userData">用户自定义数据</param>
+            <param name="callback">广播结束后的回调</param>
+            <returns>线程Task</returns>
+        </member>
+        <member name="M:AscensionServer.PeerManager.BroadcastMessageToAllAsync(System.Byte,System.Int16,System.Collections.Generic.Dictionary{System.Byte,System.Object},System.Action)">
+            <summary>
+            异步广播消息(MSG)；
+            </summary>
+            <param name="opCode">操作码</param>
+            <param name="subCode">子操作码</param>
+            <param name="userData">用户自定义数据</param>
+            <param name="callback">广播结束后的回调</param>
+            <returns>线程Task</returns>
         </member>
         <member name="M:AscensionServer.BattleManager.EnqueueMessage(System.Int32,System.Object)">
             <summary>
@@ -3861,114 +3974,30 @@
             处理角色属性失败发送
             </summary>
         </member>
-        <member name="M:AscensionServer.IRoleManager.BroadcastEventToAll(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
-            <summary>
-            同步广播事件(EVENT)；
-            此方法会对所有在线且Available的peer对象进行消息广播；
-            </summary>
-            <param name="userData">用户自定义数据</param>
-        </member>
         <member name="M:AscensionServer.IRoleManager.SendMessage(System.Int32,Protocol.OperationData)">
              <summary>
-            发送消息到具体的SessionId 
+            通过roleId发送信息到登录的角色;
              </summary>
         </member>
-        <member name="M:AscensionServer.IRoleManager.BroadcastMessageToAll(Protocol.OperationData)">
+        <member name="M:AscensionServer.IRoleManager.BroadcastMessageToAll(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
             <summary>
-            通过广播普通消息(MSG)；
+            广播消息到所有登录的角色
             </summary>
-            <param name="message">普通消息</param>
-        </member>
-        <member name="M:AscensionServer.IRoleManager.SendMessageAsync(System.Int32,Protocol.OperationData)">
-             <summary>
-            异步发送消息到具体的SessionId 
-             </summary>
-        </member>
-        <member name="M:AscensionServer.IRoleManager.SendEventAsync(System.Int32,System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
-             <summary>
-            异步广播消息到具体的sessionId 
-             </summary>
-        </member>
-        <member name="M:AscensionServer.IRoleManager.BroadcastEventToAllAsync(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object},System.Action)">
-            <summary>
-            异步广播事件消息(EVENT)；
-            </summary>
-            <param name="userData">用户自定义数据</param>
-            <param name="callback">广播结束后的回调</param>
-            <returns>线程Task</returns>
-        </member>
-        <member name="M:AscensionServer.IRoleManager.BroadcastMessageToAllAsync(Protocol.OperationData,System.Action)">
-            <summary>
-            异步广播普通消息(MSG)；
-            </summary>
-            <param name="message">普通消息</param>
-            <param name="callback">消息广播完成后的回调</param>
-            <returns></returns>
         </member>
         <member name="T:AscensionServer.RoleEntity">
              <summary>
             
              </summary>
         </member>
-        <member name="T:AscensionServer.RoleManager">
-            <summary>
-            ��ɫ��������
-            keyΪRoleId����PlayerId
-            </summary>
-        </member>
-        <member name="E:AscensionServer.RoleManager.BroadcastEvent">
-            <summary>
-            �㲥�¼���Ϣ ;
-            </summary>
-        </member>
-        <member name="E:AscensionServer.RoleManager.BroadcastMessage">
-            <summary>
-            �㲥��ͨ��Ϣ;
-            </summary>
-        </member>
-        <member name="M:AscensionServer.RoleManager.BroadcastEventToAll(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
-            <summary>
-            ͬ���㲥�¼�(EVENT)��
-            �˷����������������Available��peer���������Ϣ�㲥��
-            </summary>
-            <param name="userData">�û��Զ�������</param>
-        </member>
         <member name="M:AscensionServer.RoleManager.SendMessage(System.Int32,Protocol.OperationData)">
              <summary>
-            ������Ϣ�������SessionId 
+            通过roleId发送信息到登录的角色;
              </summary>
         </member>
-        <member name="M:AscensionServer.RoleManager.BroadcastMessageToAll(Protocol.OperationData)">
+        <member name="M:AscensionServer.RoleManager.BroadcastMessageToAll(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
             <summary>
-            ͨ���㲥��ͨ��Ϣ(MSG)��
+            广播消息到所有登录的角色
             </summary>
-            <param name="message">��ͨ��Ϣ</param>
-        </member>
-        <member name="M:AscensionServer.RoleManager.SendMessageAsync(System.Int32,Protocol.OperationData)">
-             <summary>
-            �첽������Ϣ�������SessionId 
-             </summary>
-        </member>
-        <member name="M:AscensionServer.RoleManager.SendEventAsync(System.Int32,System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
-             <summary>
-            �첽�㲥��Ϣ�������sessionId 
-             </summary>
-        </member>
-        <member name="M:AscensionServer.RoleManager.BroadcastEventToAllAsync(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object},System.Action)">
-            <summary>
-            �첽�㲥�¼���Ϣ(EVENT)��
-            </summary>
-            <param name="userData">�û��Զ�������</param>
-            <param name="callback">�㲥������Ļص�</param>
-            <returns>�߳�Task</returns>
-        </member>
-        <member name="M:AscensionServer.RoleManager.BroadcastMessageToAllAsync(Protocol.OperationData,System.Action)">
-            <summary>
-            �첽�㲥��ͨ��Ϣ(MSG)��
-            </summary>
-            <param name="message">��ͨ��Ϣ</param>
-            <param name="callback">��Ϣ�㲥��ɺ�Ļص�</param>
-            <returns></returns>
         </member>
         <member name="P:AscensionServer.RoomEntity.Available">
             <summary>
@@ -4053,36 +4082,6 @@
             <summary>
             将离开的玩家数据广播给已经在level中的其他玩家；
             </summary>
-        </member>
-        <member name="T:AscensionServer.LevelManager">
-            <summary>
-            场景管理器，管理野外高同步的数据；
-            </summary>
-        </member>
-        <member name="E:AscensionServer.LevelManager.OnRoleEnterLevel">
-            <summary>
-            角色进入场景事件
-            </summary>
-        </member>
-        <member name="E:AscensionServer.LevelManager.OnRoleExitLevel">
-            <summary>
-            角色离开场景事件
-            </summary>
-        </member>
-        <member name="M:AscensionServer.LevelManager.LevelHasRole(System.Int32,System.Int32)">
-             <summary>
-            场景是否包含有角色； 
-             </summary>
-        </member>
-        <member name="M:AscensionServer.LevelManager.SendMessageToLevelS2C(System.Int32,Protocol.OperationData)">
-             <summary>
-            广播消息到指定场景，若场景不存在，则不执行； 
-             </summary>
-        </member>
-        <member name="M:AscensionServer.LevelManager.EnterScene(System.Int32,System.Int32)">
-             <summary>
-            玩家或peer进入场景 
-             </summary>
         </member>
         <member name="T:AscensionServer.IDataVerifyHelper">
             <summary>
@@ -4644,7 +4643,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；

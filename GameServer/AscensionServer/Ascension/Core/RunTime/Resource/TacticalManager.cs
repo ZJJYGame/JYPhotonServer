@@ -11,7 +11,7 @@ using System;
 namespace AscensionServer
 {
     [Module]
-    public class TacticalDeploymentManager :Cosmos. Module,ITacticalDeploymentManager
+    public class TacticalManager :Module,ITacticalManager
     {
         ConcurrentDictionary<int, ConcurrentDictionary<int, TacticalDTO>> AllTacticalDict { get; set; }
         ConcurrentDictionary<int, RoleEntity> roleDict;
@@ -69,9 +69,6 @@ namespace AscensionServer
         /// <summary>
         /// 创建新的阵法实体，并添加到临时集合
         /// </summary>
-        /// <param name="roleid"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public bool TacticalCreateAdd(TacticalDTO tacticalDTO)
         {
             var tacticalentity = TacticalEntity.Create(tacticalDTO.ID, tacticalDTO.RoleID, tacticalDTO.LevelID);
@@ -85,9 +82,6 @@ namespace AscensionServer
         /// <summary>
         /// 移除暂存集合放入总集合
         /// </summary>
-        /// <param name="roleid"></param>
-        /// <param name="tacticalDTO"></param>
-        /// <returns></returns>
         public bool TryAddRemoveTactical(int roleid, out TacticalDTO tacticalDTO)
         {
             var result = roletacticaltemp.TryGetValue(roleid, out var tacticalEntity);
@@ -110,7 +104,6 @@ namespace AscensionServer
         /// <summary>
         /// 打断操作移除临时集合储存阵法
         /// </summary>
-        /// <param name="roleid"></param>
         public void TryRemoveTactical(int roleid)
         {
             var result = roletacticaltemp.TryGetValue(roleid, out var tacticalEntity);
@@ -237,7 +230,7 @@ namespace AscensionServer
             operationData.DataMessage = Utility.Json.ToJson(tacticalDTO);
             operationData.ReturnCode = (short)returnCode;
             operationData.OperationCode = (ushort)OperationCode.SyncGetNewTactical;
-            GameEntry. LevelManager.SendMessageToLevelS2C(tacticalDTO.LevelID, operationData);
+            GameEntry. LevelManager.SendMessageToLevelS2C(LevelTypeEnum.Adventure,tacticalDTO.LevelID, operationData);
         }
         /// <summary>
         /// 监听Redis删除后的回调

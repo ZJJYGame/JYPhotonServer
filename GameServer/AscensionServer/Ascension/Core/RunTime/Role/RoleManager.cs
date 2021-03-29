@@ -9,34 +9,34 @@ using System.Collections.Concurrent;
 
 namespace AscensionServer
 {
-    /// <summary>
-    /// ��ɫ��������
-    /// keyΪRoleId����PlayerId
-    /// </summary>
     [Module]
     public class RoleManager : Cosmos. Module,IRoleManager
     {
         public int RoleCount { get { return roleDict.Count; } }
         ConcurrentDictionary<int, RoleEntity> roleDict = new ConcurrentDictionary<int, RoleEntity>();
-        ConcurrentQueue<RoleEntity> playerPoolQueue = new ConcurrentQueue<RoleEntity>();
-        /// <summary>
-        /// �㲥�¼���Ϣ ;
-        /// </summary>
-        event Action<byte, Dictionary<byte, object>> BroadcastEvent
+
+
+        event Action<OperationData> BroadcastMsg1Param
         {
-            add { broadcastEvent += value; }
-            remove{broadcastEvent -= value;}
+            add { broadcastMsg1Param += value; }
+            remove { broadcastMsg1Param -= value; }
         }
-        /// <summary>
-        /// �㲥��ͨ��Ϣ;
-        /// </summary>
-        event Action<OperationData> BroadcastMessage
+        Action<OperationData> broadcastMsg1Param;
+
+        event Action<byte, Dictionary<byte, object>> BroadcastMsg2Params
         {
-            add { broadcastMessage += value; }
-            remove{broadcastMessage -= value;}
+            add { broadcastMsg2Params += value; }
+            remove{broadcastMsg2Params -= value;}
         }
-        Action<byte, Dictionary<byte, object>> broadcastEvent;
-        Action<OperationData> broadcastMessage;
+        Action<byte, Dictionary<byte, object>> broadcastMsg2Params;
+
+        event Action<byte, short, Dictionary<byte, object>> BroadcastMsg3Params
+        {
+            add { broadcastMsg3Params += value; }
+            remove { broadcastMsg3Params -= value; }
+        }
+        Action<byte, short, Dictionary<byte, object>> broadcastMsg3Params;
+
         public override void OnPreparatory()
         {
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.PORT_CHAT, OnChatMessage);
@@ -51,8 +51,9 @@ namespace AscensionServer
             var result = roleDict.TryAdd(roleId, role);
             if (result)
             {
-                BroadcastEvent += role.SendEvent;
-                BroadcastMessage += role.SendMessage;
+                BroadcastMsg3Params += role.SendMessage;
+                BroadcastMsg2Params += role.SendMessage;
+                BroadcastMsg1Param += role.SendMessage;
             }
             return result;
         }
@@ -65,8 +66,9 @@ namespace AscensionServer
             var result = roleDict.TryRemove(roleId, out var role);
             if (result)
             {
-                BroadcastEvent -= role.SendEvent;
-                BroadcastMessage -= role.SendMessage;
+                BroadcastMsg3Params -= role.SendMessage;
+                BroadcastMsg2Params -= role.SendMessage;
+                BroadcastMsg1Param -= role.SendMessage;
             }
             return result;
         }
@@ -75,8 +77,9 @@ namespace AscensionServer
             var result = roleDict.TryRemove(roleId, out role);
             if (result)
             {
-                BroadcastEvent -= role.SendEvent;
-                BroadcastMessage -= role.SendMessage;
+                BroadcastMsg3Params -= role.SendMessage;
+                BroadcastMsg2Params -= role.SendMessage;
+                BroadcastMsg1Param -= role.SendMessage;
             }
             return result;
         }
@@ -89,34 +92,22 @@ namespace AscensionServer
 
                 var oldRole = roleDict[roleId];
                 {
-                    BroadcastEvent += newRole.SendEvent;
-                    BroadcastMessage += newRole.SendMessage;
-                    BroadcastEvent -= oldRole.SendEvent;
-                    BroadcastMessage -= oldRole.SendMessage;
+                    BroadcastMsg3Params += newRole.SendMessage;
+                    BroadcastMsg2Params += newRole.SendMessage;
+                    BroadcastMsg1Param += newRole.SendMessage;
+                    BroadcastMsg3Params -= oldRole.SendMessage;
+                    BroadcastMsg2Params -= oldRole.SendMessage;
+                    BroadcastMsg1Param -= oldRole.SendMessage;
                 }
                 roleDict[roleId] = newRole;
                 return true;
             }
             return false;
         }
-        public bool SendEvent(int roleId, byte opCode, Dictionary<byte, object> userData)
-        {
-            var result = TryGetValue(roleId, out var role);
-            if (result)
-                role.SendEvent(opCode, userData);
-            return result;
-        }
+
+
         /// <summary>
-        /// ͬ���㲥�¼�(EVENT)��
-        /// �˷����������������Available��peer���������Ϣ�㲥��
-        /// </summary>
-        /// <param name="userData">�û��Զ�������</param>
-        public void BroadcastEventToAll(byte opCode, Dictionary<byte, object> userData)
-        {
-            broadcastEvent?.Invoke(opCode, userData);
-        }
-        /// <summary>
-        ///������Ϣ�������SessionId 
+        ///通过roleId发送信息到登录的角色;
         /// </summary>
         public bool SendMessage(int roleId, OperationData message)
         {
@@ -125,50 +116,71 @@ namespace AscensionServer
                 role.SendMessage(message);
             return result;
         }
-        /// <summary>
-        /// ͨ���㲥��ͨ��Ϣ(MSG)��
-        /// </summary>
-        /// <param name="message">��ͨ��Ϣ</param>
+        public bool SendMessage(int roleId, byte opCode, Dictionary<byte, object> userData)
+        {
+            var result = TryGetValue(roleId, out var role);
+            if (result)
+                role.SendMessage(opCode, userData);
+            return result;
+        }
+        public bool SendMessage(int roleId, byte opCode,short subCode, Dictionary<byte, object> userData)
+        {
+            var result = TryGetValue(roleId, out var role);
+            if (result)
+                role.SendMessage(opCode, subCode,userData);
+            return result;
+        }
+
+
         public void BroadcastMessageToAll(OperationData message)
         {
-            broadcastMessage?.Invoke(message);
+            broadcastMsg1Param?.Invoke(message);
         }
         /// <summary>
-        ///�첽������Ϣ�������SessionId 
+        /// 广播消息到所有登录的角色
         /// </summary>
+        public void BroadcastMessageToAll(byte opCode, Dictionary<byte, object> userData)
+        {
+            broadcastMsg2Params?.Invoke(opCode, userData);
+        }
+        public void BroadcastMessageToAll(byte opCode,short subCode, Dictionary<byte, object> userData)
+        {
+            broadcastMsg3Params?.Invoke(opCode, subCode, userData);
+        }
+
+
         public async Task<bool> SendMessageAsync(int roleId, OperationData message)
         {
             return await Task.Run(() => { return SendMessage(roleId, message); });
         }
-        /// <summary>
-        ///�첽�㲥��Ϣ�������sessionId 
-        /// </summary>
         public async Task<bool> SendEventAsync(int roleId, byte opCode, Dictionary<byte, object> userData)
         {
-            return await Task.Run(() => { return SendEvent(roleId, opCode, userData); });
+            return await Task.Run(() => { return SendMessage(roleId, opCode, userData); });
         }
-        /// <summary>
-        /// �첽�㲥�¼���Ϣ(EVENT)��
-        /// </summary>
-        /// <param name="userData">�û��Զ�������</param>
-        /// <param name="callback">�㲥������Ļص�</param>
-        /// <returns>�߳�Task</returns>
-        public async Task BroadcastEventToAllAsync(byte opCode, Dictionary<byte, object> userData, Action callback = null)
+        public async Task<bool> SendEventAsync(int roleId, byte opCode,short subCode, Dictionary<byte, object> userData)
         {
-            await Task.Run(() => { broadcastEvent?.Invoke(opCode, userData); });
-            callback?.Invoke();
+            return await Task.Run(() => { return SendMessage(roleId, opCode,subCode, userData); });
+
         }
-        /// <summary>
-        /// �첽�㲥��ͨ��Ϣ(MSG)��
-        /// </summary>
-        /// <param name="message">��ͨ��Ϣ</param>
-        /// <param name="callback">��Ϣ�㲥��ɺ�Ļص�</param>
-        /// <returns></returns>
+
+
         public async Task BroadcastMessageToAllAsync(OperationData message, Action callback = null)
         {
-            await Task.Run(() => { broadcastMessage?.Invoke(message); });
+            await Task.Run(() => { broadcastMsg1Param?.Invoke(message); });
             callback?.Invoke();
         }
+        public async Task BroadcastMessageToAllAsync(byte opCode, Dictionary<byte, object> userData, Action callback = null)
+        {
+            await Task.Run(() => { broadcastMsg2Params?.Invoke(opCode, userData); });
+            callback?.Invoke();
+        }
+        public async Task BroadcastMessageToAllAsync(byte opCode, short subCode,Dictionary<byte, object> userData, Action callback = null)
+        {
+            await Task.Run(() => { broadcastMsg3Params?.Invoke(opCode, subCode,userData); });
+            callback?.Invoke();
+        }
+
+
         void OnChatMessage(int sessionId, OperationData opData)
         {
 

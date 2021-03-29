@@ -13,22 +13,27 @@ namespace AscensionServer
     /// 场景管理器，管理野外高同步的数据；
     /// </summary>
     [Module]
-    public class LevelManager : Cosmos. Module,ILevelManager
+    public partial class LevelManager : Cosmos. Module,ILevelManager
     {
-#if SERVER
-        ConcurrentDictionary<int, LevelEntity> levelEntityDict = new ConcurrentDictionary<int, LevelEntity>();
+        /// <summary>
+        /// 历练场景字典;
+        /// </summary>
+        ConcurrentDictionary<int, LevelEntity> adventureLevelEntityDict;
+        /// <summary>
+        /// 秘境场景字典;
+        /// </summary>
+        ConcurrentDictionary<int, LevelEntity> secretAreaLevelEntityDict;
+
         long latestTime;
         int updateInterval = ApplicationBuilder._MSPerTick;
+
         Action sceneRefreshHandler;
         event Action SceneRefreshHandler
         {
             add { sceneRefreshHandler += value; }
             remove{sceneRefreshHandler -= value;}
         }
-        IPeerManager peerMgrInstance;
-#else
-        LevelEntity levelEntity = new LevelEntity();
-#endif
+
         IRoleManager roleMgrInstance;
         Action<RoleEntity> onRoleEnterLevel;
         /// <summary>
@@ -39,6 +44,7 @@ namespace AscensionServer
             add { onRoleEnterLevel += value; }
             remove { onRoleEnterLevel -= value; }
         }
+
         Action<RoleEntity> onRoleExitLevel;
         /// <summary>
         /// 角色离开场景事件
@@ -50,210 +56,77 @@ namespace AscensionServer
         }
         public override void OnPreparatory()
         {
-#if SERVER
+            adventureLevelEntityDict = new ConcurrentDictionary<int, LevelEntity>();
+            secretAreaLevelEntityDict = new ConcurrentDictionary<int, LevelEntity>();
+
             latestTime = Utility.Time.MillisecondNow() + updateInterval;
-            peerMgrInstance = GameEntry.PeerManager;
             roleMgrInstance = GameEntry.RoleManager;
-            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPR_PLYAER_INPUT, OnCommandC2S);
+
             CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPR_PLYAER_LOGOFF, OnPlayerLogoff);
-            CommandEventCore.Instance.AddEventListener((byte)OperationCode.AdventureArea, OnEnterLevelC2S);
-            //CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPR_PLAYER_EXIT, OnExitLevelC2S);
-#else
-            roleMgrInstance = Facade.CustomeModule<RoleManager>();
-            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPERATION_PLYAERINPUT, OnCommandS2C);
-#endif
+
+            CommandEventCore.Instance.AddEventListener((byte)OperationCode.AdventureArea, ProcessAdventureHandlerS2C);
+            CommandEventCore.Instance.AddEventListener((byte)OperationCode.SecretArea, ProcessSecretAreaHandlerS2C);
         }
         public override void OnRefresh()
         {
             if (IsPause)
                 return;
-#if SERVER
             var now = Utility.Time.MillisecondNow();
             if (latestTime <= now)
             {
                 latestTime = now + updateInterval;
                 sceneRefreshHandler?.Invoke();
             }
-#else
-
-#endif
         }
-#if SERVER
 
         /// <summary>
         ///场景是否包含有角色； 
         /// </summary>
-        public bool LevelHasRole(int levelId, int roleId)
+        public bool LevelHasRole(LevelTypeEnum levelType,int levelId, int roleId)
         {
-            if (levelEntityDict.TryGetValue(levelId, out var levelEntity))
+            switch (levelType)
             {
-                return levelEntity.ContainsKey(roleId);
+                case LevelTypeEnum.Adventure:
+                    {
+                        if (adventureLevelEntityDict.TryGetValue(levelId, out var levelEntity))
+                        {
+                            return levelEntity.ContainsKey(roleId);
+                        }
+                    }
+                    break;
+                case LevelTypeEnum.SecretArea:
+                    {
+                        if (secretAreaLevelEntityDict.TryGetValue(levelId, out var levelEntity))
+                        {
+                            return levelEntity.ContainsKey(roleId);
+                        }
+                    }
+                    break;
             }
             return false;
         }
         /// <summary>
         ///广播消息到指定场景，若场景不存在，则不执行； 
         /// </summary>
-        public void SendMessageToLevelS2C(int levelId,OperationData opData)
+        public void SendMessageToLevelS2C(LevelTypeEnum levelType,int levelId,OperationData opData)
         {
-            if (levelEntityDict.TryGetValue(levelId, out var levelEntity))
+            switch (levelType)
             {
-                levelEntity.SndMsg2AllS2C(opData);
-            }
-        }
-#endif
-        /// <summary>
-        ///玩家或peer进入场景 
-        /// </summary>
-        public bool EnterScene(int levelId, int roleId)
-        {
-            bool result = false;
-#if SERVER
-            var hasScene = levelEntityDict.TryGetValue(levelId, out var sceneEntity);
-            if (hasScene)
-            {
-                if (roleMgrInstance.TryGetValue(roleId, out var role))
-                {
-                    result = sceneEntity.TryAdd(roleId, role);
-                    if (result)
+                case LevelTypeEnum.Adventure:
                     {
-                        onRoleEnterLevel?.Invoke(role);
+                        if (adventureLevelEntityDict.TryGetValue(levelId, out var levelEntity))
+                            levelEntity.SndMsg2AllS2C(opData);
                     }
-                }
-            }
-            else
-            {
-                if (roleMgrInstance.TryGetValue(roleId, out var role))
-                {
-                    sceneEntity = LevelEntity.Create(levelId);
-                    SceneRefreshHandler += sceneEntity.OnRefresh;
-                    result = sceneEntity.TryAdd(role.RoleId, role);
-                    if (result)
+                    break;
+                case LevelTypeEnum.SecretArea:
                     {
-                        onRoleEnterLevel?.Invoke(role);
+                        if (secretAreaLevelEntityDict.TryGetValue(levelId, out var levelEntity))
+                            levelEntity.SndMsg2AllS2C(opData);
                     }
-                    levelEntityDict.TryAdd(sceneEntity.LevelId, sceneEntity);
-                }
-            }
-#else
-
-#endif
-            return result;
-        }
-        public bool EnterScene(int levelId, RoleEntity role)
-        {
-            bool result = false;
-#if SERVER
-
-            var hasScene = levelEntityDict.TryGetValue(levelId, out var sceneEntity);
-            if (hasScene)
-            {
-                if (roleMgrInstance.ContainsKey(role.RoleId))
-                {
-                    result = sceneEntity.TryAdd(role.RoleId, role);
-                    if (result)
-                    {
-                        onRoleEnterLevel?.Invoke(role);
-                    }
-                }
-            }
-            else
-            {
-                if (roleMgrInstance.ContainsKey(role.RoleId))
-                {
-                    sceneEntity = LevelEntity.Create(levelId);
-                    SceneRefreshHandler += sceneEntity.OnRefresh;
-                    result = sceneEntity.TryAdd(role.RoleId, role);
-                    if (result)
-                    {
-                        onRoleEnterLevel?.Invoke(role);
-                    }
-                    levelEntityDict.TryAdd(sceneEntity.LevelId, sceneEntity);
-                }
-            }
-#else
-
-#endif
-            return result;
-        }
-        public bool ExitScene(int levelId, int roleId)
-        {
-            bool result = false;
-#if SERVER
-            LevelEntity levelEntity;
-            var hasScene = levelEntityDict.TryGetValue(levelId, out levelEntity);
-            if (hasScene)
-            {
-                {
-                    result = levelEntity.TryRemove(roleId,out var role);
-                    if (result)
-                    {
-                        onRoleExitLevel?.Invoke(role);
-                    }
-                    if (levelEntity.Empty)
-                    {
-                        levelEntityDict.TryRemove(levelId, out _ );
-                        CosmosEntry.ReferencePoolManager.Despawn(levelEntity);
-                        SceneRefreshHandler -= levelEntity.OnRefresh;
-                    }
-                    if (roleMgrInstance.ContainsKey(roleId))
-                    {
-
-                    }        
-                }
-            }
-#else
-
-#endif
-            return result;
-        }
-        public bool ExitScene(int levelId, RoleEntity role)
-        {
-            bool result = false;
-#if SERVER
-            LevelEntity levelEntity;
-            var hasScene = levelEntityDict.TryGetValue(levelId, out levelEntity);
-            if (hasScene)
-            {
-                result = levelEntity.TryRemove(role.RoleId);
-                if (result)
-                {
-                    onRoleExitLevel?.Invoke(role);
-                }
-                if (levelEntity.Empty)
-                {
-                    levelEntityDict.TryRemove(levelId, out _);
-                    CosmosEntry.ReferencePoolManager.Despawn(levelEntity);
-                    SceneRefreshHandler -= levelEntity.OnRefresh;
-                }
-                if (roleMgrInstance.ContainsKey(role.RoleId))
-                {
-       
-                }
-            }
-#else
-
-#endif
-            return result;
-        }
-#if SERVER
-        void OnCommandC2S(int sessionId,OperationData opData)
-        {
-            var input = opData.DataContract as C2SInput;
-            if (input != null)
-            {
-                if (levelEntityDict.TryGetValue(input.EntityContainer.ContainerId, out var sceneEntity))
-                {
-                    sceneEntity.OnCommandC2S(input);
-                }
+                    break;
             }
         }
-#else
-         void OnCommandS2C(OperationData opData)
-        {
-            levelEntity?.OnCommandS2C(opData.DataContract);
-        }
-#endif
+
         void OnPlayerLogoff(int sessionId, OperationData opData)
         {
             var roleEntity = opData.DataMessage as RoleEntity;
@@ -266,35 +139,11 @@ namespace AscensionServer
                     Utility.Debug.LogWarning($"RoleId:{roleEntity.RoleId} ;SessionId:{roleEntity.SessionId}由于强退，尝试从Level:{levelEntity.LevelId}中移除");
                     if (levelEntity.Empty)
                     {
-                        levelEntityDict.TryRemove(levelEntity.LevelId, out _);
+                        adventureLevelEntityDict.TryRemove(levelEntity.LevelId, out _);
                         CosmosEntry.ReferencePoolManager.Despawn(levelEntity);
                         SceneRefreshHandler -= levelEntity.OnRefresh;
                     }
                 }
-            }
-        }
-        void OnEnterLevelC2S(int sessionId, OperationData opData)
-        {
-            try
-            {
-                var entity = opData.DataContract as C2SContainer;
-                EnterScene(entity.Container.ContainerId, entity.Player.PlayerId);
-            }
-            catch (Exception e)
-            {
-                Utility.Debug.LogError(e);
-            }
-        }
-        void OnExitLevelC2S(int sessionId, OperationData opData)
-        {
-            try
-            {
-                var entity = opData.DataContract as C2SContainer;
-                ExitScene(entity.Container.ContainerId, entity.Player.PlayerId);
-            }
-            catch (Exception e)
-            {
-                Utility.Debug.LogError(e);
             }
         }
     }

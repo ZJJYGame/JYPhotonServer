@@ -42,16 +42,6 @@ namespace Protocol
         /// </summary>
         public const ushort OPR_PLYAER_LOGOFF = 7;
         /// <summary>
-        /// PlayerEnter；
-        /// 玩家进入高同步场景，例如探索界面，副本界面等；
-        /// </summary>
-        public const ushort OPR_PLAYER_ENTER = 111;
-        /// <summary>
-        /// PlayerExit
-        /// 玩家离开高同步场景，例如探索界面，副本界面等；
-        /// </summary>
-        public const ushort OPR_PLAYER_EXIT = 112;
-        /// <summary>
         /// 高同步场景中的技能使用。例如探索界面，副本界面等；
         /// </summary>
         public const ushort OPR_PLAYER_SKILL = 36;

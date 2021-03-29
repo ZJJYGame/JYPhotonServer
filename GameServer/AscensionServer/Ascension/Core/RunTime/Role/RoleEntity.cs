@@ -78,11 +78,15 @@ namespace AscensionServer
 #endif
         public void SendMessage(OperationData data)
         {
-           GameEntry.PeerManager.SendMessage(SessionId,  data);
+            GameEntry.PeerManager.SendMessage(SessionId, data);
         }
-        public void SendEvent(byte opCode, Dictionary<byte, object> data)
+        public void SendMessage(byte opCode, Dictionary<byte, object> userData)
         {
-            GameEntry.PeerManager.SendEvent(SessionId, opCode, data);
+            GameEntry.PeerManager.SendMessage(SessionId, opCode, userData);
+        }
+        public void SendMessage(byte opCode, short subCode, Dictionary<byte, object> userData)
+        {
+            GameEntry.PeerManager.SendMessage(SessionId, opCode,subCode, userData);
         }
         public void Clear()
         {

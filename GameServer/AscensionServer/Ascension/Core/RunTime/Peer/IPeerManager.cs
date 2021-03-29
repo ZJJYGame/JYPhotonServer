@@ -20,48 +20,91 @@ namespace AscensionServer
         /// </summary>
         bool TryUpdate(int sessionId, IPeerEntity newPeer, IPeerEntity comparisonPeer);
         bool TryGetValue(int sessionId, out IPeerEntity peer);
-        /// <summary>
-        ///发送事件(EVENT)到具体的sessionId； 
-        ///若不存在session对象，则不发送，并返回false；
-        /// </summary>
-        bool SendEvent(int sessionId, byte opCode, Dictionary<byte, object> userData);
-        /// <summary>
-        /// 同步广播事件(EVENT)；
-        /// 此方法会对所有在线且Available的peer对象进行消息广播；
-        /// </summary>
-        /// <param name="userData">用户自定义数据</param>
-        void BroadcastEventToAll(byte opCode, Dictionary<byte, object> userData);
+
         /// <summary>
         ///发送消息到具体的SessionId 
         /// </summary>
         bool SendMessage(int sessionId, OperationData message);
         /// <summary>
+        /// 同步方法；
+        /// 通过广播消息(MSG)；
+        /// </summary>
+        /// <param name="sessionId">会话Id</param>
+        /// <param name="opCode">操作码</param>
+        /// <param name="subCode">子操作码</param>
+        /// <param name="userData">用户自定义数据</param>
+        /// <returns>是否能够发送</returns>
+        bool SendMessage(int sessionId, byte opCode, short subCode, Dictionary<byte, object> userData);
+        /// <summary>
+        /// 同步方法；
+        /// 通过广播消息(MSG)；
+        ///若不存在session对象，则不发送，并返回false；
+        /// </summary>
+        bool SendMessage(int sessionId, byte opCode, Dictionary<byte, object> userData);
+        /// <summary>
+        /// 通过广播消息(MSG)；
+        /// 此方法会对所有在线且Available的peer对象进行消息广播；
+        /// </summary>
+        /// <param name="userData">用户自定义数据</param>
+        void BroadcastMessageToAll(byte opCode, Dictionary<byte, object> userData);
+        /// <summary>
+        /// 同步方法；
+        /// 通过广播消息(MSG)；
+        /// </summary>
+        /// <param name="opCode">操作码</param>
+        /// <param name="subCode">子操作码</param>
+        /// <param name="userData">用户自定义数据</param>
+        void BroadcastMessageToAll(byte opCode, short subCode, Dictionary<byte, object> userData);
+        /// <summary>
+        /// 同步方法；
         /// 通过广播消息(MSG)；
         /// </summary>
         /// <param name="message">普通消息</param>
         void BroadcastMessageToAll(OperationData message);
         /// <summary>
-        ///异步发送消息到具体的SessionId 
+        /// 异步广播消息(MSG)；
         /// </summary>
+        /// <param name="sessionId">会话Id</param>
+        /// <param name="message">普通消息</param>
+        /// <returns>线程Task</returns>
         Task<bool> SendMessageAsync(int sessionId, OperationData message);
         /// <summary>
         ///异步广播消息到具体的sessionId 
         /// </summary>
-        Task<bool> SendEventAsync(int sessionId, byte opCode, Dictionary<byte, object> userData);
+        Task<bool> SendMessageAsync(int sessionId, byte opCode, Dictionary<byte, object> userData);
         /// <summary>
-        /// 异步广播事件消息(EVENT)；
+        /// 异步广播消息(MSG)；
         /// </summary>
+        /// <param name="sessionId">会话Id</param>
+        /// <param name="opCode">操作码</param>
+        /// <param name="subCode">子操作码</param>
         /// <param name="userData">用户自定义数据</param>
-        /// <param name="callback">广播结束后的回调</param>
         /// <returns>线程Task</returns>
-        Task BroadcastEventToAllAsync(byte opCode, Dictionary<byte, object> userData, Action callback = null);
+        Task<bool> SendMessageAsync(int sessionId, byte opCode, short subCode, Dictionary<byte, object> userData);
         /// <summary>
         /// 异步广播消息(MSG)；
         /// </summary>
         /// <param name="message">普通消息</param>
         /// <param name="callback">消息广播完成后的回调</param>
-        /// <returns></returns>
+        /// <returns>线程Task</returns>
         Task BroadcastMessageToAllAsync(OperationData message, Action callback = null);
+        /// <summary>
+        /// 异步广播消息(MSG)；
+        /// </summary>
+        /// <param name="opCode">操作码</param>
+        /// <param name="userData">用户自定义数据</param>
+        /// <param name="callback">广播结束后的回调</param>
+        /// <returns>线程Task</returns>
+        Task BroadcastMessageToAllAsync(byte opCode, Dictionary<byte, object> userData, Action callback = null);
+        /// <summary>
+        /// 异步广播消息(MSG)；
+        /// </summary>
+        /// <param name="opCode">操作码</param>
+        /// <param name="subCode">子操作码</param>
+        /// <param name="userData">用户自定义数据</param>
+        /// <param name="callback">广播结束后的回调</param>
+        /// <returns>线程Task</returns>
+        Task BroadcastMessageToAllAsync(byte opCode, short subCode, Dictionary<byte, object> userData, Action callback = null);
     }
 }
 

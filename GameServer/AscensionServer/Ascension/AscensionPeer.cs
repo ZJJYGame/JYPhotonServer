@@ -19,8 +19,8 @@ namespace AscensionServer
         public object Handle { get; private set; }
         SendParameters sendParam = new SendParameters();
         EventData eventData = new EventData();
-        public ICollection<object> DataCollection { get { return dataDict.Values; } }
         Dictionary<Type, object> dataDict = new Dictionary<Type, object>();
+        OperationData operationData = new OperationData();
         #endregion
         #region Methods
         public AscensionPeer(InitRequest initRequest) : base(initRequest)
@@ -68,6 +68,23 @@ namespace AscensionServer
             var data = Utility.MessagePack.ToByteArray(opData);
             base.SendMessage(data, sendParam);
         }
+        public void SendMessage(byte opCode, Dictionary<byte, object> userData)
+        {
+            operationData.Dispose();
+            operationData.OperationCode = opCode;
+            operationData.DataMessage = Utility.Json.ToJson(userData);
+            var data = Utility.MessagePack.ToByteArray(operationData);
+            base.SendMessage(data, sendParam);
+        }
+        public void SendMessage(byte opCode,short subCode, Dictionary<byte, object> userData)
+        {
+            operationData.Dispose();
+            operationData.OperationCode = opCode;
+            operationData.SubOperationCode = subCode;
+            operationData.DataMessage = Utility.Json.ToJson(userData);
+            var data = Utility.MessagePack.ToByteArray(operationData);
+            base.SendMessage(data, sendParam);
+        }
         /// <summary>
         /// 发送事件消息;
         /// 传输的数据类型限定为Dictionary<byte,object>类型；
@@ -101,7 +118,7 @@ namespace AscensionServer
             }
             GameEntry.PeerManager.TryRemove(SessionId);
             Utility.Debug.LogError($"Photon SessionId : {SessionId} Unavailable . RemoteAdress:{RemoteIPAddress}");
-            var task = GameEntry.PeerManager.BroadcastEventToAllAsync((byte)reasonCode, ed.Parameters);
+            var task = GameEntry.PeerManager.BroadcastMessageToAllAsync((byte)reasonCode, ed.Parameters);
         }
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
         {

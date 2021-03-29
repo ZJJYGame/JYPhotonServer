@@ -10,7 +10,7 @@ using Cosmos;
 
 namespace AscensionServer
 {
-    public interface ITacticalDeploymentManager:IModuleManager
+    public interface ITacticalManager:IModuleManager
     {
         /// <summary>
         /// 创建新的阵法实体，并添加到临时集合

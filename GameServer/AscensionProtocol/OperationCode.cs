@@ -51,6 +51,10 @@ namespace AscensionProtocol
         /// 历练区域码；
         /// </summary>
         AdventureArea = 111,
+        /// <summary>
+        /// 秘境区域码；
+        /// </summary>
+        SecretArea = 112,
 
         #endregion
 

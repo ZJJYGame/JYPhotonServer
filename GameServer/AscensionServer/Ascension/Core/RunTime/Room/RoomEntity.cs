@@ -71,7 +71,7 @@ namespace AscensionServer
         {
             var result = roleDict.TryRemove(roleId, out var role);
             if (result)
-                BroadcastBattleEvent -= role.SendEvent;
+                BroadcastBattleEvent -= role.SendMessage;
             return result;
         }
         public bool TryAdd(int roleId, RoleEntity role)
@@ -80,14 +80,14 @@ namespace AscensionServer
                throw new ArgumentNullException("PeerEntity is invaild ! ");
             var result = roleDict.TryAdd(roleId, role);
             if (result)
-                BroadcastBattleEvent += role.SendEvent;
+                BroadcastBattleEvent += role.SendMessage;
             return result;
         }
         public bool TryRemove(int roleId, out RoleEntity role)
         {
             var result = roleDict.TryRemove(roleId, out role);
             if (result)
-                BroadcastBattleEvent -= role.SendEvent;
+                BroadcastBattleEvent -= role.SendMessage;
             return result;
         }
         public bool TryUpdate(int roleId, RoleEntity newRole, RoleEntity comparsionRole)
@@ -95,8 +95,8 @@ namespace AscensionServer
             var result = roleDict.TryUpdate(roleId, newRole, comparsionRole);
             if (result)
             {
-                BroadcastBattleEvent -= comparsionRole.SendEvent;
-                BroadcastBattleEvent += newRole.SendEvent;
+                BroadcastBattleEvent -= comparsionRole.SendMessage;
+                BroadcastBattleEvent += newRole.SendMessage;
             }
             return result;
         }

@@ -112,7 +112,7 @@ namespace AscensionServer
                 OperationData operationData = new OperationData();
                 operationData.DataMessage = Utility.Json.ToJson(occupiedUnitObj);
                 //GameManager.CustomeModule<MapResourceManager>().OccupiedUnitSetCache.Clear();
-                levelmanager.SendMessageToLevelS2C(0, operationData);
+                levelmanager.SendMessageToLevelS2C( LevelTypeEnum.Adventure,0, operationData);
 
             }
             //else

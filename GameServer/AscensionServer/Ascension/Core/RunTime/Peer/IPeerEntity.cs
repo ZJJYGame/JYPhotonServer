@@ -36,6 +36,9 @@ namespace AscensionServer
         /// </summary>
         /// <param name="opData">消息数据</param>
         void SendMessage(OperationData  opData);
+        void SendMessage(byte opCode, Dictionary<byte, object> userData);
+        void SendMessage(byte opCode, short subCode, Dictionary<byte, object> userData);
+
     }
 }
 

@@ -57,6 +57,7 @@
     <Compile Include="AreaOpCode\LoginOffOpCode.cs" />
     <Compile Include="AreaOpCode\RoleAssetsOpCode.cs" />
     <Compile Include="AreaOpCode\RoleStatusOpCode.cs" />
+    <Compile Include="AreaOpCode\SecretAreaOpCode.cs" />
     <Compile Include="DTO\AdventurePlayerDTO.cs" />
     <Compile Include="DTO\AdventureSkillLayoutDTO.cs" />
     <Compile Include="DTO\AlchemyDTO.cs" />
