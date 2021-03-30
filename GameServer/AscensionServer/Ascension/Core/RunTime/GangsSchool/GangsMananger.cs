@@ -133,19 +133,40 @@ namespace AscensionServer
                     #endregion
                     break;
                 case AllianceOpCode.ChangeAllianceName:
+                    #region
+                    dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
+                    roleObj = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
+                    allianceStatusObj = Utility.Json.ToObject<AllianceStatus>(dict[(byte)ParameterCode.AllianceStatus].ToString());
+                    ChangeAllianceNameS2C(roleObj.RoleID, allianceStatusObj);
+                    #endregion
                     break;
                 case AllianceOpCode.AllianceActivity:
                     break;
                 case AllianceOpCode.ChangeAlliancePurpose:
+                    #region
+                    dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
+                    roleObj = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
+                    allianceStatusObj = Utility.Json.ToObject<AllianceStatus>(dict[(byte)ParameterCode.AllianceStatus].ToString());
+                    ChangeAlliancePurposeMySql(roleObj.RoleID, allianceStatusObj);
+                    #endregion
                     break;
                 case AllianceOpCode.CareerAdvancement:
+                    #region
                     dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
                     roleObj = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
                     roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(dict[(byte)ParameterCode.RoleAlliance].ToString());
                     Utility.Debug.LogInfo("角色宗門职位变动");
-                    CareerAdvancementS2C(roleObj.RoleID, roleAllianceObj.RoleID, roleAllianceObj.AllianceID,roleAllianceObj.AllianceJob);
+                    CareerAdvancementS2C(roleObj.RoleID, roleAllianceObj.RoleID, roleAllianceObj.AllianceID, roleAllianceObj.AllianceJob);
+                    #endregion
                     break;
                 case AllianceOpCode.SearchAlliance:
+                    #region
+                    dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
+                    roleObj = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
+                    allianceStatusObj = Utility.Json.ToObject<AllianceStatus>(dict[(byte)ParameterCode.AllianceStatus].ToString());
+                    Utility.Debug.LogInfo("宗門模糊搜索");
+                    SearchAllianceS2C(roleObj.RoleID, allianceStatusObj.ID, allianceStatusObj.AllianceName);
+                    #endregion
                     break;
                 case AllianceOpCode.ExchangeElixir:
                     #region

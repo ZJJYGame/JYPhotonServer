@@ -2680,6 +2680,20 @@
             修改宗门职位
             </summary>
         </member>
+        <member name="M:AscensionServer.GangsMananger.QuitAllianceS2C(System.Int32,System.Int32)">
+            <summary>
+            退出宗门
+            </summary>
+            <param name="roleID"></param>
+            <param name="id"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.KickOutAllianceS2C(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            踢出宗门
+            </summary>
+            <param name="roleID"></param>
+            <param name="id"></param>
+        </member>
         <member name="M:AscensionServer.GangsMananger.ApplyJoinAllianceMySql(System.Int32,System.Int32)">
             <summary>
             申請加入宗門
@@ -2702,6 +2716,13 @@
         <member name="M:AscensionServer.GangsMananger.GetAllianceMemberMySql(System.Int32,System.Int32)">
             <summary>
             獲取宗門成員數據
+            </summary>
+            <param name="roleID"></param>
+            <param name="id"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.QuitAllianceMySql(System.Int32,System.Int32)">
+            <summary>
+            退出宗门
             </summary>
             <param name="roleID"></param>
             <param name="id"></param>
@@ -2731,14 +2752,14 @@
             <param name="roleID"></param>
             <param name="constructionDTO"></param>
         </member>
-        <member name="M:AscensionServer.GangsMananger.ChangeAllianceNameS2C(System.Int32,AscensionProtocol.DTO.AllianceStatusDTO)">
+        <member name="M:AscensionServer.GangsMananger.ChangeAllianceNameS2C(System.Int32,AscensionServer.Model.AllianceStatus)">
             <summary>
             修改宗門名稱
             </summary>
             <param name="roleID"></param>
             <param name="statusDTO"></param>
         </member>
-        <member name="M:AscensionServer.GangsMananger.ChangeAlliancePurposeS2C(System.Int32,AscensionProtocol.DTO.AllianceStatusDTO)">
+        <member name="M:AscensionServer.GangsMananger.ChangeAlliancePurposeS2C(System.Int32,AscensionServer.Model.AllianceStatus)">
             <summary>
             修改宗門宗旨
             </summary>
@@ -2751,12 +2772,12 @@
             </summary>
             <param name="roleID"></param>
         </member>
-        <member name="M:AscensionServer.GangsMananger.ChangeAllianceNameMySQL(System.Int32,AscensionProtocol.DTO.AllianceStatusDTO)">
+        <member name="M:AscensionServer.GangsMananger.ChangeAllianceNameMySQL(System.Int32,AscensionServer.Model.AllianceStatus)">
             <summary>
             修改宗門名稱
             </summary>
         </member>
-        <member name="M:AscensionServer.GangsMananger.ChangeAlliancePurposeMySql(System.Int32,AscensionProtocol.DTO.AllianceStatusDTO)">
+        <member name="M:AscensionServer.GangsMananger.ChangeAlliancePurposeMySql(System.Int32,AscensionServer.Model.AllianceStatus)">
             <summary>
             修改宗門宗旨
             </summary>

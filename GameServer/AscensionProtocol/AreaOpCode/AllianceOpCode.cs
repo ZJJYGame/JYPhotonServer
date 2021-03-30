@@ -120,5 +120,9 @@ namespace AscensionProtocol
         /// 宗门签到
         /// </summary>
         GetAllianceSignin = 31,
+        /// <summary>
+        /// 踢出宗门
+        /// </summary>
+        KickOutAlliance= 32,
     }
 }
