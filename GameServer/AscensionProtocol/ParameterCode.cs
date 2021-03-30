@@ -227,5 +227,9 @@
         /// 兑换物品
         /// </summary>
         ExchangeGoods=110,
+        /// <summary>
+        /// 成员职位数
+        /// </summary>
+        MemberJobNum = 111,
     }
 }

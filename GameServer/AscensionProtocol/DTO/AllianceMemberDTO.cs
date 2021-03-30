@@ -19,12 +19,13 @@ namespace AscensionProtocol.DTO
         /// </summary>
         public virtual List<int> Member { get; set; }
 
-
+        public virtual Dictionary<int,int> JobNumDict { get; set; }
         public override void Clear()
         {
             AllianceID = -1;
             ApplyforMember = null;
             Member = null;
+            JobNumDict = null;
         }
     }
 }

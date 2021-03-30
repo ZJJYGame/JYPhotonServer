@@ -12,11 +12,12 @@ namespace AscensionServer.Model
         public virtual int AllianceID { get; set; }
         public virtual string ApplyforMember { get; set; }
         public virtual string Member { get; set; }
-
+        public virtual string JobNumDict { get; set; }
         public AllianceMember()
         {
             ApplyforMember ="[]";
             Member = null;
+            JobNumDict = "{}";
         }
 
 
@@ -25,6 +26,7 @@ namespace AscensionServer.Model
             AllianceID = -1;
             ApplyforMember = null;
             Member = null;
+            JobNumDict = "{}";
         }
     }
 }

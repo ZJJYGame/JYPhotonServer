@@ -39,7 +39,7 @@ namespace AscensionProtocol
         /// <summary>
         /// 宗门签到
         /// </summary>
-        AllianceSignin=8,
+        UpdateAllianceSignin = 8,
         /// <summary>
         /// 拒绝申请
         /// </summary>
@@ -116,5 +116,9 @@ namespace AscensionProtocol
         /// 加入成功后的被动接受
         /// </summary>
         JoinAllianceSuccess = 30,
+        /// <summary>
+        /// 宗门签到
+        /// </summary>
+        GetAllianceSignin = 31,
     }
 }

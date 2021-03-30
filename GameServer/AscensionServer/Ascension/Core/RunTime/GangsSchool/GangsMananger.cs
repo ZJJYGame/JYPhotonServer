@@ -93,7 +93,15 @@ namespace AscensionServer
                 case AllianceOpCode.QuitAlliance:
 
                     break;
-                case AllianceOpCode.AllianceSignin:
+                case AllianceOpCode.GetAllianceSignin:
+                    roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(packet.DataMessage.ToString());
+                    Utility.Debug.LogInfo("获得宗门签到");
+                    GetAllianceSigninS2C(roleAllianceObj.RoleID, roleAllianceObj.AllianceID);
+                    break;
+                case AllianceOpCode.UpdateAllianceSignin:
+                    roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(packet.DataMessage.ToString());
+                    Utility.Debug.LogInfo("更新宗门签到");
+                    UpdateAllianceSigninS2C(roleAllianceObj.RoleID, roleAllianceObj.AllianceID);
                     break;
                 case AllianceOpCode.RefuseApply:
                     #region
@@ -131,6 +139,11 @@ namespace AscensionServer
                 case AllianceOpCode.ChangeAlliancePurpose:
                     break;
                 case AllianceOpCode.CareerAdvancement:
+                    dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
+                    roleObj = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
+                    roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(dict[(byte)ParameterCode.RoleAlliance].ToString());
+                    Utility.Debug.LogInfo("角色宗門职位变动");
+                    CareerAdvancementS2C(roleObj.RoleID, roleAllianceObj.RoleID, roleAllianceObj.AllianceID,roleAllianceObj.AllianceJob);
                     break;
                 case AllianceOpCode.SearchAlliance:
                     break;

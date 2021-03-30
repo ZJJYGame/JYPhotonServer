@@ -256,54 +256,59 @@ namespace AscensionServer
                     signinObj = new AllianceSigninDTO() { AllianceID = id, IsSignin = false,RoleID= roleID};
                    await  RedisHelper.Hash.HashSetAsync<AllianceSigninDTO>(RedisKeyDefine._AllianceSigninPerfix, roleID.ToString(), signinObj);
                 }
-                RoleStatusSuccessS2C(roleID, AllianceOpCode.AllianceSignin, signinObj);
+                RoleStatusSuccessS2C(roleID, AllianceOpCode.GetAllianceSignin, signinObj);
             }
            else
             {
                var signinObj = new AllianceSigninDTO() { AllianceID = id, IsSignin = false, RoleID = roleID };
                 await RedisHelper.Hash.HashSetAsync<AllianceSigninDTO>(RedisKeyDefine._AllianceSigninPerfix, roleID.ToString(), signinObj);
-                RoleStatusSuccessS2C(roleID, AllianceOpCode.AllianceSignin, signinObj);
+                RoleStatusSuccessS2C(roleID, AllianceOpCode.GetAllianceSignin, signinObj);
             }
         }
 
         async void UpdateAllianceSigninS2C(int roleID, int id)
         {
-            GameEntry.DataManager.TryGetValue<Dictionary<int, AllianceSigninData>>(out var signinDict);
+            GameEntry.DataManager.TryGetValue<List<AllianceSigninData>>(out var signinList);
             var signinExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceSigninPerfix, roleID.ToString()).Result;
-            var roleExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceSigninPerfix, roleID.ToString()).Result;
+            var roleExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RolePostfix, roleID.ToString()).Result;
             var roleAllianceExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString()).Result;
             var allianceExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceConstructionPerfix, id.ToString()).Result;
             var assetsExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString()).Result;
             var statusExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
+            Utility.Debug.LogInfo("YZQ更新宗门签到1" + signinExist + roleExist + roleAllianceExist + allianceExist + assetsExist + statusExist);
+
             if (signinExist && roleExist && roleAllianceExist && allianceExist && assetsExist && statusExist)
             {
                 var signinObj = RedisHelper.Hash.HashGetAsync<AllianceSigninDTO>(RedisKeyDefine._AllianceSigninPerfix, roleID.ToString()).Result;
                 var roleObj = RedisHelper.Hash.HashGetAsync<RoleDTO>(RedisKeyDefine._RolePostfix, roleID.ToString()).Result;
-                var roleAllianceObj = RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._RolePostfix, roleID.ToString()).Result;
+                var roleAllianceObj = RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString()).Result;
                 var allianceObj = RedisHelper.Hash.HashGetAsync<AllianceConstruction>(RedisKeyDefine._AllianceConstructionPerfix, id.ToString()).Result;
                 var statusObj = RedisHelper.Hash.HashGetAsync<AllianceStatus>(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
                 var assetsObj = RedisHelper.Hash.HashGetAsync<RoleAssets>(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString()).Result;
+
+                Utility.Debug.LogInfo("YZQ更新宗门签到2" + (signinObj != null) +""+ (roleObj != null) +""+ (assetsObj != null) +""+ (statusObj != null) +""+ (roleAllianceObj != null) +""+ (allianceObj != null));
+
 
                 if (signinObj != null && roleObj != null && assetsObj != null && statusObj != null && roleAllianceObj != null && allianceObj != null)
                 {
                     if (signinObj.IsSignin)
                     {
-                        foreach (var item in signinDict)
+                        for (int i = 0; i < signinList.Count; i++)
                         {
-                            if (roleObj.RoleLevel <= item.Value.Role_Level[1] && roleObj.RoleLevel >= item.Value.Role_Level[0])
+                            if (roleObj.RoleLevel <= signinList[i].Role_Level[1] && roleObj.RoleLevel >= signinList[i].Role_Level[0])
                             {
-                                assetsObj.SpiritStonesLow += item.Value.Role_Reward;
-                                statusObj.Popularity += item.Value.Alliance_Popularity;
-                                roleAllianceObj.Reputation += item.Value.Role_Contribution;
-                                allianceObj.AllianceAssets += item.Value.Alliance_Spirit_Stone;
+                                assetsObj.SpiritStonesLow += signinList[i].Role_Reward;
+                                statusObj.Popularity += signinList[i].Alliance_Popularity;
+                                roleAllianceObj.Reputation += signinList[i].Role_Contribution;
+                                allianceObj.AllianceAssets += signinList[i].Alliance_Spirit_Stone;
 
+                                signinObj.IsSignin = false;
                                 Dictionary<byte, object> dict = new Dictionary<byte, object>();
 
-                                dict.Add((byte)ParameterCode.AllianceConstruction, allianceObj);
                                 dict.Add((byte)ParameterCode.RoleAlliance, roleAllianceObj);
-                                dict.Add((byte)ParameterCode.AllianceStatus, statusObj);
                                 dict.Add((byte)ParameterCode.RoleAssets, assetsObj);
-                                RoleStatusSuccessS2C(roleID, AllianceOpCode.AllianceSignin, dict);
+                                dict.Add((byte)ParameterCode.AllianceSignin, signinObj);
+                                RoleStatusSuccessS2C(roleID, AllianceOpCode.UpdateAllianceSignin, dict);
 
                                 await RedisHelper.Hash.HashSetAsync<RoleAllianceDTO>(RedisKeyDefine._RolePostfix, roleID.ToString(), roleAllianceObj);
                                 await RedisHelper.Hash.HashSetAsync<AllianceConstruction>(RedisKeyDefine._AllianceConstructionPerfix, id.ToString(), allianceObj);
@@ -321,7 +326,7 @@ namespace AscensionServer
                 }
             }
             else
-                RoleStatusFailS2C(roleID,AllianceOpCode.AllianceSignin);
+                RoleStatusFailS2C(roleID, AllianceOpCode.UpdateAllianceSignin);
         }
         #endregion
 

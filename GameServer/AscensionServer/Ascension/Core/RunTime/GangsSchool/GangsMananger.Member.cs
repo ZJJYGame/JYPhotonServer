@@ -42,7 +42,7 @@ namespace AscensionServer
 
                         await RedisHelper.Hash.HashSetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString(), roleAlliance);
 
-                        await RedisHelper.Hash.HashSetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, roleID.ToString(), alliance);
+                        await RedisHelper.Hash.HashSetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, id.ToString(), alliance);
                         //TODO更新到数据库
                     }
                     else
@@ -87,9 +87,18 @@ namespace AscensionServer
                                     alliancestatusObj.OnLineNum++;
                                 }
                                 rolealliance.AllianceID = id;
+                                rolealliance.AllianceJob = 931;
                                 rolealliance.ApplyForAlliance.Clear();
                                 rolealliance.JoinTime = DateTime.Now.ToString();
                                 consents.Add(roleIDs[i]);
+                                if (allianceObj.JobNumDict.ContainsKey(rolealliance.AllianceJob))
+                                {
+                                    allianceObj.JobNumDict[rolealliance.AllianceJob]++;
+                                }
+                                else
+                                {
+                                    allianceObj.JobNumDict.Add(rolealliance.AllianceJob,1);
+                                }
                                 RoleStatusSuccessS2C(roleIDs[i], AllianceOpCode.JoinAllianceSuccess, rolealliance);
 
                                 await RedisHelper.Hash.HashSetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleIDs[i].ToString(), rolealliance);
@@ -128,6 +137,7 @@ namespace AscensionServer
                     Dictionary<byte, object> dict = new Dictionary<byte, object>();
                     dict.Add((byte)ParameterCode.AllianceMember, member);
                     dict.Add((byte)ParameterCode.ApplyMember, apply);
+                    dict.Add((byte)ParameterCode.MemberJobNum, allianceObj);
                     RoleStatusSuccessS2C(roleID, AllianceOpCode.ConsentApply, dict);
 
                     //更新到数据库
@@ -250,6 +260,7 @@ namespace AscensionServer
                     Dictionary<byte, object> dict = new Dictionary<byte, object>();
                     dict.Add((byte)ParameterCode.AllianceMember, member);
                     dict.Add((byte)ParameterCode.ApplyMember, apply);
+                    dict.Add((byte)ParameterCode.MemberJobNum, allianceObj);
                     RoleStatusSuccessS2C(roleID, AllianceOpCode.GetAllianceMember, dict);
                 }
                 else
@@ -326,41 +337,86 @@ namespace AscensionServer
         /// <summary>
         /// 修改宗门职位
         /// </summary>
-        async void CareerAdvancementS2C(int roleID,int id,int jobID)
+        async void CareerAdvancementS2C(int roleID,int playerid,int id,int jobID)
         {
             GameEntry.DataManager.TryGetValue<Dictionary<int, AllianceJobData>>(out var jobDict);
+            var result = jobDict.TryGetValue(jobID, out var jobData);
+
+            if (!result)
+            {
+                RoleStatusFailS2C(roleID, AllianceOpCode.CareerAdvancement);
+                return;
+            }
+            List<RoleAllianceDTO> roleallianceList = new List<RoleAllianceDTO>();
+            Dictionary<byte, object> dict = new Dictionary<byte, object>();
 
             var allianceExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
-            List<RoleAllianceDTO> roleAlliances = new List<RoleAllianceDTO>();
-            if (allianceExist)
+            var roleExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString()).Result;
+            var playerExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAlliancePerfix, playerid.ToString()).Result;
+            if (allianceExist&& allianceExist&& playerExist)
             {
-                var roleAlliance= RedisHelper.Hash.HashGetAsync<AllianceMemberDTO>(RedisKeyDefine._RoleAlliancePerfix, id.ToString()).Result;
-                if (roleAlliance!=null)
-                {
-                    for (int i = 0; i < roleAlliance.Member.Count; i++)
-                    {
-                        var memberExist= RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceMemberPerfix, roleAlliance.Member[i].ToString()).Result;
+                var Alliance= RedisHelper.Hash.HashGetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
+                var role = RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString()).Result;
+                var player = RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, playerid.ToString()).Result;
 
-                        if (memberExist)
+                if (Alliance != null&& role!=null&& player!=null)
+                {
+                    if (role.AllianceJob > player.AllianceJob && role.AllianceJob == 937 && jobID == 937)
+                    {
+                        role.AllianceJob = 931;
+                        if (Alliance.JobNumDict[player.AllianceJob] > 0)
                         {
-                            var member = RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._AllianceMemberPerfix, roleAlliance.Member[i].ToString()).Result;
-                            if (member!=null)
+                            Alliance.JobNumDict[player.AllianceJob]--;
+                        }
+                        player.AllianceJob = 937;
+                        roleallianceList.Add(role);
+                        roleallianceList.Add(player);
+
+                        dict.Add((byte)ParameterCode.RoleAlliance, roleallianceList);
+                        dict.Add((byte)ParameterCode.MemberJobNum, Alliance);
+                        RoleStatusSuccessS2C(roleID, AllianceOpCode.CareerAdvancement, dict);
+                    }
+                    else
+                    {
+                        var exist = Alliance.JobNumDict.TryGetValue(jobID, out int num);
+                        if (exist)
+                        {
+                            if (jobData.JobStations > num)
                             {
-                                roleAlliances.Add(member);
+                                if (Alliance.JobNumDict[player.AllianceJob]>0)
+                                {
+                                    Alliance.JobNumDict[player.AllianceJob]--;
+                                }
+                                Alliance.JobNumDict[jobID]++;
+                                player.AllianceJob = jobID;
+                                roleallianceList.Add(player);
+
+                                dict.Add((byte)ParameterCode.RoleAlliance, roleallianceList);
+                                dict.Add((byte)ParameterCode.MemberJobNum, Alliance);
+                                RoleStatusSuccessS2C(roleID, AllianceOpCode.CareerAdvancement, dict);
+                            }
+                            else
+                            {
+                                RoleStatusFailS2C(roleID,AllianceOpCode.CareerAdvancement);
                             }
                         }
+                        else
+                        {
+                            RoleStatusFailS2C(roleID, AllianceOpCode.CareerAdvancement);
+                        }
                     }
+
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString(), role);
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAlliancePerfix, playerid.ToString(), player);
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AllianceMemberPerfix, playerid.ToString(), Alliance);
+
+                    await NHibernateQuerier.UpdateAsync(ChangeDataType(role));
+                    await NHibernateQuerier.UpdateAsync(ChangeDataType(player));
+                    await NHibernateQuerier.UpdateAsync(ChangeDataType(Alliance));
                 }
-
-                var num = roleAlliances.FindAll((x) => x.AllianceJob == jobID).Count;//获得当前职位的人数
-
-                var result = jobDict.TryGetValue(jobID, out var jobData);
-                if (result)
-                {
-                    //判断可安排职位人数是否足够，更新至数据库
-                }
-
-            }
+                
+            }else
+                RoleStatusFailS2C(roleID, AllianceOpCode.CareerAdvancement);
         }
         #endregion
 
@@ -425,6 +481,7 @@ namespace AscensionServer
             {
                 var applyeList = Utility.Json.ToObject<List<int>>(allianceObj.ApplyforMember);
                 var memberList = Utility.Json.ToObject<List<int>>(allianceObj.Member);
+                var jobDict = Utility.Json.ToObject<Dictionary<int,int>>(allianceObj.JobNumDict);
 
                 for (int i = 0; i < roleIDs.Count; i++)
                 {
@@ -441,9 +498,15 @@ namespace AscensionServer
                                 alliance.OnLineNum++;
                             }
                             roleAlliancej.AllianceID = id;
+                            roleAlliancej.AllianceJob = 931;
                             roleAlliancej.ApplyForAlliance = "[]";
                             roleAlliancej.JoinTime = DateTime.Now.ToString();
                             consents.Add(roleIDs[i]);
+                            if (jobDict.ContainsKey(roleAlliancej.AllianceJob))
+                            {
+                                jobDict[roleAlliancej.AllianceJob]++;
+                            } else
+                                jobDict.Add(roleAlliancej.AllianceJob,1); 
 
                             RoleStatusSuccessS2C(roleIDs[i], AllianceOpCode.JoinAllianceSuccess, roleAlliancej);
 
@@ -457,6 +520,7 @@ namespace AscensionServer
                var  applyeMember = applyeList.Except(consents);
                 allianceObj.ApplyforMember = Utility.Json.ToJson(applyeMember);
                 memberList.AddRange(consents);
+                allianceObj.JobNumDict = Utility.Json.ToJson(jobDict);
                 allianceObj.Member = Utility.Json.ToJson(memberList);
                 alliance.AllianceNumberPeople += consents.Count;
 
@@ -479,6 +543,7 @@ namespace AscensionServer
                 Dictionary<byte, object> dict = new Dictionary<byte, object>();
                 dict.Add((byte)ParameterCode.AllianceMember, memberlist);
                 dict.Add((byte)ParameterCode.ApplyMember, applylist);
+                dict.Add((byte)ParameterCode.MemberJobNum, ChangeDataType(allianceObj));
                 RoleStatusSuccessS2C(roleid, AllianceOpCode.ConsentApply, dict);
 
                 await RedisHelper.Hash.HashSetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, id.ToString(), ChangeDataType(allianceObj));
@@ -569,6 +634,7 @@ namespace AscensionServer
                 Dictionary<byte, object> dict = new Dictionary<byte, object>();
                 dict.Add((byte)ParameterCode.AllianceMember, memberlist);
                 dict.Add((byte)ParameterCode.ApplyMember, applylist);
+                dict.Add((byte)ParameterCode.MemberJobNum, ChangeDataType(allianceObj));
                 RoleStatusSuccessS2C(roleID, AllianceOpCode.GetAllianceMember, dict);
             }
             else
@@ -584,6 +650,7 @@ namespace AscensionServer
             alliance.AllianceID = memberDTO.AllianceID;
             alliance.ApplyforMember =Utility.Json.ToJson(memberDTO.ApplyforMember) ;
             alliance.Member = Utility.Json.ToJson(memberDTO.Member);
+            alliance.JobNumDict = Utility.Json.ToJson(memberDTO.JobNumDict);
             return alliance;
         }
 
@@ -593,6 +660,7 @@ namespace AscensionServer
             allianceDTO.AllianceID = member.AllianceID;
             allianceDTO.ApplyforMember = Utility.Json.ToObject<List<int>>(member.ApplyforMember);
             allianceDTO.Member = Utility.Json.ToObject<List<int>>(member.Member);
+            allianceDTO.JobNumDict = Utility.Json.ToObject<Dictionary<int,int>>(member.JobNumDict);
             return allianceDTO;
         }
 

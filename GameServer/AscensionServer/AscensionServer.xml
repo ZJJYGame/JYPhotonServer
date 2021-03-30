@@ -2675,7 +2675,7 @@
             <param name="id"></param>
             <param name="name"></param>
         </member>
-        <member name="M:AscensionServer.GangsMananger.CareerAdvancementS2C(System.Int32,System.Int32,System.Int32)">
+        <member name="M:AscensionServer.GangsMananger.CareerAdvancementS2C(System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             修改宗门职位
             </summary>
