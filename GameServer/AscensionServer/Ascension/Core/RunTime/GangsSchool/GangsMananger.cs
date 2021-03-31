@@ -74,7 +74,6 @@ namespace AscensionServer
                     GetRoleAllianceS2C(roleObj.RoleID);
                     #endregion
                     break;
-
                 case AllianceOpCode.BuildAlliance:
                     #region
                     dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
@@ -91,17 +90,25 @@ namespace AscensionServer
                     #endregion
                     break;
                 case AllianceOpCode.QuitAlliance:
-
+                    #region
+                    roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(packet.DataMessage.ToString());
+                    Utility.Debug.LogInfo("退出宗门");
+                    QuitAllianceS2C(roleAllianceObj.RoleID, roleAllianceObj.AllianceID);
+                    #endregion
                     break;
                 case AllianceOpCode.GetAllianceSignin:
+                    #region
                     roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(packet.DataMessage.ToString());
                     Utility.Debug.LogInfo("获得宗门签到");
                     GetAllianceSigninS2C(roleAllianceObj.RoleID, roleAllianceObj.AllianceID);
+                    #endregion
                     break;
                 case AllianceOpCode.UpdateAllianceSignin:
+                    #region
                     roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(packet.DataMessage.ToString());
                     Utility.Debug.LogInfo("更新宗门签到");
                     UpdateAllianceSigninS2C(roleAllianceObj.RoleID, roleAllianceObj.AllianceID);
+                    #endregion
                     break;
                 case AllianceOpCode.RefuseApply:
                     #region
@@ -193,10 +200,8 @@ namespace AscensionServer
                     break;
                 case AllianceOpCode.GetAlliancecallboard:
                     #region
-                    dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
-                    roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(dict[(byte)ParameterCode.RoleAlliance].ToString());
-                    var daily = Utility.Json.ToObject<DailyMessageDTO>(dict[(byte)ParameterCode.DailyMessage].ToString());
-                    GetAllianceCallboardS2C(roleAllianceObj.RoleID, roleAllianceObj.AllianceID, daily);
+                    roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(packet.DataMessage.ToString());
+                    GetAllianceCallboardS2C(roleAllianceObj.RoleID, roleAllianceObj.AllianceID);
 
                     #endregion
                     break;
@@ -212,6 +217,15 @@ namespace AscensionServer
                     #region
                     roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(packet.DataMessage.ToString());
                     GetExchangeGoodsS2C(roleAllianceObj.RoleID, roleAllianceObj.AllianceID);
+                    #endregion
+                    break;
+                case AllianceOpCode.KickOutAlliance:
+                    #region
+                    dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
+                    roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(dict[(byte)ParameterCode.RoleAlliance].ToString());
+                    roleObj = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
+
+                    KickOutAllianceS2C(roleObj.RoleID, roleAllianceObj.RoleID, roleAllianceObj.AllianceID);
                     #endregion
                     break;
                 default:

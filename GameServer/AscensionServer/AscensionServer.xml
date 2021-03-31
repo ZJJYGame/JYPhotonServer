@@ -2623,6 +2623,14 @@
             <param name="roleID"></param>
             <param name="goodsDTO"></param>
         </member>
+        <member name="M:AscensionServer.GangsMananger.ExchangeElixirS2C(System.Int32,System.Int32,AscensionProtocol.DTO.ExchangeDTO)">
+            <summary>
+            兑换丹药
+            </summary>
+            <param name="roleid"></param>
+            <param name="id"></param>
+            <param name="drugDTO"></param>
+        </member>
         <member name="M:AscensionServer.GangsMananger.ExchangeScripturesPlatformS2C(System.Int32,System.Int32,AscensionProtocol.DTO.ExchangeDTO)">
             <summary>
             兑换功法
@@ -2738,19 +2746,12 @@
             </summary>
             <param name="statusDTO"></param>
         </member>
-        <member name="M:AscensionServer.GangsMananger.GetAllianceCallboardS2C(System.Int32,System.Int32,AscensionProtocol.DTO.DailyMessageDTO)">
+        <member name="M:AscensionServer.GangsMananger.GetAllianceCallboardS2C(System.Int32,System.Int32)">
             <summary>
             获得宗门通告
             </summary>
             <param name="roleID"></param>
             <param name="ID"></param>
-        </member>
-        <member name="M:AscensionServer.GangsMananger.BuildAlllianceS2C(System.Int32,AscensionProtocol.DTO.AllianceConstructionDTO)">
-            <summary>
-            宗門建設升級
-            </summary>
-            <param name="roleID"></param>
-            <param name="constructionDTO"></param>
         </member>
         <member name="M:AscensionServer.GangsMananger.ChangeAllianceNameS2C(System.Int32,AscensionServer.Model.AllianceStatus)">
             <summary>

@@ -59,6 +59,10 @@ namespace AscensionServer
                             {
                                 ExchangeObj.ExchangeGoods.Add(item.Key, item.Value);
                             }
+                            else
+                            {
+                                ExchangeObj.ExchangeGoods[item.Key]=item.Value;
+                            }
                         }
                     }
 
@@ -72,7 +76,12 @@ namespace AscensionServer
             else
                 SetExchangeGoodsMySql(roleID, goodsDTO);
         }
-        //
+        /// <summary>
+        /// 兑换丹药
+        /// </summary>
+        /// <param name="roleid"></param>
+        /// <param name="id"></param>
+        /// <param name="drugDTO"></param>
         async void ExchangeElixirS2C(int roleid,int id, ExchangeDTO drugDTO)
         {
             GameEntry.DataManager.TryGetValue<Dictionary<int, AllianceDrugData>>(out var drugDict);

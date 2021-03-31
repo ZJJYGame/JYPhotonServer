@@ -15,20 +15,20 @@ namespace AscensionServer
     {
         public void OperateProcessing(SecondaryJobDTO secondaryJobDTO, NHCriteria nHCriteriarole)
         {
-            switch (secondaryJobDTO.AlchemyDTO.JobOperate)
-            {
-                case SecondaryJobDTO.JobOperateType.Get:
-                    GetRoleAlchemy(secondaryJobDTO, nHCriteriarole);
-                    break;
-                case SecondaryJobDTO.JobOperateType.Update:
-                    UpdateRoleAlchemy(secondaryJobDTO, nHCriteriarole);
-                    break;
-                case SecondaryJobDTO.JobOperateType.Compound:
-                    CompoundAlchemy(secondaryJobDTO, nHCriteriarole);
-                    break;
-                default:
-                    break;
-            }
+            //switch (secondaryJobDTO.AlchemyDTO.JobOperate)
+            //{
+            //    case SecondaryJobDTO.JobOperateType.Get:
+            //        GetRoleAlchemy(secondaryJobDTO, nHCriteriarole);
+            //        break;
+            //    case SecondaryJobDTO.JobOperateType.Update:
+            //        UpdateRoleAlchemy(secondaryJobDTO, nHCriteriarole);
+            //        break;
+            //    case SecondaryJobDTO.JobOperateType.Compound:
+            //        CompoundAlchemy(secondaryJobDTO, nHCriteriarole);
+            //        break;
+            //    default:
+            //        break;
+            //}
         }
         /// <summary>
         /// 获得所有已学配方

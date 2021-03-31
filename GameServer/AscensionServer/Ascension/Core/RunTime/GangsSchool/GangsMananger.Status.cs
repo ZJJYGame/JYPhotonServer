@@ -133,11 +133,17 @@ namespace AscensionServer
 
                     AllianceConstruction allianceConstruction = new AllianceConstruction();
                     allianceConstruction.AllianceID = statusDTO.ID;
+                    allianceConstruction.AllianceAssets = CreatAlliance[1].SpiritStones;
                     await NHibernateQuerier.InsertAsync(allianceConstruction);
-                    AllianceConstructionDTO constructionDTO = new AllianceConstructionDTO();
-                    constructionDTO.AllianceID = statusDTO.ID;
-                    await RedisHelper.Hash.HashSetAsync<AllianceConstructionDTO>(RedisKeyDefine._AllianceConstructionPerfix, statusDTO.ID.ToString(), constructionDTO);
 
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AllianceConstructionPerfix, statusDTO.ID.ToString(), allianceConstruction);
+
+                    AllianceExchangeGoods exchangeGoods = new AllianceExchangeGoods();
+                    exchangeGoods.AllianceID = statusDTO.ID; ;
+                    await NHibernateQuerier.InsertAsync(exchangeGoods);
+                    AllianceExchangeGoodsDTO allianceExchange = new AllianceExchangeGoodsDTO();
+                    allianceExchange.AllianceID = statusDTO.ID;
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AllianceExchangeGoodsPerfix, statusDTO.ID.ToString(), allianceExchange);
 
                     AllianceMember alliance = new AllianceMember();
                     alliance.AllianceID = statusDTO.ID;
@@ -162,9 +168,11 @@ namespace AscensionServer
                     Dictionary<byte, object> dict = new Dictionary<byte, object>();
                     dict.Add((byte)ParameterCode.RoleAlliance, ChangeDataType (roleAlliance));
                     dict.Add((byte)ParameterCode.AllianceStatus, statusDTO);
-                    dict.Add((byte)ParameterCode.AllianceConstruction, constructionDTO);
+                    dict.Add((byte)ParameterCode.AllianceConstruction, allianceConstruction);
                     RoleStatusSuccessS2C(roleID, AllianceOpCode.CreatAlliance, dict);
                 }
+                else
+                    RoleStatusFailS2C(roleID, AllianceOpCode.CreatAlliance);
             }
             else
                 RoleStatusFailS2C(roleID, AllianceOpCode.CreatAlliance);
@@ -174,50 +182,22 @@ namespace AscensionServer
         /// </summary>
         /// <param name="roleID"></param>
         /// <param name="ID"></param>
-        async void GetAllianceCallboardS2C(int roleID,int ID,DailyMessageDTO daily)
+        async void GetAllianceCallboardS2C(int roleID,int ID)
         {
             var result = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._DailyMessagePerfix, ID.ToString()).Result;
-            var dailyList = new List<DailyMessageDTO>();
             if (result)
             {
                 var dailyObj= RedisHelper.Hash.HashGetAsync<List<DailyMessageDTO>>(RedisKeyDefine._DailyMessagePerfix, ID.ToString()).Result;
+                Utility.Debug.LogInfo("YZQ>>>>>>>>>>>>"+Utility.Json.ToJson(dailyObj));
                 if (dailyObj != null)
                 {
-                    if (dailyObj.Count> daily.CurrentIndex)
-                    {
-                        if ((dailyObj.Count >= daily.TargetIndex))
-                        {
-                            dailyList = dailyObj.GetRange(daily.CurrentIndex, daily.TargetIndex);
-                        }
-                        else
-                        {
-                            dailyList = dailyObj.GetRange(daily.CurrentIndex, dailyObj.Count);
-                        }
-                    }
-                    RoleStatusSuccessS2C(roleID, AllianceOpCode.GetAlliancecallboard, dailyList);
+                    RoleStatusSuccessS2C(roleID, AllianceOpCode.GetAlliancecallboard, dailyObj);
                 }
                 else
                     RoleStatusFailS2C(roleID, AllianceOpCode.GetAlliancecallboard);
             }
         }
-        /// <summary>
-        /// 宗門建設升級
-        /// </summary>
-        /// <param name="roleID"></param>
-        /// <param name="constructionDTO"></param>
-        async void BuildAlllianceS2C(int roleID,AllianceConstructionDTO constructionDTO)
-        {
-            var result = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceConstructionPerfix, constructionDTO.AllianceID.ToString()).Result;
-            if (result)
-            {
-                var construction= RedisHelper.Hash.HashGetAsync<AllianceConstructionDTO>(RedisKeyDefine._AllianceConstructionPerfix, constructionDTO.AllianceID.ToString()).Result;
-                if (construction!=null)
-                {
 
-                }
-            }
-
-        }
         /// <summary>
         /// 修改宗門名稱
         /// </summary>

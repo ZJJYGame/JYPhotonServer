@@ -12,6 +12,12 @@ namespace AscensionProtocol.DTO
         public virtual int AllianceID { get; set; }
         public virtual Dictionary<int, ExchangeSetting> ExchangeGoods { get; set; }
 
+        public AllianceExchangeGoodsDTO()
+        {
+            AllianceID = -1;
+            ExchangeGoods = new Dictionary<int, ExchangeSetting>();
+        }
+
         public override void Clear()
         {
             AllianceID = -1;

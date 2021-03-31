@@ -27,22 +27,22 @@ namespace AscensionServer
             if (result && alianceExists)
             {
                 var roleAlliance = RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString()).Result;
-                var alliance = RedisHelper.Hash.HashGetAsync<AllianceMemberDTO>(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
+                var alliance = RedisHelper.Hash.HashGetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
                 if (roleAlliance != null && alliance != null)
                 {
-
                     if (!roleAlliance.ApplyForAlliance.Contains(id) && !alliance.ApplyforMember.Contains(roleID) && !alliance.Member.Contains(roleID))
                     {
                         roleAlliance.ApplyForAlliance.Add(id);
                         alliance.ApplyforMember.Add(roleID);
-                        RoleStatusSuccessS2C(roleID, AllianceOpCode.JoinAlliance, roleAlliance);
 
                         await NHibernateQuerier.UpdateAsync(ChangeDataType(roleAlliance));
-                        await NHibernateQuerier.UpdateAsync(alliance);
+                        await NHibernateQuerier.UpdateAsync(ChangeDataType(alliance));
 
-                        await RedisHelper.Hash.HashSetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString(), roleAlliance);
-
-                        await RedisHelper.Hash.HashSetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, id.ToString(), alliance);
+                        await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString(), roleAlliance);
+                        Utility.Debug.LogInfo("申请宗門" + Utility.Json.ToJson(alliance));
+                        await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AllianceMemberPerfix, id.ToString(), alliance);
+                        
+                        RoleStatusSuccessS2C(roleID, AllianceOpCode.JoinAlliance, roleAlliance);
                         //TODO更新到数据库
                     }
                     else
@@ -82,7 +82,7 @@ namespace AscensionServer
 
                             if (rolealliance != null && onofflineObj != null)
                             {
-                                if (onofflineObj.OffTime.Equals("在线"))
+                                if (onofflineObj.OffTime== "在线")
                                 {
                                     alliancestatusObj.OnLineNum++;
                                 }
@@ -91,6 +91,8 @@ namespace AscensionServer
                                 rolealliance.ApplyForAlliance.Clear();
                                 rolealliance.JoinTime = DateTime.Now.ToString();
                                 consents.Add(roleIDs[i]);
+                                allianceObj.ApplyforMember.Remove(roleIDs[i]);
+                                allianceObj.Member.Add(roleIDs[i]);
                                 if (allianceObj.JobNumDict.ContainsKey(rolealliance.AllianceJob))
                                 {
                                     allianceObj.JobNumDict[rolealliance.AllianceJob]++;
@@ -425,10 +427,11 @@ namespace AscensionServer
         /// <param name="id"></param>
         async void QuitAllianceS2C(int roleID,int id)
         {
-            var result = QuitAlliance(roleID, id).Result;
+            var result = QuitAllianceRedis(roleID, id).Result;
             if (result != null)
             {
                 RoleStatusSuccessS2C(roleID, AllianceOpCode.GetRoleAlliance, result);
+
             }
             else
                 QuitAllianceMySql(roleID, id);
@@ -443,10 +446,12 @@ namespace AscensionServer
             var result = QuitAlliance(playerid, id).Result;
             if (result != null)
             {
-                RoleStatusSuccessS2C(roleID, AllianceOpCode.KickOutAlliance, result);
+                RoleStatusSuccessS2C(roleID, AllianceOpCode.KickOutAlliance, ChangeDataType(result));
+                RoleStatusSuccessS2C(playerid, AllianceOpCode.GetRoleAlliance, ChangeDataType(result));
             }
             else
-            { //todo
+            {
+                KickOutAlliance(roleID, playerid, id);
             }
         }
         #endregion
@@ -483,7 +488,7 @@ namespace AscensionServer
 
                     await RedisHelper.Hash.HashSetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString(), ChangeDataType(roleAlliance));
 
-                    await RedisHelper.Hash.HashSetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, roleID.ToString(), ChangeDataType(alliance));
+                    await RedisHelper.Hash.HashSetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, id.ToString(), ChangeDataType(alliance));
 
                 }
                 else
@@ -678,13 +683,107 @@ namespace AscensionServer
         /// <param name="id"></param>
         async void QuitAllianceMySql(int roleID, int id)
         {
+            var result = QuitAlliance(roleID,id).Result;
+            if (result != null)
+            {
+                RoleStatusSuccessS2C(roleID, AllianceOpCode.GetRoleAlliance, ChangeDataType(result));
+            }
+            else
+                RoleStatusFailS2C(roleID, AllianceOpCode.QuitAlliance);
+
+        }
+
+        async void KickOutAlliance(int roleID,int playerid, int id)
+        {
+          var result= QuitAlliance(playerid,id).Result;
+            if (result!=null)
+            {
+                RoleStatusSuccessS2C(roleID, AllianceOpCode.KickOutAlliance, ChangeDataType(result));
+                RoleStatusSuccessS2C(playerid, AllianceOpCode.GetRoleAlliance, ChangeDataType(result));
+            }
+            else
+                RoleStatusFailS2C(roleID, AllianceOpCode.KickOutAlliance);
+        }
+        #endregion
+
+        async Task<RoleAllianceDTO> QuitAllianceRedis(int roleID, int id)
+        {
+            var status = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
+            var dongfu = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceDongFuPostfix, id.ToString()).Result;
+            var member = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
+            var rolealliance = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString()).Result;
+            if (status && dongfu && member && rolealliance)
+            {
+                var statusObj = RedisHelper.Hash.HashGetAsync<AllianceStatus>(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
+                var dongfuObj = RedisHelper.Hash.HashGetAsync<AllianceDongFuDTO>(RedisKeyDefine._AllianceDongFuPostfix, id.ToString()).Result;
+                var memberObj = RedisHelper.Hash.HashGetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
+                var roleallianceObj = RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString()).Result;
+                if (statusObj != null && dongfuObj != null && memberObj != null && roleallianceObj != null)
+                {
+                    statusObj.AllianceNumberPeople -= 1;
+                    statusObj.OnLineNum -= 1;
+                    var dongfuone = dongfuObj.PreemptOne.Find(x => x.RoleID == roleID);
+                    if (dongfuone != null)
+                    {
+                        dongfuObj.PreemptOne.Remove(dongfuone);
+                    }
+                    var dongfutow = dongfuObj.PreemptTow.Find(x => x.RoleID == roleID);
+                    if (dongfutow != null)
+                    {
+                        dongfuObj.PreemptOne.Remove(dongfutow);
+                    }
+                    var dongfuthree = dongfuObj.PreemptThree.Find(x => x.RoleID == roleID);
+                    if (dongfuthree != null)
+                    {
+                        dongfuObj.PreemptOne.Remove(dongfuthree);
+                    }
+                    var dongfufour = dongfuObj.PreemptFour.Find(x => x.RoleID == roleID);
+                    if (dongfufour != null)
+                    {
+                        dongfuObj.PreemptOne.Remove(dongfufour);
+                    }
+                    var dongfufive = dongfuObj.PreemptFive.Find(x => x.RoleID == roleID);
+                    if (dongfufive != null)
+                    {
+                        dongfuObj.PreemptOne.Remove(dongfufive);
+                    }
+
+                    if (memberObj.Member.Contains(roleID))
+                    {
+                        memberObj.Member.Remove(roleID);
+                    }
+
+                    roleallianceObj.AllianceJob = 0;
+                    roleallianceObj.AllianceID = 0;
+
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AlliancePerfix, id.ToString(), statusObj);
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AllianceDongFuPostfix, id.ToString(), dongfuObj);
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AllianceMemberPerfix, id.ToString(), memberObj);
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString(), roleallianceObj);
+
+                    await NHibernateQuerier.UpdateAsync(statusObj);
+                    await NHibernateQuerier.UpdateAsync(ChangeDataType(dongfuObj));
+                    await NHibernateQuerier.UpdateAsync(ChangeDataType(memberObj));
+                    await NHibernateQuerier.UpdateAsync(ChangeDataType(roleallianceObj));
+
+                    return roleallianceObj;
+                }
+                else
+                    return null;
+            }
+            else
+                return null;
+        }
+
+        async Task<RoleAlliance> QuitAlliance(int roleID, int id)
+        {
             NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", id);
             NHCriteria nHCriteriaAlliance = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", id);
             NHCriteria nHCriteriarole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
             var memberObj = NHibernateQuerier.CriteriaSelect<AllianceMember>(nHCriteria);
-            var roleallianceObj = NHibernateQuerier.CriteriaSelect<RoleAlliance>(nHCriteria);
+            var roleallianceObj = NHibernateQuerier.CriteriaSelect<RoleAlliance>(nHCriteriarole);
             var dongfuObj = NHibernateQuerier.CriteriaSelect<AllianceDongFu>(nHCriteria);
-            var statusObj = NHibernateQuerier.CriteriaSelect<AllianceStatus>(nHCriteria);
+            var statusObj = NHibernateQuerier.CriteriaSelect<AllianceStatus>(nHCriteriaAlliance);
 
             if (statusObj != null && dongfuObj != null && memberObj != null && roleallianceObj != null)
             {
@@ -737,86 +836,17 @@ namespace AscensionServer
                 roleallianceObj.AllianceJob = 0;
                 roleallianceObj.AllianceID = 0;
 
-                RoleStatusSuccessS2C(roleID, AllianceOpCode.GetRoleAlliance, ChangeDataType(roleallianceObj));
-
                 await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AlliancePerfix, id.ToString(), statusObj);
                 await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AllianceDongFuPostfix, id.ToString(), ChangeDataType(dongfuObj));
                 await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AllianceMemberPerfix, id.ToString(), ChangeDataType(memberObj));
-                await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAlliancePerfix, id.ToString(), ChangeDataType(roleallianceObj));
+                await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString(), ChangeDataType(roleallianceObj));
 
                 await NHibernateQuerier.UpdateAsync(statusObj);
-                await NHibernateQuerier.UpdateAsync(ChangeDataType(dongfuObj));
-                await NHibernateQuerier.UpdateAsync(ChangeDataType(memberObj));
-                await NHibernateQuerier.UpdateAsync(ChangeDataType(roleallianceObj));
+                await NHibernateQuerier.UpdateAsync(dongfuObj);
+                await NHibernateQuerier.UpdateAsync(memberObj);
+                await NHibernateQuerier.UpdateAsync(roleallianceObj);
 
-            }
-        }
-        #endregion
-
-        async Task<RoleAllianceDTO> QuitAlliance(int roleID, int id)
-        {
-            var status = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
-            var dongfu = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceDongFuPostfix, id.ToString()).Result;
-            var member = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
-            var rolealliance = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAlliancePerfix, id.ToString()).Result;
-            if (status && dongfu && member && rolealliance)
-            {
-                var statusObj = RedisHelper.Hash.HashGetAsync<AllianceStatus>(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
-                var dongfuObj = RedisHelper.Hash.HashGetAsync<AllianceDongFuDTO>(RedisKeyDefine._AllianceDongFuPostfix, id.ToString()).Result;
-                var memberObj = RedisHelper.Hash.HashGetAsync<AllianceMemberDTO>(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
-                var roleallianceObj = RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, id.ToString()).Result;
-                if (statusObj != null && dongfuObj != null && memberObj != null && roleallianceObj != null)
-                {
-                    statusObj.AllianceNumberPeople -= 1;
-                    statusObj.OnLineNum -= 1;
-                    var dongfuone = dongfuObj.PreemptOne.Find(x => x.RoleID == roleID);
-                    if (dongfuone != null)
-                    {
-                        dongfuObj.PreemptOne.Remove(dongfuone);
-                    }
-                    var dongfutow = dongfuObj.PreemptTow.Find(x => x.RoleID == roleID);
-                    if (dongfutow != null)
-                    {
-                        dongfuObj.PreemptOne.Remove(dongfutow);
-                    }
-                    var dongfuthree = dongfuObj.PreemptThree.Find(x => x.RoleID == roleID);
-                    if (dongfuthree != null)
-                    {
-                        dongfuObj.PreemptOne.Remove(dongfuthree);
-                    }
-                    var dongfufour = dongfuObj.PreemptFour.Find(x => x.RoleID == roleID);
-                    if (dongfufour != null)
-                    {
-                        dongfuObj.PreemptOne.Remove(dongfufour);
-                    }
-                    var dongfufive = dongfuObj.PreemptFive.Find(x => x.RoleID == roleID);
-                    if (dongfufive != null)
-                    {
-                        dongfuObj.PreemptOne.Remove(dongfufive);
-                    }
-
-                    if (memberObj.Member.Contains(roleID))
-                    {
-                        memberObj.Member.Remove(roleID);
-                    }
-
-                    roleallianceObj.AllianceJob = 0;
-                    roleallianceObj.AllianceID = 0;
-
-                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AlliancePerfix, id.ToString(), statusObj);
-                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AllianceDongFuPostfix, id.ToString(), dongfuObj);
-                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AllianceMemberPerfix, id.ToString(), memberObj);
-                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAlliancePerfix, id.ToString(), roleallianceObj);
-
-                    await NHibernateQuerier.UpdateAsync(statusObj);
-                    await NHibernateQuerier.UpdateAsync(ChangeDataType(dongfuObj));
-                    await NHibernateQuerier.UpdateAsync(ChangeDataType(memberObj));
-                    await NHibernateQuerier.UpdateAsync(ChangeDataType(roleallianceObj));
-
-                    return roleallianceObj;
-                }
-                else
-                    return null;
+                return roleallianceObj;
             }
             else
                 return null;
