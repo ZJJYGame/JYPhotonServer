@@ -11,11 +11,25 @@ namespace AscensionServer
     /// </summary>
     public class BattleDamageData
     {
+        //伤害目标ID
+        public int TargetID;
+        //行为类型
+        public BattleSkillActionType battleSkillActionType;
         //伤害类型
-        DamageType damageType;
+        public BattleSkillDamageType damageType;
+        //基础伤害是否暴击,是=>暴击，否=>不暴击
+        public bool isCrit;
+        /// <summary>
+        /// 基础伤害的目标属性（血量，真元，神魂）
+        /// </summary>
+        public BattleSkillDamageTargetProperty baseDamageTargetProperty;
         //伤害数字
-        int damageNum;
+        public int damageNum;
+        /// <summary>
+        /// 额外伤害的目标属性（血量，真元，神魂）
+        /// </summary>
+        public BattleSkillDamageTargetProperty extraDamageTargetProperty;
         //额外伤害
-        int extraDamageNum;
+        public int extraDamageNum;
     }
 }

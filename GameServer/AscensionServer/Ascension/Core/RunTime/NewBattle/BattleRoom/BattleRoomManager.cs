@@ -16,6 +16,7 @@ namespace AscensionServer
         #region 等待时间参数 
         public float PrepareWaitTime { get; } = 5;
         public float RoundTIme { get; } = 15;
+        public float PerformWaitTime { get; } = 5;
         #endregion
 
         //倒计时相关事件，每帧刷新
@@ -69,11 +70,25 @@ namespace AscensionServer
         public void DestoryRoom()
         {
         }
+
+        public BattleRoomEntity GetBattleRoomEntity(int roomID)
+        {
+            if (battleRoomDict.ContainsKey(roomID))
+                return battleRoomDict[roomID];
+            else
+                return null;
+        }
         //告知对应房间角色准备完成
-        void RoomRolePrepare(int roleID)
+        void RoomRolePrepareOver(int roleID)
         {
             int roomID= GameEntry.BattleCharacterManager.GetCharacterEntity(roleID).RoomID;
             battleRoomDict[roomID].CharacterPrepare(roleID);
+        }
+        //告知对应房间角色表演完成
+        void s(int roleID)
+        {
+            int roomID = GameEntry.BattleCharacterManager.GetCharacterEntity(roleID).RoomID;
+            battleRoomDict[roomID].CharacterPerformOver(roleID);
         }
         //获取人物的战斗指令
         void GetRoleBattleCmd(int roleID,BattleCmd battleCmd,BattleTransferDTO battleTransferDTO)
@@ -119,7 +134,12 @@ namespace AscensionServer
                     break;
                 case BattleCmd.Prepare:
                     int roleID = roleDTO.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID;
-                    RoomRolePrepare(roleID);
+                    RoomRolePrepareOver(roleID);
+                    break;
+                case BattleCmd.PerformBattleComplete:
+                    Utility.Debug.LogError(roleDTO.RoleID + "发送的表演完成请求");
+                    roleID = roleDTO.RoleID;
+                    RoomRolePerformOver(roleID);
                     break;
                 //战斗指令
                 case BattleCmd.PropsInstruction:

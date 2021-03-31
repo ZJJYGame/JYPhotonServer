@@ -52,7 +52,85 @@ namespace AscensionServer
         public int MagicCritDamage { get { return magicCritDamage; } }
         int reduceCritDamage;
         public int ReduceCritDamage { get { return reduceCritDamage; } }
+        int ignoreDef;
+        public int IgnoreDef { get { return ignoreDef; } }
+        int damageAddition;
+        public int DamageAddition { get { return damageAddition; } }
+        int damageDeduction;
+        public int DamageDeduction { get { return damageDeduction; } }
 
+        /// <summary>
+        /// 获取对应属性
+        /// </summary>
+        public float GetProperty(BattleSkillNumSourceType battleSkillNumSourceType)
+        {
+            switch (battleSkillNumSourceType)
+            {
+                case BattleSkillNumSourceType.MaxHealth:
+                    return MaxHp;
+                case BattleSkillNumSourceType.NowHealth:
+                    return Hp;
+                case BattleSkillNumSourceType.HasLostHealth:
+                    return MaxHp - Hp;
+                case BattleSkillNumSourceType.MaxZhenYuan:
+                    return MaxMp;
+                case BattleSkillNumSourceType.NowZhenYuan:
+                    return Mp;
+                case BattleSkillNumSourceType.MaxShenHun:
+                    return MaxSoul;
+                case BattleSkillNumSourceType.NowShenHun:
+                    return Soul;
+                case BattleSkillNumSourceType.PhysicAttack:
+                    return PhysicalAtk;
+                case BattleSkillNumSourceType.MagicAttack:
+                    return PowerAtk;
+                case BattleSkillNumSourceType.PhysicDefense:
+                    return PhysicalDef;
+                case BattleSkillNumSourceType.MagicDefense:
+                    return PowerDef;
+                case BattleSkillNumSourceType.AttackSpeed:
+                    return AttackSpeed;
+                default:
+                    return 0;
+            }
+        }
+        public int GetProperty(BattleSkillDamageType battleSkillDamageType)
+        {
+            switch (battleSkillDamageType)
+            {
+                case BattleSkillDamageType.Physic:
+                    return PhysicalDef;
+                case BattleSkillDamageType.Magic:
+                    return powerDef;
+                case BattleSkillDamageType.ShenHun:
+                    return 0;
+                case BattleSkillDamageType.Reality:
+                    return 0;
+                default:
+                    return 0;
+            }
+        }
+
+        public void ChangeProperty(BattleSkillDamageTargetProperty baseDamageTargetProperty,int damageNum)
+        {
+            if (damageNum == 0)
+                return;
+            switch (baseDamageTargetProperty)
+            {
+                case BattleSkillDamageTargetProperty.Health:
+                    hp += damageNum;
+                    hp = hp < 0 ? 0 : hp;
+                    break;
+                case BattleSkillDamageTargetProperty.ZhenYuan:
+                    mp += damageNum;
+                    mp = mp < 0 ? 0 : mp;
+                    break;
+                case BattleSkillDamageTargetProperty.ShenHun:
+                    soul += damageNum;
+                    soul = soul < 0 ? 0 : soul;
+                    break;
+            }
+        }
 
         public void Init(RoleStatus roleStatus)
         {

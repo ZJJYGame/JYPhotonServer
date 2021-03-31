@@ -17,7 +17,9 @@ namespace AscensionServer
         public HashSet<int> HasGetCmdRoleID { get; private set; } = new HashSet<int>();
         //战斗角色字典，key=>角色ID，value=>战斗角色实体对象
         public Dictionary<int, BattleCharacterEntity> battleCharacterEntityDict { get; private set; } = new Dictionary<int, BattleCharacterEntity>();
-        BattleController battleController;
+
+        public BattleController BattleController { get; private set; }
+        //发送指令事件
         Action<OperationData> playerSendMsgEvent;
         public event Action<OperationData> PlayerSendMsgEvent
         {
@@ -30,13 +32,13 @@ namespace AscensionServer
         /// </summary>
         public void InitRoom(int roomId, BattleInitDTO battleInitDTO)
         {
-            battleController = CosmosEntry.ReferencePoolManager.Spawn<BattleController>();
-            battleController.InitController();
+            BattleController = CosmosEntry.ReferencePoolManager.Spawn<BattleController>();
+            BattleController.InitController(this);
             //添加玩家
             BattlePlayerEntity battlePlayerEntity = GameEntry.BattleCharacterManager.AddPlayerCharacter(roomId,battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, BattleFactionType.FactionOne);
             if (battlePlayerEntity != null)
             {
-                battleController.AddCharacterEntity(battlePlayerEntity);
+                BattleController.AddCharacterEntity(battlePlayerEntity);
                 AllPlayerID.Add(battlePlayerEntity.UniqueID);
                 PlayerSendMsgEvent += battlePlayerEntity.SendMessage;
                 battleCharacterEntityDict[battlePlayerEntity.UniqueID] = battlePlayerEntity;
@@ -45,7 +47,7 @@ namespace AscensionServer
             BattlePetEntity battlePetEntity = GameEntry.BattleCharacterManager.AddPetCharacter(roomId,battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, BattleFactionType.FactionOne);
             if (battlePetEntity != null)
             {
-                battleController.AddCharacterEntity(battlePetEntity);
+                BattleController.AddCharacterEntity(battlePetEntity);
                 battleCharacterEntityDict[battlePetEntity.UniqueID] = battlePetEntity;
             }
             //添加ai
@@ -55,7 +57,7 @@ namespace AscensionServer
                 battleAIEntity = GameEntry.BattleCharacterManager.AddAICharacter(roomId,battleInitDTO.enemyUnits[i].GlobalId, BattleFactionType.FactionTwo);
                 if (battleAIEntity != null)
                 {
-                    battleController.AddCharacterEntity(battleAIEntity);
+                    BattleController.AddCharacterEntity(battleAIEntity);
                     battleCharacterEntityDict[battleAIEntity.UniqueID] = battleAIEntity;
                 }
             }
@@ -77,11 +79,11 @@ namespace AscensionServer
                 //移除准备计时事件
                 GameEntry.BattleRoomManager.TimeAction -= PrepareWait;
                 //开始收集指令倒计时
-                SendBattleMessagePrepareData();
+                SendBattleMessagePrepareDataS2C();
+                StartGetBattleCmdWait();
             }
         }
-
-        public void GetCharacterCmd(int roleID,BattleCmd battleCmd,BattleTransferDTO battleTransferDTO)
+        public void GetCharacterCmd(int roleID, BattleCmd battleCmd, BattleTransferDTO battleTransferDTO)
         {
             HasGetCmdRoleID.Add(roleID);
             battleCharacterEntityDict[roleID].SetBattleAction(battleCmd, battleTransferDTO);
@@ -92,9 +94,32 @@ namespace AscensionServer
                 //移除战斗指令计时事件
                 GameEntry.BattleRoomManager.TimeAction -= GetBattleCmdWait;
                 //todo战斗计算
-                battleController.StartBattle();
+                BattleController.StartBattle();
             }
         }
+        /// <summary>
+        /// 指定角色表演完成
+        /// </summary>
+        /// <param name="roleID"></param>
+        public void CharacterPerformOver(int roleID)
+        {
+            HasGetCmdRoleID.Add(roleID);
+            if(HasGetCmdRoleID.Count == AllPlayerID.Count)//所有玩家表演完成
+            {
+                Utility.Debug.LogError("所有玩家表演完成");
+                GameEntry.BattleRoomManager.TimeAction -= PerformWait;
+                //todo发送下一回合开始的消息
+            }
+            else//有人没表演完成
+            {
+                if (HasGetCmdRoleID.Count == 1)//收到第一个玩家的表演完成消息开始计时
+                {
+                    StartPerfomWait();
+                }
+            }
+        }
+
+
         //开始准备倒计时等待 
         void StartPrepareWait()
         {
@@ -112,7 +137,7 @@ namespace AscensionServer
                 Utility.Debug.LogInfo("准备倒计时结束");
                 GameEntry.BattleRoomManager.TimeAction -= PrepareWait;
                 //开始收集指令倒计时
-                SendBattleMessagePrepareData();
+                SendBattleMessagePrepareDataS2C();
             }
         }
         /// <summary>
@@ -133,9 +158,27 @@ namespace AscensionServer
                 Utility.Debug.LogInfo("收集战斗指令倒计时结束");
                 GameEntry.BattleRoomManager.TimeAction -= GetBattleCmdWait;
                 //todo战斗计算
-                battleController.StartBattle();
+                BattleController.StartBattle();
             }
         }
+        /// <summary>
+        /// 开始玩家表演等待
+        /// </summary>
+        void StartPerfomWait()
+        {
+            countDownTargetTime = DateTime.Now.AddSeconds(GameEntry.BattleRoomManager.PerformWaitTime);
+            GameEntry.BattleRoomManager.TimeAction += PerformWait;
+        }
+        void PerformWait()
+        {
+            if (DateTime.Compare(DateTime.Now, countDownTargetTime) > 0)//倒计时到了
+            {
+                Utility.Debug.LogInfo("等待玩家表演倒计时结束");
+                GameEntry.BattleRoomManager.TimeAction -= PerformWait;
+                //todo开始下一回合的指令
+            }
+        }
+
         public void Clear()
         {
 

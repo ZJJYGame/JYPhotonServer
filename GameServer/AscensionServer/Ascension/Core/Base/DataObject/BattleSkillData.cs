@@ -83,12 +83,15 @@ namespace AscensionServer
         /// 数值基础系数
         /// </summary>
         public int fixedNum;
+        public bool baseDamageAdditionSourceTarget;
         public List<BattleSkiilNumSourceData> baseNumSourceDataList;
+        public bool extraDamageAdditionSourceTarget;
         public List<BattleSkiilNumSourceData> extraNumSourceData;
     }
     [Serializable]
     public class BattleSkiilNumSourceData
     {
+        public BattleSkillDamageTargetProperty battleSkillDamageTargetProperty;
         public BattleSkillNumSourceType battleSkillNumSourceType;
         public int mulitity;
     }
@@ -100,15 +103,10 @@ namespace AscensionServer
         /// <summary>
         /// 目标类型：0=>受击方,1=>自身
         /// </summary>
-        //[Header("是=>受击方,否=>自身")]
         public bool TargetType;
-        //[Header("buff数值")]
         public int buffValue;
-        //[Header("基础概率列表")]
         public List<int> basePropList;
-        //[Header("自身buff概率加成")]
         public BattleSkillAddBuffProbability selfAddBuffProbability;
-        //[Header("目标buff概率加成")]
         public BattleSkillAddBuffProbability targetAddBuffProbability;
     }
     [Serializable]
@@ -120,7 +118,6 @@ namespace AscensionServer
         /// <summary>
         /// buff是加成或减少：0=>减少,1=>加成
         /// </summary>
-        //[Header("buff是加成或减少：是=>加成,否=>减少")]
         public bool addOrReduce;
     }
     [Serializable]
@@ -139,146 +136,135 @@ namespace AscensionServer
     [Serializable]
     public class BattleSkillEventData
     {
-        //[Header("事件触发时机")]
         public BattleSkillEventTriggerTime battleSkillEventTriggerTime;
-        //[Header("事件触发条件")]
         public BattleSkillEventTriggerCondition battleSkillEventTriggerCondition;
-        //[Header("事件数据来源")]
         public BattleSkillEventTriggerNumSourceType battleSkillEventTriggerNumSourceType;
-        //[Header("百分比数值")]
         public int conditionPercentNum;
-        //[Header("固定数值")]
         public int conditionFixedNum;
-        //[Header("触发事件类型")]
         public BattleSkillTriggerEventType battleSkillTriggerEventType;
-        //[Header("事件数值，根据事件类型而定")]
         public int EventValue;
     }
-    
-}
+    /// <summary>
+    /// 战斗使用条件类型枚举
+    /// </summary>
+    public enum BattleSkillUseConditionType : byte
+    {
+        None = 0,
+        HealthGreaterThan = 1,
+        HealthLessThan = 2,
+        ShenHunGreaterThan = 3,
+        ShenHunLessThan = 4,
+        /// <summary>
+        /// 不可重复召唤
+        /// </summary>
+        UnRepeatSummon = 5,
+        /// <summary>
+        /// 覆盖召唤
+        /// </summary>
+        ReplaceSummon = 6,
+        /// <summary>
+        /// 武器限定
+        /// </summary>
+        WeaponLimit = 7,
+    }
+    /// <summary>
+    /// 技能目标类型枚举
+    /// </summary>
+    public enum BattleSkillTargetType : byte
+    {
+        All = 0,
+        player = 1,
+        Pet = 2,
+        Self = 3,
+        Summon = 4
+    }
+    /// <summary>
+    /// 技能阵营类型枚举
+    /// </summary>
+    public enum BattleSkillFactionType : byte
+    {
+        Enemy = 0,
+        TeamMate = 1,
+    }
+    public enum BattleSkillCostType : byte
+    {
+        None = 0,
+        Health = 1,
+        ZhenYuan = 2,
+        ShenHun = 3,
+        JingXue = 4,
+    }
+    public enum BattleSkillDamageType : byte
+    {
+        Physic = 0,
+        Magic = 1,
+        ShenHun = 2,
+        Reality = 3,
+    }
+    public enum BattleSkillNumSourceType : byte
+    {
+        MaxHealth = 0,
+        NowHealth = 1,
+        HasLostHealth = 2,
+        MaxZhenYuan = 3,
+        NowZhenYuan = 4,
+        MaxShenHun = 5,
+        NowShenHun = 6,
+        PhysicAttack = 7,
+        MagicAttack = 8,
+        PhysicDefense = 9,
+        MagicDefense = 10,
+        AttackSpeed = 11,
+        TakeDamage = 12,
+    }
+    public enum BattleSkillDamageTargetProperty
+    {
+        Health,
+        ZhenYuan,
+        ShenHun,
+    }
+    public enum BattleSkillEventTriggerTime : byte
+    {
+        BeforeAttack = 0,
+        BehindAttack = 1,
+    }
+    public enum BattleSkillEventTriggerCondition : byte
+    {
+        None = 0,
+        Crit = 1,
+        TargetPropertyUnder = 2,
+        TargetPropertyOver = 3,
+        SelfPropertyUnder = 4,
+        SelfPropertyOver = 5,
+    }
+    public enum BattleSkillEventTriggerNumSourceType : byte
+    {
+        Health = 0,
+        PhysicDefense = 1,
+        MagicDefense = 2,
+        ShenHun = 3,
+        Shield = 4,
+    }
+    public enum BattleSkillTriggerEventType
+    {
+        Skill = 0,
+        Heal = 1,
+        SuckBlood = 2,
+        AddCrit = 3,
+        AddDamage = 4,
+        /// <summary>
+        /// 增加穿透
+        /// </summary>
+        AddPierce = 5,
+    }
+    public enum BattleSkillActionType
+    {
+        Damage = 0,
+        Heal = 1,
+        Resurrection = 2,
+        Summon = 3,
+    } }
 
-
-#region 战斗中用到的枚举
-/// <summary>
-/// 战斗使用条件类型枚举
-/// </summary>
-public enum BattleSkillUseConditionType : byte
-{
-    None = 0,
-    HealthGreaterThan = 1,
-    HealthLessThan = 2,
-    ShenHunGreaterThan = 3,
-    ShenHunLessThan = 4,
-    /// <summary>
-    /// 不可重复召唤
-    /// </summary>
-    UnRepeatSummon = 5,
-    /// <summary>
-    /// 覆盖召唤
-    /// </summary>
-    ReplaceSummon = 6,
-    /// <summary>
-    /// 武器限定
-    /// </summary>
-    WeaponLimit = 7,
-}
-/// <summary>
-/// 技能目标类型枚举
-/// </summary>
-public enum BattleSkillTargetType : byte
-{
-    All = 0,
-    player = 1,
-    Pet = 2,
-    Self = 3,
-    Summon = 4
-}
-/// <summary>
-/// 技能阵营类型枚举
-/// </summary>
-public enum BattleSkillFactionType : byte
-{
-    Enemy = 0,
-    TeamMate = 1,
-}
-public enum BattleSkillCostType : byte
-{
-    None = 0,
-    Health = 1,
-    ZhenYuan = 2,
-    ShenHun = 3,
-    JingXue = 4,
-}
-public enum BattleSkillDamageType : byte
-{
-    Physic = 0,
-    Magic = 1,
-    ShenHun = 2,
-    Reality = 3,
-}
-public enum BattleSkillNumSourceType : byte
-{
-    MaxHealth = 0,
-    NowHealth = 1,
-    HasLostHealth = 2,
-    MaxZhenYuan = 3,
-    NowZhenYuan = 4,
-    MaxShenHun = 5,
-    NowShenHun = 6,
-    PhysicAttack = 7,
-    MagicAttack = 8,
-    PhysicDefense = 9,
-    MagicDefense = 10,
-    AttackSpeed = 11,
-}
-public enum BattleSkillEventTriggerTime : byte
-{
-    BeforeAttack = 0,
-    BehindAttack = 1,
-}
-public enum BattleSkillEventTriggerCondition : byte
-{
-    None = 0,
-    Crit = 1,
-    TargetPropertyUnder = 2,
-    TargetPropertyOver = 3,
-    SelfPropertyUnder = 4,
-    SelfPropertyOver = 5,
-}
-public enum BattleSkillEventTriggerNumSourceType : byte
-{
-    Health = 0,
-    PhysicDefense = 1,
-    MagicDefense = 2,
-    ShenHun = 3,
-}
-public enum BattleSkillTriggerEventType
-{
-    Skill = 0,
-    Heal = 1,
-    AddCrit = 2,
-    SuckBlood = 3,
-    AddDamage = 4,
-    /// <summary>
-    /// 增加穿透
-    /// </summary>
-    AddPierce = 5,
-}
-
-/// <summary>
-/// 1.伤害
-/// 2.回血
-/// 3.复活
-/// 4.召唤
-/// </summary>
-public enum BattleSkillActionType
-{
-    Damage = 0,
-    Heal = 1,
-    Resurrection = 2,
-    Summon = 3,
-}
-#endregion
 
 
 

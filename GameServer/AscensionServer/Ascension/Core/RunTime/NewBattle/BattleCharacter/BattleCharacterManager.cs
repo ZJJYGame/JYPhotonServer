@@ -49,7 +49,7 @@ namespace AscensionServer
         public BattleAIEntity AddAICharacter(int roomID,int aIID,BattleFactionType battleFactionType)
         {
             BattleAIEntity battleCharacterEntity = CosmosEntry.ReferencePoolManager.Spawn<BattleAIEntity>();
-            battleCharacterEntity.InitAI(aIID,aIStartID++, battleFactionType);
+            battleCharacterEntity.InitAI(roomID,aIID, aIStartID++, battleFactionType);
             CharacterEntityDict[battleCharacterEntity.UniqueID] = battleCharacterEntity;
             return battleCharacterEntity;
         }

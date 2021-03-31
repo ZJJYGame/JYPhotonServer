@@ -25,6 +25,10 @@ namespace AscensionServer
         public int GlobalID { get; protected set; }
         public string Name { get; protected set; }
         /// <summary>
+        /// 角色是否死亡
+        /// </summary>
+        public bool HasDie { get { return CharacterBattleData.Hp <= 0 ? true : false; } }
+        /// <summary>
         /// 属性数据
         /// </summary>
         public CharacterBattleData CharacterBattleData { get; protected set; }
@@ -72,6 +76,61 @@ namespace AscensionServer
         public virtual void SetBattleAction(BattleCmd battleCmd,BattleTransferDTO battleTransferDTO)
         {
         }
+        /// <summary>
+        /// 出手前判断并分配战斗行为
+        /// </summary>
+        public virtual void AllocationBattleAction()
+        {
+            //todo buff判断，强制控制角色行动
+        }
+        /// <summary>
+        /// 角色进行行动的方法
+        /// </summary>
+        public List<BattleTransferDTO> Action()
+        {
+            if (HasDie)
+                return new List<BattleTransferDTO>();
+            switch (BattleCmd)
+            {
+                case BattleCmd.PropsInstruction:
+                    break;
+                case BattleCmd.SkillInstruction:
+                    return BattleSkillController.UseSkill();
+                case BattleCmd.MagicWeapon:
+                    break;
+                case BattleCmd.CatchPet:
+                    break;
+                case BattleCmd.SummonPet:
+                    break;
+                case BattleCmd.RunAwayInstruction:
+                    break;
+                case BattleCmd.Tactical:
+                    break;
+                case BattleCmd.Defend:
+                    break;
+            }
+            return new List<BattleTransferDTO>();
+        }
+        /// <summary>
+        /// 受到技能等效果的结算
+        /// </summary>
+        public void OnActionEffect(BattleDamageData battleDamageData)
+        {
+            switch (battleDamageData.battleSkillActionType)
+            {
+                case BattleSkillActionType.Damage:
+                    //todo受击时的触发判断
+                    CharacterBattleData.ChangeProperty(battleDamageData.baseDamageTargetProperty, battleDamageData.damageNum);
+                    CharacterBattleData.ChangeProperty(battleDamageData.extraDamageTargetProperty, battleDamageData.extraDamageNum);
+                    break;
+                case BattleSkillActionType.Heal:
+                    break;
+                case BattleSkillActionType.Resurrection:
+                    break;
+                case BattleSkillActionType.Summon:
+                    break;
+            }
+        }
 
         protected void Init()
         {
@@ -79,6 +138,7 @@ namespace AscensionServer
             EnemyCharacterEntities = new List<BattleCharacterEntity>();
             BattleSkillController = new BattleSkillController(this);
             TargetIDList = new List<int>();
+
         }
 
 
