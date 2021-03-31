@@ -85,7 +85,7 @@ namespace AscensionServer
             battleRoomDict[roomID].CharacterPrepare(roleID);
         }
         //告知对应房间角色表演完成
-        void s(int roleID)
+        void RoomRolePerformOver(int roleID)
         {
             int roomID = GameEntry.BattleCharacterManager.GetCharacterEntity(roleID).RoomID;
             battleRoomDict[roomID].CharacterPerformOver(roleID);
