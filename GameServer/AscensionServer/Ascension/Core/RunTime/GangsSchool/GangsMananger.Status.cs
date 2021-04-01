@@ -206,27 +206,29 @@ namespace AscensionServer
         async void ChangeAllianceNameS2C(int roleID,AllianceStatus statusDTO)
         {
             var allianceExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString()).Result;
-            var constructionExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceConstructionPerfix, statusDTO.ID.ToString()).Result;
-            if (allianceExist && constructionExist)
+            var assestExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString()).Result;
+            if (allianceExist && assestExist)
             {
                 var alliance = RedisHelper.Hash.HashGetAsync<AllianceStatus>(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString()).Result;
-                var construction = RedisHelper.Hash.HashGetAsync<AllianceConstruction>(RedisKeyDefine._AllianceConstructionPerfix, statusDTO.ID.ToString()).Result;
-                if (alliance != null && construction!=null)
+                var assest = RedisHelper.Hash.HashGetAsync<RoleAssets>(RedisKeyDefine._AllianceConstructionPerfix, statusDTO.ID.ToString()).Result;
+                if (alliance != null && assest != null)
                 {
-                    if (construction.AllianceAssets>=500000)
+                    if (assest.SpiritStonesLow>=500000)
                     {
                         alliance.AllianceName = statusDTO.AllianceName;
-                        construction.AllianceAssets -= 500000;
-                    }
-                    Dictionary<byte, object> dict = new Dictionary<byte, object>();
-                    dict.Add((byte)ParameterCode.AllianceConstruction, construction);
-                    dict.Add((byte)ParameterCode.AllianceStatus, alliance);
-                    RoleStatusSuccessS2C(roleID,AllianceOpCode.ChangeAllianceName, dict);
+                        assest.SpiritStonesLow -= 500000;
+                        Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                        dict.Add((byte)ParameterCode.RoleAssets, assest);
+                        dict.Add((byte)ParameterCode.AllianceStatus, alliance);
+                        RoleStatusSuccessS2C(roleID, AllianceOpCode.ChangeAllianceName, dict);
 
-                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AllianceConstructionPerfix, statusDTO.ID.ToString(), construction);
-                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString(), alliance);
-                   await NHibernateQuerier.UpdateAsync(alliance);
-                   await NHibernateQuerier.UpdateAsync(construction);
+                        await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AllianceConstructionPerfix, statusDTO.ID.ToString(), assest);
+                        await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString(), alliance);
+                        await NHibernateQuerier.UpdateAsync(alliance);
+                        await NHibernateQuerier.UpdateAsync(assest);
+                    }
+                    else
+                        RoleStatusFailS2C(roleID, AllianceOpCode.ChangeAllianceName);            
                 }
                 else
                 {
@@ -295,25 +297,28 @@ namespace AscensionServer
        async void ChangeAllianceNameMySQL(int roleID, AllianceStatus statusDTO)
         {
             NHCriteria nHCriteriaAlliance = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", statusDTO.ID);
+            NHCriteria nHCriteriarole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
             var alliance = NHibernateQuerier.CriteriaSelect<AllianceStatus>(nHCriteriaAlliance);
             NHCriteria nHCriteriaconstruction = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", statusDTO.ID);
-            var construction = NHibernateQuerier.CriteriaSelect<AllianceConstruction>(nHCriteriaconstruction);
-            if (alliance != null&& construction!=null)
+            var assest = NHibernateQuerier.CriteriaSelect<RoleAssets>(nHCriteriarole);
+            if (alliance != null&& assest != null)
             {
-                if (construction.AllianceAssets>=500000)
+                if (assest.SpiritStonesLow>=500000)
                 {
                     alliance.AllianceName = statusDTO.AllianceName;
-                    construction.AllianceAssets -= 500000;
-                }
-                Dictionary<byte, object> dict = new Dictionary<byte, object>();
-                dict.Add((byte)ParameterCode.AllianceConstruction, construction);
-                dict.Add((byte)ParameterCode.AllianceStatus, alliance);
-                RoleStatusSuccessS2C(roleID, AllianceOpCode.ChangeAllianceName, dict);
+                    assest.SpiritStonesLow -= 500000;
+                    Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                    dict.Add((byte)ParameterCode.RoleAssets, assest);
+                    dict.Add((byte)ParameterCode.AllianceStatus, alliance);
+                    RoleStatusSuccessS2C(roleID, AllianceOpCode.ChangeAllianceName, dict);
 
-                await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AllianceConstructionPerfix, statusDTO.ID.ToString(), construction);
-                await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString(), alliance);
-                await NHibernateQuerier.UpdateAsync(alliance);
-                await NHibernateQuerier.UpdateAsync(construction);
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AllianceConstructionPerfix, statusDTO.ID.ToString(), assest);
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString(), alliance);
+                    await NHibernateQuerier.UpdateAsync(alliance);
+                    await NHibernateQuerier.UpdateAsync(assest);
+                }
+                else
+                    RoleStatusFailS2C(roleID, AllianceOpCode.ChangeAllianceName);
             }
             else
                 RoleStatusFailS2C(roleID,AllianceOpCode.ChangeAllianceName);

@@ -304,6 +304,41 @@
             buff是加成或减少：0=>减少,1=>加成
             </summary>
         </member>
+        <member name="T:AscensionServer.BattleSkillUseConditionType">
+            <summary>
+            战斗使用条件类型枚举
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleSkillUseConditionType.UnRepeatSummon">
+            <summary>
+            不可重复召唤
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleSkillUseConditionType.ReplaceSummon">
+            <summary>
+            覆盖召唤
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleSkillUseConditionType.WeaponLimit">
+            <summary>
+            武器限定
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleSkillTargetType">
+            <summary>
+            技能目标类型枚举
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleSkillFactionType">
+            <summary>
+            技能阵营类型枚举
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleSkillTriggerEventType.AddPierce">
+            <summary>
+            增加穿透
+            </summary>
+        </member>
         <member name="T:AscensionServer.BottleneckData">
             <summary>
             角色等级 
@@ -3022,6 +3057,11 @@
             公共ID
             </summary>
         </member>
+        <member name="P:AscensionServer.BattleCharacterEntity.HasDie">
+            <summary>
+            角色是否死亡
+            </summary>
+        </member>
         <member name="P:AscensionServer.BattleCharacterEntity.CharacterBattleData">
             <summary>
             属性数据
@@ -3041,6 +3081,21 @@
         <member name="M:AscensionServer.BattleCharacterEntity.SetBattleAction(AscensionProtocol.DTO.BattleCmd,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             设置角色该回合战斗行为
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleCharacterEntity.AllocationBattleAction">
+            <summary>
+            出手前判断并分配战斗行为
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleCharacterEntity.Action">
+            <summary>
+            角色进行行动的方法
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleCharacterEntity.OnActionEffect(AscensionServer.BattleDamageData)">
+            <summary>
+            受到技能等效果的结算
             </summary>
         </member>
         <member name="M:AscensionServer.BattleCharacterManager.AddPlayerCharacter(System.Int32,System.Int32,AscensionServer.BattleFactionType)">
@@ -3083,9 +3138,24 @@
             获取角色实体对象
             </summary>
         </member>
+        <member name="M:AscensionServer.BattleController.RandomGetTarget(System.Int32,AscensionServer.BattleFactionType,System.Collections.Generic.List{System.Int32})">
+            <summary>
+            随机获得行为目标列表
+            </summary>
+        </member>
         <member name="T:AscensionServer.BattleDamageData">
             <summary>
             战斗伤害数据
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleDamageData.baseDamageTargetProperty">
+            <summary>
+            基础伤害的目标属性（血量，真元，神魂）
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleDamageData.extraDamageTargetProperty">
+            <summary>
+            额外伤害的目标属性（血量，真元，神魂）
             </summary>
         </member>
         <member name="M:AscensionServer.BattleRoomEntity.InitRoom(System.Int32,AscensionProtocol.DTO.BattleInitDTO)">
@@ -3098,9 +3168,20 @@
             指定角色准备完成
             </summary>
         </member>
+        <member name="M:AscensionServer.BattleRoomEntity.CharacterPerformOver(System.Int32)">
+            <summary>
+            指定角色表演完成
+            </summary>
+            <param name="roleID"></param>
+        </member>
         <member name="M:AscensionServer.BattleRoomEntity.StartGetBattleCmdWait">
             <summary>
             开始收集战斗指令倒计时等待
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleRoomEntity.StartPerfomWait">
+            <summary>
+            开始玩家表演等待
             </summary>
         </member>
         <member name="M:AscensionServer.BattleRoomEntity.SendInitDataS2C">
@@ -3134,11 +3215,12 @@
             进入战斗的请求
             </summary>
         </member>
-        <member name="M:AscensionServer.BattleSkillBase.GetDamageData(System.Int32)">
+        <member name="M:AscensionServer.BattleSkillBase.GetDamageData(System.Int32,System.Int32,AscensionServer.BattleCharacterEntity)">
             <summary>
             获取该技能的伤害
             </summary>
             <param name="index">第几段伤害</param>
+            <param name="targetIndex">第几个目标</param>
         </member>
         <member name="T:AscensionServer.BattleSkillController">
             <summary>
@@ -3148,6 +3230,11 @@
         <member name="T:AscensionServer.CharacterBattleData">
             <summary>
             用于进行战斗中角色的属性数据处理
+            </summary>
+        </member>
+        <member name="M:AscensionServer.CharacterBattleData.GetProperty(AscensionServer.BattleSkillNumSourceType)">
+            <summary>
+            获取对应属性
             </summary>
         </member>
         <member name="T:AscensionServer.IPeerEntity">
@@ -4138,34 +4225,6 @@
              <summary>
             验证数据是否正确； 
              </summary>
-        </member>
-        <member name="M:AscensionServer.ISecondaryJobManager.GetRoleAlchemy(AscensionProtocol.DTO.SecondaryJobDTO,AscensionServer.NHCriteria)">
-            <summary>
-            获得所有已学配方
-            </summary>
-            <param name="secondaryJobDTO"></param>
-            <param name="nHCriteriarole"></param>
-        </member>
-        <member name="M:AscensionServer.ISecondaryJobManager.UpdateRoleAlchemy(AscensionProtocol.DTO.SecondaryJobDTO,AscensionServer.NHCriteria)">
-            <summary>
-            学习新配方
-            </summary>
-            <param name="secondaryJobDTO"></param>
-            <param name="nHCriteriarole"></param>
-        </member>
-        <member name="M:AscensionServer.SecondaryJobManager.GetRoleAlchemy(AscensionProtocol.DTO.SecondaryJobDTO,AscensionServer.NHCriteria)">
-            <summary>
-            获得所有已学配方
-            </summary>
-            <param name="secondaryJobDTO"></param>
-            <param name="nHCriteriarole"></param>
-        </member>
-        <member name="M:AscensionServer.SecondaryJobManager.UpdateRoleAlchemy(AscensionProtocol.DTO.SecondaryJobDTO,AscensionServer.NHCriteria)">
-            <summary>
-            学习新配方
-            </summary>
-            <param name="secondaryJobDTO"></param>
-            <param name="nHCriteriarole"></param>
         </member>
         <member name="T:AscensionServer.SkillEntity">
             <summary>
@@ -6867,49 +6926,6 @@
         <member name="T:AscensionServer.NHCriteria">
             <summary>
             SQL Colum对应类，一个column对应一个传入数值
-            </summary>
-        </member>
-        <member name="T:BattleSkillUseConditionType">
-            <summary>
-            战斗使用条件类型枚举
-            </summary>
-        </member>
-        <member name="F:BattleSkillUseConditionType.UnRepeatSummon">
-            <summary>
-            不可重复召唤
-            </summary>
-        </member>
-        <member name="F:BattleSkillUseConditionType.ReplaceSummon">
-            <summary>
-            覆盖召唤
-            </summary>
-        </member>
-        <member name="F:BattleSkillUseConditionType.WeaponLimit">
-            <summary>
-            武器限定
-            </summary>
-        </member>
-        <member name="T:BattleSkillTargetType">
-            <summary>
-            技能目标类型枚举
-            </summary>
-        </member>
-        <member name="T:BattleSkillFactionType">
-            <summary>
-            技能阵营类型枚举
-            </summary>
-        </member>
-        <member name="F:BattleSkillTriggerEventType.AddPierce">
-            <summary>
-            增加穿透
-            </summary>
-        </member>
-        <member name="T:BattleSkillActionType">
-            <summary>
-            1.伤害
-            2.回血
-            3.复活
-            4.召唤
             </summary>
         </member>
         <member name="T:JYGame.GenericDataStream`1">

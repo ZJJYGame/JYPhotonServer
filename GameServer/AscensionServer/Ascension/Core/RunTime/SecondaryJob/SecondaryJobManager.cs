@@ -22,9 +22,11 @@ namespace AscensionServer
 
         void ProcessHandlerC2S(int seeionid, OperationData packet)
         {
+            var secondaryJob = new SecondaryJobDTO();
             switch ((SecondaryJobOpCode)packet.SubOperationCode)
             {
                 case SecondaryJobOpCode.GetAlchemyStatus:
+
                     break;
                 case SecondaryJobOpCode.UpdateAlchemy:
                     break;
@@ -45,6 +47,28 @@ namespace AscensionServer
                 default:
                     break;
             }
+        }
+
+        void RoleStatusSuccessS2C(int roleID, AllianceOpCode oPcode, object data)
+        {
+            OperationData opData = new OperationData();
+            opData.OperationCode = (byte)OperationCode.SyncSecondaryJob;
+            opData.SubOperationCode = (byte)oPcode;
+            opData.ReturnCode = (byte)ReturnCode.Success;
+            opData.DataMessage = Utility.Json.ToJson(data);
+            GameEntry.RoleManager.SendMessage(roleID, opData);
+
+            Utility.Debug.LogInfo("角色副职业数据发送了" + Utility.Json.ToJson(data));
+        }
+
+        void RoleStatusFailS2C(int roleID, AllianceOpCode oPcode)
+        {
+            OperationData opData = new OperationData();
+            opData.OperationCode = (byte)OperationCode.SyncRoleAlliance;
+            opData.SubOperationCode = (byte)oPcode;
+            opData.ReturnCode = (byte)ReturnCode.Fail;
+            opData.DataMessage = Utility.Json.ToJson(null);
+            GameEntry.RoleManager.SendMessage(roleID, opData);
         }
     }
 }

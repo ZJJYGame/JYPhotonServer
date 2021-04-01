@@ -25,7 +25,13 @@ namespace AscensionProtocol.DTO
             AllianceID = -1;
             ApplyforMember = null;
             Member = null;
-            JobNumDict = null;
+            JobNumDict = new Dictionary<int, int>();
+            JobNumDict.Add(931, 0);
+            JobNumDict.Add(932, 0);
+            JobNumDict.Add(933, 0);
+            JobNumDict.Add(934, 0);
+            JobNumDict.Add(935, 0);
+            JobNumDict.Add(936, 0);
         }
     }
 }

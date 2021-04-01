@@ -50,25 +50,29 @@ namespace AscensionServer
                 var roleObj = RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix,roleID.ToString()).Result;
                 if (ExchangeObj != null && roleObj != null)
                 {
-                    foreach (var item in goodsDTO.ExchangeGoods)
+                    if (roleObj.AllianceJob==937)
                     {
-                        if (exchangeDict.TryGetValue(item.Key, out var data))
+                        foreach (var item in goodsDTO.ExchangeGoods)
                         {
-                            var result = ExchangeObj.ExchangeGoods.ContainsKey(item.Key);
-                            if (!result && item.Value.Contribution <= data.ContributionUp && item.Value.Contribution <= data.ContributionDown)
+                            if (exchangeDict.TryGetValue(item.Key, out var data))
                             {
-                                ExchangeObj.ExchangeGoods.Add(item.Key, item.Value);
-                            }
-                            else
-                            {
-                                ExchangeObj.ExchangeGoods[item.Key]=item.Value;
+                                var result = ExchangeObj.ExchangeGoods.ContainsKey(item.Key);
+                                if (!result && item.Value.Contribution <= data.ContributionUp && item.Value.Contribution <= data.ContributionDown)
+                                {
+                                    ExchangeObj.ExchangeGoods.Add(item.Key, item.Value);
+                                }
+                                else
+                                {
+                                    ExchangeObj.ExchangeGoods[item.Key] = item.Value;
+                                }
                             }
                         }
-                    }
 
-                    RoleStatusSuccessS2C(roleID, AllianceOpCode.SetExchangeGoods, ExchangeObj);
-                    await RedisHelper.Hash.HashSetAsync<AllianceExchangeGoodsDTO>(RedisKeyDefine._AllianceExchangeGoodsPerfix, goodsDTO.AllianceID.ToString(), ExchangeObj);
-                    await NHibernateQuerier.UpdateAsync(ChangeDataType(ExchangeObj));
+                        RoleStatusSuccessS2C(roleID, AllianceOpCode.SetExchangeGoods, ExchangeObj);
+                        await RedisHelper.Hash.HashSetAsync<AllianceExchangeGoodsDTO>(RedisKeyDefine._AllianceExchangeGoodsPerfix, goodsDTO.AllianceID.ToString(), ExchangeObj);
+                        await NHibernateQuerier.UpdateAsync(ChangeDataType(ExchangeObj));
+                    }else
+                        RoleStatusFailS2C(roleID, AllianceOpCode.SetExchangeGoods);
                 }
                 else
                     SetExchangeGoodsMySql(roleID, goodsDTO);
@@ -191,26 +195,33 @@ namespace AscensionServer
             GameEntry.DataManager.TryGetValue<Dictionary<int, AllianceScripturesPlatformData>>(out var exchangeDict);
             NHCriteria nHCriteriaAlliance = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("AllianceID", goodsDTO.AllianceID);
             var ExchangeObj = NHibernateQuerier.CriteriaSelectAsync<AllianceExchangeGoods>(nHCriteriaAlliance).Result;
-            if (ExchangeObj != null)
+            NHCriteria nHCriteriarole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
+            var roleObj = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriarole).Result;
+            if (ExchangeObj != null&& roleObj!=null)
             {
-                Utility.Debug.LogInfo("角色宗門设置兑换数据2");
-                var goodsDict = Utility.Json.ToObject<Dictionary<int, ExchangeSetting>>(ExchangeObj.ExchangeGoods);
-                foreach (var item in goodsDTO.ExchangeGoods)
+                if (roleObj.AllianceJob==937)
                 {
-                    if (exchangeDict.TryGetValue(item.Key, out var data))
+                    Utility.Debug.LogInfo("角色宗門设置兑换数据2");
+                    var goodsDict = Utility.Json.ToObject<Dictionary<int, ExchangeSetting>>(ExchangeObj.ExchangeGoods);
+                    foreach (var item in goodsDTO.ExchangeGoods)
                     {
-                        var result = goodsDict.ContainsKey(item.Key);
-                        if (!result && item.Value.Contribution <= data.ContributionUp && item.Value.Contribution <= data.ContributionDown)
+                        if (exchangeDict.TryGetValue(item.Key, out var data))
                         {
-                            goodsDict.Add(item.Key, item.Value);
+                            var result = goodsDict.ContainsKey(item.Key);
+                            if (!result && item.Value.Contribution <= data.ContributionUp && item.Value.Contribution <= data.ContributionDown)
+                            {
+                                goodsDict.Add(item.Key, item.Value);
+                            }
                         }
                     }
-                }
-                ExchangeObj.ExchangeGoods = Utility.Json.ToJson(goodsDict);
+                    ExchangeObj.ExchangeGoods = Utility.Json.ToJson(goodsDict);
 
-                RoleStatusSuccessS2C(roleID,AllianceOpCode.SetExchangeGoods, ChangeDataType(ExchangeObj));
-                await RedisHelper.Hash.HashSetAsync<AllianceExchangeGoodsDTO>(RedisKeyDefine._AllianceExchangeGoodsPerfix, goodsDTO.AllianceID.ToString(), ChangeDataType(ExchangeObj));
-                await NHibernateQuerier.UpdateAsync(ExchangeObj);
+                    RoleStatusSuccessS2C(roleID, AllianceOpCode.SetExchangeGoods, ChangeDataType(ExchangeObj));
+                    await RedisHelper.Hash.HashSetAsync<AllianceExchangeGoodsDTO>(RedisKeyDefine._AllianceExchangeGoodsPerfix, goodsDTO.AllianceID.ToString(), ChangeDataType(ExchangeObj));
+                    await NHibernateQuerier.UpdateAsync(ExchangeObj);
+                }
+                else
+                    RoleStatusFailS2C(roleID, AllianceOpCode.SetExchangeGoods);
             }
             else
                 RoleStatusFailS2C(roleID, AllianceOpCode.SetExchangeGoods);

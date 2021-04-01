@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Cosmos;
 namespace AscensionServer.Model
 {
     [Serializable]
@@ -17,7 +17,14 @@ namespace AscensionServer.Model
         {
             ApplyforMember ="[]";
             Member = null;
-            JobNumDict = "{}";
+            Dictionary<int, int> dict = new Dictionary<int, int>();
+            dict.Add(931,0);
+            dict.Add(932, 0);
+            dict.Add(933, 0);
+            dict.Add(934, 0);
+            dict.Add(935, 0);
+            dict.Add(936, 0);
+            JobNumDict = Utility.Json.ToJson(dict);
         }
 
 
