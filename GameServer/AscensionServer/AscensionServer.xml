@@ -2770,6 +2770,14 @@
             <param name="roleID"></param>
             <param name="id"></param>
         </member>
+        <member name="M:AscensionServer.GangsMananger.KickOutAllianceMySql(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            踢出宗門
+            </summary>
+            <param name="roleID"></param>
+            <param name="playerid"></param>
+            <param name="id"></param>
+        </member>
         <member name="M:AscensionServer.GangsMananger.GetAllAllianceS2C(System.Int32,AscensionProtocol.DTO.AlliancesDTO)">
             <summary>
             获得现有宗门,按照
@@ -4225,6 +4233,27 @@
              <summary>
             验证数据是否正确； 
              </summary>
+        </member>
+        <member name="M:AscensionServer.SecondaryJobManager.GetRoleAlchemy(AscensionProtocol.DTO.SecondaryJobDTO,AscensionServer.NHCriteria)">
+            <summary>
+            获得所有已学配方
+            </summary>
+            <param name="secondaryJobDTO"></param>
+            <param name="nHCriteriarole"></param>
+        </member>
+        <member name="M:AscensionServer.SecondaryJobManager.UpdateRoleAlchemy(AscensionProtocol.DTO.SecondaryJobDTO,AscensionServer.NHCriteria)">
+            <summary>
+            学习新配方
+            </summary>
+            <param name="secondaryJobDTO"></param>
+            <param name="nHCriteriarole"></param>
+        </member>
+        <member name="M:AscensionServer.SecondaryJobManager.CompoundAlchemy(AscensionProtocol.DTO.SecondaryJobDTO,AscensionServer.NHCriteria)">
+            <summary>
+            合成配方
+            </summary>
+            <param name="secondaryJobDTO"></param>
+            <param name="nHCriteriarole"></param>
         </member>
         <member name="T:AscensionServer.SkillEntity">
             <summary>

@@ -208,15 +208,13 @@ namespace AscensionServer
                         if (exchangeDict.TryGetValue(item.Key, out var data))
                         {
                             var result = goodsDict.ContainsKey(item.Key);
-                            if (!result && item.Value.Contribution <= data.ContributionUp && item.Value.Contribution <= data.ContributionDown)
+                            if (!result && item.Value.Contribution <= data.ContributionUp || item.Value.Contribution <= data.ContributionDown)
                             {
                                 goodsDict.Add(item.Key, item.Value);
                             }
                         }
                     }
                     ExchangeObj.ExchangeGoods = Utility.Json.ToJson(goodsDict);
-
-                    RoleStatusSuccessS2C(roleID, AllianceOpCode.SetExchangeGoods, ChangeDataType(ExchangeObj));
                     await RedisHelper.Hash.HashSetAsync<AllianceExchangeGoodsDTO>(RedisKeyDefine._AllianceExchangeGoodsPerfix, goodsDTO.AllianceID.ToString(), ChangeDataType(ExchangeObj));
                     await NHibernateQuerier.UpdateAsync(ExchangeObj);
                 }

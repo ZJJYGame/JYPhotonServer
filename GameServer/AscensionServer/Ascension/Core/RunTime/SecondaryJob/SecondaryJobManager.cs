@@ -49,7 +49,7 @@ namespace AscensionServer
             }
         }
 
-        void RoleStatusSuccessS2C(int roleID, AllianceOpCode oPcode, object data)
+        void RoleStatusSuccessS2C(int roleID, SecondaryJobOpCode oPcode, object data)
         {
             OperationData opData = new OperationData();
             opData.OperationCode = (byte)OperationCode.SyncSecondaryJob;
@@ -61,13 +61,27 @@ namespace AscensionServer
             Utility.Debug.LogInfo("角色副职业数据发送了" + Utility.Json.ToJson(data));
         }
 
-        void RoleStatusFailS2C(int roleID, AllianceOpCode oPcode)
+        void RoleStatusFailS2C(int roleID, SecondaryJobOpCode oPcode)
         {
             OperationData opData = new OperationData();
             opData.OperationCode = (byte)OperationCode.SyncRoleAlliance;
             opData.SubOperationCode = (byte)oPcode;
             opData.ReturnCode = (byte)ReturnCode.Fail;
             opData.DataMessage = Utility.Json.ToJson(null);
+            GameEntry.RoleManager.SendMessage(roleID, opData);
+        }
+        /// <summary>
+        /// 合成失敗
+        /// </summary>
+        /// <param name="roleID"></param>
+        /// <param name="oPcode"></param>
+        void RoleStatusCompoundFailS2C(int roleID, SecondaryJobOpCode oPcode, object data)
+        {
+            OperationData opData = new OperationData();
+            opData.OperationCode = (byte)OperationCode.SyncSecondaryJob;
+            opData.SubOperationCode = (byte)oPcode;
+            opData.ReturnCode = (byte)ReturnCode.Fail;
+            opData.DataMessage = Utility.Json.ToJson(data);
             GameEntry.RoleManager.SendMessage(roleID, opData);
         }
     }
