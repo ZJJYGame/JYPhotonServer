@@ -54,6 +54,7 @@ namespace AscensionServer
 
         public override void SetBattleAction(BattleCmd battleCmd, BattleTransferDTO battleTransferDTO)
         {
+            TargetIDList.Clear();
             BattleCmd = battleCmd;
             ActionID = battleTransferDTO.ClientCmdId;
             for (int i = 0; i < battleTransferDTO.TargetInfos.Count; i++)
@@ -81,8 +82,8 @@ namespace AscensionServer
                     battleFactionType = (BattleFactionType == BattleFactionType.FactionOne) ? BattleFactionType.FactionOne : BattleFactionType.FactionTwo;
                     break;
             }
-            if (TargetIDList.Count < battleSkillData.TargetNumber)
-                TargetIDList = GameEntry.BattleRoomManager.GetBattleRoomEntity(RoomID).BattleController.RandomGetTarget(battleSkillData.TargetNumber, battleFactionType);
+
+            TargetIDList = GameEntry.BattleRoomManager.GetBattleRoomEntity(RoomID).BattleController.RandomGetTarget(battleSkillData.TargetNumber, battleFactionType,true,TargetIDList);
         }
 
         public void SendMessage(OperationData opData)

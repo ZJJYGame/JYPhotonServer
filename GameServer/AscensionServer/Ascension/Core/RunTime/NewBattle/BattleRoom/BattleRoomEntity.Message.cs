@@ -61,12 +61,19 @@ namespace AscensionServer
             opData.OperationCode = (byte)OperationCode.SyncBattleMessageRole;
             SendMessageToAllPlayerS2C(opData);
         }
+        /// <summary>
+        /// 告知客户端所有玩家准备完成
+        /// </summary>
         void SendBattleMessagePrepareDataS2C()
         {
             OperationData opData = new OperationData();
             opData.OperationCode = (byte)OperationCode.SyncBattleMessagePrepare;
             SendMessageToAllPlayerS2C(opData);
         }
+        /// <summary>
+        /// 告知客户端这回合的表演信息
+        /// </summary>
+        /// <param name="battleTransferDTOs"></param>
         public void SendBattlePerformDataS2C(List<BattleTransferDTO> battleTransferDTOs)
         {
             Utility.Debug.LogError(Utility.Json.ToJson(battleTransferDTOs));
@@ -79,6 +86,28 @@ namespace AscensionServer
             OperationData opData = new OperationData();
             opData.DataMessage = subResponseParametersDict;
             opData.OperationCode = (byte)OperationCode.SyncBattleTransfer;
+            SendMessageToAllPlayerS2C(opData);
+        }
+        /// <summary>
+        /// 告知客户端新回合开始
+        /// </summary>
+        public void SendNewRoundStartMsgS2C()
+        {
+            Utility.Debug.LogError("发送新回合开始的消息");
+            OperationData opData = new OperationData();
+            opData.DataMessage = "服务器通知=>新回合开始";
+            opData.OperationCode = (byte)OperationCode.SyncBattleRound;
+            SendMessageToAllPlayerS2C(opData);
+        }
+        /// <summary>
+        /// 告知客户端战斗结束
+        /// </summary>
+        public void SendBattleEndMsgS2C()
+        {
+            Utility.Debug.LogError("发送战斗结束的消息");
+            OperationData opData = new OperationData();
+            opData.DataMessage = "服务器通知=>战斗结束";
+            opData.OperationCode = (byte)OperationCode.SyncBattleMessageEnd;
             SendMessageToAllPlayerS2C(opData);
         }
         /// <summary>

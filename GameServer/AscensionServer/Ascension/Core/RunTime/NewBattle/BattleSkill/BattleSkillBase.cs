@@ -47,9 +47,9 @@ namespace AscensionServer
             //计算基础伤害初始值
             int attackValue = 0;
             if (battleSkillDamageNumData.baseDamageAdditionSourceTarget)//根据目标数值
-                attackValue = (int)target.CharacterBattleData.GetProperty(battleSkillDamageNumData.baseNumSourceDataList[targetIndex].battleSkillNumSourceType) * battleSkillDamageNumData.baseNumSourceDataList[targetIndex].mulitity/100 + battleSkillDamageNumData.fixedNum;
+                attackValue = (int)target.CharacterBattleData.GetProperty(battleSkillDamageNumData.baseNumSourceDataList[targetIndex].battleSkillNumSourceType, battleDamageData) * battleSkillDamageNumData.baseNumSourceDataList[targetIndex].mulitity/100 + battleSkillDamageNumData.fixedNum;
             else//根据自身数值
-                attackValue = (int)CharacterBattleData.GetProperty(battleSkillDamageNumData.baseNumSourceDataList[targetIndex].battleSkillNumSourceType) * battleSkillDamageNumData.baseNumSourceDataList[targetIndex].mulitity/100 + battleSkillDamageNumData.fixedNum;
+                attackValue = (int)CharacterBattleData.GetProperty(battleSkillDamageNumData.baseNumSourceDataList[targetIndex].battleSkillNumSourceType, battleDamageData) * battleSkillDamageNumData.baseNumSourceDataList[targetIndex].mulitity/100 + battleSkillDamageNumData.fixedNum;
             int defendValue = target.CharacterBattleData.GetProperty(battleDamageData.damageType);
             //计算忽视防御
             defendValue = defendValue * (100 - (CharacterBattleData.IgnoreDef + IgnoreDefensive)) / 100;
@@ -90,9 +90,9 @@ namespace AscensionServer
             if (battleSkillDamageNumData.extraNumSourceData.Count > 0)
             {
                 if (battleSkillDamageNumData.extraDamageAdditionSourceTarget)//根据目标数值
-                    attackValue = (int)target.CharacterBattleData.GetProperty(battleSkillDamageNumData.extraNumSourceData[targetIndex].battleSkillNumSourceType) * battleSkillDamageNumData.extraNumSourceData[targetIndex].mulitity;
+                    attackValue = (int)target.CharacterBattleData.GetProperty(battleSkillDamageNumData.extraNumSourceData[targetIndex].battleSkillNumSourceType, battleDamageData) * battleSkillDamageNumData.extraNumSourceData[targetIndex].mulitity;
                 else//根据自身数值
-                    attackValue = (int)CharacterBattleData.GetProperty(battleSkillDamageNumData.extraNumSourceData[targetIndex].battleSkillNumSourceType) * battleSkillDamageNumData.extraNumSourceData[targetIndex].mulitity;
+                    attackValue = (int)CharacterBattleData.GetProperty(battleSkillDamageNumData.extraNumSourceData[targetIndex].battleSkillNumSourceType, battleDamageData) * battleSkillDamageNumData.extraNumSourceData[targetIndex].mulitity;
                 battleDamageData.extraDamageNum = battleSkillData.battleSkillActionType == BattleSkillActionType.Damage ? -attackValue : attackValue; ;
             }
             return battleDamageData;

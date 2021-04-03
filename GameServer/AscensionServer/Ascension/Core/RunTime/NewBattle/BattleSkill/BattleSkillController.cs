@@ -132,7 +132,7 @@ namespace AscensionServer
         {
             this.owner = owner;
             skillDict = new Dictionary<int, BattleSkillBase>();
-            roleHasSkillHash = new HashSet<int>() { 21001,21005,21006, 21402 };
+            roleHasSkillHash = new HashSet<int>() { 21001,21005,21006, 21402 ,21202};
         }
     }
 }
