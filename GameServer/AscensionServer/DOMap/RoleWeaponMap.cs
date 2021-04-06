@@ -7,13 +7,16 @@ using FluentNHibernate.Mapping;
 using AscensionServer.Model;
 namespace AscensionServer
 {
-    public class RoleWeaponMap:ClassMap<RoleWeapon>
+    public class WeaponMap:ClassMap<Weapon>
     {
-        public RoleWeaponMap()
+        public WeaponMap()
         {
-            Id(x => x.RoleID).Column("role_id").GeneratedBy.Assigned();
-            Map(x => x.WeaponIDAttay).Column("weapon_id_array");
-            Table("role_weapon");
+            Id(x => x.RoleID).Column("roleid").GeneratedBy.Assigned();
+            Map(x => x.Weaponindex).Column("weapon_index");
+            Map(x => x.WeaponStatusDict).Column("weapon_status_dict");
+            Map(x => x.Magicindex).Column("magic_index");
+            Map(x => x.MagicStatusDict).Column("magic_status_dict");
+            Table("roleweapon");
         }
     }
 }

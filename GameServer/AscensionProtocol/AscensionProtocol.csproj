@@ -117,7 +117,6 @@
     <Compile Include="DTO\RoleMiShuDTO.cs" />
     <Compile Include="DTO\RoleStatusDTO.cs" />
     <Compile Include="DTO\RoleTaskProgressDTO.cs" />
-    <Compile Include="DTO\RoleWeapon.cs" />
     <Compile Include="DTO\SchoolDTO.cs" />
     <Compile Include="DTO\SpiritualRunesDTO.cs" />
     <Compile Include="DTO\SutrasAtticDTO.cs" />
@@ -133,7 +132,7 @@
     <Compile Include="DTO\UserInfoDto.cs" />
     <Compile Include="DTO\VareityPurchaseRecordDTO.cs" />
     <Compile Include="DTO\VareityShopDTO.cs" />
-    <Compile Include="DTO\WeaponDTO.cs" />
+    <Compile Include="DTO\RoleWeaponDTO.cs" />
     <Compile Include="ErrorCode.cs" />
     <Compile Include="EventCode.cs" />
     <Compile Include="MessageChannel.cs" />

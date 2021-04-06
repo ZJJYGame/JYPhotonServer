@@ -667,7 +667,6 @@
     <Compile Include="DOMap\RoleRingMap.cs" />
     <Compile Include="DOMap\RoleTaskProgressMap.cs" />
     <Compile Include="DOMap\RoleWeaponMap.cs" />
-    <Compile Include="DOMap\WeaponMap.cs" />
     <Compile Include="DO\OffLineTime.cs" />
     <Compile Include="DO\OnOffLine.cs" />
     <Compile Include="DO\Pet.cs" />
@@ -680,7 +679,6 @@
     <Compile Include="DO\RoleRing.cs" />
     <Compile Include="DO\RoleTaskProgress.cs" />
     <Compile Include="DO\RoleWeapon.cs" />
-    <Compile Include="DO\Weapon.cs" />
     <Compile Include="Lite\Actor\Actor.cs" />
     <Compile Include="Lite\Actor\ActorCollection.cs" />
     <Compile Include="Lite\Actor\ActorGroup.cs" />

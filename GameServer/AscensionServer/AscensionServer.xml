@@ -3155,10 +3155,22 @@
             获取角色实体对象
             </summary>
         </member>
-        <member name="M:AscensionServer.BattleController.RandomGetTarget(System.Int32,AscensionServer.BattleFactionType,System.Collections.Generic.List{System.Int32})">
+        <member name="M:AscensionServer.BattleController.RandomGetTarget(System.Int32,AscensionServer.BattleFactionType,System.Boolean,System.Collections.Generic.List{System.Int32})">
             <summary>
             随机获得行为目标列表
             </summary>
+            <param name="count"></param>
+            <param name="battleSkillFactionType"></param>
+            <param name="targetIsAlive">目标是否是活着的状态</param>
+            <param name="targetIDList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.BattleController.BattleIsEnd">
+            <summary>
+            判断战斗是否结束
+            双方阵营有一边全部死亡则代表战斗结束
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:AscensionServer.BattleDamageData">
             <summary>
@@ -3206,6 +3218,27 @@
             发送战斗初始化信息给客户端
             </summary>
         </member>
+        <member name="M:AscensionServer.BattleRoomEntity.SendBattleMessagePrepareDataS2C">
+            <summary>
+            告知客户端所有玩家准备完成
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleRoomEntity.SendBattlePerformDataS2C(System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO})">
+            <summary>
+            告知客户端这回合的表演信息
+            </summary>
+            <param name="battleTransferDTOs"></param>
+        </member>
+        <member name="M:AscensionServer.BattleRoomEntity.SendNewRoundStartMsgS2C">
+            <summary>
+            告知客户端新回合开始
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleRoomEntity.SendBattleEndMsgS2C">
+            <summary>
+            告知客户端战斗结束
+            </summary>
+        </member>
         <member name="M:AscensionServer.BattleRoomEntity.SendMessageToAllPlayerS2C(Protocol.OperationData)">
             <summary>
             发送数据给战斗房间中所有玩家
@@ -3249,7 +3282,7 @@
             用于进行战斗中角色的属性数据处理
             </summary>
         </member>
-        <member name="M:AscensionServer.CharacterBattleData.GetProperty(AscensionServer.BattleSkillNumSourceType)">
+        <member name="M:AscensionServer.CharacterBattleData.GetProperty(AscensionServer.BattleSkillNumSourceType,AscensionServer.BattleDamageData)">
             <summary>
             获取对应属性
             </summary>

@@ -23,12 +23,14 @@ namespace AscensionServer
         void ProcessHandlerC2S(int seeionid, OperationData packet)
         {
             var secondaryJob = new SecondaryJobDTO();
+            Utility.Debug.LogInfo("YZQ收到的副职业请求" + packet.DataMessage.ToString());
+            Utility.Debug.LogInfo("YZQ收到的副职业请求"+ (SecondaryJobOpCode)packet.SubOperationCode);
             switch ((SecondaryJobOpCode)packet.SubOperationCode)
             {
                 case SecondaryJobOpCode.GetSecondaryJobStatus:
                     #region
                     var role = Utility.Json.ToObject<RoleDTO>(packet.DataMessage.ToString());
-                    GetSecondaryJobStatusS2C(secondaryJob.RoleID);
+                    GetSecondaryJobStatusS2C(role.RoleID);
                     #endregion
                     break;
                 case SecondaryJobOpCode.UpdateAlchemy:
@@ -60,13 +62,14 @@ namespace AscensionServer
         {
             NHCriteria nHCriteriaRole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
             Dictionary<byte, object> dict = new Dictionary<byte, object>();
+            #region
             var alchemyExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlchemyPerfix, roleID.ToString()).Result;
             if (alchemyExist)
             {
                 var alchemyObj = RedisHelper.Hash.HashGetAsync<AlchemyDTO>(RedisKeyDefine._AlchemyPerfix, roleID.ToString()).Result;
-                if (alchemyObj==null)
+                if (alchemyObj == null)
                 {
-                  var alchemy= NHibernateQuerier.CriteriaSelect<Alchemy>(nHCriteriaRole);
+                    var alchemy = NHibernateQuerier.CriteriaSelect<Alchemy>(nHCriteriaRole);
                     if (alchemy != null)
                     {
                         alchemyObj = ChangeDataType(alchemy);
@@ -74,12 +77,29 @@ namespace AscensionServer
                     }
                     else
                     {
-                        RoleStatusFailS2C(roleID,SecondaryJobOpCode.GetSecondaryJobStatus);
+                        RoleStatusFailS2C(roleID, SecondaryJobOpCode.GetSecondaryJobStatus);
                         return;
                     }
-                }else
+                }
+                else
                     dict.Add((byte)ParameterCode.JobAlchemy, alchemyObj);
             }
+            else
+            {
+                var alchemy = NHibernateQuerier.CriteriaSelect<Alchemy>(nHCriteriaRole);
+                if (alchemy != null)
+                {
+                    Utility.Debug.LogInfo("1YZQ收到的副职业请求");
+                    dict.Add((byte)ParameterCode.JobAlchemy, ChangeDataType(alchemy));
+                }
+                else
+                {
+                    RoleStatusFailS2C(roleID, SecondaryJobOpCode.GetSecondaryJobStatus);
+                    return;
+                }
+            }
+            #endregion
+            #region
             var forgeExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlchemyPerfix, roleID.ToString()).Result;
             if (forgeExist)
             {
@@ -90,7 +110,7 @@ namespace AscensionServer
                     if (forge != null)
                     {
                         forgeObj = ChangeDataType(forge);
-                        dict.Add((byte)ParameterCode.JobAlchemy, forgeObj);
+                        dict.Add((byte)ParameterCode.JobForge, forgeObj);
                     }
                     else
                     {
@@ -99,8 +119,24 @@ namespace AscensionServer
                     }
                 }
                 else
-                    dict.Add((byte)ParameterCode.JobAlchemy, forgeObj);
+                    dict.Add((byte)ParameterCode.JobForge, forgeObj);
             }
+            else
+            {
+                var forge = NHibernateQuerier.CriteriaSelect<Forge>(nHCriteriaRole);
+                if (forge != null)
+                {
+                    Utility.Debug.LogInfo("2YZQ收到的副职业请求");
+                    dict.Add((byte)ParameterCode.JobForge, ChangeDataType(forge));
+                }
+                else
+                {
+                    RoleStatusFailS2C(roleID, SecondaryJobOpCode.GetSecondaryJobStatus);
+                    return;
+                }
+            }
+            #endregion
+            #region
             var puppetExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlchemyPerfix, roleID.ToString()).Result;
             if (puppetExist)
             {
@@ -111,7 +147,7 @@ namespace AscensionServer
                     if (puppet != null)
                     {
                         puppetObj = ChangeDataType(puppet);
-                        dict.Add((byte)ParameterCode.JobAlchemy, puppetObj);
+                        dict.Add((byte)ParameterCode.JobPuppet, puppetObj);
                     }
                     else
                     {
@@ -120,8 +156,25 @@ namespace AscensionServer
                     }
                 }
                 else
-                    dict.Add((byte)ParameterCode.JobAlchemy, puppetObj);
+                    dict.Add((byte)ParameterCode.JobPuppet, puppetObj);
             }
+            else
+            {
+                var puppet = NHibernateQuerier.CriteriaSelect<Puppet>(nHCriteriaRole);
+                if (puppet != null)
+                {
+                    Utility.Debug.LogInfo("3YZQ收到的副职业请求");
+                    dict.Add((byte)ParameterCode.JobPuppet, ChangeDataType(puppet));
+                }
+                else
+                {
+                    RoleStatusFailS2C(roleID, SecondaryJobOpCode.GetSecondaryJobStatus);
+                    return;
+                }
+            }
+            #endregion
+
+            RoleStatusSuccessS2C(roleID,SecondaryJobOpCode.GetSecondaryJobStatus,dict);
         }
 
         void RoleStatusSuccessS2C(int roleID, SecondaryJobOpCode oPcode, object data)
