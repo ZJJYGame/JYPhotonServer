@@ -25,27 +25,102 @@ namespace AscensionServer
             var secondaryJob = new SecondaryJobDTO();
             switch ((SecondaryJobOpCode)packet.SubOperationCode)
             {
-                case SecondaryJobOpCode.GetAlchemyStatus:
-
+                case SecondaryJobOpCode.GetSecondaryJobStatus:
+                    #region
+                    var role = Utility.Json.ToObject<RoleDTO>(packet.DataMessage.ToString());
+                    GetSecondaryJobStatusS2C(secondaryJob.RoleID);
+                    #endregion
                     break;
                 case SecondaryJobOpCode.UpdateAlchemy:
+                    #region
+                    secondaryJob = Utility.Json.ToObject<SecondaryJobDTO>(packet.DataMessage.ToString());
+                    UpdateAlchemyS2C(secondaryJob.RoleID, secondaryJob.UseItemID);
+                    #endregion
                     break;
                 case SecondaryJobOpCode.CompoundAlchemy:
-                    break;
-                case SecondaryJobOpCode.GetPuppetStatus:
+                    #region
+                    secondaryJob = Utility.Json.ToObject<SecondaryJobDTO>(packet.DataMessage.ToString());
+                    CompoundAlchemyS2C(secondaryJob.RoleID, secondaryJob.UseItemID);
+                    #endregion
                     break;
                 case SecondaryJobOpCode.UpdatePuppet:
                     break;
                 case SecondaryJobOpCode.CompoundPuppet:
                     break;
-                case SecondaryJobOpCode.GetWeaponStatus:
+                case SecondaryJobOpCode.UpdateForge:
                     break;
-                case SecondaryJobOpCode.UpdateWeapon:
-                    break;
-                case SecondaryJobOpCode.CompoundWeapon:
+                case SecondaryJobOpCode.CompoundForge:
                     break;
                 default:
                     break;
+            }
+        }
+
+        void GetSecondaryJobStatusS2C(int roleID)
+        {
+            NHCriteria nHCriteriaRole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
+            Dictionary<byte, object> dict = new Dictionary<byte, object>();
+            var alchemyExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlchemyPerfix, roleID.ToString()).Result;
+            if (alchemyExist)
+            {
+                var alchemyObj = RedisHelper.Hash.HashGetAsync<AlchemyDTO>(RedisKeyDefine._AlchemyPerfix, roleID.ToString()).Result;
+                if (alchemyObj==null)
+                {
+                  var alchemy= NHibernateQuerier.CriteriaSelect<Alchemy>(nHCriteriaRole);
+                    if (alchemy != null)
+                    {
+                        alchemyObj = ChangeDataType(alchemy);
+                        dict.Add((byte)ParameterCode.JobAlchemy, alchemyObj);
+                    }
+                    else
+                    {
+                        RoleStatusFailS2C(roleID,SecondaryJobOpCode.GetSecondaryJobStatus);
+                        return;
+                    }
+                }else
+                    dict.Add((byte)ParameterCode.JobAlchemy, alchemyObj);
+            }
+            var forgeExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlchemyPerfix, roleID.ToString()).Result;
+            if (forgeExist)
+            {
+                var forgeObj = RedisHelper.Hash.HashGetAsync<ForgeDTO>(RedisKeyDefine._ForgePerfix, roleID.ToString()).Result;
+                if (forgeObj == null)
+                {
+                    var forge = NHibernateQuerier.CriteriaSelect<Forge>(nHCriteriaRole);
+                    if (forge != null)
+                    {
+                        forgeObj = ChangeDataType(forge);
+                        dict.Add((byte)ParameterCode.JobAlchemy, forgeObj);
+                    }
+                    else
+                    {
+                        RoleStatusFailS2C(roleID, SecondaryJobOpCode.GetSecondaryJobStatus);
+                        return;
+                    }
+                }
+                else
+                    dict.Add((byte)ParameterCode.JobAlchemy, forgeObj);
+            }
+            var puppetExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlchemyPerfix, roleID.ToString()).Result;
+            if (puppetExist)
+            {
+                var puppetObj = RedisHelper.Hash.HashGetAsync<PuppetDTO>(RedisKeyDefine._ForgePerfix, roleID.ToString()).Result;
+                if (puppetObj == null)
+                {
+                    var puppet = NHibernateQuerier.CriteriaSelect<Puppet>(nHCriteriaRole);
+                    if (puppet != null)
+                    {
+                        puppetObj = ChangeDataType(puppet);
+                        dict.Add((byte)ParameterCode.JobAlchemy, puppetObj);
+                    }
+                    else
+                    {
+                        RoleStatusFailS2C(roleID, SecondaryJobOpCode.GetSecondaryJobStatus);
+                        return;
+                    }
+                }
+                else
+                    dict.Add((byte)ParameterCode.JobAlchemy, puppetObj);
             }
         }
 
@@ -66,7 +141,7 @@ namespace AscensionServer
             OperationData opData = new OperationData();
             opData.OperationCode = (byte)OperationCode.SyncRoleAlliance;
             opData.SubOperationCode = (byte)oPcode;
-            opData.ReturnCode = (byte)ReturnCode.Fail;
+            opData.ReturnCode = (byte)ReturnCode.ItemNotFound;
             opData.DataMessage = Utility.Json.ToJson(null);
             GameEntry.RoleManager.SendMessage(roleID, opData);
         }
@@ -84,6 +159,8 @@ namespace AscensionServer
             opData.DataMessage = Utility.Json.ToJson(data);
             GameEntry.RoleManager.SendMessage(roleID, opData);
         }
+
+
     }
 }
 

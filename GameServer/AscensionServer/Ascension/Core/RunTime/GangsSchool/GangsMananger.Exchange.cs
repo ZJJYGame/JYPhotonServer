@@ -208,7 +208,7 @@ namespace AscensionServer
                         if (exchangeDict.TryGetValue(item.Key, out var data))
                         {
                             var result = goodsDict.ContainsKey(item.Key);
-                            if (!result && item.Value.Contribution <= data.ContributionUp || item.Value.Contribution <= data.ContributionDown)
+                            if (!result && item.Value.Contribution <= data.ContributionUp&&item.Value.Contribution >= data.ContributionDown)
                             {
                                 goodsDict.Add(item.Key, item.Value);
                             }

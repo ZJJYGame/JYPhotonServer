@@ -82,29 +82,32 @@ namespace AscensionServer
 
                             if (rolealliance != null && onofflineObj != null)
                             {
-                                if (onofflineObj.OffTime== "在线")
+                                if (rolealliance.AllianceID==0)
                                 {
-                                    alliancestatusObj.OnLineNum++;
-                                }
-                                rolealliance.AllianceID = id;
-                                rolealliance.AllianceJob = 931;
-                                rolealliance.ApplyForAlliance.Clear();
-                                rolealliance.JoinTime = DateTime.Now.ToString();
-                                consents.Add(roleIDs[i]);
-                                allianceObj.ApplyforMember.Remove(roleIDs[i]);
-                                allianceObj.Member.Add(roleIDs[i]);
-                                if (allianceObj.JobNumDict.ContainsKey(rolealliance.AllianceJob))
-                                {
-                                    allianceObj.JobNumDict[rolealliance.AllianceJob]++;
-                                }
-                                else
-                                {
-                                    allianceObj.JobNumDict.Add(rolealliance.AllianceJob,1);
-                                }
-                                RoleStatusSuccessS2C(roleIDs[i], AllianceOpCode.JoinAllianceSuccess, rolealliance);
+                                    if (onofflineObj.OffTime == "在线")
+                                    {
+                                        alliancestatusObj.OnLineNum++;
+                                    }
+                                    rolealliance.AllianceID = id;
+                                    rolealliance.AllianceJob = 931;
+                                    rolealliance.ApplyForAlliance.Clear();
+                                    rolealliance.JoinTime = DateTime.Now.ToString();
+                                    consents.Add(roleIDs[i]);
+                                    allianceObj.ApplyforMember.Remove(roleIDs[i]);
+                                    allianceObj.Member.Add(roleIDs[i]);
+                                    if (allianceObj.JobNumDict.ContainsKey(rolealliance.AllianceJob))
+                                    {
+                                        allianceObj.JobNumDict[rolealliance.AllianceJob]++;
+                                    }
+                                    else
+                                    {
+                                        allianceObj.JobNumDict.Add(rolealliance.AllianceJob, 1);
+                                    }
+                                    RoleStatusSuccessS2C(roleIDs[i], AllianceOpCode.JoinAllianceSuccess, rolealliance);
 
-                                await RedisHelper.Hash.HashSetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleIDs[i].ToString(), rolealliance);
-                                await NHibernateQuerier.UpdateAsync(ChangeDataType(rolealliance));
+                                    await RedisHelper.Hash.HashSetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleIDs[i].ToString(), rolealliance);
+                                    await NHibernateQuerier.UpdateAsync(ChangeDataType(rolealliance));
+                                }
                             }
                         }
                     }
@@ -546,25 +549,29 @@ namespace AscensionServer
 
                         if (roleAlliancej != null)
                         {
-                            if (onofflineObj.OffTime.Equals("在线"))
+                            if (roleAlliancej.AllianceID==0)
                             {
-                                alliance.OnLineNum++;
+                                if (onofflineObj.OffTime.Equals("在线"))
+                                {
+                                    alliance.OnLineNum++;
+                                }
+                                roleAlliancej.AllianceID = id;
+                                roleAlliancej.AllianceJob = 931;
+                                roleAlliancej.ApplyForAlliance = "[]";
+                                roleAlliancej.JoinTime = DateTime.Now.ToString();
+                                consents.Add(roleIDs[i]);
+                                if (jobDict.ContainsKey(roleAlliancej.AllianceJob))
+                                {
+                                    jobDict[roleAlliancej.AllianceJob]++;
+                                }
+                                else
+                                    jobDict.Add(roleAlliancej.AllianceJob, 1);
+
+                                RoleStatusSuccessS2C(roleIDs[i], AllianceOpCode.JoinAllianceSuccess, roleAlliancej);
+
+                                await RedisHelper.Hash.HashSetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleIDs[i].ToString(), ChangeDataType(roleAlliancej));
+                                await NHibernateQuerier.UpdateAsync(roleAlliancej);
                             }
-                            roleAlliancej.AllianceID = id;
-                            roleAlliancej.AllianceJob = 931;
-                            roleAlliancej.ApplyForAlliance = "[]";
-                            roleAlliancej.JoinTime = DateTime.Now.ToString();
-                            consents.Add(roleIDs[i]);
-                            if (jobDict.ContainsKey(roleAlliancej.AllianceJob))
-                            {
-                                jobDict[roleAlliancej.AllianceJob]++;
-                            } else
-                                jobDict.Add(roleAlliancej.AllianceJob,1); 
-
-                            RoleStatusSuccessS2C(roleIDs[i], AllianceOpCode.JoinAllianceSuccess, roleAlliancej);
-
-                            await RedisHelper.Hash.HashSetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleIDs[i].ToString(), ChangeDataType(roleAlliancej));
-                            await NHibernateQuerier.UpdateAsync(roleAlliancej);
                         }
                     }
                     else
@@ -755,6 +762,11 @@ namespace AscensionServer
                 var roleallianceObj = RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString()).Result;
                 if (statusObj != null   && memberObj != null && roleallianceObj != null)
                 {
+                    if (roleallianceObj.AllianceJob==937)
+                    {
+                        return null;
+                    }
+
                     statusObj.AllianceNumberPeople -= 1;
                     statusObj.OnLineNum -= 1;
                     if (dongfuObj != null)
@@ -824,7 +836,13 @@ namespace AscensionServer
             var statusObj = NHibernateQuerier.CriteriaSelect<AllianceStatus>(nHCriteriaAlliance);
 
             if (statusObj != null   && memberObj != null && roleallianceObj != null)
-            {              
+            {
+                if (roleallianceObj.AllianceJob == 937)
+                {
+                    return null;
+                }
+
+
                 statusObj.AllianceNumberPeople -= 1;
                 statusObj.OnLineNum -= 1;
                 if (dongfuObj != null)

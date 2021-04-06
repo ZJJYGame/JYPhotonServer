@@ -87,6 +87,8 @@ namespace AscensionServer
                     ValueHide = roleStatusDict[0].ValueHide,
                     GongfaLearnSpeed = roleStatusDict[0].GongfaLearnSpeed,
                     MishuLearnSpeed = roleStatusDict[0].MishuLearnSpeed,
+                    Vitality = roleStatusDict[0].Vitality,
+                    MaxVitality = roleStatusDict[0].Vitality
                 };
                 role = NHibernateQuerier.Insert<Role>(role);
                 string roleId = role.RoleID.ToString();

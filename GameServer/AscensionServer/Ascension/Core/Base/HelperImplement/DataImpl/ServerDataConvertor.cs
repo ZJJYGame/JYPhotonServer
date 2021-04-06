@@ -113,7 +113,10 @@ namespace AscensionServer
                 var allianceDrugDataDict = TransObject<List<AllianceDrugData>>(allianceDrugData).ToDictionary(key => key.DrugID, value => value);
 
                 GameEntry.DataManager.TryGetValue(typeof(SpiritRangeData).Name, out var spiritRangeData);
-                var spiritRangeDataDict = TransObject<List<SpiritRangeData>>(spiritRangeData).ToDictionary(key => key.SpiritRangeID, value => value);               
+                var spiritRangeDataDict = TransObject<List<SpiritRangeData>>(spiritRangeData).ToDictionary(key => key.SpiritRangeID, value => value);
+
+                GameEntry.DataManager.TryGetValue(typeof(FormulaDrugData).Name, out var formulaDrugData);
+                var formulaDrugDataDict = TransObject<List<FormulaDrugData>>(formulaDrugData).ToDictionary(key => key.FormulaID, value => value);
                 #region 背包json
                 GameEntry. DataManager.TryGetValue(typeof(ItemBagBaseData).Name, out var itemBagData);
                 var itemBagDict = TransObject<List<ItemBagBaseData>>(itemBagData).ToDictionary(key => key.ItemID, value => value);
@@ -160,6 +163,7 @@ namespace AscensionServer
                 GameEntry. DataManager.TryGetValue(typeof(BattleBuffData).Name, out var battleSBuffSet);
                 var battleBuffDict = TransObject<List<BattleBuffData>>(battleSBuffSet).ToDictionary(key => key.id, value => value);
                 #endregion
+                GameEntry.DataManager.TryAdd(formulaDrugDataDict);
                 GameEntry.DataManager.TryAdd(spiritRangeDataDict);
                 GameEntry.DataManager.TryAdd(allianceDrugDataDict);
                 GameEntry.DataManager.TryAdd(allianceConstructionDataDict);

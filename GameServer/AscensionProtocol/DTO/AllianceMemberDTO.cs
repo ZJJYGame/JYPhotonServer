@@ -20,10 +20,23 @@ namespace AscensionProtocol.DTO
         public virtual List<int> Member { get; set; }
 
         public virtual Dictionary<int,int> JobNumDict { get; set; }
+        public AllianceMemberDTO()
+        {
+            AllianceID = -1;
+            ApplyforMember = new List<int>();
+            Member = null;
+            JobNumDict = new Dictionary<int, int>();
+            JobNumDict.Add(931, 0);
+            JobNumDict.Add(932, 0);
+            JobNumDict.Add(933, 0);
+            JobNumDict.Add(934, 0);
+            JobNumDict.Add(935, 0);
+            JobNumDict.Add(936, 0);
+        }
         public override void Clear()
         {
             AllianceID = -1;
-            ApplyforMember = null;
+            ApplyforMember =new List<int>();
             Member = null;
             JobNumDict = new Dictionary<int, int>();
             JobNumDict.Add(931, 0);

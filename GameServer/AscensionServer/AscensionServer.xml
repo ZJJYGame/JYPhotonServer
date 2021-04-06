@@ -2925,6 +2925,15 @@
             验证是否存在
             </summary>
         </member>
+        <member name="M:AscensionServer.InventoryManager.VerifyIsExist(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            驗證物品及數量
+            </summary>
+            <param name="ItemId"></param>
+            <param name="num"></param>
+            <param name="nHCriteria"></param>
+            <returns></returns>
+        </member>
         <member name="M:AscensionServer.InventoryManager.AddDataCmdS2C(System.Int32,AscensionProtocol.DTO.RingDTO,AscensionServer.NHCriteria)">
             <summary>
             添加
@@ -4234,26 +4243,46 @@
             验证数据是否正确； 
              </summary>
         </member>
-        <member name="M:AscensionServer.SecondaryJobManager.GetRoleAlchemy(AscensionProtocol.DTO.SecondaryJobDTO,AscensionServer.NHCriteria)">
-            <summary>
-            获得所有已学配方
-            </summary>
-            <param name="secondaryJobDTO"></param>
-            <param name="nHCriteriarole"></param>
-        </member>
-        <member name="M:AscensionServer.SecondaryJobManager.UpdateRoleAlchemy(AscensionProtocol.DTO.SecondaryJobDTO,AscensionServer.NHCriteria)">
+        <member name="M:AscensionServer.SecondaryJobManager.UpdateAlchemyS2C(System.Int32,System.Int32)">
             <summary>
             学习新配方
             </summary>
             <param name="secondaryJobDTO"></param>
             <param name="nHCriteriarole"></param>
         </member>
-        <member name="M:AscensionServer.SecondaryJobManager.CompoundAlchemy(AscensionProtocol.DTO.SecondaryJobDTO,AscensionServer.NHCriteria)">
+        <member name="M:AscensionServer.SecondaryJobManager.CompoundAlchemyS2C(System.Int32,System.Int32)">
             <summary>
             合成配方
             </summary>
             <param name="secondaryJobDTO"></param>
             <param name="nHCriteriarole"></param>
+        </member>
+        <member name="M:AscensionServer.SecondaryJobManager.UpdateAlchemyMySql(System.Int32,System.Int32,AscensionServer.NHCriteria)">
+            <summary>
+            學習新配方
+            </summary>
+            <param name="roleID"></param>
+            <param name="UseItemID"></param>
+            <param name="nHCriteria"></param>
+        </member>
+        <member name="M:AscensionServer.SecondaryJobManager.CompoundAlchemyMySql(System.Int32,System.Int32)">
+            <summary>
+            煉丹
+            </summary>
+            <param name="roleID"></param>
+            <param name="UseItemID"></param>
+        </member>
+        <member name="M:AscensionServer.SecondaryJobManager.RoleStatusCompoundFailS2C(System.Int32,AscensionProtocol.SecondaryJobOpCode,System.Object)">
+            <summary>
+            合成失敗
+            </summary>
+            <param name="roleID"></param>
+            <param name="oPcode"></param>
+        </member>
+        <member name="M:AscensionServer.SecondaryJobManager.UpdateForgeS2C(System.Int32,System.Int32)">
+            <summary>
+            学习新锻造配方
+            </summary>
         </member>
         <member name="T:AscensionServer.SkillEntity">
             <summary>

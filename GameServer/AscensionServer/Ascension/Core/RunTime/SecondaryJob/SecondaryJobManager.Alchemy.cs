@@ -11,31 +11,20 @@ using Cosmos;
 using Protocol;
 namespace AscensionServer
 {
+    enum AtttributeType
+    {
+        HP=1,
+        AttackPhysical=2,
+        AttackPower=3,
+        DefendPhysical=4,
+        DefendPower=5,
+        AttackSpeed=6,
+        MP=7,
+    }
+
     public partial class SecondaryJobManager
     {
-        #region Redis 模塊
-        /// <summary>
-        /// 获得所有已学配方
-        /// </summary>
-        /// <param name="secondaryJobDTO"></param>
-        /// <param name="nHCriteriarole"></param>
-         void GetAlchemyStatusS2C(int roleID)
-        {
-            var result = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlchemyPerfix, roleID.ToString()).Result;
-            if (result)
-            {
-                var alchemytemp = RedisHelper.Hash.HashGetAsync<AlchemyDTO>(RedisKeyDefine._AlchemyPerfix, roleID.ToString()).Result;
-
-                if (alchemytemp != null)
-                {
-                    RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.GetAlchemyStatus, alchemytemp);
-                }
-                else
-                    GetAlchemyStatusMySql(roleID);
-            }
-            else
-                GetAlchemyStatusMySql(roleID);
-        }
+        #region Redis 模塊     
         /// <summary>
         /// 学习新配方
         /// </summary>
@@ -44,6 +33,12 @@ namespace AscensionServer
          async void UpdateAlchemyS2C(int roleID, int UseItemID)
         {
             #region
+          var formulaExist=  GameEntry.DataManager.TryGetValue<Dictionary<int, FormulaDrugData>>(out var formulaDataDict);
+            if (!formulaExist)
+            {
+                RoleStatusFailS2C(roleID, SecondaryJobOpCode.UpdateAlchemy);
+                return;
+            }
             NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
             var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteria);
             if (ringServer==null)
@@ -61,17 +56,26 @@ namespace AscensionServer
                     var alchemy = RedisHelper.Hash.HashGetAsync<AlchemyDTO>(RedisKeyDefine._AlchemyPerfix, roleID.ToString()).Result;
                     if (alchemy != null)
                     {
-                        if (alchemy.Recipe_Array.Contains(UseItemID))
+                        if (formulaDataDict.TryGetValue(UseItemID, out var formula))
                         {
-                            alchemy.Recipe_Array.Add(UseItemID);
+                            if (formula.FormulaLevel> alchemy.JobLevel)
+                            {
+                                RoleStatusFailS2C(roleID, SecondaryJobOpCode.UpdateAlchemy);
+                                return;
+                            }
 
-                            RoleStatusSuccessS2C(roleID,SecondaryJobOpCode.UpdateAlchemy, alchemy);
-                            InventoryManager.Remove(roleID,UseItemID);
-                            await NHibernateQuerier.UpdateAsync(ChangeDataType(alchemy));
-                            await RedisHelper.Hash.HashSetAsync<AlchemyDTO>(RedisKeyDefine._AlchemyPostfix, roleID.ToString(), alchemy);
+                            if (!alchemy.Recipe_Array.Contains(UseItemID))
+                            {
+                                alchemy.Recipe_Array.Add(UseItemID);
+
+                                RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.UpdateAlchemy, alchemy);
+                                InventoryManager.Remove(roleID, UseItemID);
+                                await NHibernateQuerier.UpdateAsync(ChangeDataType(alchemy));
+                                await RedisHelper.Hash.HashSetAsync<AlchemyDTO>(RedisKeyDefine._AlchemyPostfix, roleID.ToString(), alchemy);
+                            }
+                            else
+                                RoleStatusFailS2C(roleID, SecondaryJobOpCode.UpdateAlchemy);
                         }
-                        else
-                            RoleStatusFailS2C(roleID, SecondaryJobOpCode.UpdateAlchemy);
                     }
                     else
                         UpdateAlchemyMySql(roleID, UseItemID, nHCriteria);
@@ -90,7 +94,6 @@ namespace AscensionServer
         /// <param name="nHCriteriarole"></param>
         void CompoundAlchemyS2C(int roleID, int UseItemID)
         {
-            #region
             var alchemyExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlchemyPerfix, roleID.ToString()).Result;
             var roleExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatsuPerfix, roleID.ToString()).Result;
             var assestExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString()).Result;
@@ -101,7 +104,7 @@ namespace AscensionServer
                 var assest = RedisHelper.Hash.HashGetAsync<RoleAssetsDTO>(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString()).Result;
                 if (alchemy != null&& role!=null&& assest!=null)
                 {
-                    GameEntry.DataManager.TryGetValue<Dictionary<int, FormulaData>>(out var formulaDataDict);
+                    GameEntry.DataManager.TryGetValue<Dictionary<int, FormulaDrugData>>(out var formulaDataDict);
                     if (alchemy.Recipe_Array.Contains(UseItemID))
                     {
                         formulaDataDict.TryGetValue(UseItemID, out var formulaData);
@@ -141,26 +144,14 @@ namespace AscensionServer
                     }
                 }
                 else
-                {
-                   //mysql邏輯
-                }
-
-                #endregion
+                    CompoundAlchemyMySql(roleID, UseItemID);
             }
+            else
+                CompoundAlchemyMySql(roleID, UseItemID);
         }
-  
         #endregion
 
         #region MysSql模塊
-        void GetAlchemyStatusMySql(int roleID)
-        {
-            NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
-            var alchemy = NHibernateQuerier.CriteriaSelect<Alchemy>(nHCriteria);
-            if (alchemy != null)
-            {
-                RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.GetAlchemyStatus, ChangeDataType(alchemy));
-            }
-        }
         /// <summary>
         /// 學習新配方
         /// </summary>
@@ -191,29 +182,65 @@ namespace AscensionServer
         /// <summary>
         /// 煉丹
         /// </summary>
-        async void CompoundAlchemyM有SQL()
+        /// <param name="roleID"></param>
+        /// <param name="UseItemID"></param>
+        async void CompoundAlchemyMySql(int roleID, int UseItemID)
         {
             #region
-            //NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
-            //var alchemy = NHibernateQuerier.CriteriaSelect<Alchemy>(nHCriteria);
-            //if (alchemy != null)
-            //{
-            //    GameEntry.DataManager.TryGetValue<Dictionary<int, FormulaData>>(out var formulaDataDict);
-            //    var recipe = Utility.Json.ToObject<List<int>>(alchemy.Recipe_Array);
-            //    if (recipe.Contains(secondaryJobDTO.UseItemID))
-            //    {
-            //        formulaDataDict.TryGetValue(secondaryJobDTO.UseItemID, out var formulaData);
+            NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
+            var alchemy = NHibernateQuerier.CriteriaSelect<Alchemy>(nHCriteria);
+            var role = NHibernateQuerier.CriteriaSelect<RoleStatus>(nHCriteria);
+            var assest = NHibernateQuerier.CriteriaSelect<RoleAssets>(nHCriteria);
+            Dictionary<byte, object> dict = new Dictionary<byte, object>();
+            if (alchemy != null&& role!=null&& assest!=null)
+            {
+                GameEntry.DataManager.TryGetValue<Dictionary<int, FormulaDrugData>>(out var formulaDataDict);
+                var recipe = Utility.Json.ToObject<List<int>>(alchemy.Recipe_Array);
+                if (recipe.Contains(UseItemID))
+                {
+                    if (formulaDataDict.TryGetValue(UseItemID, out var formulaData))
+                    {
+                        for (int i = 0; i < formulaData.NeedItemArray.Count; i++)
+                        {
+                            if (!InventoryManager.VerifyIsExist(formulaData.NeedItemArray[i], formulaData.NeedItemNumber[i], roleID))
+                            {
+                                RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundAlchemy);
+                                return;
+                            }
+                        }
+                        if (formulaData.NeedMoney > assest.SpiritStonesLow || formulaData.NeedVitality > role.Vitality)
+                        {
+                            RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundAlchemy);
+                            return;
+                        }
+                        if (Utility.Algorithm.CreateRandomInt(0, 101) < formulaData.SuccessRate)
+                        {
 
-            //    }
-            //    else
-            //    {
-            //        S2CAlchemyMessage(secondaryJobDTO.RoleID, null, ReturnCode.Fail);
-            //    }
-            //}
-            //else
-            //{
-            //    S2CAlchemyMessage(secondaryJobDTO.RoleID, null, ReturnCode.Fail);
-            //}
+                            dict.Add((byte)ParameterCode.JobAlchemy, alchemy);
+                            dict.Add((byte)ParameterCode.RoleAssets, assest);
+                            dict.Add((byte)ParameterCode.RoleStatus, role);
+                            RoleStatusCompoundFailS2C(roleID, SecondaryJobOpCode.CompoundAlchemy, dict);
+                            //鍛造失敗
+                            return;
+                        }
+
+                        alchemy.JobLevelExp += formulaData.MasteryValue;
+                        role.Vitality -= formulaData.NeedVitality;
+                        assest.SpiritStonesLow -= formulaData.NeedMoney;
+                        InventoryManager.AddNewItem(roleID, formulaData.ItemID, 1);
+
+                        dict.Add((byte)ParameterCode.JobAlchemy, alchemy);
+                        dict.Add((byte)ParameterCode.RoleAssets, assest);
+                        dict.Add((byte)ParameterCode.RoleStatus, role);
+                        RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.CompoundAlchemy, dict);
+                    }else
+                        RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundAlchemy);
+                }
+                else
+                    RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundAlchemy);
+            }
+            else
+                RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundAlchemy);
 
             #endregion
         }
