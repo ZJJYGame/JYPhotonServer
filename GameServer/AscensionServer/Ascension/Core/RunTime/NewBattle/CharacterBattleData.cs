@@ -62,7 +62,7 @@ namespace AscensionServer
         /// <summary>
         /// 获取对应属性
         /// </summary>
-        public float GetProperty(BattleSkillNumSourceType battleSkillNumSourceType)
+        public float GetProperty(BattleSkillNumSourceType battleSkillNumSourceType,BattleDamageData battleDamageData)
         {
             switch (battleSkillNumSourceType)
             {
@@ -90,6 +90,8 @@ namespace AscensionServer
                     return PowerDef;
                 case BattleSkillNumSourceType.AttackSpeed:
                     return AttackSpeed;
+                case BattleSkillNumSourceType.TakeDamage:
+                    return battleDamageData.damageNum;
                 default:
                     return 0;
             }

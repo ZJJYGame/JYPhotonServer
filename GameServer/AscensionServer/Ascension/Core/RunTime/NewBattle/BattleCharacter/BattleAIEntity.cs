@@ -51,6 +51,7 @@ namespace AscensionServer
             //todo 先临时将AI的行为设置为普通攻击
             BattleCmd = BattleCmd.SkillInstruction;
             ActionID = 21001;
+            TargetIDList.Clear();
             GameEntry.DataManager.TryGetValue<Dictionary<int, BattleSkillData>>(out var battleskillDataDict);
             BattleSkillData battleSkillData = battleskillDataDict[ActionID];
             BattleFactionType battleFactionType = default;
@@ -63,7 +64,7 @@ namespace AscensionServer
                     battleFactionType = (BattleFactionType == BattleFactionType.FactionOne) ? BattleFactionType.FactionOne : BattleFactionType.FactionTwo;
                     break;
             }
-            TargetIDList= GameEntry.BattleRoomManager.GetBattleRoomEntity(RoomID).BattleController.RandomGetTarget(battleSkillData.TargetNumber, battleFactionType);
+            TargetIDList= GameEntry.BattleRoomManager.GetBattleRoomEntity(RoomID).BattleController.RandomGetTarget(battleSkillData.TargetNumber, battleFactionType,true);
         }
 
         public override void Clear()

@@ -108,7 +108,12 @@ namespace AscensionServer
             {
                 Utility.Debug.LogError("所有玩家表演完成");
                 GameEntry.BattleRoomManager.TimeAction -= PerformWait;
-                //todo发送下一回合开始的消息
+                //发送下一回合开始或战斗结束的消息
+                if (BattleController.BattleIsEnd())
+                    SendBattleEndMsgS2C();
+                else
+                    SendNewRoundStartMsgS2C();
+
             }
             else//有人没表演完成
             {
@@ -175,7 +180,10 @@ namespace AscensionServer
             {
                 Utility.Debug.LogInfo("等待玩家表演倒计时结束");
                 GameEntry.BattleRoomManager.TimeAction -= PerformWait;
-                //todo开始下一回合的指令
+                if (BattleController.BattleIsEnd())
+                    SendBattleEndMsgS2C();
+                else
+                    SendNewRoundStartMsgS2C();
             }
         }
 
