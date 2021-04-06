@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace AscensionServer.Model
 {
     [Serializable]
-    public class Weapon:DataObject
+    public class RoleWeapon:DataObject
     {
-        public Weapon()
+        public RoleWeapon()
         {
             WeaponStatusDict ="{}";
             Weaponindex = "{}";

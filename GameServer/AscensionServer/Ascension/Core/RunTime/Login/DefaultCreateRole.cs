@@ -132,7 +132,7 @@ namespace AscensionServer
                 NHibernateQuerier.Insert(new RolePet() { RoleID = rolestatus.RoleID, PetIDDict = "{}" });
                 RolePurchaseRecord rolePurchaseRecord = new RolePurchaseRecord() { RoleID = rolestatus.RoleID, GoodsPurchasedCount = Utility.Json.ToJson(new Dictionary<int, int>()) };
                 NHibernateQuerier.Insert(rolePurchaseRecord);
-                Weapon weapon = new Weapon() { RoleID = rolestatus.RoleID, Weaponindex = Utility.Json.ToJson(new Dictionary<int, int>()), WeaponStatusDict = Utility.Json.ToJson(new Dictionary<int, int>()) };
+                RoleWeapon weapon = new RoleWeapon() { RoleID = rolestatus.RoleID, Weaponindex = Utility.Json.ToJson(new Dictionary<int, int>()), WeaponStatusDict = Utility.Json.ToJson(new Dictionary<int, WeaponDTO>()) ,Magicindex= Utility.Json.ToJson(new Dictionary<int, int>()) ,MagicStatusDict= Utility.Json.ToJson(new Dictionary<int, WeaponDTO>()) };
                 NHibernateQuerier.Insert(weapon);
                 #endregion
                 #region 背包

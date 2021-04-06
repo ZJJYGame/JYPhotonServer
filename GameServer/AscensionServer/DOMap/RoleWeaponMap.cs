@@ -7,7 +7,7 @@ using FluentNHibernate.Mapping;
 using AscensionServer.Model;
 namespace AscensionServer
 {
-    public class WeaponMap:ClassMap<Weapon>
+    public class WeaponMap:ClassMap<RoleWeapon>
     {
         public WeaponMap()
         {
@@ -16,7 +16,7 @@ namespace AscensionServer
             Map(x => x.WeaponStatusDict).Column("weapon_status_dict");
             Map(x => x.Magicindex).Column("magic_index");
             Map(x => x.MagicStatusDict).Column("magic_status_dict");
-            Table("roleweapon");
+            Table("role_weapon");
         }
     }
 }
