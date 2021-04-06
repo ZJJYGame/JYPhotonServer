@@ -117,6 +117,9 @@ namespace AscensionServer
 
                 GameEntry.DataManager.TryGetValue(typeof(FormulaDrugData).Name, out var formulaDrugData);
                 var formulaDrugDataDict = TransObject<List<FormulaDrugData>>(formulaDrugData).ToDictionary(key => key.FormulaID, value => value);
+
+                GameEntry.DataManager.TryGetValue(typeof(ForgeParameter).Name, out var forgeParameter);
+                var forgeParameterDict = TransObject<List<ForgeParameter>>(forgeParameter).ToDictionary(key => key.WeaponID, value => value);
                 #region 背包json
                 GameEntry. DataManager.TryGetValue(typeof(ItemBagBaseData).Name, out var itemBagData);
                 var itemBagDict = TransObject<List<ItemBagBaseData>>(itemBagData).ToDictionary(key => key.ItemID, value => value);
@@ -163,6 +166,7 @@ namespace AscensionServer
                 GameEntry. DataManager.TryGetValue(typeof(BattleBuffData).Name, out var battleSBuffSet);
                 var battleBuffDict = TransObject<List<BattleBuffData>>(battleSBuffSet).ToDictionary(key => key.id, value => value);
                 #endregion
+                GameEntry.DataManager.TryAdd(forgeParameterDict);
                 GameEntry.DataManager.TryAdd(formulaDrugDataDict);
                 GameEntry.DataManager.TryAdd(spiritRangeDataDict);
                 GameEntry.DataManager.TryAdd(allianceDrugDataDict);

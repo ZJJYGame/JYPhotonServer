@@ -388,6 +388,11 @@
             其他区
             </summary>
         </member>
+        <member name="T:AscensionServer.ForgeParameter">
+            <summary>
+            锻造随机属性值技能的Json数据类型
+            </summary>
+        </member>
         <member name="P:AscensionServer.ItemBagBaseData.ItemID">
              <summary>
             物品的唯一id
@@ -840,6 +845,11 @@
         <member name="F:AscensionServer.RedisKeyDefine._AllianceDongFuPostfix">
             <summary>
             宗門所有洞府信息
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleWeaponPostfix">
+            <summary>
+            获取人物装备法宝信息
             </summary>
         </member>
         <member name="T:AscensionServer.DataStream">
@@ -4316,6 +4326,19 @@
             <summary>
             学习新锻造配方
             </summary>
+        </member>
+        <member name="M:AscensionServer.SecondaryJobManager.CompoundForge(System.Int32,System.Int32)">
+            <summary>
+            锻造武器法宝
+            </summary>
+        </member>
+        <member name="M:AscensionServer.SecondaryJobManager.UpdateForgeMySql(System.Int32,System.Int32,AscensionServer.NHCriteria)">
+            <summary>
+            学习新配方
+            </summary>
+            <param name="roleID"></param>
+            <param name="useItemID"></param>
+            <param name="nHCriteria"></param>
         </member>
         <member name="T:AscensionServer.SkillEntity">
             <summary>

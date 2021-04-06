@@ -85,9 +85,9 @@ namespace AscensionServer
         /// <param name="num"></param>
         /// <param name="nHCriteria"></param>
         /// <returns></returns>
-        public static bool VerifyIsExist(int ItemId,int num ,int roleID)
+        public static bool VerifyIsExist(int ItemId,int num ,int ID)
         {
-            NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
+            NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ID);
             var ringServerArray = CriteriaSelectMethod<Ring>(nHCriteria);
             var ServerDict = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingItems);
             var ServerDictAdorn = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingAdorn);

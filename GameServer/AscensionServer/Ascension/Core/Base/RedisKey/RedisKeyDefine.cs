@@ -180,6 +180,10 @@ namespace AscensionServer
         /// 宗門所有洞府信息
         /// </summary>
         public static readonly string _AllianceDongFuPostfix = "AllianceDongFu";
+        /// <summary>
+        /// 获取人物装备法宝信息
+        /// </summary>
+        public static readonly string _RoleWeaponPostfix = "RoleWeapon";
     }
 }
 

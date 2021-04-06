@@ -50,8 +50,12 @@ namespace AscensionServer
                 case SecondaryJobOpCode.CompoundPuppet:
                     break;
                 case SecondaryJobOpCode.UpdateForge:
+                    secondaryJob = Utility.Json.ToObject<SecondaryJobDTO>(packet.DataMessage.ToString());
+                    UpdateForgeS2C(secondaryJob.RoleID, secondaryJob.UseItemID);
                     break;
                 case SecondaryJobOpCode.CompoundForge:
+                    secondaryJob = Utility.Json.ToObject<SecondaryJobDTO>(packet.DataMessage.ToString());
+                    CompoundForge(secondaryJob.RoleID, secondaryJob.UseItemID);
                     break;
                 default:
                     break;

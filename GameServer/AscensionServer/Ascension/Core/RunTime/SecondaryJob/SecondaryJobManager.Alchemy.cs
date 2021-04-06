@@ -189,11 +189,13 @@ namespace AscensionServer
             #region
             NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
             var alchemy = NHibernateQuerier.CriteriaSelect<Alchemy>(nHCriteria);
+            var rolering = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteria);
             var role = NHibernateQuerier.CriteriaSelect<RoleStatus>(nHCriteria);
             var assest = NHibernateQuerier.CriteriaSelect<RoleAssets>(nHCriteria);
             Dictionary<byte, object> dict = new Dictionary<byte, object>();
-            if (alchemy != null&& role!=null&& assest!=null)
+            if (alchemy != null&& role!=null&& assest!=null&& rolering!=null)
             {
+                Utility.Debug.LogInfo("YZQ开始合成丹药" );
                 GameEntry.DataManager.TryGetValue<Dictionary<int, FormulaDrugData>>(out var formulaDataDict);
                 var recipe = Utility.Json.ToObject<List<int>>(alchemy.Recipe_Array);
                 if (recipe.Contains(UseItemID))
@@ -202,13 +204,14 @@ namespace AscensionServer
                     {
                         for (int i = 0; i < formulaData.NeedItemArray.Count; i++)
                         {
-                            if (!InventoryManager.VerifyIsExist(formulaData.NeedItemArray[i], formulaData.NeedItemNumber[i], roleID))
+                            var result = !InventoryManager.VerifyIsExist(formulaData.NeedItemArray[i], formulaData.NeedItemNumber[i], rolering.RingIdArray);
+                            if (result)
                             {
                                 RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundAlchemy);
                                 return;
                             }
                         }
-                        if (formulaData.NeedMoney > assest.SpiritStonesLow || formulaData.NeedVitality > role.Vitality)
+                        if (formulaData.NeedMoney > assest.SpiritStonesLow && formulaData.NeedVitality > role.Vitality)
                         {
                             RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundAlchemy);
                             return;

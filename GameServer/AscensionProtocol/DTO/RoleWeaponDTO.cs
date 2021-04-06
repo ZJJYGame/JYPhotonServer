@@ -15,6 +15,15 @@ namespace AscensionProtocol.DTO
         public virtual Dictionary<int, int> Weaponindex { set; get; }//武器全局id为key,新增id下标为value
         public virtual Dictionary<int, WeaponDTO> MagicStatusDict { set; get; }
         public virtual Dictionary<int, int> Magicindex { set; get; }//武器全局id为key,新增id下标为value
+
+        public RoleWeaponDTO()
+        {
+            WeaponStatusDict = new Dictionary<int, WeaponDTO>();
+            MagicStatusDict = new Dictionary<int, WeaponDTO>();
+            Weaponindex = new Dictionary<int, int>();
+            Magicindex = new Dictionary<int, int>();
+        }
+
         public override void Clear()
         {
             RoleID = -1;
@@ -27,16 +36,28 @@ namespace AscensionProtocol.DTO
     [Serializable]
     public class WeaponDTO : DataTransferObject
     {
-        public virtual int WeaponQuality { set; get; }
-        public virtual int NeedLevelID { set; get; }
+        /// <summary>
+        /// 武器法宝评分
+        /// </summary>
+        public virtual int Score { set; get; }
+        public virtual bool IsTreasure { set; get; }
         public virtual List<int> WeaponAttribute { set; get; }
         public virtual int WeaponDurable { set; get; }
         public virtual List<int> WeaponSkill { set; get; }
 
+        public WeaponDTO()
+        {
+            Score = 1;
+            IsTreasure = false;
+            WeaponAttribute = new List<int>();
+            WeaponDurable = 1;
+            WeaponSkill = new List<int>();
+        }
+
         public override void Clear()
         {
-            WeaponQuality = 1;
-            NeedLevelID = 1;
+            Score = 1;
+            IsTreasure =false;
             WeaponAttribute = new List<int>();
             WeaponDurable = 1;
             WeaponSkill = new List<int>();

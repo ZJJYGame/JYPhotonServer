@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using RedisDotNet;
 namespace AscensionServer
 {
     [ImplementProvider]
@@ -132,7 +132,7 @@ namespace AscensionServer
                 NHibernateQuerier.Insert(new RolePet() { RoleID = rolestatus.RoleID, PetIDDict = "{}" });
                 RolePurchaseRecord rolePurchaseRecord = new RolePurchaseRecord() { RoleID = rolestatus.RoleID, GoodsPurchasedCount = Utility.Json.ToJson(new Dictionary<int, int>()) };
                 NHibernateQuerier.Insert(rolePurchaseRecord);
-                RoleWeapon weapon = new RoleWeapon() { RoleID = rolestatus.RoleID, Weaponindex = Utility.Json.ToJson(new Dictionary<int, int>()), WeaponStatusDict = Utility.Json.ToJson(new Dictionary<int, WeaponDTO>()) ,Magicindex= Utility.Json.ToJson(new Dictionary<int, int>()) ,MagicStatusDict= Utility.Json.ToJson(new Dictionary<int, WeaponDTO>()) };
+                RoleWeapon weapon = new RoleWeapon() { RoleID = rolestatus.RoleID, Weaponindex = Utility.Json.ToJson(new Dictionary<int, int>()), WeaponStatusDict = Utility.Json.ToJson(new Dictionary<int, WeaponDTO>()), Magicindex = Utility.Json.ToJson(new Dictionary<int, int>()), MagicStatusDict = Utility.Json.ToJson(new Dictionary<int, WeaponDTO>()) };
                 NHibernateQuerier.Insert(weapon);
                 #endregion
                 #region 背包
@@ -214,19 +214,9 @@ namespace AscensionServer
                 NHibernateQuerier.Insert<SpiritualRunes>(new SpiritualRunes() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
                 NHibernateQuerier.Insert<Puppet>(new Puppet() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
                 NHibernateQuerier.Insert<TacticFormation>(new TacticFormation() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
-
+                NHibernateQuerier.Insert<RoleWeapon>(new RoleWeapon() { RoleID = rolestatus.RoleID});
+                RedisHelper.Hash.HashSet(RedisKeyDefine._RoleWeaponPostfix, rolestatus.RoleID.ToString(),new RoleWeaponDTO());
                 Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>添加副职业成功");
-                #endregion
-                #region 初始化门派
-                Treasureattic treasureatti = new Treasureattic() { ItemAmountDict = Utility.Json.ToJson(new Dictionary<int, int>()), ItemRedeemedDict = Utility.Json.ToJson(new Dictionary<int, int>()) };
-                treasureatti = NHibernateQuerier.Insert(treasureatti);
-                SutrasAttic sutrasAttic = new SutrasAttic() { SutrasAmountDict = Utility.Json.ToJson(new Dictionary<int, int>()), SutrasRedeemedDictl = Utility.Json.ToJson(new Dictionary<int, int>()) };
-                sutrasAttic = NHibernateQuerier.Insert(sutrasAttic);
-                School school = new School();
-                school.TreasureAtticID = treasureatti.ID;
-                school.SutrasAtticID = sutrasAttic.ID;
-                school = NHibernateQuerier.Insert(school);
-                NHibernateQuerier.Insert(new RoleSchool() { RoleID = rolestatus.RoleID, RoleJoiningSchool = school.ID, RoleJoinedSchool = 0 });
                 #endregion
                 #region 仙盟
                 RoleAlliance roleAlliance = new RoleAlliance() { RoleID = rolestatus.RoleID, RoleName = role.RoleName, ApplyForAlliance = Utility.Json.ToJson(new List<int>()), RoleSchool = 900 };
@@ -248,7 +238,6 @@ namespace AscensionServer
                 DOdict.Add("Role", Utility.Json.ToJson(role));
                 DOdict.Add("RoleStatus", Utility.Json.ToJson(rolestatus));
                 //DOdict.Add("GongFa", Utility.Json.ToJson(gongFa));
-                DOdict.Add("School", Utility.Json.ToJson(school));
                 MiShuDTO miShuDTO = new MiShuDTO() { ID = miShu.ID, MiShuID = miShu.MiShuID, MiShuSkillArry = Utility.Json.ToObject<List<int>>(miShu.MiShuSkillArry) };
                 DOdict.Add("MiShu", Utility.Json.ToJson(miShuDTO));
                 DOdict.Add("RoleAlliance", Utility.Json.ToJson(roleAllianceDTO));

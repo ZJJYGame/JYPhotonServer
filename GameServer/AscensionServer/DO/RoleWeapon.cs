@@ -13,6 +13,8 @@ namespace AscensionServer.Model
         {
             WeaponStatusDict ="{}";
             Weaponindex = "{}";
+            MagicStatusDict = "{}";
+            Magicindex = "{}";
         }
 
         public virtual int RoleID { set; get; }
