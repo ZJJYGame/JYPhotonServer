@@ -3115,6 +3115,14 @@
             出手前判断并分配战斗行为
             </summary>
         </member>
+        <member name="M:AscensionServer.BattleCharacterEntity.GetTargetIdList(System.Int32,System.Collections.Generic.List{System.Int32})">
+            <summary>
+            获取技能目标ID列表
+            </summary>
+            <param name="skillID">技能id</param>
+            <param name="targetList">初始指定的目标列表</param>
+            <returns></returns>
+        </member>
         <member name="M:AscensionServer.BattleCharacterEntity.Action">
             <summary>
             角色进行行动的方法
@@ -3282,9 +3290,24 @@
             <param name="index">第几段伤害</param>
             <param name="targetIndex">第几个目标</param>
         </member>
+        <member name="M:AscensionServer.BattleSkillBase.TriggerSkillEventBeforeAttack">
+            <summary>
+            攻击前事件触发
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleSkillBase.TriggerSkillEventBehindAttack(System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO},AscensionServer.BattleDamageData)">
+            <summary>
+            攻击后事件触发
+            </summary>
+        </member>
         <member name="T:AscensionServer.BattleSkillController">
             <summary>
             战斗角色技能控制器,每个角色实体持有，用来管理角色技能
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleSkillEventBase">
+            <summary>
+            战斗技能事件基类
             </summary>
         </member>
         <member name="T:AscensionServer.CharacterBattleData">
