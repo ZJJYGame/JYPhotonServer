@@ -4,27 +4,47 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cosmos;
+using AscensionProtocol.DTO;
 
 namespace AscensionServer
 {
     public class BattleSkillBase
     {
         //角色的属性
-        CharacterBattleData CharacterBattleData;
+        CharacterBattleData CharacterBattleData { get { return OwnerEntity.CharacterBattleData; } }
+        public BattleCharacterEntity OwnerEntity { get; protected set; }
+
 
         public int SkillID { get { return battleSkillData.id; } }
-        public int DamgeAddition { get; protected set; }
+
+        public List<int> damageAdditionList;
+        public int DamgeAddition { get { return battleSkillData.damageAddition + damageAdditionList.Sum(); } }
         public int CritProp { get; protected set; }
         public int CritDamage { get; protected set; }
         public int IgnoreDefensive { get; protected set; }
 
-        //技能攻击目标数
-        public int TargetNumber { get; protected set; }
         //技能攻击段数
         public int AttackSectionNumber { get { return battleSkillData.battleSkillDamageNumDataList.Count; } }
         public AttackProcess_Type AttackProcess_Type { get { return battleSkillData.attackProcessType; } }
         //技能对应的json数据
         BattleSkillData battleSkillData;
+
+        List<BattleSkillEventBase> battleSkillEventBaseList;
+        //攻击前技能触发事件
+        Action<List<BattleTransferDTO>,BattleDamageData> skillEventBeforeAttack;
+        public event Action<List<BattleTransferDTO>,BattleDamageData> SkillEventBeforeAttack
+        {
+            add { skillEventBeforeAttack += value; }
+            remove { skillEventBeforeAttack -= value; }
+        }
+        //攻击后技能触发事件
+        Action<List<BattleTransferDTO>,BattleDamageData> skillEventBehindAttack;
+        public event Action<List<BattleTransferDTO>, BattleDamageData> SkillEventBehindAttack
+        {
+            add { skillEventBehindAttack += value; }
+            remove { skillEventBehindAttack -= value; }
+        }
+
         /// <summary>
         /// 获取该技能的伤害
         /// </summary>
@@ -34,8 +54,14 @@ namespace AscensionServer
         {
             //判断目标是否可以作为技能目标
             if (target.HasDie)
+            {
+                Utility.Debug.LogError("目标已死亡");
                 if (battleSkillData.battleSkillActionType == BattleSkillActionType.Damage || battleSkillData.battleSkillActionType == BattleSkillActionType.Heal)
+                {
+                    Utility.Debug.LogError("直接返回");
                     return null;
+                }
+            }
 
 
             BattleSkillDamageNumData battleSkillDamageNumData = battleSkillData.battleSkillDamageNumDataList[index];
@@ -98,11 +124,51 @@ namespace AscensionServer
             return battleDamageData;
         }
 
-        public BattleSkillBase(int skillID,CharacterBattleData characterBattleData)
+        /// <summary>
+        /// 攻击前事件触发
+        /// </summary>
+        public void TriggerSkillEventBeforeAttack()
+        {
+
+        }
+        /// <summary>
+        /// 攻击后事件触发
+        /// </summary>
+        public void TriggerSkillEventBehindAttack(List<BattleTransferDTO> battleTransferDTOList,BattleDamageData battleDamageData)
+        {
+            skillEventBehindAttack?.Invoke(battleTransferDTOList,battleDamageData);
+        }
+
+        public BattleSkillBase(int skillID,BattleCharacterEntity battleCharacterEntity)
         {
             GameEntry.DataManager.TryGetValue<Dictionary<int, BattleSkillData>>(out var battleSkillDict);
             battleSkillData = battleSkillDict[skillID];
-            this.CharacterBattleData = characterBattleData;
+            OwnerEntity = battleCharacterEntity;
+            damageAdditionList = new List<int>();
+
+            //添加技能事件
+            battleSkillEventBaseList = new List<BattleSkillEventBase>();
+            for (int i = 0; i < battleSkillData.battleSkillEventDataList.Count; i++)
+            {
+                switch (battleSkillData.battleSkillEventDataList[i].battleSkillTriggerEventType)
+                {
+                    case BattleSkillTriggerEventType.Skill:
+                        battleSkillEventBaseList.Add(new BattleSkillEvent_Skill(this, battleSkillData.battleSkillEventDataList[i]));
+                        break;
+                    case BattleSkillTriggerEventType.Heal:
+                        battleSkillEventBaseList.Add(new BattleSkillEvent_Heal(this, battleSkillData.battleSkillEventDataList[i]));
+                        break;
+                    case BattleSkillTriggerEventType.SuckBlood:
+                        battleSkillEventBaseList.Add(new BattleSkillEvent_SuckBlood(this, battleSkillData.battleSkillEventDataList[i]));
+                        break;
+                    case BattleSkillTriggerEventType.AddCrit:
+                        break;
+                    case BattleSkillTriggerEventType.AddDamage:
+                        break;
+                    case BattleSkillTriggerEventType.AddPierce:
+                        break;
+                }
+            }
         }
     }
 }

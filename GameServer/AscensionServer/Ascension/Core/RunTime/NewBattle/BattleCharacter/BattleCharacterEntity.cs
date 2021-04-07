@@ -84,18 +84,48 @@ namespace AscensionServer
             //todo buff判断，强制控制角色行动
         }
         /// <summary>
+        /// 获取技能目标ID列表
+        /// </summary>
+        /// <param name="skillID">技能id</param>
+        /// <param name="targetList">初始指定的目标列表</param>
+        /// <returns></returns>
+        public virtual List<int> GetTargetIdList(int skillID,List<int> targetList=null)
+        {
+            List<int> resultList = new List<int>();
+            GameEntry.DataManager.TryGetValue<Dictionary<int, BattleSkillData>>(out var battleskillDataDict);
+            BattleSkillData battleSkillData = battleskillDataDict[skillID];
+            BattleFactionType battleFactionType = default;
+            switch (battleSkillData.battleSkillFactionType)
+            {
+                case BattleSkillFactionType.Enemy:
+                    battleFactionType = (BattleFactionType == BattleFactionType.FactionOne) ? BattleFactionType.FactionTwo : BattleFactionType.FactionOne;
+                    break;
+                case BattleSkillFactionType.TeamMate:
+                    battleFactionType = (BattleFactionType == BattleFactionType.FactionOne) ? BattleFactionType.FactionOne : BattleFactionType.FactionTwo;
+                    break;
+            }
+            resultList = GameEntry.BattleRoomManager.GetBattleRoomEntity(RoomID).BattleController.RandomGetTarget(battleSkillData.TargetNumber, battleFactionType, true, targetList);
+            return resultList;
+        }
+        /// <summary>
         /// 角色进行行动的方法
         /// </summary>
         public List<BattleTransferDTO> Action()
         {
+            List<BattleTransferDTO> battleTransferDTOList = new List<BattleTransferDTO>();
             if (HasDie)
-                return new List<BattleTransferDTO>();
+                return battleTransferDTOList;
             switch (BattleCmd)
             {
                 case BattleCmd.PropsInstruction:
                     break;
                 case BattleCmd.SkillInstruction:
-                    return BattleSkillController.UseSkill();
+                    battleTransferDTOList= BattleSkillController.UseSkill(ActionID, TargetIDList);
+                    if (battleTransferDTOList.Count > 1)
+                        battleTransferDTOList[battleTransferDTOList.Count - 1].isFinish = true;
+                    else if (battleTransferDTOList.Count == 1)
+                        battleTransferDTOList[0].isFinish = true;
+                    return battleTransferDTOList;
                 case BattleCmd.MagicWeapon:
                     break;
                 case BattleCmd.CatchPet:

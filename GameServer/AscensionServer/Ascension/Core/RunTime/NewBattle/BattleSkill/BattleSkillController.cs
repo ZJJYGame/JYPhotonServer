@@ -20,23 +20,26 @@ namespace AscensionServer
         //角色拥有的技能id集合
         HashSet<int> roleHasSkillHash;
 
-        public List<BattleTransferDTO> UseSkill()
+        public bool HasSkill(int skillID)
+        {
+            return roleHasSkillHash.Contains(skillID);
+        }
+
+        public List<BattleTransferDTO> UseSkill(int skillID,List<int> targetIdList)
         {
             List<BattleTransferDTO> battleTransferDTOList = new List<BattleTransferDTO>();
-            int skillID = owner.ActionID;
-            if (!roleHasSkillHash.Contains(skillID))
-            {
-                Utility.Debug.LogError("角色不包含此技能=>"+skillID);
-                return battleTransferDTOList; ;
-            }
+
             if (!skillDict.ContainsKey(skillID))
-                skillDict[skillID] = new BattleSkillBase(skillID, owner.CharacterBattleData);
+                skillDict[skillID] = new BattleSkillBase(skillID, owner);
             BattleSkillBase battleSkill = skillDict[skillID];
+            //todo释放条件是否满足
+            //todo消耗的判断与扣除
+
             //获取技能释放目标的实体
             List<BattleCharacterEntity> targetCharacterList = new List<BattleCharacterEntity>();
-            for (int i = 0; i < owner.TargetIDList.Count; i++)
+            for (int i = 0; i < targetIdList.Count; i++)
             {
-                targetCharacterList.Add(GameEntry.BattleCharacterManager.GetCharacterEntity(owner.TargetIDList[i]));
+                targetCharacterList.Add(GameEntry.BattleCharacterManager.GetCharacterEntity(targetIdList[i]));
             }
 
             if (battleSkill.AttackProcess_Type == AttackProcess_Type.SingleUse)//所有目标的伤害一次性打完
@@ -47,6 +50,8 @@ namespace AscensionServer
                     BattleTransferDTO battleTransferDTO = new BattleTransferDTO();
                     for (int j = 0; j < targetCharacterList.Count; j++)
                     {
+                        //攻击前技能事件触发
+
                         BattleDamageData battleDamageData = battleSkill.GetDamageData(i, j, targetCharacterList[j]);
                         if (battleDamageData != null)
                             battleDamageDataList.Add(battleDamageData);
@@ -56,18 +61,21 @@ namespace AscensionServer
                     {
                         GameEntry.BattleCharacterManager.GetCharacterEntity(battleDamageDataList[j].TargetID).OnActionEffect(battleDamageDataList[j]);
                     }
+  
                     battleTransferDTO.TargetInfos= GetTargetInfoDTOList(battleDamageDataList);
                     battleTransferDTO.RoleId = owner.UniqueID;
                     battleTransferDTO.BattleCmd = BattleCmd.SkillInstruction;
                     battleTransferDTO.ClientCmdId = battleSkill.SkillID;
                     if (battleTransferDTO.TargetInfos != null)
                         battleTransferDTOList.Add(battleTransferDTO);
+
+                    for (int j = 0; j < battleDamageDataList.Count; j++)
+                    {
+                        //攻击后技能事件结算
+                        battleSkill.TriggerSkillEventBehindAttack(battleTransferDTOList, battleDamageDataList[j]);
+                    }
                 }
                 //todo受击后反应
-                if (battleTransferDTOList.Count > 1)
-                    battleTransferDTOList[battleTransferDTOList.Count - 1].isFinish = true;
-                else if (battleTransferDTOList.Count == 1)
-                    battleTransferDTOList[0].isFinish = true;
                 return battleTransferDTOList;
             }
             else//所有目标的伤害分阶段打完
@@ -78,19 +86,18 @@ namespace AscensionServer
                    
                     for (int j = 0; j < targetCharacterList.Count; j++)
                     {
-                        battleDamageDataList.Clear();
                         BattleTransferDTO battleTransferDTO = new BattleTransferDTO();
                         BattleDamageData battleDamageData = battleSkill.GetDamageData(i, j, targetCharacterList[j]);
-                        Utility.Debug.LogError(battleDamageData.baseDamageTargetProperty);
                         if (battleDamageData != null)
                             battleDamageDataList.Add(battleDamageData);
                         GameEntry.BattleCharacterManager.GetCharacterEntity(battleDamageData.TargetID).OnActionEffect(battleDamageData);
-                        battleTransferDTO.TargetInfos = GetTargetInfoDTOList(battleDamageDataList);
+                        battleTransferDTO.TargetInfos = GetTargetInfoDTOList(new List<BattleDamageData>() { battleDamageData});
                         battleTransferDTO.RoleId = owner.UniqueID;
                         battleTransferDTO.BattleCmd = BattleCmd.SkillInstruction;
                         battleTransferDTO.ClientCmdId = battleSkill.SkillID;
                         if (battleTransferDTO.TargetInfos != null)
                             battleTransferDTOList.Add(battleTransferDTO);
+                        battleSkill.TriggerSkillEventBehindAttack(battleTransferDTOList, battleDamageData);
                     }
 
 

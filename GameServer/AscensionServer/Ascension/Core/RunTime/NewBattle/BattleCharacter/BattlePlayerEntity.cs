@@ -70,20 +70,8 @@ namespace AscensionServer
         {
             base.AllocationBattleAction();
             //todo 先临时将AI的行为设置为普通攻击
-            GameEntry.DataManager.TryGetValue<Dictionary<int, BattleSkillData>>(out var battleskillDataDict);
-            BattleSkillData battleSkillData = battleskillDataDict[ActionID];
-            BattleFactionType battleFactionType = default;
-            switch (battleSkillData.battleSkillFactionType)
-            {
-                case BattleSkillFactionType.Enemy:
-                    battleFactionType = (BattleFactionType == BattleFactionType.FactionOne) ? BattleFactionType.FactionTwo : BattleFactionType.FactionOne;
-                    break;
-                case BattleSkillFactionType.TeamMate:
-                    battleFactionType = (BattleFactionType == BattleFactionType.FactionOne) ? BattleFactionType.FactionOne : BattleFactionType.FactionTwo;
-                    break;
-            }
 
-            TargetIDList = GameEntry.BattleRoomManager.GetBattleRoomEntity(RoomID).BattleController.RandomGetTarget(battleSkillData.TargetNumber, battleFactionType,true,TargetIDList);
+            TargetIDList = GetTargetIdList(ActionID, TargetIDList);
         }
 
         public void SendMessage(OperationData opData)

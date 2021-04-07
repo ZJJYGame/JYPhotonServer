@@ -100,7 +100,7 @@ namespace AscensionServer
                 {
                     //判断当前选中目标是否可以作为目标
                     BattleCharacterEntity tempEntity = targetCharacterList.Find((k) => k.UniqueID == targetIDList[i]);
-                    if ((tempEntity.HasDie && targetIsAlive)||(!tempEntity.HasDie&&!targetIsAlive))
+                    if (tempEntity==null)
                         continue;
                     AllIndexList.Remove(targetCharacterList.IndexOf(tempEntity));
                     resultList.Add(targetIDList[i]);
@@ -110,12 +110,12 @@ namespace AscensionServer
 
             while (resultList.Count < count)
             {
+                if (AllIndexList.Count == 0)
+                    break;
                 int randomValue = Utility.Algorithm.CreateRandomInt(0, AllIndexList.Count);
                 int value = AllIndexList[randomValue];
                 resultList.Add(targetCharacterList[value].UniqueID);
                 AllIndexList.RemoveAt(randomValue);
-                if (AllIndexList.Count == 0)
-                    break;
             }
 
             return resultList;
