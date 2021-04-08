@@ -143,6 +143,7 @@ namespace AscensionServer
         public int conditionFixedNum;
         public BattleSkillTriggerEventType battleSkillTriggerEventType;
         public int EventValue;
+        public bool isAutoChangeTarget;
     }
     /// <summary>
     /// 战斗使用条件类型枚举

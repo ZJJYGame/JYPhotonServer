@@ -52,7 +52,7 @@ namespace AscensionServer
             BattleCmd = BattleCmd.SkillInstruction;
             ActionID = 21001;
             TargetIDList.Clear();
-            TargetIDList = GetTargetIdList(ActionID);
+            TargetIDList = GetTargetIdList(ActionID,true);
         }
 
         public override void Clear()

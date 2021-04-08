@@ -71,7 +71,7 @@ namespace AscensionServer
             base.AllocationBattleAction();
             //todo 先临时将AI的行为设置为普通攻击
 
-            TargetIDList = GetTargetIdList(ActionID, TargetIDList);
+            TargetIDList = GetTargetIdList(ActionID, true,TargetIDList);
         }
 
         public void SendMessage(OperationData opData)

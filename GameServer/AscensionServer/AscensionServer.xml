@@ -3115,7 +3115,7 @@
             出手前判断并分配战斗行为
             </summary>
         </member>
-        <member name="M:AscensionServer.BattleCharacterEntity.GetTargetIdList(System.Int32,System.Collections.Generic.List{System.Int32})">
+        <member name="M:AscensionServer.BattleCharacterEntity.GetTargetIdList(System.Int32,System.Boolean,System.Collections.Generic.List{System.Int32})">
             <summary>
             获取技能目标ID列表
             </summary>
@@ -3173,7 +3173,7 @@
             获取角色实体对象
             </summary>
         </member>
-        <member name="M:AscensionServer.BattleController.RandomGetTarget(System.Int32,AscensionServer.BattleFactionType,System.Boolean,System.Collections.Generic.List{System.Int32})">
+        <member name="M:AscensionServer.BattleController.RandomGetTarget(System.Int32,AscensionServer.BattleFactionType,System.Boolean,System.Boolean,System.Collections.Generic.List{System.Int32})">
             <summary>
             随机获得行为目标列表
             </summary>

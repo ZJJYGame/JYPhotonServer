@@ -1646,7 +1646,8 @@
                     "conditionPercentNum": 0,
                     "conditionFixedNum": 0,
                     "battleSkillTriggerEventType": 0,
-                    "EventValue": 21001
+                    "EventValue": 21001,
+					"isAutoChangeTarget":false
                 }
             ]
         },

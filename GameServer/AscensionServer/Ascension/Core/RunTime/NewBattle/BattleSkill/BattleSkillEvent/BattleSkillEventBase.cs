@@ -16,6 +16,7 @@ namespace AscensionServer
         public BattleCharacterEntity OwnerEntity { get { return ownerSkill.OwnerEntity; } }
         public BattleSkillBase ownerSkill;
         protected BattleSkillEventConditionBase battleSkillEventConditionBase;
+        protected BattleSkillEventData battleSkillEventData;
         //战斗事件触发
         protected virtual void Trigger(List<BattleTransferDTO> battleTransferDTOList,BattleDamageData battleDamageData)
         {
@@ -27,7 +28,7 @@ namespace AscensionServer
         public BattleSkillEventBase(BattleSkillBase battleSkillBase, BattleSkillEventData battleSkillEventData)
         {
             ownerSkill = battleSkillBase;
-
+            this.battleSkillEventData = battleSkillEventData;
             switch (battleSkillEventData.battleSkillEventTriggerCondition)
             {
                 case BattleSkillEventTriggerCondition.None:
@@ -68,7 +69,7 @@ namespace AscensionServer
         {
             if (!battleSkillEventConditionBase.CanTrigger(battleDamageData))
                 return;
-            List<int> tempTargetList = ownerSkill.OwnerEntity.GetTargetIdList(triggerSkillID, new List<int>() { battleDamageData.TargetID });
+            List<int> tempTargetList = ownerSkill.OwnerEntity.GetTargetIdList(triggerSkillID,battleSkillEventData.isAutoChangeTarget, new List<int>() { battleDamageData.TargetID });
             var tempList = ownerSkill.OwnerEntity.BattleSkillController.UseSkill(triggerSkillID, tempTargetList);
             battleTransferDTOList.AddRange(tempList);
         }

@@ -70,7 +70,7 @@ namespace AscensionServer
         /// <param name="targetIsAlive">目标是否是活着的状态</param>
         /// <param name="targetIDList"></param>
         /// <returns></returns>
-        public List<int> RandomGetTarget(int count,BattleFactionType battleSkillFactionType,bool targetIsAlive,List<int> targetIDList=null)
+        public List<int> RandomGetTarget(int count,BattleFactionType battleSkillFactionType,bool targetIsAlive,bool isAutoChangeTarget,List<int> targetIDList=null)
         {
             List<int> resultList = new List<int>();
             List<BattleCharacterEntity> targetCharacterList;
@@ -100,7 +100,7 @@ namespace AscensionServer
                 {
                     //判断当前选中目标是否可以作为目标
                     BattleCharacterEntity tempEntity = targetCharacterList.Find((k) => k.UniqueID == targetIDList[i]);
-                    if (tempEntity==null)
+                    if (tempEntity==null&&isAutoChangeTarget)
                         continue;
                     AllIndexList.Remove(targetCharacterList.IndexOf(tempEntity));
                     resultList.Add(targetIDList[i]);

@@ -60,7 +60,7 @@ namespace AscensionServer
             //todo 先临时将AI的行为设置为普通攻击
             BattleCmd = BattleCmd.SkillInstruction;
             ActionID = 21001;
-            TargetIDList = GetTargetIdList(ActionID, TargetIDList);
+            TargetIDList = GetTargetIdList(ActionID, true, TargetIDList);
         }
 
         public override void SetBattleAction(BattleCmd battleCmd, BattleTransferDTO battleTransferDTO)

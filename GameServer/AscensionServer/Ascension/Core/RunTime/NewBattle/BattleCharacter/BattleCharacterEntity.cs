@@ -89,7 +89,7 @@ namespace AscensionServer
         /// <param name="skillID">技能id</param>
         /// <param name="targetList">初始指定的目标列表</param>
         /// <returns></returns>
-        public virtual List<int> GetTargetIdList(int skillID,List<int> targetList=null)
+        public virtual List<int> GetTargetIdList(int skillID,bool isAutoChangeTarget,List<int> targetList=null)
         {
             List<int> resultList = new List<int>();
             GameEntry.DataManager.TryGetValue<Dictionary<int, BattleSkillData>>(out var battleskillDataDict);
@@ -104,7 +104,7 @@ namespace AscensionServer
                     battleFactionType = (BattleFactionType == BattleFactionType.FactionOne) ? BattleFactionType.FactionOne : BattleFactionType.FactionTwo;
                     break;
             }
-            resultList = GameEntry.BattleRoomManager.GetBattleRoomEntity(RoomID).BattleController.RandomGetTarget(battleSkillData.TargetNumber, battleFactionType, true, targetList);
+            resultList = GameEntry.BattleRoomManager.GetBattleRoomEntity(RoomID).BattleController.RandomGetTarget(battleSkillData.TargetNumber, battleFactionType, true, isAutoChangeTarget, targetList);
             return resultList;
         }
         /// <summary>
