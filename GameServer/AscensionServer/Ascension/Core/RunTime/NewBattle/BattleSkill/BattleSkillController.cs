@@ -50,9 +50,14 @@ namespace AscensionServer
                     BattleTransferDTO battleTransferDTO = new BattleTransferDTO();
                     for (int j = 0; j < targetCharacterList.Count; j++)
                     {
+                        //技能加成重置
+                        battleSkill.ClearSkillAddition();
+                        //暴击判断
+                        BattleDamageData battleDamageData = battleSkill.IsCrit(i, targetCharacterList[j]);
                         //攻击前技能事件触发
-
-                        BattleDamageData battleDamageData = battleSkill.GetDamageData(i, j, targetCharacterList[j]);
+                        battleSkill.TriggerSkillEventBeforeAttack(battleTransferDTOList, battleDamageData);
+                        //获得伤害数据
+                        battleDamageData = battleSkill.GetDamageData(i, j, targetCharacterList[j], battleDamageData);
                         if (battleDamageData != null)
                             battleDamageDataList.Add(battleDamageData);
                     }
@@ -87,9 +92,13 @@ namespace AscensionServer
                     for (int j = 0; j < targetCharacterList.Count; j++)
                     {
                         BattleTransferDTO battleTransferDTO = new BattleTransferDTO();
-                        BattleDamageData battleDamageData = battleSkill.GetDamageData(i, j, targetCharacterList[j]);
-                        if (battleDamageData != null)
-                            battleDamageDataList.Add(battleDamageData);
+                        battleSkill.ClearSkillAddition();
+                        BattleDamageData battleDamageData = battleSkill.IsCrit(i, targetCharacterList[j]);
+                        battleSkill.TriggerSkillEventBeforeAttack(battleTransferDTOList, battleDamageData);
+                        battleDamageData = battleSkill.GetDamageData(i, j, targetCharacterList[j], battleDamageData);
+                        if (battleDamageData == null)
+                            continue;
+                        battleDamageDataList.Add(battleDamageData);
                         GameEntry.BattleCharacterManager.GetCharacterEntity(battleDamageData.TargetID).OnActionEffect(battleDamageData);
                         battleTransferDTO.TargetInfos = GetTargetInfoDTOList(new List<BattleDamageData>() { battleDamageData});
                         battleTransferDTO.RoleId = owner.UniqueID;

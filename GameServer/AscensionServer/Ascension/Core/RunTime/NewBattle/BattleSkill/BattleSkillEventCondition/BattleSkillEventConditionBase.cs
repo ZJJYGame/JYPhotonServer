@@ -41,7 +41,6 @@ namespace AscensionServer
         bool isUp;
         public override bool CanTrigger(BattleDamageData battleDamageData)
         {
-            Utility.Debug.LogError("判断属性限制是否满足");
             CharacterBattleData targetData;
             if (isSelf)
                 targetData = selfData;
@@ -64,9 +63,6 @@ namespace AscensionServer
                 value = targetData.GetPropertyPercent(battleSkillEventData.battleSkillEventTriggerNumSourceType);
                 limitValue = battleSkillEventData.conditionPercentNum;
             }
-            Utility.Debug.LogError("获得的值" + value);
-            Utility.Debug.LogError("限制值" + limitValue);
-            Utility.Debug.LogError((isUp?"大于":"小于"));
             if (isUp)
                 return value >= limitValue ? true : false;
             else

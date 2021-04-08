@@ -3283,14 +3283,14 @@
             进入战斗的请求
             </summary>
         </member>
-        <member name="M:AscensionServer.BattleSkillBase.GetDamageData(System.Int32,System.Int32,AscensionServer.BattleCharacterEntity)">
+        <member name="M:AscensionServer.BattleSkillBase.GetDamageData(System.Int32,System.Int32,AscensionServer.BattleCharacterEntity,AscensionServer.BattleDamageData)">
             <summary>
             获取该技能的伤害
             </summary>
             <param name="index">第几段伤害</param>
             <param name="targetIndex">第几个目标</param>
         </member>
-        <member name="M:AscensionServer.BattleSkillBase.TriggerSkillEventBeforeAttack">
+        <member name="M:AscensionServer.BattleSkillBase.TriggerSkillEventBeforeAttack(System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO},AscensionServer.BattleDamageData)">
             <summary>
             攻击前事件触发
             </summary>

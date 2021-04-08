@@ -1553,14 +1553,14 @@
             "attackProcessType": 0,
             "battleSkillDamageNumDataList": [
                 {
-                    "battleSkillDamageType": 0,
+                    "battleSkillDamageType": 1,
                     "fixedNum": 0,
                     "baseDamageAdditionSourceTarget": false,
                     "baseNumSourceDataList": [
                         {
                             "battleSkillDamageTargetProperty": 0,
-                            "battleSkillNumSourceType": 7,
-                            "mulitity": 850
+                            "battleSkillNumSourceType": 8,
+                            "mulitity": 500
                         }
                     ],
                     "extraDamageAdditionSourceTarget": false,
@@ -1576,13 +1576,13 @@
             },
             "battleSkillEventDataList": [
                 {
-                    "battleSkillEventTriggerTime": 1,
-                    "battleSkillEventTriggerCondition": 4,
+                    "battleSkillEventTriggerTime": 0,
+                    "battleSkillEventTriggerCondition": 2,
                     "battleSkillEventTriggerNumSourceType": 0,
-                    "conditionPercentNum": 100,
-                    "conditionFixedNum": 200,
-                    "battleSkillTriggerEventType": 2,
-                    "EventValue": 25
+                    "conditionPercentNum": 90,
+                    "conditionFixedNum": 0,
+                    "battleSkillTriggerEventType": 5,
+                    "EventValue": 100
                 }
             ]
         },
@@ -1604,7 +1604,7 @@
             "battleSkillFactionType": 0,
             "battleSkillTargetType": 0,
             "battleSkillActionType": 0,
-            "attackProcessType": 1,
+            "attackProcessType": 0,
             "battleSkillDamageNumDataList": [
                 {
                     "battleSkillDamageType": 1,

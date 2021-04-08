@@ -250,12 +250,13 @@ namespace AscensionServer
         Skill = 0,
         Heal = 1,
         SuckBlood = 2,
-        AddCrit = 3,
+        AddCritProp = 3,
         AddDamage = 4,
         /// <summary>
         /// 增加穿透
         /// </summary>
         AddPierce = 5,
+        AddCritDamage = 6,
     }
     public enum BattleSkillActionType
     {

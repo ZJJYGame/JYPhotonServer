@@ -19,9 +19,12 @@ namespace AscensionServer
 
         public List<int> damageAdditionList;
         public int DamgeAddition { get { return battleSkillData.damageAddition + damageAdditionList.Sum(); } }
-        public int CritProp { get; protected set; }
-        public int CritDamage { get; protected set; }
-        public int IgnoreDefensive { get; protected set; }
+        public List<int> critPropList;
+        public int CritProp { get { return battleSkillData.critProp+critPropList.Sum(); } }
+        public List<int> critDamageList;
+        public int CritDamage { get { return battleSkillData.critDamage + critDamageList.Sum(); } }
+        public List<int> ignoreDefensiveList;
+        public int IgnoreDefensive { get { return battleSkillData.ignoreDefensive + ignoreDefensiveList.Sum(); } }
 
         //技能攻击段数
         public int AttackSectionNumber { get { return battleSkillData.battleSkillDamageNumDataList.Count; } }
@@ -50,7 +53,7 @@ namespace AscensionServer
         /// </summary>
         /// <param name="index">第几段伤害</param>
         /// <param name="targetIndex">第几个目标</param>
-        public BattleDamageData GetDamageData(int index, int targetIndex, BattleCharacterEntity target)
+        public BattleDamageData GetDamageData(int index, int targetIndex, BattleCharacterEntity target, BattleDamageData battleDamageData)
         {
             //判断目标是否可以作为技能目标
             if (target.HasDie)
@@ -65,8 +68,6 @@ namespace AscensionServer
 
 
             BattleSkillDamageNumData battleSkillDamageNumData = battleSkillData.battleSkillDamageNumDataList[index];
-            BattleDamageData battleDamageData = new BattleDamageData();
-            battleDamageData.TargetID = target.UniqueID;
             battleDamageData.battleSkillActionType = battleSkillData.battleSkillActionType;
             battleDamageData.damageType = battleSkillDamageNumData.battleSkillDamageType;
             battleDamageData.baseDamageTargetProperty = battleSkillDamageNumData.baseNumSourceDataList[targetIndex].battleSkillDamageTargetProperty;
@@ -85,32 +86,17 @@ namespace AscensionServer
                 damageValue = (attackValue - defendValue) * (100 + CharacterBattleData.DamageAddition + DamgeAddition - target.CharacterBattleData.DamageDeduction) / 100;
             else if (battleDamageData.damageType == BattleSkillDamageType.Reality)
                 damageValue = attackValue;
-            //进行暴击判断
-            bool isCrit = false;
-            if (battleDamageData.damageType == BattleSkillDamageType.Physic || battleDamageData.damageType == BattleSkillDamageType.Magic)
-            {
-                float crictRange = 0;
-                if (battleDamageData.damageType == BattleSkillDamageType.Physic)
-                    crictRange = (CharacterBattleData.PhysicalCritProb - target.CharacterBattleData.ReduceCritProb) * 100;
-                else if (battleDamageData.damageType == BattleSkillDamageType.Magic)
-                    crictRange = (CharacterBattleData.MagicCritProb - target.CharacterBattleData.ReduceCritProb) * 100;
-                int randomValue = Utility.Algorithm.CreateRandomInt(0, 10000 + 1);
-                if (randomValue <= crictRange)
-                    isCrit = true;
-            }
             //计算暴击伤害
-            if (isCrit)
+            if (battleDamageData.isCrit)
             {
                 int finalCritDamage = 0;
                 if (battleDamageData.damageType == BattleSkillDamageType.Physic)
                     finalCritDamage = CharacterBattleData.PhysicalCritDamage - target.CharacterBattleData.ReduceCritDamage;
                 else if (battleDamageData.damageType == BattleSkillDamageType.Physic)
                     finalCritDamage = CharacterBattleData.MagicCritDamage - target.CharacterBattleData.ReduceCritDamage;
-                finalCritDamage = finalCritDamage < 0 ? 0 : finalCritDamage;
-                damageValue = damageValue * (200 + finalCritDamage) / 100;
+                damageValue = damageValue * (200 + finalCritDamage+CritDamage) / 100;
             }
             damageValue = damageValue <= 0 ? 1 : damageValue;
-            battleDamageData.isCrit = isCrit;
             battleDamageData.damageNum = battleSkillData.battleSkillActionType==BattleSkillActionType.Damage?-damageValue:damageValue;
             //计算额外伤害初始值
             if (battleSkillDamageNumData.extraNumSourceData.Count > 0)
@@ -124,12 +110,35 @@ namespace AscensionServer
             return battleDamageData;
         }
 
+        public BattleDamageData IsCrit(int index, BattleCharacterEntity target)
+        {
+            BattleDamageData battleDamageData = new BattleDamageData();
+            BattleSkillDamageNumData battleSkillDamageNumData = battleSkillData.battleSkillDamageNumDataList[index];
+            bool isCrit = false;
+            if (battleSkillDamageNumData.battleSkillDamageType == BattleSkillDamageType.Physic || battleSkillDamageNumData.battleSkillDamageType == BattleSkillDamageType.Magic)
+            {
+                float crictRange = 0;
+                if (battleSkillDamageNumData.battleSkillDamageType == BattleSkillDamageType.Physic)
+                    crictRange = (CharacterBattleData.PhysicalCritProb - target.CharacterBattleData.ReduceCritProb) * 100;
+                else if (battleSkillDamageNumData.battleSkillDamageType == BattleSkillDamageType.Magic)
+                    crictRange = (CharacterBattleData.MagicCritProb - target.CharacterBattleData.ReduceCritProb) * 100;
+                crictRange += CritProp*100;
+                int randomValue = Utility.Algorithm.CreateRandomInt(0, 10000 + 1);
+                if (randomValue <= crictRange)
+                    isCrit = true;
+            }
+            battleDamageData.TargetID = target.UniqueID;
+            battleDamageData.isCrit = isCrit;
+            battleDamageData.attackSection = index;
+            return battleDamageData;
+        }
+
         /// <summary>
         /// 攻击前事件触发
         /// </summary>
-        public void TriggerSkillEventBeforeAttack()
+        public void TriggerSkillEventBeforeAttack(List<BattleTransferDTO> battleTransferDTOList, BattleDamageData battleDamageData)
         {
-
+            skillEventBeforeAttack?.Invoke(battleTransferDTOList, battleDamageData);
         }
         /// <summary>
         /// 攻击后事件触发
@@ -138,6 +147,13 @@ namespace AscensionServer
         {
             skillEventBehindAttack?.Invoke(battleTransferDTOList,battleDamageData);
         }
+        public void ClearSkillAddition()
+        {
+            damageAdditionList.Clear();
+            critPropList.Clear();
+            critDamageList.Clear();
+            ignoreDefensiveList.Clear();
+        }
 
         public BattleSkillBase(int skillID,BattleCharacterEntity battleCharacterEntity)
         {
@@ -145,6 +161,9 @@ namespace AscensionServer
             battleSkillData = battleSkillDict[skillID];
             OwnerEntity = battleCharacterEntity;
             damageAdditionList = new List<int>();
+            critPropList = new List<int>();
+            critDamageList = new List<int>();
+            ignoreDefensiveList = new List<int>();
 
             //添加技能事件
             battleSkillEventBaseList = new List<BattleSkillEventBase>();
@@ -161,11 +180,17 @@ namespace AscensionServer
                     case BattleSkillTriggerEventType.SuckBlood:
                         battleSkillEventBaseList.Add(new BattleSkillEvent_SuckBlood(this, battleSkillData.battleSkillEventDataList[i]));
                         break;
-                    case BattleSkillTriggerEventType.AddCrit:
+                    case BattleSkillTriggerEventType.AddCritProp:
+                        battleSkillEventBaseList.Add(new BattleSkillEvent_AddCritProp(this, battleSkillData.battleSkillEventDataList[i]));
                         break;
                     case BattleSkillTriggerEventType.AddDamage:
+                        battleSkillEventBaseList.Add(new BattleSkillEvent_AddDamage(this, battleSkillData.battleSkillEventDataList[i]));
                         break;
                     case BattleSkillTriggerEventType.AddPierce:
+                        battleSkillEventBaseList.Add(new BattleSkillEvent_AddIgnoreDefence(this, battleSkillData.battleSkillEventDataList[i]));
+                        break;
+                    case BattleSkillTriggerEventType.AddCritDamage:
+                        battleSkillEventBaseList.Add(new BattleSkillEvent_AddCritDamage(this, battleSkillData.battleSkillEventDataList[i]));
                         break;
                 }
             }

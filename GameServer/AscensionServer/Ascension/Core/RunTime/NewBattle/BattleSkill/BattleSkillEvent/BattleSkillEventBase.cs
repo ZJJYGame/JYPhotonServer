@@ -130,10 +130,63 @@ namespace AscensionServer
         {
             if (!battleSkillEventConditionBase.CanTrigger(battleDamageData))
                 return;
+            Utility.Debug.LogError("技能伤害增加触发");
+            ownerSkill.damageAdditionList.Add(addDamageValue);
         }
         public BattleSkillEvent_AddDamage(BattleSkillBase battleSkillBase, BattleSkillEventData battleSkillEventData) : base(battleSkillBase, battleSkillEventData)
         {
             addDamageValue = battleSkillEventData.EventValue;
+        }
+    }
+
+    public class BattleSkillEvent_AddCritProp : BattleSkillEventBase
+    {
+        int addCritPropValue;
+        protected override void Trigger(List<BattleTransferDTO> battleTransferDTOList, BattleDamageData battleDamageData)
+        {
+            if (!battleSkillEventConditionBase.CanTrigger(battleDamageData))
+                return;
+            Utility.Debug.LogError("暴击率增加触发");
+            ownerSkill.critPropList.Add(addCritPropValue);
+            BattleDamageData temp = ownerSkill.IsCrit(battleDamageData.attackSection, GameEntry.BattleCharacterManager.GetCharacterEntity(battleDamageData.TargetID));
+            battleDamageData.isCrit = temp.isCrit;
+        }
+        public BattleSkillEvent_AddCritProp(BattleSkillBase battleSkillBase, BattleSkillEventData battleSkillEventData) : base(battleSkillBase, battleSkillEventData)
+        {
+            addCritPropValue = battleSkillEventData.EventValue;
+        }
+    }
+
+    public class BattleSkillEvent_AddCritDamage : BattleSkillEventBase
+    {
+        int addCritDamageValue;
+        protected override void Trigger(List<BattleTransferDTO> battleTransferDTOList, BattleDamageData battleDamageData)
+        {
+            if (!battleSkillEventConditionBase.CanTrigger(battleDamageData))
+                return;
+            Utility.Debug.LogError("暴击伤害增加触发");
+            ownerSkill.critDamageList.Add(addCritDamageValue);
+        }
+        public BattleSkillEvent_AddCritDamage(BattleSkillBase battleSkillBase, BattleSkillEventData battleSkillEventData) : base(battleSkillBase, battleSkillEventData)
+        {
+            addCritDamageValue = battleSkillEventData.EventValue;
+        }
+    }
+
+    public class BattleSkillEvent_AddIgnoreDefence : BattleSkillEventBase
+    {
+        int addIgnoreDefenseValue;
+        protected override void Trigger(List<BattleTransferDTO> battleTransferDTOList, BattleDamageData battleDamageData)
+        {
+            if (!battleSkillEventConditionBase.CanTrigger(battleDamageData))
+                return;
+            Utility.Debug.LogError("穿透增加触发");
+            ownerSkill.ignoreDefensiveList.Add(addIgnoreDefenseValue);
+
+        }
+        public BattleSkillEvent_AddIgnoreDefence(BattleSkillBase battleSkillBase, BattleSkillEventData battleSkillEventData) : base(battleSkillBase, battleSkillEventData)
+        {
+            addIgnoreDefenseValue = battleSkillEventData.EventValue;
         }
     }
 }

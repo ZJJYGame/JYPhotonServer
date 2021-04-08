@@ -13,6 +13,8 @@ namespace AscensionServer
     {
         //伤害目标ID
         public int TargetID;
+        //攻击段数
+        public int attackSection;
         //行为类型
         public BattleSkillActionType battleSkillActionType;
         //伤害类型
