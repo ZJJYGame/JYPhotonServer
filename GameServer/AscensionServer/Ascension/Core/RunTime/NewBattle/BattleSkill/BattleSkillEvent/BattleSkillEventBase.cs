@@ -87,13 +87,17 @@ namespace AscensionServer
         {
             if (!battleSkillEventConditionBase.CanTrigger(battleDamageData))
                 return;
+            Utility.Debug.LogError("回血触发");
             int value = OwnerEntity.CharacterBattleData.MaxHp * healValue / 100;
             OwnerEntity.CharacterBattleData.ChangeProperty(BattleSkillDamageTargetProperty.Health, value);
+            if (battleTransferDTOList[battleTransferDTOList.Count - 1].TargetInfos == null)
+                battleTransferDTOList[battleTransferDTOList.Count - 1].TargetInfos = new List<TargetInfoDTO>();
             battleTransferDTOList[battleTransferDTOList.Count - 1].TargetInfos.Add(new TargetInfoDTO()
             {
                 TargetID= OwnerEntity.UniqueID,
                 TargetHPDamage= value,
             });
+            
         }
 
         public BattleSkillEvent_Heal(BattleSkillBase battleSkillBase, BattleSkillEventData battleSkillEventData) : base(battleSkillBase, battleSkillEventData)

@@ -1590,7 +1590,7 @@
             "name": "星环",
             "id": 28215,
             "describe": "对敌方1个单位造成自身魔法攻击力90%的魔法伤害，如果该技能杀死敌方目标，则随机选择下一个目标再次释放",
-            "TargetNumber": 3,
+            "TargetNumber": 1,
             "damageAddition": 0,
             "critProp": 0,
             "critDamage": 0,
@@ -1614,17 +1614,61 @@
                         {
                             "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
-                            "mulitity": 400
-                        },
+                            "mulitity": 85
+                        }
+                    ],
+                    "extraDamageAdditionSourceTarget": false,
+                    "extraNumSourceData": []
+                },
+				{
+                    "battleSkillDamageType": 1,
+                    "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
+                    "baseNumSourceDataList": [
                         {
                             "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
-                            "mulitity": 400
-                        },
+                            "mulitity": 85
+                        }
+                    ],
+                    "extraDamageAdditionSourceTarget": false,
+                    "extraNumSourceData": []
+                },{
+                    "battleSkillDamageType": 1,
+                    "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
+                    "baseNumSourceDataList": [
                         {
                             "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
-                            "mulitity": 400
+                            "mulitity": 85
+                        }
+                    ],
+                    "extraDamageAdditionSourceTarget": false,
+                    "extraNumSourceData": []
+                },
+				{
+                    "battleSkillDamageType": 1,
+                    "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
+                    "baseNumSourceDataList": [
+                        {
+                            "battleSkillDamageTargetProperty": 0,
+                            "battleSkillNumSourceType": 8,
+                            "mulitity": 85
+                        }
+                    ],
+                    "extraDamageAdditionSourceTarget": false,
+                    "extraNumSourceData": []
+                },{
+                    "battleSkillDamageType": 1,
+                    "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
+                    "baseNumSourceDataList": [
+                        {
+                            "battleSkillDamageTargetProperty": 0,
+                            "battleSkillNumSourceType": 8,
+                            "mulitity": 85
                         }
                     ],
                     "extraDamageAdditionSourceTarget": false,
@@ -1640,13 +1684,13 @@
             },
             "battleSkillEventDataList": [
                 {
-                    "battleSkillEventTriggerTime": 1,
-                    "battleSkillEventTriggerCondition": 1,
+                    "battleSkillEventTriggerTime": 0,
+                    "battleSkillEventTriggerCondition": 4,
                     "battleSkillEventTriggerNumSourceType": 0,
-                    "conditionPercentNum": 0,
+                    "conditionPercentNum": 90,
                     "conditionFixedNum": 0,
-                    "battleSkillTriggerEventType": 0,
-                    "EventValue": 21001,
+                    "battleSkillTriggerEventType": 1,
+                    "EventValue": 15,
 					"isAutoChangeTarget":false
                 }
             ]

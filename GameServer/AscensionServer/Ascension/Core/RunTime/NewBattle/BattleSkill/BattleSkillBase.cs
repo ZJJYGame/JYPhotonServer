@@ -92,7 +92,7 @@ namespace AscensionServer
                 int finalCritDamage = 0;
                 if (battleDamageData.damageType == BattleSkillDamageType.Physic)
                     finalCritDamage = CharacterBattleData.PhysicalCritDamage - target.CharacterBattleData.ReduceCritDamage;
-                else if (battleDamageData.damageType == BattleSkillDamageType.Physic)
+                else if (battleDamageData.damageType == BattleSkillDamageType.Magic)
                     finalCritDamage = CharacterBattleData.MagicCritDamage - target.CharacterBattleData.ReduceCritDamage;
                 damageValue = damageValue * (200 + finalCritDamage+CritDamage) / 100;
             }

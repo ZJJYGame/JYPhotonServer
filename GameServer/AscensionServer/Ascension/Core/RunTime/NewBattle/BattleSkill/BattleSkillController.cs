@@ -48,6 +48,7 @@ namespace AscensionServer
                 {
                     List<BattleDamageData> battleDamageDataList = new List<BattleDamageData>();
                     BattleTransferDTO battleTransferDTO = new BattleTransferDTO();
+                    battleTransferDTOList.Add(battleTransferDTO);
                     for (int j = 0; j < targetCharacterList.Count; j++)
                     {
                         //技能加成重置
@@ -67,12 +68,16 @@ namespace AscensionServer
                         GameEntry.BattleCharacterManager.GetCharacterEntity(battleDamageDataList[j].TargetID).OnActionEffect(battleDamageDataList[j]);
                     }
   
-                    battleTransferDTO.TargetInfos= GetTargetInfoDTOList(battleDamageDataList);
+                    List<TargetInfoDTO> targetInfoDTOs= GetTargetInfoDTOList(battleDamageDataList);
+                    if (battleTransferDTO.TargetInfos != null)
+                        battleTransferDTO.TargetInfos.AddRange(targetInfoDTOs);
+                    else
+                        battleTransferDTO.TargetInfos = targetInfoDTOs;
                     battleTransferDTO.RoleId = owner.UniqueID;
                     battleTransferDTO.BattleCmd = BattleCmd.SkillInstruction;
                     battleTransferDTO.ClientCmdId = battleSkill.SkillID;
-                    if (battleTransferDTO.TargetInfos != null)
-                        battleTransferDTOList.Add(battleTransferDTO);
+                    if (battleTransferDTO.TargetInfos == null)
+                        battleTransferDTOList.Remove(battleTransferDTO);
 
                     for (int j = 0; j < battleDamageDataList.Count; j++)
                     {
@@ -92,6 +97,7 @@ namespace AscensionServer
                     for (int j = 0; j < targetCharacterList.Count; j++)
                     {
                         BattleTransferDTO battleTransferDTO = new BattleTransferDTO();
+                        battleTransferDTOList.Add(battleTransferDTO);
                         battleSkill.ClearSkillAddition();
                         BattleDamageData battleDamageData = battleSkill.IsCrit(i, targetCharacterList[j]);
                         battleSkill.TriggerSkillEventBeforeAttack(battleTransferDTOList, battleDamageData);
@@ -100,12 +106,17 @@ namespace AscensionServer
                             continue;
                         battleDamageDataList.Add(battleDamageData);
                         GameEntry.BattleCharacterManager.GetCharacterEntity(battleDamageData.TargetID).OnActionEffect(battleDamageData);
-                        battleTransferDTO.TargetInfos = GetTargetInfoDTOList(new List<BattleDamageData>() { battleDamageData});
+
+                        List<TargetInfoDTO> targetInfoDTOs= GetTargetInfoDTOList(new List<BattleDamageData>() { battleDamageData });
+                        if (battleTransferDTO.TargetInfos != null)
+                            battleTransferDTO.TargetInfos.AddRange(targetInfoDTOs);
+                        else
+                            battleTransferDTO.TargetInfos = targetInfoDTOs;
                         battleTransferDTO.RoleId = owner.UniqueID;
                         battleTransferDTO.BattleCmd = BattleCmd.SkillInstruction;
                         battleTransferDTO.ClientCmdId = battleSkill.SkillID;
-                        if (battleTransferDTO.TargetInfos != null)
-                            battleTransferDTOList.Add(battleTransferDTO);
+                        if (battleTransferDTO.TargetInfos == null)
+                            battleTransferDTOList.Remove(battleTransferDTO);
                         battleSkill.TriggerSkillEventBehindAttack(battleTransferDTOList, battleDamageData);
                     }
 
