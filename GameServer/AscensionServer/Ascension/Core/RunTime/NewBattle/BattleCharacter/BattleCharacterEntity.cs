@@ -180,11 +180,11 @@ namespace AscensionServer
         public int CompareTo(BattleCharacterEntity other)
         {
             if (CharacterBattleData.AttackSpeed > other.CharacterBattleData.AttackSpeed)
-                return 1;
-            else if (CharacterBattleData.AttackSpeed > other.CharacterBattleData.AttackSpeed)
+                return -1;
+            else if (CharacterBattleData.AttackSpeed == other.CharacterBattleData.AttackSpeed)
                 return 0;
             else
-                return -1;
+                return 1;
         }
     }
 }

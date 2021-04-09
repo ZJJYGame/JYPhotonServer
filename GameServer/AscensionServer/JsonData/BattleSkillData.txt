@@ -1560,7 +1560,7 @@
                         {
                             "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
-                            "mulitity": 500
+                            "mulitity": 85
                         }
                     ],
                     "extraDamageAdditionSourceTarget": false,
@@ -1576,13 +1576,14 @@
             },
             "battleSkillEventDataList": [
                 {
-                    "battleSkillEventTriggerTime": 0,
+                    "battleSkillEventTriggerTime": 1,
                     "battleSkillEventTriggerCondition": 2,
                     "battleSkillEventTriggerNumSourceType": 0,
                     "conditionPercentNum": 90,
                     "conditionFixedNum": 0,
-                    "battleSkillTriggerEventType": 5,
-                    "EventValue": 100
+                    "battleSkillTriggerEventType": 0,
+                    "EventValue": 28214,
+					"isAutoChangeTarget":true
                 }
             ]
         },

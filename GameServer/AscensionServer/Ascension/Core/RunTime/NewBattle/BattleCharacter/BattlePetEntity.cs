@@ -21,8 +21,9 @@ namespace AscensionServer
             if (rolePet.PetIsBattle == 0)
                 return;
             NHCriteria nHCriteriaPetID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", rolePet.PetIsBattle);
+            NHCriteria nHCriteriaPet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", rolePet.PetIsBattle);
             PetStatus petStatus = NHibernateQuerier.CriteriaSelect<PetStatus>(nHCriteriaPetID);
-            Pet pet= NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriaPetID);
+            Pet pet= NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriaPet);
             //todo 拿取宠物数据
             CharacterBattleData = CosmosEntry.ReferencePoolManager.Spawn<CharacterBattleData>();
             CharacterBattleData.Init(petStatus);
@@ -38,11 +39,12 @@ namespace AscensionServer
         {
             T t = new PetBattleDataDTO()
             {
-                RoleId=MasterID,
-                ObjectID=UniqueID,
+                RoleId = MasterID,
+                ObjectId = UniqueID,
                 ObjectName = Name,
                 PetStatusDTO = new PetStatusDTO
                 {
+                    PetID = UniqueID,
                     PetMaxHP = CharacterBattleData.MaxHp,
                     PetHP = CharacterBattleData.Hp,
                     PetMaxMP = CharacterBattleData.MaxMp,
@@ -58,8 +60,6 @@ namespace AscensionServer
         {
             base.AllocationBattleAction();
             //todo 先临时将AI的行为设置为普通攻击
-            BattleCmd = BattleCmd.SkillInstruction;
-            ActionID = 21001;
             TargetIDList = GetTargetIdList(ActionID, true, TargetIDList);
         }
 

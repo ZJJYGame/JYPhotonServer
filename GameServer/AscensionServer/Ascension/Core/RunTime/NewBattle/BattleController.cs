@@ -47,6 +47,10 @@ namespace AscensionServer
             List<BattleTransferDTO> battleTransferDTOs = new List<BattleTransferDTO>();
             //角色按速度排序
             AllCharacterEntities.Sort();
+            for (int i = 0; i < AllCharacterEntities.Count; i++)
+            {
+                Utility.Debug.LogError(AllCharacterEntities[i].UniqueID + "的速度=>" + AllCharacterEntities[i].CharacterBattleData.AttackSpeed);
+            }
 
             //按角色出手顺序开始出手
             int allCount = AllCharacterEntities.Count;
