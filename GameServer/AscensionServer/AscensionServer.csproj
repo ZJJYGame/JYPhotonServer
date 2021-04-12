@@ -21,7 +21,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\..\..\localproject\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -192,6 +192,9 @@
     <Compile Include="Ascension\Core\Base\DataObject\ForgeParameter.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\FormulaData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\FormulaDrugData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\FormulaForgeData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\FormulaGlobaID.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\FormulaPuppetData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\ItemBagBaseData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MapResourceData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MagicWeaponData.cs" />
@@ -203,9 +206,12 @@
     <Compile Include="Ascension\Core\Base\DataObject\PetLevelData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\PetSkillBookData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\PetSkillData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\PuppetAssembleData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\PuppetUnitParameter.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RingData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RoleAbilityPointData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RoleLevelData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\RolePuppet.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RoleStatusDatas.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RunesData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\SkillGongFaDatas.cs" />
@@ -368,7 +374,9 @@
     <Compile Include="DOMap\DemonicSoulMap.cs" />
     <Compile Include="DOMap\FlyMagicToolMap.cs" />
     <Compile Include="DOMap\PetAbilityPointMap.cs" />
+    <Compile Include="DOMap\PuppetUnitMap.cs" />
     <Compile Include="DOMap\RoleAllianceSkillMap.cs" />
+    <Compile Include="DOMap\RolePuppetMap.cs" />
     <Compile Include="DOMap\RoleStatusPointMap.cs" />
     <Compile Include="DO\AllianceConstruction.cs" />
     <Compile Include="DO\AllianceDongFu.cs" />
@@ -376,6 +384,7 @@
     <Compile Include="DO\DemonicSoul.cs" />
     <Compile Include="DO\FlyMagicTool.cs" />
     <Compile Include="DO\PetAbilityPoint.cs" />
+    <Compile Include="DO\PuppetUnit.cs" />
     <Compile Include="DO\RoleAllianceSkill.cs" />
     <Compile Include="DO\RoleAuctionItems.cs" />
     <Compile Include="DO\RoleStatusPoint.cs" />
@@ -886,6 +895,21 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonData\ForgeParameter.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\FormulaForgeData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\FormulaGlobaID.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\FormulaPuppetData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\PuppetUnitParameter.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\PuppetAssembleData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="Plugin\ExitGames.Logging.Log4Net.dll">

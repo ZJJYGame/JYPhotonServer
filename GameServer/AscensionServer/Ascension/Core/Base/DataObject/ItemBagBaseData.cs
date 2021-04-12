@@ -46,7 +46,7 @@ namespace AscensionServer
     public enum ItemType
     {
         Default,
-        Weapon,
+        Equipment,
         Consumable,
         Material,
         LastAble,

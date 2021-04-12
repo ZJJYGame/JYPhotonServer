@@ -8,7 +8,7 @@ namespace AscensionServer
 {
     [Serializable]
     [ConfigData]
-    public class FormulaDrugData
+    public class FormulaPuppetData
     {
         public int FormulaID { get; set; }
         public List<int> NeedItemArray { get; set; }

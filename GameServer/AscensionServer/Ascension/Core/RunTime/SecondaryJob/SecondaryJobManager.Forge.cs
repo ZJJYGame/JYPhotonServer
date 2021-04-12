@@ -23,14 +23,14 @@ namespace AscensionServer
             var formulaExist = GameEntry.DataManager.TryGetValue<Dictionary<int, FormulaDrugData>>(out var formulaDataDict);
             if (!formulaExist)
             {
-                RoleStatusFailS2C(roleID, SecondaryJobOpCode.UpdateForge);
+                RoleStatusFailS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus);
                 return;
             }
             NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
             var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteria);
             if (ringServer == null)
             {
-                RoleStatusFailS2C(roleID, SecondaryJobOpCode.UpdateForge);
+                RoleStatusFailS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus);
                 return;
             }
 
@@ -47,7 +47,7 @@ namespace AscensionServer
                         {
                             if (formula.FormulaLevel > forge.JobLevel)
                             {
-                                RoleStatusFailS2C(roleID, SecondaryJobOpCode.UpdateAlchemy);
+                                RoleStatusFailS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus);
                                 return;
                             }
 
@@ -55,13 +55,13 @@ namespace AscensionServer
                             {
                                 forge.Recipe_Array.Add(useItemID);
 
-                                RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.UpdateAlchemy, forge);
+                                RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus, forge);
                                 InventoryManager.Remove(roleID, useItemID);
                                 await NHibernateQuerier.UpdateAsync(ChangeDataType(forge));
                                 await RedisHelper.Hash.HashSetAsync<ForgeDTO>(RedisKeyDefine._ForgePerfix, roleID.ToString(), forge);
                             }
                             else
-                                RoleStatusFailS2C(roleID, SecondaryJobOpCode.UpdateAlchemy);
+                                RoleStatusFailS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus);
                         }
                     }
                     else
@@ -155,6 +155,7 @@ namespace AscensionServer
                 }
             }
         }
+
         #endregion
 
         #region MySql
@@ -174,17 +175,17 @@ namespace AscensionServer
                 {
                     recipe.Add(useItemID);
                     forge.Recipe_Array = Utility.Json.ToJson(recipe);
-                    RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.UpdateForge, ChangeDataType(forge));
+                    RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus, ChangeDataType(forge));
                     InventoryManager.Remove(roleID, useItemID);
                     await NHibernateQuerier.UpdateAsync(forge);
                     await RedisHelper.Hash.HashSetAsync<ForgeDTO>(RedisKeyDefine._ForgePerfix, roleID.ToString(), ChangeDataType(forge));
                 }
                 else
-                    RoleStatusFailS2C(roleID, SecondaryJobOpCode.UpdateForge);
+                    RoleStatusFailS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus);
             }
             else
-                RoleStatusFailS2C(roleID, SecondaryJobOpCode.UpdateForge);
-        }
+                RoleStatusFailS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus);
+        }      
         #endregion
 
         WeaponDTO ForgeStatusAlgorithm(int id,out string forgeType)

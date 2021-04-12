@@ -13,25 +13,33 @@ namespace AscensionProtocol
         /// </summary>
         GetSecondaryJobStatus = 1,
         /// <summary>
-        /// 学习炼丹配方
+        /// 学习副职业配方
         /// </summary>
-        UpdateAlchemy=2,
+        StudySecondaryJobStatus = 2,
         /// <summary>
         /// 开始炼丹
         /// </summary>
-        CompoundAlchemy=3,  
+        CompoundAlchemy=3,
         /// <summary>
-        /// 学习傀儡配方
+        /// 合成阵法
         /// </summary>
-        UpdatePuppet=5,
+        CompoundTactic = 4,
+        /// <summary>
+        /// 合成符箓
+        /// </summary>
+        CompoundRunes = 5,
         /// <summary>
         /// 炼制傀儡
         /// </summary>
         CompoundPuppet = 6,
         /// <summary>
-        /// 学习锻造配方
+        /// 修复傀儡
         /// </summary>
-        UpdateForge = 8,
+        RepairPuppet=7,
+        /// <summary>
+        /// 获得武器法宝数据
+        /// </summary>
+        GetWeapon = 8,
         /// <summary>
         /// 开始锻造
         /// </summary>
@@ -39,6 +47,11 @@ namespace AscensionProtocol
         /// <summary>
         /// 组装傀儡
         /// </summary>
-        AssemblePuppet=10
+        AssemblePuppet=10,
+        /// <summary>
+        /// 获得傀儡组件
+        /// </summary>
+        GetPuppetUnit = 11
+
     }
 }

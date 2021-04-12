@@ -98,7 +98,9 @@ namespace AscensionServer
                     roleList.Add(roleId);
                 rolestatus.RoleID = int.Parse(roleId);
                 NHibernateQuerier.Insert(rolestatus);
+                RedisHelper.Hash.HashSet(RedisKeyDefine._RoleStatsuPerfix, rolestatus.RoleID.ToString(), rolestatus);
                 NHibernateQuerier.Insert(new RoleAssets() { RoleID = rolestatus.RoleID });
+                RedisHelper.Hash.HashSet(RedisKeyDefine._RoleAssetsPerfix, rolestatus.RoleID.ToString(), new RoleAssetsDTO() { RoleID = rolestatus.RoleID });
                 NHibernateQuerier.Insert(new OnOffLine() { RoleID = rolestatus.RoleID });
                 NHibernateQuerier.Insert(new Bottleneck() { RoleID = rolestatus.RoleID });
                 #region 任务
@@ -213,9 +215,12 @@ namespace AscensionServer
                 NHibernateQuerier.Insert<Forge>(new Forge() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
                 NHibernateQuerier.Insert<SpiritualRunes>(new SpiritualRunes() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
                 NHibernateQuerier.Insert<Puppet>(new Puppet() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
+                RedisHelper.Hash.HashSet(RedisKeyDefine._PuppetPerfix, rolestatus.RoleID.ToString(), new PuppetDTO() { RoleID = rolestatus.RoleID });
                 NHibernateQuerier.Insert<TacticFormation>(new TacticFormation() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
-                NHibernateQuerier.Insert<RoleWeapon>(new RoleWeapon() { RoleID = rolestatus.RoleID});
+                NHibernateQuerier.SaveOrUpdate(new RoleWeapon() { RoleID = rolestatus.RoleID});
                 RedisHelper.Hash.HashSet(RedisKeyDefine._RoleWeaponPostfix, rolestatus.RoleID.ToString(),new RoleWeaponDTO());
+                NHibernateQuerier.SaveOrUpdate(new PuppetUnit() { RoleID = rolestatus.RoleID });
+                RedisHelper.Hash.HashSet(RedisKeyDefine._PuppetUnitPerfix, rolestatus.RoleID.ToString(), new PuppetUnitDTO() { RoleID = rolestatus.RoleID });
                 Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>添加副职业成功");
                 #endregion
                 #region 仙盟
@@ -225,6 +230,8 @@ namespace AscensionServer
                 roleAllianceSkill.RoleID = rolestatus.RoleID;
                 NHibernateQuerier.Insert(roleAllianceSkill);
                 #endregion
+                NHibernateQuerier.Insert(new RolePuppet() { RoleID = role.RoleID });
+                RedisHelper.Hash.HashSet(RedisKeyDefine._RolePuppetPerfix, rolestatus.RoleID.ToString(), new RolePuppetDTO() { RoleID = role.RoleID });
                 NHibernateQuerier.Insert(new FlyMagicTool() { RoleID = role.RoleID, AllFlyMagicTool = Utility.Json.ToJson(new List<int>() { 23401, 23402 }) });
                 RoleStatusPointDTO roleStatusPointDTO = new RoleStatusPointDTO();
                 NHibernateQuerier.Insert(new RoleStatusPoint() { RoleID = role.RoleID,AbilityPointSln= Utility.Json.ToJson(roleStatusPointDTO.AbilityPointSln) });

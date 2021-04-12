@@ -15,6 +15,31 @@ namespace AscensionServer
     [Module]
     public partial class SecondaryJobManager : Cosmos. Module,ISecondaryJobManager
     {
+        /// <summary>
+        /// 配方类型
+        /// </summary>
+        enum FormulaDrugType: byte
+        {
+            Alchemy = 1,
+            Forge=2,
+            Spiritualrunes=3,
+            Puppet=4,
+            Tacticformation=5
+        }
+        /// <summary>
+        /// 词缀类型
+        /// </summary>
+        enum AffixType
+        {
+            None=0,
+            HP=1,
+            AttackPhysical=2,
+            DefendPhysical=3,
+            AttackPower=4,
+            DefendPower=5,
+            AttackSpeed=6,
+        }
+
         public override void OnPreparatory()
         {
             CommandEventCore.Instance.AddEventListener((byte)OperationCode.SyncSecondaryJob, ProcessHandlerC2S);
@@ -33,7 +58,7 @@ namespace AscensionServer
                     GetSecondaryJobStatusS2C(role.RoleID);
                     #endregion
                     break;
-                case SecondaryJobOpCode.UpdateAlchemy:
+                case SecondaryJobOpCode.StudySecondaryJobStatus:
                     #region
                     secondaryJob = Utility.Json.ToObject<SecondaryJobDTO>(packet.DataMessage.ToString());
                     UpdateAlchemyS2C(secondaryJob.RoleID, secondaryJob.UseItemID);
@@ -45,17 +70,50 @@ namespace AscensionServer
                     CompoundAlchemyS2C(secondaryJob.RoleID, secondaryJob.UseItemID);
                     #endregion
                     break;
-                case SecondaryJobOpCode.UpdatePuppet:
-                    break;
                 case SecondaryJobOpCode.CompoundPuppet:
-                    break;
-                case SecondaryJobOpCode.UpdateForge:
                     secondaryJob = Utility.Json.ToObject<SecondaryJobDTO>(packet.DataMessage.ToString());
-                    UpdateForgeS2C(secondaryJob.RoleID, secondaryJob.UseItemID);
+                    CompoundPuppetS2C(secondaryJob.RoleID, secondaryJob.UseItemID);
                     break;
                 case SecondaryJobOpCode.CompoundForge:
                     secondaryJob = Utility.Json.ToObject<SecondaryJobDTO>(packet.DataMessage.ToString());
                     CompoundForge(secondaryJob.RoleID, secondaryJob.UseItemID);
+                    break;
+                case SecondaryJobOpCode.AssemblePuppet:
+                    secondaryJob = Utility.Json.ToObject<SecondaryJobDTO>(packet.DataMessage.ToString());
+                    AssemblePuppetS2C(secondaryJob.RoleID, secondaryJob.UseItemID, secondaryJob.Units);
+                    break;
+                case SecondaryJobOpCode.RepairPuppet:
+
+                    break;
+                case SecondaryJobOpCode.GetPuppetUnit:
+                     role = Utility.Json.ToObject<RoleDTO>(packet.DataMessage.ToString());
+                    GetPuppetUnitS2C(role.RoleID);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        void StudyFormulaDrug(SecondaryJobDTO secondaryJob)
+        {
+            GameEntry.DataManager.TryGetValue<Dictionary<int, FormulaGlobaID>>(out var globaIDDict);
+            var result = globaIDDict.TryGetValue(secondaryJob.UseItemID,out var drugData);
+            if (!result)
+            {
+                RoleStatusFailS2C(secondaryJob.RoleID,SecondaryJobOpCode.StudySecondaryJobStatus);
+                return;
+            }
+
+            switch ((FormulaDrugType )drugData.ItemTypeDetail)
+            {
+                case FormulaDrugType.Alchemy:
+                    UpdateAlchemyS2C(secondaryJob.RoleID, secondaryJob.UseItemID);
+                    break;
+                case FormulaDrugType.Forge:
+                    UpdateForgeS2C(secondaryJob.RoleID, secondaryJob.UseItemID);
+                    break;
+                case FormulaDrugType.Puppet:
+                  
                     break;
                 default:
                     break;
@@ -196,7 +254,7 @@ namespace AscensionServer
         void RoleStatusFailS2C(int roleID, SecondaryJobOpCode oPcode)
         {
             OperationData opData = new OperationData();
-            opData.OperationCode = (byte)OperationCode.SyncRoleAlliance;
+            opData.OperationCode = (byte)OperationCode.SyncSecondaryJob;
             opData.SubOperationCode = (byte)oPcode;
             opData.ReturnCode = (byte)ReturnCode.ItemNotFound;
             opData.DataMessage = Utility.Json.ToJson(null);
@@ -216,8 +274,6 @@ namespace AscensionServer
             opData.DataMessage = Utility.Json.ToJson(data);
             GameEntry.RoleManager.SendMessage(roleID, opData);
         }
-
-
     }
 }
 

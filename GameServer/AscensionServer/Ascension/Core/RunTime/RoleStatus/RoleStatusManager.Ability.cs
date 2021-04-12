@@ -22,8 +22,8 @@ namespace AscensionServer
             var result = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatsuPerfix, pointDTO.RoleID.ToString()).Result;
             if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString()).Result&& result)
             {
-                var AbilityPoint = RedisHelper.Hash.HashGetAsync<RoleStatusPointDTO>(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString());
-                var rolestatus = RedisHelper.Hash.HashGetAsync<RoleStatusDTO>(RedisKeyDefine._RoleStatsuPerfix, pointDTO.RoleID.ToString());
+                var AbilityPoint = RedisHelper.Hash.HashGetAsync<RoleStatusPointDTO>(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString()).Result;
+                var rolestatus = RedisHelper.Hash.HashGetAsync<RoleStatusDTO>(RedisKeyDefine._RoleStatsuPerfix, pointDTO.RoleID.ToString()).Result;
                 if (AbilityPoint != null)
                 {
                     Dictionary<byte, object> dataDict = new Dictionary<byte, object>();

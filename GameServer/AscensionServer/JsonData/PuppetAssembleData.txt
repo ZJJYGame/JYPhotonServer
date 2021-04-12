@@ -1,0 +1,37 @@
+﻿[
+	{
+		"PuppetID":23201,
+		"NeedVitality":2,
+		"NeedMoney":1000,
+		"NeedRoleLevel":11,
+		"NeedJobLevel":2
+	},
+	{
+		"PuppetID":23202,
+		"NeedVitality":3,
+		"NeedMoney":5000,
+		"NeedRoleLevel":21,
+		"NeedJobLevel":3
+	},
+	{
+		"PuppetID":23203,
+		"NeedVitality":4,
+		"NeedMoney":10000,
+		"NeedRoleLevel":31,
+		"NeedJobLevel":4
+	},
+	{
+		"PuppetID":23204,
+		"NeedVitality":5,
+		"NeedMoney":50000,
+		"NeedRoleLevel":41,
+		"NeedJobLevel":5
+	},
+	{
+		"PuppetID":23205,
+		"NeedVitality":2,
+		"NeedMoney":1000,
+		"NeedRoleLevel":11,
+		"NeedJobLevel":2
+	}
+]

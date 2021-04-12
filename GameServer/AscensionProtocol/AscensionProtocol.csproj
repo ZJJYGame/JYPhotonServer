@@ -87,6 +87,8 @@
     <Compile Include="DTO\PetAbilityPointDTO.cs" />
     <Compile Include="DTO\PetCompleteDTO.cs" />
     <Compile Include="DTO\PetDrugRefreshDTO.cs" />
+    <Compile Include="DTO\PuppetIndividualDTO.cs" />
+    <Compile Include="DTO\PuppetUnitDTO.cs" />
     <Compile Include="DTO\RoleAllianceDTO.cs" />
     <Compile Include="DTO\OffLineTimeDTO.cs" />
     <Compile Include="DTO\PetAptitudeDTO.cs" />
@@ -95,6 +97,7 @@
     <Compile Include="DTO\PuppetDTO.cs" />
     <Compile Include="DTO\RoleAllianceSkillDTO.cs" />
     <Compile Include="DTO\RoleAuctionItemsDTO.cs" />
+    <Compile Include="DTO\RolePuppetDTO.cs" />
     <Compile Include="DTO\RolePurchaseRecordDTO.cs" />
     <Compile Include="DTO\RoleStatusPointDTO.cs" />
     <Compile Include="DTO\SecondaryJobDTO.cs" />
