@@ -13,7 +13,7 @@ namespace Protocol
     /// </summary>
     [Serializable]
     [MessagePackObject]
-    public class FixMapResource
+    public class FixMapRes
     {
         [Key(0)]
         public int ResId;

@@ -6,9 +6,9 @@ namespace Protocol
 {
     [Serializable]
     [MessagePackObject]
-    public class S2CPlayer: IDataContract
+    public class SessionRoleIds: IDataContract
     {
         [Key(0)]
-        public List<C2SPlayer> PlayerList { get; set; }
+        public List<SessionRoleIdPair> SessionRoleIdList { get; set; }
     }
 }

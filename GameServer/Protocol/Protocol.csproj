@@ -79,7 +79,7 @@
     <Compile Include="Protocol\Model\C2S\C2SAnimateInput.cs" />
     <Compile Include="Protocol\Model\C2S\C2SChatMessage.cs" />
     <Compile Include="Protocol\Model\C2S\C2SMapResource.cs" />
-    <Compile Include="Protocol\Model\C2S\C2SInput.cs" />
+    <Compile Include="Protocol\Model\C2S\CmdInput.cs" />
     <Compile Include="Protocol\Model\C2S\C2SFlyMagicToolInput.cs" />
     <Compile Include="Protocol\Model\C2S\C2SSkillInput.cs" />
     <Compile Include="Protocol\Model\C2S\C2STransformInput.cs" />
@@ -90,7 +90,7 @@
     <Compile Include="Protocol\Model\Fix\FixSkill.cs" />
     <Compile Include="Protocol\Model\S2C\S2CMapResource.cs" />
     <Compile Include="Protocol\Model\S2C\S2CInput.cs" />
-    <Compile Include="Protocol\Model\C2S\C2SPlayer.cs" />
+    <Compile Include="Protocol\Model\C2S\SessionRoleIdPair.cs" />
     <Compile Include="Protocol\Model\S2C\S2CPlayer.cs" />
     <Compile Include="Protocol\Model\S2C\S2CEntityContainer.cs" />
     <Compile Include="Protocol\Model\C2S\C2SContainer.cs" />

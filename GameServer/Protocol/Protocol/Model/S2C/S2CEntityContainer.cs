@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using Cosmos;
 namespace Protocol
 {
     [Serializable]
@@ -12,7 +12,7 @@ namespace Protocol
         [Key(0)]
         public int ContainerId { get; set; }
         [Key(1)]
-        public List<C2SPlayer> Players { get; set; }
+        public List<SessionRoleIdPair> Players { get; set; }
         [Key(2)]
         public int MSPerTick { get; set; }
     }

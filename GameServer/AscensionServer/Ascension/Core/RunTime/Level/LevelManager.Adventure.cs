@@ -37,7 +37,7 @@ namespace AscensionServer
             try
             {
                 var entity = opData.DataContract as C2SContainer;
-                EnterAdventureScene(entity.Container.ContainerId, entity.Player.PlayerId);
+                EnterAdventureScene(entity.Container.ContainerId, entity.Player.RoleId);
             }
             catch (Exception e)
             {
@@ -49,7 +49,7 @@ namespace AscensionServer
             try
             {
                 var entity = opData.DataContract as C2SContainer;
-                ExitAdventureScene(entity.Container.ContainerId, entity.Player.PlayerId);
+                ExitAdventureScene(entity.Container.ContainerId, entity.Player.RoleId);
             }
             catch (Exception e)
             {
@@ -58,7 +58,7 @@ namespace AscensionServer
         }
         void OnAdventureCommandC2S(int sessionId, OperationData opData)
         {
-            var input = opData.DataContract as C2SInput;
+            var input = opData.DataContract as CmdInput;
             if (input != null)
             {
                 if (adventureLevelEntityDict.TryGetValue(input.EntityContainer.ContainerId, out var sceneEntity))
@@ -75,7 +75,7 @@ namespace AscensionServer
             {
                 if (roleMgrInstance.TryGetValue(roleId, out var role))
                 {
-                    result = sceneEntity.TryAdd(roleId, role);
+                    result = sceneEntity.EnterLevel(roleId, role);
                     if (result)
                     {
                         onRoleEnterLevel?.Invoke(role);
@@ -88,12 +88,12 @@ namespace AscensionServer
                 {
                     sceneEntity = LevelEntity.Create(LevelTypeEnum.Adventure, levelId);
                     SceneRefreshHandler += sceneEntity.OnRefresh;
-                    result = sceneEntity.TryAdd(role.RoleId, role);
+                    result = sceneEntity.EnterLevel(role.RoleId, role);
                     if (result)
                     {
                         onRoleEnterLevel?.Invoke(role);
                     }
-                    adventureLevelEntityDict.TryAdd(sceneEntity.LevelId, sceneEntity);
+                    adventureLevelEntityDict.TryAdd((int)sceneEntity.LevelId, sceneEntity);
                 }
             }
             return result;
@@ -106,7 +106,7 @@ namespace AscensionServer
             if (hasScene)
             {
                 {
-                    result = levelEntity.TryRemove(roleId, out var role);
+                    result = levelEntity.ExitLevel(roleId, out var role);
                     if (result)
                     {
                         onRoleExitLevel?.Invoke(role);

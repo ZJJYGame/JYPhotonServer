@@ -10,12 +10,18 @@ using System.Collections;
 namespace AscensionServer
 {
     public class ObjectQueue<T> : IEnumerable, IReference
-        where T : class, new()
+        where T : class, IDisposable, new()
     {
         ConcurrentQueue<T> objQueue;
+        readonly bool enqueueDispose;
         public int Count { get { return objQueue.Count; } }
-        public ObjectQueue()
+        /// <summary>
+        /// 构造函数；
+        /// </summary>
+        /// <param name="enqueueDispose">入队时是否释放</param>
+        public ObjectQueue(bool enqueueDispose = true)
         {
+            this.enqueueDispose = enqueueDispose;
             objQueue = new ConcurrentQueue<T>();
         }
         public void Clear()
@@ -30,11 +36,14 @@ namespace AscensionServer
                 obj = new T();
             }
             else
+
                 objQueue.TryDequeue(out obj);
             return obj;
         }
         public void Enqueue(T obj)
         {
+            if (enqueueDispose)
+                obj.Dispose();
             objQueue.Enqueue(obj);
         }
         public IEnumerator GetEnumerator()

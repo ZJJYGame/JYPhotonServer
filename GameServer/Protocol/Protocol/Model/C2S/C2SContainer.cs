@@ -12,6 +12,6 @@ namespace Protocol
         [Key(0)]
         public FixContainer Container { get; set; }
         [Key(1)]
-        public C2SPlayer Player { get; set; }
+        public SessionRoleIdPair Player { get; set; }
     }
 }

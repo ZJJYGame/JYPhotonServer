@@ -11,7 +11,7 @@ namespace Protocol
     /// </summary>
     [Serializable]
     [MessagePackObject]
-    public class C2SMapResource : IDataContract
+    public class C2SMapRes: IDataContract
     {
         /// <summary>
         /// 资源全局Id；

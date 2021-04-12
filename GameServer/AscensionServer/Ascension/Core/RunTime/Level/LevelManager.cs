@@ -22,7 +22,7 @@ namespace AscensionServer
         /// <summary>
         /// 秘境场景字典;
         /// </summary>
-        ConcurrentDictionary<int, LevelEntity> secretAreaLevelEntityDict;
+        ConcurrentDictionary<long , LevelEntity> secretAreaLevelEntityDict;
 
         long latestTime;
         int updateInterval = ApplicationBuilder._MSPerTick;
@@ -57,7 +57,7 @@ namespace AscensionServer
         public override void OnPreparatory()
         {
             adventureLevelEntityDict = new ConcurrentDictionary<int, LevelEntity>();
-            secretAreaLevelEntityDict = new ConcurrentDictionary<int, LevelEntity>();
+            secretAreaLevelEntityDict = new ConcurrentDictionary<long, LevelEntity>();
 
             latestTime = Utility.Time.MillisecondNow() + updateInterval;
             roleMgrInstance = GameEntry.RoleManager;
@@ -90,7 +90,7 @@ namespace AscensionServer
                     {
                         if (adventureLevelEntityDict.TryGetValue(levelId, out var levelEntity))
                         {
-                            return levelEntity.ContainsKey(roleId);
+                            return levelEntity.HasRole(roleId);
                         }
                     }
                     break;
@@ -98,7 +98,7 @@ namespace AscensionServer
                     {
                         if (secretAreaLevelEntityDict.TryGetValue(levelId, out var levelEntity))
                         {
-                            return levelEntity.ContainsKey(roleId);
+                            return levelEntity.HasRole(roleId);
                         }
                     }
                     break;
@@ -135,11 +135,11 @@ namespace AscensionServer
                 if (roleEntity.TryGetValue(typeof(LevelEntity), out var entity))
                 {
                     var levelEntity = entity as LevelEntity;
-                    levelEntity.TryRemove(roleEntity.RoleId);
+                    levelEntity.ExitLevel(roleEntity.RoleId,out _ );
                     Utility.Debug.LogWarning($"RoleId:{roleEntity.RoleId} ;SessionId:{roleEntity.SessionId}由于强退，尝试从Level:{levelEntity.LevelId}中移除");
                     if (levelEntity.Empty)
                     {
-                        adventureLevelEntityDict.TryRemove(levelEntity.LevelId, out _);
+                        adventureLevelEntityDict.TryRemove((int)levelEntity.LevelId, out _);
                         CosmosEntry.ReferencePoolManager.Despawn(levelEntity);
                         SceneRefreshHandler -= levelEntity.OnRefresh;
                     }

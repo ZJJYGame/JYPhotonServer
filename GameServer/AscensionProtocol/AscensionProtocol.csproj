@@ -54,6 +54,7 @@
     <Compile Include="AreaOpCode\AdventureOpCode.cs" />
     <Compile Include="AreaOpCode\AllianceOpCode.cs" />
     <Compile Include="AreaOpCode\FlyMagicToolOpCode.cs" />
+    <Compile Include="AreaOpCode\LevelCommonOpCode.cs" />
     <Compile Include="AreaOpCode\LoginOffOpCode.cs" />
     <Compile Include="AreaOpCode\RoleAssetsOpCode.cs" />
     <Compile Include="AreaOpCode\RoleStatusOpCode.cs" />

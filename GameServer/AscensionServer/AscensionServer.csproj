@@ -218,10 +218,12 @@
     <Compile Include="Ascension\Core\Base\ObjectQueue.cs" />
     <Compile Include="Ascension\Core\Base\RedisData\RedisData.ReidsDataProcessing.cs" />
     <Compile Include="Ascension\Core\Base\RedisKey\RedisKeyDefine.cs" />
+    <Compile Include="Ascension\Core\Base\RTGenericValuePair.cs" />
     <Compile Include="Ascension\Core\Base\StatusCalculate\StatusCalculateHelper.cs" />
     <Compile Include="Ascension\Core\Base\Stream\DataStream.cs" />
     <Compile Include="Ascension\Core\Base\Stream\DataStreamQueue.cs" />
     <Compile Include="Ascension\Core\Base\Stream\GenericDataStream.cs" />
+    <Compile Include="Ascension\Core\Base\VTGenericValuePair.cs" />
     <Compile Include="Ascension\Core\RunTime\Alliancelogic\AllianceEventCore.cs" />
     <Compile Include="Ascension\Core\RunTime\Alliancelogic\AlliancelogicManager.cs" />
     <Compile Include="Ascension\Core\Base\Actor\ActorManager.cs" />
