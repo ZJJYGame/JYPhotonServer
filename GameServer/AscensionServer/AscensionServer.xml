@@ -304,6 +304,41 @@
             buff是加成或减少：0=>减少,1=>加成
             </summary>
         </member>
+        <member name="T:AscensionServer.BattleSkillUseConditionType">
+            <summary>
+            战斗使用条件类型枚举
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleSkillUseConditionType.UnRepeatSummon">
+            <summary>
+            不可重复召唤
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleSkillUseConditionType.ReplaceSummon">
+            <summary>
+            覆盖召唤
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleSkillUseConditionType.WeaponLimit">
+            <summary>
+            武器限定
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleSkillTargetType">
+            <summary>
+            技能目标类型枚举
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleSkillFactionType">
+            <summary>
+            技能阵营类型枚举
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleSkillTriggerEventType.AddPierce">
+            <summary>
+            增加穿透
+            </summary>
+        </member>
         <member name="T:AscensionServer.BottleneckData">
             <summary>
             角色等级 
@@ -351,6 +386,11 @@
             图纸区
             灵兽区
             其他区
+            </summary>
+        </member>
+        <member name="T:AscensionServer.ForgeParameter">
+            <summary>
+            锻造随机属性值技能的Json数据类型
             </summary>
         </member>
         <member name="P:AscensionServer.ItemBagBaseData.ItemID">
@@ -805,6 +845,11 @@
         <member name="F:AscensionServer.RedisKeyDefine._AllianceDongFuPostfix">
             <summary>
             宗門所有洞府信息
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleWeaponPostfix">
+            <summary>
+            获取人物装备法宝信息
             </summary>
         </member>
         <member name="T:AscensionServer.DataStream">
@@ -2623,6 +2668,14 @@
             <param name="roleID"></param>
             <param name="goodsDTO"></param>
         </member>
+        <member name="M:AscensionServer.GangsMananger.ExchangeElixirS2C(System.Int32,System.Int32,AscensionProtocol.DTO.ExchangeDTO)">
+            <summary>
+            兑换丹药
+            </summary>
+            <param name="roleid"></param>
+            <param name="id"></param>
+            <param name="drugDTO"></param>
+        </member>
         <member name="M:AscensionServer.GangsMananger.ExchangeScripturesPlatformS2C(System.Int32,System.Int32,AscensionProtocol.DTO.ExchangeDTO)">
             <summary>
             兑换功法
@@ -2675,10 +2728,24 @@
             <param name="id"></param>
             <param name="name"></param>
         </member>
-        <member name="M:AscensionServer.GangsMananger.CareerAdvancementS2C(System.Int32,System.Int32,System.Int32)">
+        <member name="M:AscensionServer.GangsMananger.CareerAdvancementS2C(System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             修改宗门职位
             </summary>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.QuitAllianceS2C(System.Int32,System.Int32)">
+            <summary>
+            退出宗门
+            </summary>
+            <param name="roleID"></param>
+            <param name="id"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.KickOutAllianceS2C(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            踢出宗门
+            </summary>
+            <param name="roleID"></param>
+            <param name="id"></param>
         </member>
         <member name="M:AscensionServer.GangsMananger.ApplyJoinAllianceMySql(System.Int32,System.Int32)">
             <summary>
@@ -2706,6 +2773,21 @@
             <param name="roleID"></param>
             <param name="id"></param>
         </member>
+        <member name="M:AscensionServer.GangsMananger.QuitAllianceMySql(System.Int32,System.Int32)">
+            <summary>
+            退出宗门
+            </summary>
+            <param name="roleID"></param>
+            <param name="id"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.KickOutAllianceMySql(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            踢出宗門
+            </summary>
+            <param name="roleID"></param>
+            <param name="playerid"></param>
+            <param name="id"></param>
+        </member>
         <member name="M:AscensionServer.GangsMananger.GetAllAllianceS2C(System.Int32,AscensionProtocol.DTO.AlliancesDTO)">
             <summary>
             获得现有宗门,按照
@@ -2717,28 +2799,21 @@
             </summary>
             <param name="statusDTO"></param>
         </member>
-        <member name="M:AscensionServer.GangsMananger.GetAllianceCallboardS2C(System.Int32,System.Int32,AscensionProtocol.DTO.DailyMessageDTO)">
+        <member name="M:AscensionServer.GangsMananger.GetAllianceCallboardS2C(System.Int32,System.Int32)">
             <summary>
             获得宗门通告
             </summary>
             <param name="roleID"></param>
             <param name="ID"></param>
         </member>
-        <member name="M:AscensionServer.GangsMananger.BuildAlllianceS2C(System.Int32,AscensionProtocol.DTO.AllianceConstructionDTO)">
-            <summary>
-            宗門建設升級
-            </summary>
-            <param name="roleID"></param>
-            <param name="constructionDTO"></param>
-        </member>
-        <member name="M:AscensionServer.GangsMananger.ChangeAllianceNameS2C(System.Int32,AscensionProtocol.DTO.AllianceStatusDTO)">
+        <member name="M:AscensionServer.GangsMananger.ChangeAllianceNameS2C(System.Int32,AscensionServer.Model.AllianceStatus)">
             <summary>
             修改宗門名稱
             </summary>
             <param name="roleID"></param>
             <param name="statusDTO"></param>
         </member>
-        <member name="M:AscensionServer.GangsMananger.ChangeAlliancePurposeS2C(System.Int32,AscensionProtocol.DTO.AllianceStatusDTO)">
+        <member name="M:AscensionServer.GangsMananger.ChangeAlliancePurposeS2C(System.Int32,AscensionServer.Model.AllianceStatus)">
             <summary>
             修改宗門宗旨
             </summary>
@@ -2751,12 +2826,12 @@
             </summary>
             <param name="roleID"></param>
         </member>
-        <member name="M:AscensionServer.GangsMananger.ChangeAllianceNameMySQL(System.Int32,AscensionProtocol.DTO.AllianceStatusDTO)">
+        <member name="M:AscensionServer.GangsMananger.ChangeAllianceNameMySQL(System.Int32,AscensionServer.Model.AllianceStatus)">
             <summary>
             修改宗門名稱
             </summary>
         </member>
-        <member name="M:AscensionServer.GangsMananger.ChangeAlliancePurposeMySql(System.Int32,AscensionProtocol.DTO.AllianceStatusDTO)">
+        <member name="M:AscensionServer.GangsMananger.ChangeAlliancePurposeMySql(System.Int32,AscensionServer.Model.AllianceStatus)">
             <summary>
             修改宗門宗旨
             </summary>
@@ -2859,6 +2934,15 @@
             <summary>
             验证是否存在
             </summary>
+        </member>
+        <member name="M:AscensionServer.InventoryManager.VerifyIsExist(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            驗證物品及數量
+            </summary>
+            <param name="ItemId"></param>
+            <param name="num"></param>
+            <param name="nHCriteria"></param>
+            <returns></returns>
         </member>
         <member name="M:AscensionServer.InventoryManager.AddDataCmdS2C(System.Int32,AscensionProtocol.DTO.RingDTO,AscensionServer.NHCriteria)">
             <summary>
@@ -3000,6 +3084,11 @@
             公共ID
             </summary>
         </member>
+        <member name="P:AscensionServer.BattleCharacterEntity.HasDie">
+            <summary>
+            角色是否死亡
+            </summary>
+        </member>
         <member name="P:AscensionServer.BattleCharacterEntity.CharacterBattleData">
             <summary>
             属性数据
@@ -3019,6 +3108,29 @@
         <member name="M:AscensionServer.BattleCharacterEntity.SetBattleAction(AscensionProtocol.DTO.BattleCmd,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             设置角色该回合战斗行为
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleCharacterEntity.AllocationBattleAction">
+            <summary>
+            出手前判断并分配战斗行为
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleCharacterEntity.GetTargetIdList(System.Int32,System.Boolean,System.Collections.Generic.List{System.Int32})">
+            <summary>
+            获取技能目标ID列表
+            </summary>
+            <param name="skillID">技能id</param>
+            <param name="targetList">初始指定的目标列表</param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.BattleCharacterEntity.Action">
+            <summary>
+            角色进行行动的方法
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleCharacterEntity.OnActionEffect(AscensionServer.BattleDamageData)">
+            <summary>
+            受到技能等效果的结算
             </summary>
         </member>
         <member name="M:AscensionServer.BattleCharacterManager.AddPlayerCharacter(System.Int32,System.Int32,AscensionServer.BattleFactionType)">
@@ -3061,9 +3173,36 @@
             获取角色实体对象
             </summary>
         </member>
+        <member name="M:AscensionServer.BattleController.RandomGetTarget(System.Int32,AscensionServer.BattleFactionType,System.Boolean,System.Boolean,System.Collections.Generic.List{System.Int32})">
+            <summary>
+            随机获得行为目标列表
+            </summary>
+            <param name="count"></param>
+            <param name="battleSkillFactionType"></param>
+            <param name="targetIsAlive">目标是否是活着的状态</param>
+            <param name="targetIDList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.BattleController.BattleIsEnd">
+            <summary>
+            判断战斗是否结束
+            双方阵营有一边全部死亡则代表战斗结束
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:AscensionServer.BattleDamageData">
             <summary>
             战斗伤害数据
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleDamageData.baseDamageTargetProperty">
+            <summary>
+            基础伤害的目标属性（血量，真元，神魂）
+            </summary>
+        </member>
+        <member name="F:AscensionServer.BattleDamageData.extraDamageTargetProperty">
+            <summary>
+            额外伤害的目标属性（血量，真元，神魂）
             </summary>
         </member>
         <member name="M:AscensionServer.BattleRoomEntity.InitRoom(System.Int32,AscensionProtocol.DTO.BattleInitDTO)">
@@ -3076,14 +3215,46 @@
             指定角色准备完成
             </summary>
         </member>
+        <member name="M:AscensionServer.BattleRoomEntity.CharacterPerformOver(System.Int32)">
+            <summary>
+            指定角色表演完成
+            </summary>
+            <param name="roleID"></param>
+        </member>
         <member name="M:AscensionServer.BattleRoomEntity.StartGetBattleCmdWait">
             <summary>
             开始收集战斗指令倒计时等待
             </summary>
         </member>
+        <member name="M:AscensionServer.BattleRoomEntity.StartPerfomWait">
+            <summary>
+            开始玩家表演等待
+            </summary>
+        </member>
         <member name="M:AscensionServer.BattleRoomEntity.SendInitDataS2C">
             <summary>
             发送战斗初始化信息给客户端
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleRoomEntity.SendBattleMessagePrepareDataS2C">
+            <summary>
+            告知客户端所有玩家准备完成
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleRoomEntity.SendBattlePerformDataS2C(System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO})">
+            <summary>
+            告知客户端这回合的表演信息
+            </summary>
+            <param name="battleTransferDTOs"></param>
+        </member>
+        <member name="M:AscensionServer.BattleRoomEntity.SendNewRoundStartMsgS2C">
+            <summary>
+            告知客户端新回合开始
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleRoomEntity.SendBattleEndMsgS2C">
+            <summary>
+            告知客户端战斗结束
             </summary>
         </member>
         <member name="M:AscensionServer.BattleRoomEntity.SendMessageToAllPlayerS2C(Protocol.OperationData)">
@@ -3112,20 +3283,41 @@
             进入战斗的请求
             </summary>
         </member>
-        <member name="M:AscensionServer.BattleSkillBase.GetDamageData(System.Int32)">
+        <member name="M:AscensionServer.BattleSkillBase.GetDamageData(System.Int32,System.Int32,AscensionServer.BattleCharacterEntity,AscensionServer.BattleDamageData)">
             <summary>
             获取该技能的伤害
             </summary>
             <param name="index">第几段伤害</param>
+            <param name="targetIndex">第几个目标</param>
+        </member>
+        <member name="M:AscensionServer.BattleSkillBase.TriggerSkillEventBeforeAttack(System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO},AscensionServer.BattleDamageData)">
+            <summary>
+            攻击前事件触发
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleSkillBase.TriggerSkillEventBehindAttack(System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO},AscensionServer.BattleDamageData)">
+            <summary>
+            攻击后事件触发
+            </summary>
         </member>
         <member name="T:AscensionServer.BattleSkillController">
             <summary>
             战斗角色技能控制器,每个角色实体持有，用来管理角色技能
             </summary>
         </member>
+        <member name="T:AscensionServer.BattleSkillEventBase">
+            <summary>
+            战斗技能事件基类
+            </summary>
+        </member>
         <member name="T:AscensionServer.CharacterBattleData">
             <summary>
             用于进行战斗中角色的属性数据处理
+            </summary>
+        </member>
+        <member name="M:AscensionServer.CharacterBattleData.GetProperty(AscensionServer.BattleSkillNumSourceType,AscensionServer.BattleDamageData)">
+            <summary>
+            获取对应属性
             </summary>
         </member>
         <member name="T:AscensionServer.IPeerEntity">
@@ -4117,33 +4309,59 @@
             验证数据是否正确； 
              </summary>
         </member>
-        <member name="M:AscensionServer.ISecondaryJobManager.GetRoleAlchemy(AscensionProtocol.DTO.SecondaryJobDTO,AscensionServer.NHCriteria)">
-            <summary>
-            获得所有已学配方
-            </summary>
-            <param name="secondaryJobDTO"></param>
-            <param name="nHCriteriarole"></param>
-        </member>
-        <member name="M:AscensionServer.ISecondaryJobManager.UpdateRoleAlchemy(AscensionProtocol.DTO.SecondaryJobDTO,AscensionServer.NHCriteria)">
+        <member name="M:AscensionServer.SecondaryJobManager.UpdateAlchemyS2C(System.Int32,System.Int32)">
             <summary>
             学习新配方
             </summary>
             <param name="secondaryJobDTO"></param>
             <param name="nHCriteriarole"></param>
         </member>
-        <member name="M:AscensionServer.SecondaryJobManager.GetRoleAlchemy(AscensionProtocol.DTO.SecondaryJobDTO,AscensionServer.NHCriteria)">
+        <member name="M:AscensionServer.SecondaryJobManager.CompoundAlchemyS2C(System.Int32,System.Int32)">
             <summary>
-            获得所有已学配方
+            合成配方
             </summary>
             <param name="secondaryJobDTO"></param>
             <param name="nHCriteriarole"></param>
         </member>
-        <member name="M:AscensionServer.SecondaryJobManager.UpdateRoleAlchemy(AscensionProtocol.DTO.SecondaryJobDTO,AscensionServer.NHCriteria)">
+        <member name="M:AscensionServer.SecondaryJobManager.UpdateAlchemyMySql(System.Int32,System.Int32,AscensionServer.NHCriteria)">
+            <summary>
+            學習新配方
+            </summary>
+            <param name="roleID"></param>
+            <param name="UseItemID"></param>
+            <param name="nHCriteria"></param>
+        </member>
+        <member name="M:AscensionServer.SecondaryJobManager.CompoundAlchemyMySql(System.Int32,System.Int32)">
+            <summary>
+            煉丹
+            </summary>
+            <param name="roleID"></param>
+            <param name="UseItemID"></param>
+        </member>
+        <member name="M:AscensionServer.SecondaryJobManager.RoleStatusCompoundFailS2C(System.Int32,AscensionProtocol.SecondaryJobOpCode,System.Object)">
+            <summary>
+            合成失敗
+            </summary>
+            <param name="roleID"></param>
+            <param name="oPcode"></param>
+        </member>
+        <member name="M:AscensionServer.SecondaryJobManager.UpdateForgeS2C(System.Int32,System.Int32)">
+            <summary>
+            学习新锻造配方
+            </summary>
+        </member>
+        <member name="M:AscensionServer.SecondaryJobManager.CompoundForge(System.Int32,System.Int32)">
+            <summary>
+            锻造武器法宝
+            </summary>
+        </member>
+        <member name="M:AscensionServer.SecondaryJobManager.UpdateForgeMySql(System.Int32,System.Int32,AscensionServer.NHCriteria)">
             <summary>
             学习新配方
             </summary>
-            <param name="secondaryJobDTO"></param>
-            <param name="nHCriteriarole"></param>
+            <param name="roleID"></param>
+            <param name="useItemID"></param>
+            <param name="nHCriteria"></param>
         </member>
         <member name="T:AscensionServer.SkillEntity">
             <summary>
@@ -6845,49 +7063,6 @@
         <member name="T:AscensionServer.NHCriteria">
             <summary>
             SQL Colum对应类，一个column对应一个传入数值
-            </summary>
-        </member>
-        <member name="T:BattleSkillUseConditionType">
-            <summary>
-            战斗使用条件类型枚举
-            </summary>
-        </member>
-        <member name="F:BattleSkillUseConditionType.UnRepeatSummon">
-            <summary>
-            不可重复召唤
-            </summary>
-        </member>
-        <member name="F:BattleSkillUseConditionType.ReplaceSummon">
-            <summary>
-            覆盖召唤
-            </summary>
-        </member>
-        <member name="F:BattleSkillUseConditionType.WeaponLimit">
-            <summary>
-            武器限定
-            </summary>
-        </member>
-        <member name="T:BattleSkillTargetType">
-            <summary>
-            技能目标类型枚举
-            </summary>
-        </member>
-        <member name="T:BattleSkillFactionType">
-            <summary>
-            技能阵营类型枚举
-            </summary>
-        </member>
-        <member name="F:BattleSkillTriggerEventType.AddPierce">
-            <summary>
-            增加穿透
-            </summary>
-        </member>
-        <member name="T:BattleSkillActionType">
-            <summary>
-            1.伤害
-            2.回血
-            3.复活
-            4.召唤
             </summary>
         </member>
         <member name="T:JYGame.GenericDataStream`1">

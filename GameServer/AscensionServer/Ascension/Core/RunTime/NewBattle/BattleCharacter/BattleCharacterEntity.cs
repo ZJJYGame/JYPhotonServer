@@ -25,6 +25,10 @@ namespace AscensionServer
         public int GlobalID { get; protected set; }
         public string Name { get; protected set; }
         /// <summary>
+        /// 角色是否死亡
+        /// </summary>
+        public bool HasDie { get { return CharacterBattleData.Hp <= 0 ? true : false; } }
+        /// <summary>
         /// 属性数据
         /// </summary>
         public CharacterBattleData CharacterBattleData { get; protected set; }
@@ -72,6 +76,91 @@ namespace AscensionServer
         public virtual void SetBattleAction(BattleCmd battleCmd,BattleTransferDTO battleTransferDTO)
         {
         }
+        /// <summary>
+        /// 出手前判断并分配战斗行为
+        /// </summary>
+        public virtual void AllocationBattleAction()
+        {
+            //todo buff判断，强制控制角色行动
+        }
+        /// <summary>
+        /// 获取技能目标ID列表
+        /// </summary>
+        /// <param name="skillID">技能id</param>
+        /// <param name="targetList">初始指定的目标列表</param>
+        /// <returns></returns>
+        public virtual List<int> GetTargetIdList(int skillID,bool isAutoChangeTarget,List<int> targetList=null)
+        {
+            List<int> resultList = new List<int>();
+            GameEntry.DataManager.TryGetValue<Dictionary<int, BattleSkillData>>(out var battleskillDataDict);
+            BattleSkillData battleSkillData = battleskillDataDict[skillID];
+            BattleFactionType battleFactionType = default;
+            switch (battleSkillData.battleSkillFactionType)
+            {
+                case BattleSkillFactionType.Enemy:
+                    battleFactionType = (BattleFactionType == BattleFactionType.FactionOne) ? BattleFactionType.FactionTwo : BattleFactionType.FactionOne;
+                    break;
+                case BattleSkillFactionType.TeamMate:
+                    battleFactionType = (BattleFactionType == BattleFactionType.FactionOne) ? BattleFactionType.FactionOne : BattleFactionType.FactionTwo;
+                    break;
+            }
+            resultList = GameEntry.BattleRoomManager.GetBattleRoomEntity(RoomID).BattleController.RandomGetTarget(battleSkillData.TargetNumber, battleFactionType, true, isAutoChangeTarget, targetList);
+            return resultList;
+        }
+        /// <summary>
+        /// 角色进行行动的方法
+        /// </summary>
+        public List<BattleTransferDTO> Action()
+        {
+            List<BattleTransferDTO> battleTransferDTOList = new List<BattleTransferDTO>();
+            if (HasDie)
+                return battleTransferDTOList;
+            switch (BattleCmd)
+            {
+                case BattleCmd.PropsInstruction:
+                    break;
+                case BattleCmd.SkillInstruction:
+                    battleTransferDTOList= BattleSkillController.UseSkill(ActionID, TargetIDList);
+                    if (battleTransferDTOList.Count > 1)
+                        battleTransferDTOList[battleTransferDTOList.Count - 1].isFinish = true;
+                    else if (battleTransferDTOList.Count == 1)
+                        battleTransferDTOList[0].isFinish = true;
+                    return battleTransferDTOList;
+                case BattleCmd.MagicWeapon:
+                    break;
+                case BattleCmd.CatchPet:
+                    break;
+                case BattleCmd.SummonPet:
+                    break;
+                case BattleCmd.RunAwayInstruction:
+                    break;
+                case BattleCmd.Tactical:
+                    break;
+                case BattleCmd.Defend:
+                    break;
+            }
+            return new List<BattleTransferDTO>();
+        }
+        /// <summary>
+        /// 受到技能等效果的结算
+        /// </summary>
+        public void OnActionEffect(BattleDamageData battleDamageData)
+        {
+            switch (battleDamageData.battleSkillActionType)
+            {
+                case BattleSkillActionType.Damage:
+                    //todo受击时的触发判断
+                    CharacterBattleData.ChangeProperty(battleDamageData.baseDamageTargetProperty, battleDamageData.damageNum);
+                    CharacterBattleData.ChangeProperty(battleDamageData.extraDamageTargetProperty, battleDamageData.extraDamageNum);
+                    break;
+                case BattleSkillActionType.Heal:
+                    break;
+                case BattleSkillActionType.Resurrection:
+                    break;
+                case BattleSkillActionType.Summon:
+                    break;
+            }
+        }
 
         protected void Init()
         {
@@ -79,6 +168,7 @@ namespace AscensionServer
             EnemyCharacterEntities = new List<BattleCharacterEntity>();
             BattleSkillController = new BattleSkillController(this);
             TargetIDList = new List<int>();
+
         }
 
 
@@ -90,11 +180,11 @@ namespace AscensionServer
         public int CompareTo(BattleCharacterEntity other)
         {
             if (CharacterBattleData.AttackSpeed > other.CharacterBattleData.AttackSpeed)
-                return 1;
-            else if (CharacterBattleData.AttackSpeed > other.CharacterBattleData.AttackSpeed)
+                return -1;
+            else if (CharacterBattleData.AttackSpeed == other.CharacterBattleData.AttackSpeed)
                 return 0;
             else
-                return -1;
+                return 1;
         }
     }
 }

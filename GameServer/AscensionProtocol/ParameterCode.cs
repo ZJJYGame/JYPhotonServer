@@ -123,7 +123,7 @@
         /// </summary>
         SchoolRefresh=70,
         GetWeapon=71,
-        GetWeaponindex=72,
+        GetPuppetUnit=72,
         ShoppingMall =73,
         RoleTemInventory =74,
         RolePurchase=75,
@@ -227,5 +227,14 @@
         /// 兑换物品
         /// </summary>
         ExchangeGoods=110,
+        /// <summary>
+        /// 成员职位数
+        /// </summary>
+        MemberJobNum = 111,
+        /// <summary>
+        /// 获得傀儡个体
+        /// </summary>
+        GetPuppetIndividual=112,
+
     }
 }

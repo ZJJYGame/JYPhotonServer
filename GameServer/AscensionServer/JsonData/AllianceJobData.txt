@@ -1,5 +1,5 @@
 ﻿[
-{"JobID":931,"AllianceJob":"外门弟子","JobStations":60},
+{"JobID":931,"AllianceJob":"外门弟子","JobStations":150},
 {"JobID":932,"AllianceJob":"内门弟子","JobStations":40},
 {"JobID":933,"AllianceJob":"执事","JobStations":25},
 {"JobID":934,"AllianceJob":"长老","JobStations":15},

@@ -79,6 +79,28 @@ namespace AscensionServer
             return false;
         }
         /// <summary>
+        /// 驗證物品及數量
+        /// </summary>
+        /// <param name="ItemId"></param>
+        /// <param name="num"></param>
+        /// <param name="nHCriteria"></param>
+        /// <returns></returns>
+        public static bool VerifyIsExist(int ItemId,int num ,int ID)
+        {
+            NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ID);
+            var ringServerArray = CriteriaSelectMethod<Ring>(nHCriteria);
+            var ServerDict = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingItems);
+            var ServerDictAdorn = Utility.Json.ToObject<Dictionary<int, RingItemsDTO>>(ringServerArray.RingAdorn);
+            if (ServerDict.TryGetValue(ItemId, out var itemsDTO))
+            {
+                if (itemsDTO.RingItemCount >= num)
+                    return true;
+                else
+                    return false;
+            }else
+            return false;
+        }
+        /// <summary>
         /// 添加
         /// </summary>
         /// <param name="roleId"></param>

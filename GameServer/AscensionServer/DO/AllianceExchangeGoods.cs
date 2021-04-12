@@ -11,6 +11,12 @@ namespace AscensionServer.Model
     {
         public virtual int AllianceID { get; set; }
         public virtual string  ExchangeGoods { get; set; }
+        public AllianceExchangeGoods()
+        {
+            AllianceID = -1;
+            ExchangeGoods = "{}";
+        }
+
         public override void Clear()
         {
             AllianceID = -1;

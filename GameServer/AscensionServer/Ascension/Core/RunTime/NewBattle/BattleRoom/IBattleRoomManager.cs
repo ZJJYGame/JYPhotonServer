@@ -11,6 +11,8 @@ namespace AscensionServer
     {
         float PrepareWaitTime { get; }
         float RoundTIme { get; }
+        float PerformWaitTime { get; }
         event Action TimeAction;
+        BattleRoomEntity GetBattleRoomEntity(int roomID);
     }
 }

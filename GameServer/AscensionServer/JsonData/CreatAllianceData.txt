@@ -1,7 +1,7 @@
 ﻿[
     {
         "ID":1,
-        "RoleLevel":21,
+        "RoleLevel":11,
         "SpiritStones":1000000,
         "AllianceLevel":1,
         "Chamber":1,

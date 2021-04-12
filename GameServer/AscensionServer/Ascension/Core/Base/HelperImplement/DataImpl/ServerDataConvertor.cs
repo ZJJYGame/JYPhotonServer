@@ -113,7 +113,28 @@ namespace AscensionServer
                 var allianceDrugDataDict = TransObject<List<AllianceDrugData>>(allianceDrugData).ToDictionary(key => key.DrugID, value => value);
 
                 GameEntry.DataManager.TryGetValue(typeof(SpiritRangeData).Name, out var spiritRangeData);
-                var spiritRangeDataDict = TransObject<List<SpiritRangeData>>(spiritRangeData).ToDictionary(key => key.SpiritRangeID, value => value);               
+                var spiritRangeDataDict = TransObject<List<SpiritRangeData>>(spiritRangeData).ToDictionary(key => key.SpiritRangeID, value => value);
+
+                GameEntry.DataManager.TryGetValue(typeof(FormulaDrugData).Name, out var formulaDrugData);
+                var formulaDrugDataDict = TransObject<List<FormulaDrugData>>(formulaDrugData).ToDictionary(key => key.FormulaID, value => value);
+
+                GameEntry.DataManager.TryGetValue(typeof(ForgeParameter).Name, out var forgeParameter);
+                var forgeParameterDict = TransObject<List<ForgeParameter>>(forgeParameter).ToDictionary(key => key.WeaponID, value => value);
+
+                GameEntry.DataManager.TryGetValue(typeof(FormulaForgeData).Name, out var formulaForgeData);
+                var formulaForgeDataDict = TransObject<List<FormulaForgeData>>(formulaForgeData).ToDictionary(key => key.FormulaID, value => value);
+
+                GameEntry.DataManager.TryGetValue(typeof(FormulaPuppetData).Name, out var formulaPuppetData);
+                var formulaPuppetDataDict = TransObject<List<FormulaPuppetData>>(formulaPuppetData).ToDictionary(key => key.FormulaID, value => value);
+
+                GameEntry.DataManager.TryGetValue(typeof(FormulaGlobaID).Name, out var formulaGlobaID);
+                var formulaGlobaIDDict = TransObject<List<FormulaGlobaID>>(formulaGlobaID).ToDictionary(key => key.GlobalID, value => value);
+
+                GameEntry.DataManager.TryGetValue(typeof(PuppetUnitParameter).Name, out var puppetUnitParameter);
+                var puppetUnitParameterDict = TransObject<List<PuppetUnitParameter>>(puppetUnitParameter).ToDictionary(key => key.PuppetID, value => value);
+
+                GameEntry.DataManager.TryGetValue(typeof(PuppetAssembleData).Name, out var puppetAssembleData);
+                var puppetAssembleDataDict = TransObject<List<PuppetAssembleData>>(puppetAssembleData).ToDictionary(key => key.PuppetID, value => value);
                 #region 背包json
                 GameEntry. DataManager.TryGetValue(typeof(ItemBagBaseData).Name, out var itemBagData);
                 var itemBagDict = TransObject<List<ItemBagBaseData>>(itemBagData).ToDictionary(key => key.ItemID, value => value);
@@ -160,6 +181,13 @@ namespace AscensionServer
                 GameEntry. DataManager.TryGetValue(typeof(BattleBuffData).Name, out var battleSBuffSet);
                 var battleBuffDict = TransObject<List<BattleBuffData>>(battleSBuffSet).ToDictionary(key => key.id, value => value);
                 #endregion
+                GameEntry.DataManager.TryAdd(puppetAssembleDataDict);
+                GameEntry.DataManager.TryAdd(puppetUnitParameterDict);
+                GameEntry.DataManager.TryAdd(formulaGlobaIDDict);
+                GameEntry.DataManager.TryAdd(formulaPuppetDataDict);
+                GameEntry.DataManager.TryAdd(formulaForgeDataDict);
+                GameEntry.DataManager.TryAdd(forgeParameterDict);
+                GameEntry.DataManager.TryAdd(formulaDrugDataDict);
                 GameEntry.DataManager.TryAdd(spiritRangeDataDict);
                 GameEntry.DataManager.TryAdd(allianceDrugDataDict);
                 GameEntry.DataManager.TryAdd(allianceConstructionDataDict);

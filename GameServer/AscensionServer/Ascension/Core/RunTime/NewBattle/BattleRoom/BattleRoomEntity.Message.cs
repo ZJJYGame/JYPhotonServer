@@ -21,34 +21,34 @@ namespace AscensionServer
             battleInitDTO.playerUnits = new List<RoleBattleDataDTO>();
             battleInitDTO.enemyUnits = new List<EnemyBattleDataDTO>();
             battleInitDTO.petUnits = new List<PetBattleDataDTO>();
-            for (int i = 0; i < battleController.FactionOneCharacterEntites.Count; i++)
+            for (int i = 0; i < BattleController.FactionOneCharacterEntites.Count; i++)
             {
-                if (battleController.FactionOneCharacterEntites[i].GetType().Name == typeof(BattlePlayerEntity).Name)
+                if (BattleController.FactionOneCharacterEntites[i].GetType().Name == typeof(BattlePlayerEntity).Name)
                 {
-                    battleInitDTO.playerUnits.Add(battleController.FactionOneCharacterEntites[i].ToBattleDataBase<RoleBattleDataDTO>());
+                    battleInitDTO.playerUnits.Add(BattleController.FactionOneCharacterEntites[i].ToBattleDataBase<RoleBattleDataDTO>());
                 }
-                else if (battleController.FactionOneCharacterEntites[i].GetType().Name == typeof(BattleAIEntity).Name)
+                else if (BattleController.FactionOneCharacterEntites[i].GetType().Name == typeof(BattleAIEntity).Name)
                 {
-                    battleInitDTO.enemyUnits.Add(battleController.FactionOneCharacterEntites[i].ToBattleDataBase<EnemyBattleDataDTO>());
+                    battleInitDTO.enemyUnits.Add(BattleController.FactionOneCharacterEntites[i].ToBattleDataBase<EnemyBattleDataDTO>());
                 }
-                else if (battleController.FactionOneCharacterEntites[i].GetType().Name == typeof(BattlePetEntity).Name)
+                else if (BattleController.FactionOneCharacterEntites[i].GetType().Name == typeof(BattlePetEntity).Name)
                 {
-                    battleInitDTO.petUnits.Add(battleController.FactionOneCharacterEntites[i].ToBattleDataBase<PetBattleDataDTO>());
+                    battleInitDTO.petUnits.Add(BattleController.FactionOneCharacterEntites[i].ToBattleDataBase<PetBattleDataDTO>());
                 }
             }
-            for (int i = 0; i < battleController.FactionTwoCharacterEntites.Count; i++)
+            for (int i = 0; i < BattleController.FactionTwoCharacterEntites.Count; i++)
             {
-                if (battleController.FactionTwoCharacterEntites[i].GetType().Name == typeof(BattlePlayerEntity).Name)
+                if (BattleController.FactionTwoCharacterEntites[i].GetType().Name == typeof(BattlePlayerEntity).Name)
                 {
-                    battleInitDTO.playerUnits.Add(battleController.FactionTwoCharacterEntites[i].ToBattleDataBase<RoleBattleDataDTO>());
+                    battleInitDTO.playerUnits.Add(BattleController.FactionTwoCharacterEntites[i].ToBattleDataBase<RoleBattleDataDTO>());
                 }
-                else if (battleController.FactionTwoCharacterEntites[i].GetType().Name == typeof(BattleAIEntity).Name)
+                else if (BattleController.FactionTwoCharacterEntites[i].GetType().Name == typeof(BattleAIEntity).Name)
                 {
-                    battleInitDTO.enemyUnits.Add(battleController.FactionTwoCharacterEntites[i].ToBattleDataBase<EnemyBattleDataDTO>());
+                    battleInitDTO.enemyUnits.Add(BattleController.FactionTwoCharacterEntites[i].ToBattleDataBase<EnemyBattleDataDTO>());
                 }
-                else if (battleController.FactionTwoCharacterEntites[i].GetType().Name == typeof(BattlePetEntity).Name)
+                else if (BattleController.FactionTwoCharacterEntites[i].GetType().Name == typeof(BattlePetEntity).Name)
                 {
-                    battleInitDTO.petUnits.Add(battleController.FactionTwoCharacterEntites[i].ToBattleDataBase<PetBattleDataDTO>());
+                    battleInitDTO.petUnits.Add(BattleController.FactionTwoCharacterEntites[i].ToBattleDataBase<PetBattleDataDTO>());
                 }
             }
             battleInitDTO.countDownSec = 15;
@@ -61,10 +61,53 @@ namespace AscensionServer
             opData.OperationCode = (byte)OperationCode.SyncBattleMessageRole;
             SendMessageToAllPlayerS2C(opData);
         }
-        void SendBattleMessagePrepareData()
+        /// <summary>
+        /// 告知客户端所有玩家准备完成
+        /// </summary>
+        void SendBattleMessagePrepareDataS2C()
         {
             OperationData opData = new OperationData();
             opData.OperationCode = (byte)OperationCode.SyncBattleMessagePrepare;
+            SendMessageToAllPlayerS2C(opData);
+        }
+        /// <summary>
+        /// 告知客户端这回合的表演信息
+        /// </summary>
+        /// <param name="battleTransferDTOs"></param>
+        public void SendBattlePerformDataS2C(List<BattleTransferDTO> battleTransferDTOs)
+        {
+            Utility.Debug.LogError(Utility.Json.ToJson(battleTransferDTOs));
+            Dictionary<byte, object> subResponseParametersDict = new Dictionary<byte, object>();
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(battleTransferDTOs));
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTimeStamp, Utility.Json.ToJson(Utility.Time.MillisecondTimeStamp()));
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTime, Utility.Json.ToJson(GameEntry.ServerBattleManager.RoleBattleTime));
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleBefore, Utility.Json.ToJson(new List<BattleBuffDTO>()));
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleAfter, Utility.Json.ToJson(new List<BattleBuffDTO>()));
+            OperationData opData = new OperationData();
+            opData.DataMessage = subResponseParametersDict;
+            opData.OperationCode = (byte)OperationCode.SyncBattleTransfer;
+            SendMessageToAllPlayerS2C(opData);
+        }
+        /// <summary>
+        /// 告知客户端新回合开始
+        /// </summary>
+        public void SendNewRoundStartMsgS2C()
+        {
+            Utility.Debug.LogError("发送新回合开始的消息");
+            OperationData opData = new OperationData();
+            opData.DataMessage = "服务器通知=>新回合开始";
+            opData.OperationCode = (byte)OperationCode.SyncBattleRound;
+            SendMessageToAllPlayerS2C(opData);
+        }
+        /// <summary>
+        /// 告知客户端战斗结束
+        /// </summary>
+        public void SendBattleEndMsgS2C()
+        {
+            Utility.Debug.LogError("发送战斗结束的消息");
+            OperationData opData = new OperationData();
+            opData.DataMessage = "服务器通知=>战斗结束";
+            opData.OperationCode = (byte)OperationCode.SyncBattleMessageEnd;
             SendMessageToAllPlayerS2C(opData);
         }
         /// <summary>

@@ -58,6 +58,7 @@
     <Compile Include="AreaOpCode\LoginOffOpCode.cs" />
     <Compile Include="AreaOpCode\RoleAssetsOpCode.cs" />
     <Compile Include="AreaOpCode\RoleStatusOpCode.cs" />
+    <Compile Include="AreaOpCode\SecondaryJobOpCode.cs" />
     <Compile Include="AreaOpCode\SecretAreaOpCode.cs" />
     <Compile Include="DTO\AdventurePlayerDTO.cs" />
     <Compile Include="DTO\AdventureSkillLayoutDTO.cs" />
@@ -87,6 +88,8 @@
     <Compile Include="DTO\PetAbilityPointDTO.cs" />
     <Compile Include="DTO\PetCompleteDTO.cs" />
     <Compile Include="DTO\PetDrugRefreshDTO.cs" />
+    <Compile Include="DTO\PuppetIndividualDTO.cs" />
+    <Compile Include="DTO\PuppetUnitDTO.cs" />
     <Compile Include="DTO\RoleAllianceDTO.cs" />
     <Compile Include="DTO\OffLineTimeDTO.cs" />
     <Compile Include="DTO\PetAptitudeDTO.cs" />
@@ -95,6 +98,7 @@
     <Compile Include="DTO\PuppetDTO.cs" />
     <Compile Include="DTO\RoleAllianceSkillDTO.cs" />
     <Compile Include="DTO\RoleAuctionItemsDTO.cs" />
+    <Compile Include="DTO\RolePuppetDTO.cs" />
     <Compile Include="DTO\RolePurchaseRecordDTO.cs" />
     <Compile Include="DTO\RoleStatusPointDTO.cs" />
     <Compile Include="DTO\SecondaryJobDTO.cs" />
@@ -117,7 +121,6 @@
     <Compile Include="DTO\RoleMiShuDTO.cs" />
     <Compile Include="DTO\RoleStatusDTO.cs" />
     <Compile Include="DTO\RoleTaskProgressDTO.cs" />
-    <Compile Include="DTO\RoleWeapon.cs" />
     <Compile Include="DTO\SchoolDTO.cs" />
     <Compile Include="DTO\SpiritualRunesDTO.cs" />
     <Compile Include="DTO\SutrasAtticDTO.cs" />
@@ -133,7 +136,7 @@
     <Compile Include="DTO\UserInfoDto.cs" />
     <Compile Include="DTO\VareityPurchaseRecordDTO.cs" />
     <Compile Include="DTO\VareityShopDTO.cs" />
-    <Compile Include="DTO\WeaponDTO.cs" />
+    <Compile Include="DTO\RoleWeaponDTO.cs" />
     <Compile Include="ErrorCode.cs" />
     <Compile Include="EventCode.cs" />
     <Compile Include="MessageChannel.cs" />

@@ -15,11 +15,9 @@ namespace AscensionServer.DOMap
             Id(x => x.AllianceID).GeneratedBy.Assigned().Column("allianceid");
             Map(x => x.ApplyforMember).Nullable().Column("applyfor_member");
             Map(x => x.Member).Nullable().Column("member");
+            Map(x => x.JobNumDict).Nullable().Column("job_num_dict");
             Table("alliance_member");
         }
-
-
-
     }
 }
 

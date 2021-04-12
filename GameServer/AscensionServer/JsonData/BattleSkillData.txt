@@ -1532,5 +1532,379 @@
                 "fixedValue": 0
             },
             "battleSkillEventDataList": []
+        }, {
+            "name": "吸星大法",
+            "id": 28214,
+            "describe": "对敌方1个单位造成自身物理攻击力85%的物理伤害，如果暴击则吸血造成伤害的25%",
+            "TargetNumber": 1,
+            "damageAddition": 0,
+            "critProp": 0,
+            "critDamage": 0,
+            "ignoreDefensive": 0,
+            "cd": 1,
+            "IsCloseAttack": false,
+            "battleSkillUseCondition": {
+                "battleSkillUseConditionType": 0,
+                "value": 0
+            },
+            "battleSkillFactionType": 0,
+            "battleSkillTargetType": 0,
+            "battleSkillActionType": 0,
+            "attackProcessType": 0,
+            "battleSkillDamageNumDataList": [
+                {
+                    "battleSkillDamageType": 1,
+                    "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
+                    "baseNumSourceDataList": [
+                        {
+                            "battleSkillDamageTargetProperty": 0,
+                            "battleSkillNumSourceType": 8,
+                            "mulitity": 85
+                        }
+                    ],
+                    "extraDamageAdditionSourceTarget": false,
+                    "extraNumSourceData": []
+                }
+            ],
+            "battleSkillAddBuffList": [],
+            "battleSkillRemoveBuffDataList": [],
+            "battleSkillCostData": {
+                "battleSkillCostType": 2,
+                "percentValue": 1,
+                "fixedValue": 1
+            },
+            "battleSkillEventDataList": [
+                {
+                    "battleSkillEventTriggerTime": 1,
+                    "battleSkillEventTriggerCondition": 2,
+                    "battleSkillEventTriggerNumSourceType": 0,
+                    "conditionPercentNum": 90,
+                    "conditionFixedNum": 0,
+                    "battleSkillTriggerEventType": 0,
+                    "EventValue": 28214,
+					"isAutoChangeTarget":true
+                }
+            ]
+        },
+              {
+            "name": "星环",
+            "id": 28215,
+            "describe": "对敌方1个单位造成自身魔法攻击力90%的魔法伤害，如果该技能杀死敌方目标，则随机选择下一个目标再次释放",
+            "TargetNumber": 1,
+            "damageAddition": 0,
+            "critProp": 0,
+            "critDamage": 0,
+            "ignoreDefensive": 0,
+            "cd": 1,
+            "IsCloseAttack": false,
+            "battleSkillUseCondition": {
+                "battleSkillUseConditionType": 0,
+                "value": 0
+            },
+            "battleSkillFactionType": 0,
+            "battleSkillTargetType": 0,
+            "battleSkillActionType": 0,
+            "attackProcessType": 0,
+            "battleSkillDamageNumDataList": [
+                {
+                    "battleSkillDamageType": 1,
+                    "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
+                    "baseNumSourceDataList": [
+                        {
+                            "battleSkillDamageTargetProperty": 0,
+                            "battleSkillNumSourceType": 8,
+                            "mulitity": 85
+                        }
+                    ],
+                    "extraDamageAdditionSourceTarget": false,
+                    "extraNumSourceData": []
+                },
+				{
+                    "battleSkillDamageType": 1,
+                    "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
+                    "baseNumSourceDataList": [
+                        {
+                            "battleSkillDamageTargetProperty": 0,
+                            "battleSkillNumSourceType": 8,
+                            "mulitity": 85
+                        }
+                    ],
+                    "extraDamageAdditionSourceTarget": false,
+                    "extraNumSourceData": []
+                },{
+                    "battleSkillDamageType": 1,
+                    "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
+                    "baseNumSourceDataList": [
+                        {
+                            "battleSkillDamageTargetProperty": 0,
+                            "battleSkillNumSourceType": 8,
+                            "mulitity": 85
+                        }
+                    ],
+                    "extraDamageAdditionSourceTarget": false,
+                    "extraNumSourceData": []
+                },
+				{
+                    "battleSkillDamageType": 1,
+                    "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
+                    "baseNumSourceDataList": [
+                        {
+                            "battleSkillDamageTargetProperty": 0,
+                            "battleSkillNumSourceType": 8,
+                            "mulitity": 85
+                        }
+                    ],
+                    "extraDamageAdditionSourceTarget": false,
+                    "extraNumSourceData": []
+                },{
+                    "battleSkillDamageType": 1,
+                    "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
+                    "baseNumSourceDataList": [
+                        {
+                            "battleSkillDamageTargetProperty": 0,
+                            "battleSkillNumSourceType": 8,
+                            "mulitity": 85
+                        }
+                    ],
+                    "extraDamageAdditionSourceTarget": false,
+                    "extraNumSourceData": []
+                }
+            ],
+            "battleSkillAddBuffList": [],
+            "battleSkillRemoveBuffDataList": [],
+            "battleSkillCostData": {
+                "battleSkillCostType": 2,
+                "percentValue": 1,
+                "fixedValue": 1
+            },
+            "battleSkillEventDataList": [
+                {
+                    "battleSkillEventTriggerTime": 0,
+                    "battleSkillEventTriggerCondition": 4,
+                    "battleSkillEventTriggerNumSourceType": 0,
+                    "conditionPercentNum": 90,
+                    "conditionFixedNum": 0,
+                    "battleSkillTriggerEventType": 1,
+                    "EventValue": 15,
+					"isAutoChangeTarget":false
+                }
+            ]
+        },
+        {
+            "name": "春晖",
+            "id": 28216,
+            "describe": "对敌方3个目标造成自身魔法攻击力50%的伤害，若目标中存在护盾，则恢复自身5%的最大气血值",
+            "TargetNumber": 3,
+            "damageAddition": 0,
+            "critProp": 0,
+            "critDamage": 0,
+            "ignoreDefensive": 0,
+            "cd": 2,
+            "IsCloseAttack": false,
+            "battleSkillUseCondition": {
+                "battleSkillUseConditionType": 0,
+                "value": 0
+            },
+            "battleSkillFactionType": 0,
+            "battleSkillTargetType": 0,
+            "battleSkillActionType": 0,
+            "attackProcessType": 0,
+            "battleSkillDamageNumDataList": [
+                {
+                    "battleSkillDamageType": 1,
+                    "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
+                    "baseNumSourceDataList": [
+                        {
+                            "battleSkillDamageTargetProperty": 0,
+                            "battleSkillNumSourceType": 8,
+                            "mulitity": 50
+                        },
+                        {
+                            "battleSkillDamageTargetProperty": 0,
+                            "battleSkillNumSourceType": 8,
+                            "mulitity": 50
+                        },
+                        {
+                            "battleSkillDamageTargetProperty": 0,
+                            "battleSkillNumSourceType": 8,
+                            "mulitity": 50
+                        }
+                    ],
+                    "extraDamageAdditionSourceTarget": false,
+                    "extraNumSourceData": []
+                }
+            ],
+            "battleSkillAddBuffList": [],
+            "battleSkillRemoveBuffDataList": [],
+            "battleSkillCostData": {
+                "battleSkillCostType": 0,
+                "percentValue": 0,
+                "fixedValue": 0
+            },
+            "battleSkillEventDataList": [
+                {
+                    "battleSkillEventTriggerTime": 1,
+                    "battleSkillEventTriggerCondition": 3,
+                    "battleSkillEventTriggerNumSourceType": 4,
+                    "conditionPercentNum": 0,
+                    "conditionFixedNum": 0,
+                    "battleSkillTriggerEventType": 1,
+                    "EventValue": 5
+                }
+            ]
+        },
+        {
+            "name": "冲冠一怒",
+            "id": 28217,
+            "describe": "被攻击后，若自身气血值低于50%则增加自身40%的暴击几率",
+            "TargetNumber": 1,
+            "damageAddition": 0,
+            "critProp": 0,
+            "critDamage": 0,
+            "ignoreDefensive": 0,
+            "cd": -1,
+            "IsCloseAttack": false,
+            "battleSkillUseCondition": {
+                "battleSkillUseConditionType": 0,
+                "value": 0
+            },
+            "battleSkillFactionType": 1,
+            "battleSkillTargetType": 3,
+            "battleSkillActionType": 1,
+            "attackProcessType": 0,
+            "battleSkillDamageNumDataList": [],
+            "battleSkillAddBuffList": [],
+            "battleSkillRemoveBuffDataList": [],
+            "battleSkillCostData": {
+                "battleSkillCostType": 0,
+                "percentValue": 0,
+                "fixedValue": 0
+            },
+            "battleSkillEventDataList": [
+                {
+                    "battleSkillEventTriggerTime": 1,
+                    "battleSkillEventTriggerCondition": 2,
+                    "battleSkillEventTriggerNumSourceType": 0,
+                    "conditionPercentNum": 50,
+                    "conditionFixedNum": 0,
+                    "battleSkillTriggerEventType": 3,
+                    "EventValue": 40
+                }
+            ]
+        },
+        {
+            "name": "落井下石",
+            "id": 28218,
+            "describe": "对敌方1个单位造成自身物理攻击力25%的伤害，若目标气血值低于20%则伤害增加50%",
+            "TargetNumber": 1,
+            "damageAddition": 0,
+            "critProp": 0,
+            "critDamage": 0,
+            "ignoreDefensive": 0,
+            "cd": 1,
+            "IsCloseAttack": true,
+            "battleSkillUseCondition": {
+                "battleSkillUseConditionType": 0,
+                "value": 0
+            },
+            "battleSkillFactionType": 0,
+            "battleSkillTargetType": 0,
+            "battleSkillActionType": 0,
+            "attackProcessType": 0,
+            "battleSkillDamageNumDataList": [
+                {
+                    "battleSkillDamageType": 0,
+                    "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
+                    "baseNumSourceDataList": [
+                        {
+                            "battleSkillDamageTargetProperty": 0,
+                            "battleSkillNumSourceType": 7,
+                            "mulitity": 25
+                        }
+                    ],
+                    "extraDamageAdditionSourceTarget": false,
+                    "extraNumSourceData": []
+                }
+            ],
+            "battleSkillAddBuffList": [],
+            "battleSkillRemoveBuffDataList": [],
+            "battleSkillCostData": {
+                "battleSkillCostType": 2,
+                "percentValue": 1,
+                "fixedValue": 1
+            },
+            "battleSkillEventDataList": [
+                {
+                    "battleSkillEventTriggerTime": 0,
+                    "battleSkillEventTriggerCondition": 2,
+                    "battleSkillEventTriggerNumSourceType": 0,
+                    "conditionPercentNum": 20,
+                    "conditionFixedNum": 0,
+                    "battleSkillTriggerEventType": 4,
+                    "EventValue": 50
+                }
+            ]
+        },
+        {
+            "name": "穿心剑",
+            "id": 28219,
+            "describe": "对敌方1个单位造成自身物理攻击力50%的物理伤害，若目标存在护盾，则增加20%的穿透效果",
+            "TargetNumber": 1,
+            "damageAddition": 0,
+            "critProp": 0,
+            "critDamage": 0,
+            "ignoreDefensive": 0,
+            "cd": 2,
+            "IsCloseAttack": false,
+            "battleSkillUseCondition": {
+                "battleSkillUseConditionType": 0,
+                "value": 0
+            },
+            "battleSkillFactionType": 0,
+            "battleSkillTargetType": 0,
+            "battleSkillActionType": 0,
+            "attackProcessType": 0,
+            "battleSkillDamageNumDataList": [
+                {
+                    "battleSkillDamageType": 0,
+                    "fixedNum": 0,
+                    "baseDamageAdditionSourceTarget": false,
+                    "baseNumSourceDataList": [
+                        {
+                            "battleSkillDamageTargetProperty": 0,
+                            "battleSkillNumSourceType": 7,
+                            "mulitity": 50
+                        }
+                    ],
+                    "extraDamageAdditionSourceTarget": false,
+                    "extraNumSourceData": []
+                }
+            ],
+            "battleSkillAddBuffList": [],
+            "battleSkillRemoveBuffDataList": [],
+            "battleSkillCostData": {
+                "battleSkillCostType": 2,
+                "percentValue": 1,
+                "fixedValue": 1
+            },
+            "battleSkillEventDataList": [
+                {
+                    "battleSkillEventTriggerTime": 0,
+                    "battleSkillEventTriggerCondition": 3,
+                    "battleSkillEventTriggerNumSourceType": 4,
+                    "conditionPercentNum": 0,
+                    "conditionFixedNum": 0,
+                    "battleSkillTriggerEventType": 5,
+                    "EventValue": 20
+                }
+            ]
         }
     ]

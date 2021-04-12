@@ -10,31 +10,12 @@ namespace AscensionProtocol.DTO
     {
         public virtual int RoleID { get; set; }
         public virtual int UseItemID { get; set; }
-        public virtual AlchemyDTO AlchemyDTO { get; set; }
-        public virtual ForgeDTO ForgeDTO { get; set; }
-        public virtual SecondaryJobType JobType { get; set; }
-
+        public virtual List<int> Units { get; set; }
         public override void Clear()
         {
+            RoleID = -1;
             UseItemID = 0;
-            AlchemyDTO.Clear();
-            ForgeDTO.Clear();
-        }
-        public enum SecondaryJobType
-        {
-            None=0,
-            Ahclemy = 1,
-            Forge = 2
-
-        }
-
-        public enum JobOperateType
-        {
-            None = 0,
-            Get=1,
-            Update=2,
-            Compound=3,
-            Level=4
+            Units = new List<int>();
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using RedisDotNet;
 namespace AscensionServer
 {
     [ImplementProvider]
@@ -87,6 +87,8 @@ namespace AscensionServer
                     ValueHide = roleStatusDict[0].ValueHide,
                     GongfaLearnSpeed = roleStatusDict[0].GongfaLearnSpeed,
                     MishuLearnSpeed = roleStatusDict[0].MishuLearnSpeed,
+                    Vitality = roleStatusDict[0].Vitality,
+                    MaxVitality = roleStatusDict[0].Vitality
                 };
                 role = NHibernateQuerier.Insert<Role>(role);
                 string roleId = role.RoleID.ToString();
@@ -96,7 +98,9 @@ namespace AscensionServer
                     roleList.Add(roleId);
                 rolestatus.RoleID = int.Parse(roleId);
                 NHibernateQuerier.Insert(rolestatus);
+                RedisHelper.Hash.HashSet(RedisKeyDefine._RoleStatsuPerfix, rolestatus.RoleID.ToString(), rolestatus);
                 NHibernateQuerier.Insert(new RoleAssets() { RoleID = rolestatus.RoleID });
+                RedisHelper.Hash.HashSet(RedisKeyDefine._RoleAssetsPerfix, rolestatus.RoleID.ToString(), new RoleAssetsDTO() { RoleID = rolestatus.RoleID });
                 NHibernateQuerier.Insert(new OnOffLine() { RoleID = rolestatus.RoleID });
                 NHibernateQuerier.Insert(new Bottleneck() { RoleID = rolestatus.RoleID });
                 #region 任务
@@ -130,7 +134,7 @@ namespace AscensionServer
                 NHibernateQuerier.Insert(new RolePet() { RoleID = rolestatus.RoleID, PetIDDict = "{}" });
                 RolePurchaseRecord rolePurchaseRecord = new RolePurchaseRecord() { RoleID = rolestatus.RoleID, GoodsPurchasedCount = Utility.Json.ToJson(new Dictionary<int, int>()) };
                 NHibernateQuerier.Insert(rolePurchaseRecord);
-                Weapon weapon = new Weapon() { RoleID = rolestatus.RoleID, Weaponindex = Utility.Json.ToJson(new Dictionary<int, int>()), WeaponStatusDict = Utility.Json.ToJson(new Dictionary<int, int>()) };
+                RoleWeapon weapon = new RoleWeapon() { RoleID = rolestatus.RoleID, Weaponindex = Utility.Json.ToJson(new Dictionary<int, int>()), WeaponStatusDict = Utility.Json.ToJson(new Dictionary<int, WeaponDTO>()), Magicindex = Utility.Json.ToJson(new Dictionary<int, int>()), MagicStatusDict = Utility.Json.ToJson(new Dictionary<int, WeaponDTO>()) };
                 NHibernateQuerier.Insert(weapon);
                 #endregion
                 #region 背包
@@ -211,20 +215,13 @@ namespace AscensionServer
                 NHibernateQuerier.Insert<Forge>(new Forge() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
                 NHibernateQuerier.Insert<SpiritualRunes>(new SpiritualRunes() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
                 NHibernateQuerier.Insert<Puppet>(new Puppet() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
+                RedisHelper.Hash.HashSet(RedisKeyDefine._PuppetPerfix, rolestatus.RoleID.ToString(), new PuppetDTO() { RoleID = rolestatus.RoleID });
                 NHibernateQuerier.Insert<TacticFormation>(new TacticFormation() { RoleID = rolestatus.RoleID, Recipe_Array = Utility.Json.ToJson(new List<int>()) });
-
+                NHibernateQuerier.SaveOrUpdate(new RoleWeapon() { RoleID = rolestatus.RoleID});
+                RedisHelper.Hash.HashSet(RedisKeyDefine._RoleWeaponPostfix, rolestatus.RoleID.ToString(),new RoleWeaponDTO());
+                NHibernateQuerier.SaveOrUpdate(new PuppetUnit() { RoleID = rolestatus.RoleID });
+                RedisHelper.Hash.HashSet(RedisKeyDefine._PuppetUnitPerfix, rolestatus.RoleID.ToString(), new PuppetUnitDTO() { RoleID = rolestatus.RoleID });
                 Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>添加副职业成功");
-                #endregion
-                #region 初始化门派
-                Treasureattic treasureatti = new Treasureattic() { ItemAmountDict = Utility.Json.ToJson(new Dictionary<int, int>()), ItemRedeemedDict = Utility.Json.ToJson(new Dictionary<int, int>()) };
-                treasureatti = NHibernateQuerier.Insert(treasureatti);
-                SutrasAttic sutrasAttic = new SutrasAttic() { SutrasAmountDict = Utility.Json.ToJson(new Dictionary<int, int>()), SutrasRedeemedDictl = Utility.Json.ToJson(new Dictionary<int, int>()) };
-                sutrasAttic = NHibernateQuerier.Insert(sutrasAttic);
-                School school = new School();
-                school.TreasureAtticID = treasureatti.ID;
-                school.SutrasAtticID = sutrasAttic.ID;
-                school = NHibernateQuerier.Insert(school);
-                NHibernateQuerier.Insert(new RoleSchool() { RoleID = rolestatus.RoleID, RoleJoiningSchool = school.ID, RoleJoinedSchool = 0 });
                 #endregion
                 #region 仙盟
                 RoleAlliance roleAlliance = new RoleAlliance() { RoleID = rolestatus.RoleID, RoleName = role.RoleName, ApplyForAlliance = Utility.Json.ToJson(new List<int>()), RoleSchool = 900 };
@@ -233,6 +230,8 @@ namespace AscensionServer
                 roleAllianceSkill.RoleID = rolestatus.RoleID;
                 NHibernateQuerier.Insert(roleAllianceSkill);
                 #endregion
+                NHibernateQuerier.Insert(new RolePuppet() { RoleID = role.RoleID });
+                RedisHelper.Hash.HashSet(RedisKeyDefine._RolePuppetPerfix, rolestatus.RoleID.ToString(), new RolePuppetDTO() { RoleID = role.RoleID });
                 NHibernateQuerier.Insert(new FlyMagicTool() { RoleID = role.RoleID, AllFlyMagicTool = Utility.Json.ToJson(new List<int>() { 23401, 23402 }) });
                 RoleStatusPointDTO roleStatusPointDTO = new RoleStatusPointDTO();
                 NHibernateQuerier.Insert(new RoleStatusPoint() { RoleID = role.RoleID,AbilityPointSln= Utility.Json.ToJson(roleStatusPointDTO.AbilityPointSln) });
@@ -246,7 +245,6 @@ namespace AscensionServer
                 DOdict.Add("Role", Utility.Json.ToJson(role));
                 DOdict.Add("RoleStatus", Utility.Json.ToJson(rolestatus));
                 //DOdict.Add("GongFa", Utility.Json.ToJson(gongFa));
-                DOdict.Add("School", Utility.Json.ToJson(school));
                 MiShuDTO miShuDTO = new MiShuDTO() { ID = miShu.ID, MiShuID = miShu.MiShuID, MiShuSkillArry = Utility.Json.ToObject<List<int>>(miShu.MiShuSkillArry) };
                 DOdict.Add("MiShu", Utility.Json.ToJson(miShuDTO));
                 DOdict.Add("RoleAlliance", Utility.Json.ToJson(roleAllianceDTO));

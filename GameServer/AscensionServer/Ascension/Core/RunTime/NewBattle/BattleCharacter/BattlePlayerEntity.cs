@@ -54,6 +54,7 @@ namespace AscensionServer
 
         public override void SetBattleAction(BattleCmd battleCmd, BattleTransferDTO battleTransferDTO)
         {
+            TargetIDList.Clear();
             BattleCmd = battleCmd;
             ActionID = battleTransferDTO.ClientCmdId;
             for (int i = 0; i < battleTransferDTO.TargetInfos.Count; i++)
@@ -64,6 +65,13 @@ namespace AscensionServer
             {
                 GameEntry.BattleCharacterManager.GetCharacterEntity(PetID).SetBattleAction(battleTransferDTO.petBattleTransferDTO.BattleCmd, battleTransferDTO.petBattleTransferDTO);
             }
+        }
+        public override void AllocationBattleAction()
+        {
+            base.AllocationBattleAction();
+            //todo 先临时将AI的行为设置为普通攻击
+
+            TargetIDList = GetTargetIdList(ActionID, true,TargetIDList);
         }
 
         public void SendMessage(OperationData opData)

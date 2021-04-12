@@ -22,8 +22,8 @@ namespace AscensionServer
             var result = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatsuPerfix, pointDTO.RoleID.ToString()).Result;
             if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString()).Result&& result)
             {
-                var AbilityPoint = RedisHelper.Hash.HashGetAsync<RoleStatusPointDTO>(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString());
-                var rolestatus = RedisHelper.Hash.HashGetAsync<RoleStatusDTO>(RedisKeyDefine._RoleStatsuPerfix, pointDTO.RoleID.ToString());
+                var AbilityPoint = RedisHelper.Hash.HashGetAsync<RoleStatusPointDTO>(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString()).Result;
+                var rolestatus = RedisHelper.Hash.HashGetAsync<RoleStatusDTO>(RedisKeyDefine._RoleStatsuPerfix, pointDTO.RoleID.ToString()).Result;
                 if (AbilityPoint != null)
                 {
                     Dictionary<byte, object> dataDict = new Dictionary<byte, object>();
@@ -112,17 +112,19 @@ namespace AscensionServer
                 var data = pointDTO.AbilityPointSln.TryGetValue(pointDTO.SlnNow, out var abilitydto);
                 if (result && data)
                 {
-                    Utility.Debug.LogInfo("YZQ加点数据进来了2");
                     if (exist)
                     {
-                        for (int i = 0; i < role.RoleLevel; i++)
+                        foreach (var item in roleStatudict)
                         {
-                            point += roleStatudict[i].FreeAttributes;
+                            if (item.Value.LevelID<= role.RoleLevel)
+                            {
+                                point += item.Value.FreeAttributes;
+                            }
                         }
 
                     }
+                    Utility.Debug.LogInfo("YZQ重置加点为"+ point);
                     ability.SurplusAptitudePoint = point;
-                    ability.SurplusAptitudePoint = 0;
                     ability.Agility = 0;
                     ability.Corporeity = 0;
                     ability.Power = 0;
@@ -131,8 +133,8 @@ namespace AscensionServer
                     ability.Strength = 0;
                     ability.Agility = 0;
                     obj.AbilityPointSln[pointDTO.SlnNow] = ability;
-
-                    RoleStatusSuccessS2C(pointDTO.RoleID, RoleStatusOpCode.Rename, obj);
+                    Utility.Debug.LogInfo("YZQ重置加点为" + Utility.Json.ToJson(obj));
+                    RoleStatusSuccessS2C(pointDTO.RoleID, RoleStatusOpCode.RestartAddPoint, obj);
                     await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString(), obj);
                     await NHibernateQuerier.UpdateAsync(ChangeRoleStatusPointType(obj));
                 }
@@ -141,7 +143,6 @@ namespace AscensionServer
             }
             else
             RoleStatusFailS2C(pointDTO.RoleID, RoleStatusOpCode.SetAddPoint);
-
         }
 
 
@@ -180,7 +181,6 @@ namespace AscensionServer
                 var pointObj = RolePointCalculate(obj, pointDTO);
                 if (pointObj != null)
                 {
-                    Utility.Debug.LogInfo("YZQ设置加点数据4" + Utility.Json.ToJson(pointDTO.RoleID));
                     Dictionary<byte, object> dataDict = new Dictionary<byte, object>();
                     dataDict.Add((byte)ParameterCode.RoleStatus,new RoleStatusDTO());
                     dataDict.Add((byte)ParameterCode.RoleStatusPoint, pointObj);
@@ -209,6 +209,7 @@ namespace AscensionServer
             {
                 var result = pointObj.AbilityPointSln.TryGetValue(pointDTO.SlnNow, out var ability);
                 var exist = pointDTO.AbilityPointSln.TryGetValue(pointDTO.SlnNow, out var abilityDTO);
+                Utility.Debug.LogInfo("YZQ设置加点数据4" + Utility.Json.ToJson(ability));
                 if (result && exist)
                 {
                     var num = abilityDTO.Agility + abilityDTO.Corporeity + abilityDTO.Power + abilityDTO.Soul + abilityDTO.Stamina + abilityDTO.Strength;

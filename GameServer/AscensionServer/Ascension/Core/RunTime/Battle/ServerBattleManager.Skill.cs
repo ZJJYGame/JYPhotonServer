@@ -526,7 +526,7 @@ namespace AscensionServer
                     var tranfsSet = ServerToClientResults(new TargetInfoDTO() { TargetID = currentId, TargetHPDamage = battleSkillEvents.EventValue});
                     targetInfoDTOsSet.Add(tranfsSet);
                     break;
-                case BattleSkillTriggerEventType.AddCrit:
+                case BattleSkillTriggerEventType.AddCritProp:
                     //enemySetObject.EnemyStatusDTO. += battleSkillEvents[ov].EventValue;
                     break;
                 case BattleSkillTriggerEventType.AddDamage:

@@ -31,7 +31,7 @@ namespace AscensionServer
                     dailyMessages = RedisHelper.Hash.HashGetAsync<List<DailyMessageDTO>>("DailyMessage", dailyMessageTemp.AllianceID.ToString()).Result;
                     dailyMessages.Add(dailyMessageObj);
                     RedisHelper.Hash.HashSet<List<DailyMessageDTO>>("DailyMessage", dailyMessageTemp.AllianceID.ToString(), dailyMessages);
-                    SetResponseParamters(() =>
+                     SetResponseParamters(() =>
                     {
                         subResponseParameters.Add((byte)ParameterCode.DailyMessage, Utility.Json.ToJson(dailyMessages));
                         operationResponse.ReturnCode = (short)ReturnCode.Success;

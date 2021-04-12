@@ -13,7 +13,12 @@ namespace AscensionProtocol.DTO
         public virtual int JobLevel { get; set; }
         public virtual int JobLevelExp { get; set; }
         public virtual HashSet<int> Recipe_Array { get; set; }
-
+        public PuppetDTO()
+        {
+            JobLevel = 0;
+            JobLevelExp = 0;
+            Recipe_Array = new HashSet<int>();
+        }
 
         public override void Clear()
         {

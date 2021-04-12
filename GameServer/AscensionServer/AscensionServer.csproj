@@ -189,7 +189,12 @@
     <Compile Include="Ascension\Core\Base\DataObject\FactionItemData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\FactionSkillData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\FlyMagicToolData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\ForgeParameter.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\FormulaData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\FormulaDrugData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\FormulaForgeData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\FormulaGlobaID.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\FormulaPuppetData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\ItemBagBaseData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MapResourceData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MagicWeaponData.cs" />
@@ -201,9 +206,12 @@
     <Compile Include="Ascension\Core\Base\DataObject\PetLevelData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\PetSkillBookData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\PetSkillData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\PuppetAssembleData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\PuppetUnitParameter.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RingData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RoleAbilityPointData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RoleLevelData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\RolePuppet.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RoleStatusDatas.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RunesData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\SkillGongFaDatas.cs" />
@@ -294,6 +302,8 @@
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleRoom\IBattleRoomManager.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\BattleSkillBase.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\BattleSkillController.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\BattleSkillEventCondition\BattleSkillEventConditionBase.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\BattleSkillEvent\BattleSkillEventBase.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\CharacterBattleData.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\IPeerEntity.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\DataImpl\ServerDataConvertor.cs" />
@@ -345,6 +355,8 @@
     <Compile Include="Ascension\Core\RunTime\SecondaryJob\ISecondaryJobManager.cs" />
     <Compile Include="Ascension\Core\RunTime\SecondaryJob\SecondaryJobManager.Alchemy.cs" />
     <Compile Include="Ascension\Core\RunTime\SecondaryJob\SecondaryJobManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\SecondaryJob\SecondaryJobManager.Puppet.cs" />
+    <Compile Include="Ascension\Core\RunTime\SecondaryJob\SecondaryJobManager.Forge.cs" />
     <Compile Include="Ascension\Core\RunTime\Skill\ISkillManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Skill\SkillEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\Skill\SkillManager.cs" />
@@ -364,7 +376,9 @@
     <Compile Include="DOMap\DemonicSoulMap.cs" />
     <Compile Include="DOMap\FlyMagicToolMap.cs" />
     <Compile Include="DOMap\PetAbilityPointMap.cs" />
+    <Compile Include="DOMap\PuppetUnitMap.cs" />
     <Compile Include="DOMap\RoleAllianceSkillMap.cs" />
+    <Compile Include="DOMap\RolePuppetMap.cs" />
     <Compile Include="DOMap\RoleStatusPointMap.cs" />
     <Compile Include="DO\AllianceConstruction.cs" />
     <Compile Include="DO\AllianceDongFu.cs" />
@@ -372,6 +386,7 @@
     <Compile Include="DO\DemonicSoul.cs" />
     <Compile Include="DO\FlyMagicTool.cs" />
     <Compile Include="DO\PetAbilityPoint.cs" />
+    <Compile Include="DO\PuppetUnit.cs" />
     <Compile Include="DO\RoleAllianceSkill.cs" />
     <Compile Include="DO\RoleAuctionItems.cs" />
     <Compile Include="DO\RoleStatusPoint.cs" />
@@ -666,7 +681,6 @@
     <Compile Include="DOMap\RoleRingMap.cs" />
     <Compile Include="DOMap\RoleTaskProgressMap.cs" />
     <Compile Include="DOMap\RoleWeaponMap.cs" />
-    <Compile Include="DOMap\WeaponMap.cs" />
     <Compile Include="DO\OffLineTime.cs" />
     <Compile Include="DO\OnOffLine.cs" />
     <Compile Include="DO\Pet.cs" />
@@ -679,7 +693,6 @@
     <Compile Include="DO\RoleRing.cs" />
     <Compile Include="DO\RoleTaskProgress.cs" />
     <Compile Include="DO\RoleWeapon.cs" />
-    <Compile Include="DO\Weapon.cs" />
     <Compile Include="Lite\Actor\Actor.cs" />
     <Compile Include="Lite\Actor\ActorCollection.cs" />
     <Compile Include="Lite\Actor\ActorGroup.cs" />
@@ -878,6 +891,27 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonData\SpiritRangeData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\FormulaDrugData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\ForgeParameter.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\FormulaForgeData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\FormulaGlobaID.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\FormulaPuppetData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\PuppetUnitParameter.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\PuppetAssembleData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="Plugin\ExitGames.Logging.Log4Net.dll">

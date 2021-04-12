@@ -53,6 +53,14 @@ namespace AscensionServer
         /// </summary>
         public static readonly string _PuppetPerfix = "Puppet";
         /// <summary>
+        /// 角色拥有的傀儡的Key前缀
+        /// </summary>
+        public static readonly string _RolePuppetPerfix = "RolePuppet";
+        /// <summary>
+        /// 傀儡个体拥有的属性值的Key前缀
+        /// </summary>
+        public static readonly string _PuppetIndividualPerfix = "PuppetIndividual";
+        /// <summary>
         /// 炼丹的Key前缀
         /// </summary>
         public static readonly string _AlchemyPerfix = "Alchemy";
@@ -145,6 +153,10 @@ namespace AscensionServer
         /// </summary>
         public static readonly string _RoleAssetsPerfix = "RoleAssets";
         /// <summary>
+        /// 傀儡部件的属性的key前缀
+        /// </summary>
+        public static readonly string _PuppetUnitPerfix = "PuppetUnit";
+        /// <summary>
         /// 角色所有飞行法器的key前缀
         /// </summary>
         public static readonly string _RoleFlyMagicToolPerfix = "RoleFlyMagicTool";
@@ -180,6 +192,10 @@ namespace AscensionServer
         /// 宗門所有洞府信息
         /// </summary>
         public static readonly string _AllianceDongFuPostfix = "AllianceDongFu";
+        /// <summary>
+        /// 获取人物装备法宝信息
+        /// </summary>
+        public static readonly string _RoleWeaponPostfix = "RoleWeapon";
     }
 }
 
