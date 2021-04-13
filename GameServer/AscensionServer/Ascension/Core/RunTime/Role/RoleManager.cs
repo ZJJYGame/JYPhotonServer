@@ -4,7 +4,6 @@ using Cosmos;
 using AscensionProtocol;
 using System;
 using System.Threading.Tasks;
-using Protocol;
 using System.Collections.Concurrent;
 
 namespace AscensionServer
@@ -39,8 +38,7 @@ namespace AscensionServer
 
         public override void OnPreparatory()
         {
-            CommandEventCore.Instance.AddEventListener(ProtocolDefine.PORT_CHAT, OnChatMessage);
-            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPR_PLYAER_LOGOFF, OnPlayerLogoff);
+            CommandEventCore.Instance.AddEventListener((byte)OperationCode.LogoffRole, OnPlayerLogoff);
         }
         public bool ContainsKey(int roleId)
         {
@@ -178,12 +176,6 @@ namespace AscensionServer
         {
             await Task.Run(() => { broadcastMsg3Params?.Invoke(opCode, subCode,userData); });
             callback?.Invoke();
-        }
-
-
-        void OnChatMessage(int sessionId, OperationData opData)
-        {
-
         }
         void OnPlayerLogoff(int sessionId, OperationData opData)
         {

@@ -7,7 +7,6 @@ using AscensionProtocol.DTO;
 using EventData = Photon.SocketServer.EventData;
 using AscensionServer.Model;
 using RedisDotNet;
-using Protocol;
 
 namespace AscensionServer
 {

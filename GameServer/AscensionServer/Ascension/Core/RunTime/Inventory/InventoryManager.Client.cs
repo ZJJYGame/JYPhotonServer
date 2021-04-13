@@ -10,7 +10,6 @@ using NHibernate.Linq.Clauses;
 using AscensionProtocol.DTO;
 using Renci.SshNet.Security;
 using Cosmos;
-using Protocol;
 
 namespace AscensionServer
 {

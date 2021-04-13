@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cosmos;
-using Protocol;
 using AscensionProtocol;
 namespace AscensionServer
 {
@@ -62,7 +61,7 @@ namespace AscensionServer
             latestTime = Utility.Time.MillisecondNow() + updateInterval;
             roleMgrInstance = GameEntry.RoleManager;
 
-            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPR_PLYAER_LOGOFF, OnPlayerLogoff);
+            CommandEventCore.Instance.AddEventListener((byte)OperationCode.LogoffRole, OnPlayerLogoff);
 
             CommandEventCore.Instance.AddEventListener((byte)OperationCode.AdventureArea, ProcessAdventureHandlerS2C);
             CommandEventCore.Instance.AddEventListener((byte)OperationCode.SecretArea, ProcessSecretAreaHandlerS2C);

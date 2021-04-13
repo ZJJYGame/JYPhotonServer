@@ -9,7 +9,7 @@ namespace AscensionServer
     /// 输入协议；
     /// </summary>
     [MessagePackObject(true)]
-    public class C2SSkillInput : IDataContract
+    public class C2SSkillInput 
     {
         /// <summary>
         /// 技能的Id；

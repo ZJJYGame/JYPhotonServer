@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Cosmos;
 using AscensionProtocol.DTO;
 using AscensionServer.Model;
-using Protocol;
 
 namespace AscensionServer
 {

@@ -10,7 +10,6 @@ using AscensionServer.Model;
 using Cosmos;
 using RedisDotNet;
 using StackExchange.Redis;
-using Protocol;
 namespace AscensionServer
 {
    public class GetCreatTacticalSubHandler: SyncCreatTacticalSubHandler

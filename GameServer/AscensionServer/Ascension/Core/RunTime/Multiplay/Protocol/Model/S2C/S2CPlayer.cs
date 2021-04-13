@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using MessagePack;
-namespace Protocol
+namespace AscensionServer
 {
     [Serializable]
     [MessagePackObject(true)]
-    public class SessionRoleIds: IDataContract
+    public class SessionRoleIds
     {
         public List<SessionRoleIdPair> SessionRoleIdList { get; set; }
     }

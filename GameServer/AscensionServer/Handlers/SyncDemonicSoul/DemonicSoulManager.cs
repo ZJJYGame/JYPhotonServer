@@ -7,7 +7,6 @@ using AscensionProtocol.DTO;
 using AscensionProtocol;
 using AscensionServer.Model;
 using Cosmos;
-using Protocol;
 namespace AscensionServer
 {
     [Module]

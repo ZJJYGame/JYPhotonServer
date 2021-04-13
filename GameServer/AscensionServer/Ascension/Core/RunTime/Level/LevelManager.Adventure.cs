@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol;
 using Cosmos;
-using Protocol;
 namespace AscensionServer
 {
     public partial class LevelManager 
@@ -36,8 +35,8 @@ namespace AscensionServer
         {
             try
             {
-                var entity = opData.BinParameters as C2SContainer;
-                EnterAdventureScene(entity.Container.ContainerId, entity.Player.RoleId);
+                //var entity = opData.BinParameters as C2SContainer;
+                //EnterAdventureScene(entity.Container.ContainerId, entity.Player.RoleId);
             }
             catch (Exception e)
             {
@@ -48,8 +47,8 @@ namespace AscensionServer
         {
             try
             {
-                var entity = opData.BinParameters as C2SContainer;
-                ExitAdventureScene(entity.Container.ContainerId, entity.Player.RoleId);
+                //var entity = opData.BinParameters as C2SContainer;
+                //ExitAdventureScene(entity.Container.ContainerId, entity.Player.RoleId);
             }
             catch (Exception e)
             {
@@ -58,14 +57,14 @@ namespace AscensionServer
         }
         void OnAdventureCommandC2S(int sessionId, OperationData opData)
         {
-            var input = opData.BinParameters as CmdInput;
-            if (input != null)
-            {
-                if (adventureLevelEntityDict.TryGetValue(input.EntityContainer.ContainerId, out var sceneEntity))
-                {
-                    sceneEntity.OnCommandC2S(input);
-                }
-            }
+            //var input = opData.BinParameters as CmdInput;
+            //if (input != null)
+            //{
+            //    if (adventureLevelEntityDict.TryGetValue(input.EntityContainer.ContainerId, out var sceneEntity))
+            //    {
+            //        sceneEntity.OnCommandC2S(input);
+            //    }
+            //}
         }
         bool EnterAdventureScene(int levelId, int roleId)
         {

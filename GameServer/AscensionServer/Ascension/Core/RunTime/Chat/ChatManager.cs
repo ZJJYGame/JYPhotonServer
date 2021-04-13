@@ -1,5 +1,4 @@
 ﻿using Cosmos;
-using Protocol;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +18,7 @@ namespace AscensionServer
         {
             try
             {
-                var chatMsg = Utility.Json.ToObject<C2SChatMessage>(msg.ToString());
+                //var chatMsg = Utility.Json.ToObject<C2SChatMessage>(msg.ToString());
                 //GameManager.CustomeModule<PeerManager>().SendMessage(chatMsg.ReceiverSessionId, chatMsg.Message); ;
             }
             catch (Exception e)

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using MessagePack;
 
-namespace Protocol
+namespace AscensionServer
 {
     [Serializable]
     [MessagePackObject(true)]
-    public class S2CInput : IDataContract
+    public class S2CInput 
     {
         [Key(0)]
         public long Tick { get; set; }

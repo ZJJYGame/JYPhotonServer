@@ -7,7 +7,6 @@ using AscensionProtocol;
 using AscensionProtocol.DTO;
 using AscensionServer.Model;
 using Cosmos;
-using Protocol;
 using RedisDotNet;
 namespace AscensionServer
 {

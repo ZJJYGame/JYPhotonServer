@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Protocol.Protocol
+namespace AscensionServer
 {
     [Serializable]
     [MessagePackObject(true)]
-    public class S2CChatMessage:IDataContract
+    public class S2CChatMessage
     {
         public int SenderSessionId { get; set; }
         public int SenderPlayerId { get; set; }

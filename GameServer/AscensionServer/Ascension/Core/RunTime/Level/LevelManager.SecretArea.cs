@@ -1,6 +1,5 @@
 ﻿using AscensionProtocol;
 using Cosmos;
-using Protocol;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,8 +36,8 @@ namespace AscensionServer
         {
             try
             {
-                var entity = opData.BinParameters as C2SContainer;
-                EnterSecretAreaScene(entity.Container.ContainerId, entity.Player.RoleId);
+                //var entity = opData.BinParameters as C2SContainer;
+                //EnterSecretAreaScene(entity.Container.ContainerId, entity.Player.RoleId);
             }
             catch (Exception e)
             {
@@ -49,8 +48,8 @@ namespace AscensionServer
         {
             try
             {
-                var entity = opData.BinParameters as C2SContainer;
-                ExitSecretAreaScene(entity.Container.ContainerId, entity.Player.RoleId);
+                //var entity = opData.BinParameters as C2SContainer;
+                //ExitSecretAreaScene(entity.Container.ContainerId, entity.Player.RoleId);
             }
             catch (Exception e)
             {
@@ -59,14 +58,14 @@ namespace AscensionServer
         }
         void OnSecretAreaCommandC2S(int sessionId, OperationData opData)
         {
-            var input = opData.BinParameters as CmdInput;
-            if (input != null)
-            {
-                if (secretAreaLevelEntityDict.TryGetValue(input.EntityContainer.ContainerId, out var sceneEntity))
-                {
-                    sceneEntity.OnCommandC2S(input);
-                }
-            }
+            //var input = opData.BinParameters as CmdInput;
+            //if (input != null)
+            //{
+            //    if (secretAreaLevelEntityDict.TryGetValue(input.EntityContainer.ContainerId, out var sceneEntity))
+            //    {
+            //        sceneEntity.OnCommandC2S(input);
+            //    }
+            //}
         }
         bool EnterSecretAreaScene(int levelId, int roleId)
         {

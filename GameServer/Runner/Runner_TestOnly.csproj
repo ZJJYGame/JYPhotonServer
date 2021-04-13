@@ -117,10 +117,6 @@
       <Project>{81a14e63-385f-4b83-b403-a6b7d6fc94d8}</Project>
       <Name>CFramework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Protocol\Protocol.csproj">
-      <Project>{160c188d-0392-4bd2-a93a-a5c5f87424b4}</Project>
-      <Name>Protocol</Name>
-    </ProjectReference>
     <ProjectReference Include="..\RedisService\RedisService.csproj">
       <Project>{c1e88d49-8582-4ca4-bc91-0f6147c8f876}</Project>
       <Name>RedisService</Name>

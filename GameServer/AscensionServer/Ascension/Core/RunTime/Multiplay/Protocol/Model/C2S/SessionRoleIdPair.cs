@@ -7,7 +7,7 @@ namespace AscensionServer
 {
     [Serializable]
     [MessagePackObject(true)]
-    public class SessionRoleIdPair :  IDataContract, IDisposable
+    public class SessionRoleIdPair :  IDisposable
     {
         public int SessionId { get; set; }
         public int RoleId { get; set; }

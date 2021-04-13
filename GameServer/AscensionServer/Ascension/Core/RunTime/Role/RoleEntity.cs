@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Cosmos;
 using System;
-using Protocol;
 
 namespace AscensionServer
 {

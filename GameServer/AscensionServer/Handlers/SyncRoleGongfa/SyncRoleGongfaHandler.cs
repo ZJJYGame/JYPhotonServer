@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol.DTO;
 using AscensionServer.Model;
-using Protocol;
 using RedisDotNet;
 namespace AscensionServer
 {

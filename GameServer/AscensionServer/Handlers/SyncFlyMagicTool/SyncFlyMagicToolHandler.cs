@@ -6,7 +6,6 @@ using Cosmos;
 using AscensionProtocol.DTO;
 using AscensionServer.Model;
 using RedisDotNet;
-using Protocol;
 namespace AscensionServer
 {
     public class SyncFlyMagicToolHandler:Handler

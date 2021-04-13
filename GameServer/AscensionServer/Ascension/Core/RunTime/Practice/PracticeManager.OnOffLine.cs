@@ -4,7 +4,6 @@ using System.Linq;
 using Cosmos;
 using RedisDotNet;
 using AscensionProtocol.DTO;
-using Protocol;
 using AscensionProtocol;
 using AscensionServer.Model;
 

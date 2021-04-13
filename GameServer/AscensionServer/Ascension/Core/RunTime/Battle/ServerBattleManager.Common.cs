@@ -9,7 +9,6 @@ using AscensionServer.Model;
 using Cosmos;
 using Google.Protobuf.WellKnownTypes;
 using NHibernate.Linq.Clauses;
-using Protocol;
 
 namespace AscensionServer
 {

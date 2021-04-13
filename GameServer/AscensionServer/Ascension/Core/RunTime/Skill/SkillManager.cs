@@ -1,5 +1,5 @@
-﻿using Cosmos;
-using Protocol;
+﻿using AscensionProtocol;
+using Cosmos;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace AscensionServer
     {
         public override void OnInitialization()
         {
-            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPR_PLAYER_SKILL, OnPlayerSkillC2S);
+            CommandEventCore.Instance.AddEventListener((byte)OperationCode.SyncRoleAdventureSkill, OnPlayerSkillC2S);
         }
         /// <summary>
         /// 接收来自客户端的技能输入

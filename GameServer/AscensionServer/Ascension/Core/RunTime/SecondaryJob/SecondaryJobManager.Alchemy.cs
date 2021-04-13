@@ -8,7 +8,6 @@ using AscensionProtocol;
 using AscensionServer.Model;
 using RedisDotNet;
 using Cosmos;
-using Protocol;
 namespace AscensionServer
 {
     enum AtttributeType

@@ -5,7 +5,6 @@ using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using System.Threading;
 using AscensionProtocol;
-using Protocol;
 
 namespace AscensionServer
 {

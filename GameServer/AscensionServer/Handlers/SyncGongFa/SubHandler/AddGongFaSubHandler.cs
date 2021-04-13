@@ -9,7 +9,6 @@ using AscensionProtocol.DTO;
 using AscensionServer.Model;
 using Cosmos;
 using RedisDotNet;
-using Protocol;
 namespace AscensionServer
 {
     public class AddGongFaSubHandler : SyncGongFaSubHandler

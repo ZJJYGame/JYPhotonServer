@@ -5,7 +5,6 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Protocol;
 using NHibernate.Linq.Clauses;
 using System.ServiceModel.Configuration;
 using AscensionProtocol;
@@ -95,15 +94,15 @@ namespace AscensionServer
                 //1、新玩家进入，发送当前场景中已经存在的其他玩家数据，并将自己添加到场景玩家容器中；
                 //2、广播新进入玩家的数据到当前场景中的其他玩家；
                 //3、广播完成，将玩家对象广播的接口进行委托监听；
-                Utility.Debug.LogWarning($"RoleId:{roleId};SessionId:{role.SessionId}进入Level：{LevelId}");
-                var opData = opDataQueue.Dequeue();
-                OnEnterLevelS2C(role);
-                roleSessionDict.TryGetValue(role.RoleId, out var sessionRoleIdPair);
-                opData.BinParameters = sessionRoleIdPair;
-                roleSendMsgHandler?.Invoke(opData);
-                RoleSendMsgHandler += role.SendMessage;
-                role.TryAdd(typeof(LevelEntity), this);
-                opDataQueue.Enqueue(opData);
+                //Utility.Debug.LogWarning($"RoleId:{roleId};SessionId:{role.SessionId}进入Level：{LevelId}");
+                //var opData = opDataQueue.Dequeue();
+                //OnEnterLevelS2C(role);
+                //roleSessionDict.TryGetValue(role.RoleId, out var sessionRoleIdPair);
+                //opData.BinParameters = sessionRoleIdPair;
+                //roleSendMsgHandler?.Invoke(opData);
+                //RoleSendMsgHandler += role.SendMessage;
+                //role.TryAdd(typeof(LevelEntity), this);
+                //opDataQueue.Enqueue(opData);
             }
             return result;
         }
@@ -126,22 +125,22 @@ namespace AscensionServer
         /// <summary>
         ///接收到消息后直接存储，不考虑顺序 
         /// </summary>
-        public void OnCommandC2S(IDataContract data)
-        {
-            if (data == null)
-                return;
-            var input = data as CmdInput;
-            var result = roleInputCmdDict.TryGetValue(currentTick, out var roleCmdDict);
-            if (result)
-            {
-                roleCmdDict.TryAdd(input.RoleId, input);
-            }
-            else
-            {
-                roleInputCmdDict.TryAdd(currentTick, new Dictionary<int, CmdInput>());
-                roleInputCmdDict[currentTick].TryAdd(input.RoleId, input);
-            }
-        }
+        //public void OnCommandC2S(IDataContract data)
+        //{
+        //    if (data == null)
+        //        return;
+        //    var input = data as CmdInput;
+        //    var result = roleInputCmdDict.TryGetValue(currentTick, out var roleCmdDict);
+        //    if (result)
+        //    {
+        //        roleCmdDict.TryAdd(input.RoleId, input);
+        //    }
+        //    else
+        //    {
+        //        roleInputCmdDict.TryAdd(currentTick, new Dictionary<int, CmdInput>());
+        //        roleInputCmdDict[currentTick].TryAdd(input.RoleId, input);
+        //    }
+        //}
         /// <summary>
         /// 发送消息到当前场景所有玩家；
         /// Send message to all role server to client
@@ -154,11 +153,12 @@ namespace AscensionServer
         {
             if (!Available)
                 return;
-            var result = roleInputCmdDict.TryGetValue(currentTick, out var roleCmds);
-            InputSet.InputDict = roleCmds;
-            InputSet.Tick = currentTick;
-            refreshOpData.BinParameters = InputSet;
-            roleSendMsgHandler?.Invoke(refreshOpData);
+            var result = false;
+            //var result = roleInputCmdDict.TryGetValue(currentTick, out var roleCmds);
+            //InputSet.InputDict = roleCmds;
+            //InputSet.Tick = currentTick;
+            //refreshOpData.BinParameters = InputSet;
+            //roleSendMsgHandler?.Invoke(refreshOpData);
             if (result)
             {
                 //若当前帧发送成功，则移除上一个逻辑帧数据；服务器当前不存储数据，仅负责转发；
@@ -246,16 +246,16 @@ namespace AscensionServer
         /// </summary>
         void OnEnterLevelS2C(RoleEntity role)
         {
-            var opData = opDataQueue.Dequeue();
-            opData.BinParameters = sessionRoleIds;
-            var sessionRole = srPairQueue.Dequeue();
-            sessionRole.RoleId = role.RoleId;
-            sessionRole.SessionId = role.SessionId;
-            roleSessionDict.TryAdd(role.RoleId, sessionRole);
-            existRoles.Clear();
-            existRoles.AddRange(roleSessionDict.Values);
-            sessionRoleIds.SessionRoleIdList = existRoles;
-            role.SendMessage(opData);
+            //var opData = opDataQueue.Dequeue();
+            //opData.BinParameters = sessionRoleIds;
+            //var sessionRole = srPairQueue.Dequeue();
+            //sessionRole.RoleId = role.RoleId;
+            //sessionRole.SessionId = role.SessionId;
+            //roleSessionDict.TryAdd(role.RoleId, sessionRole);
+            //existRoles.Clear();
+            //existRoles.AddRange(roleSessionDict.Values);
+            //sessionRoleIds.SessionRoleIdList = existRoles;
+            //role.SendMessage(opData);
         }
         /// <summary>
         /// 将离开的玩家数据广播给已经在level中的其他玩家；
@@ -264,12 +264,12 @@ namespace AscensionServer
         {
             if (roleSessionDict.Remove(roleId, out var sessionRolePair))
             {
-                refreshOpData.BinParameters = sessionRolePair;
-                var opData = opDataQueue.Dequeue();
-                opData.OperationCode = OpCode;
-                roleSendMsgHandler?.Invoke(opData);
-                opDataQueue.Enqueue(opData);
-                srPairQueue.Enqueue(sessionRolePair);
+                //refreshOpData.BinParameters = sessionRolePair;
+                //var opData = opDataQueue.Dequeue();
+                //opData.OperationCode = OpCode;
+                //roleSendMsgHandler?.Invoke(opData);
+                //opDataQueue.Enqueue(opData);
+                //srPairQueue.Enqueue(sessionRolePair);
             }
         }
     }

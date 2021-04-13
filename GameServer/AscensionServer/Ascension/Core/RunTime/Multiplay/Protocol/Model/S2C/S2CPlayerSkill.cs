@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using MessagePack;
-namespace Protocol
+namespace AscensionServer
 {
     [Serializable]
     [MessagePackObject(true)]
-    public class S2CPlayerSkill : IDataContract
+    public class S2CPlayerSkill 
 {
         /// <summary>
         /// 实体容器ID，例如房间实体号，场景实体号等等；

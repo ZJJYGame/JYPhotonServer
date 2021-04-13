@@ -13,9 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisService", "RedisServic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Runner_TestOnly", "Runner\Runner_TestOnly.csproj", "{A9542CCE-8E9D-445B-AD6F-934CF6D8EBDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocol", "Protocol\Protocol.csproj", "{160C188D-0392-4BD2-A93A-A5C5F87424B4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpServer", "HttpServer\HttpServer.csproj", "{C5616C09-20C3-4135-8F08-26C54A69456A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpServer", "HttpServer\HttpServer.csproj", "{C5616C09-20C3-4135-8F08-26C54A69456A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,10 +41,6 @@ Global
 		{A9542CCE-8E9D-445B-AD6F-934CF6D8EBDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9542CCE-8E9D-445B-AD6F-934CF6D8EBDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9542CCE-8E9D-445B-AD6F-934CF6D8EBDE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{160C188D-0392-4BD2-A93A-A5C5F87424B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{160C188D-0392-4BD2-A93A-A5C5F87424B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{160C188D-0392-4BD2-A93A-A5C5F87424B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{160C188D-0392-4BD2-A93A-A5C5F87424B4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C5616C09-20C3-4135-8F08-26C54A69456A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C5616C09-20C3-4135-8F08-26C54A69456A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5616C09-20C3-4135-8F08-26C54A69456A}.Release|Any CPU.ActiveCfg = Release|Any CPU

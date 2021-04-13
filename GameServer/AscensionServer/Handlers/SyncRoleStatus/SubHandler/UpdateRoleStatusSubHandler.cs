@@ -10,7 +10,6 @@ using AscensionProtocol;
 using Photon.SocketServer;
 using AscensionServer.Model;
 using Cosmos;
-using Protocol;
 
 namespace AscensionServer
 {

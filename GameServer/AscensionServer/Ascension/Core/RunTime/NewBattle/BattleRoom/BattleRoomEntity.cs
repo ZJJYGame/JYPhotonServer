@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Cosmos;
 using AscensionProtocol.DTO;
-using Protocol;
 
 namespace AscensionServer
 {

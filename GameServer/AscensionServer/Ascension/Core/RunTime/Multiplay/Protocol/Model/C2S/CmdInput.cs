@@ -9,7 +9,7 @@ namespace AscensionServer
     /// 输入协议；
     /// </summary>
     [MessagePackObject(true)]
-    public class CmdInput : IDataContract
+    public class CmdInput 
     {
         public int RoleId { get; set; }
         /// <summary>

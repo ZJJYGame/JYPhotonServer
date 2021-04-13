@@ -1,4 +1,5 @@
 ﻿using AscensionProtocol;
+using AscensionProtocol.DTO;
 using Photon.SocketServer;
 using PhotonHostRuntimeInterfaces;
 using System.Collections.Generic;
@@ -6,7 +7,6 @@ using System.Collections.Concurrent;
 using Cosmos;
 using System;
 using System.Text;
-using Protocol;
 using System.ServiceModel.Configuration;
 
 namespace AscensionServer
@@ -112,9 +112,9 @@ namespace AscensionServer
             {
                 //若存在，则广播到各个模块；
                 var opData = new OperationData();
-                opData.OperationCode = ProtocolDefine.OPR_PLYAER_LOGOFF;
+                opData.OperationCode =(byte) OperationCode.LogoffRole;
                 opData.DataMessage = roleEntity;
-                var t = CommandEventCore.Instance.DispatchAsync(ProtocolDefine.OPR_PLYAER_LOGOFF,SessionId ,opData);
+                var t = CommandEventCore.Instance.DispatchAsync((byte)OperationCode.LogoffRole, SessionId ,opData);
             }
             GameEntry.PeerManager.TryRemove(SessionId);
             Utility.Debug.LogError($"Photon SessionId : {SessionId} Unavailable . RemoteAdress:{RemoteIPAddress}");

@@ -378,7 +378,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -458,6 +458,44 @@
             <summary>
             秘术详细数值类
             yzq添加
+            </summary>
+        </member>
+        <member name="P:AscensionServer.PuppetUnitParameter.PuppetSkillProbability">
+            <summary>
+            随机技能概率
+            </summary>
+        </member>
+        <member name="P:AscensionServer.PuppetUnitParameter.FixedSkill">
+            <summary>
+            固定技能
+            </summary>
+        </member>
+        <member name="P:AscensionServer.Model.RoleStatus.RoleID">
+            <summary>
+            角色id
+            角色属性点
+            角色血量
+            角色最大血量
+            角色真元
+            角色最大真元
+            角色神魂
+            角色最大神魂
+            角色精血
+            攻击速度
+            物理攻击
+            物理防御
+            法术攻击
+            法术防御
+            物理暴击几率
+            法术暴击几率
+            暴免率
+            物理暴击伤害
+            法术暴击伤害
+            防暴伤害
+            移动速度
+            业果值
+            最大业果值(最大值为固定值及表中初始数值)
+            隐匿值
             </summary>
         </member>
         <member name="T:AscensionServer.RunesData">
@@ -609,6 +647,12 @@
             <param name="roleId">离线账号</param>
             <param name="data">新上线账号</param>
         </member>
+        <member name="M:AscensionServer.ObjectQueue`1.#ctor(System.Boolean)">
+            <summary>
+            构造函数；
+            </summary>
+            <param name="enqueueDispose">入队时是否释放</param>
+        </member>
         <member name="T:AscensionServer.RedisData.ReidsDataProcessing">
             <summary>
             数据库数据的向Redis储存的处理类
@@ -685,6 +729,16 @@
         <member name="F:AscensionServer.RedisKeyDefine._PuppetPerfix">
             <summary>
             傀儡的Key前缀
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RolePuppetPerfix">
+            <summary>
+            角色拥有的傀儡的Key前缀
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._PuppetIndividualPerfix">
+            <summary>
+            傀儡个体拥有的属性值的Key前缀
             </summary>
         </member>
         <member name="F:AscensionServer.RedisKeyDefine._AlchemyPerfix">
@@ -802,6 +856,11 @@
             角色所有宠物的key前缀
             </summary>
         </member>
+        <member name="F:AscensionServer.RedisKeyDefine._PuppetUnitPerfix">
+            <summary>
+            傀儡部件的属性的key前缀
+            </summary>
+        </member>
         <member name="F:AscensionServer.RedisKeyDefine._RoleFlyMagicToolPerfix">
             <summary>
             角色所有飞行法器的key前缀
@@ -850,6 +909,25 @@
         <member name="F:AscensionServer.RedisKeyDefine._RoleWeaponPostfix">
             <summary>
             获取人物装备法宝信息
+            </summary>
+        </member>
+        <member name="T:AscensionServer.RTGenericValuePair`2">
+            <summary>
+            RT=reference types
+            双泛型值组合；此组合并非Key-Value形式，而是Value-Value形式。
+            比较时调用Equals方法；进行组合时注意覆写Equals；
+            </summary>
+            <typeparam name="TValue1">泛型类型</typeparam>
+            <typeparam name="TValue2">泛型类型</typeparam>
+        </member>
+        <member name="M:AscensionServer.RTGenericValuePair`2.Equals(System.Object)">
+            <summary>
+            Equals方法需要注意，若在对象未覆写Equals时，值类型比较值是否相同，引用类型比较地址是否相同；
+            </summary>
+        </member>
+        <member name="M:AscensionServer.RTGenericValuePair`2.Equals(AscensionServer.RTGenericValuePair{`0,`1})">
+            <summary>
+            Equals方法需要注意，若在对象未覆写Equals时，值类型比较值是否相同，引用类型比较地址是否相同；
             </summary>
         </member>
         <member name="T:AscensionServer.DataStream">
@@ -940,6 +1018,25 @@
         <member name="F:AscensionServer.DataStreamQueue.isWriting">
             <summary>
             是否可写入；
+            </summary>
+        </member>
+        <member name="T:AscensionServer.VTGenericValuePair`2">
+            <summary>
+            VT=Value types
+            双泛型值组合；此组合并非Key-Value形式，而是Value-Value形式。
+            比较时调用Equals方法；进行组合时注意覆写Equals；
+            </summary>
+            <typeparam name="TValue1">泛型类型</typeparam>
+            <typeparam name="TValue2">泛型类型</typeparam>
+        </member>
+        <member name="M:AscensionServer.VTGenericValuePair`2.Equals(System.Object)">
+            <summary>
+            Equals方法需要注意，若在对象未覆写Equals时，值类型比较值是否相同，引用类型比较地址是否相同；
+            </summary>
+        </member>
+        <member name="M:AscensionServer.VTGenericValuePair`2.Equals(AscensionServer.VTGenericValuePair{`0,`1})">
+            <summary>
+            Equals方法需要注意，若在对象未覆写Equals时，值类型比较值是否相同，引用类型比较地址是否相同；
             </summary>
         </member>
         <member name="F:AscensionServer.AlliancelogicManager.alliancePoolDict">
@@ -1667,7 +1764,7 @@
             准备指令战斗 
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="M:AscensionServer.IServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -1855,7 +1952,7 @@
             </summary>
             
         </member>
-        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -2994,7 +3091,7 @@
             场景是否包含有角色； 
              </summary>
         </member>
-        <member name="M:AscensionServer.ILevelManager.SendMessageToLevelS2C(AscensionServer.LevelTypeEnum,System.Int32,Protocol.OperationData)">
+        <member name="M:AscensionServer.ILevelManager.SendMessageToLevelS2C(AscensionServer.LevelTypeEnum,System.Int32,AscensionServer.OperationData)">
              <summary>
             广播消息到指定场景，若场景不存在，则不执行； 
              </summary>
@@ -3029,7 +3126,7 @@
             场景是否包含有角色； 
              </summary>
         </member>
-        <member name="M:AscensionServer.LevelManager.SendMessageToLevelS2C(AscensionServer.LevelTypeEnum,System.Int32,Protocol.OperationData)">
+        <member name="M:AscensionServer.LevelManager.SendMessageToLevelS2C(AscensionServer.LevelTypeEnum,System.Int32,AscensionServer.OperationData)">
              <summary>
             广播消息到指定场景，若场景不存在，则不执行； 
              </summary>
@@ -3068,6 +3165,235 @@
             客户端从服务器端获取当前账号下拥有角色的信息；
              </summary>
              <param name="packet">进入的请求数据</param>
+        </member>
+        <member name="P:AscensionServer.OperationData.OperationCode">
+            <summary>
+            主操作码；
+            </summary>
+        </member>
+        <member name="P:AscensionServer.OperationData.DataMessage">
+            <summary>
+            这里用来存放数据；
+            </summary>
+        </member>
+        <member name="P:AscensionServer.OperationData.SubOperationCode">
+            <summary>
+            子操作码
+            </summary>
+        </member>
+        <member name="T:AscensionServer.C2SFlyMagicToolInput">
+            <summary>
+            飞行法器输入；
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.C2SMapRes" -->
+        <member name="F:AscensionServer.C2SMapRes.ResId">
+            <summary>
+            资源全局Id；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.C2SMapRes.ResIndex">
+            <summary>
+            资源生成时候的索引；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.C2SMapRes.ResPosition">
+            <summary>
+            资源所在的位置信息
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.C2SMapResource" -->
+        <member name="F:AscensionServer.C2SMapResource.ResId">
+            <summary>
+            资源全局Id；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.C2SMapResource.ResIndex">
+            <summary>
+            资源生成时候的索引；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.C2SMapResource.ResPosition">
+            <summary>
+            资源所在的位置信息
+            </summary>
+        </member>
+        <member name="P:AscensionServer.C2SSkillInput.SkillId">
+            <summary>
+            技能的Id；
+            </summary>
+        </member>
+        <member name="P:AscensionServer.CmdInput.EntityContainer">
+            <summary>
+            实体容器，例如房间实体，场景实体等等；
+            </summary>
+        </member>
+        <member name="T:AscensionServer.SkillDefine">
+            <summary>
+            技能类型定义类；
+            原本会使用枚举，但是枚举可扩展性不高，因此选用只读数据；
+            若扩展，枚举不可继承，但define类可进行继承，且包含所有父类的只读数据；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SkillDefine.Affectable_Qixue">
+            <summary>
+            可影响类型：既可以增加也可以消耗；
+            红条     
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SkillDefine.Affectable_Zhenyuan">
+            <summary>
+            可影响类型：既可以增加也可以消耗；
+            蓝条；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SkillDefine.Affectable_Shenhun">
+            <summary>
+            可影响类型：既可以增加也可以消耗；
+             黄条
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SkillDefine.Affectable_Jingxue">
+            <summary>
+            可影响类型：既可以增加也可以消耗；
+             紫条
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SkillDefine.Affectable_Cloak">
+            <summary>
+            可影响类型：既可以增加也可以消耗；
+            隐匿值；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SkillDefine.Affectable_Speed">
+            <summary>
+            可影响类型：既可以增加也可以消耗；
+            移动速度；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SkillDefine.Affectable_Transform">
+            <summary>
+            可影响类型：特殊类型；
+            影响位置；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SkillDefine.AffectTarget_Self">
+            <summary>
+            影响的目标类型；
+            对自己产生作用；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SkillDefine.AffectTarget_Others">
+            <summary>
+            影响的目标类型；
+            对他人产生作用；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SkillDefine.AffectTarget_Both">
+            <summary>
+            影响的目标类型；
+            既可以对他人，也可以对自己作用；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SkillDefine.TSKILL_Active">
+            <summary>
+             技能类型：
+             主动类型技能；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SkillDefine.TSKILL_Passive">
+            <summary>
+             技能类型：
+            被动技能类型；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SkillDefine.TSKILL_ActiveToggle">
+            <summary>
+             技能类型：
+             按钮开关类型，按下触发，再按下停止；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SkillDefine.TSKILL_PassiveToggle">
+            <summary>
+             技能类型：
+            被动技能开关类型；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SkillDefine.TSKILL_Channeled">
+            <summary>
+             技能类型：
+             Basically any skill that continues to cast as long as you hold down the button is a channeled skill
+            持续释放类型，要求需要按住按钮进行持续释放；
+            </summary>
+        </member>
+        <member name="T:AscensionServer.SkillDefineExample">
+            <summary>
+            非公共常量命名规则师范类；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SkillDefineExample.TSKILL">
+             <summary>
+            表示SkillType,T为Type缩写；
+            若命名为缩写，则全大写；
+             </summary>
+        </member>
+        <member name="F:AscensionServer.SkillDefineExample._TSKILL">
+            <summary>
+            public类型遵循Pascal；
+            若命名为缩写，则全大写；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.FixAffectValue.AffectType">
+            <summary>
+            消耗类型
+            </summary>
+        </member>
+        <member name="F:AscensionServer.FixAffectValue.AffectValue">
+            <summary>
+            固定数值；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.FixAffectValue.AffectPercent">
+            <summary>
+            百分比；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.FixAffectValue.AffectInterval">
+            <summary>
+            间隔；
+            1s写作1000；
+            </summary>
+        </member>
+        <member name="T:AscensionServer.FixContainer">
+            <summary>
+            实体容器结构体；
+            </summary>
+        </member>
+        <member name="T:AscensionServer.FixFloat">
+            <summary>
+            float网络传输类型，防止传输时失真；
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.FixMapResource" -->
+        <member name="P:AscensionServer.FixSkill.SkillId">
+            <summary>
+            全局技能Id
+            </summary>
+        </member>
+        <member name="P:AscensionServer.S2CInput.ContainerId">
+            <summary>
+            实体容器ID，例如房间实体号，场景实体号等等；
+            </summary>
+        </member>
+        <member name="P:AscensionServer.S2CMapResource.MapResourceList">
+            <summary>
+            一组C2SWildResource的list集合；
+            </summary>
+        </member>
+        <member name="P:AscensionServer.S2CPlayerSkill.Container">
+            <summary>
+            实体容器ID，例如房间实体号，场景实体号等等；
+            </summary>
         </member>
         <member name="P:AscensionServer.BattleCharacterEntity.RoomID">
             <summary>
@@ -3257,7 +3583,7 @@
             告知客户端战斗结束
             </summary>
         </member>
-        <member name="M:AscensionServer.BattleRoomEntity.SendMessageToAllPlayerS2C(Protocol.OperationData)">
+        <member name="M:AscensionServer.BattleRoomEntity.SendMessageToAllPlayerS2C(AscensionServer.OperationData)">
             <summary>
             发送数据给战斗房间中所有玩家
             </summary>
@@ -3278,7 +3604,7 @@
             </summary>
             <returns>返回房间号</returns>
         </member>
-        <member name="M:AscensionServer.BattleRoomManager.EnterBattleC2S(System.Int32,Protocol.OperationData)">
+        <member name="M:AscensionServer.BattleRoomManager.EnterBattleC2S(System.Int32,AscensionServer.OperationData)">
             <summary>
             进入战斗的请求
             </summary>
@@ -3347,7 +3673,7 @@
             <param name="opCode">操作码</param>
             <param name="userData">用户自定义的数据字典</param>
         </member>
-        <member name="M:AscensionServer.IPeerEntity.SendMessage(Protocol.OperationData)">
+        <member name="M:AscensionServer.IPeerEntity.SendMessage(AscensionServer.OperationData)">
             <summary>
             发送消息到remotePeer
             </summary>
@@ -3371,7 +3697,7 @@
             将指定键的现有值与指定值进行比较，如果相等，则用第三个值更新该键。
             </summary>
         </member>
-        <member name="M:AscensionServer.IPeerManager.SendMessage(System.Int32,Protocol.OperationData)">
+        <member name="M:AscensionServer.IPeerManager.SendMessage(System.Int32,AscensionServer.OperationData)">
              <summary>
             发送消息到具体的SessionId 
              </summary>
@@ -3410,14 +3736,14 @@
             <param name="subCode">子操作码</param>
             <param name="userData">用户自定义数据</param>
         </member>
-        <member name="M:AscensionServer.IPeerManager.BroadcastMessageToAll(Protocol.OperationData)">
+        <member name="M:AscensionServer.IPeerManager.BroadcastMessageToAll(AscensionServer.OperationData)">
             <summary>
             同步方法；
             通过广播消息(MSG)；
             </summary>
             <param name="message">普通消息</param>
         </member>
-        <member name="M:AscensionServer.IPeerManager.SendMessageAsync(System.Int32,Protocol.OperationData)">
+        <member name="M:AscensionServer.IPeerManager.SendMessageAsync(System.Int32,AscensionServer.OperationData)">
             <summary>
             异步广播消息(MSG)；
             </summary>
@@ -3440,7 +3766,7 @@
             <param name="userData">用户自定义数据</param>
             <returns>线程Task</returns>
         </member>
-        <member name="M:AscensionServer.IPeerManager.BroadcastMessageToAllAsync(Protocol.OperationData,System.Action)">
+        <member name="M:AscensionServer.IPeerManager.BroadcastMessageToAllAsync(AscensionServer.OperationData,System.Action)">
             <summary>
             异步广播消息(MSG)；
             </summary>
@@ -3480,7 +3806,7 @@
             将指定键的现有值与指定值进行比较，如果相等，则用第三个值更新该键。
             </summary>
         </member>
-        <member name="M:AscensionServer.PeerManager.SendMessage(System.Int32,Protocol.OperationData)">
+        <member name="M:AscensionServer.PeerManager.SendMessage(System.Int32,AscensionServer.OperationData)">
              <summary>
             发送消息到具体的SessionId 
              </summary>
@@ -3503,7 +3829,7 @@
             <param name="userData">用户自定义数据</param>
             <returns>是否能够发送</returns>
         </member>
-        <member name="M:AscensionServer.PeerManager.BroadcastMessageToAll(Protocol.OperationData)">
+        <member name="M:AscensionServer.PeerManager.BroadcastMessageToAll(AscensionServer.OperationData)">
             <summary>
             同步方法；
             通过广播消息(MSG)；
@@ -3527,7 +3853,7 @@
             <param name="subCode">子操作码</param>
             <param name="userData">用户自定义数据</param>
         </member>
-        <member name="M:AscensionServer.PeerManager.SendMessageAsync(System.Int32,Protocol.OperationData)">
+        <member name="M:AscensionServer.PeerManager.SendMessageAsync(System.Int32,AscensionServer.OperationData)">
             <summary>
             异步广播消息(MSG)；
             </summary>
@@ -3550,7 +3876,7 @@
             <param name="userData">用户自定义数据</param>
             <returns>线程Task</returns>
         </member>
-        <member name="M:AscensionServer.PeerManager.BroadcastMessageToAllAsync(Protocol.OperationData,System.Action)">
+        <member name="M:AscensionServer.PeerManager.BroadcastMessageToAllAsync(AscensionServer.OperationData,System.Action)">
             <summary>
             异步广播消息(MSG)；
             </summary>
@@ -4012,7 +4338,7 @@
             <param name="roleid"></param>
             <param name="tacticalDTO"></param>
         </member>
-        <member name="M:AscensionServer.MapResourceManager.TakeUpResourceC2S(System.Int32,Protocol.OperationData)">
+        <member name="M:AscensionServer.MapResourceManager.TakeUpResourceC2S(System.Int32,AscensionServer.OperationData)">
             <summary>
             占用资源 客户端->服务器
             </summary>
@@ -4188,7 +4514,7 @@
             处理角色属性失败发送
             </summary>
         </member>
-        <member name="M:AscensionServer.IRoleManager.SendMessage(System.Int32,Protocol.OperationData)">
+        <member name="M:AscensionServer.IRoleManager.SendMessage(System.Int32,AscensionServer.OperationData)">
              <summary>
             通过roleId发送信息到登录的角色;
              </summary>
@@ -4203,7 +4529,7 @@
             
              </summary>
         </member>
-        <member name="M:AscensionServer.RoleManager.SendMessage(System.Int32,Protocol.OperationData)">
+        <member name="M:AscensionServer.RoleManager.SendMessage(System.Int32,AscensionServer.OperationData)">
              <summary>
             通过roleId发送信息到登录的角色;
              </summary>
@@ -4276,12 +4602,37 @@
             场景实体对象
             </summary>
         </member>
-        <member name="M:AscensionServer.LevelEntity.OnCommandC2S(Protocol.IDataContract)">
-             <summary>
-            接收到消息后直接存储，不考虑顺序 
-             </summary>
+        <member name="P:AscensionServer.LevelEntity.OpCode">
+            <summary>
+            区域码
+            区分历练与秘境的操作码；
+            </summary>
         </member>
-        <member name="M:AscensionServer.LevelEntity.SndMsg2AllS2C(Protocol.OperationData)">
+        <member name="P:AscensionServer.LevelEntity.LevelType">
+            <summary>
+            None表示当前失活状态；
+            用于区分场景属于历练还是秘境类型；
+            </summary>
+        </member>
+        <member name="P:AscensionServer.LevelEntity.LevelId">
+            <summary>
+            此Id为单增；
+            此Id是用于区分例如秘境等同步人数不多，但是数量众多的散列场景对象；
+            如玩家A组队进入秘境场景，则为其分配一个场景对象。玩家B进入秘境，同样分配一个场景；
+            </summary>
+        </member>
+        <member name="P:AscensionServer.LevelEntity.Available">
+            <summary>
+            当前场景对象是否存活；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.LevelEntity.roleInputCmdDict">
+            <summary>
+            帧对应角色ID的输入指令;
+            《帧《RoleID,CMD》》
+            </summary>
+        </member>
+        <member name="M:AscensionServer.LevelEntity.SndMsg2AllS2C(AscensionServer.OperationData)">
             <summary>
             发送消息到当前场景所有玩家；
             Send message to all role server to client
@@ -4303,11 +4654,6 @@
             例：玩家释放技能，服务器验证当前蓝足够时，才允许释放；
             客户端先验证是否可释放，验证通过后由服务器进行再次验证；
             </summary>
-        </member>
-        <member name="M:AscensionServer.IDataVerifyHelper.VerifyData(Protocol.IDataContract)">
-             <summary>
-            验证数据是否正确； 
-             </summary>
         </member>
         <member name="M:AscensionServer.SecondaryJobManager.UpdateAlchemyS2C(System.Int32,System.Int32)">
             <summary>
@@ -4338,12 +4684,47 @@
             <param name="roleID"></param>
             <param name="UseItemID"></param>
         </member>
+        <member name="T:AscensionServer.SecondaryJobManager.FormulaDrugType">
+            <summary>
+            配方类型
+            </summary>
+        </member>
+        <member name="T:AscensionServer.SecondaryJobManager.AffixType">
+            <summary>
+            词缀类型
+            </summary>
+        </member>
         <member name="M:AscensionServer.SecondaryJobManager.RoleStatusCompoundFailS2C(System.Int32,AscensionProtocol.SecondaryJobOpCode,System.Object)">
             <summary>
             合成失敗
             </summary>
             <param name="roleID"></param>
             <param name="oPcode"></param>
+        </member>
+        <member name="M:AscensionServer.SecondaryJobManager.CompoundPuppetS2C(System.Int32,System.Int32)">
+            <summary>
+            合成傀儡部件
+            </summary>
+            <param name="roleid"></param>
+            <param name="useItemID"></param>
+        </member>
+        <member name="M:AscensionServer.SecondaryJobManager.AssemblePuppetS2C(System.Int32,System.Int32,System.Collections.Generic.List{System.Int32})">
+            <summary>
+            组装傀儡
+            </summary>
+        </member>
+        <member name="M:AscensionServer.SecondaryJobManager.PuppetStatusAlgorithm(System.Int32)">
+            <summary>
+            傀儡部件属性值
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.SecondaryJobManager.PuppetIndividualAlgorithm(AscensionProtocol.DTO.PuppetUnitDTO,System.Collections.Generic.List{System.Int32})">
+            <summary>
+            傀儡组装属性值
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:AscensionServer.SecondaryJobManager.UpdateForgeS2C(System.Int32,System.Int32)">
             <summary>
@@ -4381,7 +4762,7 @@
             注：此模块用于验证客户端角色释放技能时数值的验证、转发等；
             </summary>
         </member>
-        <member name="M:AscensionServer.SkillManager.OnPlayerSkillC2S(System.Int32,Protocol.OperationData)">
+        <member name="M:AscensionServer.SkillManager.OnPlayerSkillC2S(System.Int32,AscensionServer.OperationData)">
             <summary>
             接收来自客户端的技能输入
             </summary>
@@ -4798,34 +5179,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="P:AscensionServer.Model.RoleStatus.RoleID">
-            <summary>
-            角色id
-            角色属性点
-            角色血量
-            角色最大血量
-            角色真元
-            角色最大真元
-            角色神魂
-            角色最大神魂
-            角色精血
-            攻击速度
-            物理攻击
-            物理防御
-            法术攻击
-            法术防御
-            物理暴击几率
-            法术暴击几率
-            暴免率
-            物理暴击伤害
-            法术暴击伤害
-            防暴伤害
-            移动速度
-            业果值
-            最大业果值(最大值为固定值及表中初始数值)
-            隐匿值
-            </summary>
-        </member>
         <member name="M:AscensionServer.AddBottleneckSubHandler.GetRootPercent(AscensionServer.BottleneckData,System.Int32,System.Collections.Generic.List{System.Int32}@)">
             <summary>
             获取零灵根概率
@@ -4878,12 +5231,12 @@
             每个tick所持续的毫秒；
             </summary>
         </member>
-        <member name="M:AscensionServer.AscensionPeer.SendMessage(Protocol.OperationData)">
+        <member name="M:AscensionServer.AscensionPeer.SendMessage(AscensionServer.OperationData)">
             <summary>
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；
@@ -7124,6 +7477,316 @@
             若读取状态，则获得读取的数据；
             </summary>
             <returns>数据数组</returns>
+        </member>
+        <member name="M:UnityEngine.Mathf.Sin(System.Single)">
+            <summary>
+              <para>Returns the sine of angle f.</para>
+            </summary>
+            <param name="f">The input angle, in radians.</param>
+            <returns>
+              <para>The return value between -1 and +1.</para>
+            </returns>
+        </member>
+        <member name="M:UnityEngine.Mathf.Cos(System.Single)">
+            <summary>
+              <para>Returns the cosine of angle f.</para>
+            </summary>
+            <param name="f">The input angle, in radians.</param>
+            <returns>
+              <para>The return value between -1 and 1.</para>
+            </returns>
+        </member>
+        <member name="M:UnityEngine.Mathf.Tan(System.Single)">
+            <summary>
+              <para>Returns the tangent of angle f in radians.</para>
+            </summary>
+            <param name="f"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Asin(System.Single)">
+            <summary>
+              <para>Returns the arc-sine of f - the angle in radians whose sine is f.</para>
+            </summary>
+            <param name="f"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Acos(System.Single)">
+            <summary>
+              <para>Returns the arc-cosine of f - the angle in radians whose cosine is f.</para>
+            </summary>
+            <param name="f"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Atan(System.Single)">
+            <summary>
+              <para>Returns the arc-tangent of f - the angle in radians whose tangent is f.</para>
+            </summary>
+            <param name="f"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Atan2(System.Single,System.Single)">
+            <summary>
+              <para>Returns the angle in radians whose Tan is y/x.</para>
+            </summary>
+            <param name="y"></param>
+            <param name="x"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Sqrt(System.Single)">
+            <summary>
+              <para>Returns square root of f.</para>
+            </summary>
+            <param name="f"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Abs(System.Single)">
+            <summary>
+              <para>Returns the absolute value of f.</para>
+            </summary>
+            <param name="f"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Abs(System.Int32)">
+            <summary>
+              <para>Returns the absolute value of value.</para>
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Min(System.Single,System.Single)">
+            <summary>
+              <para>Returns the smallest of two or more values.</para>
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <param name="values"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Min(System.Single[])">
+            <summary>
+              <para>Returns the smallest of two or more values.</para>
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <param name="values"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Min(System.Int32,System.Int32)">
+            <summary>
+              <para>Returns the smallest of two or more values.</para>
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <param name="values"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Min(System.Int32[])">
+            <summary>
+              <para>Returns the smallest of two or more values.</para>
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <param name="values"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Max(System.Single,System.Single)">
+            <summary>
+              <para>Returns largest of two or more values.</para>
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <param name="values"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Max(System.Single[])">
+            <summary>
+              <para>Returns largest of two or more values.</para>
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <param name="values"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Max(System.Int32,System.Int32)">
+            <summary>
+              <para>Returns the largest of two or more values.</para>
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <param name="values"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Max(System.Int32[])">
+            <summary>
+              <para>Returns the largest of two or more values.</para>
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <param name="values"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Pow(System.Single,System.Single)">
+            <summary>
+              <para>Returns f raised to power p.</para>
+            </summary>
+            <param name="f"></param>
+            <param name="p"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Exp(System.Single)">
+            <summary>
+              <para>Returns e raised to the specified power.</para>
+            </summary>
+            <param name="power"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Log(System.Single,System.Single)">
+            <summary>
+              <para>Returns the logarithm of a specified number in a specified base.</para>
+            </summary>
+            <param name="f"></param>
+            <param name="p"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Log(System.Single)">
+            <summary>
+              <para>Returns the natural (base e) logarithm of a specified number.</para>
+            </summary>
+            <param name="f"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Log10(System.Single)">
+            <summary>
+              <para>Returns the base 10 logarithm of a specified number.</para>
+            </summary>
+            <param name="f"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Ceil(System.Single)">
+            <summary>
+              <para>Returns the smallest integer greater to or equal to f.</para>
+            </summary>
+            <param name="f"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Floor(System.Single)">
+            <summary>
+              <para>Returns the largest integer smaller to or equal to f.</para>
+            </summary>
+            <param name="f"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Round(System.Single)">
+            <summary>
+              <para>Returns f rounded to the nearest integer.</para>
+            </summary>
+            <param name="f"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.CeilToInt(System.Single)">
+            <summary>
+              <para>Returns the smallest integer greater to or equal to f.</para>
+            </summary>
+            <param name="f"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.FloorToInt(System.Single)">
+            <summary>
+              <para>Returns the largest integer smaller to or equal to f.</para>
+            </summary>
+            <param name="f"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.RoundToInt(System.Single)">
+            <summary>
+              <para>Returns f rounded to the nearest integer.</para>
+            </summary>
+            <param name="f"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Sign(System.Single)">
+            <summary>
+              <para>Returns the sign of f.</para>
+            </summary>
+            <param name="f"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Clamp(System.Single,System.Single,System.Single)">
+            <summary>
+              <para>Clamps a value between a minimum float and maximum float value.</para>
+            </summary>
+            <param name="value"></param>
+            <param name="min"></param>
+            <param name="max"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Clamp(System.Int32,System.Int32,System.Int32)">
+            <summary>
+              <para>Clamps value between min and max and returns value.</para>
+            </summary>
+            <param name="value"></param>
+            <param name="min"></param>
+            <param name="max"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Clamp01(System.Single)">
+            <summary>
+              <para>Clamps value between 0 and 1 and returns value.</para>
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Lerp(System.Single,System.Single,System.Single)">
+            <summary>
+              <para>Linearly interpolates between a and b by t.</para>
+            </summary>
+            <param name="a">The start value.</param>
+            <param name="b">The end value.</param>
+            <param name="t">The interpolation value between the two floats.</param>
+            <returns>
+              <para>The interpolated float result between the two float values.</para>
+            </returns>
+        </member>
+        <member name="M:UnityEngine.Mathf.LerpUnclamped(System.Single,System.Single,System.Single)">
+            <summary>
+              <para>Linearly interpolates between a and b by t with no limit to t.</para>
+            </summary>
+            <param name="a">The start value.</param>
+            <param name="b">The end value.</param>
+            <param name="t">The interpolation between the two floats.</param>
+            <returns>
+              <para>The float value as a result from the linear interpolation.</para>
+            </returns>
+        </member>
+        <member name="M:UnityEngine.Mathf.LerpAngle(System.Single,System.Single,System.Single)">
+            <summary>
+              <para>Same as Lerp but makes sure the values interpolate correctly when they wrap around 360 degrees.</para>
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <param name="t"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.MoveTowards(System.Single,System.Single,System.Single)">
+            <summary>
+              <para>Moves a value current towards target.</para>
+            </summary>
+            <param name="current">The current value.</param>
+            <param name="target">The value to move towards.</param>
+            <param name="maxDelta">The maximum change that should be applied to the value.</param>
+        </member>
+        <member name="M:UnityEngine.Mathf.MoveTowardsAngle(System.Single,System.Single,System.Single)">
+            <summary>
+              <para>Same as MoveTowards but makes sure the values interpolate correctly when they wrap around 360 degrees.</para>
+            </summary>
+            <param name="current"></param>
+            <param name="target"></param>
+            <param name="maxDelta"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.SmoothStep(System.Single,System.Single,System.Single)">
+            <summary>
+              <para>Interpolates between min and max with smoothing at the limits.</para>
+            </summary>
+            <param name="from"></param>
+            <param name="to"></param>
+            <param name="t"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.Repeat(System.Single,System.Single)">
+            <summary>
+              <para>Loops the value t, so that it is never larger than length and never smaller than 0.</para>
+            </summary>
+            <param name="t"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.PingPong(System.Single,System.Single)">
+            <summary>
+              <para>PingPongs the value t, so that it is never larger than length and never smaller than 0.</para>
+            </summary>
+            <param name="t"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.InverseLerp(System.Single,System.Single,System.Single)">
+            <summary>
+              <para>Calculates the linear parameter t that produces the interpolant value within the range [a, b].</para>
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:UnityEngine.Mathf.DeltaAngle(System.Single,System.Single)">
+            <summary>
+              <para>Calculates the shortest difference between two given angles given in degrees.</para>
+            </summary>
+            <param name="current"></param>
+            <param name="target"></param>
         </member>
     </members>
 </doc>

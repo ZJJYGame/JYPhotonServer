@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Cosmos;
 using RedisDotNet;
 using AscensionProtocol.DTO;
-using Protocol;
 using AscensionProtocol;
 using AscensionServer.Model;
 

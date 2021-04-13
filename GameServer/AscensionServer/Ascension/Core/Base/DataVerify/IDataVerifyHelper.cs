@@ -1,5 +1,4 @@
 ﻿using Cosmos;
-using Protocol;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,6 @@ namespace AscensionServer
         /// <summary>
         ///验证数据是否正确； 
         /// </summary>
-        bool VerifyData(IDataContract data);
     }
 }
 

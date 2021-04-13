@@ -11,7 +11,7 @@ namespace AscensionServer
     /// </summary>
     [Serializable]
     [MessagePackObject(true)]
-    public class C2SFlyMagicToolInput:IDataContract
+    public class C2SFlyMagicToolInput
     {
         public int MagicToolId { get; set; }
     }

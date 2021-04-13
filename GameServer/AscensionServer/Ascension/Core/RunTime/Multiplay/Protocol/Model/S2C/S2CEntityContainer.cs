@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Cosmos;
-namespace Protocol
+namespace AscensionServer
 {
     [Serializable]
     [MessagePackObject(true)]
-    public class S2CContainer : IDataContract
+    public class S2CContainer 
     {
         public int ContainerId { get; set; }
         public List<SessionRoleIdPair> Players { get; set; }

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MessagePack;
-namespace Protocol
+namespace AscensionServer
 {
     [Serializable]
     [MessagePackObject(true)]
-    public class S2CMapResource : IDataContract
+    public class S2CMapResource 
     {
         public FixContainer Container { get; set; }
         /// <summary>

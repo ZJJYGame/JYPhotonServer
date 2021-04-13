@@ -12,7 +12,6 @@ using Renci.SshNet.Security;
 using Cosmos;
 using System.Security.Cryptography;
 using System.Timers;
-using Protocol;
 
 namespace AscensionServer
 {

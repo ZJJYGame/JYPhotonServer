@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using AscensionProtocol;
 using AscensionProtocol.DTO;
 using Cosmos;
-using Protocol;
 using RedisDotNet;
 using UnityEngine;
 namespace AscensionServer
@@ -28,10 +27,10 @@ namespace AscensionServer
                     var resObj = r.Value;
                     var len = resObj.ResAmount;
                     var spawnRange = resObj.ResSpawnRange * 1000;
-                    var lftX = resObj.ResSpawnPositon.x + spawnRange;
-                    var rghX = resObj.ResSpawnPositon.x - spawnRange;
-                    var lftZ = resObj.ResSpawnPositon.z + spawnRange;
-                    var rghZ = resObj.ResSpawnPositon.z - spawnRange;
+                    var lftX = resObj.ResSpawnPositon.X + spawnRange;
+                    var rghX = resObj.ResSpawnPositon.X - spawnRange;
+                    var lftZ = resObj.ResSpawnPositon.Z + spawnRange;
+                    var rghZ = resObj.ResSpawnPositon.Z - spawnRange;
                     var s2cRes = new S2CMapResource();
                     s2cRes.MapResourceList = new List<C2SMapResource>();
                     this.s2cResDict.TryAdd(r.Key, s2cRes);

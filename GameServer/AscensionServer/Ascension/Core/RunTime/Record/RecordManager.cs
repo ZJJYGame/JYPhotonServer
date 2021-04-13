@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol;
 using Cosmos;
-using Protocol;
 
 namespace AscensionServer
 {
@@ -21,7 +20,7 @@ namespace AscensionServer
         }
         public override void OnPreparatory()
         {
-            CommandEventCore.Instance.AddEventListener(ProtocolDefine.OPR_PLYAER_LOGOFF, OnPlayerLogoff);
+            CommandEventCore.Instance.AddEventListener((byte)OperationCode.LogoffRole, OnPlayerLogoff);
         }
         public void RecordRole(RoleEntity roleEntity)
         {
