@@ -35,10 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MessagePack, Version=2.2.0.0, Culture=neutral, PublicKeyToken=b4a0369545f0a1be, processorArchitecture=MSIL">
-      <HintPath>..\packages\MessagePack.2.2.60\lib\netstandard2.0\MessagePack.dll</HintPath>
+      <HintPath>..\packages\MessagePack.2.2.85\lib\netstandard2.0\MessagePack.dll</HintPath>
     </Reference>
     <Reference Include="MessagePack.Annotations, Version=2.2.0.0, Culture=neutral, PublicKeyToken=b4a0369545f0a1be, processorArchitecture=MSIL">
-      <HintPath>..\packages\MessagePack.Annotations.2.2.60\lib\netstandard2.0\MessagePack.Annotations.dll</HintPath>
+      <HintPath>..\packages\MessagePack.Annotations.2.2.85\lib\netstandard2.0\MessagePack.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\AscensionServer\packages\Microsoft.Bcl.AsyncInterfaces.1.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -76,9 +76,7 @@
     <Compile Include="Protocol\Model\Base\DataParameters.cs" />
     <Compile Include="Protocol\Model\Base\IDataContract.cs" />
     <Compile Include="Protocol\Model\Base\OperationData.cs" />
-    <Compile Include="Protocol\Model\C2S\C2SAnimateInput.cs" />
     <Compile Include="Protocol\Model\C2S\C2SChatMessage.cs" />
-    <Compile Include="Protocol\Model\C2S\C2SMapResource.cs" />
     <Compile Include="Protocol\Model\C2S\CmdInput.cs" />
     <Compile Include="Protocol\Model\C2S\C2SFlyMagicToolInput.cs" />
     <Compile Include="Protocol\Model\C2S\C2SSkillInput.cs" />
@@ -86,7 +84,6 @@
     <Compile Include="Protocol\Model\Define\SkillDefine.cs" />
     <Compile Include="Protocol\Model\Fix\FixAffectValue.cs" />
     <Compile Include="Protocol\Model\Fix\FixContainer.cs" />
-    <Compile Include="Protocol\Model\Fix\FixMapResource.cs" />
     <Compile Include="Protocol\Model\Fix\FixSkill.cs" />
     <Compile Include="Protocol\Model\S2C\S2CMapResource.cs" />
     <Compile Include="Protocol\Model\S2C\S2CInput.cs" />
