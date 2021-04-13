@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AscensionProtocol.DTO
+namespace AscensionServer.Model
 {
     [Serializable]
-    public class PuppetIndividualDTO: DataTransferObject
+    public class PuppetIndividual: DataObject
     {
         public virtual int ID { set; get; }
         public virtual int HP { set; get; }
@@ -19,9 +19,9 @@ namespace AscensionProtocol.DTO
         public virtual int DefendPower { set; get; }
         public virtual int AttackSpeed { set; get; }
         public virtual int PuppetDurable { set; get; }
-        public virtual List<int> Skills { set; get; }
+        public virtual string Skills { set; get; }
 
-        public PuppetIndividualDTO()
+        public PuppetIndividual()
         {
             ID = 0;
             HP = 0;
@@ -33,12 +33,12 @@ namespace AscensionProtocol.DTO
             DefendPower = 0;
             AttackSpeed = 0;
             PuppetDurable = 0;
-            Skills = new List<int>();
-    }
+            Skills ="[]";
+        }
 
         public override void Clear()
         {
-
+          
         }
     }
 }

@@ -10,13 +10,13 @@ namespace AscensionProtocol.DTO
     public  class RolePuppetDTO: DataTransferObject
     {
         public virtual int RoleID { set; get; }
-        public virtual bool IsBattle { set; get; }
+        public virtual int IsBattle { set; get; }
         public virtual Dictionary<int,int> PuppetDict { set; get; }
 
         public RolePuppetDTO()
         {
             RoleID = 0;
-            IsBattle = false;
+            IsBattle = 0;
             PuppetDict = new Dictionary<int, int>();
         }
         public override void Clear()

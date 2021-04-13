@@ -21,7 +21,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -208,6 +208,7 @@
     <Compile Include="Ascension\Core\Base\DataObject\PetSkillData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\PuppetAssembleData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\PuppetUnitParameter.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\RepairPuppetData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RingData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RoleAbilityPointData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\RoleLevelData.cs" />
@@ -346,10 +347,13 @@
     <Compile Include="Ascension\Core\RunTime\Network\INetworkMessageHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Network\NetworkManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Pet\IPetStatusManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Pet\IPuppetManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Pet\PetStatusManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Pet\PetStatusManager.Init.cs" />
     <Compile Include="Ascension\Core\RunTime\Pet\PetStatusManager.Message.cs" />
     <Compile Include="Ascension\Core\RunTime\Pet\PetStatusManager.Verify.cs" />
+    <Compile Include="Ascension\Core\RunTime\Pet\PuppetManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Pet\PuppetManager.Status.cs" />
     <Compile Include="Ascension\Core\RunTime\Practice\GongFaManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Practice\IGongFaManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Practice\IPracticeManager.cs" />
@@ -407,6 +411,7 @@
     <Compile Include="DOMap\DemonicSoulMap.cs" />
     <Compile Include="DOMap\FlyMagicToolMap.cs" />
     <Compile Include="DOMap\PetAbilityPointMap.cs" />
+    <Compile Include="DOMap\PuppetIndividualMap.cs" />
     <Compile Include="DOMap\PuppetUnitMap.cs" />
     <Compile Include="DOMap\RoleAllianceSkillMap.cs" />
     <Compile Include="DOMap\RolePuppetMap.cs" />
@@ -417,6 +422,7 @@
     <Compile Include="DO\DemonicSoul.cs" />
     <Compile Include="DO\FlyMagicTool.cs" />
     <Compile Include="DO\PetAbilityPoint.cs" />
+    <Compile Include="DO\PuppetIndividual.cs" />
     <Compile Include="DO\PuppetUnit.cs" />
     <Compile Include="DO\RoleAllianceSkill.cs" />
     <Compile Include="DO\RoleAuctionItems.cs" />
@@ -943,6 +949,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonData\PuppetAssembleData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\RepairPuppetData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="Plugin\ExitGames.Logging.Log4Net.dll">

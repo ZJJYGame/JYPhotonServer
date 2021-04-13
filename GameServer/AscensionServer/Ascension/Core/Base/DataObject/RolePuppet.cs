@@ -11,12 +11,12 @@ namespace AscensionServer.Model
     {
         public virtual int RoleID { get; set; }
         public virtual string PuppetDict { get; set; }
-        public virtual bool IsBattle { get; set; }
+        public virtual int IsBattle { get; set; }
 
         public RolePuppet()
         {
             PuppetDict ="{}";
-            IsBattle = false;
+            IsBattle = 0;
         }
     }
 }

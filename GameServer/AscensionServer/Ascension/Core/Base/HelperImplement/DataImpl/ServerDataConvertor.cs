@@ -135,6 +135,9 @@ namespace AscensionServer
 
                 GameEntry.DataManager.TryGetValue(typeof(PuppetAssembleData).Name, out var puppetAssembleData);
                 var puppetAssembleDataDict = TransObject<List<PuppetAssembleData>>(puppetAssembleData).ToDictionary(key => key.PuppetID, value => value);
+
+                GameEntry.DataManager.TryGetValue(typeof(RepairPuppetData).Name, out var repairPuppetData);
+                var repairPuppetDataDict = TransObject<List<RepairPuppetData>>(repairPuppetData).ToDictionary(key => key.PuppetID, value => value);               
                 #region 背包json
                 GameEntry. DataManager.TryGetValue(typeof(ItemBagBaseData).Name, out var itemBagData);
                 var itemBagDict = TransObject<List<ItemBagBaseData>>(itemBagData).ToDictionary(key => key.ItemID, value => value);
@@ -181,6 +184,7 @@ namespace AscensionServer
                 GameEntry. DataManager.TryGetValue(typeof(BattleBuffData).Name, out var battleSBuffSet);
                 var battleBuffDict = TransObject<List<BattleBuffData>>(battleSBuffSet).ToDictionary(key => key.id, value => value);
                 #endregion
+                GameEntry.DataManager.TryAdd(repairPuppetDataDict);
                 GameEntry.DataManager.TryAdd(puppetAssembleDataDict);
                 GameEntry.DataManager.TryAdd(puppetUnitParameterDict);
                 GameEntry.DataManager.TryAdd(formulaGlobaIDDict);

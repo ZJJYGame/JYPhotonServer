@@ -54,13 +54,14 @@ namespace AscensionServer
                 case SecondaryJobOpCode.GetSecondaryJobStatus:
                     #region
                     var role = Utility.Json.ToObject<RoleDTO>(packet.DataMessage.ToString());
+                    Utility.Debug.LogInfo("YZQ收到的副职业添加配方请求");
                     GetSecondaryJobStatusS2C(role.RoleID);
                     #endregion
                     break;
                 case SecondaryJobOpCode.StudySecondaryJobStatus:
                     #region
                     secondaryJob = Utility.Json.ToObject<SecondaryJobDTO>(packet.DataMessage.ToString());
-                    UpdateAlchemyS2C(secondaryJob.RoleID, secondaryJob.UseItemID);
+                    StudyFormula(secondaryJob);
                     #endregion
                     break;
                 case SecondaryJobOpCode.CompoundAlchemy:
@@ -93,10 +94,11 @@ namespace AscensionServer
             }
         }
 
-        void StudyFormulaDrug(SecondaryJobDTO secondaryJob)
+        void StudyFormula(SecondaryJobDTO secondaryJob)
         {
             GameEntry.DataManager.TryGetValue<Dictionary<int, FormulaGlobaID>>(out var globaIDDict);
-            var result = globaIDDict.TryGetValue(secondaryJob.UseItemID,out var drugData);
+            var tempid = Utility.Converter.RetainInt32(secondaryJob.UseItemID, 5);
+            var result = globaIDDict.TryGetValue(tempid,out var drugData);
             if (!result)
             {
                 RoleStatusFailS2C(secondaryJob.RoleID,SecondaryJobOpCode.StudySecondaryJobStatus);
@@ -106,6 +108,7 @@ namespace AscensionServer
             switch ((FormulaDrugType )drugData.ItemTypeDetail)
             {
                 case FormulaDrugType.Alchemy:
+                    Utility.Debug.LogInfo("YZQ收到的副职业添加配方请求>>>");
                     UpdateAlchemyS2C(secondaryJob.RoleID, secondaryJob.UseItemID);
                     break;
                 case FormulaDrugType.Forge:
@@ -161,7 +164,7 @@ namespace AscensionServer
             }
             #endregion
             #region
-            var forgeExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlchemyPerfix, roleID.ToString()).Result;
+            var forgeExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._ForgePerfix, roleID.ToString()).Result;
             if (forgeExist)
             {
                 var forgeObj = RedisHelper.Hash.HashGetAsync<ForgeDTO>(RedisKeyDefine._ForgePerfix, roleID.ToString()).Result;
@@ -198,10 +201,10 @@ namespace AscensionServer
             }
             #endregion
             #region
-            var puppetExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlchemyPerfix, roleID.ToString()).Result;
+            var puppetExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._PuppetPerfix, roleID.ToString()).Result;
             if (puppetExist)
             {
-                var puppetObj = RedisHelper.Hash.HashGetAsync<PuppetDTO>(RedisKeyDefine._ForgePerfix, roleID.ToString()).Result;
+                var puppetObj = RedisHelper.Hash.HashGetAsync<PuppetDTO>(RedisKeyDefine._PuppetPerfix, roleID.ToString()).Result;
                 if (puppetObj == null)
                 {
                     var puppet = NHibernateQuerier.CriteriaSelect<Puppet>(nHCriteriaRole);

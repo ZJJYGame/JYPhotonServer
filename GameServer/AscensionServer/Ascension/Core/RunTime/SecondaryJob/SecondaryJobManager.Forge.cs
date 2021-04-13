@@ -33,16 +33,16 @@ namespace AscensionServer
                 return;
             }
 
-            var nHCriteriaRingID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
-            if (InventoryManager.VerifyIsExist(useItemID, nHCriteriaRingID))
+            if (InventoryManager.VerifyIsExist(useItemID, 1, ringServer.RingIdArray))
             {
+                var tempid = Utility.Converter.RetainInt32(useItemID, 5);
                 var forgeExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._ForgePerfix, roleID.ToString()).Result;
                 if (forgeExist)
                 {
                     var forge = RedisHelper.Hash.HashGetAsync<ForgeDTO>(RedisKeyDefine._ForgePerfix, roleID.ToString()).Result;
                     if (forge != null)
                     {
-                        if (formulaDataDict.TryGetValue(useItemID, out var formula))
+                        if (formulaDataDict.TryGetValue(tempid, out var formula))
                         {
                             if (formula.FormulaLevel > forge.JobLevel)
                             {
@@ -50,11 +50,13 @@ namespace AscensionServer
                                 return;
                             }
 
-                            if (!forge.Recipe_Array.Contains(useItemID))
+                            if (!forge.Recipe_Array.Contains(tempid))
                             {
-                                forge.Recipe_Array.Add(useItemID);
+                                forge.Recipe_Array.Add(tempid);
+                                Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                                dict.Add((byte)ParameterCode.JobForge, forge);
 
-                                RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus, forge);
+                                RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus, dict);
                                 InventoryManager.Remove(roleID, useItemID);
                                 await NHibernateQuerier.UpdateAsync(ChangeDataType(forge));
                                 await RedisHelper.Hash.HashSetAsync<ForgeDTO>(RedisKeyDefine._ForgePerfix, roleID.ToString(), forge);
@@ -169,10 +171,11 @@ namespace AscensionServer
             var forge = NHibernateQuerier.CriteriaSelect<Forge>(nHCriteria);
             if (forge != null)
             {
+                var tempid = Utility.Converter.RetainInt32(useItemID, 5);
                 var recipe = Utility.Json.ToObject<List<int>>(forge.Recipe_Array);
-                if (recipe.Contains(useItemID))
+                if (recipe.Contains(tempid))
                 {
-                    recipe.Add(useItemID);
+                    recipe.Add(tempid);
                     forge.Recipe_Array = Utility.Json.ToJson(recipe);
                     RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus, ChangeDataType(forge));
                     InventoryManager.Remove(roleID, useItemID);

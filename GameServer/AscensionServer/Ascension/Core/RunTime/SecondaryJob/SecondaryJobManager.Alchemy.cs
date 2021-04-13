@@ -34,6 +34,7 @@ namespace AscensionServer
           var formulaExist=  GameEntry.DataManager.TryGetValue<Dictionary<int, FormulaDrugData>>(out var formulaDataDict);
             if (!formulaExist)
             {
+                Utility.Debug.LogInfo("YZQ收到的副职业添加配方请求y");
                 RoleStatusFailS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus);
                 return;
             }
@@ -41,39 +42,45 @@ namespace AscensionServer
             var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteria);
             if (ringServer==null)
             {
+                Utility.Debug.LogInfo("YZQ收到的副职业添加配方请求z");
                 RoleStatusFailS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus);
                 return;
             }
-            var nHCriteriaRingID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
-
-            if (InventoryManager.VerifyIsExist(UseItemID, nHCriteriaRingID))
+            if (InventoryManager.VerifyIsExist(UseItemID,1 , ringServer.RingIdArray))
             {
-                var alchemyExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlchemyPerfix,roleID.ToString()).Result;
+                var tempid = Utility.Converter.RetainInt32(UseItemID, 5);
+                var alchemyExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlchemyPerfix, roleID.ToString()).Result;
                 if (alchemyExist)
                 {
                     var alchemy = RedisHelper.Hash.HashGetAsync<AlchemyDTO>(RedisKeyDefine._AlchemyPerfix, roleID.ToString()).Result;
                     if (alchemy != null)
                     {
-                        if (formulaDataDict.TryGetValue(UseItemID, out var formula))
+                        if (formulaDataDict.TryGetValue(tempid, out var formula))
                         {
-                            if (formula.FormulaLevel> alchemy.JobLevel)
+                            Utility.Debug.LogInfo("YZQ收到的副职业添加配方请求1");
+                            if (formula.FormulaLevel > alchemy.JobLevel)
                             {
+                                Utility.Debug.LogInfo("YZQ收到的副职业添加配方请求2");
                                 RoleStatusFailS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus);
                                 return;
                             }
 
-                            if (!alchemy.Recipe_Array.Contains(UseItemID))
+                            if (!alchemy.Recipe_Array.Contains(tempid))
                             {
-                                alchemy.Recipe_Array.Add(UseItemID);
-
-                                RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus, alchemy);
+                                Utility.Debug.LogInfo("YZQ收到的副职业添加配方请求3");
+                                alchemy.Recipe_Array.Add(tempid);
+                                Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                                dict.Add((byte)ParameterCode.JobAlchemy, alchemy);
+                                RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus, dict);
                                 InventoryManager.Remove(roleID, UseItemID);
-                                await NHibernateQuerier.UpdateAsync(ChangeDataType(alchemy));
+                                await NHibernateQuerier.SaveOrUpdateAsync(ChangeDataType(alchemy));
                                 await RedisHelper.Hash.HashSetAsync<AlchemyDTO>(RedisKeyDefine._AlchemyPostfix, roleID.ToString(), alchemy);
                             }
                             else
                                 RoleStatusFailS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus);
                         }
+                        else
+                            RoleStatusFailS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus);
                     }
                     else
                         UpdateAlchemyMySql(roleID, UseItemID, nHCriteria);
@@ -81,8 +88,12 @@ namespace AscensionServer
                 else
                     UpdateAlchemyMySql(roleID, UseItemID, nHCriteria);
             }
-            else
-                RoleStatusFailS2C(roleID,SecondaryJobOpCode.StudySecondaryJobStatus);
+            else {
+                Utility.Debug.LogInfo("YZQ收到的副职业添加配方请求q");
+                RoleStatusFailS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus);
+                
+            }
+
         }
         /// <summary>
         /// 合成配方
@@ -157,13 +168,15 @@ namespace AscensionServer
         /// <param name="nHCriteria"></param>
         async void UpdateAlchemyMySql(int roleID, int UseItemID, NHCriteria nHCriteria)
         {
+            Utility.Debug.LogInfo("YZQ收到的副职业添加配方请求5");
             var alchemy = NHibernateQuerier.CriteriaSelect<Alchemy>(nHCriteria);
             if (alchemy != null)
             {
+                var tempid = Utility.Converter.RetainInt32(UseItemID, 5);
                 var recipe = Utility.Json.ToObject<List<int>>(alchemy.Recipe_Array);
-                if (recipe.Contains(UseItemID))
+                if (!recipe.Contains(tempid))
                 {
-                    recipe.Add(UseItemID);
+                    recipe.Add(tempid);
                     alchemy.Recipe_Array = Utility.Json.ToJson(recipe);
                     RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus, ChangeDataType(alchemy));
                     InventoryManager.Remove(roleID, UseItemID);
@@ -259,10 +272,10 @@ namespace AscensionServer
         Alchemy ChangeDataType(AlchemyDTO alchemyDTO)
         {
             Alchemy alchemy = new Alchemy();
-            alchemy.RoleID = alchemy.RoleID;
-            alchemy.JobLevel = alchemy.JobLevel;
-            alchemy.JobLevelExp = alchemy.JobLevelExp;
-            alchemy.Recipe_Array = Utility.Json.ToJson(alchemy.Recipe_Array);
+            alchemy.RoleID = alchemyDTO.RoleID;
+            alchemy.JobLevel = alchemyDTO.JobLevel;
+            alchemy.JobLevelExp = alchemyDTO.JobLevelExp;
+            alchemy.Recipe_Array = Utility.Json.ToJson(alchemyDTO.Recipe_Array);
             return alchemy;
         }
     }

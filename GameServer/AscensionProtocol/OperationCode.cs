@@ -198,7 +198,6 @@ namespace AscensionProtocol
         /// 同步角色副职业
         /// </summary>
         SyncSecondaryJob=71,
-
         /// <summary>
         /// 加入战斗
         /// </summary>

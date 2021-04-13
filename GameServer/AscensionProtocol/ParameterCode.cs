@@ -235,6 +235,9 @@
         /// 获得傀儡个体
         /// </summary>
         GetPuppetIndividual=112,
-
+        /// <summary>
+        /// 角色所有傀儡
+        /// </summary>
+        RolePuppet=113,
     }
 }

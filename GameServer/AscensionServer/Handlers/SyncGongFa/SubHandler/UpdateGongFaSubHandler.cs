@@ -21,7 +21,7 @@ namespace AscensionServer
             var receivedObj = Utility.Json.ToObject<CultivationMethod>(receivedData);
             NHCriteria nHCriteriaRoleID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", receivedRoleObj.RoleID);
             GameEntry. DataManager.TryGetValue<Dictionary<int, List<GongFa>>>(out var gongFaDataDict);
-
+            Utility.Debug.LogError("YZQ我学习功法了"+Utility.Json.ToJson(receivedData));
 
             bool exist = NHibernateQuerier.Verify<RoleGongFa>(nHCriteriaRoleID);
             int intInfoObj = 0;

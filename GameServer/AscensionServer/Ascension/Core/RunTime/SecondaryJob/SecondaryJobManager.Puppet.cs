@@ -158,40 +158,52 @@ namespace AscensionServer
                         }
                         if (data.NeedMoney > assest.SpiritStonesLow || data.NeedVitality > role.Vitality)
                         {
-                            Utility.Debug.LogInfo("YZQ收到的副职人物属性" + Utility.Json.ToJson(role));
+                         
                             Utility.Debug.LogInfo("YZQ收到的副职业请求2灵石" + assest.SpiritStonesLow + "活力" + role.Vitality);
                             RoleStatusFailS2C(roleID, SecondaryJobOpCode.AssemblePuppet);
                             return;
                         }
                     }
                     var puppetObj = PuppetIndividualAlgorithm(puppetUnit, unit);
+                    puppetObj.PuppetID = useItemID;
                     if (puppetObj != null)
                     {
                         role.Vitality -= data.NeedVitality;
                         assest.SpiritStonesLow -= data.NeedMoney;
 
-
                         Dictionary<byte, object> dict = new Dictionary<byte, object>();
                         dict.Add((byte)ParameterCode.RoleAssets, assest);
                         dict.Add((byte)ParameterCode.RoleStatus, role);
                         dict.Add((byte)ParameterCode.JobPuppet, puppet);
-                        dict.Add((byte)ParameterCode.GetPuppetIndividual, puppet);
+                        dict.Add((byte)ParameterCode.GetPuppetIndividual, puppetObj);
                         RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.AssemblePuppet, dict);
 
+                        //for (int i = 0; i < unit.Count; i++)
+                        //{
+                        //    InventoryManager.Remove(roleID, unit[i]);
+                        //}
+
+
                         #region 更新到数据库
+                       var puppetTemp=  NHibernateQuerier.Insert(ChangeDataType(puppetObj));
+                        rolepuppet.PuppetDict.Add(puppetTemp.ID, data.PuppetID);
+                        puppetObj.ID = puppetTemp.ID;
+                        await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._PuppetIndividualPerfix, puppetTemp.ID.ToString(), puppetObj);
+
+                        await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RolePuppetPerfix, roleID.ToString(), rolepuppet);
+                        Utility.Debug.LogInfo("YZQ收到的副职人物属性" + Utility.Json.ToJson(ChangeDataType(rolepuppet)));
+                        await NHibernateQuerier.SaveOrUpdateAsync(ChangeDataType(rolepuppet));
+
                         await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._PuppetUnitPerfix, roleID.ToString(), puppetUnit);
-                        await NHibernateQuerier.UpdateAsync(ChangeDataType(puppetUnit));
+                        await NHibernateQuerier.SaveOrUpdateAsync(ChangeDataType(puppetUnit));
 
                         await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString(), assest);
-                        await NHibernateQuerier.UpdateAsync(assest);
+                        await NHibernateQuerier.SaveOrUpdateAsync(assest);
 
                         await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleStatsuPerfix, roleID.ToString(), role);
-                        await NHibernateQuerier.UpdateAsync(role);
+                        await NHibernateQuerier.SaveOrUpdateAsync(role);
      
                         #endregion
-
-
-
                     }
                     else
                         RoleStatusFailS2C(roleID, SecondaryJobOpCode.AssemblePuppet);
@@ -350,6 +362,29 @@ namespace AscensionServer
             puppet.PuppetUnitInfoDict = Utility.Json.ToJson(unitDTO.PuppetUnitInfoDict);
             puppet.UnitIndesDict = Utility.Json.ToJson(unitDTO.UnitIndesDict);
             return puppet;
+        }
+
+        RolePuppet ChangeDataType(RolePuppetDTO puppetDTO)
+        {
+            RolePuppet rolePuppet = new RolePuppet();
+            rolePuppet.RoleID = puppetDTO.RoleID;
+            rolePuppet.PuppetDict =Utility.Json.ToJson(puppetDTO.PuppetDict);
+            rolePuppet.IsBattle = puppetDTO.IsBattle;
+            return rolePuppet;
+        }
+
+        PuppetIndividual ChangeDataType(PuppetIndividualDTO individualDTO)
+        {
+            PuppetIndividual puppetIndividual = new PuppetIndividual();
+            puppetIndividual.AttackPhysical = individualDTO.AttackPhysical;
+            puppetIndividual.AttackPower = individualDTO.AttackPower;
+            puppetIndividual.AttackSpeed = individualDTO.AttackSpeed;
+            puppetIndividual.HP = individualDTO.HP;
+            puppetIndividual.ID = individualDTO.ID;
+            puppetIndividual.MP = individualDTO.MP;
+            puppetIndividual.PuppetDurable = individualDTO.PuppetDurable;
+            puppetIndividual.Skills = Utility.Json.ToJson(individualDTO.Skills);
+            return puppetIndividual;
         }
     }
 }

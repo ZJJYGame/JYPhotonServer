@@ -101,7 +101,6 @@
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Converter.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Debug.cs" />
-    <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Encode.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Encryption.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Framework.cs" />
     <Compile Include="CosmosFramework\Core\Base\Utility\Utility.Global.cs" />

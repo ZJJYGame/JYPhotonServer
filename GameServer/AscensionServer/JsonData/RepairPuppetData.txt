@@ -1,0 +1,32 @@
+﻿[
+	{
+		"PuppetID":23201,
+		"PuppetModel":"NULL",
+		"RepairMaterials":[11026,11201],
+		"MaterialsNumbers":[2,2]
+	},
+	{
+		"PuppetID":23202,
+		"PuppetModel":"NULL",
+		"RepairMaterials":[11027,11202],
+		"MaterialsNumbers":[2,2]
+	},
+	{
+		"PuppetID":23203,
+		"PuppetModel":"NULL",
+		"RepairMaterials":[11028,11203],
+		"MaterialsNumbers":[2,2]
+	},
+	{
+		"PuppetID":23204,
+		"PuppetModel":"NULL",
+		"RepairMaterials":[11029,11204],
+		"MaterialsNumbers":[2,2]
+	},
+	{
+		"PuppetID":23205,
+		"PuppetModel":"NULL",
+		"RepairMaterials":[11030,11205],
+		"MaterialsNumbers":[2,2]
+	}
+]

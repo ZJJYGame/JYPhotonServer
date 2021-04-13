@@ -62,7 +62,7 @@ namespace AscensionServer
                         if (rolegongfaDict.Count==0)
                         {
                             Utility.Debug.LogInfo("4添加的新的功法为yzqData" + gongfaJson);
-                            CultivationMethod cultivationMethod = new CultivationMethod() { CultivationMethodID = gongfaTemp.CultivationMethodID, CultivationMethodLevel = gongfaTemp.CultivationMethodLevel, CultivationMethodLevelSkillArray = Utility.Json.ToJson(gongfaTemp.CultivationMethodLevelSkillArray) };
+                            CultivationMethod cultivationMethod = new CultivationMethod() { CultivationMethodID = gongfaTemp.CultivationMethodID, CultivationMethodLevel = 1, CultivationMethodLevelSkillArray = Utility.Json.ToJson(gongfaTemp.CultivationMethodLevelSkillArray) };
                             cultivationMethod = NHibernateQuerier.Insert(cultivationMethod);
                             gongfaTemp.ID = cultivationMethod.ID;
                             rolegongfaDict.Add(cultivationMethod.ID, cultivationMethod.CultivationMethodID);
@@ -80,7 +80,7 @@ namespace AscensionServer
                             DTOdict.Add("Role",Utility.Json.ToJson(roleTemp));
                             DTOdict.Add("CultivationMethod", Utility.Json.ToJson(gongfaTemp));
                             #region 第一本功法指令发送
-                            roleTemp.RoleLevel = gongfaTemp.CultivationMethodLevel;
+                            roleTemp.RoleLevel = 1;
                             NHibernateQuerier.Update(roleTemp);
 
                             OperationData operationData = new OperationData();
