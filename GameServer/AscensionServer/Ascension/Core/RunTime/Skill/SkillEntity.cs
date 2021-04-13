@@ -33,7 +33,7 @@ namespace AscensionServer
                 if (verified)
                 {
                     var opData = new OperationData(ProtocolDefine.OPR_PLAYER_SKILL);
-                    opData.DataContract = skill;
+                    //opData.BinParameters = skill;
                     //GameManager.CustomeModule<LevelManager>()
                     //    .SendMsg2AllLevelRoleS2C(skill.EntityContainer.EntityContainerId,opData);
                 }

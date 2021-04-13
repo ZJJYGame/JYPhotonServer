@@ -1,14 +1,8 @@
-﻿//***********************************************************
-// 描述：
-// 作者：Don  
-// 创建时间：2020-10-26 16:13:53
-// 版 本：1.0
-//***********************************************************
-using MessagePack;
+﻿using MessagePack;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-namespace Protocol
+namespace AscensionServer
 {
     [MessagePackObject(true)]
     [Serializable]

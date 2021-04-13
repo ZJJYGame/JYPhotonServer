@@ -1,6 +1,6 @@
 ﻿using MessagePack;
 using System;
-namespace Protocol
+namespace AscensionServer
 {
     /// <summary>
     /// 实体容器结构体；

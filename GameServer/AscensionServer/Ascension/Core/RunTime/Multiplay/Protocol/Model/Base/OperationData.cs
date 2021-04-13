@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 using MessagePack;
-namespace Protocol
+namespace AscensionServer
 {
     [Serializable]
     [MessagePackObject(true)]
     public class OperationData : IDisposable
     {
+        /// <summary>
+        /// 主操作码；
+        /// </summary>
         public ushort OperationCode { get; set; }
         /// <summary>
-        /// 这里用来存放MessagePack数据；
-        /// </summary>
-        public IDataContract DataContract { get; set; }
-        /// <summary>
-        /// 这里用来存放Json数据；
+        /// 这里用来存放数据；
         /// </summary>
         public object DataMessage { get; set; }
         public short ReturnCode { get; set; }
@@ -31,7 +30,6 @@ namespace Protocol
         {
             return new OperationData()
             {
-                DataContract = this.DataContract,
                 OperationCode = this.OperationCode,
                 ReturnCode = this.ReturnCode,
                 DataMessage = this.DataMessage,
@@ -41,7 +39,6 @@ namespace Protocol
         public virtual void Dispose()
         {
             OperationCode = 0;
-            DataContract = null;
             ReturnCode = 0;
             DataMessage = null;
             SubOperationCode = 0;

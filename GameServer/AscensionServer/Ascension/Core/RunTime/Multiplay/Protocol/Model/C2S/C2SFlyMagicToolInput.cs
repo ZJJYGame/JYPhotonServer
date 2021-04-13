@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MessagePack;
-namespace Protocol
+namespace AscensionServer
 {
     /// <summary>
     /// 飞行法器输入；

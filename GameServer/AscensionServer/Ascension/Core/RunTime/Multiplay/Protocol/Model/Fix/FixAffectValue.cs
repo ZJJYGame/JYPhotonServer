@@ -1,17 +1,11 @@
-﻿//***********************************************************
-// 描述：
-// 作者：Don  
-// 创建时间：2020-11-04 16:13:28
-// 版 本：1.0
-//***********************************************************
-using Cosmos;
+﻿using Cosmos;
 using MessagePack;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Protocol
+namespace AscensionServer
 {
     [MessagePackObject(true)]
     [Serializable]

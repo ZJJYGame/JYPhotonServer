@@ -36,7 +36,7 @@ namespace AscensionServer
         {
             try
             {
-                var entity = opData.DataContract as C2SContainer;
+                var entity = opData.BinParameters as C2SContainer;
                 EnterAdventureScene(entity.Container.ContainerId, entity.Player.RoleId);
             }
             catch (Exception e)
@@ -48,7 +48,7 @@ namespace AscensionServer
         {
             try
             {
-                var entity = opData.DataContract as C2SContainer;
+                var entity = opData.BinParameters as C2SContainer;
                 ExitAdventureScene(entity.Container.ContainerId, entity.Player.RoleId);
             }
             catch (Exception e)
@@ -58,7 +58,7 @@ namespace AscensionServer
         }
         void OnAdventureCommandC2S(int sessionId, OperationData opData)
         {
-            var input = opData.DataContract as CmdInput;
+            var input = opData.BinParameters as CmdInput;
             if (input != null)
             {
                 if (adventureLevelEntityDict.TryGetValue(input.EntityContainer.ContainerId, out var sceneEntity))

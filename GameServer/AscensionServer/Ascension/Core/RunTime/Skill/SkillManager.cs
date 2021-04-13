@@ -26,11 +26,11 @@ namespace AscensionServer
         {
             await Task.Run(() =>
             {
-                var skill = opData.DataContract as C2SSkillInput;
-                if (skill != null)
-                {
+                //var skill = opData.BinParameters as C2SSkillInput;
+                //if (skill != null)
+                //{
                     //GameManager.CustomeModule<LevelManager>().SendMsg2AllLevelRoleS2C(skill.EntityContainer.EntityContainerId, opData);
-                }
+                //}
             });
         }
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using MessagePack;
 using Cosmos;
-namespace Protocol
+namespace AscensionServer
 {
     [Serializable]
     [MessagePackObject(true)]

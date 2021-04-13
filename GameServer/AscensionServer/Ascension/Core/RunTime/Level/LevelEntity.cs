@@ -99,7 +99,7 @@ namespace AscensionServer
                 var opData = opDataQueue.Dequeue();
                 OnEnterLevelS2C(role);
                 roleSessionDict.TryGetValue(role.RoleId, out var sessionRoleIdPair);
-                opData.DataContract = sessionRoleIdPair;
+                opData.BinParameters = sessionRoleIdPair;
                 roleSendMsgHandler?.Invoke(opData);
                 RoleSendMsgHandler += role.SendMessage;
                 role.TryAdd(typeof(LevelEntity), this);
@@ -157,7 +157,7 @@ namespace AscensionServer
             var result = roleInputCmdDict.TryGetValue(currentTick, out var roleCmds);
             InputSet.InputDict = roleCmds;
             InputSet.Tick = currentTick;
-            refreshOpData.DataContract = InputSet;
+            refreshOpData.BinParameters = InputSet;
             roleSendMsgHandler?.Invoke(refreshOpData);
             if (result)
             {
@@ -247,7 +247,7 @@ namespace AscensionServer
         void OnEnterLevelS2C(RoleEntity role)
         {
             var opData = opDataQueue.Dequeue();
-            opData.DataContract = sessionRoleIds;
+            opData.BinParameters = sessionRoleIds;
             var sessionRole = srPairQueue.Dequeue();
             sessionRole.RoleId = role.RoleId;
             sessionRole.SessionId = role.SessionId;
@@ -264,7 +264,7 @@ namespace AscensionServer
         {
             if (roleSessionDict.Remove(roleId, out var sessionRolePair))
             {
-                refreshOpData.DataContract = sessionRolePair;
+                refreshOpData.BinParameters = sessionRolePair;
                 var opData = opDataQueue.Dequeue();
                 opData.OperationCode = OpCode;
                 roleSendMsgHandler?.Invoke(opData);
