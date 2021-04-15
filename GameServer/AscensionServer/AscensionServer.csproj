@@ -299,7 +299,6 @@
     <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\Define\SkillDefine.cs" />
     <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\Fix\FixAffectValue.cs" />
     <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\Fix\FixAnimParameter.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\Fix\FixContainer.cs" />
     <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\Fix\FixFloat.cs" />
     <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\Fix\FixMapResource.cs" />
     <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\Fix\FixSkill.cs" />

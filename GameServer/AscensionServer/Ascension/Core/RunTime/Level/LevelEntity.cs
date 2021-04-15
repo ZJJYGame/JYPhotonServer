@@ -17,7 +17,6 @@ namespace AscensionServer
     public class LevelEntity : Entity, IReference, IRefreshable
     {
 
-        static int LevelIndex = 1000;
         /// <summary>
         /// None表示当前失活状态；
         /// 用于区分场景属于历练还是秘境类型；

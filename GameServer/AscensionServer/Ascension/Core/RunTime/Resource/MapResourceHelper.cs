@@ -13,58 +13,58 @@ namespace AscensionServer
     [ImplementProvider]
     public class MapResourceHelper : IMapResourceHelper
     {
-        Dictionary<int, S2CMapResource> s2cResDict
-            = new Dictionary<int, S2CMapResource>();
+        //Dictionary<int, S2CMapResource> s2cResDict
+        //    = new Dictionary<int, S2CMapResource>();
         public void LoadMapResource()
         {
-            var hasData = GameEntry. DataManager.TryGetValue<MapResourceData>(out var mapResourceData);
-            if (hasData)
-            {
-                var resDict = mapResourceData.FixFieldResourceDict;
-                Random random = new Random();
-                foreach (var r in resDict)
-                {
-                    var resObj = r.Value;
-                    var len = resObj.ResAmount;
-                    var spawnRange = resObj.ResSpawnRange * 1000;
-                    var lftX = resObj.ResSpawnPositon.X + spawnRange;
-                    var rghX = resObj.ResSpawnPositon.X - spawnRange;
-                    var lftZ = resObj.ResSpawnPositon.Z + spawnRange;
-                    var rghZ = resObj.ResSpawnPositon.Z - spawnRange;
-                    var s2cRes = new S2CMapResource();
-                    s2cRes.MapResourceList = new List<C2SMapResource>();
-                    this.s2cResDict.TryAdd(r.Key, s2cRes);
-                    for (int j = 0; j < len; j++)
-                    {
-                        int x;
-                        int z;
-                        if (lftX > rghX)
-                        {
-                            x = random.Next(rghX, lftX);
-                        }
-                        else
-                        {
-                            x = random.Next(lftX, rghX);
-                        }
-                        if (lftZ > rghZ)
-                        {
-                            z = random.Next(rghZ, lftZ);
-                        }
-                        else
-                        {
-                            z = random.Next(lftZ, rghZ);
-                        }
-                        FixVector3 pos = new FixVector3(x, 0, z);
-                        var c2sMapRes = new C2SMapResource();
-                        c2sMapRes.ResId = resObj.ResId;
-                        c2sMapRes.ResIndex = j;
-                        c2sMapRes.ResPosition = pos;
-                        s2cRes.MapResourceList.Add(c2sMapRes);
-                    }
-                    RedisDotNet.RedisHelper.Hash.HashSet(RedisKeyDefine._WildMapResPerfix, r.Key.ToString(), s2cRes);
-                }
+            //var hasData = GameEntry. DataManager.TryGetValue<MapResourceData>(out var mapResourceData);
+            //if (hasData)
+            //{
+            //    var resDict = mapResourceData.FixFieldResourceDict;
+            //    Random random = new Random();
+            //    foreach (var r in resDict)
+            //    {
+            //        var resObj = r.Value;
+            //        var len = resObj.ResAmount;
+            //        var spawnRange = resObj.ResSpawnRange * 1000;
+            //        var lftX = resObj.ResSpawnPositon.X + spawnRange;
+            //        var rghX = resObj.ResSpawnPositon.X - spawnRange;
+            //        var lftZ = resObj.ResSpawnPositon.Z + spawnRange;
+            //        var rghZ = resObj.ResSpawnPositon.Z - spawnRange;
+            //        var s2cRes = new S2CMapResource();
+            //        s2cRes.MapResourceList = new List<C2SMapResource>();
+            //        this.s2cResDict.TryAdd(r.Key, s2cRes);
+            //        for (int j = 0; j < len; j++)
+            //        {
+            //            int x;
+            //            int z;
+            //            if (lftX > rghX)
+            //            {
+            //                x = random.Next(rghX, lftX);
+            //            }
+            //            else
+            //            {
+            //                x = random.Next(lftX, rghX);
+            //            }
+            //            if (lftZ > rghZ)
+            //            {
+            //                z = random.Next(rghZ, lftZ);
+            //            }
+            //            else
+            //            {
+            //                z = random.Next(lftZ, rghZ);
+            //            }
+            //            FixVector3 pos = new FixVector3(x, 0, z);
+            //            var c2sMapRes = new C2SMapResource();
+            //            c2sMapRes.ResId = resObj.ResId;
+            //            c2sMapRes.ResIndex = j;
+            //            c2sMapRes.ResPosition = pos;
+            //            s2cRes.MapResourceList.Add(c2sMapRes);
+            //        }
+            //        RedisDotNet.RedisHelper.Hash.HashSet(RedisKeyDefine._WildMapResPerfix, r.Key.ToString(), s2cRes);
+            //    }
                 //Utility.Debug.LogWarning(Utility.Json.ToJson(s2cResDict,true));
-            }
+            //}
         }
         public void OnRefreshResource()
         {
