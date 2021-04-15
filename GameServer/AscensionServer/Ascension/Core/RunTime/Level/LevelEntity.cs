@@ -16,11 +16,8 @@ namespace AscensionServer
     /// </summary>
     public class LevelEntity : Entity, IReference, IRefreshable
     {
-        /// <summary>
-        /// 区域码
-        /// 区分历练与秘境的操作码；
-        /// </summary>
-        public ushort OpCode { get; private set; }
+
+        static int LevelIndex = 1000;
         /// <summary>
         /// None表示当前失活状态；
         /// 用于区分场景属于历练还是秘境类型；
@@ -36,240 +33,199 @@ namespace AscensionServer
         /// 当前场景对象是否存活；
         /// </summary>
         public bool Available { get; private set; }
-        Dictionary<int, RoleEntity> roleDict;
         Action<OperationData> roleSendMsgHandler;
         event Action<OperationData> RoleSendMsgHandler
         {
             add { roleSendMsgHandler += value; }
             remove { roleSendMsgHandler -= value; }
         }
-        /// <summary>
-        /// 帧对应角色ID的输入指令;
-        /// 《帧《RoleID,CMD》》
-        /// </summary>
-        Dictionary<long, Dictionary<int, CmdInput>> roleInputCmdDict;
-
-        S2CInput InputSet = new S2CInput();
-
+        Dictionary<int, LevelConn> connDict;
+        List<LevelConn> connCache;
+        List<FixTransportData> transportDataCache;
         long currentTick;
-        Dictionary<int, SessionRoleIdPair> roleSessionDict;
+        OperationData inputSendOpData;
+        /// <summary>
+        /// 此场景的容量；
+        /// </summary>
+        public int Capacity { get; private set; }
+        #region Pool
+        Pool<OperationData> opDataPool;
+        Pool<Dictionary<byte, object>> dataMessagePool;
+        #endregion
 
-        SessionRoleIds sessionRoleIds = new SessionRoleIds();
+        public int PlayerCount { get { return connDict.Count; } }
+        public bool Empty { get { return connDict.Count == 0; } }
+        public bool IsFull { get { return connDict.Count >= Capacity; } }
 
-        OperationData refreshOpData = new OperationData();
-
-        ObjectQueue<OperationData> opDataQueue;
-
-        ObjectQueue<SessionRoleIdPair> srPairQueue;
-
-        List<SessionRoleIdPair> existRoles;
-
-        public int PlayerCount { get { return roleDict.Count; } }
-        public bool Empty { get { return roleDict.Count==0; } }
         public LevelEntity()
         {
-            existRoles = new List<SessionRoleIdPair>();
-            roleInputCmdDict = new Dictionary<long, Dictionary<int, CmdInput>>();
-            roleDict = new Dictionary<int, RoleEntity>();
-            opDataQueue = new ObjectQueue<OperationData>();
-            srPairQueue = new ObjectQueue<SessionRoleIdPair>(false);
-            roleSessionDict = new Dictionary<int, SessionRoleIdPair>();
-        }
-        public void OnInit(int sceneId)
-        {
-            this.LevelId = sceneId;
-            this.Available = true;
-            this.InputSet.ContainerId = sceneId;
+            transportDataCache = new List<FixTransportData>();
+            connCache = new List<LevelConn>();
+            dataMessagePool = new Pool<Dictionary<byte, object>>(() => new Dictionary<byte, object>(), (t) => t.Clear());
+            inputSendOpData = new OperationData();
+            inputSendOpData.OperationCode = (byte)OperationCode.MultiplayArea;
+            inputSendOpData.SubOperationCode = (byte)LevelOpCode.PlayerInput;
+            connDict = new Dictionary<int, LevelConn>();
+            opDataPool = new Pool<OperationData>(() => new OperationData(), (t) => t.Dispose());
         }
         public bool HasRole(int roleId)
         {
-            return roleDict.ContainsKey(roleId);
+            return connDict.ContainsKey(roleId);
         }
-        public bool EnterLevel(int roleId, RoleEntity role)
+        //========================================
+        //玩家进入逻辑规则：
+        //1、新玩家进入，发送当前场景中已经存在的其他玩家数据，
+        //并将自己添加到场景玩家容器中；
+        //2、广播新进入玩家的数据到当前场景中的其他玩家；
+        //3、广播完成，将玩家对象广播的接口进行委托监听；
+        //========================================
+        public bool EnterLevel(int roleId, LevelConn conn)
         {
-            var result = roleDict.TryAdd(roleId, role);
-            if (result)
+            if (IsFull)
+                return false;
+            var result = connDict.ContainsKey(roleId);
+            if (!result)
             {
-                //进入场景逻辑：
-                //1、新玩家进入，发送当前场景中已经存在的其他玩家数据，并将自己添加到场景玩家容器中；
-                //2、广播新进入玩家的数据到当前场景中的其他玩家；
-                //3、广播完成，将玩家对象广播的接口进行委托监听；
-                //Utility.Debug.LogWarning($"RoleId:{roleId};SessionId:{role.SessionId}进入Level：{LevelId}");
-                //var opData = opDataQueue.Dequeue();
-                //OnEnterLevelS2C(role);
-                //roleSessionDict.TryGetValue(role.RoleId, out var sessionRoleIdPair);
-                //opData.BinParameters = sessionRoleIdPair;
-                //roleSendMsgHandler?.Invoke(opData);
-                //RoleSendMsgHandler += role.SendMessage;
-                //role.TryAdd(typeof(LevelEntity), this);
-                //opDataQueue.Enqueue(opData);
+                Utility.Debug.LogWarning($"RoleId:{roleId};SessionId:{conn.RoleEntity.SessionId}进入Level：{LevelId}");
+                SendExists2EnteredS2C(roleId, conn);
+                SendEntered2ExistsS2C(roleId, conn);
             }
             return result;
         }
-        public bool PeekRole(int roleId, out RoleEntity role)
+        public bool PeekRole(int roleId, out LevelConn conn)
         {
-            return roleDict.TryGetValue(roleId, out role);
+            return connDict.TryGetValue(roleId, out conn);
         }
-        public bool ExitLevel(int roleId, out RoleEntity role)
+        public bool ExitLevel(int roleId)
         {
-            var result = roleDict.Remove(roleId, out role);
+            var result = connDict.Remove(roleId, out var conn);
             if (result)
             {
-                Utility.Debug.LogWarning($"RoleId:{role.RoleId};SessionId:{role.SessionId}离开Level：{LevelId};PlayerCount:{PlayerCount}");
-                RoleSendMsgHandler -= role.SendMessage;
-                OnExitLevelS2C(roleId);
-                role.TryRemove(typeof(LevelEntity));
+                connCache.Remove(conn);
+                Utility.Debug.LogWarning($"RoleId:{roleId};SessionId:{conn.RoleEntity.SessionId}离开Level：{LevelId};PlayerCount:{PlayerCount}");
+                RoleSendMsgHandler -= conn.RoleEntity.SendMessage;
+                SendExited2ExistedS2C(roleId);
+                if (connDict.Count <= 0)
+                    Available = false;
             }
             return result;
         }
         /// <summary>
         ///接收到消息后直接存储，不考虑顺序 
         /// </summary>
-        //public void OnCommandC2S(IDataContract data)
-        //{
-        //    if (data == null)
-        //        return;
-        //    var input = data as CmdInput;
-        //    var result = roleInputCmdDict.TryGetValue(currentTick, out var roleCmdDict);
-        //    if (result)
-        //    {
-        //        roleCmdDict.TryAdd(input.RoleId, input);
-        //    }
-        //    else
-        //    {
-        //        roleInputCmdDict.TryAdd(currentTick, new Dictionary<int, CmdInput>());
-        //        roleInputCmdDict[currentTick].TryAdd(input.RoleId, input);
-        //    }
-        //}
+        public void OnCommandC2S(int roleId, FixTransportData inputJson)
+        {
+            var result = connDict.TryGetValue(roleId, out var conn);
+            if (result)
+            {
+                conn.InputData = inputJson;
+            }
+        }
         /// <summary>
         /// 发送消息到当前场景所有玩家；
         /// Send message to all role server to client
         /// </summary>
-        public void SndMsg2AllS2C(OperationData data)
+        public void BroadCast2AllS2C(OperationData data)
         {
             roleSendMsgHandler?.Invoke(data);
         }
+        /// <summary>
+        /// 乐观锁
+        /// </summary>
         public void OnRefresh()
         {
             if (!Available)
                 return;
-            var result = false;
-            //var result = roleInputCmdDict.TryGetValue(currentTick, out var roleCmds);
-            //InputSet.InputDict = roleCmds;
-            //InputSet.Tick = currentTick;
-            //refreshOpData.BinParameters = InputSet;
-            //roleSendMsgHandler?.Invoke(refreshOpData);
-            if (result)
+            transportDataCache.Clear();
+            var length = connCache.Count;
+            for (int i = 0; i < length; i++)
             {
-                //若当前帧发送成功，则移除上一个逻辑帧数据；服务器当前不存储数据，仅负责转发；
-                //Utility.Debug.LogInfo($"LevelId:{LevelId}找到帧，发送,PlayerCout:{PlayerCount},Tick:{currentTick}");
+                if (!Utility.Assert.IsNull(connCache[i].InputData))
+                {
+                    transportDataCache.Add(connCache[i].InputData);
+                    connCache[i].InputData = null;
+                }
             }
-            else
+            if (transportDataCache.Count > 0)
             {
-                //Utility.Debug.LogInfo($"LevelId:{LevelId}空帧,PlayerCout:{PlayerCount},Tick:{currentTick}");
+                inputSendOpData.DataMessage = Utility.MessagePack.ToJson(transportDataCache);
+                roleSendMsgHandler?.Invoke(inputSendOpData);
             }
-            roleInputCmdDict.Remove(currentTick - 1, out _);
             currentTick++;
         }
         public void Clear()
         {
             Utility.Debug.LogWarning($"Level:{LevelId}无玩家，Clear");
-            roleDict.Clear();
             this.LevelId = 0;
             this.Available = false;
-            roleInputCmdDict.Clear();
             roleSendMsgHandler = null;
             currentTick = 0;
-            InputSet.Clear();
-            opDataQueue.Clear();
+            opDataPool.Clear();
+            dataMessagePool.Clear();
+            Capacity = 0;
         }
-        public static LevelEntity Create(LevelTypeEnum levelType, int sceneId, params RoleEntity[] peerEntities)
+        public static LevelEntity Create(LevelTypeEnum levelType, int levelId, int capacity)
         {
             LevelEntity se = CosmosEntry.ReferencePoolManager.Spawn<LevelEntity>();
-            switch (levelType)
-            {
-                case LevelTypeEnum.Adventure:
-                    se.OpCode = (byte)OperationCode.AdventureArea;
-                    break;
-                case LevelTypeEnum.SecretArea:
-                    se.OpCode = (byte)OperationCode.SecretArea;
-                    break;
-            }
             se.LevelType = levelType;
-            se.OnInit(sceneId);
-            int length = peerEntities.Length;
-            for (int i = 0; i < length; i++)
-            {
-                se.EnterLevel(peerEntities[i].SessionId, peerEntities[i]);
-            }
+            se.Available = true;
+            se.Capacity = capacity;
+            se.LevelId = levelId;
             return se;
         }
-        public static LevelEntity Create(LevelTypeEnum levelType, int sceneId, List<RoleEntity> peerEntities)
+        public static void Release(LevelEntity levelEntity)
         {
-            LevelEntity se = CosmosEntry.ReferencePoolManager.Spawn<LevelEntity>();
-            switch (levelType)
-            {
-                case LevelTypeEnum.Adventure:
-                    se.OpCode = (byte)OperationCode.AdventureArea;
-                    break;
-                case LevelTypeEnum.SecretArea:
-                    se.OpCode = (byte)OperationCode.SecretArea;
-                    break;
-            }
-            se.LevelType = levelType;
-            se.OnInit(sceneId);
-            int length = peerEntities.Count;
-            for (int i = 0; i < length; i++)
-            {
-                se.EnterLevel(peerEntities[i].SessionId, peerEntities[i]);
-            }
-            return se;
-        }
-        public static LevelEntity Create(LevelTypeEnum levelType, int sceneId)
-        {
-            LevelEntity se = CosmosEntry.ReferencePoolManager.Spawn<LevelEntity>();
-            switch (levelType)
-            {
-                case LevelTypeEnum.Adventure:
-                    se.OpCode = (byte)OperationCode.AdventureArea;
-                    break;
-                case LevelTypeEnum.SecretArea:
-                    se.OpCode = (byte)OperationCode.SecretArea;
-                    break;
-            }
-            se.LevelType = levelType;
-            se.OnInit(sceneId);
-            return se;
+            CosmosEntry.ReferencePoolManager.Despawn(levelEntity);
         }
         /// <summary>
-        /// 将已在场景中的玩家数据发送给进来的角色；
+        /// 将进入的玩家发送到已经在场景中的玩家
         /// </summary>
-        void OnEnterLevelS2C(RoleEntity role)
+        void SendEntered2ExistsS2C(int roleId, LevelConn conn)
         {
-            //var opData = opDataQueue.Dequeue();
-            //opData.BinParameters = sessionRoleIds;
-            //var sessionRole = srPairQueue.Dequeue();
-            //sessionRole.RoleId = role.RoleId;
-            //sessionRole.SessionId = role.SessionId;
-            //roleSessionDict.TryAdd(role.RoleId, sessionRole);
-            //existRoles.Clear();
-            //existRoles.AddRange(roleSessionDict.Values);
-            //sessionRoleIds.SessionRoleIdList = existRoles;
-            //role.SendMessage(opData);
+            var opData = opDataPool.Spawn();
+            opData.OperationCode = (byte)OperationCode.MultiplayArea;
+            opData.SubOperationCode = (byte)LevelOpCode.PlayerEnter;
+            var dataMessage = dataMessagePool.Spawn();
+            dataMessage.Add((byte)LevelParameterCode.Existed, connDict.Keys.ToList());
+            opData.DataMessage = Utility.MessagePack.ToJson(dataMessage);
+            conn.RoleEntity.SendMessage(opData);
+            connDict.Add(roleId, conn);
+            opDataPool.Despawn(opData);
+            dataMessagePool.Despawn(dataMessage);
+        }
+        /// <summary>
+        /// 将已经在场景中的玩家发送到进入的玩家
+        /// </summary>
+        void SendExists2EnteredS2C(int roleId, LevelConn conn)
+        {
+            var opData = opDataPool.Spawn();
+            var dataMessage = dataMessagePool.Spawn();
+            opData.OperationCode = (byte)OperationCode.MultiplayArea;
+            opData.SubOperationCode = (byte)LevelOpCode.PlayerEnter;
+            dataMessage.Add((byte)LevelParameterCode.EnteredRole, roleId);
+            opData.DataMessage = Utility.MessagePack.ToJson(dataMessage);
+            roleSendMsgHandler?.Invoke(opData);
+            opDataPool.Despawn(opData);
+            dataMessagePool.Despawn(dataMessage);
+            RoleSendMsgHandler += conn.RoleEntity.SendMessage;
         }
         /// <summary>
         /// 将离开的玩家数据广播给已经在level中的其他玩家；
         /// </summary>
-        void OnExitLevelS2C(int roleId)
+        void SendExited2ExistedS2C(int roleId)
         {
-            if (roleSessionDict.Remove(roleId, out var sessionRolePair))
+            if (connDict.Remove(roleId, out var conn))
             {
-                //refreshOpData.BinParameters = sessionRolePair;
-                //var opData = opDataQueue.Dequeue();
-                //opData.OperationCode = OpCode;
-                //roleSendMsgHandler?.Invoke(opData);
-                //opDataQueue.Enqueue(opData);
-                //srPairQueue.Enqueue(sessionRolePair);
+                connCache.Remove(conn);
+                var opData = opDataPool.Spawn();
+                opData.OperationCode = (byte)OperationCode.MultiplayArea;
+                opData.SubOperationCode = (byte)LevelOpCode.PlayerExit;
+                var dataMessage = dataMessagePool.Spawn();
+                dataMessage.Add((byte)LevelParameterCode.ExitedRole, roleId);
+                opData.DataMessage = Utility.MessagePack.ToJson(dataMessage);
+                roleSendMsgHandler?.Invoke(opData);
+                opDataPool.Despawn(opData);
+                dataMessagePool.Despawn(dataMessage);
             }
         }
     }

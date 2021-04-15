@@ -9,9 +9,9 @@ namespace Cosmos
     public class TcpNetMessage : INetworkMessage
     {
         public long Conv { get; set; }
-        public ushort OperationCode { get; set; }
+        public UdpHeader HeaderCode{ get; set; }
 
-        public byte[] ServiceMsg { get; private set; }
+        public byte[] ServiceData { get; private set; }
 
         public bool DecodeMessage(byte[] buffer)
         {

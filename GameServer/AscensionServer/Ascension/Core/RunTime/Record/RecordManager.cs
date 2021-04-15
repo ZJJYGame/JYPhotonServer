@@ -20,16 +20,11 @@ namespace AscensionServer
         }
         public override void OnPreparatory()
         {
-            CommandEventCore.Instance.AddEventListener((byte)OperationCode.LogoffRole, OnPlayerLogoff);
+            GameEntry.RoleManager.OnRoleLogoff+= RecordRole;
         }
-        public void RecordRole(RoleEntity roleEntity)
+         void RecordRole( int roleId)
         {
-            recordHelper.RecordRole(roleEntity);
-        }
-        void OnPlayerLogoff(int sessionId, OperationData opData)
-        {
-            var roleEntity = opData.DataMessage as RoleEntity;
-            recordHelper.RecordRole(roleEntity);
+            recordHelper.RecordRole(roleId);
         }
     }
 }

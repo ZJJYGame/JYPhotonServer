@@ -8,7 +8,7 @@ using Cosmos;
 namespace AscensionServer
 {
     [Module]
-    public class NetworkManager:Cosmos. Module ,INetworkManager
+    public class NetworkManager: Module ,INetworkManager
     {
         INetworkMessageHelper messageHelper;
         public override void OnInitialization()
@@ -21,7 +21,7 @@ namespace AscensionServer
         }
         void InitHelper()
         {
-            var helper = Utility.Assembly.GetInstanceByAttribute<ImplementProviderAttribute, INetworkMessageHelper>(GetType().Assembly,true);
+            var helper = Utility.Assembly.GetInstanceByAttribute<ImplementProviderAttribute, INetworkMessageHelper>(GetType().Assembly, true);
             messageHelper = helper;
         }
     }

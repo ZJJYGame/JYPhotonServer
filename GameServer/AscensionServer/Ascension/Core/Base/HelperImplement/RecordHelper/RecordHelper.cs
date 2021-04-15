@@ -17,16 +17,16 @@ namespace AscensionServer
         /// </summary>
         /// <param name="roleId">离线账号</param>
         /// <param name="data">新上线账号</param>
-        public async void RecordRole(RoleEntity roleEntity)
+        public async void RecordRole(int  roleId)
         {
-            Utility.Debug.LogInfo("yzqData" + "同步离线时间成功" + "原来的角色id为" + roleEntity.RoleId);
+            Utility.Debug.LogInfo("yzqData" + "同步离线时间成功" + "原来的角色id为" + roleId);
             #region 记录离线时间
-            if (roleEntity.RoleId == -1)
+            if (roleId == -1)
             {
                 Utility.Debug.LogInfo("============AscensionPeer.RecordOnOffLine() : Can't RecordOnOffLine ============");
                 return;
             }
-            NHCriteria nHCriteriaOnOff = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleEntity.RoleId);
+            NHCriteria nHCriteriaOnOff = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleId);
             var obj = NHibernateQuerier.CriteriaSelectAsync<OnOffLine>(nHCriteriaOnOff).Result;
             var roleAllianceobj = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriaOnOff).Result;
             if (roleAllianceobj != null)
@@ -48,7 +48,7 @@ namespace AscensionServer
             if (obj != null)
             {
                 obj.OffTime = DateTime.Now.ToString();
-                obj.RoleID = roleEntity.RoleId;
+                obj.RoleID = roleId;
                 NHibernateQuerier.Update(obj);
             }
             else
@@ -61,7 +61,7 @@ namespace AscensionServer
                 //CosmosEntry.ReferencePoolManager.Despawn(offLineTimeTmp);
                 #endregion
                 var offLineTimeTmp = CosmosEntry.ReferencePoolManager.Spawn<OnOffLine>();
-                offLineTimeTmp.RoleID = roleEntity.RoleId;
+                offLineTimeTmp.RoleID = roleId; ; ;
                 offLineTimeTmp.OffTime = DateTime.Now.ToString();
                 NHibernateQuerier.Insert(offLineTimeTmp);
                 CosmosEntry.ReferencePoolManager.Despawn(offLineTimeTmp);

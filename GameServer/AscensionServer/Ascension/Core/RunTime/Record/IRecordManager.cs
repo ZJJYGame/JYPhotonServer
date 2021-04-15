@@ -9,7 +9,6 @@ namespace AscensionServer
 {
     public interface IRecordManager:IModuleManager
     {
-        void RecordRole(RoleEntity roleEntity);
     }
 }
 

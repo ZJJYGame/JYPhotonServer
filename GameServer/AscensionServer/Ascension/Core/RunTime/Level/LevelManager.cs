@@ -6,23 +6,52 @@ using System.Text;
 using System.Threading.Tasks;
 using Cosmos;
 using AscensionProtocol;
+using AscensionProtocol.DTO;
+
 namespace AscensionServer
 {
     /// <summary>
     /// 场景管理器，管理野外高同步的数据；
     /// </summary>
     [Module]
-    public partial class LevelManager : Cosmos. Module,ILevelManager
+    public partial class LevelManager : Module, ILevelManager
     {
+        //========================================
+        //注意：
+        //1、历练的场景设计是按照棋盘格切块的，表现效果参照Unity
+        //插件WorldSteamer。
+        //2、假设有100*100的单位地图，均匀切成5*5的方块。则一个单位
+        //为20*20。在同步时需要同步此单位周边9宫格的地块信息。
+        //□□□
+        //□■□
+        //□□□
+        //实心块即玩家所在块，空心块为玩家周边地块。
+        //========================================
+        /// <summary>
+        /// 历练单个对象场景能够容纳的玩家数量；
+        /// </summary>
+        public const int AdventureSingleLevelCapacity = 128;
+        /// <summary>
+        /// 秘境单个场景能够容纳的玩家数量；
+        /// </summary>
+        public const int SecretSingleLevelCapacity = 6;
+
         /// <summary>
         /// 历练场景字典;
         /// </summary>
         ConcurrentDictionary<int, LevelEntity> adventureLevelEntityDict;
+        int adventureLevelIndex = 100;
+
         /// <summary>
         /// 秘境场景字典;
         /// </summary>
-        ConcurrentDictionary<long , LevelEntity> secretAreaLevelEntityDict;
+        ConcurrentDictionary<long, LevelEntity> secretAreaLevelEntityDict;
+        int secretAreaLevelIndex = 100;
 
+        /// <summary>
+        /// Key : SessionId---Value : LevelConn
+        /// </summary>
+        ConcurrentDictionary<int, LevelConn> connDict;
         long latestTime;
         int updateInterval = ApplicationBuilder._MSPerTick;
 
@@ -30,7 +59,7 @@ namespace AscensionServer
         event Action SceneRefreshHandler
         {
             add { sceneRefreshHandler += value; }
-            remove{sceneRefreshHandler -= value;}
+            remove { sceneRefreshHandler -= value; }
         }
 
         IRoleManager roleMgrInstance;
@@ -53,19 +82,25 @@ namespace AscensionServer
             add { onRoleExitLevel += value; }
             remove { onRoleExitLevel -= value; }
         }
+        Pool<LevelConn> connPool;
+
         public override void OnPreparatory()
         {
+            connPool = new Pool<LevelConn>(() => new LevelConn(), (t) => t.Dispose());
             adventureLevelEntityDict = new ConcurrentDictionary<int, LevelEntity>();
             secretAreaLevelEntityDict = new ConcurrentDictionary<long, LevelEntity>();
+            connDict = new ConcurrentDictionary<int, LevelConn>();
 
             latestTime = Utility.Time.MillisecondNow() + updateInterval;
             roleMgrInstance = GameEntry.RoleManager;
 
-            CommandEventCore.Instance.AddEventListener((byte)OperationCode.LogoffRole, OnPlayerLogoff);
-
-            CommandEventCore.Instance.AddEventListener((byte)OperationCode.AdventureArea, ProcessAdventureHandlerS2C);
-            CommandEventCore.Instance.AddEventListener((byte)OperationCode.SecretArea, ProcessSecretAreaHandlerS2C);
+            GameEntry.PeerManager.OnPeerDisconnected += OnPeerDisconnectHandler;
+            CommandEventCore.Instance.AddEventListener((byte)OperationCode.MultiplayArea, ProcessMultiplayHandlerS2C);
         }
+        //========================================
+        //同步注意：
+        //1、乐观模式。定时派发，Level内部有自己的空帧处理规则；
+        //========================================
         public override void OnRefresh()
         {
             if (IsPause)
@@ -81,7 +116,7 @@ namespace AscensionServer
         /// <summary>
         ///场景是否包含有角色； 
         /// </summary>
-        public bool LevelHasRole(LevelTypeEnum levelType,int levelId, int roleId)
+        public bool LevelHasRole(LevelTypeEnum levelType, int levelId, int roleId)
         {
             switch (levelType)
             {
@@ -107,43 +142,141 @@ namespace AscensionServer
         /// <summary>
         ///广播消息到指定场景，若场景不存在，则不执行； 
         /// </summary>
-        public void SendMessageToLevelS2C(LevelTypeEnum levelType,int levelId,OperationData opData)
+        public void SendMessageToLevelS2C(LevelTypeEnum levelType, int levelId, OperationData opData)
         {
             switch (levelType)
             {
                 case LevelTypeEnum.Adventure:
                     {
                         if (adventureLevelEntityDict.TryGetValue(levelId, out var levelEntity))
-                            levelEntity.SndMsg2AllS2C(opData);
+                            levelEntity.BroadCast2AllS2C(opData);
                     }
                     break;
                 case LevelTypeEnum.SecretArea:
                     {
                         if (secretAreaLevelEntityDict.TryGetValue(levelId, out var levelEntity))
-                            levelEntity.SndMsg2AllS2C(opData);
+                            levelEntity.BroadCast2AllS2C(opData);
                     }
                     break;
             }
         }
-
-        void OnPlayerLogoff(int sessionId, OperationData opData)
+        void OnPeerDisconnectHandler(int sessionId)
         {
-            var roleEntity = opData.DataMessage as RoleEntity;
-            if (roleEntity != null)
+            if (!connDict.TryGetValue(sessionId, out var conn))
             {
-                if (roleEntity.TryGetValue(typeof(LevelEntity), out var entity))
+                var levelEntity = GetLevelEntity(conn);
+                levelEntity.ExitLevel(conn.RoleId);
+                Utility.Debug.LogWarning($"RoleId:{conn.RoleId} ;SessionId:{sessionId}由于强退，尝试从Level:{levelEntity.LevelId}中移除");
+                if (levelEntity.Empty)
                 {
-                    var levelEntity = entity as LevelEntity;
-                    levelEntity.ExitLevel(roleEntity.RoleId,out _ );
-                    Utility.Debug.LogWarning($"RoleId:{roleEntity.RoleId} ;SessionId:{roleEntity.SessionId}由于强退，尝试从Level:{levelEntity.LevelId}中移除");
-                    if (levelEntity.Empty)
+                    switch (levelEntity.LevelType)
                     {
-                        adventureLevelEntityDict.TryRemove((int)levelEntity.LevelId, out _);
-                        CosmosEntry.ReferencePoolManager.Despawn(levelEntity);
-                        SceneRefreshHandler -= levelEntity.OnRefresh;
+                        case LevelTypeEnum.Adventure:
+                            adventureLevelEntityDict.TryRemove((int)levelEntity.LevelId, out _);
+                            break;
+                        case LevelTypeEnum.SecretArea:
+                            secretAreaLevelEntityDict.TryRemove((int)levelEntity.LevelId, out _);
+                            break;
                     }
+                    SceneRefreshHandler -= levelEntity.OnRefresh;
+                    LevelEntity.Release(levelEntity);
                 }
             }
+        }
+        void ProcessMultiplayHandlerS2C(int sessionId, OperationData packet)
+        {
+            var subCode = (LevelOpCode)packet.SubOperationCode;
+            switch (subCode)
+            {
+                case LevelOpCode.PlayerEnter:
+                    OnPlayerEnterS2C(sessionId, packet);
+                    break;
+                case LevelOpCode.PlayerExit:
+                    OnPlayerExitS2C(sessionId, packet);
+                    break;
+                case LevelOpCode.PlayerInput:
+                    OnPlayerInputS2C(sessionId, packet);
+                    break;
+            }
+        }
+        void OnPlayerEnterS2C(int sessionId, OperationData packet)
+        {
+            if (!connDict.ContainsKey(sessionId))
+            {
+                var json = Convert.ToString(packet.DataMessage);
+                var obj = Utility.MessagePack.ToObject<Dictionary<byte, object>>(json);
+                var levelType = Convert.ToByte(Utility.GetValue(obj, (byte)LevelParameterCode.LevelType));
+                var roleId = Convert.ToInt32(Utility.GetValue(obj, (byte)LevelParameterCode.EnteredRole));
+                var conn = connPool.Spawn();
+                conn.LevelType = levelType;
+                conn.RoleId = roleId;
+                var leveltypeEnum = (LevelTypeEnum)levelType;
+                connDict.TryAdd(sessionId, conn);
+                LevelEntity levelEntity = null;
+                switch (leveltypeEnum)
+                {
+                    case LevelTypeEnum.Adventure:
+                        {
+                            foreach (var level in adventureLevelEntityDict.Values)
+                            {
+                                if (!level.IsFull)
+                                {
+                                    levelEntity = level;
+                                    break;
+                                }
+                            }
+                            if (Utility.Assert.IsNull(levelEntity))
+                            {
+                                levelEntity = LevelEntity.Create(LevelTypeEnum.Adventure, adventureLevelIndex++, AdventureSingleLevelCapacity);
+                                adventureLevelEntityDict.TryAdd(adventureLevelIndex, levelEntity);
+                            }
+                            levelEntity.EnterLevel(conn.RoleId, conn);
+                        }
+                        break;
+                    case LevelTypeEnum.SecretArea:
+                        {
+                            //需要分单人与多人！！！
+                            //levelEntity = LevelEntity.Create(LevelTypeEnum.SecretArea, 0,SecretSingleLevelCapacity);
+                        }
+                        break;
+                }
+            }
+        }
+        void OnPlayerExitS2C(int sessionId, OperationData packet)
+        {
+            if (connDict.TryGetValue(sessionId, out var conn))
+            {
+                var levelEntity = GetLevelEntity(conn);
+                levelEntity.ExitLevel(conn.RoleId);
+                connPool.Despawn(conn);
+            }
+        }
+        void OnPlayerInputS2C(int sessionId, OperationData packet)
+        {
+            if (connDict.TryGetValue(sessionId, out var conn))
+            {
+                var json = Convert.ToString(packet.DataMessage);
+                var obj = Utility.MessagePack.ToObject<Dictionary<byte, object>>(json);
+                var inputDataJson = Convert.ToString(Utility.GetValue(obj, (byte)LevelParameterCode.InputData));
+                var inputDataObj = Utility.MessagePack.ToObject<FixTransportData>(inputDataJson);
+                var levelEntity = GetLevelEntity(conn);
+                levelEntity.OnCommandC2S(conn.RoleId, inputDataObj);
+            }
+        }
+        LevelEntity GetLevelEntity(LevelConn conn)
+        {
+            var levelType = (LevelTypeEnum)conn.LevelType;
+            LevelEntity levelEntity = null;
+            switch (levelType)
+            {
+                case LevelTypeEnum.Adventure:
+                    adventureLevelEntityDict.TryGetValue(conn.LevelId, out levelEntity);
+                    break;
+                case LevelTypeEnum.SecretArea:
+                    adventureLevelEntityDict.TryGetValue(conn.LevelId, out levelEntity);
+                    break;
+            }
+            return levelEntity;
         }
     }
 }

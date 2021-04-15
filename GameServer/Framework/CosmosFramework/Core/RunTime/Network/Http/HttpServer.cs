@@ -37,7 +37,7 @@ namespace Cosmos
             var reqData = context.Request.InputStream;
             var iptStream = context.Request.InputStream;
             byte[] readData = new byte[context.Request.ContentLength64];
-            await iptStream.ReadAsync(readData, 0, readData.Length);
+            await iptStream.ReadAsync(readData,0, readData.Length);
             var readStr = Encoding.UTF8.GetString(readData);
             var responseData = onReceive?.Invoke(readStr);
             Stream optStream = context.Response.OutputStream;

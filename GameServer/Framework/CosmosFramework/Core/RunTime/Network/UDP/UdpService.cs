@@ -32,7 +32,26 @@ namespace Cosmos.Network
         /// </summary>
         protected UdpClient udpSocket;
         protected ConcurrentQueue<UdpReceiveResult> awaitHandle = new ConcurrentQueue<UdpReceiveResult>();
-        protected uint conv = 0;
+        protected long conv = 0;
+        public event Action<long,ArraySegment<byte>> OnReceiveData
+        {
+            add { onReceiveData += value; }
+            remove { onReceiveData -= value; }
+        }
+        protected Action<long,ArraySegment<byte>> onReceiveData;
+
+      protected  Action<long> onDisconnected;
+        public event Action<long> OnDisconnected
+        {
+            add { onDisconnected += value; }
+            remove { onDisconnected -= value; }
+        }
+        protected Action<long> onConnected;
+        public event Action<long> OnConnected
+        {
+            add { onConnected += value; }
+            remove { onConnected -= value; }
+        }
         public virtual void OnInitialization()
         {
             udpSocket = new UdpClient(Port);
@@ -91,6 +110,7 @@ namespace Cosmos.Network
         public void OnPause() { IsPause = true; }
         public void OnUnPause() { IsPause = false; }
 
+        public virtual void AbortUnavilablePeer(IRemotePeer peer) { }
 
     }
 }

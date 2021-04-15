@@ -9,6 +9,14 @@ namespace AscensionServer
 {
     public interface IPeerManager : IModuleManager
     {
+        /// <summary>
+        /// Id为SessionId
+        /// </summary>
+        event Action<int> OnPeerConnected;
+        /// <summary>
+        /// Id为SessionId
+        /// </summary>
+        event Action<int> OnPeerDisconnected;
         bool TryAdd(IPeerEntity peer);
         bool TryAdd(int sessionId, IPeerEntity peer);
         bool TryRemove(int sessionId);

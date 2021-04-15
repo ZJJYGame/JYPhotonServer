@@ -9,6 +9,14 @@ namespace AscensionServer
 {
     public interface IRoleManager:IModuleManager
     {
+        /// <summary>
+        /// Id为RoleId
+        /// </summary>
+        event Action<int> OnRoleLogoff;
+        /// <summary>
+        /// Id为RoleId
+        /// </summary>
+        event Action<int> OnRoleLogOn;
         int RoleCount { get; }
         bool ContainsKey(int roleId);
         bool TryAdd(int roleId, RoleEntity role);

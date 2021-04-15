@@ -10,6 +10,9 @@ namespace Cosmos
     /// </summary>
     public interface INetworkService : IBehaviour, IRefreshable, IControllable
     {
+        event Action<long,ArraySegment<byte>> OnReceiveData;
+        event Action<long> OnDisconnected;
+        event Action<long> OnConnected;
         /// <summary>
         /// 发送网络消息;
         /// </summary>
@@ -26,5 +29,11 @@ namespace Cosmos
         /// 接收网络消息
         /// </summary>
         void OnReceive();
+        /// <summary>
+        /// 移除失效peer；
+        /// 作为参数传入peer；
+        /// </summary>
+        /// <param name="peer">失效的peerD</param>
+        void AbortUnavilablePeer(IRemotePeer peer);
     }
 }

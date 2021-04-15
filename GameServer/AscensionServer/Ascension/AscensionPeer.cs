@@ -65,7 +65,7 @@ namespace AscensionServer
         /// </summary>
         public void SendMessage(OperationData opData)
         {
-            var data = Utility.MessagePack.ToByteArray(opData);
+            var data = Utility.MessagePack.ToJson(opData);
             base.SendMessage(data, sendParam);
         }
         public void SendMessage(byte opCode, Dictionary<byte, object> userData)
@@ -107,16 +107,17 @@ namespace AscensionServer
             EventData ed = new EventData((byte)EventCode.DeletePlayer);
             Dictionary<byte, object> data = new Dictionary<byte, object>();
             ed.Parameters = data;
-            //尝试获取负载的角色数据；
-            if (TryGetValue(typeof(RoleEntity), out var roleEntity))
-            {
-                //若存在，则广播到各个模块；
-                var opData = new OperationData();
-                opData.OperationCode =(byte) OperationCode.LogoffRole;
-                opData.DataMessage = roleEntity;
-                var t = CommandEventCore.Instance.DispatchAsync((byte)OperationCode.LogoffRole, SessionId ,opData);
-            }
+            ////尝试获取负载的角色数据；
+            //if (TryGetValue(typeof(RoleEntity), out var roleEntity))
+            //{
+            //    //若存在，则广播到各个模块；
+            //    var opData = new OperationData();
+            //    opData.OperationCode =(byte) OperationCode.LogoffRole;
+            //    opData.DataMessage = roleEntity;
+            //    var t = CommandEventCore.Instance.DispatchAsync((byte)OperationCode.LogoffRole, SessionId ,opData);
+            //}
             GameEntry.PeerManager.TryRemove(SessionId);
+
             Utility.Debug.LogError($"Photon SessionId : {SessionId} Unavailable . RemoteAdress:{RemoteIPAddress}");
             var task = GameEntry.PeerManager.BroadcastMessageToAllAsync((byte)reasonCode, ed.Parameters);
         }

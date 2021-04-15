@@ -46,7 +46,10 @@ namespace AscensionProtocol
         SyncBottleneck=19,
         SyncMoveStatus =20,
 
-
+        /// <summary>
+        /// 多人在线区域码；
+        /// </summary>
+        MultiplayArea=110,
         /// <summary>
         /// 历练区域码；
         /// </summary>

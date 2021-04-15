@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System;
 using System.Diagnostics;
 using System.Collections.Concurrent;
+using kcp;
 
 namespace Cosmos.Network
 {
@@ -13,94 +14,81 @@ namespace Cosmos.Network
     /// <summary>
     /// 此模块为客户端网络管理类
     /// </summary>
-    public   class NetworkManager : Module, INetworkManager
+    internal sealed partial class NetworkManager : Module, INetworkManager
     {
-        string serverIP;
-        int serverPort;
-        string clientIP;
-        int clientPort;
+        #region UDP
         INetworkService service;
-        IPEndPoint serverEndPoint;
-        INetMessageHelper netMessageHelper;
-        public IPEndPoint ServerEndPoint
-        {
-            get
-            {
-                if (serverEndPoint == null)
-                    serverEndPoint = new IPEndPoint(IPAddress.Parse(serverIP), serverPort);
-                return serverEndPoint;
-            }
-        }
-        IPEndPoint clientEndPoint;
-        public IPEndPoint ClientEndPoint
-        {
-            get
-            {
-                if (clientEndPoint == null)
-                    clientEndPoint = new IPEndPoint(IPAddress.Parse(clientIP), clientPort);
-                return clientEndPoint;
-            }
-        }
+        IHeartbeat heartbeat;
+        #endregion
 
+        #region KCP
+        KcpServerService kcpServerService;
+        #endregion
 
+        public event Action<int, byte[]> OnReceiveData
+        {
+            add { onReceiveData += value; }
+            remove { onReceiveData -= value; }
+        }
+        Action<int, byte[]> onReceiveData;
+        NetworkProtocolType currentNetworkProtocolType;
         public int PeerCount { get { return clientPeerDict.Count; } }
         ConcurrentDictionary<long, IRemotePeer> clientPeerDict = new ConcurrentDictionary<long, IRemotePeer>();
-        Action<IRemotePeer> peerConnectHandler;
-        public event Action<IRemotePeer> PeerConnectEvent
+        Action<int> onConnected;
+        public event Action<int> OnConnected
         {
-            add { peerConnectHandler += value; }
-            remove { peerConnectHandler -= value; }
+            add { onConnected += value; }
+            remove { onConnected -= value; }
         }
-        Action<IRemotePeer> peerDisconnectHandler;
-        public event Action<IRemotePeer> PeerDisconnectEvent
+        Action<int> onDisconnected;
+        public event Action<int> OnDisconnected
         {
-            add { peerDisconnectHandler += value; }
-            remove { peerDisconnectHandler -= value; }
+            add { onDisconnected += value; }
+            remove { onDisconnected -= value; }
         }
-
         public override void OnInitialization()
         {
             IsPause = false;
         }
         public override void OnRefresh()
         {
-            service?.OnRefresh();
-        }
-        /// <summary>
-        /// 本质是异步发送
-        /// </summary>
-        /// <param name="netMsg">消息对象</param>
-        public void SendNetworkMessage(INetworkMessage netMsg)
-        {
-            service.SendMessageAsync(netMsg);
+            if (IsPause)
+                return;
+            switch (currentNetworkProtocolType)
+            {
+                case NetworkProtocolType.TCP:
+                    break;
+                case NetworkProtocolType.UDP:
+                    // service?.OnRefresh();
+                    break;
+                case NetworkProtocolType.KCP:
+                    kcpServerService?.ServiceTick();
+                    break;
+            }
         }
         public void SendNetworkMessage(byte[] buffer, IPEndPoint endPoint)
         {
             service.SendMessageAsync(buffer, endPoint);
         }
-        public void SendNetworkMessage(INetworkMessage netMsg, IPEndPoint endPoint)
+        public void SendNetworkMessage(KcpChannel channelId, byte[] data, int connectionId)
         {
-            service.SendMessageAsync(netMsg, endPoint);
-        }
-        /// <summary>
-        /// 初始化网络模块
-        /// </summary>
-        /// <param name="protocolType"></param>
-        public void Connect(ProtocolType protocolType)
-        {
-            switch (protocolType)
+            switch (currentNetworkProtocolType)
             {
-                case ProtocolType.Tcp:
-                    {
-                    }
+                case NetworkProtocolType.TCP:
                     break;
-                case ProtocolType.Udp:
+                case NetworkProtocolType.UDP:
+                    break;
+                case NetworkProtocolType.KCP:
                     {
-                        service = new UdpServerService();
-                        service.OnInitialization();
+                        var segment = new ArraySegment<byte>(data);
+                        kcpServerService.ServiceSend(channelId, segment, connectionId);
                     }
                     break;
             }
+        }
+        public void SendNetworkMessage(byte[] data, int connectionId)
+        {
+            SendNetworkMessage(KcpChannel.Reliable, data, connectionId);
         }
         /// <summary>
         /// 与远程建立连接；
@@ -109,82 +97,77 @@ namespace Cosmos.Network
         /// <param name="ip">ip地址</param>
         /// <param name="port">端口号</param>
         /// <param name="protocolType">协议类型</param>
-        public void Connect(string ip, int port, ProtocolType protocolType)
+        public void Connect(ushort port, NetworkProtocolType protocolType = NetworkProtocolType.KCP)
         {
             OnUnPause();
+            currentNetworkProtocolType = protocolType;
             switch (protocolType)
             {
-                case ProtocolType.Tcp:
+                case NetworkProtocolType.KCP:
+                    {
+                        var kcpServer = new KcpServerService();
+                        kcpServerService = kcpServer;
+                        KCPLog.Info = (s) => Utility.Debug.LogInfo(s);
+                        KCPLog.Warning = (s) => Utility.Debug.LogWarning(s);
+                        KCPLog.Error = (s) => Utility.Debug.LogError(s);
+                        kcpServerService.Port = (ushort)port;
+                        kcpServerService.ServiceSetup();
+                        kcpServerService.ServiceUnpause();
+                        kcpServerService.OnServerDataReceived += OnKCPReceiveDataHandler;
+                        kcpServerService.OnServerDisconnected += OnDisconnectedHandler;
+                        kcpServerService.OnServerConnected += OnConnectedHandler;
+                        kcpServerService.ServiceConnect();
+                    }
+                    break;
+                case NetworkProtocolType.TCP:
                     {
                     }
                     break;
-                case ProtocolType.Udp:
+                case NetworkProtocolType.UDP:
                     {
-                        service = new UdpServerService();
-                        UdpServerService udp = service as UdpServerService;
-                        udp.IP = ip;
-                        udp.Port = port;
-                        service.OnInitialization();
+                        //service = new UdpServerService();
+                        //UdpServerService udp = service as UdpServerService;
+                        //udp.OnReceiveData += OnReceiveDataHandler;
+                        //udp.OnConnected+= OnConnectedHandler;
+                        //udp.OnDisconnected+= OnDisconnectedHandler;
+                        //udp.Port = port;
+                        //service.OnInitialization();
                     }
                     break;
             }
         }
         /// <summary>
-        /// 与远程建立连接；
+        /// 与指定的会话Id断开；
         /// </summary>
-        /// <param name="service">自定义实现的服务</param>
-        public void Connect(INetworkService service)
+        /// <param name="connectionId">需要断开的会话Id</param>
+        public void Disconnect(int connectionId)
         {
-            if (service == null)
+            switch (currentNetworkProtocolType)
             {
-                Utility.Debug.LogError("Service Empty");
-                return;
+                case NetworkProtocolType.TCP:
+                    break;
+                case NetworkProtocolType.UDP:
+                    break;
+                case NetworkProtocolType.KCP:
+                    kcpServerService?.ServiceDisconnect(connectionId);
+                    break;
             }
-            OnUnPause();
-            this.service = service;
-            service.OnInitialization();
-            Utility.Debug.LogInfo("建立UDP远程连接");
         }
 
-        public bool TryGetPeer(long key, out IRemotePeer value)
+        void OnKCPReceiveDataHandler(int conv, ArraySegment<byte> arrSeg, int Channel)
         {
-            return clientPeerDict.TryGetValue(key, out value);
+            var rcvLen = arrSeg.Count;
+            var rcvData = new byte[rcvLen];
+            Array.Copy(arrSeg.Array, 1, rcvData, 0, rcvLen);
+            onReceiveData?.Invoke(conv, rcvData);
         }
-        public bool ContainsPeer(long key)
+        void OnDisconnectedHandler(int conv)
         {
-            return clientPeerDict.ContainsKey(key);
+            onDisconnected?.Invoke(conv);
         }
-        public bool TryRemovePeer(long key)
+        void OnConnectedHandler(int conv)
         {
-            IRemotePeer peer;
-            var result = clientPeerDict.TryRemove(key, out peer);
-            if (result)
-                peerDisconnectHandler?.Invoke(peer);
-            return result;
-        }
-        public bool TryRemovePeer(long key, out IRemotePeer peer)
-        {
-            var result = clientPeerDict.TryRemove(key, out peer);
-            if (result)
-                peerDisconnectHandler?.Invoke(peer);
-            return result;
-        }
-        public bool TryAddPeer(long key, IRemotePeer value)
-        {
-            var result = clientPeerDict.TryAdd(key, value);
-            if (result)
-                peerConnectHandler?.Invoke(value);
-            return result;
-        }
-        public bool TryUpdatePeer(long key, IRemotePeer newValue, IRemotePeer comparsionValue)
-        {
-            var result = clientPeerDict.TryUpdate(key, newValue, comparsionValue);
-            if (result)
-            {
-                peerConnectHandler?.Invoke(newValue);
-                peerDisconnectHandler?.Invoke(comparsionValue);
-            }
-            return result;
+            onConnected?.Invoke(conv);
         }
     }
 }

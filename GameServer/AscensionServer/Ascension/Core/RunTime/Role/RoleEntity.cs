@@ -8,29 +8,12 @@ namespace AscensionServer
     /// <summary>
     ///
     /// </summary>
-    public class RoleEntity : Entity,IReference
+    public class RoleEntity : Entity, IReference
     {
-        public int RoleId { get { return (int)Id; } set { Id = value; } }
-        public int SessionId{ get; private set; }
+        public int RoleId { get { return (int)Id; } private set { Id = value; } }
+        public int SessionId { get; private set; }
         public int DataCount { get { return dataDict.Count; } }
         Dictionary<Type, object> dataDict = new Dictionary<Type, object>();
-#if !SERVER
-        RoleController roleController;
-        public RoleController RoleController { get { return roleController; } }
-#endif
-        public void OnInit(int roleId,int sessionId)
-        {
-            this.RoleId = roleId;
-            this.SessionId= sessionId;
-#if !SERVER
-            Facade.LoadResPrefabAsync<RoleController>((go) =>
-            {
-                roleController = go;
-                roleController.OnInit(this);
-            });
-            Facade.CustomeModule<RoleManager>().TryAdd(RoleId, this);
-#endif
-        }
         public object[] Find(Predicate<object> handler)
         {
             List<object> dataSet = new List<object>();
@@ -69,12 +52,6 @@ namespace AscensionServer
             }
             return false;
         }
-#if !SERVER
-        public void OnCommand(IDataContract data)
-        {
-            roleController.OnCommand(data);
-        }
-#endif
         public void SendMessage(OperationData data)
         {
             GameEntry.PeerManager.SendMessage(SessionId, data);
@@ -85,36 +62,31 @@ namespace AscensionServer
         }
         public void SendMessage(byte opCode, short subCode, Dictionary<byte, object> userData)
         {
-            GameEntry.PeerManager.SendMessage(SessionId, opCode,subCode, userData);
+            GameEntry.PeerManager.SendMessage(SessionId, opCode, subCode, userData);
         }
         public void Clear()
         {
-#if !SERVER
-            roleController.Clear();
-            Facade.CustomeModule<RoleManager>().TryRemove(RoleId);
-#endif
             RoleId = 0;
             dataDict.Clear();
         }
         public override bool Equals(object obj)
         {
             var entity = obj as RoleEntity;
-            if (entity==null)
+            if (entity == null)
                 return false;
             return entity.RoleId == this.RoleId;
         }
-        public static RoleEntity Create(int roleId,int sessionId, params object[] datas)
+        public static RoleEntity Create(int roleId, int sessionId, params object[] datas)
         {
             var entity = CosmosEntry.ReferencePoolManager.Spawn<RoleEntity>();
-            entity.OnInit(roleId,sessionId);
+            entity.RoleId = roleId;
+            entity.SessionId = sessionId;
             for (int i = 0; i < datas.Length; i++)
             {
                 entity.TryAdd(datas[i].GetType(), datas[i]);
             }
             return entity;
         }
-
-     
     }
 }
 

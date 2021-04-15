@@ -191,7 +191,7 @@ namespace AscensionServer
                         GameEntry.RoleManager.TryRemove(roleObj.RoleID);
                         GameEntry.RoleManager.TryAdd(roleObj.RoleID, role);
                         opData.ReturnCode = (byte)ReturnCode.Success;//登录成功
-                        GameEntry.RecordManager.RecordRole(remoteRoleObj as RoleEntity);
+                        //GameEntry.RecordManager.RecordRole(remoteRoleObj as RoleEntity);
                         CosmosEntry.ReferencePoolManager.Despawn(remoteRoleObj);//回收这个RemoteRole对象
                     }
                     else
@@ -230,7 +230,7 @@ namespace AscensionServer
                     GameEntry.RoleManager.TryRemove(roleObj.RoleID);
                 }
                 opData.ReturnCode = (byte)ReturnCode.Success;
-                GameEntry.RecordManager.RecordRole(remoteRoleObj as RoleEntity);
+                //GameEntry.RecordManager.RecordRole(remoteRoleObj as RoleEntity);
             }
             else
             {

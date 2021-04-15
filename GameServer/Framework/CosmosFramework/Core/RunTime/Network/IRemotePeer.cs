@@ -19,15 +19,11 @@ namespace Cosmos
         /// <summary>
         /// 是否存活；
         /// </summary>
-        bool Available { get; }
+        bool Available { get; set; }
         /// <summary>
         /// 对当前的peer对象发送消息
         /// </summary>
         /// <param name="netMsg">消息体</param>
         void SendMessage(INetworkMessage netMsg);
-        /// <summary>
-        /// 终断连接
-        /// </summary>
-        void AbortConnection();
     }
 }

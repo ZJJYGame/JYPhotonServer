@@ -8,7 +8,7 @@ namespace AscensionServer
 {
     public interface IRecordHelper
     {
-        void RecordRole(RoleEntity roleEntity);
+        void RecordRole(int roleId );
     }
 }
 

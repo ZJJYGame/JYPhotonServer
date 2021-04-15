@@ -18,6 +18,18 @@ namespace AscensionServer
     public class PeerManager : Cosmos.Module, IPeerManager
     {
 
+        Action<int> onPeerConnected;
+        public event Action<int> OnPeerConnected
+        {
+            add { onPeerConnected += value; }
+            remove { OnPeerDisconnected += value; }
+        }
+        Action<int> onPeerDisconnected;
+        public event Action<int> OnPeerDisconnected
+        {
+            add { onPeerDisconnected += value; }
+            remove { onPeerDisconnected -= value; }
+        }
 
         event Action<OperationData> BroadcastMsg1Param
         {
@@ -42,6 +54,7 @@ namespace AscensionServer
 
         ConcurrentDictionary<int, IPeerEntity> peerDict;
 
+
         public override void OnInitialization()
         {
             peerDict = new ConcurrentDictionary<int, IPeerEntity>();
@@ -54,6 +67,7 @@ namespace AscensionServer
                 BroadcastMsg3Params += peer.SendMessage;
                 BroadcastMsg2Params += peer.SendMessage;
                 BroadcastMsg1Param += peer.SendMessage;
+                onPeerConnected?.Invoke(peer.SessionId);
             }
             return result;
         }
@@ -65,6 +79,7 @@ namespace AscensionServer
                 BroadcastMsg3Params += peer.SendMessage;
                 BroadcastMsg2Params += peer.SendMessage;
                 BroadcastMsg1Param += peer.SendMessage;
+                onPeerConnected?.Invoke(sessionId);
             }
             return result;
         }
@@ -76,6 +91,7 @@ namespace AscensionServer
                 BroadcastMsg3Params -= peer.SendMessage;
                 BroadcastMsg2Params -= peer.SendMessage;
                 BroadcastMsg1Param -= peer.SendMessage;
+                onPeerDisconnected?.Invoke(sessionId);
             }
             return result;
         }
@@ -87,6 +103,7 @@ namespace AscensionServer
                 BroadcastMsg3Params -= peer.SendMessage;
                 BroadcastMsg2Params -= peer.SendMessage;
                 BroadcastMsg1Param -= peer.SendMessage;
+                onPeerDisconnected?.Invoke(sessionId);
             }
             return result;
         }
@@ -255,6 +272,7 @@ namespace AscensionServer
             await Task.Run(() => { broadcastMsg3Params?.Invoke(opCode, subCode,userData); });
             callback?.Invoke();
         }
+
     }
 }
 

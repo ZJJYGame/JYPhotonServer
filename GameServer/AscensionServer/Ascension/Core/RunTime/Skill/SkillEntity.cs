@@ -19,7 +19,6 @@ namespace AscensionServer
         //public IDataContract DataContract { get; set; }
         ConcurrentDictionary<int, SkillVariable> skillDict = 
             new ConcurrentDictionary<int, SkillVariable>();
-        SessionRoleIdPair player;
         IDataVerifyHelper dataVerifier=new SkillDataVerifyHelper();
         protected SkillEntity(){}
         protected SkillEntity(int id) { base.Id = id; }

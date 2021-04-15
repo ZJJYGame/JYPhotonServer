@@ -9,7 +9,7 @@ using System.Collections.Concurrent;
 namespace AscensionServer
 {
     [Module]
-    public class RoleManager : Cosmos. Module,IRoleManager
+    public class RoleManager : Cosmos.Module, IRoleManager
     {
         public int RoleCount { get { return roleDict.Count; } }
         ConcurrentDictionary<int, RoleEntity> roleDict = new ConcurrentDictionary<int, RoleEntity>();
@@ -25,7 +25,7 @@ namespace AscensionServer
         event Action<byte, Dictionary<byte, object>> BroadcastMsg2Params
         {
             add { broadcastMsg2Params += value; }
-            remove{broadcastMsg2Params -= value;}
+            remove { broadcastMsg2Params -= value; }
         }
         Action<byte, Dictionary<byte, object>> broadcastMsg2Params;
 
@@ -36,9 +36,21 @@ namespace AscensionServer
         }
         Action<byte, short, Dictionary<byte, object>> broadcastMsg3Params;
 
+        Action<int> onRoleLogoff;
+        public event Action<int> OnRoleLogoff
+        {
+            add { onRoleLogoff += value; }
+            remove { onRoleLogoff -= value; }
+        }
+        Action<int> onRoleLogOn;
+        public event Action<int> OnRoleLogOn
+        {
+            add { onRoleLogOn += value; }
+            remove{ onRoleLogOn -= value; }
+        }
         public override void OnPreparatory()
         {
-            CommandEventCore.Instance.AddEventListener((byte)OperationCode.LogoffRole, OnPlayerLogoff);
+            GameEntry.PeerManager.OnPeerDisconnected += PeerDisconnectedHandler;
         }
         public bool ContainsKey(int roleId)
         {
@@ -52,6 +64,7 @@ namespace AscensionServer
                 BroadcastMsg3Params += role.SendMessage;
                 BroadcastMsg2Params += role.SendMessage;
                 BroadcastMsg1Param += role.SendMessage;
+                onRoleLogOn?.Invoke(roleId); 
             }
             return result;
         }
@@ -67,6 +80,7 @@ namespace AscensionServer
                 BroadcastMsg3Params -= role.SendMessage;
                 BroadcastMsg2Params -= role.SendMessage;
                 BroadcastMsg1Param -= role.SendMessage;
+                onRoleLogoff?.Invoke(roleId);
             }
             return result;
         }
@@ -78,6 +92,7 @@ namespace AscensionServer
                 BroadcastMsg3Params -= role.SendMessage;
                 BroadcastMsg2Params -= role.SendMessage;
                 BroadcastMsg1Param -= role.SendMessage;
+                onRoleLogoff?.Invoke(roleId);
             }
             return result;
         }
@@ -102,8 +117,6 @@ namespace AscensionServer
             }
             return false;
         }
-
-
         /// <summary>
         ///通过roleId发送信息到登录的角色;
         /// </summary>
@@ -121,11 +134,11 @@ namespace AscensionServer
                 role.SendMessage(opCode, userData);
             return result;
         }
-        public bool SendMessage(int roleId, byte opCode,short subCode, Dictionary<byte, object> userData)
+        public bool SendMessage(int roleId, byte opCode, short subCode, Dictionary<byte, object> userData)
         {
             var result = TryGetValue(roleId, out var role);
             if (result)
-                role.SendMessage(opCode, subCode,userData);
+                role.SendMessage(opCode, subCode, userData);
             return result;
         }
 
@@ -141,7 +154,7 @@ namespace AscensionServer
         {
             broadcastMsg2Params?.Invoke(opCode, userData);
         }
-        public void BroadcastMessageToAll(byte opCode,short subCode, Dictionary<byte, object> userData)
+        public void BroadcastMessageToAll(byte opCode, short subCode, Dictionary<byte, object> userData)
         {
             broadcastMsg3Params?.Invoke(opCode, subCode, userData);
         }
@@ -155,9 +168,9 @@ namespace AscensionServer
         {
             return await Task.Run(() => { return SendMessage(roleId, opCode, userData); });
         }
-        public async Task<bool> SendEventAsync(int roleId, byte opCode,short subCode, Dictionary<byte, object> userData)
+        public async Task<bool> SendEventAsync(int roleId, byte opCode, short subCode, Dictionary<byte, object> userData)
         {
-            return await Task.Run(() => { return SendMessage(roleId, opCode,subCode, userData); });
+            return await Task.Run(() => { return SendMessage(roleId, opCode, subCode, userData); });
 
         }
 
@@ -172,18 +185,14 @@ namespace AscensionServer
             await Task.Run(() => { broadcastMsg2Params?.Invoke(opCode, userData); });
             callback?.Invoke();
         }
-        public async Task BroadcastMessageToAllAsync(byte opCode, short subCode,Dictionary<byte, object> userData, Action callback = null)
+        public async Task BroadcastMessageToAllAsync(byte opCode, short subCode, Dictionary<byte, object> userData, Action callback = null)
         {
-            await Task.Run(() => { broadcastMsg3Params?.Invoke(opCode, subCode,userData); });
+            await Task.Run(() => { broadcastMsg3Params?.Invoke(opCode, subCode, userData); });
             callback?.Invoke();
         }
-        void OnPlayerLogoff(int sessionId, OperationData opData)
+        void PeerDisconnectedHandler(int conv)
         {
-            var roleEntity= opData.DataMessage as RoleEntity;
-            if (roleEntity != null)
-            {
-                TryRemove(roleEntity.RoleId);
-            }
+            TryRemove(conv);
         }
     }
 }
