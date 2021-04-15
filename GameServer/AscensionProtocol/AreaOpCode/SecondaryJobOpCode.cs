@@ -37,10 +37,6 @@ namespace AscensionProtocol
         /// </summary>
         RepairPuppet=7,
         /// <summary>
-        /// 获得武器法宝数据
-        /// </summary>
-        GetWeapon = 8,
-        /// <summary>
         /// 开始锻造
         /// </summary>
         CompoundForge = 9,

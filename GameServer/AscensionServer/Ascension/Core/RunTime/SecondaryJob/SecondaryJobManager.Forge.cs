@@ -19,9 +19,10 @@ namespace AscensionServer
         /// </summary>
        async void UpdateForgeS2C(int roleID,int useItemID)
         {
-            var formulaExist = GameEntry.DataManager.TryGetValue<Dictionary<int, FormulaDrugData>>(out var formulaDataDict);
+            var formulaExist = GameEntry.DataManager.TryGetValue<Dictionary<int, FormulaForgeData>>(out var formulaDataDict);
             if (!formulaExist)
             {
+                Utility.Debug.LogInfo("YZQ添加锻造配方请求1");
                 RoleStatusFailS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus);
                 return;
             }
@@ -29,6 +30,7 @@ namespace AscensionServer
             var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteria);
             if (ringServer == null)
             {
+                Utility.Debug.LogInfo("YZQ添加锻造配方请求2");
                 RoleStatusFailS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus);
                 return;
             }
@@ -44,8 +46,9 @@ namespace AscensionServer
                     {
                         if (formulaDataDict.TryGetValue(tempid, out var formula))
                         {
-                            if (formula.FormulaLevel > forge.JobLevel)
+                            if (formula.NeedJobLevel > forge.JobLevel)
                             {
+                                Utility.Debug.LogInfo("YZQ添加锻造配方请求3");
                                 RoleStatusFailS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus);
                                 return;
                             }
@@ -61,8 +64,7 @@ namespace AscensionServer
                                 await NHibernateQuerier.UpdateAsync(ChangeDataType(forge));
                                 await RedisHelper.Hash.HashSetAsync<ForgeDTO>(RedisKeyDefine._ForgePerfix, roleID.ToString(), forge);
                             }
-                            else
-                                RoleStatusFailS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus);
+                            else { Utility.Debug.LogInfo("YZQ添加锻造配方请求4"); RoleStatusFailS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus); }                    
                         }
                     }
                     else
@@ -72,7 +74,7 @@ namespace AscensionServer
                     UpdateForgeMySql(roleID, useItemID, nHCriteria);
             }
             else
-                UpdateForgeMySql(roleID, useItemID, nHCriteria);
+                RoleStatusFailS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus);
 
         }
         /// <summary>
@@ -83,7 +85,9 @@ namespace AscensionServer
             var forgeExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._ForgePerfix, roleID.ToString()).Result;
             var roleExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatsuPerfix, roleID.ToString()).Result;
             var assestExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString()).Result;
-            var roleweaponExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString()).Result;
+            var roleweaponExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleWeaponPostfix, roleID.ToString()).Result;
+            NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
+            var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteria);
             if (forgeExist&& roleExist&& assestExist&&roleweaponExist)
             {
                 var forge = RedisHelper.Hash.HashGetAsync<ForgeDTO>(RedisKeyDefine._ForgePerfix, roleID.ToString()).Result;
@@ -93,13 +97,13 @@ namespace AscensionServer
                 if (forge != null && role != null && assest != null&& roleweapon!=null)
                 {
                     var forgeid = 0;//锻造出来的装备法宝唯一ID
-                    GameEntry.DataManager.TryGetValue<Dictionary<int, FormulaDrugData>>(out var formulaDataDict);
+                    GameEntry.DataManager.TryGetValue<Dictionary<int, FormulaForgeData>>(out var formulaDataDict);
                     if (forge.Recipe_Array.Contains(useItemID))
                     {
                         formulaDataDict.TryGetValue(useItemID, out var formulaData);
                         for (int i = 0; i < formulaData.NeedItemArray.Count; i++)
                         {
-                            if (!InventoryManager.VerifyIsExist(formulaData.NeedItemArray[i], formulaData.NeedItemNumber[i], roleID))
+                            if (!InventoryManager.VerifyIsExist(formulaData.NeedItemArray[i], formulaData.NeedItemNumber[i], ringServer.RingIdArray))
                             {
                                 RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundForge);
                                 return;
@@ -120,38 +124,53 @@ namespace AscensionServer
                         role.Vitality -= formulaData.NeedVitality;
                         assest.SpiritStonesLow -= formulaData.NeedMoney;
 
-                        var weapobObj = ForgeStatusAlgorithm(useItemID,out string forgeType);
+                        var weapobObj = ForgeStatusAlgorithm(formulaData.ItemID);
                         if (weapobObj!=null)
                         {
-                            if (true)
+                            if (formulaData.SyntheticType!=9)//锻造的非法宝装备
                             {
-                                var indexExist = roleweapon.Magicindex.TryGetValue(useItemID, out int id);
+                                var indexExist = roleweapon.Magicindex.TryGetValue(formulaData.ItemID, out int id);
                                 if (indexExist)
                                 {
-                                    roleweapon.Weaponindex.Add(useItemID, id + 1);
-                                    roleweapon.WeaponStatusDict.Add(Convert.ToInt32(useItemID + "" + (id + 1)), weapobObj);
+                                    roleweapon.Weaponindex[formulaData.ItemID] = id + 1;
+                                    roleweapon.WeaponStatusDict.Add(Convert.ToInt32(formulaData.ItemID + "" + (id + 1)), weapobObj);
+                                    forgeid = Convert.ToInt32(formulaData.ItemID + "" + (id + 1));
+                                }
+                                else
+                                {
+                                    roleweapon.Weaponindex.Add(formulaData.ItemID,  1);
+                                    roleweapon.WeaponStatusDict.Add(Convert.ToInt32(formulaData.ItemID + "" + 1), weapobObj);
+                                    forgeid = Convert.ToInt32(formulaData.ItemID + "" + 1);
                                 }
                             }
                             else
                             {
-                                var indexExist = roleweapon.Magicindex.TryGetValue(useItemID, out int id);
+                                var indexExist = roleweapon.Magicindex.TryGetValue(formulaData.ItemID, out int id);
                                 if (indexExist)
                                 {
-                                    roleweapon.Magicindex.Add(useItemID, id + 1);
-                                    roleweapon.MagicStatusDict.Add(Convert.ToInt32(useItemID + "" + (id + 1)), weapobObj);
+                                    roleweapon.Magicindex[formulaData.ItemID] = id + 1;
+                                    roleweapon.MagicStatusDict.Add(Convert.ToInt32(formulaData.ItemID + "" + (id + 1)), weapobObj);
+                                    forgeid = Convert.ToInt32(formulaData.ItemID + "" + (id + 1));
+                                }
+                                else
+                                {                                   
+                                    roleweapon.Magicindex.Add(formulaData.ItemID,  1);
+                                    roleweapon.MagicStatusDict.Add(Convert.ToInt32(formulaData.ItemID + "" +1), weapobObj);
+                                    forgeid = Convert.ToInt32(formulaData.ItemID + "" + 1);
                                 }
                             }
-                        }
 
-                       await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._ForgePerfix, roleID.ToString(), roleweapon);
-                        await NHibernateQuerier.UpdateAsync(ChangeDataType(roleweapon));
+                            await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleWeaponPostfix, roleID.ToString(), roleweapon);
+                            await NHibernateQuerier.UpdateAsync(ChangeDataType(roleweapon));
 
-                       // InventoryManager.AddNewItem(roleID, forgeid, 1);
-                        Dictionary<byte, object> dict = new Dictionary<byte, object>();
-                        dict.Add((byte)ParameterCode.JobForge, forge);
-                        dict.Add((byte)ParameterCode.RoleAssets, assest);
-                        dict.Add((byte)ParameterCode.RoleStatus, role);
-                        RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.CompoundForge, dict);
+                            InventoryManager.AddNewItem(roleID, forgeid, 1);
+                            Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                            dict.Add((byte)ParameterCode.JobForge, forge);
+                            dict.Add((byte)ParameterCode.RoleAssets, assest);
+                            dict.Add((byte)ParameterCode.RoleStatus, role);
+                            RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.CompoundForge, dict);
+                        }else
+                            RoleStatusCompoundFailS2C(roleID, SecondaryJobOpCode.CompoundForge, default);
                     }
                 }
             }
@@ -168,13 +187,15 @@ namespace AscensionServer
         /// <param name="nHCriteria"></param>
         async void UpdateForgeMySql(int roleID, int useItemID, NHCriteria nHCriteria)
         {
+            Utility.Debug.LogInfo("YZQ添加锻造配方请求5");
             var forge = NHibernateQuerier.CriteriaSelect<Forge>(nHCriteria);
             if (forge != null)
             {
                 var tempid = Utility.Converter.RetainInt32(useItemID, 5);
                 var recipe = Utility.Json.ToObject<List<int>>(forge.Recipe_Array);
-                if (recipe.Contains(tempid))
+                if (!recipe.Contains(tempid))
                 {
+                    Utility.Debug.LogInfo("YZQ添加锻造配方请求6");
                     recipe.Add(tempid);
                     forge.Recipe_Array = Utility.Json.ToJson(recipe);
                     RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus, ChangeDataType(forge));
@@ -182,19 +203,24 @@ namespace AscensionServer
                     await NHibernateQuerier.UpdateAsync(forge);
                     await RedisHelper.Hash.HashSetAsync<ForgeDTO>(RedisKeyDefine._ForgePerfix, roleID.ToString(), ChangeDataType(forge));
                 }
-                else
+                else {
                     RoleStatusFailS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus);
+                }
+                   
             }
             else
                 RoleStatusFailS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus);
         }      
         #endregion
-
-        WeaponDTO ForgeStatusAlgorithm(int id,out string forgeType)
+        /// <summary>
+        /// 装备锻造属性计算
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        WeaponDTO ForgeStatusAlgorithm(int id)
         {
             GameEntry.DataManager.TryGetValue<Dictionary<int, ForgeParameter>>(out var forgeparameter);
             var result = forgeparameter.TryGetValue(id,out var parameter);
-            forgeType = "";
             if (result)
             {
                 WeaponDTO weapon = new WeaponDTO();
@@ -217,7 +243,6 @@ namespace AscensionServer
             else
                 return null;
         }
-
 
         ForgeDTO ChangeDataType(Forge forge)
         {
@@ -246,7 +271,7 @@ namespace AscensionServer
             weapon.Magicindex = Utility.Json.ToJson(weaponDTO.Magicindex);
             weapon.MagicStatusDict = Utility.Json.ToJson(weaponDTO.MagicStatusDict);
             weapon.Weaponindex = Utility.Json.ToJson(weaponDTO.Weaponindex);
-            weapon.MagicStatusDict = Utility.Json.ToJson(weaponDTO.MagicStatusDict);
+            weapon.WeaponStatusDict = Utility.Json.ToJson(weaponDTO.WeaponStatusDict);
             return weapon;
         }
     }

@@ -75,6 +75,62 @@ namespace AscensionServer
                 GetRoleMiShuMySql(RoleID);
         }
 
+        async void AddGongFaS2C(int roleid,int id)
+        {
+            GameEntry.DataManager.TryGetValue<Dictionary<int, GongFaBook>>(out var bookDict);
+            GameEntry.DataManager.TryGetValue<Dictionary<int, GongFa>>(out var gongfaDict);
+            if (!bookDict.TryGetValue(id, out var book))
+            {
+                return;
+            }
+
+            var roleExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RolePostfix, roleid.ToString()).Result;
+            var rolegongfaExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleGongfaPerfix,roleid.ToString()).Result;
+            if (rolegongfaExist&& roleExist)
+            {
+                var  rolegongfa = RedisHelper.Hash.HashGetAsync<RoleGongFaDTO>(RedisKeyDefine._RoleGongfaPerfix, roleid.ToString()).Result;
+                var role = RedisHelper.Hash.HashGetAsync<Role>(RedisKeyDefine._RolePostfix, roleid.ToString()).Result;
+                if (rolegongfa!=null&& role!=null)
+                {
+                    if (book.Need_Level_ID>role.RoleLevel)
+                    {
+                        return;
+                    }
+
+                    if (rolegongfa.GongFaIDArray.Count != 0)
+                    {
+                        if (rolegongfa.GongFaIDArray.ContainsKey(book.Gongfa_ID)&& rolegongfa.GongFaIDArray.ContainsKey(book.Need_Gongfa_ID))
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            CultivationMethodDTO cultivationMethodDTO = new CultivationMethodDTO();
+                            cultivationMethodDTO.CultivationMethodID = book.Gongfa_ID;
+                            cultivationMethodDTO.CultivationMethodLevel = book.Need_Level_ID;
+                            for (int i = 0; i < gongfaDict[book.Gongfa_ID].Skill_One.Count; i++)
+                            {
+                                if (role.RoleLevel>= gongfaDict[book.Gongfa_ID].Skill_One_At_Level[i])
+                                {
+                                    cultivationMethodDTO.CultivationMethodLevelSkillArray.Add(gongfaDict[book.Gongfa_ID].Skill_One[i]);
+                                }
+                            }
+                            var gongfaObj = NHibernateQuerier.Insert(ChangeGongFa(cultivationMethodDTO));
+                            rolegongfa.GongFaIDArray.Add(gongfaObj.ID, book.Gongfa_ID);
+                        }
+                    }
+                    else
+                    {
+                        CultivationMethodDTO cultivationMethodDTO = new CultivationMethodDTO();
+                        cultivationMethodDTO.CultivationMethodID = book.Gongfa_ID;
+                        cultivationMethodDTO.CultivationMethodLevel =1;
+                        cultivationMethodDTO.CultivationMethodLevelSkillArray .Add(gongfaDict[book.Gongfa_ID].Skill_One[0]) ;
+                        var gongfaObj= NHibernateQuerier.Insert(ChangeGongFa(cultivationMethodDTO));
+                        rolegongfa.GongFaIDArray.Add(gongfaObj.ID, book.Gongfa_ID);
+                    }
+                }
+            }
+        }
         #endregion
 
         #region MySql模块
@@ -202,6 +258,17 @@ namespace AscensionServer
             roleMiShuObj.RoleID = roleMiShu.RoleID;
             roleMiShuObj.MiShuIDArray = Utility.Json.ToObject<Dictionary<int, int>>(roleMiShu.MiShuIDArray);
             return roleMiShuObj;
+        }
+
+        CultivationMethod ChangeGongFa(CultivationMethodDTO cultivation)
+        {
+            CultivationMethod cultivationMethod = new CultivationMethod();
+            cultivationMethod.CultivationMethodExp = cultivation.CultivationMethodExp;
+            cultivationMethod.CultivationMethodID = cultivation.CultivationMethodID;
+            cultivationMethod.ID = cultivation.ID;
+            cultivationMethod.CultivationMethodLevel = cultivation.CultivationMethodLevel;
+            cultivationMethod.CultivationMethodLevelSkillArray = Utility.Json.ToJson(cultivation.CultivationMethodLevelSkillArray);
+            return cultivationMethod;
         }
         #endregion
 

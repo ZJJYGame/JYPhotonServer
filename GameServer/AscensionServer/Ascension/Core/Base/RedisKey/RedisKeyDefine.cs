@@ -196,6 +196,10 @@ namespace AscensionServer
         /// 获取人物装备法宝信息
         /// </summary>
         public static readonly string _RoleWeaponPostfix = "RoleWeapon";
+        /// <summary>
+        /// 角色装备的装备的Key前缀
+        /// </summary>
+        public static readonly string _RoleEquipmentPerfix = "RoleEquipment";
     }
 }
 

@@ -19,6 +19,7 @@ namespace AscensionServer.Model
         public virtual int DefendPower { set; get; }
         public virtual int AttackSpeed { set; get; }
         public virtual int PuppetDurable { set; get; }
+        public virtual int PuppetDurableMax { set; get; }
         public virtual string Skills { set; get; }
 
         public PuppetIndividual()
@@ -33,6 +34,7 @@ namespace AscensionServer.Model
             DefendPower = 0;
             AttackSpeed = 0;
             PuppetDurable = 0;
+            PuppetDurableMax = 0;
             Skills ="[]";
         }
 

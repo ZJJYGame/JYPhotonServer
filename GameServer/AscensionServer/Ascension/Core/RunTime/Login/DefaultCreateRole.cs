@@ -231,6 +231,10 @@ namespace AscensionServer
                 #endregion
                 NHibernateQuerier.Insert(new RolePuppet() { RoleID = role.RoleID });
                 RedisHelper.Hash.HashSet(RedisKeyDefine._RolePuppetPerfix, rolestatus.RoleID.ToString(), new RolePuppetDTO() { RoleID = role.RoleID });
+
+                NHibernateQuerier.Insert(new RoleEquipment() { RoleID = role.RoleID });
+                RedisHelper.Hash.HashSet(RedisKeyDefine._RoleEquipmentPerfix, rolestatus.RoleID.ToString(), new RoleEquipmentDTO() { RoleID = role.RoleID });
+
                 NHibernateQuerier.Insert(new FlyMagicTool() { RoleID = role.RoleID, AllFlyMagicTool = Utility.Json.ToJson(new List<int>() { 23401, 23402 }) });
                 RoleStatusPointDTO roleStatusPointDTO = new RoleStatusPointDTO();
                 NHibernateQuerier.Insert(new RoleStatusPoint() { RoleID = role.RoleID,AbilityPointSln= Utility.Json.ToJson(roleStatusPointDTO.AbilityPointSln) });

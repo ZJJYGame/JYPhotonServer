@@ -920,7 +920,7 @@
 		"MasteryValue":20,
 		"FormulaLevel":11,
 		"NeedJobLevel":2,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15272,
@@ -933,7 +933,7 @@
 		"MasteryValue":30,
 		"FormulaLevel":21,
 		"NeedJobLevel":3,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15273,
@@ -946,7 +946,7 @@
 		"MasteryValue":40,
 		"FormulaLevel":31,
 		"NeedJobLevel":4,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15274,
@@ -959,7 +959,7 @@
 		"MasteryValue":50,
 		"FormulaLevel":41,
 		"NeedJobLevel":5,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15275,
@@ -972,7 +972,7 @@
 		"MasteryValue":20,
 		"FormulaLevel":11,
 		"NeedJobLevel":2,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15276,
@@ -985,7 +985,7 @@
 		"MasteryValue":30,
 		"FormulaLevel":21,
 		"NeedJobLevel":3,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15277,
@@ -998,7 +998,7 @@
 		"MasteryValue":40,
 		"FormulaLevel":31,
 		"NeedJobLevel":4,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15278,
@@ -1011,7 +1011,7 @@
 		"MasteryValue":50,
 		"FormulaLevel":41,
 		"NeedJobLevel":5,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15279,
@@ -1024,7 +1024,7 @@
 		"MasteryValue":20,
 		"FormulaLevel":11,
 		"NeedJobLevel":2,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15280,
@@ -1037,7 +1037,7 @@
 		"MasteryValue":30,
 		"FormulaLevel":21,
 		"NeedJobLevel":3,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15281,
@@ -1050,7 +1050,7 @@
 		"MasteryValue":40,
 		"FormulaLevel":31,
 		"NeedJobLevel":4,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15282,
@@ -1063,7 +1063,7 @@
 		"MasteryValue":50,
 		"FormulaLevel":41,
 		"NeedJobLevel":5,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15283,
@@ -1076,7 +1076,7 @@
 		"MasteryValue":20,
 		"FormulaLevel":11,
 		"NeedJobLevel":2,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15284,
@@ -1089,7 +1089,7 @@
 		"MasteryValue":30,
 		"FormulaLevel":21,
 		"NeedJobLevel":3,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15285,
@@ -1102,7 +1102,7 @@
 		"MasteryValue":40,
 		"FormulaLevel":31,
 		"NeedJobLevel":4,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15286,
@@ -1115,7 +1115,7 @@
 		"MasteryValue":50,
 		"FormulaLevel":41,
 		"NeedJobLevel":5,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15287,
@@ -1128,7 +1128,7 @@
 		"MasteryValue":20,
 		"FormulaLevel":11,
 		"NeedJobLevel":2,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15288,
@@ -1141,7 +1141,7 @@
 		"MasteryValue":30,
 		"FormulaLevel":21,
 		"NeedJobLevel":3,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15289,
@@ -1154,7 +1154,7 @@
 		"MasteryValue":40,
 		"FormulaLevel":31,
 		"NeedJobLevel":4,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15290,
@@ -1167,7 +1167,7 @@
 		"MasteryValue":50,
 		"FormulaLevel":41,
 		"NeedJobLevel":5,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15291,
@@ -1180,7 +1180,7 @@
 		"MasteryValue":20,
 		"FormulaLevel":11,
 		"NeedJobLevel":2,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15292,
@@ -1193,7 +1193,7 @@
 		"MasteryValue":30,
 		"FormulaLevel":21,
 		"NeedJobLevel":3,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15293,
@@ -1206,7 +1206,7 @@
 		"MasteryValue":40,
 		"FormulaLevel":31,
 		"NeedJobLevel":4,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15294,
@@ -1219,7 +1219,7 @@
 		"MasteryValue":50,
 		"FormulaLevel":41,
 		"NeedJobLevel":5,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15295,
@@ -1232,7 +1232,7 @@
 		"MasteryValue":20,
 		"FormulaLevel":11,
 		"NeedJobLevel":2,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15296,
@@ -1245,7 +1245,7 @@
 		"MasteryValue":30,
 		"FormulaLevel":21,
 		"NeedJobLevel":3,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15297,
@@ -1258,7 +1258,7 @@
 		"MasteryValue":40,
 		"FormulaLevel":31,
 		"NeedJobLevel":4,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15298,
@@ -1271,7 +1271,7 @@
 		"MasteryValue":50,
 		"FormulaLevel":41,
 		"NeedJobLevel":5,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15299,
@@ -1284,7 +1284,7 @@
 		"MasteryValue":20,
 		"FormulaLevel":11,
 		"NeedJobLevel":2,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15300,
@@ -1297,7 +1297,7 @@
 		"MasteryValue":30,
 		"FormulaLevel":21,
 		"NeedJobLevel":3,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15301,
@@ -1310,7 +1310,7 @@
 		"MasteryValue":40,
 		"FormulaLevel":31,
 		"NeedJobLevel":4,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15302,
@@ -1323,7 +1323,7 @@
 		"MasteryValue":50,
 		"FormulaLevel":41,
 		"NeedJobLevel":5,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15303,
@@ -1336,7 +1336,7 @@
 		"MasteryValue":20,
 		"FormulaLevel":11,
 		"NeedJobLevel":2,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15304,
@@ -1349,7 +1349,7 @@
 		"MasteryValue":30,
 		"FormulaLevel":21,
 		"NeedJobLevel":3,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15305,
@@ -1362,7 +1362,7 @@
 		"MasteryValue":40,
 		"FormulaLevel":31,
 		"NeedJobLevel":4,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15306,
@@ -1375,7 +1375,7 @@
 		"MasteryValue":50,
 		"FormulaLevel":41,
 		"NeedJobLevel":5,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15307,
@@ -1388,7 +1388,7 @@
 		"MasteryValue":20,
 		"FormulaLevel":11,
 		"NeedJobLevel":2,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15308,
@@ -1401,7 +1401,7 @@
 		"MasteryValue":30,
 		"FormulaLevel":21,
 		"NeedJobLevel":3,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15309,
@@ -1414,7 +1414,7 @@
 		"MasteryValue":40,
 		"FormulaLevel":31,
 		"NeedJobLevel":4,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15310,
@@ -1427,7 +1427,7 @@
 		"MasteryValue":50,
 		"FormulaLevel":41,
 		"NeedJobLevel":5,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15311,
@@ -1440,7 +1440,7 @@
 		"MasteryValue":20,
 		"FormulaLevel":11,
 		"NeedJobLevel":2,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15312,
@@ -1453,7 +1453,7 @@
 		"MasteryValue":30,
 		"FormulaLevel":21,
 		"NeedJobLevel":3,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15313,
@@ -1466,7 +1466,7 @@
 		"MasteryValue":40,
 		"FormulaLevel":31,
 		"NeedJobLevel":4,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15314,
@@ -1479,7 +1479,7 @@
 		"MasteryValue":50,
 		"FormulaLevel":41,
 		"NeedJobLevel":5,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15315,
@@ -1492,7 +1492,7 @@
 		"MasteryValue":20,
 		"FormulaLevel":11,
 		"NeedJobLevel":2,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15316,
@@ -1505,7 +1505,7 @@
 		"MasteryValue":30,
 		"FormulaLevel":21,
 		"NeedJobLevel":3,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15317,
@@ -1518,7 +1518,7 @@
 		"MasteryValue":40,
 		"FormulaLevel":31,
 		"NeedJobLevel":4,
-		"SyntheticType":5
+		"SyntheticType":9
 	},
 	{
 		"FormulaID":15318,
@@ -1531,6 +1531,6 @@
 		"MasteryValue":50,
 		"FormulaLevel":41,
 		"NeedJobLevel":5,
-		"SyntheticType":5
+		"SyntheticType":9
 	}
 ]

@@ -16,22 +16,27 @@ namespace AscensionServer
     {
         public override void OnPreparatory()
         {
-            CommandEventCore.Instance.AddEventListener((byte)OperationCode.SyncRoleStatus, ProcessHandlerC2S);
+            CommandEventCore.Instance.AddEventListener((byte)OperationCode.SyncPuppet, ProcessHandlerC2S);
         }
         void ProcessHandlerC2S(int seeionid, OperationData packet)
         {
+            Utility.Debug.LogInfo("YZQ收到的人物傀儡" + packet.DataMessage.ToString());
+            Utility.Debug.LogInfo("YZQ收到的人物傀儡" + (PuppetOpCode)packet.SubOperationCode);
             switch ((PuppetOpCode)packet.SubOperationCode)
             {
                 case PuppetOpCode.GetPuppetStatus:
-                    GetPuppetStatusS2C(1);
-
+                    var role = Utility.Json.ToObject<RoleDTO>(packet.DataMessage.ToString());
+                    GetPuppetStatusS2C(role.RoleID);
                     break;
                 case PuppetOpCode.SetBattle:
                     var rolepuppet = Utility.Json.ToObject<RolePuppetDTO >(packet.DataMessage.ToString());
                     SetBattleS2C(rolepuppet.RoleID, rolepuppet.IsBattle);
                     break;
                 case PuppetOpCode.AbandonPuppet:
-
+                    var dict=Utility.Json.ToObject<Dictionary<byte,object>>(packet.DataMessage.ToString());
+                    role = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
+                    var puppetIndividual = Utility.Json.ToObject<PuppetIndividualDTO>(dict[(byte)ParameterCode.GetPuppetIndividual].ToString());
+                    AbandonPuppetS2C(role.RoleID, puppetIndividual.ID);
                     break;
                 default:
                     break;
@@ -59,6 +64,14 @@ namespace AscensionServer
             opData.DataMessage = Utility.Json.ToJson(null);
             GameEntry.RoleManager.SendMessage(roleID, opData);
         }
-
+        void PuppetManagerFailS2C(int roleID, PuppetOpCode oPcode,string str)
+        {
+            OperationData opData = new OperationData();
+            opData.OperationCode = (byte)OperationCode.SyncPuppet;
+            opData.SubOperationCode = (byte)oPcode;
+            opData.ReturnCode = (byte)ReturnCode.Fail;
+            opData.DataMessage = str;
+            GameEntry.RoleManager.SendMessage(roleID, opData);
+        }
     }
 }

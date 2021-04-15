@@ -239,5 +239,9 @@
         /// 角色所有傀儡
         /// </summary>
         RolePuppet=113,
+        /// <summary>
+        /// 角色装备信息
+        /// </summary>
+        RoleEquipment=114,
     }
 }

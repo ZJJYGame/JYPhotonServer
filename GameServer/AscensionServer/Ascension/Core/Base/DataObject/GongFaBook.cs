@@ -19,7 +19,7 @@ namespace AscensionServer
         public int Book_Property { get; set; }
         public int Need_School_ID { get; set; }
         public int Need_Gongfa_ID { get; set; }
-        public int Need_Level_ID { get; set; }
+        public short Need_Level_ID { get; set; }
         public int Gongfa_ID { get; set; }
     }
 }

@@ -19,6 +19,7 @@ namespace AscensionProtocol.DTO
         public virtual int DefendPower { set; get; }
         public virtual int AttackSpeed { set; get; }
         public virtual int PuppetDurable { set; get; }
+        public virtual int PuppetDurableMax { set; get; }
         public virtual List<int> Skills { set; get; }
 
         public PuppetIndividualDTO()
@@ -33,6 +34,7 @@ namespace AscensionProtocol.DTO
             DefendPower = 0;
             AttackSpeed = 0;
             PuppetDurable = 0;
+            PuppetDurableMax = 0;
             Skills = new List<int>();
     }
 
