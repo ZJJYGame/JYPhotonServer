@@ -640,7 +640,7 @@
             十进制：21
             </summary>
         </member>
-        <member name="M:AscensionServer.RecordHelper.RecordRole(AscensionServer.RoleEntity)">
+        <member name="M:AscensionServer.RecordHelper.RecordRole(System.Int32)">
             <summary>
             记录离线时间
             </summary>
@@ -3139,41 +3139,6 @@
             广播消息到指定场景，若场景不存在，则不执行； 
              </summary>
         </member>
-        <member name="T:AscensionServer.LevelManager">
-            <summary>
-            场景管理器，管理野外高同步的数据；
-            </summary>
-        </member>
-        <member name="F:AscensionServer.LevelManager.adventureLevelEntityDict">
-            <summary>
-            历练场景字典;
-            </summary>
-        </member>
-        <member name="F:AscensionServer.LevelManager.secretAreaLevelEntityDict">
-            <summary>
-            秘境场景字典;
-            </summary>
-        </member>
-        <member name="E:AscensionServer.LevelManager.OnRoleEnterLevel">
-            <summary>
-            角色进入场景事件
-            </summary>
-        </member>
-        <member name="E:AscensionServer.LevelManager.OnRoleExitLevel">
-            <summary>
-            角色离开场景事件
-            </summary>
-        </member>
-        <member name="M:AscensionServer.LevelManager.LevelHasRole(AscensionServer.LevelTypeEnum,System.Int32,System.Int32)">
-             <summary>
-            场景是否包含有角色； 
-             </summary>
-        </member>
-        <member name="M:AscensionServer.LevelManager.SendMessageToLevelS2C(AscensionServer.LevelTypeEnum,System.Int32,AscensionServer.OperationData)">
-             <summary>
-            广播消息到指定场景，若场景不存在，则不执行； 
-             </summary>
-        </member>
         <member name="M:AscensionServer.ILobbyManager.TryRemove(System.Int32)">
             <summary>
             离开大厅；
@@ -3209,6 +3174,26 @@
              </summary>
              <param name="packet">进入的请求数据</param>
         </member>
+        <member name="F:AscensionServer.MultiplayManager.FrameRate">
+            <summary>
+            帧率；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.MultiplayManager.Interval">
+            <summary>
+            帧间隔；毫秒；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.MultiplayManager.frameInputData">
+            <summary>
+            key为Conv，value为input数据；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.MultiplayManager.currentFrame">
+            <summary>
+            当前帧;
+            </summary>
+        </member>
         <member name="P:AscensionServer.OperationData.OperationCode">
             <summary>
             主操作码；
@@ -3230,17 +3215,17 @@
             </summary>
         </member>
         <!-- 对于成员“T:AscensionServer.C2SMapRes”忽略有格式错误的 XML 注释 -->
-        <member name="F:AscensionServer.C2SMapRes.ResId">
+        <member name="P:AscensionServer.C2SMapRes.ResId">
             <summary>
             资源全局Id；
             </summary>
         </member>
-        <member name="F:AscensionServer.C2SMapRes.ResIndex">
+        <member name="P:AscensionServer.C2SMapRes.ResIndex">
             <summary>
             资源生成时候的索引；
             </summary>
         </member>
-        <member name="F:AscensionServer.C2SMapRes.ResPosition">
+        <member name="P:AscensionServer.C2SMapRes.ResPosition">
             <summary>
             资源所在的位置信息
             </summary>
@@ -3264,11 +3249,6 @@
         <member name="P:AscensionServer.C2SSkillInput.SkillId">
             <summary>
             技能的Id；
-            </summary>
-        </member>
-        <member name="P:AscensionServer.CmdInput.EntityContainer">
-            <summary>
-            实体容器，例如房间实体，场景实体等等；
             </summary>
         </member>
         <member name="T:AscensionServer.SkillDefine">
@@ -3407,11 +3387,6 @@
             1s写作1000；
             </summary>
         </member>
-        <member name="T:AscensionServer.FixContainer">
-            <summary>
-            实体容器结构体；
-            </summary>
-        </member>
         <member name="T:AscensionServer.FixFloat">
             <summary>
             float网络传输类型，防止传输时失真；
@@ -3421,21 +3396,6 @@
         <member name="P:AscensionServer.FixSkill.SkillId">
             <summary>
             全局技能Id
-            </summary>
-        </member>
-        <member name="P:AscensionServer.S2CInput.ContainerId">
-            <summary>
-            实体容器ID，例如房间实体号，场景实体号等等；
-            </summary>
-        </member>
-        <member name="P:AscensionServer.S2CMapResource.MapResourceList">
-            <summary>
-            一组C2SWildResource的list集合；
-            </summary>
-        </member>
-        <member name="P:AscensionServer.S2CPlayerSkill.Container">
-            <summary>
-            实体容器ID，例如房间实体号，场景实体号等等；
             </summary>
         </member>
         <member name="P:AscensionServer.BattleCharacterEntity.RoomID">
@@ -3734,6 +3694,16 @@
             <typeparam name="T"></typeparam>
             <param name="data"></param>
             <returns></returns>
+        </member>
+        <member name="E:AscensionServer.IPeerManager.OnPeerConnected">
+            <summary>
+            Id为SessionId
+            </summary>
+        </member>
+        <member name="E:AscensionServer.IPeerManager.OnPeerDisconnected">
+            <summary>
+            Id为SessionId
+            </summary>
         </member>
         <member name="M:AscensionServer.IPeerManager.TryUpdate(System.Int32,AscensionServer.IPeerEntity,AscensionServer.IPeerEntity)">
             <summary>
@@ -4557,6 +4527,16 @@
             处理角色属性失败发送
             </summary>
         </member>
+        <member name="E:AscensionServer.IRoleManager.OnRoleLogoff">
+            <summary>
+            Id为RoleId
+            </summary>
+        </member>
+        <member name="E:AscensionServer.IRoleManager.OnRoleLogOn">
+            <summary>
+            Id为RoleId
+            </summary>
+        </member>
         <member name="M:AscensionServer.IRoleManager.SendMessage(System.Int32,AscensionServer.OperationData)">
              <summary>
             通过roleId发送信息到登录的角色;
@@ -4645,12 +4625,6 @@
             场景实体对象
             </summary>
         </member>
-        <member name="P:AscensionServer.LevelEntity.OpCode">
-            <summary>
-            区域码
-            区分历练与秘境的操作码；
-            </summary>
-        </member>
         <member name="P:AscensionServer.LevelEntity.LevelType">
             <summary>
             None表示当前失活状态；
@@ -4669,27 +4643,91 @@
             当前场景对象是否存活；
             </summary>
         </member>
-        <member name="F:AscensionServer.LevelEntity.roleInputCmdDict">
+        <member name="P:AscensionServer.LevelEntity.Capacity">
             <summary>
-            帧对应角色ID的输入指令;
-            《帧《RoleID,CMD》》
+            此场景的容量；
             </summary>
         </member>
-        <member name="M:AscensionServer.LevelEntity.SndMsg2AllS2C(AscensionServer.OperationData)">
+        <member name="M:AscensionServer.LevelEntity.OnCommandC2S(System.Int32,AscensionServer.FixTransportData)">
+             <summary>
+            接收到消息后直接存储，不考虑顺序 
+             </summary>
+        </member>
+        <member name="M:AscensionServer.LevelEntity.BroadCast2AllS2C(AscensionServer.OperationData)">
             <summary>
             发送消息到当前场景所有玩家；
             Send message to all role server to client
             </summary>
         </member>
-        <member name="M:AscensionServer.LevelEntity.OnEnterLevelS2C(AscensionServer.RoleEntity)">
+        <member name="M:AscensionServer.LevelEntity.OnRefresh">
             <summary>
-            将已在场景中的玩家数据发送给进来的角色；
+            乐观锁
             </summary>
         </member>
-        <member name="M:AscensionServer.LevelEntity.OnExitLevelS2C(System.Int32)">
+        <member name="M:AscensionServer.LevelEntity.SendEntered2ExistsS2C(System.Int32,AscensionServer.LevelConn)">
+            <summary>
+            将进入的玩家发送到已经在场景中的玩家
+            </summary>
+        </member>
+        <member name="M:AscensionServer.LevelEntity.SendExists2EnteredS2C(System.Int32,AscensionServer.LevelConn)">
+            <summary>
+            将已经在场景中的玩家发送到进入的玩家
+            </summary>
+        </member>
+        <member name="M:AscensionServer.LevelEntity.SendExited2ExistedS2C(System.Int32)">
             <summary>
             将离开的玩家数据广播给已经在level中的其他玩家；
             </summary>
+        </member>
+        <member name="T:AscensionServer.LevelManager">
+            <summary>
+            场景管理器，管理野外高同步的数据；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.LevelManager.AdventureSingleLevelCapacity">
+            <summary>
+            历练单个对象场景能够容纳的玩家数量；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.LevelManager.SecretSingleLevelCapacity">
+            <summary>
+            秘境单个场景能够容纳的玩家数量；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.LevelManager.adventureLevelEntityDict">
+            <summary>
+            历练场景字典;
+            </summary>
+        </member>
+        <member name="F:AscensionServer.LevelManager.secretAreaLevelEntityDict">
+            <summary>
+            秘境场景字典;
+            </summary>
+        </member>
+        <member name="F:AscensionServer.LevelManager.connDict">
+            <summary>
+            Key : SessionId---Value : LevelConn
+            </summary>
+        </member>
+        <member name="E:AscensionServer.LevelManager.OnRoleEnterLevel">
+            <summary>
+            角色进入场景事件
+            </summary>
+        </member>
+        <member name="E:AscensionServer.LevelManager.OnRoleExitLevel">
+            <summary>
+            角色离开场景事件
+            </summary>
+        </member>
+        <member name="M:AscensionServer.LevelManager.LevelHasRole(AscensionServer.LevelTypeEnum,System.Int32,System.Int32)">
+             <summary>
+            场景是否包含有角色； 
+             </summary>
+        </member>
+        <member name="M:AscensionServer.LevelManager.SendMessageToLevelS2C(AscensionServer.LevelTypeEnum,System.Int32,AscensionServer.OperationData)">
+             <summary>
+            广播消息到指定场景，若场景不存在，则不执行； 
+             </summary>
         </member>
         <member name="T:AscensionServer.IDataVerifyHelper">
             <summary>

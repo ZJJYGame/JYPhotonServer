@@ -114,10 +114,11 @@ namespace AscensionServer
                             RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundForge);
                             return;
                         }
-                        if (Utility.Algorithm.CreateRandomInt(0, 101) < formulaData.SuccessRate)
+                        var randNum = Utility.Algorithm.CreateRandomInt(0, 101);
+                        if (randNum >formulaData.SuccessRate)
                         {
                             RoleStatusCompoundFailS2C(roleID, SecondaryJobOpCode.CompoundForge, default);
-                            //鍛造失敗
+                            Utility.Debug.LogInfo("YZQ鍛造失敗随机数："+ randNum+"成功率："+ formulaData.SuccessRate);
                             return;
                         }
                         forge.JobLevelExp += formulaData.MasteryValue;

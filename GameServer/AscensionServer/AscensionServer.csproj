@@ -268,6 +268,9 @@
     <Compile Include="Ascension\Core\RunTime\Data\IDataConvertor.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\IDataManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Data\IDataProvider.cs" />
+    <Compile Include="Ascension\Core\RunTime\Equipment\IRoleEquipmentManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Equipment\RoleEquipmentManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Equipment\RoleEquipmentManager.Weapon.cs" />
     <Compile Include="Ascension\Core\RunTime\FlyMagicTool\FlyMagicToolManager.cs" />
     <Compile Include="Ascension\Core\RunTime\FlyMagicTool\IFlyMagicToolManager.cs" />
     <Compile Include="Ascension\Core\RunTime\GangsSchool\GangsMananger.Build.cs" />
@@ -410,6 +413,7 @@
     <Compile Include="DOMap\PuppetIndividualMap.cs" />
     <Compile Include="DOMap\PuppetUnitMap.cs" />
     <Compile Include="DOMap\RoleAllianceSkillMap.cs" />
+    <Compile Include="DOMap\RoleEquipmentMap.cs" />
     <Compile Include="DOMap\RolePuppetMap.cs" />
     <Compile Include="DOMap\RoleStatusPointMap.cs" />
     <Compile Include="DO\AllianceConstruction.cs" />
@@ -422,6 +426,7 @@
     <Compile Include="DO\PuppetUnit.cs" />
     <Compile Include="DO\RoleAllianceSkill.cs" />
     <Compile Include="DO\RoleAuctionItems.cs" />
+    <Compile Include="DO\RoleEquipment.cs" />
     <Compile Include="DO\RoleStatusPoint.cs" />
     <Compile Include="Handlers\RefreshSkillLayout\RefreshSkillLayoutHandler.cs" />
     <Compile Include="Handlers\SyncAdventurePlayerInfo\SyncAdventurePlayerInfoHandler.cs" />
@@ -706,7 +711,6 @@
     <Compile Include="DOMap\PetStatusMap.cs" />
     <Compile Include="DOMap\RingMap.cs" />
     <Compile Include="DOMap\RoleAssetsMap.cs" />
-    <Compile Include="DOMap\RoleEquipMap.cs" />
     <Compile Include="DOMap\RoleGongFaMap.cs" />
     <Compile Include="DOMap\RoleMiShuMap.cs" />
     <Compile Include="DOMap\RolePetMap.cs" />
@@ -720,7 +724,6 @@
     <Compile Include="DO\PetStatus.cs" />
     <Compile Include="DO\Ring.cs" />
     <Compile Include="DO\RoleAssets.cs" />
-    <Compile Include="DO\RoleEquip.cs" />
     <Compile Include="DO\RolePet.cs" />
     <Compile Include="DO\RoleRepository.cs" />
     <Compile Include="DO\RoleRing.cs" />
