@@ -3969,6 +3969,11 @@
             技能书使用顶替技能
             </summary>
         </member>
+        <member name="M:AscensionServer.IPetStatusManager.AverageRandom(System.Double,System.Double)">
+            <summary>
+            正态分布随机数
+            </summary>
+        </member>
         <member name="M:AscensionServer.IPetStatusManager.RolePetSetBattle(AscensionProtocol.DTO.RolePetDTO,AscensionServer.Model.RolePet,AscensionServer.NHCriteria,AscensionServer.Model.Pet)">
             <summary>
             宠物设置出战
