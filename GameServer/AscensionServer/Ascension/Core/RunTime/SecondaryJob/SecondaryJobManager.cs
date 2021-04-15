@@ -39,6 +39,15 @@ namespace AscensionServer
             AttackSpeed=6,
         }
 
+        enum FrogeType
+        {
+            weapon=1,
+            Coat=2,
+            UnderWear=3,
+            Shoes=4,
+            MagicWeapon=9,
+
+        }
         public override void OnPreparatory()
         {
             CommandEventCore.Instance.AddEventListener((byte)OperationCode.SyncSecondaryJob, ProcessHandlerC2S);
@@ -83,7 +92,8 @@ namespace AscensionServer
                     AssemblePuppetS2C(secondaryJob.RoleID, secondaryJob.UseItemID, secondaryJob.Units);
                     break;
                 case SecondaryJobOpCode.RepairPuppet:
-
+                    secondaryJob = Utility.Json.ToObject<SecondaryJobDTO>(packet.DataMessage.ToString());
+                    RepairPuppetS2C(secondaryJob.RoleID, secondaryJob.UseItemID);
                     break;
                 case SecondaryJobOpCode.GetPuppetUnit:
                      role = Utility.Json.ToObject<RoleDTO>(packet.DataMessage.ToString());

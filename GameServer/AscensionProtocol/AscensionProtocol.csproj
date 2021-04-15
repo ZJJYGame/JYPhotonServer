@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="AreaOpCode\AdventureOpCode.cs" />
     <Compile Include="AreaOpCode\AllianceOpCode.cs" />
+    <Compile Include="AreaOpCode\EquipmentOpCode.cs" />
     <Compile Include="AreaOpCode\FlyMagicToolOpCode.cs" />
     <Compile Include="AreaOpCode\LevelCommonOpCode.cs" />
     <Compile Include="AreaOpCode\LoginOffOpCode.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="DTO\PuppetDTO.cs" />
     <Compile Include="DTO\RoleAllianceSkillDTO.cs" />
     <Compile Include="DTO\RoleAuctionItemsDTO.cs" />
+    <Compile Include="DTO\RoleEquipmentDTO.cs" />
     <Compile Include="DTO\RolePuppetDTO.cs" />
     <Compile Include="DTO\RolePurchaseRecordDTO.cs" />
     <Compile Include="DTO\RoleStatusPointDTO.cs" />

@@ -171,13 +171,6 @@ namespace AscensionServer
                         role.Vitality -= data.NeedVitality;
                         assest.SpiritStonesLow -= data.NeedMoney;
 
-                        Dictionary<byte, object> dict = new Dictionary<byte, object>();
-                        dict.Add((byte)ParameterCode.RoleAssets, assest);
-                        dict.Add((byte)ParameterCode.RoleStatus, role);
-                        dict.Add((byte)ParameterCode.JobPuppet, puppet);
-                        dict.Add((byte)ParameterCode.GetPuppetIndividual, puppetObj);
-                        RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.AssemblePuppet, dict);
-
                         //for (int i = 0; i < unit.Count; i++)
                         //{
                         //    InventoryManager.Remove(roleID, unit[i]);
@@ -190,6 +183,14 @@ namespace AscensionServer
                         puppetObj.ID = puppetTemp.ID;
                         await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._PuppetIndividualPerfix, puppetTemp.ID.ToString(), puppetObj);
 
+                        Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                        dict.Add((byte)ParameterCode.RoleAssets, assest);
+                        dict.Add((byte)ParameterCode.RoleStatus, role);
+                        dict.Add((byte)ParameterCode.JobPuppet, puppet);
+                        dict.Add((byte)ParameterCode.GetPuppetIndividual, puppetObj);
+                        dict.Add((byte)ParameterCode.RolePuppet, rolepuppet);
+                        RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.AssemblePuppet, dict);
+
                         await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RolePuppetPerfix, roleID.ToString(), rolepuppet);
                         Utility.Debug.LogInfo("YZQ收到的副职人物属性" + Utility.Json.ToJson(ChangeDataType(rolepuppet)));
                         await NHibernateQuerier.SaveOrUpdateAsync(ChangeDataType(rolepuppet));
@@ -198,7 +199,7 @@ namespace AscensionServer
                         await NHibernateQuerier.SaveOrUpdateAsync(ChangeDataType(puppetUnit));
 
                         await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString(), assest);
-                        await NHibernateQuerier.SaveOrUpdateAsync(assest);
+                        await NHibernateQuerier.UpdateAsync(assest);
 
                         await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleStatsuPerfix, roleID.ToString(), role);
                         await NHibernateQuerier.SaveOrUpdateAsync(role);
@@ -223,7 +224,118 @@ namespace AscensionServer
                 }
             }
         }
+        /// <summary>
+        /// 修復傀儡
+        /// </summary>
+        /// <param name="roleid"></param>
+        /// <param name="id"></param>
+        async void RepairPuppetS2C(int roleid ,int id )
+        {
+            GameEntry.DataManager.TryGetValue<Dictionary<int, RepairPuppetData>>(out var repairDict);
+            var assestExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAssetsPerfix, roleid.ToString()).Result;
+            var puppetIndividualExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._PuppetIndividualPerfix, id.ToString()).Result; NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleid);
+            var rolering = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteria);
+            if (assestExist&& puppetIndividualExist)
+            {
+                var assestObj = RedisHelper.Hash.HashGetAsync<RoleAssets>(RedisKeyDefine._RoleAssetsPerfix, roleid.ToString()).Result;
+                var puppetIndividualObj = RedisHelper.Hash.HashGetAsync<PuppetIndividualDTO>(RedisKeyDefine._PuppetIndividualPerfix, id.ToString()).Result;
+                var expend = 0;
+                if (assestObj!=null&& puppetIndividualObj!=null)
+                {
+                    var result = repairDict.TryGetValue(puppetIndividualObj.PuppetID, out var puppetData);
+                    for (int i = 0; i < puppetData.RepairMaterials.Count; i++)
+                    {
+                        if (!InventoryManager.VerifyIsExist(puppetData.RepairMaterials[i], puppetData.MaterialsNumbers[i], rolering.RingIdArray))
+                        {
+                            RoleStatusFailS2C(roleid,SecondaryJobOpCode.RepairPuppet);
+                            return;
+                        }
+                    }
 
+                    expend = (puppetIndividualObj.HP + puppetIndividualObj.MP + puppetIndividualObj.AttackPower + puppetIndividualObj.AttackPhysical + puppetIndividualObj.AttackSpeed + puppetIndividualObj.DefendPhysical + puppetIndividualObj.DefendPower) * 2 * (puppetIndividualObj.PuppetDurableMax - puppetIndividualObj.PuppetDurable) / puppetIndividualObj.PuppetDurableMax;
+                    Utility.Debug.LogInfo("角色傀儡修复的花费发送了" + expend);
+
+                    if (assestObj.SpiritStonesLow< expend)
+                    {
+                        RoleStatusFailS2C(roleid, SecondaryJobOpCode.RepairPuppet);
+                        return;
+                    }
+
+                    assestObj.SpiritStonesLow -= expend;
+                    puppetIndividualObj.PuppetDurable = puppetIndividualObj.PuppetDurableMax;
+
+                    Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                    dict.Add((byte)ParameterCode.GetPuppetIndividual, puppetIndividualObj);
+                    dict.Add((byte)ParameterCode.RoleAssets, assestObj);
+                    RoleStatusSuccessS2C(roleid,SecondaryJobOpCode.RepairPuppet,dict);
+
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAssetsPerfix,roleid.ToString(), assestObj);
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._PuppetIndividualPerfix, id.ToString(), puppetIndividualObj);
+
+                   await NHibernateQuerier.UpdateAsync(assestObj);
+                    await NHibernateQuerier.UpdateAsync(ChangeDataType(puppetIndividualObj));
+                }
+            }
+
+        }
+        /// <summary>
+        /// 学习傀儡配方
+        /// </summary>
+        /// <param name="roleid"></param>
+        /// <param name="id"></param>
+        async void UpdatePuppetS2C(int roleid, int id)
+        {
+            var formulaExist = GameEntry.DataManager.TryGetValue<Dictionary<int, FormulaPuppetData>>(out var formulaDataDict);
+            if (!formulaExist)
+            {
+                RoleStatusFailS2C(roleid, SecondaryJobOpCode.StudySecondaryJobStatus);
+                return;
+            }
+            NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleid);
+            var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteria);
+            if (ringServer == null)
+            {
+                RoleStatusFailS2C(roleid, SecondaryJobOpCode.StudySecondaryJobStatus);
+                return;
+            }
+            if (InventoryManager.VerifyIsExist(id, 1, ringServer.RingIdArray))
+            {
+                var tempid = Utility.Converter.RetainInt32(id, 5);
+                var puppetExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._PuppetPerfix, roleid.ToString()).Result;
+                if (puppetExist)
+                {
+                    var puppet = RedisHelper.Hash.HashGetAsync<PuppetDTO>(RedisKeyDefine._PuppetPerfix, roleid.ToString()).Result;
+                    if (puppet!=null)
+                    {
+                        if (formulaDataDict.TryGetValue(tempid, out var formula))
+                        {
+                            if (formula.FormulaLevel > puppet.JobLevel)
+                            {
+                                RoleStatusFailS2C(roleid, SecondaryJobOpCode.StudySecondaryJobStatus);
+                                return;
+                            }
+
+                            if (!puppet.Recipe_Array.Contains(tempid))
+                            {
+                                puppet.Recipe_Array.Add(tempid);
+                                Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                                dict.Add((byte)ParameterCode.JobPuppet, puppet);
+
+                                RoleStatusSuccessS2C(roleid, SecondaryJobOpCode.StudySecondaryJobStatus, dict);
+                                InventoryManager.Remove(roleid, id);
+                                await NHibernateQuerier.UpdateAsync(ChangeDataType(puppet));
+                                await RedisHelper.Hash.HashSetAsync<PuppetDTO>(RedisKeyDefine._PuppetPerfix, roleid.ToString(), puppet);
+                            }
+                            else
+                                RoleStatusFailS2C(roleid, SecondaryJobOpCode.StudySecondaryJobStatus);
+                        }
+                    }
+                }
+            }
+
+
+
+            }
         /// <summary>
         /// 傀儡部件属性值
         /// </summary>
@@ -332,6 +444,8 @@ namespace AscensionServer
                 #endregion
 
             }
+
+            individualDTO.PuppetDurableMax += individualDTO.PuppetDurable;
             return individualDTO;
         }
 
@@ -376,13 +490,17 @@ namespace AscensionServer
         PuppetIndividual ChangeDataType(PuppetIndividualDTO individualDTO)
         {
             PuppetIndividual puppetIndividual = new PuppetIndividual();
+            puppetIndividual.PuppetID = individualDTO.PuppetID;
             puppetIndividual.AttackPhysical = individualDTO.AttackPhysical;
             puppetIndividual.AttackPower = individualDTO.AttackPower;
             puppetIndividual.AttackSpeed = individualDTO.AttackSpeed;
+            puppetIndividual.DefendPower = individualDTO.DefendPower;
+            puppetIndividual.DefendPhysical = individualDTO.DefendPhysical;
             puppetIndividual.HP = individualDTO.HP;
             puppetIndividual.ID = individualDTO.ID;
             puppetIndividual.MP = individualDTO.MP;
             puppetIndividual.PuppetDurable = individualDTO.PuppetDurable;
+            puppetIndividual.PuppetDurableMax = puppetIndividual.PuppetDurable;
             puppetIndividual.Skills = Utility.Json.ToJson(individualDTO.Skills);
             return puppetIndividual;
         }

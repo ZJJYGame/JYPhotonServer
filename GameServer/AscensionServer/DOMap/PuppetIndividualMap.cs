@@ -16,6 +16,7 @@ namespace AscensionServer
             Map(x => x.AttackPower).Column("attack_Power");
             Map(x => x.AttackSpeed).Column("attack_speed");
             Map(x => x.DefendPhysical).Column("defend_physical");
+            Map(x => x.PuppetDurableMax).Column("puppet_durablemax");        
             Map(x => x.Skills).Column("skills");
             Table("puppet_Individual");
 

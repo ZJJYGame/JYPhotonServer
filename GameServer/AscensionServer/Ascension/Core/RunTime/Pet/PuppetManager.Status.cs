@@ -41,7 +41,7 @@ namespace AscensionServer
 
                     Dictionary<byte, object> dict = new Dictionary<byte, object>();
                     dict.Add((byte)ParameterCode.RolePuppet, rolepuppet);
-                    dict.Add((byte)ParameterCode.GetPuppetIndividual, rolepuppet);
+                    dict.Add((byte)ParameterCode.GetPuppetIndividual, puppetDict);
                     PuppetManagerSuccessS2C(roleid,PuppetOpCode.GetPuppetStatus,dict);
                 }
                 else
@@ -71,22 +71,29 @@ namespace AscensionServer
         async void AbandonPuppetS2C(int roleid,int id)
         {
             var rolepuppetExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RolePuppetPerfix, roleid.ToString()).Result;
-            Dictionary<int, PuppetIndividualDTO> puppetDict = new Dictionary<int, PuppetIndividualDTO>();
-            if (rolepuppetExist)
+            var puppetIndividualExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._PuppetIndividualPerfix, id.ToString()).Result;
+            if (rolepuppetExist&&puppetIndividualExist)
             {
                 var rolepuppet = RedisHelper.Hash.HashGetAsync<RolePuppetDTO>(RedisKeyDefine._RolePuppetPerfix, roleid.ToString()).Result;
-                if (rolepuppet != null)
+                var puppetIndividual = RedisHelper.Hash.HashGetAsync<PuppetIndividualDTO>(RedisKeyDefine._PuppetIndividualPerfix, id.ToString()).Result;
+                if (rolepuppet != null&& puppetIndividual!=null)
                 {
                     if (rolepuppet.PuppetDict.ContainsKey(id))
                     {
                         if (rolepuppet.IsBattle != id)
                         {
                             rolepuppet.PuppetDict.Remove(id);
+                            Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                            dict.Add((byte)ParameterCode.RolePuppet, rolepuppet);
+                            dict.Add((byte)ParameterCode.GetPuppetIndividual, puppetIndividual);
+                            PuppetManagerSuccessS2C(roleid, PuppetOpCode.AbandonPuppet, dict);
+
                             await RedisHelper.Hash.HashDeleteAsync(RedisKeyDefine._PuppetIndividualPerfix, id.ToString());
                             await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RolePuppetPerfix, roleid.ToString(), rolepuppet);
+                            await NHibernateQuerier.DeleteAsync(ChangeDataType(puppetIndividual));
                         }
                         else
-                            PuppetManagerFailS2C(roleid, PuppetOpCode.AbandonPuppet);
+                            PuppetManagerFailS2C(roleid, PuppetOpCode.AbandonPuppet,"无法丢弃出战傀儡");
                     }
                     else
                         PuppetManagerFailS2C(roleid, PuppetOpCode.AbandonPuppet);
@@ -110,6 +117,20 @@ namespace AscensionServer
             rolePuppet.PuppetDict = Utility.Json.ToJson(puppetDTO.PuppetDict);
             rolePuppet.IsBattle = puppetDTO.IsBattle;
             return rolePuppet;
+        }
+
+        PuppetIndividual ChangeDataType(PuppetIndividualDTO individualDTO)
+        {
+            PuppetIndividual puppetIndividual = new PuppetIndividual();
+            puppetIndividual.AttackPhysical = individualDTO.AttackPhysical;
+            puppetIndividual.AttackPower = individualDTO.AttackPower;
+            puppetIndividual.AttackSpeed = individualDTO.AttackSpeed;
+            puppetIndividual.HP = individualDTO.HP;
+            puppetIndividual.ID = individualDTO.ID;
+            puppetIndividual.MP = individualDTO.MP;
+            puppetIndividual.PuppetDurable = individualDTO.PuppetDurable;
+            puppetIndividual.Skills = Utility.Json.ToJson(individualDTO.Skills);
+            return puppetIndividual;
         }
     }
 }

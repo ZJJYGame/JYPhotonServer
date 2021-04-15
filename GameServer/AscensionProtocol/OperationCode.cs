@@ -360,6 +360,10 @@ namespace AscensionProtocol
         /// </summary>
         SyncPractice =160,
         /// <summary>
+        /// 同步玩家装备信息
+        /// </summary>
+        SyncEquipment =161,
+        /// <summary>
         /// 测试消息队列
         /// </summary>
         MessageQueue = 187,
