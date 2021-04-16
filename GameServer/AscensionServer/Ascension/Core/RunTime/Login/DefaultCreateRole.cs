@@ -14,7 +14,7 @@ namespace AscensionServer
     public class DefaultCreateRole : ICreateRoleHelper
     {
         Dictionary<int, int> RoleGFDict = new Dictionary<int, int>();
-        Dictionary<int, int> RoleMiShuDict = new Dictionary<int, int>();
+        //Dictionary<int, int> RoleMiShuDict = new Dictionary<int, int>();
         Dictionary<int, int> RolePetDict = new Dictionary<int, int>();
         Dictionary<string, RoleTaskItemDTO> roleTaskDic = new Dictionary<string, RoleTaskItemDTO>();
         Dictionary<int, RingItemsDTO> ringDict = new Dictionary<int, RingItemsDTO>();
@@ -116,11 +116,13 @@ namespace AscensionServer
                 NHibernateQuerier.Insert(new RoleGongFa() { RoleID = rolestatus.RoleID, GongFaIDArray = Utility.Json.ToJson(new Dictionary<string, string>()) });
 
 
-                RoleMiShuDict.Clear();
-                MiShu miShu = new MiShu();
-                miShu = NHibernateQuerier.Insert(miShu);
-                RoleMiShuDict.Add(miShu.ID, miShu.MiShuID);
-                NHibernateQuerier.Insert(new RoleMiShu() { RoleID = rolestatus.RoleID, MiShuIDArray = Utility.Json.ToJson(RoleMiShuDict) });
+
+                NHibernateQuerier.Insert(new RoleMiShu() { RoleID = rolestatus.RoleID });
+
+
+                RoleMiShuDTO roleMiShu = new RoleMiShuDTO();
+                roleMiShu.RoleID = rolestatus.RoleID;
+                RedisHelper.Hash.HashSet(RedisKeyDefine._RoleMiShuPerfix, rolestatus.RoleID.ToString(), roleMiShu);
 
                 RolePetDict.Clear();
                 //Pet pet = new Pet() {};
@@ -248,8 +250,8 @@ namespace AscensionServer
                 DOdict.Add("Role", Utility.Json.ToJson(role));
                 DOdict.Add("RoleStatus", Utility.Json.ToJson(rolestatus));
                 //DOdict.Add("GongFa", Utility.Json.ToJson(gongFa));
-                MiShuDTO miShuDTO = new MiShuDTO() { ID = miShu.ID, MiShuID = miShu.MiShuID, MiShuSkillArry = Utility.Json.ToObject<List<int>>(miShu.MiShuSkillArry) };
-                DOdict.Add("MiShu", Utility.Json.ToJson(miShuDTO));
+                //MiShuDTO miShuDTO = new MiShuDTO() { ID = miShu.ID, MiShuID = miShu.MiShuID, MiShuSkillArry = Utility.Json.ToObject<List<int>>(miShu.MiShuSkillArry) };
+                //DOdict.Add("MiShu", Utility.Json.ToJson(miShuDTO));
                 DOdict.Add("RoleAlliance", Utility.Json.ToJson(roleAllianceDTO));
                 messageDict.Add((byte)ParameterCode.Role, Utility.Json.ToJson(DOdict));
                 opData.DataMessage = Utility.Json.ToJson(messageDict);
@@ -265,7 +267,7 @@ namespace AscensionServer
         public void Clear()
         {
             RoleGFDict.Clear();
-            RoleMiShuDict.Clear();
+           // RoleMiShuDict.Clear();
             RolePetDict.Clear();
             roleTaskDic.Clear();
             ringDict.Clear();
