@@ -5,6 +5,7 @@ using AscensionProtocol;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
+using AscensionProtocol.DTO;
 
 namespace AscensionServer
 {
@@ -142,7 +143,6 @@ namespace AscensionServer
             return result;
         }
 
-
         public void BroadcastMessageToAll(OperationData message)
         {
             broadcastMsg1Param?.Invoke(message);
@@ -159,6 +159,23 @@ namespace AscensionServer
             broadcastMsg3Params?.Invoke(opCode, subCode, userData);
         }
 
+        public async Task<T> GetRoleDataAsync<T>(int roleId)
+    where T : DataTransferObject, new()
+        {
+            return await NHibernateQuerier.QueryAsync<T>("RoleID", roleId);
+        }
+        public async Task<T[]> GetRoleDatasAsync<T>(int[] roleIds)
+    where T : DataTransferObject, new()
+        {
+            List<T> dataList = new List<T>();
+            var length = roleIds.Length;
+            for (int i = 0; i < length; i++)
+            {
+                var data = await GetRoleDataAsync<T>(roleIds[i]);
+                dataList.Add(data);
+            }
+            return dataList.ToArray();
+        }
 
         public async Task<bool> SendMessageAsync(int roleId, OperationData message)
         {
@@ -173,7 +190,6 @@ namespace AscensionServer
             return await Task.Run(() => { return SendMessage(roleId, opCode, subCode, userData); });
 
         }
-
 
         public async Task BroadcastMessageToAllAsync(OperationData message, Action callback = null)
         {
@@ -190,6 +206,8 @@ namespace AscensionServer
             await Task.Run(() => { broadcastMsg3Params?.Invoke(opCode, subCode, userData); });
             callback?.Invoke();
         }
+
+
         void PeerDisconnectedHandler(int conv)
         {
             TryRemove(conv);

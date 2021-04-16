@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AscensionProtocol.DTO;
 using Cosmos;
 
 namespace AscensionServer
@@ -39,6 +40,9 @@ namespace AscensionServer
         void BroadcastMessageToAll(byte opCode, Dictionary<byte, object> userData);
         void BroadcastMessageToAll(byte opCode, short subCode, Dictionary<byte, object> userData);
 
+
+        Task<T> GetRoleDataAsync<T>(int roleId) where T : DataTransferObject, new();
+        Task<T[]> GetRoleDatasAsync<T>(int[] roleIds) where T : DataTransferObject, new();
 
         Task<bool> SendMessageAsync(int roleId, OperationData message);
         Task<bool> SendEventAsync(int roleId, byte opCode, Dictionary<byte, object> userData);

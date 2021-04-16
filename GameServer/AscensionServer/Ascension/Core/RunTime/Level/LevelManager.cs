@@ -53,7 +53,7 @@ namespace AscensionServer
         /// </summary>
         ConcurrentDictionary<int, LevelConn> connDict;
         long latestTime;
-        int updateInterval = ApplicationBuilder._MSPerTick;
+        int updateInterval = ApplicationBuilder.MSInterval;
 
         Action sceneRefreshHandler;
         event Action SceneRefreshHandler
@@ -112,7 +112,6 @@ namespace AscensionServer
                 sceneRefreshHandler?.Invoke();
             }
         }
-
         /// <summary>
         ///场景是否包含有角色； 
         /// </summary>
@@ -162,7 +161,7 @@ namespace AscensionServer
         }
         void OnPeerDisconnectHandler(int sessionId)
         {
-            if (!connDict.TryGetValue(sessionId, out var conn))
+            if (connDict.TryGetValue(sessionId, out var conn))
             {
                 var levelEntity = GetLevelEntity(conn);
                 levelEntity.ExitLevel(conn.RoleId);
@@ -188,10 +187,10 @@ namespace AscensionServer
             var subCode = (LevelOpCode)packet.SubOperationCode;
             switch (subCode)
             {
-                case LevelOpCode.PlayerEnter:
+                case LevelOpCode.PlayerSYN:
                     OnPlayerEnterS2C(sessionId, packet);
                     break;
-                case LevelOpCode.PlayerExit:
+                case LevelOpCode.PlayerFIN:
                     OnPlayerExitS2C(sessionId, packet);
                     break;
                 case LevelOpCode.PlayerInput:

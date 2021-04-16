@@ -21,10 +21,10 @@ namespace AscensionServer
         /// <summary>
         /// 每个tick所持续的毫秒；
         /// </summary>
-        public static readonly int _MSPerTick;
+        public static readonly int MSInterval;
         static ApplicationBuilder()
         {
-            _MSPerTick = 1000 / TICKRATE;
+            MSInterval = 1000 / TICKRATE;
         }
     }
 }

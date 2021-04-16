@@ -25,10 +25,11 @@ namespace AscensionServer
         public static T Query<T>(string propertyName, object value)
         {
             var criteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue(propertyName, value);
-            var result= CriteriaSelect<T>(criteria);
+            var result = CriteriaSelect<T>(criteria);
             CosmosEntry.ReferencePoolManager.Despawn(criteria);
             return result;
         }
+
         /// <summary>
         /// 单条件验证；
         /// </summary>
@@ -605,6 +606,13 @@ namespace AscensionServer
                 criteria.Add(Restrictions.Not(expression));
                 return await criteria.ListAsync<T>();
             }
+        }
+        public async static Task<T> QueryAsync<T>(string propertyName, object value) where T : new()
+        {
+            var criteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue(propertyName, value);
+            var result = CriteriaSelectAsync<T>(criteria).Result;
+            CosmosEntry.ReferencePoolManager.Despawn(criteria);
+            return result;
         }
         #endregion
     }

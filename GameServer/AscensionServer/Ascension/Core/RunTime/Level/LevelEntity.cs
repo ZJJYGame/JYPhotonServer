@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using NHibernate.Linq.Clauses;
 using System.ServiceModel.Configuration;
 using AscensionProtocol;
+using AscensionProtocol.DTO;
 
 namespace AscensionServer
 {
@@ -49,7 +50,7 @@ namespace AscensionServer
         public int Capacity { get; private set; }
         #region Pool
         Pool<OperationData> opDataPool;
-        Pool<Dictionary<byte, object>> dataMessagePool;
+        Pool<Dictionary<byte, object>> messageDataPool;
         #endregion
 
         public int PlayerCount { get { return connDict.Count; } }
@@ -60,7 +61,7 @@ namespace AscensionServer
         {
             transportDataCache = new List<FixTransportData>();
             connCache = new List<LevelConn>();
-            dataMessagePool = new Pool<Dictionary<byte, object>>(() => new Dictionary<byte, object>(), (t) => t.Clear());
+            messageDataPool = new Pool<Dictionary<byte, object>>(() => new Dictionary<byte, object>(), (t) => t.Clear());
             inputSendOpData = new OperationData();
             inputSendOpData.OperationCode = (byte)OperationCode.MultiplayArea;
             inputSendOpData.SubOperationCode = (byte)LevelOpCode.PlayerInput;
@@ -104,6 +105,7 @@ namespace AscensionServer
                 Utility.Debug.LogWarning($"RoleId:{roleId};SessionId:{conn.RoleEntity.SessionId}离开Level：{LevelId};PlayerCount:{PlayerCount}");
                 RoleSendMsgHandler -= conn.RoleEntity.SendMessage;
                 SendExited2ExistedS2C(roleId);
+                SendExitDoneS2C(conn);
                 if (connDict.Count <= 0)
                     Available = false;
             }
@@ -160,7 +162,7 @@ namespace AscensionServer
             roleSendMsgHandler = null;
             currentTick = 0;
             opDataPool.Clear();
-            dataMessagePool.Clear();
+            messageDataPool.Clear();
             Capacity = 0;
         }
         public static LevelEntity Create(LevelTypeEnum levelType, int levelId, int capacity)
@@ -184,13 +186,13 @@ namespace AscensionServer
             var opData = opDataPool.Spawn();
             opData.OperationCode = (byte)OperationCode.MultiplayArea;
             opData.SubOperationCode = (byte)LevelOpCode.PlayerEnter;
-            var dataMessage = dataMessagePool.Spawn();
-            dataMessage.Add((byte)LevelParameterCode.Existed, connDict.Keys.ToList());
+            var dataMessage = messageDataPool.Spawn();
+            dataMessage.Add((byte)LevelParameterCode.EnteredRole, roleId);
             opData.DataMessage = Utility.MessagePack.ToJson(dataMessage);
             conn.RoleEntity.SendMessage(opData);
             connDict.Add(roleId, conn);
             opDataPool.Despawn(opData);
-            dataMessagePool.Despawn(dataMessage);
+            messageDataPool.Despawn(dataMessage);
         }
         /// <summary>
         /// 将已经在场景中的玩家发送到进入的玩家
@@ -198,14 +200,15 @@ namespace AscensionServer
         void SendExists2EnteredS2C(int roleId, LevelConn conn)
         {
             var opData = opDataPool.Spawn();
-            var dataMessage = dataMessagePool.Spawn();
+            var dataMessage = messageDataPool.Spawn();
             opData.OperationCode = (byte)OperationCode.MultiplayArea;
-            opData.SubOperationCode = (byte)LevelOpCode.PlayerEnter;
-            dataMessage.Add((byte)LevelParameterCode.EnteredRole, roleId);
+            opData.SubOperationCode = (byte)LevelOpCode.PlayerSYN;
+            var existedRoleDtos = GameEntry.RoleManager.GetRoleDatasAsync<RoleDTO>(connDict.Keys.ToList().ToArray()).Result;
+            dataMessage.Add((byte)LevelParameterCode.Existed, Utility.MessagePack.ToJson(existedRoleDtos));
             opData.DataMessage = Utility.MessagePack.ToJson(dataMessage);
             roleSendMsgHandler?.Invoke(opData);
             opDataPool.Despawn(opData);
-            dataMessagePool.Despawn(dataMessage);
+            messageDataPool.Despawn(dataMessage);
             RoleSendMsgHandler += conn.RoleEntity.SendMessage;
         }
         /// <summary>
@@ -219,13 +222,25 @@ namespace AscensionServer
                 var opData = opDataPool.Spawn();
                 opData.OperationCode = (byte)OperationCode.MultiplayArea;
                 opData.SubOperationCode = (byte)LevelOpCode.PlayerExit;
-                var dataMessage = dataMessagePool.Spawn();
+                var dataMessage = messageDataPool.Spawn();
                 dataMessage.Add((byte)LevelParameterCode.ExitedRole, roleId);
                 opData.DataMessage = Utility.MessagePack.ToJson(dataMessage);
                 roleSendMsgHandler?.Invoke(opData);
                 opDataPool.Despawn(opData);
-                dataMessagePool.Despawn(dataMessage);
+                messageDataPool.Despawn(dataMessage);
             }
+        }
+        /// <summary>
+        /// 发送离开完成消息到客户端；
+        /// </summary>
+        void SendExitDoneS2C(LevelConn  conn)
+        {
+            var opData = opDataPool.Spawn();
+            opData.OperationCode = (byte)OperationCode.MultiplayArea;
+            opData.SubOperationCode = (byte)LevelOpCode.PlayerFIN;
+            opData.ReturnCode = (byte)ReturnCode.Success;
+            conn.RoleEntity.SendMessage(opData);
+            opDataPool.Despawn(opData);
         }
     }
 }

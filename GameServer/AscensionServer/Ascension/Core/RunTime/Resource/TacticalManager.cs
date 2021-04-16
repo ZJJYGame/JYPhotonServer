@@ -32,7 +32,7 @@ namespace AscensionServer
         List<int> ExpendTacticalID { get;  set; }
 
         long latestTime;
-        int updateInterval = ApplicationBuilder._MSPerTick;
+        int updateInterval = ApplicationBuilder.MSInterval;
 
         Action tacticalRefreshHandler;
         event Action TacticalRefreshHandler
