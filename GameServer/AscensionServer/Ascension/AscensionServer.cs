@@ -44,9 +44,9 @@ namespace AscensionServer
             NHibernateQuerier.Init();
             GameEntry.DataManager.TryGetValue<RedisConfig>(out var redisConfig);
             RedisDotNet.RedisManager.Instance.ConnectRedis(redisConfig.Configuration);
-            //var thread = new Thread(CosmosEntry.Run);
-            //thread.Start();
-            CosmosEntry.Run();
+            var thread = new Thread(CosmosEntry.Run);
+            thread.Start();
+            //CosmosEntry.Run();
         }
         protected override void TearDown()
         {

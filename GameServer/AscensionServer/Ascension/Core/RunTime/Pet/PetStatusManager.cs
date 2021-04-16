@@ -251,7 +251,7 @@ namespace AscensionServer
             {9918,9920,9922,9925,9927,9929,9931,9932,9934,9936}
         };
         Random random = new Random();
-        int NormalRandom2(int min, int max)
+       public  int NormalRandom2(int min, int max)
         {
             int result = 0;
             bool flag = true;
@@ -266,7 +266,7 @@ namespace AscensionServer
                     flag = false;
                 }
             }
-            if ((int)AverageRandom(0, 2)==1)
+            if ((int)random.Next(0, 2)==1)
             {
                 result = (min + max) / 2 - (result + (int)random.Next(0, 2)) * (max - min) / 2 / 250;
             }

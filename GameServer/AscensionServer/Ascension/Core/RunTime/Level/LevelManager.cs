@@ -94,8 +94,8 @@ namespace AscensionServer
             latestTime = Utility.Time.MillisecondNow() + updateInterval;
             roleMgrInstance = GameEntry.RoleManager;
 
-            GameEntry.PeerManager.OnPeerDisconnected += OnPeerDisconnectHandler;
-            CommandEventCore.Instance.AddEventListener((byte)OperationCode.MultiplayArea, ProcessMultiplayHandlerS2C);
+            //GameEntry.PeerManager.OnPeerDisconnected += OnPeerDisconnectHandler;
+            //CommandEventCore.Instance.AddEventListener((byte)OperationCode.MultiplayArea, ProcessMultiplayHandlerS2C);
         }
         //========================================
         //同步注意：

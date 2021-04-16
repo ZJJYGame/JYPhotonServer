@@ -33,8 +33,13 @@ namespace AscensionServer
         /// 技能书使用顶替技能
         /// </summary>
         List<int> RandomSkillRemoveAdd(List<int> skillList, int skillid);
+        /// <summary>
+        /// 正态分布随机数
+        /// </summary>
 
+        double AverageRandom(double min, double max);
 
+        int NormalRandom2(int min, int max);
         #region Init
         /// <summary>
         /// 宠物设置出战
