@@ -341,6 +341,7 @@
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\BattleSkillController.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\BattleSkillEventCondition\BattleSkillEventConditionBase.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\BattleSkillEvent\BattleSkillEventBase.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\ISkillAdditionData.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\CharacterBattleData.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\ICharacterBattleData.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\IPeerEntity.cs" />
