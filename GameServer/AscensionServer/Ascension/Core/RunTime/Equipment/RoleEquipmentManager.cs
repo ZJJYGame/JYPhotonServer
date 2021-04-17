@@ -21,6 +21,8 @@ namespace AscensionServer
 
         void ProcessHandlerC2S(int seeionid, OperationData packet)
         {
+            Utility.Debug.LogInfo("角色装备装备成功收到" + Utility.Json.ToJson(packet.DataMessage));
+            Utility.Debug.LogInfo("角色装备装备成功收到" + packet.SubOperationCode);
             var roleequip  =new RoleEquipmentDTO();
             switch ((EquipmentOpCode)packet.SubOperationCode)
             {

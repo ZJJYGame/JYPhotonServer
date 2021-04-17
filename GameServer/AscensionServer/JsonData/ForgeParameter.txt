@@ -7,7 +7,9 @@
 		"WeaponAttributeMax":[0,450,300,0,0,15],
 		"WeaponDurable":100,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17002,
@@ -17,7 +19,9 @@
 		"WeaponAttributeMax":[0,750,500,0,0,25],
 		"WeaponDurable":200,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17003,
@@ -27,7 +31,9 @@
 		"WeaponAttributeMax":[0,1050,700,0,0,35],
 		"WeaponDurable":300,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17004,
@@ -37,7 +43,9 @@
 		"WeaponAttributeMax":[0,1350,900,0,0,45],
 		"WeaponDurable":400,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17005,
@@ -47,7 +55,9 @@
 		"WeaponAttributeMax":[0,1650,1100,0,0,55],
 		"WeaponDurable":500,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17006,
@@ -57,7 +67,9 @@
 		"WeaponAttributeMax":[0,450,300,0,0,15],
 		"WeaponDurable":100,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17007,
@@ -67,7 +79,9 @@
 		"WeaponAttributeMax":[0,750,500,0,0,25],
 		"WeaponDurable":200,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17008,
@@ -77,7 +91,9 @@
 		"WeaponAttributeMax":[0,1050,700,0,0,35],
 		"WeaponDurable":300,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17009,
@@ -87,7 +103,9 @@
 		"WeaponAttributeMax":[0,1350,900,0,0,45],
 		"WeaponDurable":400,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17010,
@@ -97,7 +115,9 @@
 		"WeaponAttributeMax":[0,1650,1100,0,0,55],
 		"WeaponDurable":500,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17011,
@@ -107,7 +127,9 @@
 		"WeaponAttributeMax":[0,450,300,0,0,15],
 		"WeaponDurable":100,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17012,
@@ -117,7 +139,9 @@
 		"WeaponAttributeMax":[0,750,500,0,0,25],
 		"WeaponDurable":200,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17013,
@@ -127,7 +151,9 @@
 		"WeaponAttributeMax":[0,1050,700,0,0,35],
 		"WeaponDurable":300,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17014,
@@ -137,7 +163,9 @@
 		"WeaponAttributeMax":[0,1350,900,0,0,45],
 		"WeaponDurable":400,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17015,
@@ -147,7 +175,9 @@
 		"WeaponAttributeMax":[0,1650,1100,0,0,55],
 		"WeaponDurable":500,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17016,
@@ -157,7 +187,9 @@
 		"WeaponAttributeMax":[0,450,300,0,0,15],
 		"WeaponDurable":100,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17017,
@@ -167,7 +199,9 @@
 		"WeaponAttributeMax":[0,750,500,0,0,25],
 		"WeaponDurable":200,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17018,
@@ -177,7 +211,9 @@
 		"WeaponAttributeMax":[0,1050,700,0,0,35],
 		"WeaponDurable":300,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17019,
@@ -187,7 +223,9 @@
 		"WeaponAttributeMax":[0,1350,900,0,0,45],
 		"WeaponDurable":400,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17020,
@@ -197,7 +235,9 @@
 		"WeaponAttributeMax":[0,1650,1100,0,0,55],
 		"WeaponDurable":500,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17021,
@@ -207,7 +247,9 @@
 		"WeaponAttributeMax":[0,450,300,0,0,15],
 		"WeaponDurable":100,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17022,
@@ -217,7 +259,9 @@
 		"WeaponAttributeMax":[0,750,500,0,0,25],
 		"WeaponDurable":200,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17023,
@@ -227,7 +271,9 @@
 		"WeaponAttributeMax":[0,1050,700,0,0,35],
 		"WeaponDurable":300,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17024,
@@ -237,7 +283,9 @@
 		"WeaponAttributeMax":[0,1350,900,0,0,45],
 		"WeaponDurable":400,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17025,
@@ -247,7 +295,9 @@
 		"WeaponAttributeMax":[0,1650,1100,0,0,55],
 		"WeaponDurable":500,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17026,
@@ -257,7 +307,9 @@
 		"WeaponAttributeMax":[0,450,300,0,0,15],
 		"WeaponDurable":100,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17027,
@@ -267,7 +319,9 @@
 		"WeaponAttributeMax":[0,750,500,0,0,25],
 		"WeaponDurable":200,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17028,
@@ -277,7 +331,9 @@
 		"WeaponAttributeMax":[0,1050,700,0,0,35],
 		"WeaponDurable":300,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17029,
@@ -287,7 +343,9 @@
 		"WeaponAttributeMax":[0,1350,900,0,0,45],
 		"WeaponDurable":400,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17030,
@@ -297,7 +355,9 @@
 		"WeaponAttributeMax":[0,1650,1100,0,0,55],
 		"WeaponDurable":500,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17031,
@@ -307,7 +367,9 @@
 		"WeaponAttributeMax":[0,450,300,0,0,15],
 		"WeaponDurable":100,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17032,
@@ -317,7 +379,9 @@
 		"WeaponAttributeMax":[0,750,500,0,0,25],
 		"WeaponDurable":200,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17033,
@@ -327,7 +391,9 @@
 		"WeaponAttributeMax":[0,1050,700,0,0,35],
 		"WeaponDurable":300,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17034,
@@ -337,7 +403,9 @@
 		"WeaponAttributeMax":[0,1350,900,0,0,45],
 		"WeaponDurable":400,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17035,
@@ -347,7 +415,9 @@
 		"WeaponAttributeMax":[0,1650,1100,0,0,55],
 		"WeaponDurable":500,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17036,
@@ -357,7 +427,9 @@
 		"WeaponAttributeMax":[0,450,300,0,0,15],
 		"WeaponDurable":100,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17037,
@@ -367,7 +439,9 @@
 		"WeaponAttributeMax":[0,750,500,0,0,25],
 		"WeaponDurable":200,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17038,
@@ -377,7 +451,9 @@
 		"WeaponAttributeMax":[0,1050,700,0,0,35],
 		"WeaponDurable":300,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17039,
@@ -387,7 +463,9 @@
 		"WeaponAttributeMax":[0,1350,900,0,0,45],
 		"WeaponDurable":400,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
 	},
 	{
 		"WeaponID":17040,
@@ -397,6 +475,944 @@
 		"WeaponAttributeMax":[0,1650,1100,0,0,55],
 		"WeaponDurable":500,
 		"SkillProbability":[50,20,10],
-		"WeaponSkill":[24801,24902,24903]
+		"WeaponSkill":[24801,24902,24903],
+		"WeaponEffect":"NULL",
+		"WeaponType":1
+	},
+	{
+		"WeaponID":17201,
+		"WeaponQuality":0,
+		"NeedLevelID":1,
+		"WeaponAttributeMin":[250,0,0,0,75,0],
+		"WeaponAttributeMax":[750,0,0,0,225,0],
+		"WeaponDurable":100,
+		"SkillProbability":[40,40],
+		"WeaponSkill":[24805,24907],
+		"WeaponEffect":"NULL",
+		"WeaponType":2
+	},
+	{
+		"WeaponID":17202,
+		"WeaponQuality":1,
+		"NeedLevelID":11,
+		"WeaponAttributeMin":[750,0,0,0,225,0],
+		"WeaponAttributeMax":[1250,0,0,0,375,0],
+		"WeaponDurable":200,
+		"SkillProbability":[40,40],
+		"WeaponSkill":[24805,24907],
+		"WeaponEffect":"NULL",
+		"WeaponType":2
+	},
+	{
+		"WeaponID":17203,
+		"WeaponQuality":2,
+		"NeedLevelID":21,
+		"WeaponAttributeMin":[1250,0,0,0,375,0],
+		"WeaponAttributeMax":[1750,0,0,0,525,0],
+		"WeaponDurable":300,
+		"SkillProbability":[40,40],
+		"WeaponSkill":[24805,24907],
+		"WeaponEffect":"NULL",
+		"WeaponType":2
+	},
+	{
+		"WeaponID":17204,
+		"WeaponQuality":3,
+		"NeedLevelID":31,
+		"WeaponAttributeMin":[1750,0,0,0,525,0],
+		"WeaponAttributeMax":[2250,0,0,0,675,0],
+		"WeaponDurable":400,
+		"SkillProbability":[40,40],
+		"WeaponSkill":[24805,24907],
+		"WeaponEffect":"NULL",
+		"WeaponType":2
+	},
+	{
+		"WeaponID":17205,
+		"WeaponQuality":4,
+		"NeedLevelID":41,
+		"WeaponAttributeMin":[2250,0,0,0,675,0],
+		"WeaponAttributeMax":[2750,0,0,0,825,0],
+		"WeaponDurable":500,
+		"SkillProbability":[40,40],
+		"WeaponSkill":[24805,24907],
+		"WeaponEffect":"NULL",
+		"WeaponType":2
+	},
+	{
+		"WeaponID":17206,
+		"WeaponQuality":0,
+		"NeedLevelID":1,
+		"WeaponAttributeMin":[250,0,0,0,75,0],
+		"WeaponAttributeMax":[750,0,0,0,225,0],
+		"WeaponDurable":100,
+		"SkillProbability":[40,40],
+		"WeaponSkill":[24805,24907],
+		"WeaponEffect":"NULL",
+		"WeaponType":2
+	},
+	{
+		"WeaponID":17207,
+		"WeaponQuality":1,
+		"NeedLevelID":11,
+		"WeaponAttributeMin":[750,0,0,0,225,0],
+		"WeaponAttributeMax":[1250,0,0,0,375,0],
+		"WeaponDurable":200,
+		"SkillProbability":[40,40],
+		"WeaponSkill":[24805,24907],
+		"WeaponEffect":"NULL",
+		"WeaponType":2
+	},
+	{
+		"WeaponID":17208,
+		"WeaponQuality":2,
+		"NeedLevelID":21,
+		"WeaponAttributeMin":[1250,0,0,0,375,0],
+		"WeaponAttributeMax":[1750,0,0,0,525,0],
+		"WeaponDurable":300,
+		"SkillProbability":[40,40],
+		"WeaponSkill":[24805,24907],
+		"WeaponEffect":"NULL",
+		"WeaponType":2
+	},
+	{
+		"WeaponID":17209,
+		"WeaponQuality":3,
+		"NeedLevelID":31,
+		"WeaponAttributeMin":[1750,0,0,0,525,0],
+		"WeaponAttributeMax":[2250,0,0,0,675,0],
+		"WeaponDurable":400,
+		"SkillProbability":[40,40],
+		"WeaponSkill":[24805,24907],
+		"WeaponEffect":"NULL",
+		"WeaponType":2
+	},
+	{
+		"WeaponID":17210,
+		"WeaponQuality":4,
+		"NeedLevelID":41,
+		"WeaponAttributeMin":[2250,0,0,0,675,0],
+		"WeaponAttributeMax":[2750,0,0,0,825,0],
+		"WeaponDurable":500,
+		"SkillProbability":[40,40],
+		"WeaponSkill":[24805,24907],
+		"WeaponEffect":"NULL",
+		"WeaponType":2
+	},
+	{
+		"WeaponID":17301,
+		"WeaponQuality":0,
+		"NeedLevelID":1,
+		"WeaponAttributeMin":[250,0,0,125,0,0],
+		"WeaponAttributeMax":[750,0,0,375,0,0],
+		"WeaponDurable":100,
+		"SkillProbability":[50,50],
+		"WeaponSkill":[24807,24923],
+		"WeaponEffect":"NULL",
+		"WeaponType":3
+	},
+	{
+		"WeaponID":17302,
+		"WeaponQuality":1,
+		"NeedLevelID":11,
+		"WeaponAttributeMin":[750,0,0,375,0,0],
+		"WeaponAttributeMax":[1250,0,0,625,0,0],
+		"WeaponDurable":200,
+		"SkillProbability":[50,50],
+		"WeaponSkill":[24807,24923],
+		"WeaponEffect":"NULL",
+		"WeaponType":3
+	},
+	{
+		"WeaponID":17303,
+		"WeaponQuality":2,
+		"NeedLevelID":21,
+		"WeaponAttributeMin":[1250,0,0,625,0,0],
+		"WeaponAttributeMax":[1750,0,0,875,0,0],
+		"WeaponDurable":300,
+		"SkillProbability":[50,50],
+		"WeaponSkill":[24807,24923],
+		"WeaponEffect":"NULL",
+		"WeaponType":3
+	},
+	{
+		"WeaponID":17304,
+		"WeaponQuality":3,
+		"NeedLevelID":31,
+		"WeaponAttributeMin":[1750,0,0,875,0,0],
+		"WeaponAttributeMax":[2250,0,0,1125,0,0],
+		"WeaponDurable":400,
+		"SkillProbability":[50,50],
+		"WeaponSkill":[24807,24923],
+		"WeaponEffect":"NULL",
+		"WeaponType":3
+	},
+	{
+		"WeaponID":17305,
+		"WeaponQuality":4,
+		"NeedLevelID":41,
+		"WeaponAttributeMin":[2250,0,0,1125,0,0],
+		"WeaponAttributeMax":[2750,0,0,1375,0,0],
+		"WeaponDurable":500,
+		"SkillProbability":[50,50],
+		"WeaponSkill":[24807,24923],
+		"WeaponEffect":"NULL",
+		"WeaponType":3
+	},
+	{
+		"WeaponID":17306,
+		"WeaponQuality":0,
+		"NeedLevelID":1,
+		"WeaponAttributeMin":[250,0,0,125,0,0],
+		"WeaponAttributeMax":[750,0,0,375,0,0],
+		"WeaponDurable":100,
+		"SkillProbability":[50,50],
+		"WeaponSkill":[24807,24923],
+		"WeaponEffect":"NULL",
+		"WeaponType":3
+	},
+	{
+		"WeaponID":17307,
+		"WeaponQuality":1,
+		"NeedLevelID":11,
+		"WeaponAttributeMin":[750,0,0,375,0,0],
+		"WeaponAttributeMax":[1250,0,0,625,0,0],
+		"WeaponDurable":200,
+		"SkillProbability":[50,50],
+		"WeaponSkill":[24807,24923],
+		"WeaponEffect":"NULL",
+		"WeaponType":3
+	},
+	{
+		"WeaponID":17308,
+		"WeaponQuality":2,
+		"NeedLevelID":21,
+		"WeaponAttributeMin":[1250,0,0,625,0,0],
+		"WeaponAttributeMax":[1750,0,0,875,0,0],
+		"WeaponDurable":300,
+		"SkillProbability":[50,50],
+		"WeaponSkill":[24807,24923],
+		"WeaponEffect":"NULL",
+		"WeaponType":3
+	},
+	{
+		"WeaponID":17309,
+		"WeaponQuality":3,
+		"NeedLevelID":31,
+		"WeaponAttributeMin":[1750,0,0,875,0,0],
+		"WeaponAttributeMax":[2250,0,0,1125,0,0],
+		"WeaponDurable":400,
+		"SkillProbability":[50,50],
+		"WeaponSkill":[24807,24923],
+		"WeaponEffect":"NULL",
+		"WeaponType":3
+	},
+	{
+		"WeaponID":17310,
+		"WeaponQuality":4,
+		"NeedLevelID":41,
+		"WeaponAttributeMin":[2250,0,0,1125,0,0],
+		"WeaponAttributeMax":[2750,0,0,1375,0,0],
+		"WeaponDurable":500,
+		"SkillProbability":[50,50],
+		"WeaponSkill":[24807,24923],
+		"WeaponEffect":"NULL",
+		"WeaponType":3
+	},
+	{
+		"WeaponID":17401,
+		"WeaponQuality":0,
+		"NeedLevelID":1,
+		"WeaponAttributeMin":[100,0,0,0,0,25],
+		"WeaponAttributeMax":[300,0,0,0,0,75],
+		"WeaponDurable":100,
+		"SkillProbability":[50,50],
+		"WeaponSkill":[24909,24925],
+		"WeaponEffect":"NULL",
+		"WeaponType":4
+	},
+	{
+		"WeaponID":17402,
+		"WeaponQuality":1,
+		"NeedLevelID":11,
+		"WeaponAttributeMin":[300,0,0,0,0,75],
+		"WeaponAttributeMax":[500,0,0,0,0,125],
+		"WeaponDurable":200,
+		"SkillProbability":[50,50],
+		"WeaponSkill":[24909,24925],
+		"WeaponEffect":"NULL",
+		"WeaponType":4
+	},
+	{
+		"WeaponID":17403,
+		"WeaponQuality":2,
+		"NeedLevelID":21,
+		"WeaponAttributeMin":[500,0,0,0,0,125],
+		"WeaponAttributeMax":[700,0,0,0,0,175],
+		"WeaponDurable":300,
+		"SkillProbability":[50,50],
+		"WeaponSkill":[24909,24925],
+		"WeaponEffect":"NULL",
+		"WeaponType":4
+	},
+	{
+		"WeaponID":17404,
+		"WeaponQuality":3,
+		"NeedLevelID":31,
+		"WeaponAttributeMin":[700,0,0,0,0,175],
+		"WeaponAttributeMax":[900,0,0,0,0,225],
+		"WeaponDurable":400,
+		"SkillProbability":[50,50],
+		"WeaponSkill":[24909,24925],
+		"WeaponEffect":"NULL",
+		"WeaponType":4
+	},
+	{
+		"WeaponID":17405,
+		"WeaponQuality":4,
+		"NeedLevelID":41,
+		"WeaponAttributeMin":[900,0,0,0,0,225],
+		"WeaponAttributeMax":[1100,0,0,0,0,275],
+		"WeaponDurable":500,
+		"SkillProbability":[50,50],
+		"WeaponSkill":[24909,24925],
+		"WeaponEffect":"NULL",
+		"WeaponType":4
+	},
+	{
+		"WeaponID":17406,
+		"WeaponQuality":0,
+		"NeedLevelID":1,
+		"WeaponAttributeMin":[100,0,0,0,0,25],
+		"WeaponAttributeMax":[300,0,0,0,0,75],
+		"WeaponDurable":100,
+		"SkillProbability":[50,50],
+		"WeaponSkill":[24909,24925],
+		"WeaponEffect":"NULL",
+		"WeaponType":4
+	},
+	{
+		"WeaponID":17407,
+		"WeaponQuality":1,
+		"NeedLevelID":11,
+		"WeaponAttributeMin":[300,0,0,0,0,75],
+		"WeaponAttributeMax":[500,0,0,0,0,125],
+		"WeaponDurable":200,
+		"SkillProbability":[50,50],
+		"WeaponSkill":[24909,24925],
+		"WeaponEffect":"NULL",
+		"WeaponType":4
+	},
+	{
+		"WeaponID":17408,
+		"WeaponQuality":2,
+		"NeedLevelID":21,
+		"WeaponAttributeMin":[500,0,0,0,0,125],
+		"WeaponAttributeMax":[700,0,0,0,0,175],
+		"WeaponDurable":300,
+		"SkillProbability":[50,50],
+		"WeaponSkill":[24909,24925],
+		"WeaponEffect":"NULL",
+		"WeaponType":4
+	},
+	{
+		"WeaponID":17409,
+		"WeaponQuality":3,
+		"NeedLevelID":31,
+		"WeaponAttributeMin":[700,0,0,0,0,175],
+		"WeaponAttributeMax":[900,0,0,0,0,225],
+		"WeaponDurable":400,
+		"SkillProbability":[50,50],
+		"WeaponSkill":[24909,24925],
+		"WeaponEffect":"NULL",
+		"WeaponType":4
+	},
+	{
+		"WeaponID":17410,
+		"WeaponQuality":4,
+		"NeedLevelID":41,
+		"WeaponAttributeMin":[900,0,0,0,0,225],
+		"WeaponAttributeMax":[1100,0,0,0,0,275],
+		"WeaponDurable":500,
+		"SkillProbability":[50,50],
+		"WeaponSkill":[24909,24925],
+		"WeaponEffect":"NULL",
+		"WeaponType":4
+	},
+	{
+		"WeaponID":17501,
+		"WeaponQuality":1,
+		"NeedLevelID":11,
+		"WeaponAttributeMin":[0,5,0,0,0,0],
+		"WeaponAttributeMax":[0,20,0,0,0,0],
+		"WeaponDurable":200,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17502,
+		"WeaponQuality":2,
+		"NeedLevelID":21,
+		"WeaponAttributeMin":[0,10,0,0,0,0],
+		"WeaponAttributeMax":[0,40,0,0,0,0],
+		"WeaponDurable":300,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17503,
+		"WeaponQuality":3,
+		"NeedLevelID":31,
+		"WeaponAttributeMin":[0,20,0,0,0,0],
+		"WeaponAttributeMax":[0,60,0,0,0,0],
+		"WeaponDurable":400,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17504,
+		"WeaponQuality":4,
+		"NeedLevelID":41,
+		"WeaponAttributeMin":[0,40,0,0,0,0],
+		"WeaponAttributeMax":[0,80,0,0,0,0],
+		"WeaponDurable":500,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17505,
+		"WeaponQuality":1,
+		"NeedLevelID":11,
+		"WeaponAttributeMin":[10,0,0,0,1,0],
+		"WeaponAttributeMax":[100,0,0,0,10,0],
+		"WeaponDurable":200,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17506,
+		"WeaponQuality":2,
+		"NeedLevelID":21,
+		"WeaponAttributeMin":[20,0,0,0,2,0],
+		"WeaponAttributeMax":[200,0,0,0,20,0],
+		"WeaponDurable":300,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17507,
+		"WeaponQuality":3,
+		"NeedLevelID":31,
+		"WeaponAttributeMin":[30,0,0,0,3,0],
+		"WeaponAttributeMax":[300,0,0,0,30,0],
+		"WeaponDurable":400,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17508,
+		"WeaponQuality":4,
+		"NeedLevelID":41,
+		"WeaponAttributeMin":[40,0,0,0,4,0],
+		"WeaponAttributeMax":[400,0,0,0,40,0],
+		"WeaponDurable":500,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17509,
+		"WeaponQuality":1,
+		"NeedLevelID":11,
+		"WeaponAttributeMin":[10,0,0,1,0,0],
+		"WeaponAttributeMax":[100,0,0,10,0,0],
+		"WeaponDurable":200,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17510,
+		"WeaponQuality":2,
+		"NeedLevelID":21,
+		"WeaponAttributeMin":[20,0,0,2,0,0],
+		"WeaponAttributeMax":[200,0,0,20,0,0],
+		"WeaponDurable":300,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17511,
+		"WeaponQuality":3,
+		"NeedLevelID":31,
+		"WeaponAttributeMin":[30,0,0,3,0,0],
+		"WeaponAttributeMax":[300,0,0,30,0,0],
+		"WeaponDurable":400,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17512,
+		"WeaponQuality":4,
+		"NeedLevelID":41,
+		"WeaponAttributeMin":[40,0,0,4,0,0],
+		"WeaponAttributeMax":[400,0,0,40,0,0],
+		"WeaponDurable":500,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17513,
+		"WeaponQuality":1,
+		"NeedLevelID":11,
+		"WeaponAttributeMin":[0,0,5,0,0,0],
+		"WeaponAttributeMax":[0,0,20,0,0,0],
+		"WeaponDurable":200,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17514,
+		"WeaponQuality":2,
+		"NeedLevelID":21,
+		"WeaponAttributeMin":[0,0,10,0,0,0],
+		"WeaponAttributeMax":[0,0,40,0,0,0],
+		"WeaponDurable":300,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17515,
+		"WeaponQuality":3,
+		"NeedLevelID":31,
+		"WeaponAttributeMin":[0,0,20,0,0,0],
+		"WeaponAttributeMax":[0,0,60,0,0,0],
+		"WeaponDurable":400,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17516,
+		"WeaponQuality":4,
+		"NeedLevelID":41,
+		"WeaponAttributeMin":[0,0,40,0,0,0],
+		"WeaponAttributeMax":[0,0,80,0,0,0],
+		"WeaponDurable":500,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17517,
+		"WeaponQuality":1,
+		"NeedLevelID":11,
+		"WeaponAttributeMin":[20,0,0,0,0,0],
+		"WeaponAttributeMax":[200,0,0,0,0,0],
+		"WeaponDurable":200,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17518,
+		"WeaponQuality":2,
+		"NeedLevelID":21,
+		"WeaponAttributeMin":[40,0,0,0,0,0],
+		"WeaponAttributeMax":[300,0,0,0,0,0],
+		"WeaponDurable":300,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17519,
+		"WeaponQuality":3,
+		"NeedLevelID":31,
+		"WeaponAttributeMin":[60,0,0,0,0,0],
+		"WeaponAttributeMax":[400,0,0,0,0,0],
+		"WeaponDurable":400,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17520,
+		"WeaponQuality":4,
+		"NeedLevelID":41,
+		"WeaponAttributeMin":[80,0,0,0,0,0],
+		"WeaponAttributeMax":[500,0,0,0,0,0],
+		"WeaponDurable":500,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17521,
+		"WeaponQuality":1,
+		"NeedLevelID":11,
+		"WeaponAttributeMin":[0,0,0,5,0,0],
+		"WeaponAttributeMax":[0,0,0,20,0,0],
+		"WeaponDurable":200,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17522,
+		"WeaponQuality":2,
+		"NeedLevelID":21,
+		"WeaponAttributeMin":[0,0,0,10,0,0],
+		"WeaponAttributeMax":[0,0,0,40,0,0],
+		"WeaponDurable":300,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17523,
+		"WeaponQuality":3,
+		"NeedLevelID":31,
+		"WeaponAttributeMin":[0,0,0,20,0,0],
+		"WeaponAttributeMax":[0,0,0,60,0,0],
+		"WeaponDurable":400,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17524,
+		"WeaponQuality":4,
+		"NeedLevelID":41,
+		"WeaponAttributeMin":[0,0,0,40,0,0],
+		"WeaponAttributeMax":[0,0,0,80,0,0],
+		"WeaponDurable":500,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17525,
+		"WeaponQuality":1,
+		"NeedLevelID":11,
+		"WeaponAttributeMin":[0,0,0,0,0,1],
+		"WeaponAttributeMax":[0,0,0,0,0,10],
+		"WeaponDurable":200,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17526,
+		"WeaponQuality":2,
+		"NeedLevelID":21,
+		"WeaponAttributeMin":[0,0,0,0,0,2],
+		"WeaponAttributeMax":[0,0,0,0,0,20],
+		"WeaponDurable":300,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17527,
+		"WeaponQuality":3,
+		"NeedLevelID":31,
+		"WeaponAttributeMin":[0,0,0,0,0,3],
+		"WeaponAttributeMax":[0,0,0,0,0,30],
+		"WeaponDurable":400,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17528,
+		"WeaponQuality":4,
+		"NeedLevelID":41,
+		"WeaponAttributeMin":[0,0,0,0,0,4],
+		"WeaponAttributeMax":[0,0,0,0,0,40],
+		"WeaponDurable":500,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17529,
+		"WeaponQuality":1,
+		"NeedLevelID":11,
+		"WeaponAttributeMin":[0,0,5,0,0,0],
+		"WeaponAttributeMax":[0,0,20,0,0,0],
+		"WeaponDurable":200,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17530,
+		"WeaponQuality":2,
+		"NeedLevelID":21,
+		"WeaponAttributeMin":[0,0,10,0,0,0],
+		"WeaponAttributeMax":[0,0,40,0,0,0],
+		"WeaponDurable":300,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17531,
+		"WeaponQuality":3,
+		"NeedLevelID":31,
+		"WeaponAttributeMin":[0,0,20,0,0,0],
+		"WeaponAttributeMax":[0,0,60,0,0,0],
+		"WeaponDurable":400,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17532,
+		"WeaponQuality":4,
+		"NeedLevelID":41,
+		"WeaponAttributeMin":[0,0,40,0,0,0],
+		"WeaponAttributeMax":[0,0,80,0,0,0],
+		"WeaponDurable":500,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17533,
+		"WeaponQuality":1,
+		"NeedLevelID":11,
+		"WeaponAttributeMin":[20,0,0,0,0,0],
+		"WeaponAttributeMax":[200,0,0,0,0,0],
+		"WeaponDurable":200,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17534,
+		"WeaponQuality":2,
+		"NeedLevelID":21,
+		"WeaponAttributeMin":[40,0,0,0,0,0],
+		"WeaponAttributeMax":[300,0,0,0,0,0],
+		"WeaponDurable":300,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17535,
+		"WeaponQuality":3,
+		"NeedLevelID":31,
+		"WeaponAttributeMin":[60,0,0,0,0,0],
+		"WeaponAttributeMax":[400,0,0,0,0,0],
+		"WeaponDurable":400,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17536,
+		"WeaponQuality":4,
+		"NeedLevelID":41,
+		"WeaponAttributeMin":[80,0,0,0,0,0],
+		"WeaponAttributeMax":[500,0,0,0,0,0],
+		"WeaponDurable":500,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17537,
+		"WeaponQuality":1,
+		"NeedLevelID":11,
+		"WeaponAttributeMin":[0,5,0,0,0,0],
+		"WeaponAttributeMax":[0,20,0,0,0,0],
+		"WeaponDurable":200,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17538,
+		"WeaponQuality":2,
+		"NeedLevelID":21,
+		"WeaponAttributeMin":[0,10,0,0,0,0],
+		"WeaponAttributeMax":[0,40,0,0,0,0],
+		"WeaponDurable":300,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17539,
+		"WeaponQuality":3,
+		"NeedLevelID":31,
+		"WeaponAttributeMin":[0,20,0,0,0,0],
+		"WeaponAttributeMax":[0,60,0,0,0,0],
+		"WeaponDurable":400,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17540,
+		"WeaponQuality":4,
+		"NeedLevelID":41,
+		"WeaponAttributeMin":[0,40,0,0,0,0],
+		"WeaponAttributeMax":[0,80,0,0,0,0],
+		"WeaponDurable":500,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17541,
+		"WeaponQuality":1,
+		"NeedLevelID":11,
+		"WeaponAttributeMin":[0,0,5,0,0,0],
+		"WeaponAttributeMax":[0,0,20,0,0,0],
+		"WeaponDurable":200,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17542,
+		"WeaponQuality":2,
+		"NeedLevelID":21,
+		"WeaponAttributeMin":[0,0,10,0,0,0],
+		"WeaponAttributeMax":[0,0,40,0,0,0],
+		"WeaponDurable":300,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17543,
+		"WeaponQuality":3,
+		"NeedLevelID":31,
+		"WeaponAttributeMin":[0,0,20,0,0,0],
+		"WeaponAttributeMax":[0,0,60,0,0,0],
+		"WeaponDurable":400,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17544,
+		"WeaponQuality":4,
+		"NeedLevelID":41,
+		"WeaponAttributeMin":[0,0,40,0,0,0],
+		"WeaponAttributeMax":[0,0,80,0,0,0],
+		"WeaponDurable":500,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17545,
+		"WeaponQuality":1,
+		"NeedLevelID":11,
+		"WeaponAttributeMin":[20,0,0,0,0,0],
+		"WeaponAttributeMax":[200,0,0,0,0,0],
+		"WeaponDurable":200,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17546,
+		"WeaponQuality":2,
+		"NeedLevelID":21,
+		"WeaponAttributeMin":[40,0,0,0,0,0],
+		"WeaponAttributeMax":[300,0,0,0,0,0],
+		"WeaponDurable":300,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17547,
+		"WeaponQuality":3,
+		"NeedLevelID":31,
+		"WeaponAttributeMin":[60,0,0,0,0,0],
+		"WeaponAttributeMax":[400,0,0,0,0,0],
+		"WeaponDurable":400,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
+	},
+	{
+		"WeaponID":17548,
+		"WeaponQuality":4,
+		"NeedLevelID":41,
+		"WeaponAttributeMin":[80,0,0,0,0,0],
+		"WeaponAttributeMax":[500,0,0,0,0,0],
+		"WeaponDurable":500,
+		"SkillProbability":[50],
+		"WeaponSkill":[21101],
+		"WeaponEffect":"NULL",
+		"WeaponType":9
 	}
 ]

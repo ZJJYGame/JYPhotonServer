@@ -125,7 +125,9 @@ namespace AscensionServer
                 }
                 else
                     GetOffLineExpMySql(roleID);
-            }     
+            }
+            else
+                GetOffLineExpMySql(roleID);
 
         }
         /// <summary>

@@ -91,6 +91,7 @@ namespace AscensionServer
                             EquipmentFailS2C(equipmentDTO.RoleID, EquipmentOpCode.EquipWeapon);
                             return;
                         }
+                        Utility.Debug.LogInfo("角色装备装备成功收到"+ item.Key);
                         var result = roleequip.MagicWeapon.TryGetValue(item.Key, out var weaponid);
                         if (result)
                         {

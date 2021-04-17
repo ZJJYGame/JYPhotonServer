@@ -86,10 +86,18 @@ namespace AscensionServer
 
             var roleExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RolePostfix, roleid.ToString()).Result;
             var rolegongfaExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleGongfaPerfix,roleid.ToString()).Result;
-            if (rolegongfaExist&& roleExist)
+            NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleid);
+            var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteria);
+            if (rolegongfaExist&& roleExist&& ringServer!=null)
             {
+                if (!InventoryManager.VerifyIsExist(id, 1, ringServer.RingIdArray))
+                {
+                    //背包验证失败
+                    return;
+                }
                 var  rolegongfa = RedisHelper.Hash.HashGetAsync<RoleGongFaDTO>(RedisKeyDefine._RoleGongfaPerfix, roleid.ToString()).Result;
                 var role = RedisHelper.Hash.HashGetAsync<Role>(RedisKeyDefine._RolePostfix, roleid.ToString()).Result;
+
                 if (rolegongfa!=null&& role!=null)
                 {
                     if (book.Need_Level_ID>role.RoleLevel)
@@ -99,8 +107,9 @@ namespace AscensionServer
 
                     if (rolegongfa.GongFaIDArray.Count != 0)
                     {
-                        if (rolegongfa.GongFaIDArray.ContainsKey(book.Gongfa_ID)&& rolegongfa.GongFaIDArray.ContainsKey(book.Need_Gongfa_ID))
+                        if (rolegongfa.GongFaIDArray.ContainsKey(book.Gongfa_ID)&& !rolegongfa.GongFaIDArray.ContainsKey(book.Need_Gongfa_ID))
                         {
+                            //返回学习失败
                             return;
                         }
                         else
@@ -130,6 +139,68 @@ namespace AscensionServer
                     }
                 }
             }
+        }
+
+        async void AddMiShuS2C(int roleid, int id)
+        {
+            GameEntry.DataManager.TryGetValue<Dictionary<int, MishuBook>>(out var bookDict);
+            GameEntry.DataManager.TryGetValue<Dictionary<int, MiShuData>>(out var mishuDict);
+
+            if (!bookDict.TryGetValue(id, out var book))
+            {
+                //TODO返回数据查找出错
+                return;
+            }
+            NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleid);
+            var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteria);
+            var rolemishuExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleMiShuPerfix,roleid.ToString()).Result;
+            var roleExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RolePostfix, roleid.ToString()).Result;
+            if (rolemishuExist&&roleExist&& ringServer!=null)
+            {
+                if (!InventoryManager.VerifyIsExist(id,1, ringServer.RingIdArray))
+                {
+                    //背包验证失败
+                    return;
+                }
+
+                var rolemishu = RedisHelper.Hash.HashGetAsync<RoleMiShuDTO>(RedisKeyDefine._RoleMiShuPerfix, roleid.ToString()).Result;
+                var role = RedisHelper.Hash.HashGetAsync<RoleDTO>(RedisKeyDefine._RolePostfix, roleid.ToString()).Result;
+                if (role!=null&& rolemishu!=null)
+                {
+                    if (rolemishu.MiShuIDArray.ContainsKey(bookDict[id].Mishu_ID))
+                    {
+                        ResultFailS2C(roleid, PracticeOpcode.AddMiShu);
+                        return;
+                    }
+
+                    if (bookDict[id].Need_Level_ID>role.RoleLevel)
+                    {
+                        //等级验证失败
+                        ResultFailS2C(roleid,PracticeOpcode.AddMiShu);
+                        return;
+                    }
+
+                    //for (int i = 0; i < bookDict[id].; i++)
+                    //{
+
+                    //}
+
+                    var mishuData = mishuDict[bookDict[id].Mishu_ID].mishuSkillDatas.Find(x=>x.Mishu_Floor==1);
+                    MiShuDTO miShuDTO = new MiShuDTO() {  MiShuSkillArry = mishuData.Skill_Array_One, MiShuAdventureSkill = mishuData.Skill_Array_Two, MiShuLevel = (short)mishuData.Need_Level_ID, MiShuID = bookDict[id].Mishu_ID };
+
+                   var mishuObj= await NHibernateQuerier.InsertAsync(ChangeMiShu(miShuDTO));
+                    miShuDTO.ID = mishuObj.ID;
+
+                    rolemishu.MiShuIDArray.Add(mishuObj.ID, bookDict[id].Mishu_ID);
+
+                    await  RedisHelper.Hash.HashSetAsync(RedisKeyDefine._MiShuPerfix, miShuDTO.ID.ToString(), miShuDTO);
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleMiShuPerfix, roleid.ToString(), rolemishu);
+
+                    await NHibernateQuerier.UpdateAsync(ChangeDataType(rolemishu));
+
+                }
+            }
+
         }
         #endregion
 
@@ -244,6 +315,19 @@ namespace AscensionServer
             return miShuDTO;
         }
 
+        MiShu ChangeMiShu(MiShuDTO miShuDTO)
+        {
+            MiShu miShu = new MiShu();
+            miShu.ID = miShuDTO.ID;
+            miShu.MiShuAdventtureSkill = Utility.Json.ToJson(miShuDTO.MiShuAdventureSkill);
+            miShu.MiShuExp = miShuDTO.MiShuExp;
+            miShu.MiShuID = miShuDTO.MiShuID;
+            miShu.MiShuLevel = miShuDTO.MiShuLevel;
+            miShu.MiShuSkillArry = Utility.Json.ToJson(miShuDTO.MiShuSkillArry);
+
+            return miShu;
+        }
+
         RoleGongFaDTO ChangeDataType(RoleGongFa roleGongFa)
         {
             RoleGongFaDTO roleGongFaObj = new RoleGongFaDTO();
@@ -257,6 +341,14 @@ namespace AscensionServer
             RoleMiShuDTO roleMiShuObj = new RoleMiShuDTO();
             roleMiShuObj.RoleID = roleMiShu.RoleID;
             roleMiShuObj.MiShuIDArray = Utility.Json.ToObject<Dictionary<int, int>>(roleMiShu.MiShuIDArray);
+            return roleMiShuObj;
+        }
+
+        RoleMiShu ChangeDataType(RoleMiShuDTO roleMiShu)
+        {
+            RoleMiShu roleMiShuObj = new RoleMiShu();
+            roleMiShuObj.RoleID = roleMiShu.RoleID;
+            roleMiShuObj.MiShuIDArray = Utility.Json.ToJson(roleMiShu.MiShuIDArray);
             return roleMiShuObj;
         }
 

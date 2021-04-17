@@ -119,8 +119,10 @@ namespace AscensionServer
                         //    var randNum = GameEntry.PetStatusManager.NormalRandom2(0, 101);
                         //    Utility.Debug.LogInfo("YZQ鍛造失敗随机数：" + randNum);
                         //}
-                        var randNum = NormalRandom2(40,61);
-                        if (randNum <= 30&& randNum>=70)
+                        var maxNum = 50+(formulaData.SuccessRate / 2);
+                        var minNum = 50 - (formulaData.SuccessRate / 2);
+                        var randNum = NormalRandom2(maxNum, minNum);
+                        if (randNum >= maxNum && randNum<= minNum)
                         {
                             RoleStatusCompoundFailS2C(roleID, SecondaryJobOpCode.CompoundForge, default);
                             Utility.Debug.LogInfo("YZQ鍛造失敗随机数：" + randNum + "成功率：" + formulaData.SuccessRate);
@@ -176,8 +178,11 @@ namespace AscensionServer
                             dict.Add((byte)ParameterCode.RoleStatus, role);
                             RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.CompoundForge, dict);
                         }
-                        else
-                            RoleStatusCompoundFailS2C(roleID, SecondaryJobOpCode.CompoundForge, default);
+                        else {
+                            Utility.Debug.LogInfo("YZQ计算属性鍛造失");
+                            RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundForge);
+                        }
+                            
                     }
                 }
             }

@@ -15,6 +15,17 @@ namespace AscensionProtocol.DTO
         public virtual short MiShuLevel { get; set; }
         public virtual List<int> MiShuSkillArry { get; set; }
         public virtual List<int> MiShuAdventureSkill { get; set; }
+
+        public MiShuDTO()
+        {
+            ID = -1;
+            MiShuID = 0;
+            MiShuExp = 0;
+            MiShuLevel = 0;
+            MiShuSkillArry=new List<int>();
+            MiShuAdventureSkill = new List<int>();
+        }
+
         public override void Clear()
         {
             ID = -1;

@@ -105,12 +105,15 @@ namespace AscensionServer
             var alchemyExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlchemyPerfix, roleID.ToString()).Result;
             var roleExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatsuPerfix, roleID.ToString()).Result;
             var assestExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString()).Result;
-            if (alchemyExist&& assestExist&& roleExist)
+            NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
+            var rolering = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteria);
+            Dictionary<byte, object> dict = new Dictionary<byte, object>();
+            if (alchemyExist && assestExist && roleExist&& rolering!=null)
             {
                 var alchemy = RedisHelper.Hash.HashGetAsync<AlchemyDTO>(RedisKeyDefine._AlchemyPerfix, roleID.ToString()).Result;
                 var role = RedisHelper.Hash.HashGetAsync<RoleStatusDTO>(RedisKeyDefine._RoleStatsuPerfix, roleID.ToString()).Result;
                 var assest = RedisHelper.Hash.HashGetAsync<RoleAssetsDTO>(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString()).Result;
-                if (alchemy != null&& role!=null&& assest!=null)
+                if (alchemy != null && role != null && assest != null)
                 {
                     GameEntry.DataManager.TryGetValue<Dictionary<int, FormulaDrugData>>(out var formulaDataDict);
                     if (alchemy.Recipe_Array.Contains(UseItemID))
@@ -118,29 +121,31 @@ namespace AscensionServer
                         formulaDataDict.TryGetValue(UseItemID, out var formulaData);
                         for (int i = 0; i < formulaData.NeedItemArray.Count; i++)
                         {
-                            if (!InventoryManager.VerifyIsExist(formulaData.NeedItemArray[i], formulaData.NeedItemNumber[i],roleID))
+                            if (!InventoryManager.VerifyIsExist(formulaData.NeedItemArray[i], formulaData.NeedItemNumber[i], rolering.RingIdArray))
                             {
-                                RoleStatusFailS2C(roleID,SecondaryJobOpCode.CompoundAlchemy);
+                                RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundAlchemy);
                                 return;
-                            }                         
+                            }
                         }
-                        if (formulaData.NeedMoney> assest.SpiritStonesLow||formulaData.NeedVitality > role.Vitality)
+                        if (formulaData.NeedMoney > assest.SpiritStonesLow || formulaData.NeedVitality > role.Vitality)
                         {
                             RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundAlchemy);
                             return;
                         }
-                        if (Utility.Algorithm.CreateRandomInt(0, 101) < formulaData.SuccessRate)
+                        if (Utility.Algorithm.CreateRandomInt(0, 101) > formulaData.SuccessRate)
                         {
-                            RoleStatusCompoundFailS2C(roleID, SecondaryJobOpCode.CompoundAlchemy,default);
-                            //鍛造失敗
+                            RoleStatusCompoundFailS2C(roleID, SecondaryJobOpCode.CompoundAlchemy, default);
+                            dict.Add((byte)ParameterCode.JobAlchemy, alchemy);
+                            dict.Add((byte)ParameterCode.RoleAssets, assest);
+                            dict.Add((byte)ParameterCode.RoleStatus, role);
+                            RoleStatusCompoundFailS2C(roleID, SecondaryJobOpCode.CompoundAlchemy, dict);
                             return;
                         }
 
                         alchemy.JobLevelExp += formulaData.MasteryValue;
                         role.Vitality -= formulaData.NeedVitality;
                         assest.SpiritStonesLow -= formulaData.NeedMoney;
-                        InventoryManager.AddNewItem(roleID,formulaData.ItemID,1);
-                        Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                        InventoryManager.AddNewItem(roleID, formulaData.ItemID, 1);
                         dict.Add((byte)ParameterCode.JobAlchemy, alchemy);
                         dict.Add((byte)ParameterCode.RoleAssets, assest);
                         dict.Add((byte)ParameterCode.RoleStatus, role);
@@ -148,7 +153,7 @@ namespace AscensionServer
                     }
                     else
                     {
-                        RoleStatusFailS2C(roleID,SecondaryJobOpCode.CompoundAlchemy);
+                        RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundAlchemy);
                     }
                 }
                 else
@@ -230,7 +235,7 @@ namespace AscensionServer
                         var num = Utility.Algorithm.CreateRandomInt(0, 101);
                         if (num > formulaData.SuccessRate)
                         {
-                            Utility.Debug.LogInfo("3YZQ开始合成丹药"+ num+">>>>"+ formulaData.SuccessRate);
+                            Utility.Debug.LogInfo("3YZQ开始合成丹药" + num + ">>>>" + formulaData.SuccessRate);
                             dict.Add((byte)ParameterCode.JobAlchemy, alchemy);
                             dict.Add((byte)ParameterCode.RoleAssets, assest);
                             dict.Add((byte)ParameterCode.RoleStatus, role);
@@ -248,14 +253,15 @@ namespace AscensionServer
                         dict.Add((byte)ParameterCode.RoleAssets, assest);
                         dict.Add((byte)ParameterCode.RoleStatus, role);
                         RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.CompoundAlchemy, dict);
-                    }else
-                        RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundAlchemy);
+                    }
+                    else { Utility.Debug.LogInfo("YZQ开始合成丹药失败"); RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundAlchemy); }
+                       
                 }
                 else
-                    RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundAlchemy);
+                { Utility.Debug.LogInfo("YZQ开始合成丹药失败2"); RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundAlchemy); }
             }
             else
-                RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundAlchemy);
+            { Utility.Debug.LogInfo("YZQ开始合成丹药失败3"); RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundAlchemy); }
         }
         #endregion
 
