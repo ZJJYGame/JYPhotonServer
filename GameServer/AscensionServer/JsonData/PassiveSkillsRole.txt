@@ -1,0 +1,18 @@
+﻿[
+    {
+        "SkillID":21117,
+        "SkillName":"剑心",
+        "Attribute":[4],
+        "Percentage":[10],
+        "Fixed":[0],
+        "WeaponType":1
+    },
+    {
+        "SkillID":21118,
+        "SkillName":"剑心",
+        "Attribute":[4],
+        "Percentage":[20],
+        "Fixed":[0],
+        "WeaponType":1
+    }
+]

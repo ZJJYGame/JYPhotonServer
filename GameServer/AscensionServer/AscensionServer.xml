@@ -455,6 +455,16 @@
             yzq添加
             </summary>
         </member>
+        <member name="P:AscensionServer.PassiveSkillsPet.MutexSkillID">
+            <summary>
+            判断是否存在上位技能
+            </summary>
+        </member>
+        <member name="P:AscensionServer.PassiveSkillsWeapon.AddTarget">
+            <summary>
+            0是人物加成，1是武器加成
+            </summary>
+        </member>
         <member name="P:AscensionServer.PuppetUnitParameter.PuppetSkillProbability">
             <summary>
             随机技能概率
@@ -909,6 +919,26 @@
         <member name="F:AscensionServer.RedisKeyDefine._RoleEquipmentPerfix">
             <summary>
             角色装备的装备的Key前缀
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleStatusGFPerfix">
+            <summary>
+            角色功法部分属性记录
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleStatusMSPerfix">
+            <summary>
+            角色秘术部分属性记录
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleStatusAddPointPerfix">
+            <summary>
+            角色加点部分属性记录
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleStatusEquipPerfix">
+            <summary>
+            角色装备部分属性记录
             </summary>
         </member>
         <member name="T:AscensionServer.RTGenericValuePair`2">
@@ -4190,6 +4220,31 @@
             <param name="petAptitude"></param>
             <param name="petAptitudeDTO"></param>
             <returns></returns>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.RoleStatusAlgorithm(System.Int32)">
+            <summary>
+            计算人物属性
+            </summary>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.SkillAlgorithm(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            计算技能加成
+            </summary>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.WeaponSkillAlgorithm(System.Collections.Generic.List{System.Int32},AscensionProtocol.DTO.RoleWeaponDTO,AscensionProtocol.DTO.RoleEquipmentDTO)">
+            <summary>
+            武器技能加成
+            </summary>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.RoleStatusAlgorithm(AscensionProtocol.DTO.RoleStatusDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO,AscensionProtocol.DTO.RoleStatusDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO)">
+            <summary>
+            获取Redis各部分加成
+            </summary>
+            <param name="statusFly">飞行法器加成</param>
+            <param name="statusGF">功法加成</param>
+            <param name="statusMS">秘术加成</param>
+            <param name="statusPoint">加点加成</param>
+            <param name="statusEquip">装备加成</param>
         </member>
         <member name="M:AscensionServer.PracticeManager.TriggerBottleneckS2C(System.Int32,System.Int32,System.Boolean@)">
             <summary>
