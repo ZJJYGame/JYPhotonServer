@@ -32,6 +32,13 @@ namespace AscensionServer
         {
             return dataDict.TryGetValue(key, out value);
         }
+        public bool TryGetValue<T>(out T value)
+            where T:class
+        {
+            var result= dataDict.TryGetValue(typeof(T), out var val  );
+            value = val as T;
+            return result;
+        }
         public bool TryRemove(Type key)
         {
             return dataDict.Remove(key);
@@ -86,6 +93,10 @@ namespace AscensionServer
                 entity.TryAdd(datas[i].GetType(), datas[i]);
             }
             return entity;
+        }
+        public static void Release(RoleEntity roleEntity)
+        {
+            CosmosEntry.ReferencePoolManager.Despawn(roleEntity);
         }
     }
 }

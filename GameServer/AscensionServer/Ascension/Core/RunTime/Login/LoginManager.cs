@@ -128,8 +128,7 @@ namespace AscensionServer
             var roleExist = GameEntry.RoleManager.TryGetValue(roleObj.RoleID, out remoteRole);
             if (roleExist)
             {
-                IPeerEntity pa;
-                GameEntry.PeerManager.TryGetValue(remoteRole.SessionId, out pa);
+                GameEntry.PeerManager.TryGetValue(remoteRole.SessionId, out var pa);
                 pa.SendEventMsg((byte)EventCode.ReplacePlayer, null);//从这里发送挤下线消息；
                 GameEntry.RoleManager.TryRemove(roleObj.RoleID);
             }

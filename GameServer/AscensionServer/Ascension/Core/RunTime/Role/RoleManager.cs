@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cosmos;
 using AscensionProtocol;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using AscensionProtocol.DTO;
@@ -14,6 +15,7 @@ namespace AscensionServer
     {
         public int RoleCount { get { return roleDict.Count; } }
         ConcurrentDictionary<int, RoleEntity> roleDict = new ConcurrentDictionary<int, RoleEntity>();
+        ConcurrentDictionary<int, int> sessionRoleDict = new ConcurrentDictionary<int, int>();
 
 
         event Action<OperationData> BroadcastMsg1Param
@@ -65,13 +67,31 @@ namespace AscensionServer
                 BroadcastMsg3Params += role.SendMessage;
                 BroadcastMsg2Params += role.SendMessage;
                 BroadcastMsg1Param += role.SendMessage;
-                onRoleLogOn?.Invoke(roleId); 
+                onRoleLogOn?.Invoke(roleId);
+                sessionRoleDict.TryAdd(role.SessionId, roleId);
             }
             return result;
         }
         public bool TryGetValue(int roleId, out RoleEntity role)
         {
             return roleDict.TryGetValue(roleId, out role);
+        }
+        public void TryGetValues(int[] roleIds, out IDictionary<int, RoleDTO> result)
+        {
+            result = null;
+            var length = roleIds.Length;
+            List<RoleDTO> roles = new List<RoleDTO>();
+            for (int i = 0; i < length; i++)
+            {
+                if (TryGetValue(roleIds[i], out var role))
+                {
+                    if( role.TryGetValue(typeof(RoleDTO),out var roleDto))
+                    {
+                        roles.Add( roleDto as RoleDTO);
+                    }
+                }
+            }
+            result= roles.ToDictionary(k=> k.RoleID,v=>v); 
         }
         public bool TryRemove(int roleId)
         {
@@ -82,6 +102,7 @@ namespace AscensionServer
                 BroadcastMsg2Params -= role.SendMessage;
                 BroadcastMsg1Param -= role.SendMessage;
                 onRoleLogoff?.Invoke(roleId);
+                sessionRoleDict.Remove(role.SessionId, out _ );
             }
             return result;
         }
@@ -94,6 +115,7 @@ namespace AscensionServer
                 BroadcastMsg2Params -= role.SendMessage;
                 BroadcastMsg1Param -= role.SendMessage;
                 onRoleLogoff?.Invoke(roleId);
+                sessionRoleDict.Remove(role.SessionId, out _);
             }
             return result;
         }
@@ -159,11 +181,6 @@ namespace AscensionServer
             broadcastMsg3Params?.Invoke(opCode, subCode, userData);
         }
 
-        public async Task<T> GetRoleDataAsync<T>(int roleId)
-    where T : DataTransferObject, new()
-        {
-            return await NHibernateQuerier.QueryAsync<T>("RoleID", roleId);
-        }
         public async Task<T[]> GetRoleDatasAsync<T>(int[] roleIds)
     where T : DataTransferObject, new()
         {
@@ -171,7 +188,7 @@ namespace AscensionServer
             var length = roleIds.Length;
             for (int i = 0; i < length; i++)
             {
-                var data = await GetRoleDataAsync<T>(roleIds[i]);
+                var data = await NHibernateQuerier.QueryAsync<T>("RoleID", roleIds[i]);
                 dataList.Add(data);
             }
             return dataList.ToArray();
@@ -210,7 +227,8 @@ namespace AscensionServer
 
         void PeerDisconnectedHandler(int conv)
         {
-            TryRemove(conv);
+            sessionRoleDict.TryGetValue(conv, out var roleId);
+            TryRemove(roleId);
         }
     }
 }

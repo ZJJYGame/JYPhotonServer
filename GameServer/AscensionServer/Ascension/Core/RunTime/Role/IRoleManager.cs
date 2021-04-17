@@ -22,6 +22,7 @@ namespace AscensionServer
         bool ContainsKey(int roleId);
         bool TryAdd(int roleId, RoleEntity role);
         bool TryGetValue(int roleId, out RoleEntity role);
+        void TryGetValues(int[] roleIds, out IDictionary<int, RoleDTO> result);
         bool TryRemove(int roleId);
         bool TryRemove(int roleId, out RoleEntity role);
         bool TryUpdate(int roleId, RoleEntity newRole, RoleEntity comparsionRole);
@@ -40,9 +41,6 @@ namespace AscensionServer
         void BroadcastMessageToAll(byte opCode, Dictionary<byte, object> userData);
         void BroadcastMessageToAll(byte opCode, short subCode, Dictionary<byte, object> userData);
 
-
-        Task<T> GetRoleDataAsync<T>(int roleId) where T : DataTransferObject, new();
-        Task<T[]> GetRoleDatasAsync<T>(int[] roleIds) where T : DataTransferObject, new();
 
         Task<bool> SendMessageAsync(int roleId, OperationData message);
         Task<bool> SendEventAsync(int roleId, byte opCode, Dictionary<byte, object> userData);
