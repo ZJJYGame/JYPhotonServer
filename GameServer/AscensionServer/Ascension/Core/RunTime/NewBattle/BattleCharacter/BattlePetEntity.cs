@@ -26,7 +26,7 @@ namespace AscensionServer
             Pet pet= NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriaPet);
             //todo 拿取宠物数据
             CharacterBattleData = CosmosEntry.ReferencePoolManager.Spawn<CharacterBattleData>();
-            CharacterBattleData.Init(petStatus);
+            CharacterBattleData.Init(petStatus,this);
             UniqueID = petStatus.PetID;
             GlobalID = rolePet.PetIDDict[UniqueID];
             MasterID = roleID;

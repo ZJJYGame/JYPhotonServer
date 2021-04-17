@@ -33,5 +33,7 @@ namespace AscensionServer
         public BattleSkillDamageTargetProperty extraDamageTargetProperty;
         //额外伤害
         public int extraDamageNum;
+        //添加buff的id列表
+        public List<int> addBuffList;
     }
 }

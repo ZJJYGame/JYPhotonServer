@@ -8,7 +8,7 @@ using AscensionProtocol.DTO;
 
 namespace AscensionServer
 {
-    public class BattleSkillBase
+    public class BattleSkillBase: ISkillAdditionData
     {
         //角色的属性
         CharacterBattleData CharacterBattleData { get { return OwnerEntity.CharacterBattleData; } }
@@ -29,6 +29,10 @@ namespace AscensionServer
         //技能攻击段数
         public int AttackSectionNumber { get { return battleSkillData.battleSkillDamageNumDataList.Count; } }
         public AttackProcess_Type AttackProcess_Type { get { return battleSkillData.attackProcessType; } }
+        //最后一个攻击值
+        public int LastAttackValue { get; protected set; }
+        //最后一个伤害值
+        public int LastDamageValue { get; protected set; }
         //技能对应的json数据
         BattleSkillData battleSkillData;
 
@@ -48,6 +52,27 @@ namespace AscensionServer
             remove { skillEventBehindAttack -= value; }
         }
 
+        public bool CanUseSkill(BattleCharacterEntity target)
+        {
+            if (target.HasDie)
+            {
+                Utility.Debug.LogError("目标已死亡");
+                if (battleSkillData.battleSkillActionType == BattleSkillActionType.Damage || battleSkillData.battleSkillActionType == BattleSkillActionType.Heal)
+                {
+                    return false;
+                }
+                else return true;
+            }
+            else
+            {
+                if (battleSkillData.battleSkillActionType == BattleSkillActionType.Damage || battleSkillData.battleSkillActionType == BattleSkillActionType.Heal)
+                {
+                    return true;
+                }
+                else return false;
+            }
+        }
+
         /// <summary>
         /// 获取该技能的伤害
         /// </summary>
@@ -55,17 +80,6 @@ namespace AscensionServer
         /// <param name="targetIndex">第几个目标</param>
         public BattleDamageData GetDamageData(int index, int targetIndex, BattleCharacterEntity target, BattleDamageData battleDamageData)
         {
-            //判断目标是否可以作为技能目标
-            if (target.HasDie)
-            {
-                Utility.Debug.LogError("目标已死亡");
-                if (battleSkillData.battleSkillActionType == BattleSkillActionType.Damage || battleSkillData.battleSkillActionType == BattleSkillActionType.Heal)
-                {
-                    Utility.Debug.LogError("直接返回");
-                    return null;
-                }
-            }
-
 
             BattleSkillDamageNumData battleSkillDamageNumData = battleSkillData.battleSkillDamageNumDataList[index];
             battleDamageData.battleSkillActionType = battleSkillData.battleSkillActionType;
@@ -77,10 +91,15 @@ namespace AscensionServer
                 attackValue = (int)target.CharacterBattleData.GetProperty(battleSkillDamageNumData.baseNumSourceDataList[targetIndex].battleSkillNumSourceType, battleDamageData) * battleSkillDamageNumData.baseNumSourceDataList[targetIndex].mulitity/100 + battleSkillDamageNumData.fixedNum;
             else//根据自身数值
                 attackValue = (int)CharacterBattleData.GetProperty(battleSkillDamageNumData.baseNumSourceDataList[targetIndex].battleSkillNumSourceType, battleDamageData) * battleSkillDamageNumData.baseNumSourceDataList[targetIndex].mulitity/100 + battleSkillDamageNumData.fixedNum;
-            int defendValue = target.CharacterBattleData.GetProperty(battleDamageData.damageType);
-            //计算忽视防御
-            defendValue = defendValue * (100 - (CharacterBattleData.IgnoreDef + IgnoreDefensive)) / 100;
-            defendValue = defendValue < 0 ? 0 : defendValue;
+
+            int defendValue = 0;
+            if(battleSkillData.battleSkillActionType == BattleSkillActionType.Damage)
+            {
+                defendValue = target.CharacterBattleData.GetProperty(battleDamageData.damageType);
+                //计算忽视防御
+                defendValue = defendValue * (100 - (CharacterBattleData.IgnoreDef + IgnoreDefensive)) / 100;
+                defendValue = defendValue < 0 ? 0 : defendValue;
+            }
             int damageValue = 0;
             if (battleDamageData.damageType == BattleSkillDamageType.Physic || battleDamageData.damageType == BattleSkillDamageType.Magic)
                 damageValue = (attackValue - defendValue) * (100 + CharacterBattleData.DamageAddition + DamgeAddition - target.CharacterBattleData.DamageDeduction) / 100;
@@ -98,17 +117,22 @@ namespace AscensionServer
             }
             damageValue = damageValue <= 0 ? 1 : damageValue;
             battleDamageData.damageNum = battleSkillData.battleSkillActionType==BattleSkillActionType.Damage?-damageValue:damageValue;
+
             //计算额外伤害初始值
+            int extraAttackValue = 0;
             if (battleSkillDamageNumData.extraNumSourceData.Count > 0)
             {
                 if (battleSkillDamageNumData.extraDamageAdditionSourceTarget)//根据目标数值
-                    attackValue = (int)target.CharacterBattleData.GetProperty(battleSkillDamageNumData.extraNumSourceData[targetIndex].battleSkillNumSourceType, battleDamageData) * battleSkillDamageNumData.extraNumSourceData[targetIndex].mulitity;
+                    extraAttackValue = (int)target.CharacterBattleData.GetProperty(battleSkillDamageNumData.extraNumSourceData[targetIndex].battleSkillNumSourceType, battleDamageData) * battleSkillDamageNumData.extraNumSourceData[targetIndex].mulitity;
                 else//根据自身数值
-                    attackValue = (int)CharacterBattleData.GetProperty(battleSkillDamageNumData.extraNumSourceData[targetIndex].battleSkillNumSourceType, battleDamageData) * battleSkillDamageNumData.extraNumSourceData[targetIndex].mulitity;
-                battleDamageData.extraDamageNum = battleSkillData.battleSkillActionType == BattleSkillActionType.Damage ? -attackValue : attackValue; ;
+                    extraAttackValue = (int)CharacterBattleData.GetProperty(battleSkillDamageNumData.extraNumSourceData[targetIndex].battleSkillNumSourceType, battleDamageData) * battleSkillDamageNumData.extraNumSourceData[targetIndex].mulitity;
+                battleDamageData.extraDamageNum = battleSkillData.battleSkillActionType == BattleSkillActionType.Damage ? -extraAttackValue : extraAttackValue; ;
             }
+            LastAttackValue = attackValue;
+            LastDamageValue = damageValue;
             return battleDamageData;
         }
+
 
         public BattleDamageData IsCrit(int index, BattleCharacterEntity target)
         {
@@ -131,6 +155,20 @@ namespace AscensionServer
             battleDamageData.isCrit = isCrit;
             battleDamageData.attackSection = index;
             return battleDamageData;
+        }
+        
+        public void AddBuff(int targetIndex,BattleDamageData battleDamageData)
+        {
+            for (int i = 0; i < battleSkillData.battleSkillAddBuffList.Count; i++)
+            {
+                BattleSkillAddBuffData battleSkillAddBuffData = battleSkillData.battleSkillAddBuffList[i];
+                BattleCharacterEntity target;
+                if (battleSkillAddBuffData.TargetType)//受击方
+                    target = GameEntry.BattleCharacterManager.GetCharacterEntity(battleDamageData.TargetID);
+                else
+                    target = OwnerEntity;
+                target.BattleBuffController.AddBuff(battleSkillAddBuffData, this);
+            }
         }
 
         /// <summary>

@@ -58,6 +58,7 @@ namespace AscensionServer
             OperationData opData = new OperationData();
             opData.DataMessage = subResponseParametersDict;
             opData.OperationCode = (byte)OperationCode.SyncBattleMessageRole;
+            Utility.Debug.LogError("发送初始化数据=>" + Utility.Json.ToJson(subResponseParametersDict));
             SendMessageToAllPlayerS2C(opData);
         }
         /// <summary>

@@ -16,7 +16,7 @@ namespace AscensionServer
             CharacterBattleData = CosmosEntry.ReferencePoolManager.Spawn<CharacterBattleData>();
             GameEntry.DataManager.TryGetValue<Dictionary<int, MonsterDatas>>(out var monsterDict);
             if (monsterDict.ContainsKey(aIID))
-                CharacterBattleData.Init(monsterDict[aIID]);
+                CharacterBattleData.Init(monsterDict[aIID],this);
             UniqueID = uniqueID;
             GlobalID = aIID;
             BattleFactionType= battleFactionType;
@@ -50,7 +50,7 @@ namespace AscensionServer
             base.AllocationBattleAction();
             //todo 先临时将AI的行为设置为普通攻击
             BattleCmd = BattleCmd.SkillInstruction;
-            ActionID = 21001;
+            ActionID = 21402;
             TargetIDList.Clear();
             TargetIDList = GetTargetIdList(ActionID,true);
         }
