@@ -236,6 +236,7 @@ namespace AscensionServer
             if (result)
             {
                 WeaponDTO weapon = new WeaponDTO();
+                weapon.WeaponType = parameter.WeaponType;
                 for (int i = 0; i < parameter.WeaponAttributeMax.Count; i++)
                 {
                     weapon.WeaponAttribute.Add(Utility.Algorithm.CreateRandomInt(parameter.WeaponAttributeMin[i], parameter.WeaponAttributeMax[i] + 1));

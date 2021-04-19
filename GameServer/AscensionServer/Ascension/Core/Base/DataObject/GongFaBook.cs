@@ -11,16 +11,11 @@ namespace AscensionServer
     [ConfigData]
     public class GongFaBook 
     {
-         public int Book_ID { get; set; }
-        public string Book_Name { get; set; }
-        public string Book_Describe { get; set; }
-        public string Book_Icon { get; set; }
-        public int Book_Quarity { get; set; }
-        public int Book_Property { get; set; }
-        public int Need_School_ID { get; set; }
-        public int Need_Gongfa_ID { get; set; }
-        public short Need_Level_ID { get; set; }
-        public int Gongfa_ID { get; set; }
+         public int BookID { get; set; }
+        public int BookProperty { get; set; }
+        public int GongfaID { get; set; }
+        public int NeedRoleLeve { get; set; }
+        public int NeedGongfaID { get; set; }
     }
 }
 

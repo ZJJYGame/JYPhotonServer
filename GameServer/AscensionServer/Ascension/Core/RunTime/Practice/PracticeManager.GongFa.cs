@@ -81,6 +81,7 @@ namespace AscensionServer
             GameEntry.DataManager.TryGetValue<Dictionary<int, GongFa>>(out var gongfaDict);
             if (!bookDict.TryGetValue(id, out var book))
             {
+                ResultFailS2C(roleid, PracticeOpcode.AddGongFa);
                 return;
             }
 
@@ -92,7 +93,7 @@ namespace AscensionServer
             {
                 if (!InventoryManager.VerifyIsExist(id, 1, ringServer.RingIdArray))
                 {
-                    //背包验证失败
+                    ResultFailS2C(roleid,PracticeOpcode.AddGongFa);
                     return;
                 }
                 var  rolegongfa = RedisHelper.Hash.HashGetAsync<RoleGongFaDTO>(RedisKeyDefine._RoleGongfaPerfix, roleid.ToString()).Result;
@@ -100,42 +101,48 @@ namespace AscensionServer
 
                 if (rolegongfa!=null&& role!=null)
                 {
-                    if (book.Need_Level_ID>role.RoleLevel)
+                    if (book.NeedRoleLeve > role.RoleLevel)
                     {
+                        ResultFailS2C(roleid, PracticeOpcode.AddGongFa);
                         return;
                     }
 
                     if (rolegongfa.GongFaIDArray.Count != 0)
                     {
-                        if (rolegongfa.GongFaIDArray.ContainsKey(book.Gongfa_ID)&& !rolegongfa.GongFaIDArray.ContainsKey(book.Need_Gongfa_ID))
+                        if (rolegongfa.GongFaIDArray.ContainsKey(book.GongfaID)&& !rolegongfa.GongFaIDArray.ContainsKey(book.NeedGongfaID))
                         {
-                            //返回学习失败
+                            ResultFailS2C(roleid, PracticeOpcode.AddGongFa);
                             return;
                         }
                         else
                         {
                             CultivationMethodDTO cultivationMethodDTO = new CultivationMethodDTO();
-                            cultivationMethodDTO.CultivationMethodID = book.Gongfa_ID;
-                            cultivationMethodDTO.CultivationMethodLevel = book.Need_Level_ID;
-                            for (int i = 0; i < gongfaDict[book.Gongfa_ID].Skill_One.Count; i++)
+                            cultivationMethodDTO.CultivationMethodID = book.GongfaID;
+                            cultivationMethodDTO.CultivationMethodLevel = (short)book.NeedRoleLeve;
+                            for (int i = 0; i < gongfaDict[book.GongfaID].Skill_One.Count; i++)
                             {
-                                if (role.RoleLevel>= gongfaDict[book.Gongfa_ID].Skill_One_At_Level[i])
+                                if (role.RoleLevel>= gongfaDict[book.GongfaID].Skill_One_At_Level[i])
                                 {
-                                    cultivationMethodDTO.CultivationMethodLevelSkillArray.Add(gongfaDict[book.Gongfa_ID].Skill_One[i]);
+                                    cultivationMethodDTO.CultivationMethodLevelSkillArray.Add(gongfaDict[book.GongfaID].Skill_One[i]);
                                 }
                             }
                             var gongfaObj = NHibernateQuerier.Insert(ChangeGongFa(cultivationMethodDTO));
-                            rolegongfa.GongFaIDArray.Add(gongfaObj.ID, book.Gongfa_ID);
+                            rolegongfa.GongFaIDArray.Add(gongfaObj.ID, book.GongfaID);
                         }
                     }
                     else
                     {
                         CultivationMethodDTO cultivationMethodDTO = new CultivationMethodDTO();
-                        cultivationMethodDTO.CultivationMethodID = book.Gongfa_ID;
+                        cultivationMethodDTO.CultivationMethodID = book.GongfaID;
                         cultivationMethodDTO.CultivationMethodLevel =1;
-                        cultivationMethodDTO.CultivationMethodLevelSkillArray .Add(gongfaDict[book.Gongfa_ID].Skill_One[0]) ;
+                        cultivationMethodDTO.CultivationMethodLevelSkillArray .Add(gongfaDict[book.GongfaID].Skill_One[0]) ;
                         var gongfaObj= NHibernateQuerier.Insert(ChangeGongFa(cultivationMethodDTO));
-                        rolegongfa.GongFaIDArray.Add(gongfaObj.ID, book.Gongfa_ID);
+                        rolegongfa.GongFaIDArray.Add(gongfaObj.ID, book.GongfaID);
+
+                       await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._GongfaPerfix, gongfaObj.ID.ToString(), ChangeGongFa(gongfaObj));
+
+                        await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._GongfaPerfix, gongfaObj.ID.ToString(), rolegongfa);
+                       await  NHibernateQuerier.UpdateAsync(ChangeDataType(rolegongfa));
                     }
                 }
             }
@@ -333,6 +340,13 @@ namespace AscensionServer
             RoleGongFaDTO roleGongFaObj = new RoleGongFaDTO();
             roleGongFaObj.RoleID = roleGongFa.RoleID;
             roleGongFaObj.GongFaIDArray = Utility.Json.ToObject<Dictionary<int ,int>>(roleGongFa.GongFaIDArray);
+            return roleGongFaObj;
+        }
+        RoleGongFa ChangeDataType(RoleGongFaDTO roleGongFa)
+        {
+            RoleGongFa roleGongFaObj = new RoleGongFa();
+            roleGongFaObj.RoleID = roleGongFa.RoleID;
+            roleGongFaObj.GongFaIDArray = Utility.Json.ToJson(roleGongFa.GongFaIDArray);
             return roleGongFaObj;
         }
 

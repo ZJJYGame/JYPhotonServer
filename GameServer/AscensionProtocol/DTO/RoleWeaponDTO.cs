@@ -49,9 +49,9 @@ namespace AscensionProtocol.DTO
         {
             Score = 1;
             IsTreasure = false;
-            WeaponAttribute = new List<int>();
+            WeaponAttribute = new List<int>() ;
             WeaponDurable = 1;
-            WeaponSkill = new List<int>();
+            WeaponSkill = new List<int>() ;
             WeaponType = 0;
         }
 
@@ -59,9 +59,9 @@ namespace AscensionProtocol.DTO
         {
             Score = 1;
             IsTreasure =false;
-            WeaponAttribute = new List<int>();
+            WeaponAttribute = new List<int>() ;
             WeaponDurable = 1;
-            WeaponSkill = new List<int>();
+            WeaponSkill = new List<int>() ;
         }
     }
 }

@@ -4239,14 +4239,21 @@
             <param name="roleStatus"></param>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.PracticeManager.SkillAlgorithm(System.Collections.Generic.List{System.Int32})">
+        <member name="M:AscensionServer.PracticeManager.RoleEquip(AscensionServer.Model.RoleStatus,AscensionProtocol.DTO.RoleWeaponDTO,AscensionProtocol.DTO.RoleEquipmentDTO)">
+            <summary>
+            人物裝備裝備的屬性計算
+            </summary>
+            <param name="statusObj"></param>
+            <param name="roleWeapon"></param>
+            <param name="roleEquipment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.SkillAlgorithm(System.Int32,AscensionServer.Model.RoleStatus,System.Collections.Generic.List{System.Int32})">
             <summary>
             计算技能加成
             </summary>
-        </member>
-        <member name="M:AscensionServer.PracticeManager.WeaponSkillAlgorithm(System.Collections.Generic.List{System.Int32},AscensionProtocol.DTO.RoleWeaponDTO,AscensionProtocol.DTO.RoleEquipmentDTO)">
             <summary>
-            武器技能加成
+            计算技能加成
             </summary>
         </member>
         <member name="M:AscensionServer.PracticeManager.RoleStatusAlgorithm(System.Int32,AscensionProtocol.DTO.RoleStatusDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO,AscensionProtocol.DTO.RoleStatusDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO)">
@@ -4876,6 +4883,46 @@
         <member name="T:AscensionServer.SecondaryJobManager.AffixType">
             <summary>
             词缀类型
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SecondaryJobManager.WeaponType.BoxingGloves">
+            <summary>
+            拳套
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SecondaryJobManager.WeaponType.Mirror">
+            <summary>
+            鏡子
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SecondaryJobManager.WeaponType.Book">
+            <summary>
+            書卷
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SecondaryJobManager.WeaponType.Sword">
+            <summary>
+            劍
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SecondaryJobManager.WeaponType.Cane">
+            <summary>
+            zhang
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SecondaryJobManager.WeaponType.FuChen">
+            <summary>
+            fuchen
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SecondaryJobManager.WeaponType.Flag">
+            <summary>
+            旗
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SecondaryJobManager.WeaponType.BroadSword">
+            <summary>
+            刀
             </summary>
         </member>
         <member name="M:AscensionServer.SecondaryJobManager.RoleStatusCompoundFailS2C(System.Int32,AscensionProtocol.SecondaryJobOpCode,System.Object)">

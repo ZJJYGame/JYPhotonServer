@@ -14,12 +14,12 @@ namespace AscensionServer
             GameEntry. DataManager.TryGetValue<Dictionary<int, GongFaBook>>(out var gongfabookDict);
             gongfaTemp = CosmosEntry.ReferencePoolManager.Spawn<CultivationMethodDTO>();
             gongfabookDict.TryGetValue(gongfaBookId, out var gongFaBook);
-            if (!Utility.Json.ToObject<List<int>>(roleDTO.RoleRoot).Contains(gongFaBook.Book_Property)&& roleDTO.RoleLevel< gongFaBook.Need_Level_ID)
+            if (!Utility.Json.ToObject<List<int>>(roleDTO.RoleRoot).Contains(gongFaBook.BookProperty)&& roleDTO.RoleLevel< gongFaBook.NeedRoleLeve)
             {
                 return false;
             }
-            gongfaTemp.CultivationMethodLevel = (short)gongFaBook.Need_Level_ID;
-            gongfaTemp.CultivationMethodID = gongFaBook.Gongfa_ID;
+            gongfaTemp.CultivationMethodLevel = (short)gongFaBook.NeedRoleLeve;
+            gongfaTemp.CultivationMethodID = gongFaBook.GongfaID;
             gongfaTemp.CultivationMethodLevelSkillArray = new List<int>();
             GameEntry. DataManager.TryGetValue<Dictionary<int, GongFa>>(out var gongfaDict);
             for (int i = 0; i < gongfaDict[gongfaTemp.CultivationMethodID].Skill_One.Count; i++)

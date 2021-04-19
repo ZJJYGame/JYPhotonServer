@@ -183,7 +183,9 @@ namespace AscensionServer
                 {
                     recipe.Add(tempid);
                     alchemy.Recipe_Array = Utility.Json.ToJson(recipe);
-                    RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus, ChangeDataType(alchemy));
+                    Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                    dict.Add((byte)ParameterCode.JobAlchemy, alchemy);
+                    RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.StudySecondaryJobStatus, dict);
                     InventoryManager.Remove(roleID, UseItemID);
                     await NHibernateQuerier.UpdateAsync(alchemy);
                     await RedisHelper.Hash.HashSetAsync<AlchemyDTO>(RedisKeyDefine._AlchemyPostfix, roleID.ToString(), ChangeDataType(alchemy));

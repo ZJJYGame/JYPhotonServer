@@ -226,7 +226,7 @@ namespace AscensionServer
                             dict.Add((byte)ParameterCode.AllianceStatus, alliance);
                             RoleStatusSuccessS2C(roleID, AllianceOpCode.ChangeAllianceName, dict);
 
-                            await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AllianceConstructionPerfix, statusDTO.ID.ToString(), assest);
+                            await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAssetsPerfix, statusDTO.ID.ToString(), assest);
                             await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString(), alliance);
                             await NHibernateQuerier.UpdateAsync(alliance);
                             await NHibernateQuerier.UpdateAsync(assest);
@@ -328,7 +328,7 @@ namespace AscensionServer
                         dict.Add((byte)ParameterCode.AllianceStatus, alliance);
                         RoleStatusSuccessS2C(roleID, AllianceOpCode.ChangeAllianceName, dict);
 
-                        await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AllianceConstructionPerfix, statusDTO.ID.ToString(), assest);
+                        await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAssetsPerfix, statusDTO.ID.ToString(), assest);
                         await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString(), alliance);
                         await NHibernateQuerier.UpdateAsync(alliance);
                         await NHibernateQuerier.UpdateAsync(assest);

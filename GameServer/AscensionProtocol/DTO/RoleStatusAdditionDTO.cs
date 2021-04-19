@@ -48,7 +48,41 @@ namespace AscensionProtocol.DTO
         /// </summary>
         public Dictionary<int, int> Fixed { get; set; }
 
-        public override void Clear()
+        public RoleStatusAdditionDTO()
+        {
+            RoleID = -1;
+            FreeAttributes = 0;
+            RoleHP = 0;
+            RoleMaxHP = 0;
+            RoleMP = 0;
+            RoleMaxMP = 0;
+            RoleSoul = 0;
+            RoleMaxSoul = 0;
+            BestBlood = 0;
+            BestBloodMax = 0;
+            AttackSpeed = 0;
+            AttackPhysical = 0;
+            DefendPhysical = 0;
+            AttackPower = 0;
+            DefendPower = 0;
+            PhysicalCritProb = 0;
+            MagicCritProb = 0;
+            ReduceCritProb = 0;
+            PhysicalCritDamage = 0;
+            MagicCritDamage = 0;
+            ReduceCritDamage = 0;
+            MoveSpeed = 0;
+            RolePopularity = 0;
+            RoleMaxPopularity = 0;
+            ValueHide = 0;
+            Vitality = 0;
+            MaxVitality = 0;
+            Percentage = new Dictionary<int, int>();
+            Fixed = new Dictionary<int, int>();
+        }
+
+
+public override void Clear()
         {
             RoleID = -1;
             FreeAttributes = 0;

@@ -9,6 +9,7 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
+		"WeaponTypeDetail":1,
 		"WeaponType":1
 	},
 	{
@@ -21,6 +22,7 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
+		"WeaponTypeDetail":1,
 		"WeaponType":1
 	},
 	{
@@ -33,6 +35,7 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
+		"WeaponTypeDetail":1,
 		"WeaponType":1
 	},
 	{
@@ -45,6 +48,7 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
+		"WeaponTypeDetail":1,
 		"WeaponType":1
 	},
 	{
@@ -57,6 +61,7 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
+		"WeaponTypeDetail":1,
 		"WeaponType":1
 	},
 	{
@@ -69,7 +74,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":2
 	},
 	{
 		"WeaponID":17007,
@@ -81,7 +87,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":2
 	},
 	{
 		"WeaponID":17008,
@@ -93,7 +100,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":2
 	},
 	{
 		"WeaponID":17009,
@@ -105,7 +113,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":2
 	},
 	{
 		"WeaponID":17010,
@@ -117,7 +126,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":2
 	},
 	{
 		"WeaponID":17011,
@@ -129,7 +139,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":3
 	},
 	{
 		"WeaponID":17012,
@@ -141,7 +152,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":3
 	},
 	{
 		"WeaponID":17013,
@@ -153,7 +165,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":3
 	},
 	{
 		"WeaponID":17014,
@@ -165,7 +178,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":3
 	},
 	{
 		"WeaponID":17015,
@@ -177,7 +191,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":3
 	},
 	{
 		"WeaponID":17016,
@@ -189,7 +204,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":4
 	},
 	{
 		"WeaponID":17017,
@@ -201,7 +217,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":4
 	},
 	{
 		"WeaponID":17018,
@@ -213,7 +230,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":4
 	},
 	{
 		"WeaponID":17019,
@@ -225,7 +243,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":4
 	},
 	{
 		"WeaponID":17020,
@@ -237,7 +256,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":4
 	},
 	{
 		"WeaponID":17021,
@@ -249,7 +269,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":5
 	},
 	{
 		"WeaponID":17022,
@@ -261,7 +282,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":5
 	},
 	{
 		"WeaponID":17023,
@@ -273,7 +295,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":5
 	},
 	{
 		"WeaponID":17024,
@@ -285,7 +308,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":5
 	},
 	{
 		"WeaponID":17025,
@@ -297,7 +321,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":5
 	},
 	{
 		"WeaponID":17026,
@@ -309,7 +334,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":6
 	},
 	{
 		"WeaponID":17027,
@@ -321,7 +347,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":6
 	},
 	{
 		"WeaponID":17028,
@@ -333,7 +360,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":6
 	},
 	{
 		"WeaponID":17029,
@@ -345,7 +373,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":6
 	},
 	{
 		"WeaponID":17030,
@@ -357,7 +386,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":6
 	},
 	{
 		"WeaponID":17031,
@@ -369,7 +399,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":7
 	},
 	{
 		"WeaponID":17032,
@@ -381,7 +412,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":7
 	},
 	{
 		"WeaponID":17033,
@@ -393,7 +425,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":7
 	},
 	{
 		"WeaponID":17034,
@@ -405,7 +438,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":7
 	},
 	{
 		"WeaponID":17035,
@@ -417,7 +451,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":7
 	},
 	{
 		"WeaponID":17036,
@@ -429,7 +464,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":8
 	},
 	{
 		"WeaponID":17037,
@@ -441,7 +477,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":8
 	},
 	{
 		"WeaponID":17038,
@@ -453,7 +490,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":8
 	},
 	{
 		"WeaponID":17039,
@@ -465,7 +503,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":8
 	},
 	{
 		"WeaponID":17040,
@@ -477,7 +516,8 @@
 		"SkillProbability":[50,20,10],
 		"WeaponSkill":[24801,24902,24903],
 		"WeaponEffect":"NULL",
-		"WeaponType":1
+		"WeaponTypeDetail":1,
+		"WeaponType":8
 	},
 	{
 		"WeaponID":17201,
@@ -489,7 +529,8 @@
 		"SkillProbability":[40,40],
 		"WeaponSkill":[24805,24907],
 		"WeaponEffect":"NULL",
-		"WeaponType":2
+		"WeaponTypeDetail":2,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17202,
@@ -501,7 +542,8 @@
 		"SkillProbability":[40,40],
 		"WeaponSkill":[24805,24907],
 		"WeaponEffect":"NULL",
-		"WeaponType":2
+		"WeaponTypeDetail":2,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17203,
@@ -513,7 +555,8 @@
 		"SkillProbability":[40,40],
 		"WeaponSkill":[24805,24907],
 		"WeaponEffect":"NULL",
-		"WeaponType":2
+		"WeaponTypeDetail":2,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17204,
@@ -525,7 +568,8 @@
 		"SkillProbability":[40,40],
 		"WeaponSkill":[24805,24907],
 		"WeaponEffect":"NULL",
-		"WeaponType":2
+		"WeaponTypeDetail":2,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17205,
@@ -537,7 +581,8 @@
 		"SkillProbability":[40,40],
 		"WeaponSkill":[24805,24907],
 		"WeaponEffect":"NULL",
-		"WeaponType":2
+		"WeaponTypeDetail":2,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17206,
@@ -549,7 +594,8 @@
 		"SkillProbability":[40,40],
 		"WeaponSkill":[24805,24907],
 		"WeaponEffect":"NULL",
-		"WeaponType":2
+		"WeaponTypeDetail":2,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17207,
@@ -561,7 +607,8 @@
 		"SkillProbability":[40,40],
 		"WeaponSkill":[24805,24907],
 		"WeaponEffect":"NULL",
-		"WeaponType":2
+		"WeaponTypeDetail":2,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17208,
@@ -573,7 +620,8 @@
 		"SkillProbability":[40,40],
 		"WeaponSkill":[24805,24907],
 		"WeaponEffect":"NULL",
-		"WeaponType":2
+		"WeaponTypeDetail":2,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17209,
@@ -585,7 +633,8 @@
 		"SkillProbability":[40,40],
 		"WeaponSkill":[24805,24907],
 		"WeaponEffect":"NULL",
-		"WeaponType":2
+		"WeaponTypeDetail":2,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17210,
@@ -597,7 +646,8 @@
 		"SkillProbability":[40,40],
 		"WeaponSkill":[24805,24907],
 		"WeaponEffect":"NULL",
-		"WeaponType":2
+		"WeaponTypeDetail":2,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17301,
@@ -609,7 +659,8 @@
 		"SkillProbability":[50,50],
 		"WeaponSkill":[24807,24923],
 		"WeaponEffect":"NULL",
-		"WeaponType":3
+		"WeaponTypeDetail":3,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17302,
@@ -621,7 +672,8 @@
 		"SkillProbability":[50,50],
 		"WeaponSkill":[24807,24923],
 		"WeaponEffect":"NULL",
-		"WeaponType":3
+		"WeaponTypeDetail":3,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17303,
@@ -633,7 +685,8 @@
 		"SkillProbability":[50,50],
 		"WeaponSkill":[24807,24923],
 		"WeaponEffect":"NULL",
-		"WeaponType":3
+		"WeaponTypeDetail":3,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17304,
@@ -645,7 +698,8 @@
 		"SkillProbability":[50,50],
 		"WeaponSkill":[24807,24923],
 		"WeaponEffect":"NULL",
-		"WeaponType":3
+		"WeaponTypeDetail":3,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17305,
@@ -657,7 +711,8 @@
 		"SkillProbability":[50,50],
 		"WeaponSkill":[24807,24923],
 		"WeaponEffect":"NULL",
-		"WeaponType":3
+		"WeaponTypeDetail":3,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17306,
@@ -669,7 +724,8 @@
 		"SkillProbability":[50,50],
 		"WeaponSkill":[24807,24923],
 		"WeaponEffect":"NULL",
-		"WeaponType":3
+		"WeaponTypeDetail":3,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17307,
@@ -681,7 +737,8 @@
 		"SkillProbability":[50,50],
 		"WeaponSkill":[24807,24923],
 		"WeaponEffect":"NULL",
-		"WeaponType":3
+		"WeaponTypeDetail":3,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17308,
@@ -693,7 +750,8 @@
 		"SkillProbability":[50,50],
 		"WeaponSkill":[24807,24923],
 		"WeaponEffect":"NULL",
-		"WeaponType":3
+		"WeaponTypeDetail":3,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17309,
@@ -705,7 +763,8 @@
 		"SkillProbability":[50,50],
 		"WeaponSkill":[24807,24923],
 		"WeaponEffect":"NULL",
-		"WeaponType":3
+		"WeaponTypeDetail":3,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17310,
@@ -717,7 +776,8 @@
 		"SkillProbability":[50,50],
 		"WeaponSkill":[24807,24923],
 		"WeaponEffect":"NULL",
-		"WeaponType":3
+		"WeaponTypeDetail":3,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17401,
@@ -729,7 +789,8 @@
 		"SkillProbability":[50,50],
 		"WeaponSkill":[24909,24925],
 		"WeaponEffect":"NULL",
-		"WeaponType":4
+		"WeaponTypeDetail":4,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17402,
@@ -741,7 +802,8 @@
 		"SkillProbability":[50,50],
 		"WeaponSkill":[24909,24925],
 		"WeaponEffect":"NULL",
-		"WeaponType":4
+		"WeaponTypeDetail":4,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17403,
@@ -753,7 +815,8 @@
 		"SkillProbability":[50,50],
 		"WeaponSkill":[24909,24925],
 		"WeaponEffect":"NULL",
-		"WeaponType":4
+		"WeaponTypeDetail":4,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17404,
@@ -765,7 +828,8 @@
 		"SkillProbability":[50,50],
 		"WeaponSkill":[24909,24925],
 		"WeaponEffect":"NULL",
-		"WeaponType":4
+		"WeaponTypeDetail":4,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17405,
@@ -777,7 +841,8 @@
 		"SkillProbability":[50,50],
 		"WeaponSkill":[24909,24925],
 		"WeaponEffect":"NULL",
-		"WeaponType":4
+		"WeaponTypeDetail":4,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17406,
@@ -789,7 +854,8 @@
 		"SkillProbability":[50,50],
 		"WeaponSkill":[24909,24925],
 		"WeaponEffect":"NULL",
-		"WeaponType":4
+		"WeaponTypeDetail":4,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17407,
@@ -801,7 +867,8 @@
 		"SkillProbability":[50,50],
 		"WeaponSkill":[24909,24925],
 		"WeaponEffect":"NULL",
-		"WeaponType":4
+		"WeaponTypeDetail":4,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17408,
@@ -813,7 +880,8 @@
 		"SkillProbability":[50,50],
 		"WeaponSkill":[24909,24925],
 		"WeaponEffect":"NULL",
-		"WeaponType":4
+		"WeaponTypeDetail":4,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17409,
@@ -825,7 +893,8 @@
 		"SkillProbability":[50,50],
 		"WeaponSkill":[24909,24925],
 		"WeaponEffect":"NULL",
-		"WeaponType":4
+		"WeaponTypeDetail":4,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17410,
@@ -837,7 +906,8 @@
 		"SkillProbability":[50,50],
 		"WeaponSkill":[24909,24925],
 		"WeaponEffect":"NULL",
-		"WeaponType":4
+		"WeaponTypeDetail":4,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17501,
@@ -849,7 +919,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17502,
@@ -861,7 +932,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17503,
@@ -873,7 +945,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17504,
@@ -885,7 +958,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17505,
@@ -897,7 +971,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17506,
@@ -909,7 +984,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17507,
@@ -921,7 +997,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17508,
@@ -933,7 +1010,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17509,
@@ -945,7 +1023,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17510,
@@ -957,7 +1036,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17511,
@@ -969,7 +1049,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17512,
@@ -981,7 +1062,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17513,
@@ -993,7 +1075,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17514,
@@ -1005,7 +1088,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17515,
@@ -1017,7 +1101,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17516,
@@ -1029,7 +1114,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17517,
@@ -1041,7 +1127,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17518,
@@ -1053,7 +1140,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17519,
@@ -1065,7 +1153,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17520,
@@ -1077,7 +1166,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17521,
@@ -1089,7 +1179,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17522,
@@ -1101,7 +1192,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17523,
@@ -1113,7 +1205,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17524,
@@ -1125,7 +1218,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17525,
@@ -1137,7 +1231,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17526,
@@ -1149,7 +1244,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17527,
@@ -1161,7 +1257,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17528,
@@ -1173,7 +1270,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17529,
@@ -1185,7 +1283,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17530,
@@ -1197,7 +1296,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17531,
@@ -1209,7 +1309,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17532,
@@ -1221,7 +1322,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17533,
@@ -1233,7 +1335,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17534,
@@ -1245,7 +1348,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17535,
@@ -1257,7 +1361,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17536,
@@ -1269,7 +1374,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17537,
@@ -1281,7 +1387,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17538,
@@ -1293,7 +1400,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17539,
@@ -1305,7 +1413,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17540,
@@ -1317,7 +1426,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17541,
@@ -1329,7 +1439,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17542,
@@ -1341,7 +1452,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17543,
@@ -1353,7 +1465,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17544,
@@ -1365,7 +1478,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17545,
@@ -1377,7 +1491,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17546,
@@ -1389,7 +1504,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17547,
@@ -1401,7 +1517,8 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	},
 	{
 		"WeaponID":17548,
@@ -1413,6 +1530,7 @@
 		"SkillProbability":[50],
 		"WeaponSkill":[21101],
 		"WeaponEffect":"NULL",
-		"WeaponType":9
+		"WeaponTypeDetail":9,
+		"WeaponType":0
 	}
 ]

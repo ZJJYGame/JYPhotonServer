@@ -33,6 +33,8 @@ namespace AscensionServer
                         GetRoleGongFaS2C(role.RoleID);
                         break;
                     case PracticeOpcode.AddGongFa:
+                        role = Utility.Json.ToObject<RoleDTO>(item.Value.ToString());
+                        AddGongFaS2C(role.RoleID, role.RoleID);
                         break;
                     case PracticeOpcode.GetRoleMiShu:
                         role = Utility.Json.ToObject<RoleDTO>(item.Value.ToString());

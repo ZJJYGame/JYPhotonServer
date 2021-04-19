@@ -213,57 +213,8 @@ namespace AscensionServer
             }
             await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleStatusAddPointPerfix, pointDTO.RoleID.ToString(), roleStatusDTO);
           var obj=   RoleStatusAlgorithm(pointDTO.RoleID,null,null, null,roleStatusDTO,null);
-            if (obj.RoleMaxHP> roleStatus.RoleMaxHP)
-            {
-                roleStatus.RoleMaxHP = obj.RoleMaxHP;
-                roleStatus.RoleHP += (obj.RoleMaxHP - roleStatus.RoleMaxHP);
-            }
-            if (obj.RoleMaxMP > roleStatus.RoleMaxMP)
-            {
-                roleStatus.RoleMaxMP = obj.RoleMaxMP;
-                roleStatus.RoleMP += (obj.RoleMaxMP - roleStatus.RoleMaxMP);
-            }
-            if (obj.RoleMaxSoul > roleStatus.RoleMaxSoul)
-            {
-                roleStatus.RoleMaxSoul = obj.RoleMaxSoul;
-                roleStatus.RoleSoul += (obj.RoleMaxSoul - roleStatus.RoleMaxSoul);
-            }
-            if (obj.BestBloodMax > roleStatus.BestBloodMax)
-            {
-                roleStatus.BestBloodMax = obj.BestBloodMax;
-                roleStatus.BestBlood += (short)(obj.BestBloodMax - roleStatus.BestBloodMax);
-            }
 
-            roleStatus.AttackPhysical += roleStatusDTO.AttackPhysical ;
-            roleStatus.AttackPower += roleStatusDTO.AttackPower ;
-            roleStatus.AttackSpeed += roleStatusDTO.AttackSpeed;
-            roleStatus.DefendPhysical += roleStatusDTO.DefendPhysical;
-            roleStatus.DefendPower += roleStatusDTO.DefendPower;
-            roleStatus.GongfaLearnSpeed += roleStatusDTO.GongfaLearnSpeed;
-            roleStatus.MagicCritDamage += roleStatusDTO.MagicCritDamage;
-            roleStatus.MagicCritProb += roleStatusDTO.MagicCritProb;
-            roleStatus.MishuLearnSpeed += roleStatusDTO.MishuLearnSpeed;
-            roleStatus.MoveSpeed += roleStatusDTO.MoveSpeed ;
-            roleStatus.PhysicalCritDamage += roleStatusDTO.PhysicalCritDamage;
-            roleStatus.PhysicalCritProb += roleStatusDTO.PhysicalCritProb;
-            roleStatus.ReduceCritDamage += roleStatusDTO.ReduceCritDamage;
-            roleStatus.ReduceCritProb += roleStatusDTO.ReduceCritProb;
-            roleStatus.RolePopularity += roleStatusDTO.RolePopularity;
-            roleStatus.ValueHide += roleStatusDTO.ValueHide;
-            roleStatus.Vitality += roleStatusDTO.Vitality;
-            roleStatus.MaxVitality += roleStatusDTO.Vitality;
-
-
-
-
-
-
-
-
-
-
-
-            return roleStatus;
+            return StatusVerify(roleStatus, obj);
         }
 
         #region 角色装备属性计算
@@ -274,59 +225,62 @@ namespace AscensionServer
                 var type = data.Attribute[j];
                 var Fixed = data.Fixed;
                 var Percentage = data.Percentage;
-                roleStatus.Percentage.TryAdd(type, Percentage[j]);
+                if (roleStatus.Percentage.ContainsKey(type))
+                    roleStatus.Percentage[type] += Percentage[j];
+                else
+                    roleStatus.Percentage.TryAdd(type, Percentage[j]);
                 switch ((RoleStatusType)type)
                 {
                     case RoleStatusType.RoleHP:
-                        roleStatus.RoleMaxHP += Fixed[type];
+                        roleStatus.RoleMaxHP += Fixed[j];
                         break;
                     case RoleStatusType.RoleMP:
-                        roleStatus.RoleMaxMP += Fixed[type];
+                        roleStatus.RoleMaxMP += Fixed[j];
                         break;
                     case RoleStatusType.RoleSoul:
-                        roleStatus.RoleMaxSoul += Fixed[type];
+                        roleStatus.RoleMaxSoul += Fixed[j];
                         break;
                     case RoleStatusType.AttackPhysical:
-                        roleStatus.AttackPhysical += Fixed[type];
+                        roleStatus.AttackPhysical += Fixed[j];
                         break;
                     case RoleStatusType.DefendPhysical:
-                        roleStatus.DefendPhysical += Fixed[type];
+                        roleStatus.DefendPhysical += Fixed[j];
                         break;
                     case RoleStatusType.AttackPower:
-                        roleStatus.AttackPower += Fixed[type];
+                        roleStatus.AttackPower += Fixed[j];
                         break;
                     case RoleStatusType.DefendPower:
-                        roleStatus.DefendPower += Fixed[type];
+                        roleStatus.DefendPower += Fixed[j];
                         break;
                     case RoleStatusType.AttackSpeed:
-                        roleStatus.AttackSpeed += Fixed[type];
+                        roleStatus.AttackSpeed += Fixed[j];
                         break;
                     case RoleStatusType.PhysicalCritProb:
-                        roleStatus.PhysicalCritProb += Fixed[type];
+                        roleStatus.PhysicalCritProb += Fixed[j];
                         break;
                     case RoleStatusType.PhysicalCritDamage:
-                        roleStatus.PhysicalCritDamage += Fixed[type];
+                        roleStatus.PhysicalCritDamage += Fixed[j];
                         break;
                     case RoleStatusType.MagicCritProb:
-                        roleStatus.MagicCritProb += Fixed[type];
+                        roleStatus.MagicCritProb += Fixed[j];
                         break;
                     case RoleStatusType.MagicCritDamage:
-                        roleStatus.MagicCritDamage += Fixed[type];
+                        roleStatus.MagicCritDamage += Fixed[j];
                         break;
                     case RoleStatusType.ReduceCritProb:
-                        roleStatus.ReduceCritProb += Fixed[type];
+                        roleStatus.ReduceCritProb += Fixed[j];
                         break;
                     case RoleStatusType.ReduceCritDamage:
-                        roleStatus.ReduceCritDamage += Fixed[type];
+                        roleStatus.ReduceCritDamage += Fixed[j];
                         break;
                     case RoleStatusType.MoveSpeed:
-                        roleStatus.MoveSpeed += Fixed[type];
+                        roleStatus.MoveSpeed += Fixed[j];
                         break;
                     case RoleStatusType.GongfaLearnSpeed:
-                        roleStatus.GongfaLearnSpeed += Fixed[type];
+                        roleStatus.GongfaLearnSpeed += Fixed[j];
                         break;
                     case RoleStatusType.MishuLearnSpeed:
-                        roleStatus.MishuLearnSpeed += Fixed[type];
+                        roleStatus.MishuLearnSpeed += Fixed[j];
                         break;
                     default:
                         break;
@@ -336,10 +290,36 @@ namespace AscensionServer
             return roleStatus;
         }
 
-        public WeaponDTO AdditionWeapon(WeaponDTO addDTO, WeaponDTO targetDTO)
+        public WeaponDTO AdditionWeapon(WeaponDTO addDTO, WeaponDTO targetDTO, PassiveSkillsWeapon SkillData)
         {
 
-            for (int i = 0; i < addDTO.WeaponAttribute.Count; i++)
+            for (int i = 0; i < SkillData.Attribute.Count; i++)
+            {
+                switch ((RoleStatusType)SkillData.Attribute[i])
+                {
+                    case RoleStatusType.RoleHP:
+                        targetDTO.WeaponAttribute[0] += addDTO.WeaponAttribute[0] * SkillData.Percentage[i] / 100 + SkillData.Fixed[i];
+                        break;
+                    case RoleStatusType.AttackPhysical:
+                        targetDTO.WeaponAttribute[1] += addDTO.WeaponAttribute[1] * SkillData.Percentage[i] / 100 + SkillData.Fixed[i];
+                        Utility.Debug.LogError("YZQ装备法宝后的属性加成1" + addDTO.WeaponAttribute[1] * SkillData.Percentage[i] / 100 + SkillData.Fixed[i]);
+                        break;
+                    case RoleStatusType.DefendPhysical:
+                        targetDTO.WeaponAttribute[2] += addDTO.WeaponAttribute[2] * SkillData.Percentage[i] / 100 + SkillData.Fixed[i];
+                        break;
+                    case RoleStatusType.AttackPower:
+                        targetDTO.WeaponAttribute[3] += addDTO.WeaponAttribute[3] * SkillData.Percentage[i] / 100 + SkillData.Fixed[i];
+                        break;
+                    case RoleStatusType.DefendPower:
+                        targetDTO.WeaponAttribute[4] += addDTO.WeaponAttribute[4] * SkillData.Percentage[i] / 100 + SkillData.Fixed[i];
+                        break;
+                    case RoleStatusType.AttackSpeed:
+                        targetDTO.WeaponAttribute[5] += addDTO.WeaponAttribute[5] * SkillData.Percentage[i] / 100 + SkillData.Fixed[i];
+                        break;
+                }
+            }
+
+            for (int i = 0; i < targetDTO.WeaponAttribute.Count; i++)
                 targetDTO.WeaponAttribute[i] += addDTO.WeaponAttribute[i];
 
             return targetDTO;
@@ -357,43 +337,61 @@ namespace AscensionServer
             return roleStatus;
         }
 
-        public async Task<RoleStatus> RoleEquip(RoleWeaponDTO roleWeapon, RoleEquipmentDTO roleEquipment)
+        /// <summary>
+        /// 人物裝備裝備的屬性計算
+        /// </summary>
+        /// <param name="statusObj"></param>
+        /// <param name="roleWeapon"></param>
+        /// <param name="roleEquipment"></param>
+        /// <returns></returns>
+        public async Task<RoleStatus> RoleEquip(RoleStatus statusObj,RoleWeaponDTO roleWeapon, RoleEquipmentDTO roleEquipment)
         {
             GameEntry.DataManager.TryGetValue<Dictionary<int, PassiveSkillsWeapon>>(out var weaponSkillDict);
             RoleStatusAdditionDTO roleStatus = new RoleStatusAdditionDTO();
             WeaponDTO weapon = new WeaponDTO();
+            weapon.WeaponAttribute=new List<int> { 0, 0, 0, 0, 0, 0 };
+
             var Weaponlist = new List<WeaponDTO>();
 
             foreach (var item in roleEquipment.Weapon)
             {
-                roleWeapon.WeaponStatusDict.TryGetValue(item.Value, out var weaponDTO);
-                Weaponlist.Add(weaponDTO);
+                if (roleWeapon.WeaponStatusDict.TryGetValue(item.Value, out var weaponDTO))
+                {
+                    Weaponlist.Add(weaponDTO);
+                }
             }
-
+            Utility.Debug.LogError("YZQ装备法宝后的属性加成y" + Utility.Json.ToJson(Weaponlist));
             for (int i = 0; i < Weaponlist.Count; i++)
             {
                 for (int j = 0; j < Weaponlist[i].WeaponSkill.Count; j++)
                 {
-                    var skill = weaponSkillDict[Weaponlist[i].WeaponSkill[j]];
-                    switch (skill.AddTarget)
+                    if (weaponSkillDict.TryGetValue(Weaponlist[i].WeaponSkill[j],out var skill))
                     {
-                        case 0:
-                            roleStatus = Addition(skill, roleStatus);
-                            break;
-                        case 1:
-                            weapon = AdditionWeapon(Weaponlist[i], weapon);
-                            break;
+                        switch (skill.AddTarget)
+                        {
+                            case 1:
+                                roleStatus = Addition(skill, roleStatus);
+                                break;
+                            case 0:
+                                Utility.Debug.LogError("YZQ装备法宝后的属性加成z" + Utility.Json.ToJson(skill));
+                                weapon = AdditionWeapon(Weaponlist[i], weapon, skill);
+                                break;
+                        }
                     }
+                  
                 }
             }
 
+
             roleStatus = AdditionWeaponStatus(weapon, roleStatus);
 
-           var status= RoleStatusAlgorithm(16,null,null,null,null, roleStatus);
+            var status= RoleStatusAlgorithm(statusObj.RoleID, null,null,null,null, roleStatus);
 
-            Utility.Debug.LogError("YZQ装备法宝后的属性加成"+Utility.Json.ToJson(status));
+            Utility.Debug.LogError("YZQ装备法宝后的属性加成2"+Utility.Json.ToJson(status));
 
-            return default;
+          await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleStatusEquipPerfix, statusObj.RoleID.ToString(), roleStatus);
+
+            return StatusVerify(statusObj, status); ;
         }
         #endregion
 
@@ -401,18 +399,41 @@ namespace AscensionServer
         /// <summary>
         /// 计算技能加成
         /// </summary>
-        public void SkillAlgorithm(List<int> ids)
-        {
-
-        }
         /// <summary>
-        /// 武器技能加成
+        /// 计算技能加成
         /// </summary>
-        public void WeaponSkillAlgorithm(List<int> ids, RoleWeaponDTO weapon, RoleEquipmentDTO roleEquipment)
+        public RoleStatusAdditionDTO SkillAlgorithm(int roleid, RoleStatus status,List<int> ids)
         {
+            var roleWeaponExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleWeaponPostfix, roleid.ToString()).Result;
 
+            var roleEquipmentExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleEquipmentPerfix, roleid.ToString()).Result;
+
+            if (roleWeaponExist && roleEquipmentExist)
+            {
+                var roleWeaponDTO = RedisHelper.Hash.HashGetAsync<RoleWeaponDTO>(RedisKeyDefine._RoleWeaponPostfix, roleid.ToString()).Result;
+                var roleEquipmentDTO = RedisHelper.Hash.HashGetAsync<RoleEquipmentDTO>(RedisKeyDefine._RoleWeaponPostfix, roleid.ToString()).Result;
+
+                if (roleWeaponDTO != null && roleEquipmentDTO != null)
+                {
+                    GameEntry.DataManager.TryGetValue<Dictionary<int, PassiveSkillsRole>>(out var roleskillDict);
+                    RoleStatusAdditionDTO roleStatus = new RoleStatusAdditionDTO();
+                    var WeaponDict = new Dictionary<int, WeaponDTO>();
+                    for (int i = 0; i < ids.Count; i++)
+                    {
+                        foreach (var item in roleEquipmentDTO.Weapon.Values)
+                            WeaponDict.TryAdd(roleWeaponDTO.WeaponStatusDict[item].WeaponType, roleWeaponDTO.WeaponStatusDict[item]);
+
+                        if (WeaponDict.ContainsKey(roleskillDict[ids[i]].WeaponType))
+                         roleStatus = Addition(roleskillDict[ids[i]], roleStatus); 
+                    }
+                    return roleStatus;
+                }
+                else
+                    return null;
+            }
+            else
+                return null;
         }
-
         /// <summary>
         /// 获取Redis各部分加成
         /// </summary>
@@ -421,7 +442,7 @@ namespace AscensionServer
         /// <param name="statusMS">秘术加成</param>
         /// <param name="statusPoint">加点加成</param>
         /// <param name="statusEquip">装备加成</param>
-        public  RoleStatusDTO RoleStatusAlgorithm(int roleid=16, RoleStatusDTO statusFly = null, RoleStatusAdditionDTO statusGF = null, RoleStatusAdditionDTO statusMS = null, RoleStatusDTO statusPoint = null, RoleStatusAdditionDTO statusEquip = null)
+        public  RoleStatusDTO RoleStatusAlgorithm(int roleid, RoleStatusDTO statusFly = null, RoleStatusAdditionDTO statusGF = null, RoleStatusAdditionDTO statusMS = null, RoleStatusDTO statusPoint = null, RoleStatusAdditionDTO statusEquip = null)
         {
             if (statusFly == null)
             {
@@ -591,7 +612,7 @@ namespace AscensionServer
                     break;
             }
             Utility.Debug.LogError(Utility.Json.ToJson(roleStatus));
-
+            roleStatus.RoleID = roleid;
             return roleStatus;
         }
 
@@ -614,5 +635,48 @@ namespace AscensionServer
         }
 
 
+        public RoleStatus StatusVerify(RoleStatus roleStatus,RoleStatusDTO obj)
+        {
+            if (obj.RoleMaxHP > roleStatus.RoleMaxHP)
+            {
+                roleStatus.RoleMaxHP = obj.RoleMaxHP;
+                roleStatus.RoleHP += (obj.RoleMaxHP - roleStatus.RoleMaxHP);
+            }
+            if (obj.RoleMaxMP > roleStatus.RoleMaxMP)
+            {
+                roleStatus.RoleMaxMP = obj.RoleMaxMP;
+                roleStatus.RoleMP += (obj.RoleMaxMP - roleStatus.RoleMaxMP);
+            }
+            if (obj.RoleMaxSoul > roleStatus.RoleMaxSoul)
+            {
+                roleStatus.RoleMaxSoul = obj.RoleMaxSoul;
+                roleStatus.RoleSoul += (obj.RoleMaxSoul - roleStatus.RoleMaxSoul);
+            }
+            if (obj.BestBloodMax > roleStatus.BestBloodMax)
+            {
+                roleStatus.BestBloodMax = obj.BestBloodMax;
+                roleStatus.BestBlood += (short)(obj.BestBloodMax - roleStatus.BestBloodMax);
+            }
+
+            roleStatus.AttackPhysical += obj.AttackPhysical;
+            roleStatus.AttackPower += obj.AttackPower;
+            roleStatus.AttackSpeed += obj.DefendPhysical;
+            roleStatus.DefendPower += obj.DefendPower;
+            roleStatus.GongfaLearnSpeed += obj.GongfaLearnSpeed;
+            roleStatus.MagicCritDamage += obj.MagicCritDamage;
+            roleStatus.MagicCritProb += obj.MagicCritProb;
+            roleStatus.MishuLearnSpeed += obj.MishuLearnSpeed;
+            roleStatus.MoveSpeed += obj.MoveSpeed;
+            roleStatus.PhysicalCritDamage += obj.PhysicalCritDamage;
+            roleStatus.PhysicalCritProb += obj.PhysicalCritProb;
+            roleStatus.ReduceCritDamage += obj.ReduceCritDamage;
+            roleStatus.ReduceCritProb += obj.ReduceCritProb;
+            roleStatus.RolePopularity += obj.RolePopularity;
+            roleStatus.ValueHide += obj.ValueHide;
+            roleStatus.Vitality += obj.Vitality;
+            roleStatus.MaxVitality += obj.Vitality;
+
+            return roleStatus;
+        }
     }
 }

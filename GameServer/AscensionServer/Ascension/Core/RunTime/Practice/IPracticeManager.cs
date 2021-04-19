@@ -13,6 +13,6 @@ namespace AscensionServer
     {
         Task<RoleStatus> RoleAblility(RoleStatusPointDTO pointDTO, RoleStatus roleStatus);
 
-        Task<RoleStatus> RoleEquip(RoleWeaponDTO roleWeapon, RoleEquipmentDTO roleEquipment);
+        Task<RoleStatus> RoleEquip(RoleStatus statusObj, RoleWeaponDTO roleWeapon, RoleEquipmentDTO roleEquipment);
     }
 }

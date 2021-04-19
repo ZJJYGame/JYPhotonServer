@@ -38,7 +38,41 @@ namespace AscensionServer
             DefendPower=5,
             AttackSpeed=6,
         }
-
+        enum WeaponType
+        {
+            /// <summary>
+            /// 拳套
+            /// </summary>
+            BoxingGloves=1,
+            /// <summary>
+            /// 鏡子
+            /// </summary>
+            Mirror=2,
+            /// <summary>
+            /// 書卷
+            /// </summary>
+            Book=3,
+            /// <summary>
+            /// 劍
+            /// </summary>
+            Sword=4,
+            /// <summary>
+            /// zhang
+            /// </summary>
+            Cane=5,
+            /// <summary>
+            /// fuchen
+            /// </summary>
+            FuChen=6,
+            /// <summary>
+            /// 旗
+            /// </summary>
+            Flag=7,
+            /// <summary>
+            /// 刀
+            /// </summary>
+            BroadSword=8,
+        }
         enum FrogeType
         {
             weapon=1,
