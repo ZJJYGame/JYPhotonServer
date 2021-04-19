@@ -51,6 +51,9 @@ namespace AscensionServer
                             roleequip.Weapon.Add(item.Key, item.Value);
                             InventoryManager.Remove(equipmentDTO.RoleID, item.Value);
                         }
+                        var status = await GameEntry.practiceManager.RoleEquip(roleweapon, roleequip);
+
+
                         Dictionary<byte, object> dict = new Dictionary<byte, object>();
                         dict.Add((byte)ParameterCode.RoleEquipment, roleequip);
                         EquipmentSuccessS2C(equipmentDTO.RoleID, EquipmentOpCode.EquipWeapon, dict);

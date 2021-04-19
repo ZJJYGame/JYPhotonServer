@@ -218,6 +218,10 @@ namespace AscensionServer
         /// 角色装备部分属性记录
         /// </summary>
         public static readonly string _RoleStatusEquipPerfix = "RoleStatusEquip";
+        /// <summary>
+        /// 角色飛行法器部分属性记录
+        /// </summary>
+        public static readonly string _RoleStatusFlyPerfix = "RoleStatusFly";
         #endregion
     }
 }

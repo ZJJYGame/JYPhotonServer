@@ -59,8 +59,9 @@ namespace AscensionServer
             {
                 if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._PetPerfix, item.Key.ToString()).Result)
                 {
-                    var petDTOTemp = await RedisHelper.Hash.HashGetAsync<PetDTO>(RedisKeyDefine._PetPerfix, item.Key.ToString());
+                    var petDTOTemp =  RedisHelper.Hash.HashGetAsync<PetDTO>(RedisKeyDefine._PetPerfix, item.Key.ToString()).Result;
                     allPetDict.Add(petDTOTemp.ID, petDTOTemp);
+                    Utility.Debug.LogInfo("YZQ發送角色所有寵物列表" + item.Key.ToString()+""+Utility.Json.ToJson(petDTOTemp));
                 }
                 else
                 {
@@ -754,8 +755,8 @@ namespace AscensionServer
             petCompleteDTO.PetDTO.PetLevel = pet.PetLevel;
             petCompleteDTO.PetDTO.PetSkillArray = Utility.Json.ToObject<List<int>>(pet.PetSkillArray);
             petCompleteDTO.PetDTO.DemonicSoul = Utility.Json.ToObject<Dictionary<int, List<int>>>(pet.DemonicSoul);
-            await RedisHelper.Hash.HashSetAsync<PetDTO>(RedisKeyDefine._PetPerfix, petCompleteDTO.RoleID.ToString(), petCompleteDTO.PetDTO);
-            Utility.Debug.LogInfo("yzqData宠物更改名字完成");
+            await RedisHelper.Hash.HashSetAsync<PetDTO>(RedisKeyDefine._PetPerfix, pet.ID.ToString(), petCompleteDTO.PetDTO);
+            Utility.Debug.LogInfo("yzqData宠物更改名字完成" + petCompleteDTO.PetDTO.PetName);
             S2CPetRename(petCompleteDTO.RoleID, Utility.Json.ToJson(petCompleteDTO), ReturnCode.Success);
         }
 

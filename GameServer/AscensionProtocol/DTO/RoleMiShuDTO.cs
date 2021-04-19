@@ -13,7 +13,7 @@ namespace AscensionProtocol.DTO
         public override void Clear()
         {
             RoleID = -1;
-            MiShuIDArray = null;
+            MiShuIDArray = new Dictionary<int, int>();
         }
 
     }

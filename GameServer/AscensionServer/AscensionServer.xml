@@ -941,6 +941,11 @@
             角色装备部分属性记录
             </summary>
         </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleStatusFlyPerfix">
+            <summary>
+            角色飛行法器部分属性记录
+            </summary>
+        </member>
         <member name="T:AscensionServer.RTGenericValuePair`2">
             <summary>
             RT=reference types
@@ -4223,8 +4228,16 @@
         </member>
         <member name="M:AscensionServer.PracticeManager.RoleStatusAlgorithm(System.Int32)">
             <summary>
-            计算人物属性
+            计算人物属性待删
             </summary>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.RoleAblility(AscensionProtocol.DTO.RoleStatusPointDTO,AscensionServer.Model.RoleStatus)">
+            <summary>
+            人物加点的加成
+            </summary>
+            <param name="pointDTO"></param>
+            <param name="roleStatus"></param>
+            <returns></returns>
         </member>
         <member name="M:AscensionServer.PracticeManager.SkillAlgorithm(System.Collections.Generic.List{System.Int32})">
             <summary>
@@ -4236,7 +4249,7 @@
             武器技能加成
             </summary>
         </member>
-        <member name="M:AscensionServer.PracticeManager.RoleStatusAlgorithm(AscensionProtocol.DTO.RoleStatusDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO,AscensionProtocol.DTO.RoleStatusDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO)">
+        <member name="M:AscensionServer.PracticeManager.RoleStatusAlgorithm(System.Int32,AscensionProtocol.DTO.RoleStatusDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO,AscensionProtocol.DTO.RoleStatusDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO)">
             <summary>
             获取Redis各部分加成
             </summary>

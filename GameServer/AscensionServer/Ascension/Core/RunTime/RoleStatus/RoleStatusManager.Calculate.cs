@@ -11,10 +11,6 @@ namespace AscensionServer
 {
    public partial class RoleStatusManager
     {
-        public  void CalculateRoleStatus()
-        {
-
-        }
 
         /// <summary>
         ///获取数据库功法秘术数值

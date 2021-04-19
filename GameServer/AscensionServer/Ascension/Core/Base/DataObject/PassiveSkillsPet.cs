@@ -8,7 +8,7 @@ namespace AscensionServer
 {
     [Serializable]
     [ConfigData]
-    public class PassiveSkillsPet
+    public class PassiveSkillsPet: IPassiveSkills
     {
         public int SkillID { get; set; }
         public List<int> Attribute { get; set; }
