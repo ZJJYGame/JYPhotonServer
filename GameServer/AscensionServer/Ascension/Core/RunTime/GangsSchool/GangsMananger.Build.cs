@@ -186,7 +186,7 @@ namespace AscensionServer
                         }
                     }
                     RedisHelper.Hash.HashSet<RoleAllianceSkill>(RedisKeyDefine._RoleAllianceSkillPerfix, roleID.ToString(), skillObj);
-                    RedisHelper.Hash.HashSet<RoleAssets>(RedisKeyDefine._RoleAllianceSkillPerfix, roleID.ToString(), assetsObj);
+                    RedisHelper.Hash.HashSet<RoleAssets>(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString(), assetsObj);
                     await NHibernateQuerier.UpdateAsync(skillObj);
                     await NHibernateQuerier.UpdateAsync(assetsObj);
 
@@ -512,7 +512,7 @@ namespace AscensionServer
                 }
                 Utility.Debug.LogInfo("角色宗門技能升级2");
                 RedisHelper.Hash.HashSet<RoleAllianceSkill>(RedisKeyDefine._RoleAllianceSkillPerfix, roleID.ToString(), skillObj);
-                RedisHelper.Hash.HashSet<RoleAssets>(RedisKeyDefine._RoleAllianceSkillPerfix, roleID.ToString(), assetsObj);
+                RedisHelper.Hash.HashSet<RoleAssets>(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString(), assetsObj);
                 await NHibernateQuerier.UpdateAsync(skillObj);
                 await NHibernateQuerier.UpdateAsync(assetsObj);
 

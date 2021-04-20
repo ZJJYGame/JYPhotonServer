@@ -47,8 +47,6 @@ namespace AscensionServer
 
             GameEntry.DataManager.TryGetValue<Dictionary<int, GongFa>>(out var gongfa);
             GameEntry.DataManager.TryGetValue<Dictionary<int, MiShuData>>(out var mishu);
-            GameEntry.DataManager.TryGetValue<Dictionary<int, FlyMagicToolData>>(out var flytool);
-            GameEntry.DataManager.TryGetValue<Dictionary<int, RoleLevelData>>(out var roleData);
 
             var roleExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RolePostfix, roleid.ToString()).Result;
             var rolestatusExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatsuPerfix, roleid.ToString()).Result;
@@ -74,37 +72,7 @@ namespace AscensionServer
                 #region
                 if (rolestatus != null && roleMishu != null && rolegongfa != null && roleEquip != null && roleWeapon != null && roleAbility != null && roleAllianceSkill != null && roleFly != null && role != null)
                 {
-                    var result = roleData.TryGetValue(role.RoleLevel, out var roleObj);
-                    flytool.TryGetValue(roleFly.FlyMagicToolID, out var flyMagicToolData);
-                    if (result)
-                    {
-                        roleStatus.AttackPhysical += roleObj.AttackPhysical + flyMagicToolData.AddPhysicAttack;
-                        roleStatus.AttackPower += roleObj.AttackPower + flyMagicToolData.AddMagicAttack;
-                        roleStatus.AttackSpeed += roleObj.AttackSpeed;
-                        roleStatus.BestBlood += (short)roleObj.BestBlood;
-                        roleStatus.DefendPhysical += roleObj.DefendPhysical;
-                        roleStatus.DefendPower += roleObj.DefendPower;
-                        roleStatus.GongfaLearnSpeed += roleObj.GongfaLearnSpeed;
-                        roleStatus.MagicCritDamage += roleObj.MagicCritDamage;
-                        roleStatus.MagicCritProb += roleObj.MagicCritProb;
-                        roleStatus.MishuLearnSpeed += roleObj.MishuLearnSpeed;
-                        roleStatus.MoveSpeed += roleObj.MoveSpeed + flyMagicToolData.AddMoveSpeed;
-                        roleStatus.PhysicalCritDamage += roleObj.PhysicalCritDamage;
-                        roleStatus.PhysicalCritProb += roleObj.PhysicalCritProb;
-                        roleStatus.ReduceCritDamage += roleObj.ReduceCritDamage;
-                        roleStatus.ReduceCritProb += roleObj.ReduceCritProb;
-                        roleStatus.RoleHP += roleObj.RoleHP + flyMagicToolData.AddRoleHp;
-                        roleStatus.RoleMP += roleObj.RoleMP;
-                        roleStatus.RolePopularity += roleObj.RolePopularity;
-                        roleStatus.RoleSoul += roleObj.RoleSoul;
-                        roleStatus.ValueHide += roleObj.ValueHide;
-                        roleStatus.Vitality += roleObj.Vitality;
-                        roleStatus.MaxVitality += roleStatus.Vitality;
-                        roleStatus.RoleMaxMP += roleStatus.RoleMP;
-                        roleStatus.RoleMaxHP += roleStatus.RoleHP;
-                        roleStatus.RoleSoul += roleStatus.RoleMaxSoul;
-                        roleStatus.BestBlood += roleStatus.BestBloodMax;
-                    }
+                   
 
                     gongfaList = rolegongfa.GongFaIDArray.Values.ToList();
                     if (gongfaList.Count > 0)
@@ -207,14 +175,20 @@ namespace AscensionServer
                 roleStatusDTO.AttackPhysical += abilityDTO.Strength * 2;
                 roleStatusDTO.DefendPhysical += abilityDTO.Stamina * 2;
                 roleStatusDTO.AttackPower += abilityDTO.Power * 2;
-                roleStatusDTO.DefendPower += (int)(abilityDTO.Stamina * 0.8 + abilityDTO.Corporeity * 0.8 + abilityDTO.Power + abilityDTO.Strength * 1.2);
+                roleStatusDTO.DefendPower += (int)(abilityDTO.Stamina * 0.8 + abilityDTO.Corporeity * 0.4 + abilityDTO.Power + abilityDTO.Strength * 1.2);
                 roleStatusDTO.AttackSpeed += (int)(abilityDTO.Soul * 0.2 + abilityDTO.Stamina * 0.1 + abilityDTO.Corporeity * 0.1 + abilityDTO.Agility * 0.5 + abilityDTO.Strength * 0.1);
                 roleStatusDTO.MoveSpeed += (int)(abilityDTO.Agility * 0.1);
             }
+
+
             await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleStatusAddPointPerfix, pointDTO.RoleID.ToString(), roleStatusDTO);
           var obj=   RoleStatusAlgorithm(pointDTO.RoleID,null,null, null,roleStatusDTO,null);
-
-            return StatusVerify(roleStatus, obj);
+            if (obj!=null)
+            {
+                return StatusVerify(roleStatus, obj);
+            }
+          
+            return new RoleStatus();
         }
 
         #region 角色装备属性计算
@@ -395,6 +369,27 @@ namespace AscensionServer
         }
         #endregion
 
+        #region 角色飞行法器
+        public async Task<RoleStatus> RoleFlyMagicTool(FlyMagicToolDTO flyMagic, RoleStatus roleStatus)
+        {
+            GameEntry.DataManager.TryGetValue<Dictionary<int, FlyMagicToolData>>(out var flytool);
+            RoleStatusDTO Status = new RoleStatusDTO();
+            foreach (var item in flyMagic.FlyToolLayoutDict)
+            {
+                if (flytool.TryGetValue(item.Value, out var flyMagicToolData))
+                {
+                    Status.AttackPhysical += flyMagicToolData.AddPhysicAttack;
+                    Status.AttackPower += flyMagicToolData.AddMagicAttack;
+                    Status.MoveSpeed += flyMagicToolData.AddMoveSpeed;
+                    Status.RoleMaxHP += flyMagicToolData.AddRoleHp;
+                }
+            }
+           await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleStatusFlyPerfix,roleStatus.RoleID.ToString(), Status);
+
+            var rolestatusObj = RoleStatusAlgorithm(Status.RoleID, Status, null,null, null, null);
+            return StatusVerify(roleStatus, rolestatusObj);
+        }
+        #endregion
 
         /// <summary>
         /// 计算技能加成
@@ -444,176 +439,199 @@ namespace AscensionServer
         /// <param name="statusEquip">装备加成</param>
         public  RoleStatusDTO RoleStatusAlgorithm(int roleid, RoleStatusDTO statusFly = null, RoleStatusAdditionDTO statusGF = null, RoleStatusAdditionDTO statusMS = null, RoleStatusDTO statusPoint = null, RoleStatusAdditionDTO statusEquip = null)
         {
-            if (statusFly == null)
+            GameEntry.DataManager.TryGetValue<Dictionary<int, RoleLevelData>>(out var roleData);
+            var roleexist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RolePostfix,roleid.ToString()).Result;
+            if (roleexist)
             {
-                Utility.Debug.LogError("123");
-                var flyExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatusFlyPerfix, roleid.ToString()).Result;
-                if (flyExist)
+                var role = RedisHelper.Hash.HashGetAsync<RoleDTO>(RedisKeyDefine._RolePostfix, roleid.ToString()).Result;
+                if (role!=null)
                 {
-                    Utility.Debug.LogError("234");
-                    statusFly = RedisHelper.Hash.HashGetAsync<RoleStatusDTO>(RedisKeyDefine._RoleStatusFlyPerfix, roleid.ToString()).Result;
-                    if (statusFly==null)
+                    if (statusFly == null)
                     {
-                        Utility.Debug.LogError("345");
-               
-                    }
-                }
-                else statusFly = new RoleStatusDTO();
-            }
-            if (statusGF == null)
-            {
-                var statusGFExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatusGFPerfix, roleid.ToString()).Result;
-                if (statusGFExist)
-                {                  
-                    statusGF = RedisHelper.Hash.HashGetAsync<RoleStatusAdditionDTO>(RedisKeyDefine._RoleStatusGFPerfix, roleid.ToString()).Result;
-                    if (statusGF==null)
-                    {
-                        statusGF = new RoleStatusAdditionDTO();
-                    }
-                }
-                else statusGF = new RoleStatusAdditionDTO();
-            }
-            if (statusMS == null)
-            {
-                var statusMSExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatusMSPerfix, roleid.ToString()).Result;
-                if (statusMSExist)
-                {
-                    statusMS = RedisHelper.Hash.HashGetAsync<RoleStatusAdditionDTO>(RedisKeyDefine._RoleStatusMSPerfix, roleid.ToString()).Result;
-                    if (statusMS==null)
-                    {
-                        statusMS = new RoleStatusAdditionDTO();
-                    }
-                }
-                else statusMS = new RoleStatusAdditionDTO();
-            }
-            if (statusEquip == null)
-            {
-                var statusEquipExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatusEquipPerfix, roleid.ToString()).Result;
-                if (statusEquipExist)
-                {
-                    statusEquip = RedisHelper.Hash.HashGetAsync<RoleStatusAdditionDTO>(RedisKeyDefine._RoleStatusEquipPerfix, roleid.ToString()).Result;
-                    if (statusEquip==null)
-                    {
-                        statusEquip = new RoleStatusAdditionDTO();
-                    }
-                }else statusEquip = new RoleStatusAdditionDTO();
-            }
-            if (statusPoint == null)
-            {
-                var statusPointExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatusAddPointPerfix, roleid.ToString()).Result;
-                if (statusPointExist)
-                {
-                    statusPoint = RedisHelper.Hash.HashGetAsync<RoleStatusDTO>(RedisKeyDefine._RoleStatusAddPointPerfix, roleid.ToString()).Result;
-                    if (statusPoint==null)
-                    {
-                        statusPoint = new RoleStatusDTO();
-                    }
-                }
-                else statusPoint = new RoleStatusDTO();
-            }
+                        Utility.Debug.LogError("123");
+                        var flyExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatusFlyPerfix, roleid.ToString()).Result;
+                        if (flyExist)
+                        {
+                            Utility.Debug.LogError("234");
+                            statusFly = RedisHelper.Hash.HashGetAsync<RoleStatusDTO>(RedisKeyDefine._RoleStatusFlyPerfix, roleid.ToString()).Result;
+                            if (statusFly == null)
+                            {
+                                statusFly = new RoleStatusDTO();
 
-            RoleStatusType statusType = new RoleStatusType();
-            RoleStatusDTO roleStatus = new RoleStatusDTO();
-            var Percentage = 0;
-            #region 
-            roleStatus.AttackPhysical += statusFly.AttackPhysical + statusGF.AttackPhysical + statusEquip.AttackPhysical + statusMS.AttackPhysical + statusPoint.AttackPhysical;
-            roleStatus.AttackPower += statusFly.AttackPower + statusGF.AttackPower + statusEquip.AttackPower + statusMS.AttackPower + statusPoint.AttackPower;
-            roleStatus.AttackSpeed += statusFly.AttackSpeed + statusGF.AttackSpeed + statusEquip.AttackSpeed + statusMS.AttackSpeed + statusPoint.AttackSpeed;
-            roleStatus.BestBlood += (short)(statusFly.BestBlood + statusGF.BestBlood + statusEquip.BestBlood + statusMS.BestBlood + statusPoint.BestBlood);
-            roleStatus.DefendPhysical += statusFly.DefendPhysical + statusGF.DefendPhysical + statusEquip.DefendPhysical + statusMS.DefendPhysical + statusPoint.DefendPhysical;
-            roleStatus.DefendPower += statusFly.DefendPower + statusGF.DefendPower + statusEquip.DefendPower + statusMS.DefendPower + statusPoint.DefendPower;
-            roleStatus.GongfaLearnSpeed += statusFly.GongfaLearnSpeed + statusGF.GongfaLearnSpeed + statusEquip.GongfaLearnSpeed + statusMS.GongfaLearnSpeed + statusPoint.GongfaLearnSpeed;
-            roleStatus.MagicCritDamage += statusFly.MagicCritDamage + statusGF.MagicCritDamage + statusEquip.MagicCritDamage + statusMS.MagicCritDamage + statusPoint.MagicCritDamage;
-            roleStatus.MagicCritProb += statusFly.MagicCritProb + statusGF.MagicCritProb + statusEquip.MagicCritProb + statusMS.MagicCritProb + statusPoint.MagicCritProb;
-            roleStatus.MishuLearnSpeed += statusFly.MishuLearnSpeed + statusGF.MishuLearnSpeed + statusEquip.MishuLearnSpeed + statusMS.MishuLearnSpeed + statusPoint.MishuLearnSpeed;
-            roleStatus.MoveSpeed += statusFly.MoveSpeed + statusGF.MoveSpeed + statusEquip.MoveSpeed + statusMS.MoveSpeed + statusPoint.MoveSpeed;
-            roleStatus.PhysicalCritDamage += statusFly.PhysicalCritDamage + statusGF.PhysicalCritDamage + statusEquip.PhysicalCritDamage + statusMS.PhysicalCritDamage + statusPoint.PhysicalCritDamage;
-            roleStatus.PhysicalCritProb += statusFly.PhysicalCritProb + statusGF.PhysicalCritProb + statusEquip.PhysicalCritProb + statusMS.PhysicalCritProb + statusPoint.PhysicalCritProb;
-            roleStatus.ReduceCritDamage += statusFly.ReduceCritDamage + statusGF.ReduceCritDamage + statusEquip.ReduceCritDamage + statusMS.ReduceCritDamage + statusPoint.ReduceCritDamage;
-            roleStatus.ReduceCritProb += statusFly.ReduceCritProb + statusGF.ReduceCritProb + statusEquip.ReduceCritProb + statusMS.ReduceCritProb + statusPoint.ReduceCritProb;
-            roleStatus.RoleHP += statusFly.RoleHP + statusGF.RoleHP + statusEquip.RoleHP + statusMS.RoleHP + statusPoint.RoleHP;
-            roleStatus.RolePopularity += statusFly.RolePopularity + statusGF.RolePopularity + statusEquip.RolePopularity + statusMS.RolePopularity + statusPoint.RolePopularity;
-            roleStatus.RoleSoul += statusFly.RoleSoul + statusGF.RoleSoul + statusEquip.RoleSoul + statusMS.RoleSoul + statusPoint.RoleSoul;
-            roleStatus.ValueHide += statusFly.ValueHide + statusGF.ValueHide + statusEquip.ValueHide + statusMS.ValueHide + statusPoint.ValueHide;
-            roleStatus.Vitality += statusFly.Vitality + statusGF.Vitality + statusEquip.Vitality + statusMS.Vitality + statusPoint.Vitality;
-            #endregion
+                            }
+                        }
+                        else statusFly = new RoleStatusDTO();
+                    }
+                    if (statusGF == null)
+                    {
+                        var statusGFExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatusGFPerfix, roleid.ToString()).Result;
+                        if (statusGFExist)
+                        {
+                            statusGF = RedisHelper.Hash.HashGetAsync<RoleStatusAdditionDTO>(RedisKeyDefine._RoleStatusGFPerfix, roleid.ToString()).Result;
+                            if (statusGF == null)
+                            {
+                                statusGF = new RoleStatusAdditionDTO();
+                            }
+                        }
+                        else statusGF = new RoleStatusAdditionDTO();
+                    }
+                    if (statusMS == null)
+                    {
+                        var statusMSExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatusMSPerfix, roleid.ToString()).Result;
+                        if (statusMSExist)
+                        {
+                            statusMS = RedisHelper.Hash.HashGetAsync<RoleStatusAdditionDTO>(RedisKeyDefine._RoleStatusMSPerfix, roleid.ToString()).Result;
+                            if (statusMS == null)
+                            {
+                                statusMS = new RoleStatusAdditionDTO();
+                            }
+                        }
+                        else statusMS = new RoleStatusAdditionDTO();
+                    }
+                    if (statusEquip == null)
+                    {
+                        var statusEquipExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatusEquipPerfix, roleid.ToString()).Result;
+                        if (statusEquipExist)
+                        {
+                            statusEquip = RedisHelper.Hash.HashGetAsync<RoleStatusAdditionDTO>(RedisKeyDefine._RoleStatusEquipPerfix, roleid.ToString()).Result;
+                            if (statusEquip == null)
+                            {
+                                statusEquip = new RoleStatusAdditionDTO();
+                            }
+                        }
+                        else statusEquip = new RoleStatusAdditionDTO();
+                    }
+                    if (statusPoint == null)
+                    {
+                        var statusPointExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatusAddPointPerfix, roleid.ToString()).Result;
+                        if (statusPointExist)
+                        {
+                            statusPoint = RedisHelper.Hash.HashGetAsync<RoleStatusDTO>(RedisKeyDefine._RoleStatusAddPointPerfix, roleid.ToString()).Result;
+                            if (statusPoint == null)
+                            {
+                                statusPoint = new RoleStatusDTO();
+                            }
+                        }
+                        else statusPoint = new RoleStatusDTO();
+                    }
 
-            switch (statusType)
-            {
-                case RoleStatusType.RoleHP:
-                    Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.RoleHP);
-                    roleStatus.RoleMaxHP *= (Percentage + 100) / 100;
-                    break;
-                case RoleStatusType.RoleMP:
-                    Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.RoleMP);
-                    roleStatus.RoleMaxMP *= (Percentage + 100) / 100;
-                    break;
-                case RoleStatusType.RoleSoul:
-                    Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.RoleSoul);
-                    roleStatus.RoleMaxSoul *= (Percentage + 100) / 100;
-                    break;
-                case RoleStatusType.AttackPhysical:
-                    Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.AttackPhysical);
-                    roleStatus.AttackPhysical *= (Percentage + 100) / 100;
-                    break;
-                case RoleStatusType.DefendPhysical:
-                    Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.DefendPhysical);
-                    roleStatus.DefendPhysical *= (Percentage + 100) / 100;
-                    break;
-                case RoleStatusType.AttackPower:
-                    Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.AttackPower);
-                    roleStatus.AttackPower *= (Percentage + 100) / 100;
-                    break;
-                case RoleStatusType.DefendPower:
-                    Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.DefendPower);
-                    roleStatus.DefendPower *= (Percentage + 100) / 100;
-                    break;
-                case RoleStatusType.AttackSpeed:
-                    Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.AttackSpeed);
-                    roleStatus.AttackSpeed *= (Percentage + 100) / 100;
-                    break;
-                case RoleStatusType.PhysicalCritProb:
-                    Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.PhysicalCritProb);
-                    roleStatus.PhysicalCritProb *= (Percentage + 100) / 100;
-                    break;
-                case RoleStatusType.PhysicalCritDamage:
-                    Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.PhysicalCritDamage);
-                    roleStatus.PhysicalCritDamage *= (Percentage + 100) / 100;
-                    break;
-                case RoleStatusType.MagicCritProb:
-                    Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.MagicCritProb);
-                    roleStatus.MagicCritProb *= (Percentage + 100) / 100;
-                    break;
-                case RoleStatusType.MagicCritDamage:
-                    Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.MagicCritDamage);
-                    roleStatus.MagicCritDamage *= (Percentage + 100) / 100;
-                    break;
-                case RoleStatusType.ReduceCritProb:
-                    Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.ReduceCritProb);
-                    roleStatus.ReduceCritProb *= (Percentage + 100) / 100;
-                    break;
-                case RoleStatusType.ReduceCritDamage:
-                    Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.ReduceCritDamage);
-                    roleStatus.ReduceCritDamage *= (Percentage + 100) / 100;
-                    break;
-                case RoleStatusType.MoveSpeed:
-                    Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.MoveSpeed);
-                    roleStatus.MoveSpeed *= (Percentage + 100) / 100;
-                    break;
-                case RoleStatusType.GongfaLearnSpeed:
-                    Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.GongfaLearnSpeed);
-                    roleStatus.GongfaLearnSpeed *= (Percentage + 100) / 100;
-                    break;
-                case RoleStatusType.MishuLearnSpeed:
-                    Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.MishuLearnSpeed);
-                    roleStatus.MishuLearnSpeed *= (Percentage + 100) / 100;
-                    break;
-                default:
-                    break;
+                    RoleStatusType statusType = new RoleStatusType();
+                    RoleStatusDTO roleStatus = new RoleStatusDTO();
+                    if (roleData.TryGetValue(role.RoleLevel, out var roleObj))
+                    {
+                        Utility.Debug.LogError("获取每级数据进来了" + Utility.Json.ToJson(roleObj));
+                        #region 
+                        roleStatus.AttackPhysical += statusFly.AttackPhysical + statusGF.AttackPhysical + statusEquip.AttackPhysical + statusMS.AttackPhysical + statusPoint.AttackPhysical+ roleObj.AttackPhysical;
+                        roleStatus.AttackPower += statusFly.AttackPower + roleObj.AttackPower + statusGF.AttackPower + statusEquip.AttackPower + statusMS.AttackPower + statusPoint.AttackPower;
+                        roleStatus.AttackSpeed += statusFly.AttackSpeed + roleObj.AttackSpeed + statusGF.AttackSpeed + statusEquip.AttackSpeed + statusMS.AttackSpeed + statusPoint.AttackSpeed;
+                        roleStatus.BestBloodMax += (short)(statusFly.BestBlood + roleObj.BestBlood + statusGF.BestBlood + statusEquip.BestBlood + statusMS.BestBlood + statusPoint.BestBlood);
+                        roleStatus.DefendPhysical += statusFly.DefendPhysical + roleObj.DefendPhysical + statusGF.DefendPhysical + statusEquip.DefendPhysical + statusMS.DefendPhysical + statusPoint.DefendPhysical;
+                        roleStatus.DefendPower += statusFly.DefendPower + roleObj.DefendPower + statusGF.DefendPower + statusEquip.DefendPower + statusMS.DefendPower + statusPoint.DefendPower;
+                        roleStatus.GongfaLearnSpeed += statusFly.GongfaLearnSpeed + roleObj.GongfaLearnSpeed + statusGF.GongfaLearnSpeed + statusEquip.GongfaLearnSpeed + statusMS.GongfaLearnSpeed + statusPoint.GongfaLearnSpeed;
+                        roleStatus.MagicCritDamage += statusFly.MagicCritDamage + statusGF.MagicCritDamage + roleObj.MagicCritDamage + statusEquip.MagicCritDamage + statusMS.MagicCritDamage + statusPoint.MagicCritDamage;
+                        roleStatus.MagicCritProb += statusFly.MagicCritProb + statusGF.MagicCritProb + statusEquip.MagicCritProb + roleObj.MagicCritProb + statusMS.MagicCritProb + statusPoint.MagicCritProb;
+                        roleStatus.MishuLearnSpeed += statusFly.MishuLearnSpeed + roleObj.MishuLearnSpeed + statusGF.MishuLearnSpeed + statusEquip.MishuLearnSpeed + statusMS.MishuLearnSpeed + statusPoint.MishuLearnSpeed;
+                        roleStatus.MoveSpeed += statusFly.MoveSpeed + roleObj.MoveSpeed + statusGF.MoveSpeed + statusEquip.MoveSpeed + statusMS.MoveSpeed + statusPoint.MoveSpeed;
+                        roleStatus.PhysicalCritDamage += statusFly.PhysicalCritDamage + roleObj.PhysicalCritDamage + statusGF.PhysicalCritDamage + statusEquip.PhysicalCritDamage + statusMS.PhysicalCritDamage + statusPoint.PhysicalCritDamage;
+                        roleStatus.PhysicalCritProb += statusFly.PhysicalCritProb + roleObj.PhysicalCritProb + statusGF.PhysicalCritProb + statusEquip.PhysicalCritProb + statusMS.PhysicalCritProb + statusPoint.PhysicalCritProb;
+                        roleStatus.ReduceCritDamage += statusFly.ReduceCritDamage + roleObj.ReduceCritDamage + statusGF.ReduceCritDamage + statusEquip.ReduceCritDamage + statusMS.ReduceCritDamage + statusPoint.ReduceCritDamage;
+                        roleStatus.ReduceCritProb += statusFly.ReduceCritProb + statusGF.ReduceCritProb + roleObj.ReduceCritProb + statusEquip.ReduceCritProb + statusMS.ReduceCritProb + statusPoint.ReduceCritProb;
+                        roleStatus.RoleMaxHP += statusFly.RoleMaxHP+ roleObj.RoleHP + statusGF.RoleMaxHP + statusEquip.RoleMaxHP + statusMS.RoleMaxHP + statusPoint.RoleMaxHP;
+                        roleStatus.RolePopularity += statusFly.RoleMaxPopularity+ roleObj.RolePopularity + statusGF.RoleMaxPopularity + statusEquip.RoleMaxPopularity + statusMS.RoleMaxPopularity + statusPoint.RoleMaxPopularity;
+                        roleStatus.RoleMaxSoul += statusFly.RoleMaxSoul + statusGF.RoleMaxSoul + roleObj .RoleSoul+ statusEquip.RoleMaxSoul + statusMS.RoleMaxSoul + statusPoint.RoleMaxSoul;
+                        roleStatus.ValueHide += statusFly.ValueHide + roleObj .ValueHide+ statusGF.ValueHide + statusEquip.ValueHide + statusMS.ValueHide + statusPoint.ValueHide;
+                        roleStatus.MaxVitality += statusFly.MaxVitality + statusGF.MaxVitality + statusEquip.MaxVitality + statusMS.MaxVitality + statusPoint.MaxVitality + roleObj.Vitality;
+                        roleStatus.RoleMaxMP += statusFly.RoleMaxMP + statusGF.RoleMaxMP + statusEquip.RoleMaxMP + statusMS.RoleMaxMP + statusPoint.RoleMaxMP + roleObj.RoleMP;
+                        #endregion
+                        var Percentage = 0;
+
+                        switch (statusType)
+                        {
+                            case RoleStatusType.RoleHP:
+                                Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.RoleHP);
+                                roleStatus.RoleMaxHP *= (Percentage + 100) / 100;
+                                break;
+                            case RoleStatusType.RoleMP:
+                                Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.RoleMP);
+                                roleStatus.RoleMaxMP *= (Percentage + 100) / 100;
+                                break;
+                            case RoleStatusType.RoleSoul:
+                                Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.RoleSoul);
+                                roleStatus.RoleMaxSoul *= (Percentage + 100) / 100;
+                                break;
+                            case RoleStatusType.AttackPhysical:
+                                Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.AttackPhysical);
+                                roleStatus.AttackPhysical *= (Percentage + 100) / 100;
+                                break;
+                            case RoleStatusType.DefendPhysical:
+                                Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.DefendPhysical);
+                                roleStatus.DefendPhysical *= (Percentage + 100) / 100;
+                                break;
+                            case RoleStatusType.AttackPower:
+                                Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.AttackPower);
+                                roleStatus.AttackPower *= (Percentage + 100) / 100;
+                                break;
+                            case RoleStatusType.DefendPower:
+                                Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.DefendPower);
+                                roleStatus.DefendPower *= (Percentage + 100) / 100;
+                                break;
+                            case RoleStatusType.AttackSpeed:
+                                Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.AttackSpeed);
+                                roleStatus.AttackSpeed *= (Percentage + 100) / 100;
+                                break;
+                            case RoleStatusType.PhysicalCritProb:
+                                Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.PhysicalCritProb);
+                                roleStatus.PhysicalCritProb *= (Percentage + 100) / 100;
+                                break;
+                            case RoleStatusType.PhysicalCritDamage:
+                                Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.PhysicalCritDamage);
+                                roleStatus.PhysicalCritDamage *= (Percentage + 100) / 100;
+                                break;
+                            case RoleStatusType.MagicCritProb:
+                                Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.MagicCritProb);
+                                roleStatus.MagicCritProb *= (Percentage + 100) / 100;
+                                break;
+                            case RoleStatusType.MagicCritDamage:
+                                Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.MagicCritDamage);
+                                roleStatus.MagicCritDamage *= (Percentage + 100) / 100;
+                                break;
+                            case RoleStatusType.ReduceCritProb:
+                                Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.ReduceCritProb);
+                                roleStatus.ReduceCritProb *= (Percentage + 100) / 100;
+                                break;
+                            case RoleStatusType.ReduceCritDamage:
+                                Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.ReduceCritDamage);
+                                roleStatus.ReduceCritDamage *= (Percentage + 100) / 100;
+                                break;
+                            case RoleStatusType.MoveSpeed:
+                                Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.MoveSpeed);
+                                roleStatus.MoveSpeed *= (Percentage + 100) / 100;
+                                break;
+                            case RoleStatusType.GongfaLearnSpeed:
+                                Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.GongfaLearnSpeed);
+                                roleStatus.GongfaLearnSpeed *= (Percentage + 100) / 100;
+                                break;
+                            case RoleStatusType.MishuLearnSpeed:
+                                Percentage = AddPercentage(statusGF, statusMS, statusEquip, RoleStatusType.MishuLearnSpeed);
+                                roleStatus.MishuLearnSpeed *= (Percentage + 100) / 100;
+                                break;
+                            default:
+                                break;
+                        }
+                        Utility.Debug.LogError(Utility.Json.ToJson(roleStatus));
+                        roleStatus.RoleID = roleid;
+                        return roleStatus;
+                    }
+                    else
+                        return null;
+                }
+                else
+                    return null;
             }
-            Utility.Debug.LogError(Utility.Json.ToJson(roleStatus));
-            roleStatus.RoleID = roleid;
-            return roleStatus;
+            else
+                return null;
+
+
         }
 
         int AddPercentage(RoleStatusAdditionDTO statusGF, RoleStatusAdditionDTO statusMS, RoleStatusAdditionDTO statusEquip, RoleStatusType statusType)
@@ -658,23 +676,24 @@ namespace AscensionServer
                 roleStatus.BestBlood += (short)(obj.BestBloodMax - roleStatus.BestBloodMax);
             }
 
-            roleStatus.AttackPhysical += obj.AttackPhysical;
-            roleStatus.AttackPower += obj.AttackPower;
-            roleStatus.AttackSpeed += obj.DefendPhysical;
-            roleStatus.DefendPower += obj.DefendPower;
-            roleStatus.GongfaLearnSpeed += obj.GongfaLearnSpeed;
-            roleStatus.MagicCritDamage += obj.MagicCritDamage;
-            roleStatus.MagicCritProb += obj.MagicCritProb;
-            roleStatus.MishuLearnSpeed += obj.MishuLearnSpeed;
-            roleStatus.MoveSpeed += obj.MoveSpeed;
-            roleStatus.PhysicalCritDamage += obj.PhysicalCritDamage;
-            roleStatus.PhysicalCritProb += obj.PhysicalCritProb;
-            roleStatus.ReduceCritDamage += obj.ReduceCritDamage;
-            roleStatus.ReduceCritProb += obj.ReduceCritProb;
-            roleStatus.RolePopularity += obj.RolePopularity;
-            roleStatus.ValueHide += obj.ValueHide;
-            roleStatus.Vitality += obj.Vitality;
-            roleStatus.MaxVitality += obj.Vitality;
+            roleStatus.AttackPhysical = obj.AttackPhysical;
+            roleStatus.AttackPower = obj.AttackPower;
+            roleStatus.AttackSpeed = obj.AttackSpeed;
+            roleStatus.DefendPower = obj.DefendPower;
+            roleStatus.DefendPhysical = obj.DefendPhysical;
+            roleStatus.GongfaLearnSpeed = obj.GongfaLearnSpeed;
+            roleStatus.MagicCritDamage = obj.MagicCritDamage;
+            roleStatus.MagicCritProb = obj.MagicCritProb;
+            roleStatus.MishuLearnSpeed = obj.MishuLearnSpeed;
+            roleStatus.MoveSpeed = obj.MoveSpeed;
+            roleStatus.PhysicalCritDamage = obj.PhysicalCritDamage;
+            roleStatus.PhysicalCritProb = obj.PhysicalCritProb;
+            roleStatus.ReduceCritDamage = obj.ReduceCritDamage;
+            roleStatus.ReduceCritProb = obj.ReduceCritProb;
+            roleStatus.RolePopularity = obj.RolePopularity;
+            roleStatus.ValueHide = obj.ValueHide;
+            roleStatus.Vitality = obj.Vitality;
+            roleStatus.MaxVitality = obj.Vitality;
 
             return roleStatus;
         }

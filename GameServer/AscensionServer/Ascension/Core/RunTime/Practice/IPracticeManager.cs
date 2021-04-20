@@ -11,8 +11,27 @@ namespace AscensionServer
 {
     public interface IPracticeManager: IModuleManager
     {
+        /// <summary>
+        /// 计算人物属性
+        /// </summary>
+        /// <param name="pointDTO"></param>
+        /// <param name="roleStatus"></param>
+        /// <returns></returns>
         Task<RoleStatus> RoleAblility(RoleStatusPointDTO pointDTO, RoleStatus roleStatus);
-
+        /// <summary>
+        /// 计算人物装备
+        /// </summary>
+        /// <param name="statusObj"></param>
+        /// <param name="roleWeapon"></param>
+        /// <param name="roleEquipment"></param>
+        /// <returns></returns>
         Task<RoleStatus> RoleEquip(RoleStatus statusObj, RoleWeaponDTO roleWeapon, RoleEquipmentDTO roleEquipment);
+        /// <summary>
+        /// 计算飞行法器
+        /// </summary>
+        /// <param name="flyMagic"></param>
+        /// <param name="roleStatus"></param>
+        /// <returns></returns>
+        Task<RoleStatus> RoleFlyMagicTool(FlyMagicToolDTO flyMagic, RoleStatus roleStatus);
     }
 }

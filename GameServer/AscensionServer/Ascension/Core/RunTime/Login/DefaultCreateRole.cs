@@ -96,6 +96,7 @@ namespace AscensionServer
                 else
                     roleList.Add(roleId);
                 rolestatus.RoleID = int.Parse(roleId);
+                 RedisHelper.Hash.HashSet(RedisKeyDefine._RolePostfix,roleId.ToString(), role);
                 NHibernateQuerier.Insert(rolestatus);
                 RedisHelper.Hash.HashSet(RedisKeyDefine._RoleStatsuPerfix, rolestatus.RoleID.ToString(), rolestatus);
                 NHibernateQuerier.Insert(new RoleAssets() { RoleID = rolestatus.RoleID });

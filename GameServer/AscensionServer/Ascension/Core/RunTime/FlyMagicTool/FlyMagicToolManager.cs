@@ -130,28 +130,35 @@ namespace AscensionServer
         /// <param name="flyMagic"></param>
          async void UpdateFlyMagicToolS2C(FlyMagicToolDTO flyMagic)
         {
-            NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", flyMagic.RoleID);
-            var flyMagicObj = NHibernateQuerier.CriteriaSelectAsync<FlyMagicTool>(nHCriteria).Result;
-            if (flyMagicObj!=null)
+            #region Redis逻辑
+            var flyObjExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleFlyMagicToolPerfix, flyMagic.RoleID.ToString()).Result;
+            var rolestatusExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatsuPerfix, flyMagic.RoleID.ToString()).Result;
+            if (flyObjExist&& rolestatusExist)
             {
-                flyMagicObj.FlyToolLayoutDict = Utility.Json.ToJson(flyMagic.FlyToolLayoutDict);
-                var obj = flyMagicToolChange(flyMagicObj);
-               await  NHibernateQuerier.UpdateAsync(flyMagicObj);
-                ResultSuccseS2C(flyMagic.RoleID, FlyMagicToolOpCode.GetToolData, obj);
-
-                //TODO更新人物属性
-
-                #region Redis逻辑
                 var flyObj = RedisHelper.Hash.HashGetAsync<FlyMagicToolDTO>(RedisKeyDefine._RoleFlyMagicToolPerfix, flyMagic.RoleID.ToString()).Result;
-                if (flyObj != null)
+                var rolestatus = RedisHelper.Hash.HashGetAsync<RoleStatus>(RedisKeyDefine._RoleStatsuPerfix, flyMagic.RoleID.ToString()).Result;
+                if (flyObj != null&& rolestatus!=null)
                 {
                     flyObj.FlyToolLayoutDict = flyMagic.FlyToolLayoutDict;
-                   await RedisHelper.Hash.HashSetAsync<FlyMagicToolDTO>(RedisKeyDefine._RoleFlyMagicToolPerfix, flyMagic.RoleID.ToString(), obj);
+                    await RedisHelper.Hash.HashSetAsync<FlyMagicToolDTO>(RedisKeyDefine._RoleFlyMagicToolPerfix, flyMagic.RoleID.ToString(), flyObj);
+                    await NHibernateQuerier.UpdateAsync(flyMagicToolChange(flyObj));
+
+                    var status = await GameEntry.practiceManager.RoleFlyMagicTool(flyObj, rolestatus);
+                    Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                    dict.Add((byte)ParameterCode.RoleStatus, status);
+                    dict.Add((byte)ParameterCode.RoleFlyMagicTool, flyObj);
+                    ResultSuccseS2C(flyMagic.RoleID, FlyMagicToolOpCode.GetToolData, dict);
+
+                    await NHibernateQuerier.UpdateAsync(status);
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleStatsuPerfix, flyMagic.RoleID.ToString(), status);
                 }
-                #endregion
+                else
+                    UpdateFlyMagicTool(flyMagic);
             }
             else
-                ResultFailS2C(flyMagic.RoleID, FlyMagicToolOpCode.GetToolData);
+                UpdateFlyMagicTool(flyMagic);
+            #endregion
+
         }
         #endregion
 
@@ -171,7 +178,35 @@ namespace AscensionServer
             else
                 ResultFailS2C(flyMagic.RoleID, FlyMagicToolOpCode.GetToolData);
         }
+        /// <summary>
+        /// 设置更新飞行法器
+        /// </summary>
+        /// <param name="flyMagic"></param>
+        async void UpdateFlyMagicTool(FlyMagicToolDTO flyMagic)
+        {
+            NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", flyMagic.RoleID);
+            var flyMagicObj = NHibernateQuerier.CriteriaSelectAsync<FlyMagicTool>(nHCriteria).Result;
+            var roleStatusObj = NHibernateQuerier.CriteriaSelectAsync<RoleStatus>(nHCriteria).Result;
+            if (flyMagicObj != null&& roleStatusObj!=null)
+            {
+                flyMagicObj.FlyToolLayoutDict = Utility.Json.ToJson(flyMagic.FlyToolLayoutDict);
+                var obj = flyMagicToolChange(flyMagicObj);
+                await NHibernateQuerier.UpdateAsync(flyMagicObj);
+                await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleFlyMagicToolPerfix, flyMagic.RoleID.ToString(), obj);
 
+                var status = await GameEntry.practiceManager.RoleFlyMagicTool(obj, roleStatusObj);
+
+                Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                dict.Add((byte)ParameterCode.RoleStatus, status);
+                dict.Add((byte)ParameterCode.RoleFlyMagicTool, obj);
+                ResultSuccseS2C(flyMagic.RoleID, FlyMagicToolOpCode.GetToolData, dict);
+
+                await NHibernateQuerier.UpdateAsync(status);
+                await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleStatsuPerfix, flyMagic.RoleID.ToString(), status);
+            }
+            else
+                ResultFailS2C(flyMagic.RoleID, FlyMagicToolOpCode.GetToolData);
+        }
         #endregion
         /// <summary>
         /// 类型转换
@@ -183,6 +218,16 @@ namespace AscensionServer
             FlyMagicToolDTO flyMagicTool = new FlyMagicToolDTO();
             flyMagicTool.AllFlyMagicTool = Utility.Json.ToObject<List<int>>(flyMagic.AllFlyMagicTool);
             flyMagicTool.FlyToolLayoutDict= Utility.Json.ToObject<Dictionary<string,int>>(flyMagic.FlyToolLayoutDict);
+            flyMagicTool.RoleID = flyMagic.RoleID;
+
+            return flyMagicTool;
+        }
+
+        FlyMagicTool flyMagicToolChange(FlyMagicToolDTO flyMagic)
+        {
+            FlyMagicTool flyMagicTool = new FlyMagicTool();
+            flyMagicTool.AllFlyMagicTool = Utility.Json.ToJson(flyMagic.AllFlyMagicTool);
+            flyMagicTool.FlyToolLayoutDict = Utility.Json.ToJson(flyMagic.FlyToolLayoutDict);
             flyMagicTool.RoleID = flyMagic.RoleID;
 
             return flyMagicTool;

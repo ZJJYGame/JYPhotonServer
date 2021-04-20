@@ -116,8 +116,8 @@ namespace AscensionServer
                         dict.Add((byte)ParameterCode.RoleAssets, roleassets);
                         RoleStatusSuccessS2C(roleid, AllianceOpCode.ExchangeElixir, dict);
 
-                        await RedisHelper.Hash.HashSetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, id.ToString(), rolealliance);
-                        await RedisHelper.Hash.HashSetAsync<RoleAssets>(RedisKeyDefine._RoleAssetsPerfix, id.ToString(), roleassets);
+                        await RedisHelper.Hash.HashSetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleid.ToString(), rolealliance);
+                        await RedisHelper.Hash.HashSetAsync<RoleAssets>(RedisKeyDefine._RoleAssetsPerfix, roleid.ToString(), roleassets);
                         await  NHibernateQuerier.UpdateAsync(roleassets);
                         await NHibernateQuerier.UpdateAsync(ChangeDataType(rolealliance));
                     }
