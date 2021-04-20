@@ -21,7 +21,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\..\localproject\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -324,7 +324,9 @@
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffController.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEventCondition\BattleBuffEventConditionBase.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEventBase.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEvent_ChangeBuffProperty.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEvent_ChangeProperty.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEvent_UseDesignateSkill.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffObj.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BuffCharacterData.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleCharacter\BattleAIEntity.cs" />
@@ -345,6 +347,7 @@
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\BattleSkillEventCondition\BattleSkillEventConditionBase.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\BattleSkillEvent\BattleSkillEventBase.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\ISkillAdditionData.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\SkillAdditionData.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\CharacterBattleData.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\ICharacterBattleData.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\IPeerEntity.cs" />
