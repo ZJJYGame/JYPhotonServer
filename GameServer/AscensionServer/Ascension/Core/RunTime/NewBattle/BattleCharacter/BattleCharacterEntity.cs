@@ -45,6 +45,11 @@ namespace AscensionServer
         public BattleBuffController BattleBuffController { get; protected set; }
 
         /// <summary>
+        /// 造成或受到的伤害数据
+        /// </summary>
+        public BattleDamageData BattleDamageData { get; set; }
+
+        /// <summary>
         /// 设置该角色的敌方和友方
         /// </summary>
         public void SetFriendAndEnemy(List<BattleCharacterEntity> factionOneCharacterEntites, List<BattleCharacterEntity> factionTwoCharacterEntites)
@@ -155,6 +160,8 @@ namespace AscensionServer
                     CharacterBattleData.ChangeProperty(battleDamageData.extraDamageTargetProperty, battleDamageData.extraDamageNum);
                     break;
                 case BattleSkillActionType.Heal:
+                    CharacterBattleData.ChangeProperty(battleDamageData.baseDamageTargetProperty, battleDamageData.damageNum);
+                    CharacterBattleData.ChangeProperty(battleDamageData.extraDamageTargetProperty, battleDamageData.extraDamageNum);
                     break;
                 case BattleSkillActionType.Resurrection:
                     break;

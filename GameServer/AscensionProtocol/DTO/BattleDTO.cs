@@ -272,6 +272,11 @@ namespace AscensionProtocol.DTO
         public bool isFinish { get; set; }
 
         /// <summary>
+        /// 结束行动的角色ID
+        /// </summary>
+        public int FinishActionRoleID;
+
+        /// <summary>
         /// 角色id
         /// </summary>
         public int RoleId { get; set; }

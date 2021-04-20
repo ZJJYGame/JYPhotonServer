@@ -50,7 +50,7 @@ namespace AscensionServer
             base.AllocationBattleAction();
             //todo 先临时将AI的行为设置为普通攻击
             BattleCmd = BattleCmd.SkillInstruction;
-            ActionID = 21402;
+            ActionID = 21001;
             TargetIDList.Clear();
             TargetIDList = GetTargetIdList(ActionID,true);
         }

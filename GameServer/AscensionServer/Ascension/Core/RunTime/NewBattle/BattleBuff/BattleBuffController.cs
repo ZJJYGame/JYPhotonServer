@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cosmos;
 using Cosmos.Reference;
+using AscensionProtocol.DTO;
 
 namespace AscensionServer
 {
@@ -17,62 +18,62 @@ namespace AscensionServer
         public BuffCharacterData BuffCharacterData { get; private set; }
 
         #region buff事件
-        public Action afterPropertyChangeEvent;
-        public event Action AfterPropertyChangeEvent
+        Action< BattleCharacterEntity, ISkillAdditionData> afterPropertyChangeEvent;
+        public event Action< BattleCharacterEntity, ISkillAdditionData> AfterPropertyChangeEvent
         {
             add { afterPropertyChangeEvent += value; }
             remove { afterPropertyChangeEvent -= value; }
         }
-        public Action allocationActionEvent;
-        public event Action AllocationActionEvent
+        Action< BattleCharacterEntity, ISkillAdditionData> beforeAllocationActionEvent;
+        public event Action< BattleCharacterEntity, ISkillAdditionData> BeforeAllocationActionEvent
         {
-            add { allocationActionEvent += value; }
-            remove { allocationActionEvent -= value; }
+            add { beforeAllocationActionEvent += value; }
+            remove { beforeAllocationActionEvent -= value; }
         }
-        public Action beforeUseSkill;
-        public event Action BeforeUseSkill
+         Action<BattleCharacterEntity, ISkillAdditionData> beforeUseSkill;
+        public event Action< BattleCharacterEntity, ISkillAdditionData> BeforeUseSkill
         {
             add { beforeUseSkill += value; }
             remove { beforeUseSkill -= value; }
         }
-        public Action beforeAttackEvent;
-        public event Action BeforeAttackEvent
+        Action<BattleCharacterEntity, ISkillAdditionData> beforeAttackEvent;
+        public event Action<BattleCharacterEntity, ISkillAdditionData> BeforeAttackEvent
         {
             add { beforeAttackEvent += value; }
             remove { beforeAttackEvent -= value; }
         }
-        public Action behindAttackEvent;
-        public event Action BehindAttackEvent
+        Action<BattleCharacterEntity, ISkillAdditionData> behindAttackEvent;
+        public event Action< BattleCharacterEntity, ISkillAdditionData> BehindAttackEvent
         {
             add { behindAttackEvent += value; }
             remove { behindAttackEvent -= value; }
         }
-        public Action behindUseSkill;
-        public event Action BehindUseSkill
+        Action<BattleCharacterEntity, ISkillAdditionData> behindUseSkill;
+        public event Action<BattleCharacterEntity, ISkillAdditionData> BehindUseSkill
         {
             add { behindUseSkill += value; }
             remove { behindUseSkill -= value; }
         }
-        public Action beforeOnHitEvent;
-        public event Action BeforeOnHitEvent
+        Action<BattleCharacterEntity, ISkillAdditionData> beforeOnHitEvent;
+        public event Action<BattleCharacterEntity, ISkillAdditionData> BeforeOnHitEvent
         {
             add { beforeOnHitEvent += value; }
             remove { beforeOnHitEvent -= value; }
         }
-        public Action behindOnHitEvent;
-        public event Action BehindOnHitEvent
+        Action< BattleCharacterEntity, ISkillAdditionData> behindOnHitEvent;
+        public event Action<BattleCharacterEntity, ISkillAdditionData> BehindOnHitEvent
         {
             add { behindOnHitEvent += value; }
             remove { behindOnHitEvent -= value; }
         }
-        public Action roleBeforeDieEvent;
-        public event Action RoleBeforeDieEvent
+        Action<BattleCharacterEntity, ISkillAdditionData> roleBeforeDieEvent;
+        public event Action< BattleCharacterEntity, ISkillAdditionData> RoleBeforeDieEvent
         {
             add { roleBeforeDieEvent += value; }
             remove { roleBeforeDieEvent -= value; }
         }
-        public Action roleAfterDieEvent;
-        public event Action RoleAfterDieEvent
+        Action<BattleCharacterEntity, ISkillAdditionData> roleAfterDieEvent;
+        public event Action< BattleCharacterEntity, ISkillAdditionData> RoleAfterDieEvent
         {
             add { roleAfterDieEvent += value; }
             remove { roleAfterDieEvent -= value; }
@@ -113,6 +114,70 @@ namespace AscensionServer
             battleBuffObjDict[battleBuffObj.BattleBuffData.buffCoverType].Remove(battleBuffObj);
             CosmosEntry.ReferencePoolManager.Despawn(battleBuffObj);
         }
+
+        #region 事件触发
+        public ISkillAdditionData TriggerBuffEventAfterPropertyChange(BattleCharacterEntity target=null)
+        {
+            ISkillAdditionData skillAdditionData = new SkillAdditionData();
+            afterPropertyChangeEvent?.Invoke(target,skillAdditionData);
+            return skillAdditionData;
+        }
+        public ISkillAdditionData TriggerBuffEventBerforeUseSkill(BattleCharacterEntity target = null)
+        {
+            ISkillAdditionData skillAdditionData = new SkillAdditionData();
+            beforeUseSkill?.Invoke( target, skillAdditionData);
+            return skillAdditionData;
+        }
+        public ISkillAdditionData TriggerBuffEventBeforeAllocationAction( BattleCharacterEntity target = null)
+        {
+            ISkillAdditionData skillAdditionData = new SkillAdditionData();
+            beforeAllocationActionEvent?.Invoke( target, skillAdditionData);
+            return skillAdditionData;
+        }
+        public ISkillAdditionData TriggerBuffEventBeforeAttack(BattleCharacterEntity target = null)
+        {
+            ISkillAdditionData skillAdditionData = new SkillAdditionData();
+            beforeAttackEvent?.Invoke( target, skillAdditionData);
+            return skillAdditionData;
+        }
+        public ISkillAdditionData TriggerBuffEventBehindAttack( BattleCharacterEntity target = null)
+        {
+            ISkillAdditionData skillAdditionData = new SkillAdditionData();
+            behindAttackEvent?.Invoke( target, skillAdditionData);
+            return skillAdditionData;
+        }
+        public ISkillAdditionData TriggerBuffEventBehindUseSkill( BattleCharacterEntity target = null)
+        {
+            ISkillAdditionData skillAdditionData = new SkillAdditionData();
+            behindUseSkill?.Invoke( target, skillAdditionData);
+            return skillAdditionData;
+        }
+        public ISkillAdditionData TriggerBuffEventBeforeOnHit(BattleCharacterEntity target = null)
+        {
+            ISkillAdditionData skillAdditionData = new SkillAdditionData();
+            beforeOnHitEvent?.Invoke(target, skillAdditionData);
+            return skillAdditionData;
+        }
+        public ISkillAdditionData TriggerBuffEventBehindOnHit(BattleCharacterEntity target = null)
+        {
+            ISkillAdditionData skillAdditionData = new SkillAdditionData();
+            behindOnHitEvent?.Invoke( target, skillAdditionData);
+            return skillAdditionData;
+        }
+        public ISkillAdditionData TriggerBuffEventBehindRoleDie(BattleCharacterEntity target = null)
+        {
+            ISkillAdditionData skillAdditionData = new SkillAdditionData();
+            roleBeforeDieEvent?.Invoke( target, skillAdditionData);
+            return skillAdditionData;
+        }
+        public ISkillAdditionData TriggerBuffEventAfterRoleDie( BattleCharacterEntity target = null)
+        {
+            ISkillAdditionData skillAdditionData = new SkillAdditionData();
+            roleAfterDieEvent?.Invoke( target, skillAdditionData);
+            return skillAdditionData;
+        }
+        #endregion
+
         // <summary>
         // buff覆盖的处理
         // </summary>

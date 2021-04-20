@@ -3434,14 +3434,30 @@
             全局技能Id
             </summary>
         </member>
+        <member name="M:AscensionServer.BattleBuffEventBase.Trigger(AscensionServer.BattleCharacterEntity,AscensionServer.ISkillAdditionData)">
+            <summary>
+            具体buff触发事件实现
+            </summary>
+            <param name="skillAdditionData">用于记录临时的加成数据，比如技能加成</param>
+        </member>
         <member name="M:AscensionServer.BattleBuffEventBase.SetValue(AscensionServer.BattleBuffEventData,AscensionServer.BattleSkillAddBuffValue)">
             <summary>
             buff覆盖时重新设置buff参数
             </summary>
         </member>
+        <member name="T:AscensionServer.BattleBuffEvent_ChangeBuffProperty">
+            <summary>
+            改变buff属性
+            </summary>
+        </member>
         <member name="T:AscensionServer.BattleBuffEvent_ChangeProperty">
             <summary>
             改变角色属性事件
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleBuffEvent_UseDesignateSkill">
+            <summary>
+            使用指定技能
             </summary>
         </member>
         <member name="T:AscensionServer.BattleBuffObj">
@@ -3482,6 +3498,11 @@
         <member name="P:AscensionServer.BattleCharacterEntity.CharacterBattleData">
             <summary>
             属性数据
+            </summary>
+        </member>
+        <member name="P:AscensionServer.BattleCharacterEntity.BattleDamageData">
+            <summary>
+            造成或受到的伤害数据
             </summary>
         </member>
         <member name="M:AscensionServer.BattleCharacterEntity.SetFriendAndEnemy(System.Collections.Generic.List{AscensionServer.BattleCharacterEntity},System.Collections.Generic.List{AscensionServer.BattleCharacterEntity})">

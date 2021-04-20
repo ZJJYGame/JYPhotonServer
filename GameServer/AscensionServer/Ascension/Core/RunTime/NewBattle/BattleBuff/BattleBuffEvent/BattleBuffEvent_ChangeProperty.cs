@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cosmos;
+using AscensionProtocol.DTO;
 
 namespace AscensionServer
 {
@@ -57,7 +58,7 @@ namespace AscensionServer
                     owner.BattleBuffController.RoleAfterDieEvent += Trigger;
                     break;
                 case BattleBuffTriggerTime.RoundEnd:
-                    battleBuffObj.BattleController.RoundStartEvent += Trigger;
+                    battleBuffObj.BattleController.RoundEndEvent += Trigger;
                     break;
                 case BattleBuffTriggerTime.BuffRemove:
                     break;
@@ -71,7 +72,7 @@ namespace AscensionServer
             switch (battleBuffTriggerTime)
             {
                 case BattleBuffTriggerTime.BuffAdd:
-                    battleBuffObj.BuffAddEvent += Trigger;
+                    battleBuffObj.BuffAddEvent -= Trigger;
                     owner.BattleBuffController.AfterPropertyChangeEvent -= Trigger;
                     break;
                 case BattleBuffTriggerTime.RoundStart:
@@ -104,7 +105,7 @@ namespace AscensionServer
                     owner.BattleBuffController.RoleAfterDieEvent -= Trigger;
                     break;
                 case BattleBuffTriggerTime.RoundEnd:
-                    battleBuffObj.BattleController.RoundStartEvent -= Trigger;
+                    battleBuffObj.BattleController.RoundEndEvent -= Trigger;
                     break;
                 case BattleBuffTriggerTime.BuffRemove:
                     break;
@@ -113,7 +114,7 @@ namespace AscensionServer
             battleBuffObj.BuffCoverEvent -= RecoverEventMethod;
         }
 
-        protected override void TriggerEventMethod()
+        protected override void TriggerEventMethod(BattleCharacterEntity target, ISkillAdditionData skillAdditionData)
         {
             float  nowChangeValue = owner.CharacterBattleData.GetBaseProperty(buffRolePropertyChange_SourceDataType, battleBuffObj.OwnerSkill) * percentValue / 100 + fixedValue;
             nowChangeValue = nowChangeValue * OverlayLayer*triggerCount;

@@ -318,9 +318,9 @@ namespace AscensionServer
         {
             switch (buffEventSet[i].buffPropertyChangeType)
             {
-                case BuffEvent_PropertyChangeType.TakeDamage:
+                case BuffEvent_PropertyChangeType.DamageAddition:
                     break;
-                case BuffEvent_PropertyChangeType.ReceiveDamage:
+                case BuffEvent_PropertyChangeType.DamageDeduction:
                     break;
                 case BuffEvent_PropertyChangeType.IgnoreDefend:
                     break;

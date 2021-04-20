@@ -144,6 +144,7 @@ namespace AscensionServer
             }
         }
 
+
         /// <summary>
         /// 获取基础对应属性
         /// </summary>
@@ -216,7 +217,7 @@ namespace AscensionServer
                     soul = soul > MaxSoul ? MaxSoul : soul;
                     break;
             }
-            owner.BattleBuffController.afterPropertyChangeEvent?.Invoke();
+            owner.BattleBuffController.TriggerBuffEventAfterPropertyChange();
         }
 
         public void Init(RoleStatus roleStatus, BattleCharacterEntity owner)

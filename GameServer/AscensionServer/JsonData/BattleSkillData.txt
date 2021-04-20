@@ -3,7 +3,7 @@
             "name": "普攻",
             "id": 21001,
             "describe": "随便打一下",
-            "TargetNumber": 3,
+            "TargetNumber": 1,
             "damageAddition": 0,
             "critProp": 0,
             "critDamage": 0,
@@ -27,70 +27,12 @@
                         {
                             "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
-                            "mulitity": 10000
-                        },
-						{
-                            "battleSkillDamageTargetProperty": 0,
-                            "battleSkillNumSourceType": 7,
-                            "mulitity": 10000
-                        },
-						{
-                            "battleSkillDamageTargetProperty": 0,
-                            "battleSkillNumSourceType": 7,
-                            "mulitity": 10000
+                            "mulitity": 100
                         }
                     ],
                     "extraDamageAdditionSourceTarget": false,
                     "extraNumSourceData": []
-                },
-				 {
-                    "battleSkillDamageType": 0,
-                    "fixedNum": 0,
-                    "baseDamageAdditionSourceTarget": false,
-                    "baseNumSourceDataList": [
-                        {
-                            "battleSkillDamageTargetProperty": 0,
-                            "battleSkillNumSourceType": 7,
-                            "mulitity": 10000
-                        },
-						{
-                            "battleSkillDamageTargetProperty": 0,
-                            "battleSkillNumSourceType": 7,
-                            "mulitity": 10000
-                        },
-						{
-                            "battleSkillDamageTargetProperty": 0,
-                            "battleSkillNumSourceType": 7,
-                            "mulitity": 10000
-                        }
-                    ],
-                    "extraDamageAdditionSourceTarget": false,
-                    "extraNumSourceData": []
-                },
-				 {
-                    "battleSkillDamageType": 0,
-                    "fixedNum": 0,
-                    "baseDamageAdditionSourceTarget": false,
-                    "baseNumSourceDataList": [
-                        {
-                            "battleSkillDamageTargetProperty": 0,
-                            "battleSkillNumSourceType": 7,
-                            "mulitity": 10000
-                        },
-						{
-                            "battleSkillDamageTargetProperty": 0,
-                            "battleSkillNumSourceType": 7,
-                            "mulitity": 10000
-                        },
-						{
-                            "battleSkillDamageTargetProperty": 0,
-                            "battleSkillNumSourceType": 7,
-                            "mulitity": 10000
-                        }
-                    ],
-                    "extraDamageAdditionSourceTarget": false,
-                    "extraNumSourceData": []
-                }         
+                }
             ],
             "battleSkillAddBuffList": [ ],
             "battleSkillRemoveBuffDataList": [],
@@ -138,11 +80,11 @@
             ],
             "battleSkillAddBuffList": [{
                     "buffId": 20301,
-                    "round": 4,
+                    "round": 99,
                     "TargetType": false,
                     "battleSkillAddBuffValueList":[{
 					"percentValue":0,
-					"fixedValue":10
+					"fixedValue":0
 					}],
                     "basePropList": [
                         100
@@ -183,9 +125,9 @@
                 "battleSkillUseConditionType": 0,
                 "value": 0
             },
-            "battleSkillFactionType": 0,
+            "battleSkillFactionType": 1,
             "battleSkillTargetType": 0,
-            "battleSkillActionType": 0,
+            "battleSkillActionType": 1,
             "attackProcessType": 1,
             "battleSkillDamageNumDataList": [
                 {
@@ -196,22 +138,22 @@
                         {
                             "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
-                            "mulitity": 70
+                            "mulitity": 7000
                         },
                         {
                             "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
-                            "mulitity": 70
+                            "mulitity": 7000
                         },
                         {
                             "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
-                            "mulitity": 70
+                            "mulitity": 7000
                         },
                         {
                             "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
-                            "mulitity": 70
+                            "mulitity": 7000
                         }
                     ],
                     "extraDamageAdditionSourceTarget": false,
