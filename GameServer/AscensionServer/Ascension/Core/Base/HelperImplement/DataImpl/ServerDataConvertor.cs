@@ -137,7 +137,18 @@ namespace AscensionServer
                 var puppetAssembleDataDict = TransObject<List<PuppetAssembleData>>(puppetAssembleData).ToDictionary(key => key.PuppetID, value => value);
 
                 GameEntry.DataManager.TryGetValue(typeof(RepairPuppetData).Name, out var repairPuppetData);
-                var repairPuppetDataDict = TransObject<List<RepairPuppetData>>(repairPuppetData).ToDictionary(key => key.PuppetID, value => value);               
+                var repairPuppetDataDict = TransObject<List<RepairPuppetData>>(repairPuppetData).ToDictionary(key => key.PuppetID, value => value);
+
+                GameEntry.DataManager.TryGetValue(typeof(PassiveSkillsWeapon).Name, out var passiveSkillsWeapon);
+                var passiveSkillsWeaponDict = TransObject<List<PassiveSkillsWeapon>>(passiveSkillsWeapon).ToDictionary(key => key.SkillID, value => value);
+
+                GameEntry.DataManager.TryGetValue(typeof(PassiveSkillsRole).Name, out var passiveSkillsRole);
+                var passiveSkillsRoleDict = TransObject<List<PassiveSkillsRole>>(passiveSkillsRole).ToDictionary(key => key.SkillID, value => value);
+
+                //GameEntry.DataManager.TryGetValue(typeof(PassiveSkillsPet).Name, out var passiveSkillsPet);
+                //Utility.Debug.LogError(typeof(PassiveSkillsPet).Name);
+                //var passiveSkillsPetDict = TransObject<List<PassiveSkillsPet>>(passiveSkillsPet).ToDictionary(key => key.SkillID, value => value);
+
                 #region 背包json
                 GameEntry. DataManager.TryGetValue(typeof(ItemBagBaseData).Name, out var itemBagData);
                 var itemBagDict = TransObject<List<ItemBagBaseData>>(itemBagData).ToDictionary(key => key.ItemID, value => value);
@@ -155,7 +166,7 @@ namespace AscensionServer
 
 
                 GameEntry. DataManager.TryGetValue(typeof(GongFaBook).Name, out var gongfaBookSet);
-                var gfbDict = TransObject<List<GongFaBook>>(gongfaBookSet).ToDictionary(key => key.Book_ID, value => value);
+                var gfbDict = TransObject<List<GongFaBook>>(gongfaBookSet).ToDictionary(key => key.BookID, value => value);
 
                 GameEntry. DataManager.TryGetValue(typeof(GongFa).Name, out var gongfaSet);
                 var gfDict = TransObject<List<GongFa>>(gongfaSet).ToDictionary(key => key.Gongfa_ID, value => value);
@@ -184,6 +195,9 @@ namespace AscensionServer
                 GameEntry. DataManager.TryGetValue(typeof(BattleBuffData).Name, out var battleSBuffSet);
                 var battleBuffDict = TransObject<List<BattleBuffData>>(battleSBuffSet).ToDictionary(key => key.id, value => value);
                 #endregion
+                //GameEntry.DataManager.TryAdd(passiveSkillsPetDict);
+                GameEntry.DataManager.TryAdd(passiveSkillsRoleDict);
+                GameEntry.DataManager.TryAdd(passiveSkillsWeaponDict);
                 GameEntry.DataManager.TryAdd(repairPuppetDataDict);
                 GameEntry.DataManager.TryAdd(puppetAssembleDataDict);
                 GameEntry.DataManager.TryAdd(puppetUnitParameterDict);

@@ -211,8 +211,8 @@ namespace AscensionServer
             if (allianceExist && assestExist&& roleExist)
             {
                 var alliance = RedisHelper.Hash.HashGetAsync<AllianceStatus>(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString()).Result;
-                var assest = RedisHelper.Hash.HashGetAsync<RoleAssets>(RedisKeyDefine._AllianceConstructionPerfix, statusDTO.ID.ToString()).Result;
-                var role = RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, statusDTO.ID.ToString()).Result;
+                var assest = RedisHelper.Hash.HashGetAsync<RoleAssets>(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString()).Result;
+                var role = RedisHelper.Hash.HashGetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString()).Result;
                 if (alliance != null && assest != null&& role!=null)
                 {
                     if (role.AllianceJob==937)
@@ -226,7 +226,7 @@ namespace AscensionServer
                             dict.Add((byte)ParameterCode.AllianceStatus, alliance);
                             RoleStatusSuccessS2C(roleID, AllianceOpCode.ChangeAllianceName, dict);
 
-                            await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AllianceConstructionPerfix, statusDTO.ID.ToString(), assest);
+                            await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAssetsPerfix, statusDTO.ID.ToString(), assest);
                             await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString(), alliance);
                             await NHibernateQuerier.UpdateAsync(alliance);
                             await NHibernateQuerier.UpdateAsync(assest);
@@ -328,7 +328,7 @@ namespace AscensionServer
                         dict.Add((byte)ParameterCode.AllianceStatus, alliance);
                         RoleStatusSuccessS2C(roleID, AllianceOpCode.ChangeAllianceName, dict);
 
-                        await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AllianceConstructionPerfix, statusDTO.ID.ToString(), assest);
+                        await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAssetsPerfix, statusDTO.ID.ToString(), assest);
                         await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString(), alliance);
                         await NHibernateQuerier.UpdateAsync(alliance);
                         await NHibernateQuerier.UpdateAsync(assest);

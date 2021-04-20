@@ -63,7 +63,7 @@ namespace AscensionServer
             opData.OperationCode = (byte)OperationCode.SyncPetStatus;
             opData.ReturnCode = (byte)returnCode;
             GameEntry.RoleManager.SendMessage(roleid, opData);
-            Utility.Debug.LogInfo("yzqData变更宠物加点发送了");
+            Utility.Debug.LogInfo("yzqData变更宠物加点发送了"+ s2cMessage);
         }
 
         public void S2CPetStudySkill(int roleid, string s2cMessage, ReturnCode returnCode)

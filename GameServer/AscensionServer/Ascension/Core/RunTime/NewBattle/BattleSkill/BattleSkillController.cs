@@ -41,33 +41,66 @@ namespace AscensionServer
             {
                 targetCharacterList.Add(GameEntry.BattleCharacterManager.GetCharacterEntity(targetIdList[i]));
             }
+            //使用技能前buff事件处理
+            ISkillAdditionData buffBeforeUseSkillAddition = owner.BattleBuffController.TriggerBuffEventBerforeUseSkill();
 
             if (battleSkill.AttackProcess_Type == AttackProcess_Type.SingleUse)//所有目标的伤害一次性打完
             {
                 for (int i = 0; i < battleSkill.AttackSectionNumber; i++)
                 {
+                    //判断所有目标是否全部死亡
+                    bool flag = false;
+                    for (int j = 0; j < targetCharacterList.Count; j++)
+                    {
+                        flag = battleSkill.CanUseSkill(targetCharacterList[j]) || flag;
+                    }
+                    if (!flag)
+                        continue;
+
                     List<BattleDamageData> battleDamageDataList = new List<BattleDamageData>();
                     BattleTransferDTO battleTransferDTO = new BattleTransferDTO();
                     battleTransferDTOList.Add(battleTransferDTO);
+                    //每段攻击前buff事件处理
+                    ISkillAdditionData buffBeforeAtkAddition= owner.BattleBuffController.TriggerBuffEventBeforeAttack();
                     for (int j = 0; j < targetCharacterList.Count; j++)
                     {
-                        //技能加成重置
-                        battleSkill.ClearSkillAddition();
+                        if (!battleSkill.CanUseSkill(targetCharacterList[j]))
+                        {
+                            owner.BattleDamageData = null;
+                            targetCharacterList[j].BattleDamageData = null;
+                            continue;
+                        }
+
                         //暴击判断
                         BattleDamageData battleDamageData = battleSkill.IsCrit(i, targetCharacterList[j]);
+                        owner.BattleDamageData = battleDamageData;
+                        targetCharacterList[j].BattleDamageData = battleDamageData;
                         //攻击前技能事件触发
-                        battleSkill.TriggerSkillEventBeforeAttack(battleTransferDTOList, battleDamageData);
+                        ISkillAdditionData skillBeforeAtkAddition = battleSkill.TriggerSkillEventBeforeAttack(battleTransferDTOList, battleDamageData);
+                        battleDamageData.AddActorSkillAddition(buffBeforeUseSkillAddition, buffBeforeAtkAddition, skillBeforeAtkAddition);
                         //获得伤害数据
                         battleDamageData = battleSkill.GetDamageData(i, j, targetCharacterList[j], battleDamageData);
                         if (battleDamageData != null)
                             battleDamageDataList.Add(battleDamageData);
                     }
+
+                    //受击前buff事件处理
+                    for (int j = 0; j < targetCharacterList.Count; j++)
+                    {
+                        ISkillAdditionData buffBeforOnHitAddition= targetCharacterList[j].BattleBuffController.TriggerBuffEventBeforeOnHit();
+                        if (targetCharacterList[j].BattleDamageData != null)
+                        {
+                            targetCharacterList[j].BattleDamageData.AddtargetSkillAddition(buffBeforOnHitAddition);
+                        }
+                    }
+
                     //todo伤害结算
                     for (int j = 0; j < battleDamageDataList.Count; j++)
                     {
                         GameEntry.BattleCharacterManager.GetCharacterEntity(battleDamageDataList[j].TargetID).OnActionEffect(battleDamageDataList[j]);
                     }
-  
+
+
                     List<TargetInfoDTO> targetInfoDTOs= GetTargetInfoDTOList(battleDamageDataList);
                     if (battleTransferDTO.TargetInfos != null)
                         battleTransferDTO.TargetInfos.AddRange(targetInfoDTOs);
@@ -79,13 +112,26 @@ namespace AscensionServer
                     if (battleTransferDTO.TargetInfos == null)
                         battleTransferDTOList.Remove(battleTransferDTO);
 
+                    //受击后buff事件处理
+                    for (int j = 0; j < targetCharacterList.Count; j++)
+                    {
+                        targetCharacterList[j].BattleBuffController.TriggerBuffEventBehindOnHit();
+                    }
+
+                    //每段攻击后buff事件结算
+                    owner.BattleBuffController.TriggerBuffEventBehindAttack();
                     for (int j = 0; j < battleDamageDataList.Count; j++)
                     {
                         //攻击后技能事件结算
                         battleSkill.TriggerSkillEventBehindAttack(battleTransferDTOList, battleDamageDataList[j]);
                     }
                 }
+                //添加buff
+                battleSkill.AddAllBuff(targetCharacterList);
                 //todo受击后反应
+
+                //使用技能后buff事件处理
+                owner.BattleBuffController.TriggerBuffEventBehindUseSkill();
                 return battleTransferDTOList;
             }
             else//所有目标的伤害分阶段打完
@@ -96,16 +142,28 @@ namespace AscensionServer
                    
                     for (int j = 0; j < targetCharacterList.Count; j++)
                     {
+                        if (!battleSkill.CanUseSkill(targetCharacterList[j]))
+                            continue;
+
                         BattleTransferDTO battleTransferDTO = new BattleTransferDTO();
                         battleTransferDTOList.Add(battleTransferDTO);
-                        battleSkill.ClearSkillAddition();
+                        //每段攻击前buff事件处理
+                        owner.BattleBuffController.TriggerBuffEventBeforeAttack();
+
                         BattleDamageData battleDamageData = battleSkill.IsCrit(i, targetCharacterList[j]);
                         battleSkill.TriggerSkillEventBeforeAttack(battleTransferDTOList, battleDamageData);
                         battleDamageData = battleSkill.GetDamageData(i, j, targetCharacterList[j], battleDamageData);
-                        if (battleDamageData == null)
+                        if (battleDamageData == null)//根本没有打，移除传输事件
+                        {
+                            battleTransferDTOList.Remove(battleTransferDTO);
                             continue;
+                        }
+                        //受击前buff事件处理
+                        targetCharacterList[j].BattleBuffController.TriggerBuffEventBeforeOnHit();
+
                         battleDamageDataList.Add(battleDamageData);
                         GameEntry.BattleCharacterManager.GetCharacterEntity(battleDamageData.TargetID).OnActionEffect(battleDamageData);
+
 
                         List<TargetInfoDTO> targetInfoDTOs= GetTargetInfoDTOList(new List<BattleDamageData>() { battleDamageData });
                         if (battleTransferDTO.TargetInfos != null)
@@ -117,14 +175,28 @@ namespace AscensionServer
                         battleTransferDTO.ClientCmdId = battleSkill.SkillID;
                         if (battleTransferDTO.TargetInfos == null)
                             battleTransferDTOList.Remove(battleTransferDTO);
+
+                        //受击后buff事件处理
+                        targetCharacterList[j].BattleBuffController.TriggerBuffEventBehindOnHit();
+
+                        //每段攻击后buff事件结算
+                        owner.BattleBuffController.TriggerBuffEventBehindAttack();
+
                         battleSkill.TriggerSkillEventBehindAttack(battleTransferDTOList, battleDamageData);
                     }
 
 
                 }
 
+                //添加buff
+                battleSkill.AddAllBuff(targetCharacterList);
+
+                //使用技能后buff事件处理
+                owner.BattleBuffController.TriggerBuffEventBehindUseSkill();
+
                 return battleTransferDTOList;
             }
+
         }
 
         //将伤害数据转换为发送数据

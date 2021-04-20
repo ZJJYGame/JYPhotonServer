@@ -103,6 +103,7 @@
     <Compile Include="DTO\RoleEquipmentDTO.cs" />
     <Compile Include="DTO\RolePuppetDTO.cs" />
     <Compile Include="DTO\RolePurchaseRecordDTO.cs" />
+    <Compile Include="DTO\RoleStatusAdditionDTO.cs" />
     <Compile Include="DTO\RoleStatusPointDTO.cs" />
     <Compile Include="DTO\SecondaryJobDTO.cs" />
     <Compile Include="DTO\ShoppingMallDTO.cs" />

@@ -12,32 +12,47 @@ namespace AscensionServer
         public string name;
         public int id;
         public string describe;
-        public BattleBuffTriggerTime battleBuffTriggerTime;
-        public int probability;
+        public int coldTime;
+        //[Header("Buff覆盖类型")]
+        public BuffCoverType buffCoverType;
+        //[Header("Buff层级")]
+        public int buffLayer;
+        public int maxSuperpositionCount;
         //[Header("BUFF触发条件列表")]
         public List<BattleBuffTriggerCondition> battleBuffTriggerConditionList;
         //[Header("BUFF触发事件列表")]
         public List<BattleBuffEventData> battleBuffEventDataList;
 
-        /// <summary>
-        /// 用于面板显示，不用做数据
-        /// </summary>
-        //[HideInInspector]
-        public bool isShow;
+
+    }
+
+    //一、属性（包括护盾）类：相同BUFFID的效果覆盖，不同BUFFID的效果叠加
+    //二、异常类：高等级覆盖低等级，同类型高等级BUFF存在时低等级无法添加
+    public enum BuffCoverType : byte
+    {
+        Property = 0,
+        Bleed = 1,
+        Burn = 2,
+        Poisoning = 3,
+        Frozen = 4,
     }
 
 
-
-    public enum BattleBuffTriggerTime
+    public enum BattleBuffTriggerTime : byte
     {
         BuffAdd = 0,
         RoundStart = 1,
-        RoleAttack = 2,
-        RoleOnHit = 3,
-        RoleBeforeDie = 4,
-        RoleAfterDie = 5,
-        RoundEnd = 7,
-        BuffRemove = 8,
+        BeforeAllocation = 2,
+        BeforeUseSkill = 3,
+        BeforeAttack = 4,
+        BehindAttack = 5,
+        BehindUseSkill = 6,
+        BeforeOnHit = 7,
+        BehindOnHit = 8,
+        RoleBeforeDie = 9,
+        RoleAfterDie = 10,
+        RoundEnd = 11,
+        BuffRemove = 12,
     }
 
     #region BattleBuffTriggerCondition
@@ -192,7 +207,7 @@ namespace AscensionServer
     [Serializable]
     public class BattleBuffEventData
     {
-       // [Header("事件附带的触发条件")]
+        //[Header("事件附带的触发条件")]
         /// <summary>
         /// 每个事件可能有一个附加的触发条件
         /// </summary>
@@ -200,10 +215,14 @@ namespace AscensionServer
         //[header("9、takehurtforother(替他人承担伤害)；10、addbuff(施加buff)；11、dispelbuff(驱散buff)；12、resurgence(无法复活)")]
         //[header("5、usedesignateskill(使用指定技能)；6、damageorheal(伤害或治疗)；7、shield(护盾)；8、damagereduce(该次伤害减免)；")]
         //[header("1、rolepropertychange(角色属性变动)；2、buffpropertychange(buff属性变动)；3、forbiddenbuff(禁用buff)；4、rolestatechange(角色状态改变)；")]
-       // [Header("事件类型:")]
+
+        public int probability;
+        public int maxTriggerCount;
+
+        public BattleBuffTriggerTime battleBuffTriggerTime;
 
         public BattleBuffEventType battleBuffEventType;
-
+        //[Header("事件类型:")]
         public BattleBuffEventType_RolePropertyChange battleBuffEventType_RolePropertyChange;
         public BuffEvent_RolePropertyChange_SourceDataType buffRolePropertyChange_SourceDataType;
         public BuffEvent_PropertyChangeType buffPropertyChangeType;
@@ -293,14 +312,15 @@ namespace AscensionServer
         MagicDefend,
         TakeDamage,
         SkillDamage,
+        AttackSpeed,
     }
     /// <summary>
     /// buff事件：buff属性改变类型
     /// </summary>
     public enum BuffEvent_PropertyChangeType : byte
     {
-        TakeDamage,
-        ReceiveDamage,
+        DamageAddition,
+        DamageDeduction,
         IgnoreDefend,
         BasicDodgeRate
 

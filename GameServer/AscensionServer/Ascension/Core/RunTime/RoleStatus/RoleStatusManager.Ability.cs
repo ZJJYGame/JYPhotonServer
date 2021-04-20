@@ -47,17 +47,22 @@ namespace AscensionServer
             if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString()).Result&& result)
             {
                 var pointObj = RedisHelper.Hash.HashGetAsync<RoleStatusPointDTO>(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString()).Result;
-                var roleStatusObj = RedisHelper.Hash.HashGetAsync<RoleStatusDTO>(RedisKeyDefine._RoleStatsuPerfix, pointDTO.RoleID.ToString()).Result;
+                var roleStatusObj = RedisHelper.Hash.HashGetAsync<RoleStatus>(RedisKeyDefine._RoleStatsuPerfix, pointDTO.RoleID.ToString()).Result;
 
                 var obj = RolePointCalculate(pointObj, pointDTO);
                 if (obj != null&& roleStatusObj!=null)
                 {
+                 var status= await  GameEntry.practiceManager.RoleAblility(obj, roleStatusObj);
                     Dictionary<byte, object> dataDict = new Dictionary<byte, object>();
-                    dataDict.Add((byte)ParameterCode.RoleStatus, roleStatusObj);
+                    dataDict.Add((byte)ParameterCode.RoleStatus, status);
                     dataDict.Add((byte)ParameterCode.RoleStatusPoint, pointObj);
                     RoleStatusSuccessS2C(pointDTO.RoleID, RoleStatusOpCode.SetAddPoint, dataDict);
+                    Utility.Debug.LogError(Utility.Json.ToJson(status));
                     await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString(), obj);
                     await NHibernateQuerier.UpdateAsync(ChangeRoleStatusPointType(obj));
+
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleStatsuPerfix, pointDTO.RoleID.ToString(), status);
+                    await NHibernateQuerier.UpdateAsync(status);
                 }
                 else
                     SetRolePointMySql(pointDTO);
@@ -102,6 +107,7 @@ namespace AscensionServer
             NHCriteria nHCriteriaRoleStatue = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", pointDTO.RoleID);
             int point = 0;
             var rolePoint = NHibernateQuerier.CriteriaSelect<RoleStatusPoint>(nHCriteriaRoleStatue);
+            var roleStatus= NHibernateQuerier.CriteriaSelect<RoleStatus>(nHCriteriaRoleStatue);
             var role = NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRoleStatue);
             if (rolePoint != null && role != null)
             {
@@ -134,9 +140,17 @@ namespace AscensionServer
                     ability.Agility = 0;
                     obj.AbilityPointSln[pointDTO.SlnNow] = ability;
                     Utility.Debug.LogInfo("YZQ重置加点为" + Utility.Json.ToJson(obj));
-                    RoleStatusSuccessS2C(pointDTO.RoleID, RoleStatusOpCode.RestartAddPoint, obj);
+
+                    var status = await GameEntry.practiceManager.RoleAblility(obj, roleStatus);
+                    Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                    dict.Add((byte)ParameterCode.RoleStatus, status);
+                    dict.Add((byte)ParameterCode.RoleStatusPoint, obj);
+                    RoleStatusSuccessS2C(pointDTO.RoleID, RoleStatusOpCode.RestartAddPoint, dict);
                     await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString(), obj);
                     await NHibernateQuerier.UpdateAsync(ChangeRoleStatusPointType(obj));
+
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleStatsuPerfix, pointDTO.RoleID.ToString(), status);
+                    await NHibernateQuerier.UpdateAsync(status);
                 }
                 else
                     RoleStatusFailS2C(pointDTO.RoleID, RoleStatusOpCode.SetAddPoint);
@@ -170,24 +184,28 @@ namespace AscensionServer
 
        async  void SetRolePointMySql(RoleStatusPointDTO pointDTO)
         {
-            Utility.Debug.LogInfo("YZQ设置加点数据1" + Utility.Json.ToJson(pointDTO.RoleID));
             NHCriteria nHCriteriaRoleStatue = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", pointDTO.RoleID);
-            Utility.Debug.LogInfo("YZQ设置加点数2" + Utility.Json.ToJson(pointDTO.RoleID));
             var rolePoint = NHibernateQuerier.CriteriaSelect<RoleStatusPoint>(nHCriteriaRoleStatue);
-            if (rolePoint != null)
+            var roleStatus= NHibernateQuerier.CriteriaSelect<RoleStatus>(nHCriteriaRoleStatue);
+            if (rolePoint != null&& roleStatus!=null)
             {
                 var obj = ChangeRoleStatusPointType(rolePoint);
                 Utility.Debug.LogInfo("YZQ设置加点数据3" + (obj != null));
                 var pointObj = RolePointCalculate(obj, pointDTO);
                 if (pointObj != null)
                 {
+                    var status = await GameEntry.practiceManager.RoleAblility(obj, roleStatus);
+
                     Dictionary<byte, object> dataDict = new Dictionary<byte, object>();
-                    dataDict.Add((byte)ParameterCode.RoleStatus,new RoleStatusDTO());
+                    dataDict.Add((byte)ParameterCode.RoleStatus, status);
                     dataDict.Add((byte)ParameterCode.RoleStatusPoint, pointObj);
                     RoleStatusSuccessS2C(pointDTO.RoleID, RoleStatusOpCode.SetAddPoint, dataDict);
                     Utility.Debug.LogInfo("YZQ设置加点数据发送成功2" + Utility.Json.ToJson(dataDict));
                     await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString(), pointObj);
                     await NHibernateQuerier.UpdateAsync(ChangeRoleStatusPointType(pointObj));
+
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleStatsuPerfix, pointDTO.RoleID.ToString(), status);
+                    await NHibernateQuerier.UpdateAsync(status);
                 }
                 else
                     RoleStatusFailS2C(pointDTO.RoleID, RoleStatusOpCode.SetAddPoint);
@@ -209,10 +227,10 @@ namespace AscensionServer
             {
                 var result = pointObj.AbilityPointSln.TryGetValue(pointDTO.SlnNow, out var ability);
                 var exist = pointDTO.AbilityPointSln.TryGetValue(pointDTO.SlnNow, out var abilityDTO);
-                Utility.Debug.LogInfo("YZQ设置加点数据4" + Utility.Json.ToJson(ability));
                 if (result && exist)
                 {
                     var num = abilityDTO.Agility + abilityDTO.Corporeity + abilityDTO.Power + abilityDTO.Soul + abilityDTO.Stamina + abilityDTO.Strength;
+                    Utility.Debug.LogInfo("YZQ设置加点数据客户端点数" + num+"剩余点数"+ ability.SurplusAptitudePoint);
                     if (ability.SurplusAptitudePoint >= num)
                     {
                         ability.SurplusAptitudePoint -= num;
@@ -224,6 +242,7 @@ namespace AscensionServer
                         ability.Strength += abilityDTO.Strength;
                         pointObj.AbilityPointSln[pointDTO.SlnNow] = ability;
                         pointObj.SlnNow = pointDTO.SlnNow;
+                        Utility.Debug.LogInfo("剩余点数" + ability.SurplusAptitudePoint);
                         return pointObj;
                     }
                     else

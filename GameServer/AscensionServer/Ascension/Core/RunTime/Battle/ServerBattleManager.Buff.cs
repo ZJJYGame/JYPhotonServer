@@ -29,36 +29,36 @@ namespace AscensionServer
             if (!buffDict.ContainsKey(buffId))
                 return;
             var tempSelect = RandomManager(og, 0, 100);
-            if (buffDict[buffId].probability == 100 || buffDict[buffId].probability >= tempSelect)
-            {
-                ///buff  时机
-                switch (buffDict[buffId].battleBuffTriggerTime)
-                {
-                    case BattleBuffTriggerTime.BuffAdd://这个buff添加
-                        BuffConditionMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, isSelf);
-                        break;
-                    case BattleBuffTriggerTime.RoundStart:
-                        BuffConditionMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, isSelf);
-                        break;
-                    case BattleBuffTriggerTime.RoleAttack:
+            //if (buffDict[buffId].probability == 100 || buffDict[buffId].probability >= tempSelect)
+            //{
+            //    ///buff  时机
+            //    switch (buffDict[buffId].battleBuffTriggerTime)
+            //    {
+            //        case BattleBuffTriggerTime.BuffAdd://这个buff添加
+            //            BuffConditionMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, isSelf);
+            //            break;
+            //        case BattleBuffTriggerTime.RoundStart:
+            //            BuffConditionMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, isSelf);
+            //            break;
+            //        case BattleBuffTriggerTime.RoleAttack:
 
-                        break;
-                    case BattleBuffTriggerTime.RoleOnHit:
-                        break;
-                    case BattleBuffTriggerTime.RoleBeforeDie:
-                        break;
-                    case BattleBuffTriggerTime.RoleAfterDie:
-                        break;
-                    case BattleBuffTriggerTime.RoundEnd:
-                        BuffConditionMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, isSelf);
-                        break;
-                    case BattleBuffTriggerTime.BuffRemove:  //buff 移除还没处理这个地方
-                        break;
-                }
+            //            break;
+            //        case BattleBuffTriggerTime.RoleOnHit:
+            //            break;
+            //        case BattleBuffTriggerTime.RoleBeforeDie:
+            //            break;
+            //        case BattleBuffTriggerTime.RoleAfterDie:
+            //            break;
+            //        case BattleBuffTriggerTime.RoundEnd:
+            //            BuffConditionMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, isSelf);
+            //            break;
+            //        case BattleBuffTriggerTime.BuffRemove:  //buff 移除还没处理这个地方
+            //            break;
+            //    }
                 
-                bufferSet.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = buffId, targetId = isSelf == false ? currentId : enemySetObject == null ? currentId : enemySetObject.EnemyStatusDTO.EnemyId, RoundNumber = numRounder, percentValue = buffDict[buffId].battleBuffEventDataList[0].percentValue, fixedValue = buffDict[buffId].battleBuffEventDataList[0].fixedValue } });
-                bufferId.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = buffId, targetId = isSelf == false ? currentId : enemySetObject == null ? currentId : enemySetObject.EnemyStatusDTO.EnemyId, RoundNumber = numRounder, percentValue = buffDict[buffId].battleBuffEventDataList[0].percentValue, fixedValue = buffDict[buffId].battleBuffEventDataList[0].fixedValue } });
-            }
+            //    bufferSet.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = buffId, targetId = isSelf == false ? currentId : enemySetObject == null ? currentId : enemySetObject.EnemyStatusDTO.EnemyId, RoundNumber = numRounder, percentValue = buffDict[buffId].battleBuffEventDataList[0].percentValue, fixedValue = buffDict[buffId].battleBuffEventDataList[0].fixedValue } });
+            //    bufferId.Add(new BufferBattleDataDTO() { RoleId = currentId, BufferData = new BufferData() { bufferId = buffId, targetId = isSelf == false ? currentId : enemySetObject == null ? currentId : enemySetObject.EnemyStatusDTO.EnemyId, RoundNumber = numRounder, percentValue = buffDict[buffId].battleBuffEventDataList[0].percentValue, fixedValue = buffDict[buffId].battleBuffEventDataList[0].fixedValue } });
+            //}
         }
 
 
@@ -318,9 +318,9 @@ namespace AscensionServer
         {
             switch (buffEventSet[i].buffPropertyChangeType)
             {
-                case BuffEvent_PropertyChangeType.TakeDamage:
+                case BuffEvent_PropertyChangeType.DamageAddition:
                     break;
-                case BuffEvent_PropertyChangeType.ReceiveDamage:
+                case BuffEvent_PropertyChangeType.DamageDeduction:
                     break;
                 case BuffEvent_PropertyChangeType.IgnoreDefend:
                     break;

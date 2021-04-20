@@ -44,23 +44,24 @@ namespace AscensionProtocol.DTO
         public virtual List<int> WeaponAttribute { set; get; }
         public virtual int WeaponDurable { set; get; }
         public virtual List<int> WeaponSkill { set; get; }
-
+        public virtual int WeaponType { set; get; }
         public WeaponDTO()
         {
             Score = 1;
             IsTreasure = false;
-            WeaponAttribute = new List<int>();
+            WeaponAttribute = new List<int>() ;
             WeaponDurable = 1;
-            WeaponSkill = new List<int>();
+            WeaponSkill = new List<int>() ;
+            WeaponType = 0;
         }
 
         public override void Clear()
         {
             Score = 1;
             IsTreasure =false;
-            WeaponAttribute = new List<int>();
+            WeaponAttribute = new List<int>() ;
             WeaponDurable = 1;
-            WeaponSkill = new List<int>();
+            WeaponSkill = new List<int>() ;
         }
     }
 }

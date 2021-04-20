@@ -112,11 +112,6 @@
             每日维护消耗人气
             </summary>
         </member>
-        <member name="F:AscensionServer.BattleBuffData.isShow">
-            <summary>
-            用于面板显示，不用做数据
-            </summary>
-        </member>
         <member name="F:AscensionServer.BattleBuffConditionType.None">
             <summary>
             无触发条件
@@ -378,7 +373,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
+        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -458,6 +453,16 @@
             <summary>
             秘术详细数值类
             yzq添加
+            </summary>
+        </member>
+        <member name="P:AscensionServer.PassiveSkillsPet.MutexSkillID">
+            <summary>
+            判断是否存在上位技能
+            </summary>
+        </member>
+        <member name="P:AscensionServer.PassiveSkillsWeapon.AddTarget">
+            <summary>
+            0是人物加成，1是武器加成
             </summary>
         </member>
         <member name="P:AscensionServer.PuppetUnitParameter.PuppetSkillProbability">
@@ -914,6 +919,31 @@
         <member name="F:AscensionServer.RedisKeyDefine._RoleEquipmentPerfix">
             <summary>
             角色装备的装备的Key前缀
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleStatusGFPerfix">
+            <summary>
+            角色功法部分属性记录
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleStatusMSPerfix">
+            <summary>
+            角色秘术部分属性记录
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleStatusAddPointPerfix">
+            <summary>
+            角色加点部分属性记录
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleStatusEquipPerfix">
+            <summary>
+            角色装备部分属性记录
+            </summary>
+        </member>
+        <member name="F:AscensionServer.RedisKeyDefine._RoleStatusFlyPerfix">
+            <summary>
+            角色飛行法器部分属性记录
             </summary>
         </member>
         <member name="T:AscensionServer.RTGenericValuePair`2">
@@ -1769,7 +1799,7 @@
             准备指令战斗 
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.IServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -1957,7 +1987,7 @@
             </summary>
             
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -2713,6 +2743,12 @@
             获取MySql数据
             </summary>
         </member>
+        <member name="M:AscensionServer.FlyMagicToolManager.UpdateFlyMagicTool(AscensionProtocol.DTO.FlyMagicToolDTO)">
+            <summary>
+            设置更新飞行法器
+            </summary>
+            <param name="flyMagic"></param>
+        </member>
         <member name="M:AscensionServer.FlyMagicToolManager.flyMagicToolChange(AscensionServer.Model.FlyMagicTool)">
             <summary>
             类型转换
@@ -3214,7 +3250,7 @@
             飞行法器输入；
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.C2SMapRes" -->
+        <!-- 对于成员“T:AscensionServer.C2SMapRes”忽略有格式错误的 XML 注释 -->
         <member name="P:AscensionServer.C2SMapRes.ResId">
             <summary>
             资源全局Id；
@@ -3230,7 +3266,7 @@
             资源所在的位置信息
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.C2SMapResource" -->
+        <!-- 对于成员“T:AscensionServer.C2SMapResource”忽略有格式错误的 XML 注释 -->
         <member name="F:AscensionServer.C2SMapResource.ResId">
             <summary>
             资源全局Id；
@@ -3392,10 +3428,51 @@
             float网络传输类型，防止传输时失真；
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.FixMapResource" -->
+        <!-- 对于成员“T:AscensionServer.FixMapResource”忽略有格式错误的 XML 注释 -->
         <member name="P:AscensionServer.FixSkill.SkillId">
             <summary>
             全局技能Id
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleBuffEventBase.Trigger(AscensionServer.BattleCharacterEntity,AscensionServer.ISkillAdditionData)">
+            <summary>
+            具体buff触发事件实现
+            </summary>
+            <param name="skillAdditionData">用于记录临时的加成数据，比如技能加成</param>
+        </member>
+        <member name="M:AscensionServer.BattleBuffEventBase.SetValue(AscensionServer.BattleBuffEventData,AscensionServer.BattleSkillAddBuffValue)">
+            <summary>
+            buff覆盖时重新设置buff参数
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleBuffEvent_ChangeBuffProperty">
+            <summary>
+            改变buff属性
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleBuffEvent_ChangeProperty">
+            <summary>
+            改变角色属性事件
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleBuffEvent_UseDesignateSkill">
+            <summary>
+            使用指定技能
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleBuffObj">
+            <summary>
+            战斗buff个体对象
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleBuffObj.OnAdd">
+            <summary>
+            buff添加事件
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleBuffObj.OnRemove">
+            <summary>
+            buff移除事件
             </summary>
         </member>
         <member name="P:AscensionServer.BattleCharacterEntity.RoomID">
@@ -3421,6 +3498,11 @@
         <member name="P:AscensionServer.BattleCharacterEntity.CharacterBattleData">
             <summary>
             属性数据
+            </summary>
+        </member>
+        <member name="P:AscensionServer.BattleCharacterEntity.BattleDamageData">
+            <summary>
+            造成或受到的伤害数据
             </summary>
         </member>
         <member name="M:AscensionServer.BattleCharacterEntity.SetFriendAndEnemy(System.Collections.Generic.List{AscensionServer.BattleCharacterEntity},System.Collections.Generic.List{AscensionServer.BattleCharacterEntity})">
@@ -3647,6 +3729,11 @@
         <member name="M:AscensionServer.CharacterBattleData.GetProperty(AscensionServer.BattleSkillNumSourceType,AscensionServer.BattleDamageData)">
             <summary>
             获取对应属性
+            </summary>
+        </member>
+        <member name="M:AscensionServer.CharacterBattleData.GetBaseProperty(AscensionServer.BuffEvent_RolePropertyChange_SourceDataType,AscensionServer.BattleSkillBase)">
+            <summary>
+            获取基础对应属性
             </summary>
         </member>
         <member name="T:AscensionServer.IPeerEntity">
@@ -4165,6 +4252,71 @@
             <param name="petAptitude"></param>
             <param name="petAptitudeDTO"></param>
             <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IPracticeManager.RoleAblility(AscensionProtocol.DTO.RoleStatusPointDTO,AscensionServer.Model.RoleStatus)">
+            <summary>
+            计算人物属性
+            </summary>
+            <param name="pointDTO"></param>
+            <param name="roleStatus"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IPracticeManager.RoleEquip(AscensionServer.Model.RoleStatus,AscensionProtocol.DTO.RoleWeaponDTO,AscensionProtocol.DTO.RoleEquipmentDTO)">
+            <summary>
+            计算人物装备
+            </summary>
+            <param name="statusObj"></param>
+            <param name="roleWeapon"></param>
+            <param name="roleEquipment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.IPracticeManager.RoleFlyMagicTool(AscensionProtocol.DTO.FlyMagicToolDTO,AscensionServer.Model.RoleStatus)">
+            <summary>
+            计算飞行法器
+            </summary>
+            <param name="flyMagic"></param>
+            <param name="roleStatus"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.RoleStatusAlgorithm(System.Int32)">
+            <summary>
+            计算人物属性待删
+            </summary>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.RoleAblility(AscensionProtocol.DTO.RoleStatusPointDTO,AscensionServer.Model.RoleStatus)">
+            <summary>
+            人物加点的加成
+            </summary>
+            <param name="pointDTO"></param>
+            <param name="roleStatus"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.RoleEquip(AscensionServer.Model.RoleStatus,AscensionProtocol.DTO.RoleWeaponDTO,AscensionProtocol.DTO.RoleEquipmentDTO)">
+            <summary>
+            人物裝備裝備的屬性計算
+            </summary>
+            <param name="statusObj"></param>
+            <param name="roleWeapon"></param>
+            <param name="roleEquipment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.SkillAlgorithm(System.Int32,AscensionServer.Model.RoleStatus,System.Collections.Generic.List{System.Int32})">
+            <summary>
+            计算技能加成
+            </summary>
+            <summary>
+            计算技能加成
+            </summary>
+        </member>
+        <member name="M:AscensionServer.PracticeManager.RoleStatusAlgorithm(System.Int32,AscensionProtocol.DTO.RoleStatusDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO,AscensionProtocol.DTO.RoleStatusDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO)">
+            <summary>
+            获取Redis各部分加成
+            </summary>
+            <param name="statusFly">飞行法器加成</param>
+            <param name="statusGF">功法加成</param>
+            <param name="statusMS">秘术加成</param>
+            <param name="statusPoint">加点加成</param>
+            <param name="statusEquip">装备加成</param>
         </member>
         <member name="M:AscensionServer.PracticeManager.TriggerBottleneckS2C(System.Int32,System.Int32,System.Boolean@)">
             <summary>
@@ -4785,6 +4937,46 @@
             词缀类型
             </summary>
         </member>
+        <member name="F:AscensionServer.SecondaryJobManager.WeaponType.BoxingGloves">
+            <summary>
+            拳套
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SecondaryJobManager.WeaponType.Mirror">
+            <summary>
+            鏡子
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SecondaryJobManager.WeaponType.Book">
+            <summary>
+            書卷
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SecondaryJobManager.WeaponType.Sword">
+            <summary>
+            劍
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SecondaryJobManager.WeaponType.Cane">
+            <summary>
+            zhang
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SecondaryJobManager.WeaponType.FuChen">
+            <summary>
+            fuchen
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SecondaryJobManager.WeaponType.Flag">
+            <summary>
+            旗
+            </summary>
+        </member>
+        <member name="F:AscensionServer.SecondaryJobManager.WeaponType.BroadSword">
+            <summary>
+            刀
+            </summary>
+        </member>
         <member name="M:AscensionServer.SecondaryJobManager.RoleStatusCompoundFailS2C(System.Int32,AscensionProtocol.SecondaryJobOpCode,System.Object)">
             <summary>
             合成失敗
@@ -5348,7 +5540,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
+        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；

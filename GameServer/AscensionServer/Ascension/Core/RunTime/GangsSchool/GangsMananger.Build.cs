@@ -52,7 +52,7 @@ namespace AscensionServer
             {
                 Utility.Debug.LogInfo("YZQ升级宗门建设成员2"+Utility.Json.ToJson(construction));
                 var Construction = RedisHelper.Hash.HashGetAsync<AllianceConstructionDTO>(RedisKeyDefine._AllianceConstructionPerfix, ID.ToString()).Result;
-                var alliance = RedisHelper.Hash.HashGetAsync<AllianceStatusDTO>(RedisKeyDefine._AlliancePerfix, ID.ToString()).Result;
+                var alliance = RedisHelper.Hash.HashGetAsync<AllianceStatus>(RedisKeyDefine._AlliancePerfix, ID.ToString()).Result;
                 if (Construction != null&& alliance!=null)
                 {
                     if (constructionDTO.AllianceAlchemyStorage == 1)
@@ -84,6 +84,8 @@ namespace AscensionServer
                                 Construction.AllianceAssets -= assets.NeedAllianceSpiritStones;
                                 Construction.AllianceChamber++;
                                 alliance.AllianceLevel = Construction.AllianceChamber;
+                                assets = construction[1].AllianceBuildingData.Find((x) => x.BuildingLevel == Construction.AllianceChamber);
+                                alliance.AlliancePeopleMax = assets.MaxValue;
                             }
                         }
                     }
@@ -102,6 +104,9 @@ namespace AscensionServer
                     RoleStatusSuccessS2C(roleID, AllianceOpCode.BuildAlliance, dict);
                     await  RedisHelper.Hash.HashSetAsync<AllianceConstructionDTO>(RedisKeyDefine._AllianceConstructionPerfix,ID.ToString(),Construction);
                     await NHibernateQuerier.UpdateAsync(Construction);
+
+                    await RedisHelper.Hash.HashSetAsync<AllianceStatus>(RedisKeyDefine._AllianceConstructionPerfix, ID.ToString(), alliance);
+                    await NHibernateQuerier.UpdateAsync(alliance);
                 } else
                     BuildAllianceConstructionMySql(ID, roleID, constructionDTO);
             }
@@ -181,7 +186,7 @@ namespace AscensionServer
                         }
                     }
                     RedisHelper.Hash.HashSet<RoleAllianceSkill>(RedisKeyDefine._RoleAllianceSkillPerfix, roleID.ToString(), skillObj);
-                    RedisHelper.Hash.HashSet<RoleAssets>(RedisKeyDefine._RoleAllianceSkillPerfix, roleID.ToString(), assetsObj);
+                    RedisHelper.Hash.HashSet<RoleAssets>(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString(), assetsObj);
                     await NHibernateQuerier.UpdateAsync(skillObj);
                     await NHibernateQuerier.UpdateAsync(assetsObj);
 
@@ -393,6 +398,8 @@ namespace AscensionServer
                             Construction.AllianceAssets -= assets.NeedAllianceSpiritStones;
                             Construction.AllianceChamber++;
                             alliance.AllianceLevel = Construction.AllianceChamber;
+                             assets = construction[1].AllianceBuildingData.Find((x) => x.BuildingLevel == Construction.AllianceChamber);
+                            alliance.AlliancePeopleMax = assets.MaxValue;
                         }
                     }
                 }
@@ -410,6 +417,12 @@ namespace AscensionServer
                 dict.Add((byte)ParameterCode.AllianceStatus, alliance);
                 dict.Add((byte)ParameterCode.AllianceConstruction, Construction);
                 RoleStatusSuccessS2C(roleID, AllianceOpCode.BuildAlliance, dict);
+
+                await RedisHelper.Hash.HashSetAsync<AllianceConstruction>(RedisKeyDefine._AllianceConstructionPerfix, ID.ToString(), Construction);
+                await NHibernateQuerier.UpdateAsync(Construction);
+
+                await RedisHelper.Hash.HashSetAsync<AllianceStatus>(RedisKeyDefine._AllianceConstructionPerfix, ID.ToString(), alliance);
+                await NHibernateQuerier.UpdateAsync(alliance);
             }
             else
                 RoleStatusFailS2C(roleID,AllianceOpCode.BuildAlliance);
@@ -499,7 +512,7 @@ namespace AscensionServer
                 }
                 Utility.Debug.LogInfo("角色宗門技能升级2");
                 RedisHelper.Hash.HashSet<RoleAllianceSkill>(RedisKeyDefine._RoleAllianceSkillPerfix, roleID.ToString(), skillObj);
-                RedisHelper.Hash.HashSet<RoleAssets>(RedisKeyDefine._RoleAllianceSkillPerfix, roleID.ToString(), assetsObj);
+                RedisHelper.Hash.HashSet<RoleAssets>(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString(), assetsObj);
                 await NHibernateQuerier.UpdateAsync(skillObj);
                 await NHibernateQuerier.UpdateAsync(assetsObj);
 
@@ -544,6 +557,7 @@ namespace AscensionServer
             dongFuDTO.PreemptFive = Utility.Json.ToObject<List<PreemptInfo>>(dongFu.PreemptFive);
             return dongFuDTO;
         }
+
 
     }
 }

@@ -16,7 +16,7 @@ namespace AscensionServer
             CharacterBattleData = CosmosEntry.ReferencePoolManager.Spawn<CharacterBattleData>();
             GameEntry.DataManager.TryGetValue<Dictionary<int, MonsterDatas>>(out var monsterDict);
             if (monsterDict.ContainsKey(aIID))
-                CharacterBattleData.Init(monsterDict[aIID]);
+                CharacterBattleData.Init(monsterDict[aIID],this);
             UniqueID = uniqueID;
             GlobalID = aIID;
             BattleFactionType= battleFactionType;

@@ -21,7 +21,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\..\localproject\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -201,6 +201,9 @@
     <Compile Include="Ascension\Core\Base\DataObject\MishuBook.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MiShuData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MonsterDatas.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\PassiveSkillsPet.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\PassiveSkillsRole.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\PassiveSkillsWeapon.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\PetAbilityPointData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\PetAptitudeData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\PetLevelData.cs" />
@@ -323,6 +326,14 @@
     <Compile Include="Ascension\Core\Base\UnityEngine\Vector3.cs" />
     <Compile Include="Ascension\Core\Base\UnityEngine\Vector4.cs" />
     <Compile Include="Ascension\Core\RunTime\Network\INetworkManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffController.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEventCondition\BattleBuffEventConditionBase.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEventBase.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEvent_ChangeBuffProperty.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEvent_ChangeProperty.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEvent_UseDesignateSkill.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffObj.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BuffCharacterData.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleCharacter\BattleAIEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleCharacter\BattleCharacterEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleCharacter\BattleCharacterManager.cs" />
@@ -340,7 +351,10 @@
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\BattleSkillController.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\BattleSkillEventCondition\BattleSkillEventConditionBase.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\BattleSkillEvent\BattleSkillEventBase.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\ISkillAdditionData.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\SkillAdditionData.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\CharacterBattleData.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\ICharacterBattleData.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\IPeerEntity.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\DataImpl\ServerDataConvertor.cs" />
     <Compile Include="Ascension\Core\RunTime\Peer\IPeerManager.cs" />
@@ -361,6 +375,7 @@
     <Compile Include="Ascension\Core\RunTime\Practice\GongFaManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Practice\IGongFaManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Practice\IPracticeManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Practice\PracticeManager.Arithmetic.cs" />
     <Compile Include="Ascension\Core\RunTime\Practice\PracticeManager.Bottleneck.cs" />
     <Compile Include="Ascension\Core\RunTime\Practice\PracticeManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Practice\PracticeManager.GongFa.cs" />
@@ -956,6 +971,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonData\RepairPuppetData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\PassiveSkillsPet.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\PassiveSkillsRole.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\PassiveSkillsWeapon.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="Plugin\ExitGames.Logging.Log4Net.dll">

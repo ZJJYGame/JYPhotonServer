@@ -9,7 +9,7 @@ using AscensionProtocol.DTO;
 
 namespace AscensionServer
 {
-    public class BattleCharacterEntity : IReference,IComparable<BattleCharacterEntity>
+    public class BattleCharacterEntity : IReference, IComparable<BattleCharacterEntity>
     {
         /// <summary>
         /// 房间ID
@@ -41,7 +41,13 @@ namespace AscensionServer
         public int ActionID { get; protected set; }
         public List<int> TargetIDList { get; protected set; }
 
-       public BattleSkillController BattleSkillController { get; protected set; }
+        public BattleSkillController BattleSkillController { get; protected set; }
+        public BattleBuffController BattleBuffController { get; protected set; }
+
+        /// <summary>
+        /// 造成或受到的伤害数据
+        /// </summary>
+        public BattleDamageData BattleDamageData { get; set; }
 
         /// <summary>
         /// 设置该角色的敌方和友方
@@ -66,14 +72,14 @@ namespace AscensionServer
         /// </summary>
         /// <returns></returns>
         public virtual T ToBattleDataBase<T>()
-            where T: BattleDataBase
+            where T : BattleDataBase
         {
             return default(T);
         }
         /// <summary>
         /// 设置角色该回合战斗行为
         /// </summary>
-        public virtual void SetBattleAction(BattleCmd battleCmd,BattleTransferDTO battleTransferDTO)
+        public virtual void SetBattleAction(BattleCmd battleCmd, BattleTransferDTO battleTransferDTO)
         {
         }
         /// <summary>
@@ -89,7 +95,7 @@ namespace AscensionServer
         /// <param name="skillID">技能id</param>
         /// <param name="targetList">初始指定的目标列表</param>
         /// <returns></returns>
-        public virtual List<int> GetTargetIdList(int skillID,bool isAutoChangeTarget,List<int> targetList=null)
+        public virtual List<int> GetTargetIdList(int skillID, bool isAutoChangeTarget, List<int> targetList = null)
         {
             List<int> resultList = new List<int>();
             GameEntry.DataManager.TryGetValue<Dictionary<int, BattleSkillData>>(out var battleskillDataDict);
@@ -120,7 +126,7 @@ namespace AscensionServer
                 case BattleCmd.PropsInstruction:
                     break;
                 case BattleCmd.SkillInstruction:
-                    battleTransferDTOList= BattleSkillController.UseSkill(ActionID, TargetIDList);
+                    battleTransferDTOList = BattleSkillController.UseSkill(ActionID, TargetIDList);
                     if (battleTransferDTOList.Count > 1)
                         battleTransferDTOList[battleTransferDTOList.Count - 1].isFinish = true;
                     else if (battleTransferDTOList.Count == 1)
@@ -154,6 +160,8 @@ namespace AscensionServer
                     CharacterBattleData.ChangeProperty(battleDamageData.extraDamageTargetProperty, battleDamageData.extraDamageNum);
                     break;
                 case BattleSkillActionType.Heal:
+                    CharacterBattleData.ChangeProperty(battleDamageData.baseDamageTargetProperty, battleDamageData.damageNum);
+                    CharacterBattleData.ChangeProperty(battleDamageData.extraDamageTargetProperty, battleDamageData.extraDamageNum);
                     break;
                 case BattleSkillActionType.Resurrection:
                     break;
@@ -167,6 +175,7 @@ namespace AscensionServer
             FriendCharacterEntities = new List<BattleCharacterEntity>();
             EnemyCharacterEntities = new List<BattleCharacterEntity>();
             BattleSkillController = new BattleSkillController(this);
+            BattleBuffController = new BattleBuffController(this);
             TargetIDList = new List<int>();
 
         }

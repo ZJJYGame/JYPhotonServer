@@ -34,27 +34,7 @@
                     "extraNumSourceData": []
                 }
             ],
-            "battleSkillAddBuffList": [ {
-                    "buffId": 20001,
-                    "round": 3,
-                    "TargetType": true,
-                    "buffValue": 5,
-                    "basePropList": [
-                        100
-                    ],
-                    "selfAddBuffProbability": {
-                        "battleSkillBuffProbSource": 0,
-                        "multiplyPropValue": 0,
-                        "fixedPropValue": 0,
-                        "addOrReduce": false
-                    },
-                    "targetAddBuffProbability": {
-                        "battleSkillBuffProbSource": 0,
-                        "multiplyPropValue": 0,
-                        "fixedPropValue": 0,
-                        "addOrReduce": false
-                    }
-                }],
+            "battleSkillAddBuffList": [ ],
             "battleSkillRemoveBuffDataList": [],
             "battleSkillCostData": {
                 "battleSkillCostType": 0,
@@ -91,34 +71,6 @@
                         {
                             "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 7,
-                            "mulitity": 80
-                        }
-                    ],
-                    "extraDamageAdditionSourceTarget": false,
-                    "extraNumSourceData": []
-                },
-                {
-                    "battleSkillDamageType": 0,
-                    "fixedNum": 0,
-                    "baseDamageAdditionSourceTarget": false,
-                    "baseNumSourceDataList": [
-                        {
-                            "battleSkillDamageTargetProperty": 0,
-                            "battleSkillNumSourceType": 7,
-                            "mulitity": 90
-                        }
-                    ],
-                    "extraDamageAdditionSourceTarget": false,
-                    "extraNumSourceData": []
-                },
-                {
-                    "battleSkillDamageType": 0,
-                    "fixedNum": 0,
-                    "baseDamageAdditionSourceTarget": false,
-                    "baseNumSourceDataList": [
-                        {
-                            "battleSkillDamageTargetProperty": 0,
-                            "battleSkillNumSourceType": 7,
                             "mulitity": 100
                         }
                     ],
@@ -126,7 +78,30 @@
                     "extraNumSourceData": []
                 }
             ],
-            "battleSkillAddBuffList": [],
+            "battleSkillAddBuffList": [{
+                    "buffId": 20301,
+                    "round": 99,
+                    "TargetType": false,
+                    "battleSkillAddBuffValueList":[{
+					"percentValue":0,
+					"fixedValue":0
+					}],
+                    "basePropList": [
+                        100
+                    ],
+                    "selfAddBuffProbability": {
+                        "battleSkillBuffProbSource": 0,
+                        "multiplyPropValue": 0,
+                        "fixedPropValue": 0,
+                        "addOrReduce": false
+                    },
+                    "targetAddBuffProbability": {
+                        "battleSkillBuffProbSource": 0,
+                        "multiplyPropValue": 0,
+                        "fixedPropValue": 0,
+                        "addOrReduce": false
+                    }
+                }],
             "battleSkillRemoveBuffDataList": [],
             "battleSkillCostData": {
                 "battleSkillCostType": 2,
@@ -150,9 +125,9 @@
                 "battleSkillUseConditionType": 0,
                 "value": 0
             },
-            "battleSkillFactionType": 0,
+            "battleSkillFactionType": 1,
             "battleSkillTargetType": 0,
-            "battleSkillActionType": 0,
+            "battleSkillActionType": 1,
             "attackProcessType": 1,
             "battleSkillDamageNumDataList": [
                 {
@@ -163,22 +138,22 @@
                         {
                             "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
-                            "mulitity": 70
+                            "mulitity": 7000
                         },
                         {
                             "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
-                            "mulitity": 70
+                            "mulitity": 7000
                         },
                         {
                             "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
-                            "mulitity": 70
+                            "mulitity": 7000
                         },
                         {
                             "battleSkillDamageTargetProperty": 0,
                             "battleSkillNumSourceType": 8,
-                            "mulitity": 70
+                            "mulitity": 7000
                         }
                     ],
                     "extraDamageAdditionSourceTarget": false,
@@ -197,7 +172,7 @@
         {
             "name": "水中月",
             "id": 21302,
-            "describe": "封印三人，概率逐个降低",
+            "describe": "封印三人,概率逐个降低",
             "TargetNumber": 3,
             "damageAddition": 0,
             "critProp": 0,
@@ -234,7 +209,7 @@
                     "buffId": 20000,
                     "round": 1,
                     "TargetType": true,
-                    "buffValue": 0,
+                    "battleSkillAddBuffValueList": [],
                     "basePropList": [
                         80,
                         40,
@@ -302,7 +277,7 @@
                     "buffId": 20000,
                     "round": 3,
                     "TargetType": true,
-                    "buffValue": 5,
+                    "battleSkillAddBuffValueList": [],
                     "basePropList": [
                         100
                     ],
@@ -375,7 +350,7 @@
                     "buffId": 0,
                     "round": 0,
                     "TargetType": false,
-                    "buffValue": 0,
+                    "battleSkillAddBuffValueList": [],
                     "basePropList": [],
                     "selfAddBuffProbability": {
                         "battleSkillBuffProbSource": 0,
@@ -657,7 +632,7 @@
                     "buffId": 20501,
                     "round": 2,
                     "TargetType": true,
-                    "buffValue": 0,
+                    "battleSkillAddBuffValueList": [],
                     "basePropList": [
                         100,
                         100,
@@ -735,7 +710,7 @@
                     "buffId": 20502,
                     "round": 2,
                     "TargetType": true,
-                    "buffValue": 0,
+                    "battleSkillAddBuffValueList": [],
                     "basePropList": [
                         100,
                         100,
@@ -820,7 +795,7 @@
                     "buffId": 20502,
                     "round": 3,
                     "TargetType": true,
-                    "buffValue": 0,
+                    "battleSkillAddBuffValueList": [],
                     "basePropList": [
                         100,
                         100,
@@ -965,7 +940,7 @@
                     "buffId": 20505,
                     "round": 2,
                     "TargetType": false,
-                    "buffValue": 0,
+                    "battleSkillAddBuffValueList": [],
                     "basePropList": [
                         100
                     ],
@@ -1274,7 +1249,7 @@
                     "buffId": 20915,
                     "round": 3,
                     "TargetType": true,
-                    "buffValue": 0,
+                    "battleSkillAddBuffValueList": [],
                     "basePropList": [
                         100,
                         100,
@@ -1359,7 +1334,7 @@
                     "buffId": 20951,
                     "round": 2,
                     "TargetType": true,
-                    "buffValue": 0,
+                    "battleSkillAddBuffValueList": [],
                     "basePropList": [
                         100,
                         100
@@ -1389,7 +1364,7 @@
         {
             "name": "还魂",
             "id": 21214,
-            "describe": "起死回生，不存在的，想都不要想",
+            "describe": "起死回生,不存在的,想都不要想",
             "TargetNumber": 1,
             "damageAddition": 0,
             "critProp": 0,
@@ -1449,7 +1424,7 @@
         {
             "name": "水中月",
             "id": 21312,
-            "describe": "产生幻象，使其进入封魔状态",
+            "describe": "产生幻象,使其进入封魔状态",
             "TargetNumber": 3,
             "damageAddition": 0,
             "critProp": 0,
@@ -1471,7 +1446,7 @@
                     "buffId": 20994,
                     "round": 2,
                     "TargetType": true,
-                    "buffValue": 0,
+                    "battleSkillAddBuffValueList": [],
                     "basePropList": [
                         80,
                         40,
@@ -1535,7 +1510,7 @@
         }, {
             "name": "吸星大法",
             "id": 28214,
-            "describe": "对敌方1个单位造成自身物理攻击力85%的物理伤害，如果暴击则吸血造成伤害的25%",
+            "describe": "对敌方1个单位造成自身物理攻击力85%的物理伤害,如果暴击则吸血造成伤害的25%",
             "TargetNumber": 1,
             "damageAddition": 0,
             "critProp": 0,
@@ -1590,7 +1565,7 @@
               {
             "name": "星环",
             "id": 28215,
-            "describe": "对敌方1个单位造成自身魔法攻击力90%的魔法伤害，如果该技能杀死敌方目标，则随机选择下一个目标再次释放",
+            "describe": "对敌方1个单位造成自身魔法攻击力90%的魔法伤害,如果该技能杀死敌方目标,则随机选择下一个目标再次释放",
             "TargetNumber": 1,
             "damageAddition": 0,
             "critProp": 0,
@@ -1699,7 +1674,7 @@
         {
             "name": "春晖",
             "id": 28216,
-            "describe": "对敌方3个目标造成自身魔法攻击力50%的伤害，若目标中存在护盾，则恢复自身5%的最大气血值",
+            "describe": "对敌方3个目标造成自身魔法攻击力50%的伤害,若目标中存在护盾,则恢复自身5%的最大气血值",
             "TargetNumber": 3,
             "damageAddition": 0,
             "critProp": 0,
@@ -1763,7 +1738,7 @@
         {
             "name": "冲冠一怒",
             "id": 28217,
-            "describe": "被攻击后，若自身气血值低于50%则增加自身40%的暴击几率",
+            "describe": "被攻击后,若自身气血值低于50%则增加自身40%的暴击几率",
             "TargetNumber": 1,
             "damageAddition": 0,
             "critProp": 0,
@@ -1802,7 +1777,7 @@
         {
             "name": "落井下石",
             "id": 28218,
-            "describe": "对敌方1个单位造成自身物理攻击力25%的伤害，若目标气血值低于20%则伤害增加50%",
+            "describe": "对敌方1个单位造成自身物理攻击力25%的伤害,若目标气血值低于20%则伤害增加50%",
             "TargetNumber": 1,
             "damageAddition": 0,
             "critProp": 0,
@@ -1856,7 +1831,7 @@
         {
             "name": "穿心剑",
             "id": 28219,
-            "describe": "对敌方1个单位造成自身物理攻击力50%的物理伤害，若目标存在护盾，则增加20%的穿透效果",
+            "describe": "对敌方1个单位造成自身物理攻击力50%的物理伤害,若目标存在护盾,则增加20%的穿透效果",
             "TargetNumber": 1,
             "damageAddition": 0,
             "critProp": 0,

@@ -23,7 +23,7 @@ namespace AscensionServer
             PetID = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriaRoleID).PetIsBattle;
             //todo 从俞拿取正确的数据
             CharacterBattleData = CosmosEntry.ReferencePoolManager.Spawn<CharacterBattleData>();
-            CharacterBattleData.Init(roleStatus);
+            CharacterBattleData.Init(roleStatus, this);
             UniqueID = roleID;
             GlobalID = 0;
             BattleFactionType = battleFactionType;

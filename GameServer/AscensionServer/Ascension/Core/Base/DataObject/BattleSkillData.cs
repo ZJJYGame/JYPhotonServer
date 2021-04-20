@@ -104,10 +104,11 @@ namespace AscensionServer
         /// 目标类型：0=>受击方,1=>自身
         /// </summary>
         public bool TargetType;
-        public int buffValue;
+        public List<BattleSkillAddBuffValue> battleSkillAddBuffValueList;
         public List<int> basePropList;
         public BattleSkillAddBuffProbability selfAddBuffProbability;
         public BattleSkillAddBuffProbability targetAddBuffProbability;
+        public List<int> coverBuffIdList;
     }
     [Serializable]
     public class BattleSkillAddBuffProbability
@@ -119,6 +120,12 @@ namespace AscensionServer
         /// buff是加成或减少：0=>减少,1=>加成
         /// </summary>
         public bool addOrReduce;
+    }
+    [Serializable]
+    public class BattleSkillAddBuffValue
+    {
+        public int percentValue;
+        public int fixedValue;
     }
     [Serializable]
     public class BattleSkillRemoveBuffData

@@ -19,6 +19,26 @@ namespace AscensionServer
         //阵营二角色列表
         public List<BattleCharacterEntity> FactionTwoCharacterEntites { get; private set; }
 
+        Action< BattleCharacterEntity, ISkillAdditionData> roundStartEvent;
+        public event Action< BattleCharacterEntity, ISkillAdditionData> RoundStartEvent
+        {
+            add { roundStartEvent += value; }
+            remove { roundStartEvent -= value; }
+        }
+        //回合结束事件,在roundFinishEvent之前，处理buff事件
+        Action< BattleCharacterEntity, ISkillAdditionData> roundEndEvent;
+        public event Action<BattleCharacterEntity, ISkillAdditionData> RoundEndEvent
+        {
+            add { roundEndEvent += value; }
+            remove { roundEndEvent -= value; }
+        }
+        //回合结束事件，用来处理冷却，持续时间
+        Action roundFinishEvent;
+        public event Action RoundFinishEvent
+        {
+            add { roundFinishEvent += value; }
+            remove { roundFinishEvent -= value; }
+        }
 
         public void AddCharacterEntity(BattleCharacterEntity battleCharacterEntity)
         {
@@ -47,14 +67,12 @@ namespace AscensionServer
             List<BattleTransferDTO> battleTransferDTOs = new List<BattleTransferDTO>();
             //角色按速度排序
             AllCharacterEntities.Sort();
-            for (int i = 0; i < AllCharacterEntities.Count; i++)
-            {
-                Utility.Debug.LogError(AllCharacterEntities[i].UniqueID + "的速度=>" + AllCharacterEntities[i].CharacterBattleData.AttackSpeed);
-            }
 
             //按角色出手顺序开始出手
             int allCount = AllCharacterEntities.Count;
             BattleCharacterEntity actCharacter;
+            roundStartEvent?.Invoke(null,null);
+
             for (int i = 0; i < allCount; i++)
             {
                 actCharacter = AllCharacterEntities[i];
@@ -63,6 +81,9 @@ namespace AscensionServer
                 //开始计算角色行动
                 battleTransferDTOs.AddRange(actCharacter.Action());
             }
+
+            roundFinishEvent?.Invoke();
+
             battleRoomEntity.SendBattlePerformDataS2C(battleTransferDTOs);
         }
 

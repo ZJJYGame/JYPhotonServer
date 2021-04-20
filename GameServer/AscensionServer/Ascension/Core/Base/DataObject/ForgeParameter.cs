@@ -21,5 +21,6 @@ namespace AscensionServer
         public int WeaponDurable { get; set; }
         public List<int> SkillProbability { get; set; }
         public List<int> WeaponSkill { get; set; }
+        public int WeaponType { get; set; }
     }
 }

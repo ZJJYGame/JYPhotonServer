@@ -200,6 +200,29 @@ namespace AscensionServer
         /// 角色装备的装备的Key前缀
         /// </summary>
         public static readonly string _RoleEquipmentPerfix = "RoleEquipment";
+
+        #region 角色属性高速存储用
+        /// <summary>
+        /// 角色功法部分属性记录
+        /// </summary>
+        public static readonly string _RoleStatusGFPerfix = "RoleStatusGF";
+        /// <summary>
+        /// 角色秘术部分属性记录
+        /// </summary>
+        public static readonly string _RoleStatusMSPerfix = "RoleStatusMS";
+        /// <summary>
+        /// 角色加点部分属性记录
+        /// </summary>
+        public static readonly string _RoleStatusAddPointPerfix = "RoleStatusAddPoint";
+        /// <summary>
+        /// 角色装备部分属性记录
+        /// </summary>
+        public static readonly string _RoleStatusEquipPerfix = "RoleStatusEquip";
+        /// <summary>
+        /// 角色飛行法器部分属性记录
+        /// </summary>
+        public static readonly string _RoleStatusFlyPerfix = "RoleStatusFly";
+        #endregion
     }
 }
 
