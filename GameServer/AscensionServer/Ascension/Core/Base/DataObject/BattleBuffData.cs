@@ -319,8 +319,8 @@ namespace AscensionServer
     /// </summary>
     public enum BuffEvent_PropertyChangeType : byte
     {
-        TakeDamage,
-        ReceiveDamage,
+        DamageAddition,
+        DamageDeduction,
         IgnoreDefend,
         BasicDodgeRate
 

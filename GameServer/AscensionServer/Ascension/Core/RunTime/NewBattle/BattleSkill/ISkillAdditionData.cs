@@ -8,9 +8,11 @@ namespace AscensionServer
 {
     public interface ISkillAdditionData
     {
-        int DamgeAddition { get; }
-        int CritProp { get; }
-        int CritDamage { get; }
-        int IgnoreDefensive { get; }
+        int DamgeAddition { get; set; }
+        int DamagDeduction { get; set;}
+        int CritProp { get; set; }
+        int CritDamage { get; set; }
+        int IgnoreDefensive { get; set; }
+        int DodgeProp { get; set; }
     }
 }

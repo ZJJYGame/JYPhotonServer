@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cosmos;
 
 namespace AscensionServer
 {
@@ -10,7 +11,10 @@ namespace AscensionServer
     {
         public bool CanTrigger()
         {
-            return true;
+            int value = Utility.Algorithm.CreateRandomInt(0, 100);
+            if (value < 50)
+                return true;
+            else return false;
         }
     }
 }

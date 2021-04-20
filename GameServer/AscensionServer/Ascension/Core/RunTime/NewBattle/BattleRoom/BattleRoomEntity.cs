@@ -26,6 +26,8 @@ namespace AscensionServer
             remove { playerSendMsgEvent -= value; }
         }
 
+        public List<BattleTransferDTO> BattleTransferDTOList { get; set; } = new List<BattleTransferDTO>();
+
         /// <summary>
         /// 初始化房间
         /// </summary>

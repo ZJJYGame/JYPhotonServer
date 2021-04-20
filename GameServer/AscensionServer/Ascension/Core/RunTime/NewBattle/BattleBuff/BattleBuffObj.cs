@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cosmos;
 using Cosmos.Reference;
+using AscensionProtocol.DTO;
 
 namespace AscensionServer
 {
@@ -31,12 +32,14 @@ namespace AscensionServer
         public int CritProp { get; set; }
         public int CritDamage { get; set; }
         public int IgnoreDefensive { get; set; }
+        public int DamagDeduction { get; set; }
+        public int DodgeProp { get; set; }
 
         List<BattleBuffEventBase> battleBuffEventList;
         List<BattleBuffEventConditionBase> battleBuffEventConditionList;
 
-        Action buffAddEvent;
-        public event Action BuffAddEvent
+        Action<List<BattleTransferDTO>,BattleCharacterEntity,ISkillAdditionData> buffAddEvent;
+        public event Action<List<BattleTransferDTO>, BattleCharacterEntity, ISkillAdditionData> BuffAddEvent
         {
             add { buffAddEvent += value; }
             remove { buffAddEvent -= value; }
@@ -72,6 +75,7 @@ namespace AscensionServer
             BattleController = GameEntry.BattleRoomManager.GetBattleRoomEntity(Owner.RoomID).BattleController;
             BattleController.RoundFinishEvent -= RoundEnd;
 
+
             for (int i = 0; i < battleBuffData.battleBuffEventDataList.Count; i++)
             {
                 BattleBuffEventBase battleBuffEventBase = null;
@@ -81,6 +85,7 @@ namespace AscensionServer
                         battleBuffEventBase = new BattleBuffEvent_ChangeProperty(battleBuffData.battleBuffEventDataList[i], this, battleSkillAddBuffData.battleSkillAddBuffValueList[i]);
                         break;
                     case BattleBuffEventType.BuffPropertyChange:
+                        battleBuffEventBase = new BattleBuffEvent_ChangeBuffProperty(battleBuffData.battleBuffEventDataList[i], this);
                         break;
                     case BattleBuffEventType.ForbiddenBuff:
                         break;
@@ -124,7 +129,7 @@ namespace AscensionServer
         public void OnAdd()
         {
             Utility.Debug.LogError("触发buff添加事件");
-            buffAddEvent?.Invoke();
+            buffAddEvent?.Invoke(null,null,null);
         }
         /// <summary>
         /// buff移除事件

@@ -18,7 +18,7 @@ namespace AscensionServer
         protected BattleSkillEventConditionBase battleSkillEventConditionBase;
         protected BattleSkillEventData battleSkillEventData;
         //战斗事件触发
-        protected virtual void Trigger(List<BattleTransferDTO> battleTransferDTOList,BattleDamageData battleDamageData)
+        protected virtual void Trigger(List<BattleTransferDTO> battleTransferDTOList,BattleDamageData battleDamageData,ISkillAdditionData skillAdditionData)
         {
             Utility.Debug.LogError("无事件触发");
             if (!battleSkillEventConditionBase.CanTrigger(battleDamageData))
@@ -32,6 +32,7 @@ namespace AscensionServer
             switch (battleSkillEventData.battleSkillEventTriggerCondition)
             {
                 case BattleSkillEventTriggerCondition.None:
+                    battleSkillEventConditionBase = new BattleSkillEventConditionBase();
                     break;
                 case BattleSkillEventTriggerCondition.Crit:
                     battleSkillEventConditionBase = new BattleSkillEventCondition_Crit();
@@ -65,7 +66,7 @@ namespace AscensionServer
     public class BattleSkillEvent_Skill: BattleSkillEventBase
     {
         int triggerSkillID;
-        protected override void Trigger(List<BattleTransferDTO> battleTransferDTOList, BattleDamageData battleDamageData)
+        protected override void Trigger(List<BattleTransferDTO> battleTransferDTOList, BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
         {
             if (!battleSkillEventConditionBase.CanTrigger(battleDamageData))
                 return;
@@ -83,7 +84,7 @@ namespace AscensionServer
     public class BattleSkillEvent_Heal: BattleSkillEventBase
     {
         int healValue;
-        protected override void Trigger(List<BattleTransferDTO> battleTransferDTOList,BattleDamageData battleDamageData)
+        protected override void Trigger(List<BattleTransferDTO> battleTransferDTOList,BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
         {
             if (!battleSkillEventConditionBase.CanTrigger(battleDamageData))
                 return;
@@ -109,7 +110,7 @@ namespace AscensionServer
     public class BattleSkillEvent_SuckBlood : BattleSkillEventBase
     {
         int healValue;
-        protected override void Trigger(List<BattleTransferDTO> battleTransferDTOList, BattleDamageData battleDamageData)
+        protected override void Trigger(List<BattleTransferDTO> battleTransferDTOList, BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
         {
             if (!battleSkillEventConditionBase.CanTrigger(battleDamageData))
                 return;
@@ -131,12 +132,13 @@ namespace AscensionServer
     public class BattleSkillEvent_AddDamage : BattleSkillEventBase
     {
         int addDamageValue;
-        protected override void Trigger(List<BattleTransferDTO> battleTransferDTOList, BattleDamageData battleDamageData)
+        protected override void Trigger(List<BattleTransferDTO> battleTransferDTOList, BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
         {
             if (!battleSkillEventConditionBase.CanTrigger(battleDamageData))
                 return;
             Utility.Debug.LogError("技能伤害增加触发");
-            ownerSkill.damageAdditionList.Add(addDamageValue);
+            //ownerSkill.damageAdditionList.Add(addDamageValue);
+            skillAdditionData.DamgeAddition += addDamageValue;
         }
         public BattleSkillEvent_AddDamage(BattleSkillBase battleSkillBase, BattleSkillEventData battleSkillEventData) : base(battleSkillBase, battleSkillEventData)
         {
@@ -147,13 +149,14 @@ namespace AscensionServer
     public class BattleSkillEvent_AddCritProp : BattleSkillEventBase
     {
         int addCritPropValue;
-        protected override void Trigger(List<BattleTransferDTO> battleTransferDTOList, BattleDamageData battleDamageData)
+        protected override void Trigger(List<BattleTransferDTO> battleTransferDTOList, BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
         {
             if (!battleSkillEventConditionBase.CanTrigger(battleDamageData))
                 return;
             Utility.Debug.LogError("暴击率增加触发");
-            ownerSkill.critPropList.Add(addCritPropValue);
-            BattleDamageData temp = ownerSkill.IsCrit(battleDamageData.attackSection, GameEntry.BattleCharacterManager.GetCharacterEntity(battleDamageData.TargetID));
+            //ownerSkill.critPropList.Add(addCritPropValue);
+            skillAdditionData.CritProp += addCritPropValue;
+            BattleDamageData temp = ownerSkill.IsCrit(battleDamageData.attackSection, GameEntry.BattleCharacterManager.GetCharacterEntity(battleDamageData.TargetID), skillAdditionData);
             battleDamageData.isCrit = temp.isCrit;
         }
         public BattleSkillEvent_AddCritProp(BattleSkillBase battleSkillBase, BattleSkillEventData battleSkillEventData) : base(battleSkillBase, battleSkillEventData)
@@ -165,12 +168,13 @@ namespace AscensionServer
     public class BattleSkillEvent_AddCritDamage : BattleSkillEventBase
     {
         int addCritDamageValue;
-        protected override void Trigger(List<BattleTransferDTO> battleTransferDTOList, BattleDamageData battleDamageData)
+        protected override void Trigger(List<BattleTransferDTO> battleTransferDTOList, BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
         {
             if (!battleSkillEventConditionBase.CanTrigger(battleDamageData))
                 return;
             Utility.Debug.LogError("暴击伤害增加触发");
-            ownerSkill.critDamageList.Add(addCritDamageValue);
+            //ownerSkill.critDamageList.Add(addCritDamageValue);
+            skillAdditionData.CritDamage += addCritDamageValue;
         }
         public BattleSkillEvent_AddCritDamage(BattleSkillBase battleSkillBase, BattleSkillEventData battleSkillEventData) : base(battleSkillBase, battleSkillEventData)
         {
@@ -181,13 +185,13 @@ namespace AscensionServer
     public class BattleSkillEvent_AddIgnoreDefence : BattleSkillEventBase
     {
         int addIgnoreDefenseValue;
-        protected override void Trigger(List<BattleTransferDTO> battleTransferDTOList, BattleDamageData battleDamageData)
+        protected override void Trigger(List<BattleTransferDTO> battleTransferDTOList, BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
         {
             if (!battleSkillEventConditionBase.CanTrigger(battleDamageData))
                 return;
             Utility.Debug.LogError("穿透增加触发");
-            ownerSkill.ignoreDefensiveList.Add(addIgnoreDefenseValue);
-
+            //ownerSkill.ignoreDefensiveList.Add(addIgnoreDefenseValue);
+            skillAdditionData.IgnoreDefensive += addIgnoreDefenseValue;
         }
         public BattleSkillEvent_AddIgnoreDefence(BattleSkillBase battleSkillBase, BattleSkillEventData battleSkillEventData) : base(battleSkillBase, battleSkillEventData)
         {

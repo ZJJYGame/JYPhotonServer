@@ -35,5 +35,52 @@ namespace AscensionServer
         public int extraDamageNum;
         //添加buff的id列表
         public List<int> addBuffList;
+        //初始攻击值
+        public int initialAttackValue;
+        public int initialDefendValue;
+        List<ISkillAdditionData> actorSkillAdditionDataList;
+        List<ISkillAdditionData> targetSkillAdditionDataList;
+        public CharacterBattleData selfCharacterBattleData;
+        public CharacterBattleData targetCharacterBattleData;
+        public void GetDamage()
+        {
+            int attackValue = initialAttackValue;
+            int defendValue = 0;
+            if (battleSkillActionType == BattleSkillActionType.Damage)
+            {
+                defendValue = initialDefendValue * (100 - selfCharacterBattleData.IgnoreDef - actorSkillAdditionDataList.Sum(p => p.IgnoreDefensive)) / 100;
+                defendValue = defendValue < 0 ? 0 : defendValue;
+            }
+            int damageValue = 0;
+            if (damageType == BattleSkillDamageType.Physic || damageType == BattleSkillDamageType.Magic)
+                damageValue = (attackValue - defendValue) * (100 + selfCharacterBattleData.DamageAddition + actorSkillAdditionDataList.Sum(p=>p.DamgeAddition) - targetCharacterBattleData.DamageDeduction) / 100;
+            else if (damageType == BattleSkillDamageType.Reality)
+                damageValue = attackValue;
+            //计算暴击伤害
+            if (isCrit)
+            {
+                int finalCritDamage = 0;
+                if (damageType == BattleSkillDamageType.Physic)
+                    finalCritDamage = selfCharacterBattleData.PhysicalCritDamage - targetCharacterBattleData.ReduceCritDamage;
+                else if (damageType == BattleSkillDamageType.Magic)
+                    finalCritDamage = selfCharacterBattleData.MagicCritDamage - targetCharacterBattleData.ReduceCritDamage;
+                damageValue = damageValue * (200 + finalCritDamage + actorSkillAdditionDataList.Sum(p => p.CritDamage)) / 100;
+            }
+            damageValue = damageValue <= 0 ? 1 : damageValue;
+            damageNum = battleSkillActionType == BattleSkillActionType.Damage ? -damageValue : damageValue;
+        }
+        public void AddActorSkillAddition(params ISkillAdditionData[] skillAdditionDatas)
+        {
+            actorSkillAdditionDataList.AddRange(skillAdditionDatas);
+        }
+        public void AddtargetSkillAddition(params ISkillAdditionData[] skillAdditionDatas)
+        {
+            targetSkillAdditionDataList.AddRange(skillAdditionDatas);
+        }
+        public  BattleDamageData()
+        {
+            actorSkillAdditionDataList = new List<ISkillAdditionData>();
+            targetSkillAdditionDataList = new List<ISkillAdditionData>();
+        }
     }
 }

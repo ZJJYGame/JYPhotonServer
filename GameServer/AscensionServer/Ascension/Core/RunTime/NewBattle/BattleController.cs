@@ -19,15 +19,15 @@ namespace AscensionServer
         //阵营二角色列表
         public List<BattleCharacterEntity> FactionTwoCharacterEntites { get; private set; }
 
-        Action roundStartEvent;
-        public event Action RoundStartEvent
+        Action< BattleCharacterEntity, ISkillAdditionData> roundStartEvent;
+        public event Action< BattleCharacterEntity, ISkillAdditionData> RoundStartEvent
         {
             add { roundStartEvent += value; }
             remove { roundStartEvent -= value; }
         }
         //回合结束事件,在roundFinishEvent之前，处理buff事件
-        Action roundEndEvent;
-        public event Action RoundEndEvent
+        Action< BattleCharacterEntity, ISkillAdditionData> roundEndEvent;
+        public event Action<BattleCharacterEntity, ISkillAdditionData> RoundEndEvent
         {
             add { roundEndEvent += value; }
             remove { roundEndEvent -= value; }
@@ -71,7 +71,7 @@ namespace AscensionServer
             //按角色出手顺序开始出手
             int allCount = AllCharacterEntities.Count;
             BattleCharacterEntity actCharacter;
-            roundStartEvent?.Invoke();
+            roundStartEvent?.Invoke(null,null);
 
             for (int i = 0; i < allCount; i++)
             {
