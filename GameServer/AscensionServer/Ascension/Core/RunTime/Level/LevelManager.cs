@@ -62,7 +62,6 @@ namespace AscensionServer
             remove { sceneRefreshHandler -= value; }
         }
 
-        IRoleManager roleMgrInstance;
         Action<RoleEntity> onRoleEnterLevel;
         /// <summary>
         /// 角色进入场景事件
@@ -90,8 +89,6 @@ namespace AscensionServer
             adventureLevelEntityDict = new ConcurrentDictionary<int, LevelEntity>();
             secretAreaLevelEntityDict = new ConcurrentDictionary<long, LevelEntity>();
             connDict = new ConcurrentDictionary<int, LevelConn>();
-
-            roleMgrInstance = GameEntry.RoleManager;
 
             GameEntry.PeerManager.OnPeerDisconnected += OnPeerDisconnectHandler;
             CommandEventCore.Instance.AddEventListener((byte)OperationCode.MultiplayArea, ProcessMultiplayHandlerS2C);

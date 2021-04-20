@@ -196,7 +196,7 @@
     <Compile Include="Ascension\Core\Base\DataObject\FormulaGlobaID.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\FormulaPuppetData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\ItemBagBaseData.cs" />
-    <Compile Include="Ascension\Core\Base\DataObject\MapResourceData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\MapResSpanwInfoData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MagicWeaponData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MishuBook.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\MiShuData.cs" />
@@ -224,7 +224,6 @@
     <Compile Include="Ascension\Core\Base\HelperImplement\DataImpl\GateDataProvider.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\MessagePackHelper\ImplMessagePackHelper.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\RecordHelper\RecordHelper.cs" />
-    <Compile Include="Ascension\Core\Base\ObjectQueue.cs" />
     <Compile Include="Ascension\Core\Base\RedisData\RedisData.ReidsDataProcessing.cs" />
     <Compile Include="Ascension\Core\Base\RedisKey\RedisKeyDefine.cs" />
     <Compile Include="Ascension\Core\Base\RTGenericValuePair.cs" />
@@ -291,32 +290,38 @@
     <Compile Include="Ascension\Core\RunTime\Login\ICreateRoleHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Login\ILoginManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Login\LoginManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\MultiplayRes\Collectable.cs" />
+    <Compile Include="Ascension\Core\RunTime\MultiplayRes\Creature.cs" />
+    <Compile Include="Ascension\Core\RunTime\MultiplayRes\IMultiplayResManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\MultiplayRes\MultiplayLevelRes.cs" />
+    <Compile Include="Ascension\Core\RunTime\MultiplayRes\MultiplayResManager.cs" />
+    <Compile Include="Ascension\Core\Base\Protocol\Model\Fix\FixCollectable.cs" />
+    <Compile Include="Ascension\Core\RunTime\MultiplayRes\Protocol\MultiplayResOperationCode.cs" />
+    <Compile Include="Ascension\Core\RunTime\MultiplayRes\Protocol\MultiplayResParameterCode.cs" />
     <Compile Include="Ascension\Core\RunTime\Multiplay\Connection.cs" />
     <Compile Include="Ascension\Core\RunTime\Multiplay\IMultiplayManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Multiplay\MultiplayManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\Base\OperationData.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\C2S\C2SFlyMagicToolInput.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\C2S\C2SMapRes.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\C2S\C2SMapResource.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\C2S\C2SSkillInput.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\Define\SkillDefine.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\Fix\FixAffectValue.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\Fix\FixAnimParameter.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\Fix\FixFloat.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\Fix\FixMapResource.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\Fix\FixSkill.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\Fix\FixTransform.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\Fix\FixTransportData.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\Model\Fix\FixVector3.cs" />
+    <Compile Include="Ascension\Core\Base\Protocol\Model\Base\OperationData.cs" />
+    <Compile Include="Ascension\Core\Base\Protocol\Model\C2S\C2SFlyMagicToolInput.cs" />
+    <Compile Include="Ascension\Core\Base\Protocol\Model\C2S\C2SSkillInput.cs" />
+    <Compile Include="Ascension\Core\Base\Protocol\Model\Define\SkillDefine.cs" />
+    <Compile Include="Ascension\Core\Base\Protocol\Model\Fix\FixAffectValue.cs" />
+    <Compile Include="Ascension\Core\Base\Protocol\Model\Fix\FixAnimParameter.cs" />
+    <Compile Include="Ascension\Core\Base\Protocol\Model\Fix\FixFloat.cs" />
+    <Compile Include="Ascension\Core\Base\Protocol\Model\Fix\MapResSpawnInfo.cs" />
+    <Compile Include="Ascension\Core\Base\Protocol\Model\Fix\FixSkill.cs" />
+    <Compile Include="Ascension\Core\Base\Protocol\Model\Fix\FixTransform.cs" />
+    <Compile Include="Ascension\Core\Base\Protocol\Model\Fix\FixTransportData.cs" />
+    <Compile Include="Ascension\Core\Base\Protocol\Model\Fix\FixVector3.cs" />
     <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\MultiplayOperationCode.cs" />
     <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\MultiplayParameterCode.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\ThirdParty\UnityEngine\Mathf.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\ThirdParty\UnityEngine\Matrix3x3.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\ThirdParty\UnityEngine\Matrix4x4.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\ThirdParty\UnityEngine\Quaternion.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\ThirdParty\UnityEngine\Vector2.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\ThirdParty\UnityEngine\Vector3.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\ThirdParty\UnityEngine\Vector4.cs" />
+    <Compile Include="Ascension\Core\Base\UnityEngine\Mathf.cs" />
+    <Compile Include="Ascension\Core\Base\UnityEngine\Matrix3x3.cs" />
+    <Compile Include="Ascension\Core\Base\UnityEngine\Matrix4x4.cs" />
+    <Compile Include="Ascension\Core\Base\UnityEngine\Quaternion.cs" />
+    <Compile Include="Ascension\Core\Base\UnityEngine\Vector2.cs" />
+    <Compile Include="Ascension\Core\Base\UnityEngine\Vector3.cs" />
+    <Compile Include="Ascension\Core\Base\UnityEngine\Vector4.cs" />
     <Compile Include="Ascension\Core\RunTime\Network\INetworkManager.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleCharacter\BattleAIEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleCharacter\BattleCharacterEntity.cs" />
@@ -363,11 +368,11 @@
     <Compile Include="Ascension\Core\RunTime\Record\IRecordHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Record\IRecordManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Record\RecordManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Resource\IMapResourceHelper.cs" />
-    <Compile Include="Ascension\Core\RunTime\Resource\IMapResourceManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Resource\IMapResHelper.cs" />
+    <Compile Include="Ascension\Core\RunTime\Resource\IMapResManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\ITacticalManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Resource\MapResourceHelper.cs" />
-    <Compile Include="Ascension\Core\RunTime\Resource\MapResourceManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\Resource\MapResHelper.cs" />
+    <Compile Include="Ascension\Core\RunTime\Resource\MapResManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\TacticalManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\TacticalEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\RoleAssets\IRoleAssetsManager.cs" />
@@ -866,7 +871,7 @@
     <EmbeddedResource Include="JsonData\ItemBagBaseData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="JsonData\MapResourceData.txt">
+    <EmbeddedResource Include="JsonData\MapResSpanwInfoData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonData\Pet.txt">
@@ -992,7 +997,9 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Ascension\Core\RunTime\Resource\Protocol\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
     <VisualStudio AllowExistingFolder="true" />

@@ -236,6 +236,15 @@ namespace Cosmos
                     }
                 }
             }
+            public static bool IsOdd(int n)
+            {
+                return Convert.ToBoolean(n % 2);
+            }
+            public static bool Sign()
+            {
+                var result = CreateRandomInt(0, 200);
+                return IsOdd(result);
+            }
         }
     }
 }

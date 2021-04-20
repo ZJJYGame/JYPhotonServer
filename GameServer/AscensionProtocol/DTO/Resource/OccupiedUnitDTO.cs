@@ -26,7 +26,6 @@ namespace AscensionProtocol.DTO
         public int GlobalID { get; set; }
         public int ResID { get; set; }
 
-        public TransformDTO Position { get; set; }
         public void SetVale(int globalID,int resID)
         {
             this.ResID = resID;

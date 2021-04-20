@@ -11,7 +11,7 @@ using UnityEngine;
 namespace AscensionServer
 {
     [ImplementProvider]
-    public class MapResourceHelper : IMapResourceHelper
+    public class MapResHelper : IMapResHelper
     {
         //Dictionary<int, S2CMapResource> s2cResDict
         //    = new Dictionary<int, S2CMapResource>();
@@ -73,17 +73,14 @@ namespace AscensionServer
         {
             OperationData operationData = new OperationData();
             //operationData.DataMessage = Utility.Json.ToJson(ResUnitSetDict);
-            operationData.OperationCode = (byte)OperationCode.SyncResources;
+            operationData.OperationCode = (byte)OperationCode.MultiplayRes;
             roleEntity.SendMessage(operationData);
-            Utility.Debug.LogInfo("yzqData" + Utility.Json.ToJson(roleEntity));
-            Utility.Debug.LogInfo("yzqData发送技能布局" + roleEntity.RoleId);
             if (RedisDotNet.RedisHelper.KeyExistsAsync(RedisKeyDefine._SkillLayoutPerfix + roleEntity.RoleId).Result)
             {
                 var dict = RedisHelper.Hash.HashGet<AdventureSkillLayoutDTO>(RedisKeyDefine._SkillLayoutPerfix + roleEntity.RoleId, roleEntity.RoleId.ToString());
                 OperationData opData = new OperationData();
                 opData.DataMessage = Utility.Json.ToJson(dict);
                 opData.OperationCode = (byte)OperationCode.RefreshSkillLayout;
-                Utility.Debug.LogInfo("yzqData发送技能布局" + Utility.Json.ToJson(dict));
                  GameEntry.RoleManager.SendMessage(roleEntity.RoleId, operationData);
             }
         }

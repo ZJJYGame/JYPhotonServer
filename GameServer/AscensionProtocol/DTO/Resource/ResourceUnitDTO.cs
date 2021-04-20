@@ -20,10 +20,7 @@ namespace AscensionProtocol.DTO
         /// 改为针对怪物浮动值
         /// </summary>
         public int FlowValue { get; set; }
-        /// <summary>
-        /// 位置信息
-        /// </summary>
-        public TransformDTO Position { get; set; }
+
         public int Amount { get; set; }
         /// <summary>
         /// 表示这个资源已经被占用
@@ -33,7 +30,6 @@ namespace AscensionProtocol.DTO
         {
             ID = -1;
             FlowValue = 0;
-            Position?.Clear();
             Occupied = false;
         }
     }

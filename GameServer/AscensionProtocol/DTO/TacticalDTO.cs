@@ -26,10 +26,6 @@ namespace AscensionProtocol.DTO
         /// </summary>
         public int GlobalID { get; set; }
         /// <summary>
-        /// 阵法的位置信息
-        /// </summary>
-        public TransformDTO transformDTO { get; set; }
-        /// <summary>
         /// 阵法的持续时间
         /// </summary>
         public int Duration { get; set; }
@@ -39,7 +35,6 @@ namespace AscensionProtocol.DTO
             RoleID = 0;
             GlobalID = 0;
             Duration = 0;
-            transformDTO?.Clear();
         }
     }
 }

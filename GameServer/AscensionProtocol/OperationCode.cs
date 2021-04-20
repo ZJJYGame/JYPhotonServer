@@ -47,6 +47,10 @@ namespace AscensionProtocol
         SyncMoveStatus =20,
 
         /// <summary>
+        /// 同步资源
+        /// </summary>
+        MultiplayRes = 33,
+        /// <summary>
         /// 多人在线区域码；
         /// </summary>
         MultiplayArea=110,
@@ -76,10 +80,7 @@ namespace AscensionProtocol
         SyncSutrasAtticm=30,
         SyncSchool =31,
         SyncRoleSchool=32,
-        /// <summary>
-        /// 同步资源
-        /// </summary>
-        SyncResources = 33,
+
         /// <summary>
         /// 拾取&占用资源
         /// </summary>

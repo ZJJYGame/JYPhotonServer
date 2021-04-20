@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-    public interface IMapResourceHelper
+    public interface IMapResHelper
     {
         void LoadMapResource();
         void TakeUpMapResource(Dictionary<byte,object> dataMessage);
