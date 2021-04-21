@@ -15,6 +15,8 @@ namespace AscensionServer
     public class BattleBuffObj : IReference,ISkillAdditionData
     {
         public BattleCharacterEntity Owner { get; protected set; }
+        //buff的来源
+        public BattleCharacterEntity OrginRole { get { return OwnerSkill.OwnerEntity; } }
         public BattleSkillBase OwnerSkill { get; protected set; }
         public BattleController BattleController { get; protected set; }
 
@@ -38,8 +40,8 @@ namespace AscensionServer
         List<BattleBuffEventBase> battleBuffEventList;
         List<BattleBuffEventConditionBase> battleBuffEventConditionList;
 
-        Action<BattleCharacterEntity,ISkillAdditionData> buffAddEvent;
-        public event Action<BattleCharacterEntity, ISkillAdditionData> BuffAddEvent
+        Action<BattleCharacterEntity,BattleDamageData,ISkillAdditionData> buffAddEvent;
+        public event Action<BattleCharacterEntity, BattleDamageData, ISkillAdditionData> BuffAddEvent
         {
             add { buffAddEvent += value; }
             remove { buffAddEvent -= value; }
@@ -92,10 +94,12 @@ namespace AscensionServer
                     case BattleBuffEventType.RoleStateChange:
                         break;
                     case BattleBuffEventType.UseDesignateSkill:
+                        battleBuffEventBase = new BattleBuffEvent_UseDesignateSkill(battleBuffData.battleBuffEventDataList[i], this);
                         break;
                     case BattleBuffEventType.DamageOrHeal:
                         break;
                     case BattleBuffEventType.Shield:
+                        battleBuffEventBase = new BattleBuffEvent_Shield(battleBuffData.battleBuffEventDataList[i], this);
                         break;
                     case BattleBuffEventType.DamageReduce:
                         break;
@@ -106,6 +110,15 @@ namespace AscensionServer
                     case BattleBuffEventType.DispelBuff:
                         break;
                     case BattleBuffEventType.NotResurgence:
+                        break;
+                    case BattleBuffEventType.ImmuneBuff:
+                        battleBuffEventBase = new BattleBuffEvent_ImmuneBuff(battleBuffData.battleBuffEventDataList[i], this);
+                        break;
+                    case BattleBuffEventType.ChangeCmd:
+                        battleBuffEventBase = new BattleBuffEvent_ChangeCmd(battleBuffData.battleBuffEventDataList[i], this);
+                        break;
+                    case BattleBuffEventType.ChangeTagrget:
+                        battleBuffEventBase = new BattleBuffEvent_ChangeTarget(battleBuffData.battleBuffEventDataList[i], this);
                         break;
                 }
                 battleBuffEventList.Add(battleBuffEventBase);
@@ -128,8 +141,7 @@ namespace AscensionServer
         /// </summary>
         public void OnAdd()
         {
-            Utility.Debug.LogError("触发buff添加事件");
-            buffAddEvent?.Invoke(null,null);
+            buffAddEvent?.Invoke(null,null,null);
         }
         /// <summary>
         /// buff移除事件

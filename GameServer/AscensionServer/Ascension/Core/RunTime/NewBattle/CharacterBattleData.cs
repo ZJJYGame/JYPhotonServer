@@ -143,7 +143,25 @@ namespace AscensionServer
                     return 0;
             }
         }
-
+        public int GetProperty(BuffEvent_Shield_SourceDataType buffEvent_Shield_SourceDataType)
+        {
+            switch (buffEvent_Shield_SourceDataType)
+            {
+                case BuffEvent_Shield_SourceDataType.MaxHealth:
+                    return MaxHp;
+                case BuffEvent_Shield_SourceDataType.MaxZhenYuan:
+                    return MaxMp;
+                case BuffEvent_Shield_SourceDataType.MaxShenHun:
+                    return MaxSoul;
+                case BuffEvent_Shield_SourceDataType.TakeDamageNum:
+                    //todo 根据伤害值获取暂定
+                    return 0;
+                case BuffEvent_Shield_SourceDataType.ReceiveDamageNum:
+                    //todo 根据造成伤害值获取暂定
+                    return 0;
+            }
+            return 0;
+        }
 
         /// <summary>
         /// 获取基础对应属性
@@ -217,9 +235,18 @@ namespace AscensionServer
                     soul = soul > MaxSoul ? MaxSoul : soul;
                     break;
             }
+           
+        }
+        public void ChangeProperty(BattleDamageData battleDamageData)
+        {
+            //触发伤害前buff事件（目前仅针对护盾）
+            owner.BattleBuffController.TriggerBuffEventBeforePropertyChange(battleDamageData:battleDamageData);
+
+            ChangeProperty(battleDamageData.baseDamageTargetProperty, battleDamageData.damageNum);
+            ChangeProperty(battleDamageData.extraDamageTargetProperty, battleDamageData.extraDamageNum);
+
             owner.BattleBuffController.TriggerBuffEventAfterPropertyChange();
         }
-
         public void Init(RoleStatus roleStatus, BattleCharacterEntity owner)
         {
             this.owner = owner;

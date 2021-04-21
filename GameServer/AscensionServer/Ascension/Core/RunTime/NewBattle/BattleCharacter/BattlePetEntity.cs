@@ -60,6 +60,9 @@ namespace AscensionServer
         {
             base.AllocationBattleAction();
             //todo 先临时将AI的行为设置为普通攻击
+            //指令决定前buff触发事件
+            BattleBuffController.TriggerBuffEventBeforeAllocationAction();
+
             TargetIDList = GetTargetIdList(ActionID, true, TargetIDList);
         }
 

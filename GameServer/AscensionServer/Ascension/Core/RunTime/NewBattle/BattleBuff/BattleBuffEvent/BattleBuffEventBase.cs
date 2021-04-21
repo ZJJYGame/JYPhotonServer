@@ -33,7 +33,7 @@ namespace AscensionServer
         /// 具体buff触发事件实现
         /// </summary>
         /// <param name="skillAdditionData">用于记录临时的加成数据，比如技能加成</param>
-        public void Trigger(BattleCharacterEntity target, ISkillAdditionData skillAdditionData)
+        public void Trigger(BattleCharacterEntity target,BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
         {
 
             //todo 暂时设置为必定触发
@@ -50,7 +50,7 @@ namespace AscensionServer
             triggerCount++;
             if (maxTriggerCount != -1 && triggerCount >= maxTriggerCount)
                 triggerCount = maxTriggerCount;
-            TriggerEventMethod(target,skillAdditionData);
+            TriggerEventMethod(target,battleDamageData,skillAdditionData);
 
         }
         //恢复到未触发
@@ -59,10 +59,10 @@ namespace AscensionServer
             if (triggerCount==0)
                 return;
             triggerCount = 0;
-            TriggerEventMethod(null,null);
+            TriggerEventMethod(null,null,null);
 
         }
-        protected virtual void TriggerEventMethod( BattleCharacterEntity target, ISkillAdditionData skillAdditionData) { }
+        protected virtual void TriggerEventMethod( BattleCharacterEntity target, BattleDamageData battleDamageData,ISkillAdditionData skillAdditionData) { }
         protected virtual void RecoverEventMethod() { }
         protected virtual void AddTriggerEvent()
         {

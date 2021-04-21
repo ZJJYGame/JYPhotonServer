@@ -38,15 +38,15 @@ namespace AscensionServer
 
         List<BattleSkillEventBase> battleSkillEventBaseList;
         //攻击前技能触发事件
-        Action<List<BattleTransferDTO>,BattleDamageData,ISkillAdditionData> skillEventBeforeAttack;
-        public event Action<List<BattleTransferDTO>,BattleDamageData,ISkillAdditionData> SkillEventBeforeAttack
+        Action<BattleDamageData,ISkillAdditionData> skillEventBeforeAttack;
+        public event Action<BattleDamageData,ISkillAdditionData> SkillEventBeforeAttack
         {
             add { skillEventBeforeAttack += value; }
             remove { skillEventBeforeAttack -= value; }
         }
         //攻击后技能触发事件
-        Action<List<BattleTransferDTO>,BattleDamageData, ISkillAdditionData> skillEventBehindAttack;
-        public event Action<List<BattleTransferDTO>, BattleDamageData, ISkillAdditionData> SkillEventBehindAttack
+        Action<BattleDamageData, ISkillAdditionData> skillEventBehindAttack;
+        public event Action<BattleDamageData, ISkillAdditionData> SkillEventBehindAttack
         {
             add { skillEventBehindAttack += value; }
             remove { skillEventBehindAttack -= value; }
@@ -188,19 +188,19 @@ namespace AscensionServer
         /// <summary>
         /// 攻击前事件触发
         /// </summary>
-        public ISkillAdditionData TriggerSkillEventBeforeAttack(List<BattleTransferDTO> battleTransferDTOList, BattleDamageData battleDamageData)
+        public ISkillAdditionData TriggerSkillEventBeforeAttack(BattleDamageData battleDamageData)
         {
             ISkillAdditionData skillAdditionData = new SkillAdditionData();
-            skillEventBeforeAttack?.Invoke(battleTransferDTOList, battleDamageData, skillAdditionData);
+            skillEventBeforeAttack?.Invoke( battleDamageData, skillAdditionData);
             return skillAdditionData;
         }
         /// <summary>
         /// 攻击后事件触发
         /// </summary>
-        public ISkillAdditionData TriggerSkillEventBehindAttack(List<BattleTransferDTO> battleTransferDTOList,BattleDamageData battleDamageData)
+        public ISkillAdditionData TriggerSkillEventBehindAttack(BattleDamageData battleDamageData)
         {
             ISkillAdditionData skillAdditionData = new SkillAdditionData();
-            skillEventBehindAttack?.Invoke(battleTransferDTOList,battleDamageData, skillAdditionData);
+            skillEventBehindAttack?.Invoke(battleDamageData, skillAdditionData);
             return skillAdditionData;
         }
 
