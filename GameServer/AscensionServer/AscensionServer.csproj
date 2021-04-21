@@ -229,12 +229,10 @@
     <Compile Include="Ascension\Core\Base\HelperImplement\RecordHelper\RecordHelper.cs" />
     <Compile Include="Ascension\Core\Base\RedisData\RedisData.ReidsDataProcessing.cs" />
     <Compile Include="Ascension\Core\Base\RedisKey\RedisKeyDefine.cs" />
-    <Compile Include="Ascension\Core\Base\RTGenericValuePair.cs" />
     <Compile Include="Ascension\Core\Base\StatusCalculate\StatusCalculateHelper.cs" />
     <Compile Include="Ascension\Core\Base\Stream\DataStream.cs" />
     <Compile Include="Ascension\Core\Base\Stream\DataStreamQueue.cs" />
     <Compile Include="Ascension\Core\Base\Stream\GenericDataStream.cs" />
-    <Compile Include="Ascension\Core\Base\VTGenericValuePair.cs" />
     <Compile Include="Ascension\Core\RunTime\Alliancelogic\AllianceEventCore.cs" />
     <Compile Include="Ascension\Core\RunTime\Alliancelogic\AlliancelogicManager.cs" />
     <Compile Include="Ascension\Core\Base\Actor\ActorManager.cs" />
@@ -376,11 +374,7 @@
     <Compile Include="Ascension\Core\RunTime\Record\IRecordHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Record\IRecordManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Record\RecordManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Resource\IMapResHelper.cs" />
-    <Compile Include="Ascension\Core\RunTime\Resource\IMapResManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\ITacticalManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Resource\MapResHelper.cs" />
-    <Compile Include="Ascension\Core\RunTime\Resource\MapResManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\TacticalManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Resource\TacticalEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\RoleAssets\IRoleAssetsManager.cs" />
@@ -627,7 +621,6 @@
     <Compile Include="Handlers\SyncWeapon\SubHandler\GetWeaponSubHandler.cs" />
     <Compile Include="Handlers\SyncWeapon\SubHandler\SyncWeaponSubHandler.cs" />
     <Compile Include="Handlers\SyncWeapon\SyncWeaponHandler.cs" />
-    <Compile Include="Handlers\OccupiedResourceUnit\OccupiedResourceUnitHandler.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\AddAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\GetAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncAlchemy\SubHandler\SyncAlchemySubHandler.cs" />
@@ -640,7 +633,6 @@
     <Compile Include="Handlers\SyncHerbsField\SubHandler\GetHerbsFieldSubHandler.cs" />
     <Compile Include="Handlers\SyncHerbsField\SubHandler\SyncHerbsFieldSubHandler.cs" />
     <Compile Include="Handlers\SyncHerbsField\SyncHerbsFieldHandler.cs" />
-    <Compile Include="Handlers\SyncMonsterTransformSet\SyncMonsterTransformSetHandler.cs" />
     <Compile Include="Handlers\SyncMoveStatus\SyncMoveStatusHandler.cs" />
     <Compile Include="Handlers\SyncRoleAdventureSkill\SyncRoleAdventureSkillHandler.cs" />
     <Compile Include="Handlers\SyncRoleSchool\SubHandler\GetRoleSchoolHandler.cs" />

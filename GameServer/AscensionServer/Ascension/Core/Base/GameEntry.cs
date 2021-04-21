@@ -25,6 +25,7 @@ namespace AscensionServer
         public static IBattleCharacterManager BattleCharacterManager { get { return GameManager.GetModule<IBattleCharacterManager>(); } }
         public static IBattleRoomManager BattleRoomManager { get { return GameManager.GetModule<IBattleRoomManager>(); } }
         public static IPracticeManager practiceManager { get { return GameManager.GetModule<IPracticeManager>(); } }
+        public static ILevelResManager  LevelResManager{ get { return GameManager.GetModule<ILevelResManager>(); } }
     }
 }
 

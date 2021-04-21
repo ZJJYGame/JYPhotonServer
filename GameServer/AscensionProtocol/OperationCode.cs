@@ -81,14 +81,8 @@ namespace AscensionProtocol
         SyncSchool =31,
         SyncRoleSchool=32,
 
-        /// <summary>
-        /// 拾取&占用资源
-        /// </summary>
-        TakeUpResource = 34,
-        /// <summary>
-        /// 同步怪物位置
-        /// </summary>
-        SyncMonsterTransform = 35,
+
+
         /// <summary>
         ///  历练等高同步场景使用技能码；
         ///  勿动！（Don）
