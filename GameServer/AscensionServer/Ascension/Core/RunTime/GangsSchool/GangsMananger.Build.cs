@@ -51,7 +51,7 @@ namespace AscensionServer
             if (roleAllianceExist&& allianceExist)
             {
                 Utility.Debug.LogInfo("YZQ升级宗门建设成员2"+Utility.Json.ToJson(construction));
-                var Construction = RedisHelper.Hash.HashGetAsync<AllianceConstructionDTO>(RedisKeyDefine._AllianceConstructionPerfix, ID.ToString()).Result;
+                var Construction = RedisHelper.Hash.HashGetAsync<AllianceConstruction>(RedisKeyDefine._AllianceConstructionPerfix, ID.ToString()).Result;
                 var alliance = RedisHelper.Hash.HashGetAsync<AllianceStatus>(RedisKeyDefine._AlliancePerfix, ID.ToString()).Result;
                 if (Construction != null&& alliance!=null)
                 {
@@ -102,10 +102,10 @@ namespace AscensionServer
                     dict.Add((byte)ParameterCode.AllianceStatus, alliance);
                     dict.Add((byte)ParameterCode.AllianceConstruction, Construction);
                     RoleStatusSuccessS2C(roleID, AllianceOpCode.BuildAlliance, dict);
-                    await  RedisHelper.Hash.HashSetAsync<AllianceConstructionDTO>(RedisKeyDefine._AllianceConstructionPerfix,ID.ToString(),Construction);
+                    await  RedisHelper.Hash.HashSetAsync<AllianceConstruction>(RedisKeyDefine._AllianceConstructionPerfix,ID.ToString(),Construction);
                     await NHibernateQuerier.UpdateAsync(Construction);
 
-                    await RedisHelper.Hash.HashSetAsync<AllianceStatus>(RedisKeyDefine._AllianceConstructionPerfix, ID.ToString(), alliance);
+                    await RedisHelper.Hash.HashSetAsync<AllianceStatus>(RedisKeyDefine._AlliancePerfix, ID.ToString(), alliance);
                     await NHibernateQuerier.UpdateAsync(alliance);
                 } else
                     BuildAllianceConstructionMySql(ID, roleID, constructionDTO);

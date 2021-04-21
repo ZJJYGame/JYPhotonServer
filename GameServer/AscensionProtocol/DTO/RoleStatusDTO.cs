@@ -15,8 +15,8 @@ namespace AscensionProtocol.DTO
         public virtual int RoleMaxMP { get; set; }
         public virtual int RoleSoul { get; set; }
         public virtual int RoleMaxSoul { get; set; }
-        public virtual short BestBlood { get; set; }
-        public virtual short BestBloodMax { get; set; }
+        public virtual int BestBlood { get; set; }
+        public virtual int BestBloodMax { get; set; }
         public virtual int Vitality { get; set; }
         public virtual int MaxVitality { get; set; }
         public virtual int AttackSpeed { get; set; }

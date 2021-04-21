@@ -4630,6 +4630,11 @@
             重置加点
             </summary>
         </member>
+        <member name="M:AscensionServer.RoleStatusManager.SwitchAddPointSlnS2C(AscensionProtocol.DTO.RoleStatusPointDTO)">
+            <summary>
+            切换解决方案
+            </summary>
+        </member>
         <member name="M:AscensionServer.RoleStatusManager.GetRoleStatusMySql(AscensionProtocol.DTO.RoleStatusPointDTO)">
             <summary>
             获取MySql中的角色数据

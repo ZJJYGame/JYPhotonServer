@@ -40,6 +40,10 @@ namespace AscensionServer
                     Utility.Debug.LogInfo("YZQ加点数据" + (RoleStatusOpCode)packet.SubOperationCode);
                     SetRolePointS2C(pointObj);
                     break;
+                case RoleStatusOpCode.SwitchAddPointSln:
+                    Utility.Debug.LogInfo("YZQ加点数据" + (RoleStatusOpCode)packet.SubOperationCode);
+                    SetRolePointS2C(pointObj);
+                    break;
                 default:
                     break;
             }

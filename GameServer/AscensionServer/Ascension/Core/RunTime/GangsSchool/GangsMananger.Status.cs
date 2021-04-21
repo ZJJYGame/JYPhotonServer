@@ -105,9 +105,10 @@ namespace AscensionServer
             var roleAlliance = NHibernateQuerier.CriteriaSelectAsync<RoleAlliance>(nHCriteriaRole).Result;
 
             var AllAlliance = NHibernateQuerier.CriteriaSelectAsync<Alliances>(nHCriteria).Result;
-
+            Utility.Debug.LogError("创建宗门进来了"+ (roleAssets != null) + (role != null) + (roleAlliance != null));
             if (roleAssets != null && role != null && roleAlliance != null)
             {
+                Utility.Debug.LogError("创建宗门进来了" + (roleAssets.SpiritStonesLow >= CreatAlliance[1].ScripturesPlatform) + (role.RoleLevel >= CreatAlliance[1].RoleLevel) );
                 //TODO判断灵石够不够
                 if (roleAssets.SpiritStonesLow >= CreatAlliance[1].ScripturesPlatform && role.RoleLevel >= CreatAlliance[1].RoleLevel)
                 {

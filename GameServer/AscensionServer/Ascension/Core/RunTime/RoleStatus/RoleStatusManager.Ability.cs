@@ -158,8 +158,38 @@ namespace AscensionServer
             else
             RoleStatusFailS2C(pointDTO.RoleID, RoleStatusOpCode.SetAddPoint);
         }
+        /// <summary>
+        /// 切换解决方案
+        /// </summary>
+        async void SwitchAddPointSlnS2C(RoleStatusPointDTO pointDTO)
+        {
+            var result = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatsuPerfix, pointDTO.RoleID.ToString()).Result;
+            if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString()).Result && result)
+            {
+                var pointObj = RedisHelper.Hash.HashGetAsync<RoleStatusPointDTO>(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString()).Result;
+                var roleStatusObj = RedisHelper.Hash.HashGetAsync<RoleStatus>(RedisKeyDefine._RoleStatsuPerfix, pointDTO.RoleID.ToString()).Result;
 
+                var obj = RolePointCalculate(pointObj, pointDTO);
+                if (obj != null && roleStatusObj != null)
+                {
+                    var status = await GameEntry.practiceManager.RoleAblility(obj, roleStatusObj);
+                    Dictionary<byte, object> dataDict = new Dictionary<byte, object>();
+                    dataDict.Add((byte)ParameterCode.RoleStatus, status);
+                    dataDict.Add((byte)ParameterCode.RoleStatusPoint, pointObj);
+                    RoleStatusSuccessS2C(pointDTO.RoleID, RoleStatusOpCode.SetAddPoint, dataDict);
+                    Utility.Debug.LogError(Utility.Json.ToJson(status));
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAbilityPointPostfix, pointDTO.RoleID.ToString(), obj);
+                    await NHibernateQuerier.UpdateAsync(ChangeRoleStatusPointType(obj));
 
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleStatsuPerfix, pointDTO.RoleID.ToString(), status);
+                    await NHibernateQuerier.UpdateAsync(status);
+                }
+                else
+                    SetRolePointMySql(pointDTO);
+            }
+            else
+                SetRolePointMySql(pointDTO);
+        }
         #region MySql模块
         /// <summary>
         /// 获取MySql中的角色数据
@@ -242,7 +272,7 @@ namespace AscensionServer
                         ability.Strength += abilityDTO.Strength;
                         pointObj.AbilityPointSln[pointDTO.SlnNow] = ability;
                         pointObj.SlnNow = pointDTO.SlnNow;
-                        Utility.Debug.LogInfo("剩余点数" + ability.SurplusAptitudePoint);
+                        Utility.Debug.LogInfo("剩余点数" +Utility.Json.ToJson(ability));
                         return pointObj;
                     }
                     else

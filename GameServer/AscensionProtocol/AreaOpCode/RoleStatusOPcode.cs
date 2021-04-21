@@ -16,6 +16,6 @@ namespace AscensionProtocol
         Rename=3,
         RestartAddPoint=4,
         SetAddPoint=5,
-
+        SwitchAddPointSln=6
     }
 }
