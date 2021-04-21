@@ -6,16 +6,16 @@ using System.Collections.Generic;
 namespace AscensionServer
 {
     //[Module]
-    public class MapResourceManager :Cosmos. Module,IMapResourceManager
+    public class MapResManager :Cosmos. Module,IMapResManager
     {
-        IMapResourceHelper mapResourceHelper;
+        IMapResHelper mapResourceHelper;
         long latestTime;
         const int updateInterval = ApplicationBuilder.MapResourceRefreshInterval;
         public override void OnPreparatory()
         {
-            GameEntry. LevelManager.OnRoleEnterLevel += OnRoleEnterMap;
+            //GameEntry. LevelManager.OnRoleEnterLevel += OnRoleEnterMap;
             CommandEventCore.Instance.AddEventListener((byte)OperationCode.TakeUpResource, TakeUpResourceC2S);
-            mapResourceHelper = Utility.Assembly.GetInstanceByAttribute<ImplementProviderAttribute, IMapResourceHelper>();
+            mapResourceHelper = Utility.Assembly.GetInstanceByAttribute<ImplementProviderAttribute, IMapResHelper>();
             mapResourceHelper?.LoadMapResource();
             latestTime = Utility.Time.MillisecondNow() + updateInterval;
         }

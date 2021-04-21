@@ -110,7 +110,6 @@
     <Compile Include="DTO\Resource\OccupiedUnitDTO.cs" />
     <Compile Include="DTO\Resource\ResourceUnitDTO.cs" />
     <Compile Include="DTO\Resource\ResourceUnitSetDTO.cs" />
-    <Compile Include="DTO\Resource\Vector3DTO.cs" />
     <Compile Include="DTO\RingDTO.cs" />
     <Compile Include="DTO\MiShuDTO.cs" />
     <Compile Include="DTO\OnOffLineDTO.cs" />

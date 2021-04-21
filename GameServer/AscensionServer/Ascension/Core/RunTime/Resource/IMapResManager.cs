@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Cosmos;
 namespace AscensionServer
 {
-    public interface IMapResourceManager:IModuleManager
+    public interface IMapResManager:IModuleManager
     {
     }
 }

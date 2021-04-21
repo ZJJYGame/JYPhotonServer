@@ -8,12 +8,10 @@ using MessagePack;
 namespace AscensionServer
 {
     /// <summary>
-    /// 表示一个单位；
-    /// 历练&野外资源数据；
+    /// 地图资源生成信息，不作传输使用；
     /// </summary>
     [Serializable]
-    [MessagePackObject(true)]
-    public class FixMapResource
+    public class MapResSpawnInfo
     {
         public int ResId { get; set; }
         public int ResAmount { get; set; }

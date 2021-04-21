@@ -17,7 +17,6 @@ namespace AscensionServer
     /// </summary>
     public class LevelEntity : Entity, IReference, IRefreshable
     {
-
         /// <summary>
         /// None表示当前失活状态；
         /// 用于区分场景属于历练还是秘境类型；
@@ -171,7 +170,7 @@ namespace AscensionServer
             LevelEntity se = CosmosEntry.ReferencePoolManager.Spawn<LevelEntity>();
             se.LevelType = levelType;
             se.Available = true;
-            se.Capacity = capacity;
+            se.Capacity = capacity==0?int.MaxValue:0;
             se.LevelId = levelId;
             return se;
         }

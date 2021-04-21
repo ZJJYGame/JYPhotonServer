@@ -9,6 +9,8 @@ namespace AscensionServer
     [MessagePackObject(true)]
     public struct FixTransform 
     {
+        public static FixTransform Zero { get { return new FixTransform(); } }
+        public static FixTransform One{ get { return new FixTransform(Vector3.one,Vector3.one,Vector3.one); } }
         public FixTransform(Vector3 position, Vector3 rotation, Vector3 scale)
         {
             Position = FixVector3.SetVector( position);

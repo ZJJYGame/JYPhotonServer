@@ -54,7 +54,7 @@ namespace AscensionServer
 
         public override void OnPreparatory()
         {
-            GameEntry. LevelManager.OnRoleEnterLevel += OnSendTactical;
+            //GameEntry. LevelManager.OnRoleEnterLevel += OnSendTactical;
         }
         public override void OnRefresh()
         {
