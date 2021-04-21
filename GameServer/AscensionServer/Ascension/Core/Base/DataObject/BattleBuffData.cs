@@ -233,6 +233,7 @@ namespace AscensionServer
         public BattleSkillDamageType BattleSkillDamageType;
         public BuffEvent_Shield_SourceDataType buffEvent_Shield_SourceDataType;
         public BuffEvent_TakeDamageForOther_TargetType buffEvent_TakeDamageForOther_TargetType;
+        public BuffEvent_ChangeTarget_TargetType buffEvent_ChangeTarget_TargetType;
         public int fixedValue;
         public int percentValue;
         public List<int> idList;
@@ -269,7 +270,13 @@ namespace AscensionServer
         // [Tooltip("驱散buff")]
         DispelBuff,
         // [Tooltip("无法复活")]
-        NotResurgence
+        NotResurgence,
+        //[Tooltip("免疫buff")]
+        ImmuneBuff,
+        //[Tooltip("改变行为指令")]
+        ChangeCmd,
+        //[Tooltip("改变行为目标")]
+        ChangeTagrget,
     }
     public enum BattleBuffEventType_RolePropertyChange : byte
     {
@@ -377,6 +384,10 @@ namespace AscensionServer
     {
         Master,
         AnyTeammate,
+    }
+    public enum BuffEvent_ChangeTarget_TargetType : byte
+    {
+        BuffOrginer,
     }
     #endregion
 }

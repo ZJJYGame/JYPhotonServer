@@ -14,9 +14,62 @@ namespace AscensionServer
         int skillID;
         int percentValue;
 
-        protected override void TriggerEventMethod(BattleCharacterEntity target, ISkillAdditionData skillAdditionData)
+        protected override void AddTriggerEvent()
         {
-            base.TriggerEventMethod(target, skillAdditionData);
+            switch (battleBuffTriggerTime)
+            {
+                case BattleBuffTriggerTime.BeforeUseSkill:
+                    owner.BattleBuffController.BeforeUseSkill += Trigger;
+                    break;
+                case BattleBuffTriggerTime.BeforeAttack:
+                    owner.BattleBuffController.BeforeAttackEvent += Trigger;
+                    break;
+                case BattleBuffTriggerTime.BehindAttack:
+                    owner.BattleBuffController.BehindAttackEvent += Trigger;
+                    break;
+                case BattleBuffTriggerTime.BehindUseSkill:
+                    owner.BattleBuffController.BehindUseSkill += Trigger;
+                    break;
+                case BattleBuffTriggerTime.BeforeOnHit:
+                    owner.BattleBuffController.BeforeOnHitEvent += Trigger;
+                    break;
+                case BattleBuffTriggerTime.BehindOnHit:
+                    owner.BattleBuffController.BehindOnHitEvent += Trigger;
+                    break;
+            }
+        }
+        public override void RemoveEvent()
+        {
+            switch (battleBuffTriggerTime)
+            {
+                case BattleBuffTriggerTime.BeforeUseSkill:
+                    owner.BattleBuffController.BeforeUseSkill -= Trigger;
+                    break;
+                case BattleBuffTriggerTime.BeforeAttack:
+                    owner.BattleBuffController.BeforeAttackEvent -= Trigger;
+                    break;
+                case BattleBuffTriggerTime.BehindAttack:
+                    owner.BattleBuffController.BehindAttackEvent -= Trigger;
+                    break;
+                case BattleBuffTriggerTime.BehindUseSkill:
+                    owner.BattleBuffController.BehindUseSkill -= Trigger;
+                    break;
+                case BattleBuffTriggerTime.BeforeOnHit:
+                    owner.BattleBuffController.BeforeOnHitEvent -= Trigger;
+                    break;
+                case BattleBuffTriggerTime.BehindOnHit:
+                    owner.BattleBuffController.BehindOnHitEvent -= Trigger;
+                    break;
+            }
+        }
+        protected override void TriggerEventMethod(BattleCharacterEntity target, BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
+        {
+            List<int> tempTargetList;
+            if (target != null)
+                tempTargetList = owner.GetTargetIdList(skillID, false, new List<int>() { target.UniqueID });
+            else
+                tempTargetList = owner.GetTargetIdList(skillID, false);
+            owner.BattleSkillController.UseSkill(skillID, tempTargetList);
         }
         public BattleBuffEvent_UseDesignateSkill(BattleBuffEventData battleBuffEventData, BattleBuffObj battleBuffObj) : base(battleBuffEventData, battleBuffObj)
         {

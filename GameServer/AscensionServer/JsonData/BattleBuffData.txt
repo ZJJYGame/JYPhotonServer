@@ -1648,9 +1648,9 @@
                         "flag": false,
                         "battleBuffCondition_CharacterType": 0
                     },
-                    "battleBuffEventType": 0,
+                    "battleBuffEventType": 12,
 					"maxTriggerCount":1,
-					"battleBuffTriggerTime":3,
+					"battleBuffTriggerTime":2,
                     "battleBuffEventType_RolePropertyChange": 4,
                     "buffRolePropertyChange_SourceDataType": 3,
                     "buffPropertyChangeType": 0,
@@ -1661,13 +1661,14 @@
                     "BattleSkillDamageType": 0,
                     "buffEvent_Shield_SourceDataType": 0,
                     "buffEvent_TakeDamageForOther_TargetType": 0,
-                    "fixedValue": 0,
-                    "percentValue": 10,
-                    "idList": [],
+					"buffEvent_ChangeTarget_TargetType":0,
+                    "fixedValue": 380,
+                    "percentValue": 0,
+                    "idList": [20311],
                     "flag": false,
                     "flag_2": false,
                     "flag_3": false,
-                    "id": 0
+                    "id": 21002
                 }
             ],
             "isShow": false
@@ -1675,10 +1676,12 @@
         {
             "name": "20311",
             "id": 20311,
-            "describe": "造成伤害增加10%",
-            "battleBuffTriggerTime": 2,
+            "describe": "物理攻击力减少10点",
+            "battleBuffTriggerTime": 0,
             "probability": 100,
             "coldTime": 0,
+			"buffCoverType":0,
+			"maxSuperpositionCount":5,
             "battleBuffTriggerConditionList": [],
             "battleBuffEventDataList": [
                 {
@@ -1694,9 +1697,11 @@
                         "flag": false,
                         "battleBuffCondition_CharacterType": 0
                     },
-                    "battleBuffEventType": 1,
-                    "battleBuffEventType_RolePropertyChange": 0,
-                    "buffRolePropertyChange_SourceDataType": 0,
+                    "battleBuffEventType": 0,
+					"maxTriggerCount":1,
+					"battleBuffTriggerTime":0,
+                    "battleBuffEventType_RolePropertyChange": 4,
+                    "buffRolePropertyChange_SourceDataType": 3,
                     "buffPropertyChangeType": 0,
                     "buffRoleStateChangeType": 0,
                     "buffEvent_DamageOrHeal_ChangeDataType": 0,
@@ -1705,13 +1710,14 @@
                     "BattleSkillDamageType": 0,
                     "buffEvent_Shield_SourceDataType": 0,
                     "buffEvent_TakeDamageForOther_TargetType": 0,
-                    "fixedValue": 0,
-                    "percentValue": 10,
+					"buffEvent_ChangeTarget_TargetType":0,
+                    "fixedValue": -10,
+                    "percentValue": 0,
                     "idList": [],
                     "flag": false,
                     "flag_2": false,
                     "flag_3": false,
-                    "id": 0
+                    "id": 21002
                 }
             ],
             "isShow": false

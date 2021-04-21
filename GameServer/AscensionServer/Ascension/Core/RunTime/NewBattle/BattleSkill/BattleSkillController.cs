@@ -25,9 +25,9 @@ namespace AscensionServer
             return roleHasSkillHash.Contains(skillID);
         }
 
-        public List<BattleTransferDTO> UseSkill(int skillID,List<int> targetIdList)
+        public void UseSkill(int skillID,List<int> targetIdList)
         {
-            List<BattleTransferDTO> battleTransferDTOList = new List<BattleTransferDTO>();
+            List<BattleTransferDTO> battleTransferDTOList = GameEntry.BattleRoomManager.GetBattleRoomEntity(owner.RoomID).BattleTransferDTOList;
 
             if (!skillDict.ContainsKey(skillID))
                 skillDict[skillID] = new BattleSkillBase(skillID, owner);
@@ -76,7 +76,7 @@ namespace AscensionServer
                         owner.BattleDamageData = battleDamageData;
                         targetCharacterList[j].BattleDamageData = battleDamageData;
                         //攻击前技能事件触发
-                        ISkillAdditionData skillBeforeAtkAddition = battleSkill.TriggerSkillEventBeforeAttack(battleTransferDTOList, battleDamageData);
+                        ISkillAdditionData skillBeforeAtkAddition = battleSkill.TriggerSkillEventBeforeAttack( battleDamageData);
                         battleDamageData.AddActorSkillAddition(buffBeforeUseSkillAddition, buffBeforeAtkAddition, skillBeforeAtkAddition);
                         //获得伤害数据
                         battleDamageData = battleSkill.GetDamageData(i, j, targetCharacterList[j], battleDamageData);
@@ -87,7 +87,7 @@ namespace AscensionServer
                     //受击前buff事件处理
                     for (int j = 0; j < targetCharacterList.Count; j++)
                     {
-                        ISkillAdditionData buffBeforOnHitAddition= targetCharacterList[j].BattleBuffController.TriggerBuffEventBeforeOnHit();
+                        ISkillAdditionData buffBeforOnHitAddition= targetCharacterList[j].BattleBuffController.TriggerBuffEventBeforeOnHit(owner);
                         if (targetCharacterList[j].BattleDamageData != null)
                         {
                             targetCharacterList[j].BattleDamageData.AddtargetSkillAddition(buffBeforOnHitAddition);
@@ -115,15 +115,15 @@ namespace AscensionServer
                     //受击后buff事件处理
                     for (int j = 0; j < targetCharacterList.Count; j++)
                     {
-                        targetCharacterList[j].BattleBuffController.TriggerBuffEventBehindOnHit();
+                        targetCharacterList[j].BattleBuffController.TriggerBuffEventBehindOnHit(owner);
                     }
 
                     //每段攻击后buff事件结算
-                    owner.BattleBuffController.TriggerBuffEventBehindAttack();
+                    owner.BattleBuffController.TriggerBuffEventBehindAttack(targetCharacterList[0]);
                     for (int j = 0; j < battleDamageDataList.Count; j++)
                     {
                         //攻击后技能事件结算
-                        battleSkill.TriggerSkillEventBehindAttack(battleTransferDTOList, battleDamageDataList[j]);
+                        battleSkill.TriggerSkillEventBehindAttack(battleDamageDataList[j]);
                     }
                 }
                 //添加buff
@@ -131,8 +131,8 @@ namespace AscensionServer
                 //todo受击后反应
 
                 //使用技能后buff事件处理
-                owner.BattleBuffController.TriggerBuffEventBehindUseSkill();
-                return battleTransferDTOList;
+                owner.BattleBuffController.TriggerBuffEventBehindUseSkill(targetCharacterList[0]);
+                return;
             }
             else//所有目标的伤害分阶段打完
             {
@@ -148,10 +148,10 @@ namespace AscensionServer
                         BattleTransferDTO battleTransferDTO = new BattleTransferDTO();
                         battleTransferDTOList.Add(battleTransferDTO);
                         //每段攻击前buff事件处理
-                        owner.BattleBuffController.TriggerBuffEventBeforeAttack();
+                        owner.BattleBuffController.TriggerBuffEventBeforeAttack(targetCharacterList[j]);
 
                         BattleDamageData battleDamageData = battleSkill.IsCrit(i, targetCharacterList[j]);
-                        battleSkill.TriggerSkillEventBeforeAttack(battleTransferDTOList, battleDamageData);
+                        battleSkill.TriggerSkillEventBeforeAttack(battleDamageData);
                         battleDamageData = battleSkill.GetDamageData(i, j, targetCharacterList[j], battleDamageData);
                         if (battleDamageData == null)//根本没有打，移除传输事件
                         {
@@ -159,7 +159,7 @@ namespace AscensionServer
                             continue;
                         }
                         //受击前buff事件处理
-                        targetCharacterList[j].BattleBuffController.TriggerBuffEventBeforeOnHit();
+                        targetCharacterList[j].BattleBuffController.TriggerBuffEventBeforeOnHit(owner);
 
                         battleDamageDataList.Add(battleDamageData);
                         GameEntry.BattleCharacterManager.GetCharacterEntity(battleDamageData.TargetID).OnActionEffect(battleDamageData);
@@ -177,12 +177,12 @@ namespace AscensionServer
                             battleTransferDTOList.Remove(battleTransferDTO);
 
                         //受击后buff事件处理
-                        targetCharacterList[j].BattleBuffController.TriggerBuffEventBehindOnHit();
+                        targetCharacterList[j].BattleBuffController.TriggerBuffEventBehindOnHit(owner);
 
                         //每段攻击后buff事件结算
-                        owner.BattleBuffController.TriggerBuffEventBehindAttack();
+                        owner.BattleBuffController.TriggerBuffEventBehindAttack(targetCharacterList[j]);
 
-                        battleSkill.TriggerSkillEventBehindAttack(battleTransferDTOList, battleDamageData);
+                        battleSkill.TriggerSkillEventBehindAttack(battleDamageData);
                     }
 
 
@@ -194,7 +194,7 @@ namespace AscensionServer
                 //使用技能后buff事件处理
                 owner.BattleBuffController.TriggerBuffEventBehindUseSkill();
 
-                return battleTransferDTOList;
+                return;
             }
 
         }

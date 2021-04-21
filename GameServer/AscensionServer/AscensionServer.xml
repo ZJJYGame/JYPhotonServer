@@ -373,7 +373,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
+        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -418,7 +418,7 @@
             5.传说的
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.MapResSpanwInfoData" -->
+        <!-- 对于成员“T:AscensionServer.MapResSpanwInfoData”忽略有格式错误的 XML 注释 -->
         <member name="P:AscensionServer.MapResSpanwInfoData.MapResSpawnInfoDict">
             <summary>
             此数据为：地图资源的生成信息。将数据转换Fix类型后用于传输；
@@ -1794,7 +1794,7 @@
             准备指令战斗 
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.IServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -1982,7 +1982,7 @@
             </summary>
             
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -3387,7 +3387,15 @@
             全局技能Id
             </summary>
         </member>
-        <member name="M:AscensionServer.BattleBuffEventBase.Trigger(AscensionServer.BattleCharacterEntity,AscensionServer.ISkillAdditionData)">
+        <member name="M:AscensionServer.BattleBuffController.AddBuff(AscensionServer.BattleSkillAddBuffData,AscensionServer.BattleSkillBase)">
+            <summary>
+            
+            </summary>
+            <param name="battleSkillAddBuffData"></param>
+            <param name="battleSkillBase"></param>
+            <param name="orginRole">buff的来源角色</param>
+        </member>
+        <member name="M:AscensionServer.BattleBuffEventBase.Trigger(AscensionServer.BattleCharacterEntity,AscensionServer.BattleDamageData,AscensionServer.ISkillAdditionData)">
             <summary>
             具体buff触发事件实现
             </summary>
@@ -3406,6 +3414,11 @@
         <member name="T:AscensionServer.BattleBuffEvent_ChangeProperty">
             <summary>
             改变角色属性事件
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleBuffEvent_Shield">
+            <summary>
+            护盾类型buff事件
             </summary>
         </member>
         <member name="T:AscensionServer.BattleBuffEvent_UseDesignateSkill">
@@ -3654,12 +3667,12 @@
             <param name="index">第几段伤害</param>
             <param name="targetIndex">第几个目标</param>
         </member>
-        <member name="M:AscensionServer.BattleSkillBase.TriggerSkillEventBeforeAttack(System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO},AscensionServer.BattleDamageData)">
+        <member name="M:AscensionServer.BattleSkillBase.TriggerSkillEventBeforeAttack(AscensionServer.BattleDamageData)">
             <summary>
             攻击前事件触发
             </summary>
         </member>
-        <member name="M:AscensionServer.BattleSkillBase.TriggerSkillEventBehindAttack(System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO},AscensionServer.BattleDamageData)">
+        <member name="M:AscensionServer.BattleSkillBase.TriggerSkillEventBehindAttack(AscensionServer.BattleDamageData)">
             <summary>
             攻击后事件触发
             </summary>
@@ -4583,6 +4596,11 @@
             重置加点
             </summary>
         </member>
+        <member name="M:AscensionServer.RoleStatusManager.SwitchAddPointSlnS2C(AscensionProtocol.DTO.RoleStatusPointDTO)">
+            <summary>
+            切换解决方案
+            </summary>
+        </member>
         <member name="M:AscensionServer.RoleStatusManager.GetRoleStatusMySql(AscensionProtocol.DTO.RoleStatusPointDTO)">
             <summary>
             获取MySql中的角色数据
@@ -5493,7 +5511,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
+        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；
