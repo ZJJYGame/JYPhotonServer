@@ -14,40 +14,27 @@ namespace AscensionServer
         public class CollectableRes : IDisposable
         {
             public int Id { get; set; }
-            public bool IsCollected { get; set; }
+            public bool CanCollected { get; set; }
             public FixTransform FixTransform { get; set; }
             public void Dispose()
             {
                 FixTransform = FixTransform.Zero;
                 Id = -1;
-                IsCollected = false;
+                CanCollected = true;
             }
-        }
-        public bool Collect(int eleId)
-        {
-            if (CollectDict != null)
-                return false;
-            if (CollectDict.TryGetValue(eleId, out var cr))
-            {
-                if (cr.IsCollected)
-                    return false;
-                else
-                    cr.IsCollected = true;
-            }
-            return false;
         }
         public void RenewalAll()
         {
             foreach (var col in CollectDict.Values)
             {
-                col.IsCollected = false;
+                col.CanCollected = true;
             }
         }
         public void Renewal(int eleId)
         {
             if (CollectDict.TryGetValue(eleId, out var cr))
             {
-                cr.IsCollected = false;
+                cr.CanCollected = true;
             }
         }
         public void Dispose()

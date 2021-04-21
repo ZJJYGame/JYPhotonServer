@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace AscensionServer
 {
-    class Creature
+    public enum LevelResOpCode : byte
     {
+        None=0,
+        SYN=1,
+        Collect=2,
+        Battle=3,
+        FIN=4
     }
 }

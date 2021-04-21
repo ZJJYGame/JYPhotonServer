@@ -49,7 +49,7 @@ namespace AscensionProtocol
         /// <summary>
         /// 同步资源
         /// </summary>
-        MultiplayRes = 33,
+        LevelRes = 33,
         /// <summary>
         /// 多人在线区域码；
         /// </summary>

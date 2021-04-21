@@ -9,11 +9,15 @@ namespace AscensionServer
 {
     public interface ILevelManager:IModuleManager
     {
-        event Action<RoleEntity> OnRoleEnterLevel;
+        /// <summary>
+        /// LevelTypeEnum---LevelId---RoleId
+        /// </summary>
+        event Action<LevelTypeEnum, int, int> OnRoleEnterLevel;
         /// <summary>
         /// 角色离开场景事件
+        /// LevelTypeEnum---LevelId---RoleId
         /// </summary>
-        event Action<RoleEntity> OnRoleExitLevel;
+        event Action<LevelTypeEnum, int, int> OnRoleExitLevel;
         /// <summary>
         ///场景是否包含有角色； 
         /// </summary>

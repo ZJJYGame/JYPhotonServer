@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AscensionServer
+namespace AscensionServer 
 {
-    public enum MultiplayResOperationCode:byte
+    public enum LevelResParameterCode:byte
     {
         None=0,
-        SYN=1,
-        Collect=2,
-        Battle=3,
-        FIN=4
+        GId=1,
+        EleId=2,
+        Collectable=3
     }
 }

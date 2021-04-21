@@ -73,7 +73,7 @@ namespace AscensionServer
         {
             OperationData operationData = new OperationData();
             //operationData.DataMessage = Utility.Json.ToJson(ResUnitSetDict);
-            operationData.OperationCode = (byte)OperationCode.MultiplayRes;
+            operationData.OperationCode = (byte)OperationCode.LevelRes;
             roleEntity.SendMessage(operationData);
             if (RedisDotNet.RedisHelper.KeyExistsAsync(RedisKeyDefine._SkillLayoutPerfix + roleEntity.RoleId).Result)
             {

@@ -13,7 +13,7 @@ namespace AscensionServer
         const int updateInterval = ApplicationBuilder.MapResourceRefreshInterval;
         public override void OnPreparatory()
         {
-            GameEntry. LevelManager.OnRoleEnterLevel += OnRoleEnterMap;
+            //GameEntry. LevelManager.OnRoleEnterLevel += OnRoleEnterMap;
             CommandEventCore.Instance.AddEventListener((byte)OperationCode.TakeUpResource, TakeUpResourceC2S);
             mapResourceHelper = Utility.Assembly.GetInstanceByAttribute<ImplementProviderAttribute, IMapResHelper>();
             mapResourceHelper?.LoadMapResource();

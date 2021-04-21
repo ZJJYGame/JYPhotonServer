@@ -170,7 +170,7 @@ namespace AscensionServer
             LevelEntity se = CosmosEntry.ReferencePoolManager.Spawn<LevelEntity>();
             se.LevelType = levelType;
             se.Available = true;
-            se.Capacity = capacity;
+            se.Capacity = capacity==0?int.MaxValue:0;
             se.LevelId = levelId;
             return se;
         }

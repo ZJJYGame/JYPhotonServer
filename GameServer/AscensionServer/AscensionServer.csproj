@@ -21,7 +21,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\..\..\localproject\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -293,17 +293,12 @@
     <Compile Include="Ascension\Core\RunTime\Login\ICreateRoleHelper.cs" />
     <Compile Include="Ascension\Core\RunTime\Login\ILoginManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Login\LoginManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\MultiplayRes\Collectable.cs" />
-    <Compile Include="Ascension\Core\RunTime\MultiplayRes\Creature.cs" />
-    <Compile Include="Ascension\Core\RunTime\MultiplayRes\IMultiplayResManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\MultiplayRes\MultiplayLevelRes.cs" />
-    <Compile Include="Ascension\Core\RunTime\MultiplayRes\MultiplayResManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\LevelRes\ILevelResManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\LevelRes\LevelResEntity.cs" />
+    <Compile Include="Ascension\Core\RunTime\LevelRes\LevelResManager.cs" />
     <Compile Include="Ascension\Core\Base\Protocol\Model\Fix\FixCollectable.cs" />
-    <Compile Include="Ascension\Core\RunTime\MultiplayRes\Protocol\MultiplayResOperationCode.cs" />
-    <Compile Include="Ascension\Core\RunTime\MultiplayRes\Protocol\MultiplayResParameterCode.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\Connection.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\IMultiplayManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\MultiplayManager.cs" />
+    <Compile Include="Ascension\Core\RunTime\LevelRes\Protocol\LevelResOpCode.cs" />
+    <Compile Include="Ascension\Core\RunTime\LevelRes\Protocol\LevelResParameterCode.cs" />
     <Compile Include="Ascension\Core\Base\Protocol\Model\Base\OperationData.cs" />
     <Compile Include="Ascension\Core\Base\Protocol\Model\C2S\C2SFlyMagicToolInput.cs" />
     <Compile Include="Ascension\Core\Base\Protocol\Model\C2S\C2SSkillInput.cs" />
@@ -316,8 +311,6 @@
     <Compile Include="Ascension\Core\Base\Protocol\Model\Fix\FixTransform.cs" />
     <Compile Include="Ascension\Core\Base\Protocol\Model\Fix\FixTransportData.cs" />
     <Compile Include="Ascension\Core\Base\Protocol\Model\Fix\FixVector3.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\MultiplayOperationCode.cs" />
-    <Compile Include="Ascension\Core\RunTime\Multiplay\Protocol\MultiplayParameterCode.cs" />
     <Compile Include="Ascension\Core\Base\UnityEngine\Mathf.cs" />
     <Compile Include="Ascension\Core\Base\UnityEngine\Matrix3x3.cs" />
     <Compile Include="Ascension\Core\Base\UnityEngine\Matrix4x4.cs" />

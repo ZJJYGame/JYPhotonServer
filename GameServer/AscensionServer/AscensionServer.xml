@@ -373,7 +373,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -418,9 +418,10 @@
             5.传说的
             </summary>
         </member>
-        <member name="T:AscensionServer.MapResourceData">
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.MapResSpanwInfoData" -->
+        <member name="P:AscensionServer.MapResSpanwInfoData.MapResSpawnInfoDict">
             <summary>
-            野外历练资源数据集对象
+            此数据为：地图资源的生成信息。将数据转换Fix类型后用于传输；
             </summary>
         </member>
         <member name="T:AscensionServer.MagicWeaponData">
@@ -651,12 +652,6 @@
             </summary>
             <param name="roleId">离线账号</param>
             <param name="data">新上线账号</param>
-        </member>
-        <member name="M:AscensionServer.ObjectQueue`1.#ctor(System.Boolean)">
-            <summary>
-            构造函数；
-            </summary>
-            <param name="enqueueDispose">入队时是否释放</param>
         </member>
         <member name="T:AscensionServer.RedisData.ReidsDataProcessing">
             <summary>
@@ -1799,7 +1794,7 @@
             准备指令战斗 
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="M:AscensionServer.IServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -1987,7 +1982,7 @@
             </summary>
             
         </member>
-        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -3160,9 +3155,15 @@
             <param name="InventoryObj"></param>
             <param name="nHCriteria"></param>    //都是通过这个来 我看到了，你这个发出去就是属于CMD的，  只是进入服务器需要做一下修改，我看来下  对需要修改的不多，就是那个入口handler你处理下
         </member>
+        <member name="E:AscensionServer.ILevelManager.OnRoleEnterLevel">
+            <summary>
+            LevelTypeEnum---LevelId---RoleId
+            </summary>
+        </member>
         <member name="E:AscensionServer.ILevelManager.OnRoleExitLevel">
             <summary>
             角色离开场景事件
+            LevelTypeEnum---LevelId---RoleId
             </summary>
         </member>
         <member name="M:AscensionServer.ILevelManager.LevelHasRole(AscensionServer.LevelTypeEnum,System.Int32,System.Int32)">
@@ -3210,26 +3211,6 @@
              </summary>
              <param name="packet">进入的请求数据</param>
         </member>
-        <member name="F:AscensionServer.MultiplayManager.FrameRate">
-            <summary>
-            帧率；
-            </summary>
-        </member>
-        <member name="F:AscensionServer.MultiplayManager.Interval">
-            <summary>
-            帧间隔；毫秒；
-            </summary>
-        </member>
-        <member name="F:AscensionServer.MultiplayManager.frameInputData">
-            <summary>
-            key为Conv，value为input数据；
-            </summary>
-        </member>
-        <member name="F:AscensionServer.MultiplayManager.currentFrame">
-            <summary>
-            当前帧;
-            </summary>
-        </member>
         <member name="P:AscensionServer.OperationData.OperationCode">
             <summary>
             主操作码；
@@ -3248,38 +3229,6 @@
         <member name="T:AscensionServer.C2SFlyMagicToolInput">
             <summary>
             飞行法器输入；
-            </summary>
-        </member>
-        <!-- 对于成员“T:AscensionServer.C2SMapRes”忽略有格式错误的 XML 注释 -->
-        <member name="P:AscensionServer.C2SMapRes.ResId">
-            <summary>
-            资源全局Id；
-            </summary>
-        </member>
-        <member name="P:AscensionServer.C2SMapRes.ResIndex">
-            <summary>
-            资源生成时候的索引；
-            </summary>
-        </member>
-        <member name="P:AscensionServer.C2SMapRes.ResPosition">
-            <summary>
-            资源所在的位置信息
-            </summary>
-        </member>
-        <!-- 对于成员“T:AscensionServer.C2SMapResource”忽略有格式错误的 XML 注释 -->
-        <member name="F:AscensionServer.C2SMapResource.ResId">
-            <summary>
-            资源全局Id；
-            </summary>
-        </member>
-        <member name="F:AscensionServer.C2SMapResource.ResIndex">
-            <summary>
-            资源生成时候的索引；
-            </summary>
-        </member>
-        <member name="F:AscensionServer.C2SMapResource.ResPosition">
-            <summary>
-            资源所在的位置信息
             </summary>
         </member>
         <member name="P:AscensionServer.C2SSkillInput.SkillId">
@@ -3428,7 +3377,11 @@
             float网络传输类型，防止传输时失真；
             </summary>
         </member>
-        <!-- 对于成员“T:AscensionServer.FixMapResource”忽略有格式错误的 XML 注释 -->
+        <member name="T:AscensionServer.MapResSpawnInfo">
+            <summary>
+            地图资源生成信息，不作传输使用；
+            </summary>
+        </member>
         <member name="P:AscensionServer.FixSkill.SkillId">
             <summary>
             全局技能Id
@@ -4508,12 +4461,12 @@
             <param name="roleid"></param>
             <param name="tacticalDTO"></param>
         </member>
-        <member name="M:AscensionServer.MapResourceManager.TakeUpResourceC2S(System.Int32,AscensionServer.OperationData)">
+        <member name="M:AscensionServer.MapResManager.TakeUpResourceC2S(System.Int32,AscensionServer.OperationData)">
             <summary>
             占用资源 客户端->服务器
             </summary>
         </member>
-        <member name="M:AscensionServer.MapResourceManager.OnRoleEnterMap(AscensionServer.RoleEntity)">
+        <member name="M:AscensionServer.MapResManager.OnRoleEnterMap(AscensionServer.RoleEntity)">
             <summary>
             发送已生成资源至指定场景
             </summary>
@@ -4856,7 +4809,7 @@
             秘境单个场景能够容纳的玩家数量；
             </summary>
         </member>
-        <member name="F:AscensionServer.LevelManager.adventureLevelEntityDict">
+        <member name="F:AscensionServer.LevelManager.adventureLevelIndex">
             <summary>
             历练场景字典;
             </summary>
@@ -5540,7 +5493,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；
