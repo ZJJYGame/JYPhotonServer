@@ -440,7 +440,6 @@
     <Compile Include="DO\RoleAuctionItems.cs" />
     <Compile Include="DO\RoleEquipment.cs" />
     <Compile Include="DO\RoleStatusPoint.cs" />
-    <Compile Include="Handlers\RefreshSkillLayout\RefreshSkillLayoutHandler.cs" />
     <Compile Include="Handlers\SyncAdventurePlayerInfo\SyncAdventurePlayerInfoHandler.cs" />
     <Compile Include="Handlers\SyncAllianceAlchemy\SubHandler\GetAllianceAlchemySubHandler.cs" />
     <Compile Include="Handlers\SyncAllianceAlchemy\SubHandler\SyncAllianceAlchemySubHandler.cs" />
@@ -638,8 +637,6 @@
     <Compile Include="Handlers\SyncHerbsField\SubHandler\GetHerbsFieldSubHandler.cs" />
     <Compile Include="Handlers\SyncHerbsField\SubHandler\SyncHerbsFieldSubHandler.cs" />
     <Compile Include="Handlers\SyncHerbsField\SyncHerbsFieldHandler.cs" />
-    <Compile Include="Handlers\SyncMoveStatus\SyncMoveStatusHandler.cs" />
-    <Compile Include="Handlers\SyncRoleAdventureSkill\SyncRoleAdventureSkillHandler.cs" />
     <Compile Include="Handlers\SyncRoleSchool\SubHandler\GetRoleSchoolHandler.cs" />
     <Compile Include="Handlers\SyncRoleSchool\SubHandler\SyncRoleSchoolSubHandler.cs" />
     <Compile Include="Handlers\SyncRoleSchool\SubHandler\UpdateRoleSchoolHandler.cs" />
@@ -704,7 +701,6 @@
     <Compile Include="Handlers\SyncRole\SubHandler\UpdateRoleSubHandler.cs" />
     <Compile Include="Handlers\SyncRole\SubHandler\VerifyRoleSubHandler.cs" />
     <Compile Include="Handlers\SyncRole\SubHandler\SyncRoleSubHandler.cs" />
-    <Compile Include="Handlers\HeartBeat\HeartBeatHandler.cs" />
     <Compile Include="Handlers\SyncRoleAssets\SyncRoleAssetsHandler.cs" />
     <Compile Include="Handlers\SyncRoleStatus\SyncRoleStatusHandler.cs" />
     <Compile Include="Handlers\SyncRole\SyncRoleHandler.cs" />

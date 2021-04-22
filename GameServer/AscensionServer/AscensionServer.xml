@@ -3684,13 +3684,6 @@
             peer对象Handle
             </summary>
         </member>
-        <member name="M:AscensionServer.IPeerEntity.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})">
-            <summary>
-            发送消息到remotePeer
-            </summary>
-            <param name="opCode">操作码</param>
-            <param name="userData">用户自定义的数据字典</param>
-        </member>
         <member name="M:AscensionServer.IPeerEntity.SendMessage(AscensionServer.OperationData)">
             <summary>
             发送消息到remotePeer
@@ -5504,11 +5497,6 @@
             设置返回数据
             </summary>
             <param name="callBack">在回调中设置数据</param>
-        </member>
-        <member name="M:AscensionServer.HeartBeatHandler.OnOperationRequest(Photon.SocketServer.OperationRequest)">
-            <summary>
-            服务器心跳检测处理者
-            </summary>
         </member>
         <member name="T:AscensionServer.Lite.Actor">
             <summary>

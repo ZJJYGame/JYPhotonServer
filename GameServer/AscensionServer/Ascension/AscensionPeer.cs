@@ -104,22 +104,8 @@ namespace AscensionServer
         }
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
-            EventData ed = new EventData((byte)EventCode.DeletePlayer);
-            Dictionary<byte, object> data = new Dictionary<byte, object>();
-            ed.Parameters = data;
-            ////尝试获取负载的角色数据；
-            //if (TryGetValue(typeof(RoleEntity), out var roleEntity))
-            //{
-            //    //若存在，则广播到各个模块；
-            //    var opData = new OperationData();
-            //    opData.OperationCode =(byte) OperationCode.LogoffRole;
-            //    opData.DataMessage = roleEntity;
-            //    var t = CommandEventCore.Instance.DispatchAsync((byte)OperationCode.LogoffRole, SessionId ,opData);
-            //}
             GameEntry.PeerManager.TryRemove(SessionId);
-
             Utility.Debug.LogError($"Photon SessionId : {SessionId} Unavailable . RemoteAdress:{RemoteIPAddress}");
-            var task = GameEntry.PeerManager.BroadcastMessageToAllAsync((byte)reasonCode, ed.Parameters);
         }
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
         {

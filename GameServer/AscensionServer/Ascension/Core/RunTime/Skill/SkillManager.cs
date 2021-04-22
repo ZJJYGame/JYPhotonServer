@@ -17,7 +17,7 @@ namespace AscensionServer
     {
         public override void OnInitialization()
         {
-            CommandEventCore.Instance.AddEventListener((byte)OperationCode.SyncRoleAdventureSkill, OnPlayerSkillC2S);
+            //CommandEventCore.Instance.AddEventListener((byte)OperationCode.SyncRoleAdventureSkill, OnPlayerSkillC2S);
         }
         /// <summary>
         /// 接收来自客户端的技能输入

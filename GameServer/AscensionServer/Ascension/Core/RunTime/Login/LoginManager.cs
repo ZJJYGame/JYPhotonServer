@@ -77,7 +77,6 @@ namespace AscensionServer
         /// <param name="packet">进入的请求数据</param>
         void GetAccountRolesS2C(int sessionId, Dictionary<byte, object> dataMessage)
         {
-            Utility.Debug.LogInfo($"{sessionId} : GetAccountRolesS2C");
             var opData = new OperationData()
             {
                 OperationCode = (byte)OperationCode.LoginArea,
@@ -124,37 +123,32 @@ namespace AscensionServer
             var json = Convert.ToString(Utility.GetValue(dataMessage, (byte)ParameterCode.Role));
             var roleObj = Utility.Json.ToObject<RoleDTO>(json);
             var role = RoleEntity.Create(roleObj.RoleID, sessionId, roleObj);
-            RoleEntity remoteRole;
-            var roleExist = GameEntry.RoleManager.TryGetValue(roleObj.RoleID, out remoteRole);
+            var roleExist = GameEntry.RoleManager.TryGetValue(roleObj.RoleID, out var remoteRole);
             if (roleExist)
             {
                 GameEntry.PeerManager.TryGetValue(remoteRole.SessionId, out var pa);
-                pa.SendEventMsg((byte)EventCode.ReplacePlayer, null);//从这里发送挤下线消息；
+                pa.SendMessage((byte)OperationCode.LoginArea, (short)LoginAreaOpCode.LogoffRole, null);//从这里发送挤下线消息；
                 GameEntry.RoleManager.TryRemove(roleObj.RoleID);
             }
             IPeerEntity peerAgent;
             var result = GameEntry.PeerManager.TryGetValue(sessionId, out peerAgent);
             if (result)
             {
-                Utility.Debug.LogInfo("yzqData" + "验证登录的Sessionid:" + sessionId);
                 var remoteRoleType = typeof(RoleEntity);
                 var exist = peerAgent.ContainsKey(remoteRoleType);
                 if (!exist)
                 {
                     GameEntry.RoleManager.TryAdd(roleObj.RoleID, role);
-                    Utility.Debug.LogInfo("yzqData" + "进入角色判断只有一个账号选择角色");
                     #region 
                     var roleAllianceobj = NHibernateQuerier.Query<RoleAlliance>("RoleID", roleObj.RoleID);
                     if (roleAllianceobj != null)
                     {
-                        Utility.Debug.LogInfo("yzqData判断仙盟查找到了" + roleAllianceobj.AllianceID);
                         var allianceStatusobj = NHibernateQuerier.Query<AllianceStatus>("ID", roleAllianceobj.AllianceID);
 
                         if (allianceStatusobj != null)
                         {
                             allianceStatusobj.OnLineNum += 1;
                             NHibernateQuerier.Update(allianceStatusobj);
-                            Utility.Debug.LogInfo("yzqData仙盟在线人数增加了" + allianceStatusobj.OnLineNum);
                         }
                         roleAllianceobj.JoinOffline = "在线";
                         NHibernateQuerier.Update(roleAllianceobj);
@@ -165,14 +159,12 @@ namespace AscensionServer
                 }
                 else
                 {
-                    Utility.Debug.LogInfo("yzqData" + "已有账号登陆角色");
                     object legacyRole;
                     peerAgent.TryGetValue(remoteRoleType, out legacyRole);
                     var remoteRoleObj = legacyRole as RoleEntity;
                     var updateResult = peerAgent.TryUpdate(remoteRoleType, role, legacyRole);
                     if (updateResult)
                     {
-                        Utility.Debug.LogInfo("yzqData" + "已有账号登陆角色，替换相同角色成功");
                         #region 
                         var roleAllianceobj = NHibernateQuerier.Query<RoleAlliance>("RoleID", roleObj.RoleID);
                         if (roleAllianceobj != null)
@@ -181,7 +173,6 @@ namespace AscensionServer
                             if (allianceStatusobj != null)
                             {
                                 NHibernateQuerier.Update(allianceStatusobj);
-                                Utility.Debug.LogInfo("yzqData仙盟在线人数增加了" + allianceStatusobj.OnLineNum);
                             }
                             roleAllianceobj.JoinOffline = "在线";
                             NHibernateQuerier.Update(roleAllianceobj);
@@ -195,7 +186,6 @@ namespace AscensionServer
                     }
                     else
                     {
-                        Utility.Debug.LogInfo("yzqData" + "替换角色失败");
                         opData.ReturnCode = (byte)ReturnCode.Fail;//登录失败
                     }
                 }

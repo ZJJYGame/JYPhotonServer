@@ -112,7 +112,6 @@
     <Compile Include="DTO\OnOffLineDTO.cs" />
     <Compile Include="DTO\RoleAdventureSkillDTO.cs" />
     <Compile Include="DTO\RoleAssetsDTO.cs" />
-    <Compile Include="DTO\RoleMoveStatusDTO.cs" />
     <Compile Include="DTO\RoleSchoolDTO.cs" />
     <Compile Include="DTO\RoleDTO.cs" />
     <Compile Include="DTO\RoleGongFaDTO.cs" />
@@ -137,8 +136,6 @@
     <Compile Include="DTO\VareityShopDTO.cs" />
     <Compile Include="DTO\RoleWeaponDTO.cs" />
     <Compile Include="ErrorCode.cs" />
-    <Compile Include="EventCode.cs" />
-    <Compile Include="MessageChannel.cs" />
     <Compile Include="AreaOpCode\LoginAreaOpCode.cs" />
     <Compile Include="AreaOpCode\PracticeOpcode.cs" />
     <Compile Include="OperationCode.cs" />

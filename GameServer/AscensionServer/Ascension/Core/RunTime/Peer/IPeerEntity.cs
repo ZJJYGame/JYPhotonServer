@@ -27,12 +27,6 @@ namespace AscensionServer
         /// <summary>
         /// 发送消息到remotePeer
         /// </summary>
-        /// <param name="opCode">操作码</param>
-        /// <param name="userData">用户自定义的数据字典</param>
-        void SendEventMsg(byte opCode,Dictionary<byte,object> userData);
-        /// <summary>
-        /// 发送消息到remotePeer
-        /// </summary>
         /// <param name="opData">消息数据</param>
         void SendMessage(OperationData  opData);
         void SendMessage(byte opCode, Dictionary<byte, object> userData);

@@ -44,7 +44,6 @@ namespace AscensionProtocol
         SyncPetStatus=17,
         SyncRolePet=18,
         SyncBottleneck=19,
-        SyncMoveStatus =20,
 
         /// <summary>
         /// 同步资源
@@ -83,11 +82,7 @@ namespace AscensionProtocol
 
 
 
-        /// <summary>
-        ///  历练等高同步场景使用技能码；
-        ///  勿动！（Don）
-        /// </summary>
-        SyncRoleAdventureSkill=36,
+
         /// <summary>
         /// 刷新宗門藏寶閣藏經閣
         /// </summary>
@@ -152,10 +147,6 @@ namespace AscensionProtocol
         /// </summary>
         SyncDailyMessage=59,
         SyncAdventurePlayerInfo=60,
-        /// <summary>
-        /// 记录历练技能布局
-        /// </summary>
-        RefreshSkillLayout=61,
         /// <summary>
         /// 同步阵法的创建
         /// </summary>

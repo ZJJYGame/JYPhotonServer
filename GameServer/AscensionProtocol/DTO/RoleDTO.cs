@@ -16,10 +16,6 @@ namespace AscensionProtocol.DTO
         public virtual string RoleName { get; set; }
         public virtual int RoleLevel { get; set; }
 
-        #region Inventory  //我之前写的背包的cmd  你需要换个位置  这地方
-        public virtual InventoryInstructions InventoryInstructions { get; set; }
-        #endregion
-
         #region team  
         public virtual TeamInstructions teamInstructions { get; set; }
         public virtual TeamDTO teamDTO { get; set; } 
