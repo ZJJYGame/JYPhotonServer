@@ -166,7 +166,6 @@ namespace AscensionServer
         {
             RoleStatusDTO roleStatusDTO = new RoleStatusDTO();
             roleStatusDTO.RoleID = pointDTO.RoleID;
-            Utility.Debug.LogInfo("当前计算的方案" + Utility.Json.ToJson(pointDTO));
             if (pointDTO.AbilityPointSln.TryGetValue(pointDTO.SlnNow, out var abilityDTO))
             {
                 roleStatusDTO.RoleMaxHP += abilityDTO.Corporeity * 10;
@@ -180,30 +179,25 @@ namespace AscensionServer
                 roleStatusDTO.AttackSpeed += (int)(abilityDTO.Soul * 0.2 + abilityDTO.Stamina * 0.1 + abilityDTO.Corporeity * 0.1 + abilityDTO.Agility * 0.5 + abilityDTO.Strength * 0.1);
                 roleStatusDTO.MoveSpeed += (int)(abilityDTO.Agility * 0.1);
             }
-            
+            var reduceStatus = new RoleStatus();
+            if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatusAddPointPerfix, pointDTO.RoleID.ToString()).Result)
+            {
+                var status = RedisHelper.Hash.HashGetAsync<RoleStatus>(RedisKeyDefine._RoleStatusAddPointPerfix, pointDTO.RoleID.ToString()).Result;
+                if (status != null)
+                {
+                    reduceStatus = status;
+                }
+            }
+
+            await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleStatusAddPointPerfix, pointDTO.RoleID.ToString(), roleStatusDTO);
+
+
 
             var obj=   RoleStatusAlgorithm(pointDTO.RoleID,null,null, null,roleStatusDTO,null);
+            Utility.Debug.LogInfo("加成的数据的 数据1" + Utility.Json.ToJson(obj));
             if (obj!=null)
             {
-                if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatusAddPointPerfix, pointDTO.RoleID.ToString()).Result)
-                {
-                    var reducesStatus = RedisHelper.Hash.HashGetAsync<RoleStatus>(RedisKeyDefine._RoleStatusAddPointPerfix, pointDTO.RoleID.ToString()).Result;
-                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleStatusAddPointPerfix, pointDTO.RoleID.ToString(), roleStatusDTO);
-                    if (reducesStatus != null)
-                    {
-                        Utility.Debug.LogError("获取到的需要减少的值"+Utility.Json.ToJson(reducesStatus));
-                        return StatusVerify(roleStatus, obj, reducesStatus);
-                    }
-                    else
-                        return StatusVerify(roleStatus, obj, new RoleStatus());
-                }
-                else {
-                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleStatusAddPointPerfix, pointDTO.RoleID.ToString(), roleStatusDTO);
-                    return StatusVerify(roleStatus, obj, new RoleStatus());
-                }
-
-
-
+                return StatusVerify(roleStatus,obj, reduceStatus, roleStatusDTO);
             }
 
             return new RoleStatus();
@@ -383,7 +377,7 @@ namespace AscensionServer
 
           await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleStatusEquipPerfix, statusObj.RoleID.ToString(), roleStatus);
 
-            return StatusVerify(statusObj, status,new RoleStatus()); 
+            return StatusVerify(statusObj, status,new RoleStatus(),new RoleStatusDTO()); 
         }
         #endregion
 
@@ -405,7 +399,7 @@ namespace AscensionServer
            await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleStatusFlyPerfix,roleStatus.RoleID.ToString(), Status);
 
             var rolestatusObj = RoleStatusAlgorithm(Status.RoleID, Status, null,null, null, null);
-            return StatusVerify(roleStatus, rolestatusObj,new RoleStatus());
+            return StatusVerify(roleStatus, rolestatusObj,new RoleStatus(),new RoleStatusDTO());
         }
         #endregion
 
@@ -537,7 +531,6 @@ namespace AscensionServer
                     RoleStatusDTO roleStatus = new RoleStatusDTO();
                     if (roleData.TryGetValue(role.RoleLevel, out var roleObj))
                     {
-                        Utility.Debug.LogError("获取每级数据进来了" + Utility.Json.ToJson(roleObj));
                         #region 
                         roleStatus.AttackPhysical += statusFly.AttackPhysical + statusGF.AttackPhysical + statusEquip.AttackPhysical + statusMS.AttackPhysical + statusPoint.AttackPhysical+ roleObj.AttackPhysical;
                         roleStatus.AttackPower += statusFly.AttackPower + roleObj.AttackPower + statusGF.AttackPower + statusEquip.AttackPower + statusMS.AttackPower + statusPoint.AttackPower;
@@ -671,40 +664,189 @@ namespace AscensionServer
         }
 
 
-        public RoleStatus StatusVerify(RoleStatus roleStatus,RoleStatusDTO obj,RoleStatus reducesStatus)
+        public RoleStatus StatusVerify(RoleStatus roleStatus,RoleStatusDTO obj,RoleStatus reducesStatus,RoleStatusDTO status)
         {
-            roleStatus.RoleHP += obj.RoleMaxHP - reducesStatus.RoleMaxHP;
-            roleStatus.RoleMaxHP = roleStatus.RoleMaxHP - reducesStatus.RoleMaxHP + obj.RoleMaxHP;
+            Utility.Debug.LogInfo("数据库获取的 数据" + Utility.Json.ToJson(roleStatus));
+            Utility.Debug.LogInfo("加成的数据的 数据" + Utility.Json.ToJson(obj));
+            Utility.Debug.LogInfo("替换减少的 数据" + Utility.Json.ToJson(reducesStatus));
+            if (status.RoleMaxHP - reducesStatus.RoleMaxHP > 0)
+            {
+                roleStatus.RoleHP += obj.RoleMaxHP - reducesStatus.RoleMaxHP - roleStatus.RoleMaxHP;
+                roleStatus.RoleMaxHP = obj.RoleMaxHP - reducesStatus.RoleMaxHP;
+            }
+            else
+            {
+                roleStatus.RoleHP += obj.RoleMaxHP - roleStatus.RoleMaxHP;
+                roleStatus.RoleMaxHP = obj.RoleMaxHP;
+            }
 
-            roleStatus.RoleMP += (obj.RoleMaxMP- reducesStatus.RoleMaxMP);
-            roleStatus.RoleMaxMP = roleStatus.RoleMaxMP+ obj.RoleMaxMP - reducesStatus.RoleMaxMP;
-            roleStatus.RoleSoul += (obj.RoleMaxSoul  - reducesStatus.RoleMaxSoul);
-            roleStatus.RoleMaxSoul = roleStatus.RoleMaxSoul + obj.RoleMaxSoul - reducesStatus.RoleMaxSoul;
-            roleStatus.BestBlood += (obj.BestBloodMax - reducesStatus.BestBloodMax);
-            roleStatus.BestBloodMax = roleStatus.BestBloodMax+(obj.BestBloodMax - reducesStatus.BestBloodMax);
-            roleStatus.Vitality += (short)(obj.MaxVitality  - reducesStatus.MaxVitality);
-            roleStatus.MaxVitality = roleStatus.MaxVitality+ obj.MaxVitality - reducesStatus.MaxVitality;
+            if (status.RoleMaxMP - reducesStatus.RoleMaxMP > 0)
+            {
+
+                roleStatus.RoleMP += (obj.RoleMaxMP - reducesStatus.RoleMaxMP - roleStatus.RoleMaxMP);
+                roleStatus.RoleMaxMP = obj.RoleMaxMP - reducesStatus.RoleMaxMP;
+            }
+            else
+            {
+                roleStatus.RoleMP += (obj.RoleMaxMP  - roleStatus.RoleMaxMP);
+                roleStatus.RoleMaxMP = obj.RoleMaxMP;
+            }
+
+            if (status.RoleMaxSoul - reducesStatus.RoleMaxSoul > 0)
+            {
+                roleStatus.RoleSoul += (obj.RoleMaxSoul - reducesStatus.RoleMaxSoul - roleStatus.RoleMaxSoul);
+                roleStatus.RoleMaxSoul = obj.RoleMaxSoul - reducesStatus.RoleMaxSoul;
+            }
+            else
+            {
+                roleStatus.RoleSoul += (obj.RoleMaxSoul - roleStatus.RoleMaxSoul);
+                roleStatus.RoleMaxSoul = obj.RoleMaxSoul ;
+            }
+
+            if (status.BestBloodMax - reducesStatus.BestBloodMax > 0)
+            {
+                roleStatus.BestBlood += (obj.BestBloodMax - reducesStatus.BestBloodMax - roleStatus.BestBloodMax);
+                roleStatus.BestBloodMax = (obj.BestBloodMax - reducesStatus.BestBloodMax);
+            }
+            else
+            {
+                roleStatus.BestBlood += (obj.BestBloodMax  - roleStatus.BestBloodMax);
+                roleStatus.BestBloodMax = (obj.BestBloodMax );
+            }
+            if (status.MaxVitality - reducesStatus.MaxVitality>0)
+            {
+                roleStatus.Vitality += (short)(obj.MaxVitality - reducesStatus.MaxVitality - roleStatus.MaxVitality);
+                roleStatus.MaxVitality = obj.MaxVitality - reducesStatus.MaxVitality;
+            }
+            else
+            {
+                roleStatus.Vitality += (short)(obj.MaxVitality  - roleStatus.MaxVitality);
+                roleStatus.MaxVitality = obj.MaxVitality ;
+            }
+            if (status.AttackPhysical - reducesStatus.AttackPhysical > 0)
+            {
+                roleStatus.AttackPhysical = obj.AttackPhysical - reducesStatus.AttackPhysical;
+            }
+            else
+                roleStatus.AttackPhysical = obj.AttackPhysical;
+            if (obj.AttackPower - reducesStatus.AttackPower > 0)
+            {
+                roleStatus.AttackPower = obj.AttackPower - reducesStatus.AttackPower;
+            }
+            else
+                roleStatus.AttackPower = obj.AttackPower;
+
+            if (status.AttackSpeed - reducesStatus.AttackSpeed>0)
+            {
+                roleStatus.AttackSpeed = obj.AttackSpeed - reducesStatus.AttackSpeed;
+            }else
+                roleStatus.AttackSpeed = obj.AttackSpeed ;
+            if (status.AttackSpeed - reducesStatus.AttackSpeed > 0)
+            {
+                roleStatus.AttackSpeed = obj.AttackSpeed - reducesStatus.AttackSpeed;
+            }else
+                roleStatus.AttackSpeed = obj.AttackSpeed;
+
+            if (status.DefendPower - reducesStatus.DefendPower > 0)
+            {
+                roleStatus.DefendPower = obj.DefendPower - reducesStatus.DefendPower;
+            }
+            else
+                roleStatus.DefendPower = obj.DefendPower;
 
 
-            roleStatus.AttackPhysical = roleStatus.AttackPhysical + obj.AttackPhysical- reducesStatus.AttackPhysical;
-            roleStatus.AttackPower = roleStatus.AttackPower+ obj.AttackPower - reducesStatus.AttackPower;
-            roleStatus.AttackSpeed = roleStatus.AttackSpeed+ obj.AttackSpeed - reducesStatus.AttackSpeed;
-            roleStatus.DefendPower = roleStatus.DefendPower+ obj.DefendPower - reducesStatus.DefendPower;
-            roleStatus.DefendPhysical = roleStatus.DefendPhysical + obj.DefendPhysical - reducesStatus.DefendPhysical;
-            roleStatus.GongfaLearnSpeed = roleStatus.GongfaLearnSpeed+ obj.GongfaLearnSpeed - reducesStatus.GongfaLearnSpeed;
-            roleStatus.MagicCritDamage = roleStatus.MagicCritDamage+ obj.MagicCritDamage - reducesStatus.MagicCritDamage;
-            roleStatus.MagicCritProb = roleStatus.MagicCritProb+ obj.MagicCritProb - reducesStatus.MagicCritProb;
-            roleStatus.MishuLearnSpeed = roleStatus.MishuLearnSpeed + obj.MishuLearnSpeed - reducesStatus.MishuLearnSpeed;
-            roleStatus.MoveSpeed = roleStatus.MoveSpeed+ obj.MoveSpeed - reducesStatus.MoveSpeed;
-            roleStatus.PhysicalCritDamage = roleStatus.PhysicalCritDamage+ obj.PhysicalCritDamage - reducesStatus.PhysicalCritDamage;
-            roleStatus.PhysicalCritProb = roleStatus.PhysicalCritProb+ obj.PhysicalCritProb - reducesStatus.PhysicalCritProb;
-            roleStatus.ReduceCritDamage = roleStatus.ReduceCritDamage+ obj.ReduceCritDamage - reducesStatus.ReduceCritDamage;
-            roleStatus.ReduceCritProb = roleStatus.ReduceCritProb+ obj.ReduceCritProb - reducesStatus.ReduceCritProb;
-            roleStatus.RolePopularity = roleStatus.RolePopularity+ obj.RolePopularity - reducesStatus.RolePopularity;
-            roleStatus.ValueHide = roleStatus.ValueHide+ obj.ValueHide - reducesStatus.ValueHide;
+            if (status.DefendPhysical - reducesStatus.DefendPhysical>0)
+            {
+                roleStatus.DefendPhysical = obj.DefendPhysical - reducesStatus.DefendPhysical;
+            }
+            else
+                roleStatus.DefendPhysical = obj.DefendPhysical;
+            if (status.GongfaLearnSpeed - reducesStatus.GongfaLearnSpeed>0)
+            {
+                roleStatus.GongfaLearnSpeed = obj.GongfaLearnSpeed - reducesStatus.GongfaLearnSpeed;
+            }else
+                roleStatus.GongfaLearnSpeed = obj.GongfaLearnSpeed ;
+            if (status.MagicCritDamage - reducesStatus.MagicCritDamage>0)
+            {
+                roleStatus.MagicCritDamage = obj.MagicCritDamage - reducesStatus.MagicCritDamage;
+            }else
+                roleStatus.MagicCritDamage = obj.MagicCritDamage ;
+            if (status.MagicCritDamage - reducesStatus.MagicCritDamage>0)
+            {
+                roleStatus.MagicCritDamage = obj.MagicCritDamage - reducesStatus.MagicCritDamage;
+            }else
+                roleStatus.MagicCritDamage = obj.MagicCritDamage ;
+            if (status.MagicCritProb - reducesStatus.MagicCritProb>0)
+            {
+                roleStatus.MagicCritProb = obj.MagicCritProb - reducesStatus.MagicCritProb;
+            }else
+                roleStatus.MagicCritProb = obj.MagicCritProb ;
+            if (status.MishuLearnSpeed - reducesStatus.MishuLearnSpeed>0)
+            {
+                roleStatus.MishuLearnSpeed = obj.MishuLearnSpeed - reducesStatus.MishuLearnSpeed;
+            }else
+                roleStatus.MishuLearnSpeed = obj.MishuLearnSpeed ;
+            if (status.MoveSpeed - reducesStatus.MoveSpeed>0)
+            {
+                roleStatus.MoveSpeed = obj.MoveSpeed - reducesStatus.MoveSpeed;
+            }else
+                roleStatus.MoveSpeed = obj.MoveSpeed ;
+            if (status.PhysicalCritDamage - reducesStatus.PhysicalCritDamage>0)
+            {
+                roleStatus.PhysicalCritDamage = obj.PhysicalCritDamage - reducesStatus.PhysicalCritDamage;
+            }else
+                roleStatus.PhysicalCritDamage = obj.PhysicalCritDamage ;
+            if (status.PhysicalCritProb - reducesStatus.PhysicalCritProb>0)
+            {
+                roleStatus.PhysicalCritProb = obj.PhysicalCritProb - reducesStatus.PhysicalCritProb;
+            }else
+                roleStatus.PhysicalCritProb = obj.PhysicalCritProb;
+
+            if (status.PhysicalCritProb - reducesStatus.PhysicalCritProb>0)
+            {
+                roleStatus.PhysicalCritProb = obj.PhysicalCritProb - reducesStatus.PhysicalCritProb;
+            }else
+                roleStatus.PhysicalCritProb = obj.PhysicalCritProb ;
+
+            if (status.PhysicalCritProb - reducesStatus.PhysicalCritProb>0)
+            {
+                roleStatus.PhysicalCritProb = obj.PhysicalCritProb - reducesStatus.PhysicalCritProb;
+            }else
+                roleStatus.PhysicalCritProb = obj.PhysicalCritProb ;
+
+            if (status.ReduceCritDamage - reducesStatus.ReduceCritDamage>0)
+            {
+                roleStatus.ReduceCritDamage = obj.ReduceCritDamage - reducesStatus.ReduceCritDamage;
+            }else
+                roleStatus.ReduceCritDamage = obj.ReduceCritDamage;
+
+            if (status.ReduceCritDamage - reducesStatus.ReduceCritDamage>0)
+            {
+                roleStatus.ReduceCritDamage = obj.ReduceCritDamage - reducesStatus.ReduceCritDamage;
+            }else
+                roleStatus.ReduceCritDamage = obj.ReduceCritDamage ;
+
+            if (status.ReduceCritProb - reducesStatus.ReduceCritProb>0)
+            {
+                roleStatus.ReduceCritProb = obj.ReduceCritProb - reducesStatus.ReduceCritProb;
+            }else
+                roleStatus.ReduceCritProb = obj.ReduceCritProb;
+
+            if (status.RolePopularity - reducesStatus.RolePopularity>0)
+            {
+                roleStatus.RolePopularity = obj.RolePopularity - reducesStatus.RolePopularity;
+            }else
+                roleStatus.RolePopularity = obj.RolePopularity ;
+
+            if (status.ValueHide - reducesStatus.ValueHide>0)
+            {
+                roleStatus.ValueHide = obj.ValueHide - reducesStatus.ValueHide;
+            }else
+                roleStatus.ValueHide = obj.ValueHide ;
 
             return roleStatus;
         }
+
 
     }
 }
