@@ -108,8 +108,13 @@ namespace AscensionServer
             }
             else
             {
+                var messageData = messageDataPool.Spawn();
+                messageData.Add((byte)LevelResParameterCode.GId, gid);
+                messageData.Add((byte)LevelResParameterCode.EleId, eleid);
+                opData.DataMessage = Utility.Json.ToJson(messageData);
                 opData.ReturnCode = (byte)ReturnCode.Fail;
                 GameEntry.PeerManager.SendMessage(sessionId, opdata);
+                messageDataPool.Despawn(messageData);
             }
             opDataPool.Despawn(opdata);
         }

@@ -107,9 +107,6 @@
     <Compile Include="DTO\RoleStatusPointDTO.cs" />
     <Compile Include="DTO\SecondaryJobDTO.cs" />
     <Compile Include="DTO\ShoppingMallDTO.cs" />
-    <Compile Include="DTO\Resource\OccupiedUnitDTO.cs" />
-    <Compile Include="DTO\Resource\ResourceUnitDTO.cs" />
-    <Compile Include="DTO\Resource\ResourceUnitSetDTO.cs" />
     <Compile Include="DTO\RingDTO.cs" />
     <Compile Include="DTO\MiShuDTO.cs" />
     <Compile Include="DTO\OnOffLineDTO.cs" />
@@ -133,7 +130,6 @@
     <Compile Include="DTO\TeamDTO.cs" />
     <Compile Include="DTO\TemporaryRingDTO.cs" />
     <Compile Include="DTO\TokenDto.cs" />
-    <Compile Include="DTO\TransformDTO.cs" />
     <Compile Include="DTO\TreasureatticDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="DTO\UserInfoDto.cs" />

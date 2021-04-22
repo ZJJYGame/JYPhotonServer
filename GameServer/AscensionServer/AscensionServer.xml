@@ -3387,7 +3387,15 @@
             全局技能Id
             </summary>
         </member>
-        <member name="M:AscensionServer.BattleBuffEventBase.Trigger(AscensionServer.BattleCharacterEntity,AscensionServer.ISkillAdditionData)">
+        <member name="M:AscensionServer.BattleBuffController.AddBuff(AscensionServer.BattleSkillAddBuffData,AscensionServer.BattleSkillBase)">
+            <summary>
+            
+            </summary>
+            <param name="battleSkillAddBuffData"></param>
+            <param name="battleSkillBase"></param>
+            <param name="orginRole">buff的来源角色</param>
+        </member>
+        <member name="M:AscensionServer.BattleBuffEventBase.Trigger(AscensionServer.BattleCharacterEntity,AscensionServer.BattleDamageData,AscensionServer.ISkillAdditionData)">
             <summary>
             具体buff触发事件实现
             </summary>
@@ -3406,6 +3414,11 @@
         <member name="T:AscensionServer.BattleBuffEvent_ChangeProperty">
             <summary>
             改变角色属性事件
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleBuffEvent_Shield">
+            <summary>
+            护盾类型buff事件
             </summary>
         </member>
         <member name="T:AscensionServer.BattleBuffEvent_UseDesignateSkill">
@@ -3654,12 +3667,12 @@
             <param name="index">第几段伤害</param>
             <param name="targetIndex">第几个目标</param>
         </member>
-        <member name="M:AscensionServer.BattleSkillBase.TriggerSkillEventBeforeAttack(System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO},AscensionServer.BattleDamageData)">
+        <member name="M:AscensionServer.BattleSkillBase.TriggerSkillEventBeforeAttack(AscensionServer.BattleDamageData)">
             <summary>
             攻击前事件触发
             </summary>
         </member>
-        <member name="M:AscensionServer.BattleSkillBase.TriggerSkillEventBehindAttack(System.Collections.Generic.List{AscensionProtocol.DTO.BattleTransferDTO},AscensionServer.BattleDamageData)">
+        <member name="M:AscensionServer.BattleSkillBase.TriggerSkillEventBehindAttack(AscensionServer.BattleDamageData)">
             <summary>
             攻击后事件触发
             </summary>

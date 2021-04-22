@@ -37,9 +37,9 @@ namespace AscensionServer
         public List<BattleCharacterEntity> FriendCharacterEntities { get; protected set; }
         public List<BattleCharacterEntity> EnemyCharacterEntities { get; protected set; }
 
-        public BattleCmd BattleCmd { get; protected set; }
-        public int ActionID { get; protected set; }
-        public List<int> TargetIDList { get; protected set; }
+        public BattleCmd BattleCmd { get;  set; }
+        public int ActionID { get;  set; }
+        public List<int> TargetIDList { get;  set; }
 
         public BattleSkillController BattleSkillController { get; protected set; }
         public BattleBuffController BattleBuffController { get; protected set; }
@@ -116,22 +116,22 @@ namespace AscensionServer
         /// <summary>
         /// 角色进行行动的方法
         /// </summary>
-        public List<BattleTransferDTO> Action()
+        public void Action()
         {
-            List<BattleTransferDTO> battleTransferDTOList = new List<BattleTransferDTO>();
+            List<BattleTransferDTO> battleTransferDTOList = GameEntry.BattleRoomManager.GetBattleRoomEntity(RoomID).BattleTransferDTOList;
             if (HasDie)
-                return battleTransferDTOList;
+                return;
             switch (BattleCmd)
             {
                 case BattleCmd.PropsInstruction:
                     break;
                 case BattleCmd.SkillInstruction:
-                    battleTransferDTOList = BattleSkillController.UseSkill(ActionID, TargetIDList);
+                     BattleSkillController.UseSkill(ActionID, TargetIDList);
                     if (battleTransferDTOList.Count > 1)
-                        battleTransferDTOList[battleTransferDTOList.Count - 1].isFinish = true;
+                        battleTransferDTOList[battleTransferDTOList.Count - 1].FinishActionRoleID = UniqueID;
                     else if (battleTransferDTOList.Count == 1)
-                        battleTransferDTOList[0].isFinish = true;
-                    return battleTransferDTOList;
+                        battleTransferDTOList[0].FinishActionRoleID = UniqueID;
+                    return;
                 case BattleCmd.MagicWeapon:
                     break;
                 case BattleCmd.CatchPet:
@@ -145,7 +145,7 @@ namespace AscensionServer
                 case BattleCmd.Defend:
                     break;
             }
-            return new List<BattleTransferDTO>();
+            return;
         }
         /// <summary>
         /// 受到技能等效果的结算
@@ -156,12 +156,10 @@ namespace AscensionServer
             {
                 case BattleSkillActionType.Damage:
                     //todo受击时的触发判断
-                    CharacterBattleData.ChangeProperty(battleDamageData.baseDamageTargetProperty, battleDamageData.damageNum);
-                    CharacterBattleData.ChangeProperty(battleDamageData.extraDamageTargetProperty, battleDamageData.extraDamageNum);
+                    CharacterBattleData.ChangeProperty(battleDamageData);
                     break;
                 case BattleSkillActionType.Heal:
-                    CharacterBattleData.ChangeProperty(battleDamageData.baseDamageTargetProperty, battleDamageData.damageNum);
-                    CharacterBattleData.ChangeProperty(battleDamageData.extraDamageTargetProperty, battleDamageData.extraDamageNum);
+                    CharacterBattleData.ChangeProperty(battleDamageData);
                     break;
                 case BattleSkillActionType.Resurrection:
                     break;

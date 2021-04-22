@@ -34,8 +34,26 @@ namespace AscensionServer
                     break;
             }
         }
+        public override void RemoveEvent()
+        {
+            switch (battleBuffTriggerTime)
+            {
+                case BattleBuffTriggerTime.BeforeUseSkill:
+                    owner.BattleBuffController.BeforeUseSkill -= Trigger;
+                    break;
+                case BattleBuffTriggerTime.BeforeAttack:
+                    owner.BattleBuffController.BeforeAttackEvent -= Trigger;
+                    break;
+                case BattleBuffTriggerTime.BehindAttack:
+                    owner.BattleBuffController.BehindAttackEvent -= Trigger;
+                    break;
+                case BattleBuffTriggerTime.BeforeOnHit:
+                    owner.BattleBuffController.BeforeOnHitEvent -= Trigger;
+                    break;
+            }
+        }
 
-        protected override void TriggerEventMethod(BattleCharacterEntity target, ISkillAdditionData skillAdditionData)
+        protected override void TriggerEventMethod(BattleCharacterEntity target, BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
         {
             switch (buffEvent_PropertyChangeType)
             {

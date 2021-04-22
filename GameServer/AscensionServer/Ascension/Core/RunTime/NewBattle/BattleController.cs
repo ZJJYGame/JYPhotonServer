@@ -19,15 +19,15 @@ namespace AscensionServer
         //阵营二角色列表
         public List<BattleCharacterEntity> FactionTwoCharacterEntites { get; private set; }
 
-        Action< BattleCharacterEntity, ISkillAdditionData> roundStartEvent;
-        public event Action< BattleCharacterEntity, ISkillAdditionData> RoundStartEvent
+        Action< BattleCharacterEntity,BattleDamageData, ISkillAdditionData> roundStartEvent;
+        public event Action< BattleCharacterEntity, BattleDamageData, ISkillAdditionData> RoundStartEvent
         {
             add { roundStartEvent += value; }
             remove { roundStartEvent -= value; }
         }
         //回合结束事件,在roundFinishEvent之前，处理buff事件
-        Action< BattleCharacterEntity, ISkillAdditionData> roundEndEvent;
-        public event Action<BattleCharacterEntity, ISkillAdditionData> RoundEndEvent
+        Action< BattleCharacterEntity, BattleDamageData, ISkillAdditionData> roundEndEvent;
+        public event Action<BattleCharacterEntity, BattleDamageData, ISkillAdditionData> RoundEndEvent
         {
             add { roundEndEvent += value; }
             remove { roundEndEvent -= value; }
@@ -64,22 +64,24 @@ namespace AscensionServer
 
         public void StartBattle()
         {
-            List<BattleTransferDTO> battleTransferDTOs = new List<BattleTransferDTO>();
+            List<BattleTransferDTO> battleTransferDTOs = battleRoomEntity.BattleTransferDTOList;
+            battleTransferDTOs.Clear();
             //角色按速度排序
             AllCharacterEntities.Sort();
 
             //按角色出手顺序开始出手
             int allCount = AllCharacterEntities.Count;
             BattleCharacterEntity actCharacter;
-            roundStartEvent?.Invoke(null,null);
+            roundStartEvent?.Invoke(null,null,null);
 
             for (int i = 0; i < allCount; i++)
             {
                 actCharacter = AllCharacterEntities[i];
+
                 //分配角色行为
                 actCharacter.AllocationBattleAction();
                 //开始计算角色行动
-                battleTransferDTOs.AddRange(actCharacter.Action());
+                actCharacter.Action();
             }
 
             roundFinishEvent?.Invoke();
