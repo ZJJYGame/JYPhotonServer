@@ -38,6 +38,9 @@ namespace AscensionServer
             add { roleSendMsgHandler += value; }
             remove { roleSendMsgHandler -= value; }
         }
+        /// <summary>
+        /// RoleId---LevelConn
+        /// </summary>
         Dictionary<int, LevelConn> connDict;
         List<LevelConn> connCache;
         List<FixTransportData> transportDataCache;
@@ -82,19 +85,17 @@ namespace AscensionServer
         {
             if (IsFull)
                 return false;
-            var result = connDict.ContainsKey(roleId);
-            if (!result)
+            if (!connDict.ContainsKey(roleId))
             {
-                Utility.Debug.LogWarning($"RoleId:{roleId};进入Level：{LevelId}");
+                connCache.Add(conn);
+                Utility.Debug.LogWarning($"RoleId:{roleId};SessionId:{conn.RoleEntity.SessionId}进入Level :{LevelType} ; {LevelId}");
                 SendExists2EnteredS2C(roleId, conn);
                 SendEntered2ExistsS2C(roleId, conn);
+                connDict.Add(roleId, conn);
                 RoleSendMsgHandler += conn.RoleEntity.SendMessage;
+                return true;
             }
-            return result;
-        }
-        public bool PeekRole(int roleId, out LevelConn conn)
-        {
-            return connDict.TryGetValue(roleId, out conn);
+            return false;
         }
         public bool ExitLevel(int roleId)
         {
@@ -102,7 +103,7 @@ namespace AscensionServer
             if (result)
             {
                 connCache.Remove(conn);
-                Utility.Debug.LogWarning($"RoleId:{roleId};SessionId:{conn.RoleEntity.SessionId}离开Level：{LevelId};PlayerCount:{PlayerCount}");
+                Utility.Debug.LogWarning($"RoleId:{roleId};SessionId:{conn.RoleEntity.SessionId}离开Level :{LevelType} ; {LevelId}");
                 RoleSendMsgHandler -= conn.RoleEntity.SendMessage;
                 SendExited2ExistedS2C(conn);
                 SendExitDoneS2C(conn);
@@ -170,7 +171,7 @@ namespace AscensionServer
             LevelEntity se = CosmosEntry.ReferencePoolManager.Spawn<LevelEntity>();
             se.LevelType = levelType;
             se.Available = true;
-            se.Capacity = capacity==0?int.MaxValue:0;
+            se.Capacity = capacity;
             se.LevelId = levelId;
             return se;
         }
@@ -191,9 +192,7 @@ namespace AscensionServer
             roleEntity.TryGetValue<RoleDTO>(out var roleDto);
             dataMessage.Add((byte)LevelParameterCode.EnteredRole, Utility.Json.ToJson(roleDto));
             opData.DataMessage = Utility.Json.ToJson(dataMessage);
-            //conn.RoleEntity.SendMessage(opData);
             roleSendMsgHandler?.Invoke(opData);
-            connDict.Add(roleId, conn);
             opDataPool.Despawn(opData);
             messageDataPool.Despawn(dataMessage);
         }
@@ -202,7 +201,6 @@ namespace AscensionServer
         /// </summary>
         void SendExists2EnteredS2C(int roleId, LevelConn conn)
         {
-            connCache.Add(conn);
             var opData = opDataPool.Spawn();
             var dataMessage = messageDataPool.Spawn();
             opData.OperationCode = (byte)OperationCode.MultiplayArea;

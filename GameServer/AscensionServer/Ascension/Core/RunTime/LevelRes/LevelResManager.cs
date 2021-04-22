@@ -24,9 +24,9 @@ namespace AscensionServer
                 (() => new OperationData(), d => { d.OperationCode = (byte)OperationCode.LevelRes; }, d => { d.Dispose(); });
             messageDataPool = new Pool<Dictionary<byte, object>>(() => new Dictionary<byte, object>(), md => { md.Clear(); });
             CommandEventCore.Instance.AddEventListener((byte)OperationCode.LevelRes, ProcessHandlerC2S);
-            SpawnRes();
             GameEntry.LevelManager.OnRoleEnterLevel += SYNResS2C;
             GameEntry.LevelManager.OnRoleExitLevel += FINResS2C;
+            SpawnRes();
         }
         void SpawnRes()
         {
@@ -76,17 +76,19 @@ namespace AscensionServer
         }
         void SYNResS2C(LevelTypeEnum levelType, int levelId, int roleId)
         {
+            Utility.Debug.LogWarning("SYNResS2C");
             var opdata = opDataPool.Spawn();
             opdata.SubOperationCode = (byte)LevelResOpCode.SYN;
             var messageData = messageDataPool.Spawn();
             var collectableJson = Utility.Json.ToJson(adventureLevelResEntity.CollectableDict);
             messageData.Add((byte)LevelResParameterCode.Collectable, collectableJson);
+            opdata.DataMessage = Utility.Json.ToJson(messageData);
             GameEntry.RoleManager.SendMessage(roleId, opdata);
             opDataPool.Despawn(opdata);
         }
-        void FINResS2C(LevelTypeEnum levelType,int levelId, int roleId)
+        void FINResS2C(LevelTypeEnum levelType, int levelId, int roleId)
         {
-
+            Utility.Debug.LogWarning("FINResS2C");
         }
         void CollectS2C(int sessionId, OperationData opData)
         {

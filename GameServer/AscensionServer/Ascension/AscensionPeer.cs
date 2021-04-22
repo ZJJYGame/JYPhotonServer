@@ -65,7 +65,7 @@ namespace AscensionServer
         /// </summary>
         public void SendMessage(OperationData opData)
         {
-            var data = Utility.MessagePack.ToJson(opData);
+            var data = Utility.MessagePack.ToByteArray(opData);
             base.SendMessage(data, sendParam);
         }
         public void SendMessage(byte opCode, Dictionary<byte, object> userData)

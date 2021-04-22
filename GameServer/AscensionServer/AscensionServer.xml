@@ -373,7 +373,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -418,7 +418,7 @@
             5.传说的
             </summary>
         </member>
-        <!-- 对于成员“T:AscensionServer.MapResSpanwInfoData”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:AscensionServer.MapResSpanwInfoData" -->
         <member name="P:AscensionServer.MapResSpanwInfoData.MapResSpawnInfoDict">
             <summary>
             此数据为：地图资源的生成信息。将数据转换Fix类型后用于传输；
@@ -941,25 +941,6 @@
             角色飛行法器部分属性记录
             </summary>
         </member>
-        <member name="T:AscensionServer.RTGenericValuePair`2">
-            <summary>
-            RT=reference types
-            双泛型值组合；此组合并非Key-Value形式，而是Value-Value形式。
-            比较时调用Equals方法；进行组合时注意覆写Equals；
-            </summary>
-            <typeparam name="TValue1">泛型类型</typeparam>
-            <typeparam name="TValue2">泛型类型</typeparam>
-        </member>
-        <member name="M:AscensionServer.RTGenericValuePair`2.Equals(System.Object)">
-            <summary>
-            Equals方法需要注意，若在对象未覆写Equals时，值类型比较值是否相同，引用类型比较地址是否相同；
-            </summary>
-        </member>
-        <member name="M:AscensionServer.RTGenericValuePair`2.Equals(AscensionServer.RTGenericValuePair{`0,`1})">
-            <summary>
-            Equals方法需要注意，若在对象未覆写Equals时，值类型比较值是否相同，引用类型比较地址是否相同；
-            </summary>
-        </member>
         <member name="T:AscensionServer.DataStream">
             <summary>
             数据流对象
@@ -1048,25 +1029,6 @@
         <member name="F:AscensionServer.DataStreamQueue.isWriting">
             <summary>
             是否可写入；
-            </summary>
-        </member>
-        <member name="T:AscensionServer.VTGenericValuePair`2">
-            <summary>
-            VT=Value types
-            双泛型值组合；此组合并非Key-Value形式，而是Value-Value形式。
-            比较时调用Equals方法；进行组合时注意覆写Equals；
-            </summary>
-            <typeparam name="TValue1">泛型类型</typeparam>
-            <typeparam name="TValue2">泛型类型</typeparam>
-        </member>
-        <member name="M:AscensionServer.VTGenericValuePair`2.Equals(System.Object)">
-            <summary>
-            Equals方法需要注意，若在对象未覆写Equals时，值类型比较值是否相同，引用类型比较地址是否相同；
-            </summary>
-        </member>
-        <member name="M:AscensionServer.VTGenericValuePair`2.Equals(AscensionServer.VTGenericValuePair{`0,`1})">
-            <summary>
-            Equals方法需要注意，若在对象未覆写Equals时，值类型比较值是否相同，引用类型比较地址是否相同；
             </summary>
         </member>
         <member name="F:AscensionServer.AlliancelogicManager.alliancePoolDict">
@@ -1794,7 +1756,7 @@
             准备指令战斗 
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="M:AscensionServer.IServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -1982,7 +1944,7 @@
             </summary>
             
         </member>
-        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -4474,16 +4436,6 @@
             <param name="roleid"></param>
             <param name="tacticalDTO"></param>
         </member>
-        <member name="M:AscensionServer.MapResManager.TakeUpResourceC2S(System.Int32,AscensionServer.OperationData)">
-            <summary>
-            占用资源 客户端->服务器
-            </summary>
-        </member>
-        <member name="M:AscensionServer.MapResManager.OnRoleEnterMap(AscensionServer.RoleEntity)">
-            <summary>
-            发送已生成资源至指定场景
-            </summary>
-        </member>
         <member name="P:AscensionServer.TacticalManager.TacticalEntityDict">
             <summary>
             记录确认创建的阵法实体
@@ -4769,6 +4721,11 @@
         <member name="P:AscensionServer.LevelEntity.Available">
             <summary>
             当前场景对象是否存活；
+            </summary>
+        </member>
+        <member name="F:AscensionServer.LevelEntity.connDict">
+            <summary>
+            RoleId---LevelConn
             </summary>
         </member>
         <member name="P:AscensionServer.LevelEntity.Capacity">
@@ -5482,13 +5439,6 @@
             判断人气不够解散的逻辑
             </summary>
         </member>
-        <member name="T:AscensionServer.OccupiedResourceUnitHandler">
-            <summary>
-            占用资源单位请求；
-            例如怪物被占用，则其他玩家无法触发战斗；
-            矿石被占用，则其他玩家无法拾取
-            </summary>
-        </member>
         <member name="F:AscensionServer.ApplicationBuilder.MapResourceRefreshInterval">
             <summary>
             地图资源刷新周期；
@@ -5511,7 +5461,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；

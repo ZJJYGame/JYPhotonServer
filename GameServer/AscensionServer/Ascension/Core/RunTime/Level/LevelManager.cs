@@ -53,7 +53,7 @@ namespace AscensionServer
         /// Key : SessionId---Value : LevelConn
         /// </summary>
         ConcurrentDictionary<int, LevelConn> connDict;
-        long latestTime=0;
+        long latestTime = 0;
         int updateInterval = ApplicationBuilder.MSInterval;
 
         Action sceneRefreshHandler;
@@ -63,7 +63,7 @@ namespace AscensionServer
             remove { sceneRefreshHandler -= value; }
         }
 
-        Action<LevelTypeEnum,int,int> onRoleEnterLevel;
+        Action<LevelTypeEnum, int, int> onRoleEnterLevel;
         /// <summary>
         /// 角色进入场景事件
         /// </summary>
@@ -73,7 +73,7 @@ namespace AscensionServer
             remove { onRoleEnterLevel -= value; }
         }
 
-        Action<LevelTypeEnum,int,int> onRoleExitLevel;
+        Action<LevelTypeEnum, int, int> onRoleExitLevel;
         /// <summary>
         /// 角色离开场景事件
         /// </summary>
@@ -86,7 +86,7 @@ namespace AscensionServer
 
         public override void OnPreparatory()
         {
-            adventureLevel = LevelEntity.Create(LevelTypeEnum.Adventure, 701, 0);
+            adventureLevel = LevelEntity.Create(LevelTypeEnum.Adventure, 701, Int32.MaxValue);
             SceneRefreshHandler += adventureLevel.OnRefresh;
             connPool = new Pool<LevelConn>(() => new LevelConn(), (t) => t.Dispose());
             //adventureLevelEntityDict = new ConcurrentDictionary<int, LevelEntity>();
@@ -147,8 +147,6 @@ namespace AscensionServer
             {
                 case LevelTypeEnum.Adventure:
                     {
-                        //if (adventureLevelEntityDict.TryGetValue(levelId, out var levelEntity))
-                        //    levelEntity.BroadCast2AllS2C(opData);
                         adventureLevel.BroadCast2AllS2C(opData);
                     }
                     break;
@@ -167,10 +165,8 @@ namespace AscensionServer
                 var levelEntity = GetLevelEntity(conn);
                 if (Utility.Assert.IsNull(levelEntity))
                     return;
-                if(levelEntity.ExitLevel(conn.RoleId))
-                {
-                    onRoleExitLevel?.Invoke(levelEntity.LevelType, (int)levelEntity.LevelId, conn.RoleId);
-                }
+                levelEntity.ExitLevel(conn.RoleId);
+                onRoleExitLevel?.Invoke(levelEntity.LevelType, (int)levelEntity.LevelId, conn.RoleId);
                 if (levelEntity.Empty)
                 {
                     switch (levelEntity.LevelType)
@@ -179,11 +175,14 @@ namespace AscensionServer
                             //adventureLevelEntityDict.TryRemove((int)levelEntity.LevelId, out _);
                             break;
                         case LevelTypeEnum.SecretArea:
-                            secretAreaLevelEntityDict.TryRemove((int)levelEntity.LevelId, out _);
+                            {
+                                //SceneRefreshHandler -= levelEntity.OnRefresh;
+                                //LevelEntity.Release(levelEntity);
+                                //secretAreaLevelEntityDict.TryRemove((int)levelEntity.LevelId, out _);
+                            }
                             break;
                     }
-                    SceneRefreshHandler -= levelEntity.OnRefresh;
-                    LevelEntity.Release(levelEntity);
+
                 }
             }
         }
@@ -223,20 +222,6 @@ namespace AscensionServer
                     case LevelTypeEnum.Adventure:
                         {
                             levelEntity = adventureLevel;
-                            //foreach (var level in adventureLevelEntityDict.Values)
-                            //{
-                            //    if (!level.IsFull)
-                            //    {
-                            //        levelEntity = level;
-                            //        break;
-                            //    }
-                            //}
-                            //if (Utility.Assert.IsNull(levelEntity))
-                            //{
-                            //    levelEntity = LevelEntity.Create(LevelTypeEnum.Adventure, adventureLevelIndex++, AdventureSingleLevelCapacity);
-                            //    adventureLevelEntityDict.TryAdd((int)levelEntity.LevelId, levelEntity);
-                            //    SceneRefreshHandler += levelEntity.OnRefresh;
-                            //}
                         }
                         break;
                     case LevelTypeEnum.SecretArea:
@@ -246,10 +231,8 @@ namespace AscensionServer
                         }
                         break;
                 }
-               if( levelEntity.EnterLevel(conn.RoleId, conn))
-                {
-                    onRoleEnterLevel?.Invoke(levelEntity.LevelType, (int)levelEntity.LevelId, conn.RoleId);
-                }
+                levelEntity.EnterLevel(conn.RoleId, conn);
+                onRoleEnterLevel?.Invoke(levelEntity.LevelType, (int)levelEntity.LevelId, conn.RoleId);
                 conn.LevelId = (int)levelEntity.LevelId;
                 connDict.TryAdd(sessionId, conn);
             }
@@ -259,10 +242,10 @@ namespace AscensionServer
             if (connDict.TryRemove(sessionId, out var conn))
             {
                 var levelEntity = GetLevelEntity(conn);
-                if (levelEntity.ExitLevel(conn.RoleId))
-                {
-                    onRoleExitLevel?.Invoke(levelEntity.LevelType, (int)levelEntity.LevelId, conn.RoleId);
-                }
+                if (Utility.Assert.IsNull(levelEntity))
+                    return;
+                levelEntity.ExitLevel(conn.RoleId);
+                onRoleExitLevel?.Invoke(levelEntity.LevelType, (int)levelEntity.LevelId, conn.RoleId);
                 if (levelEntity.Empty)
                 {
                     switch (levelEntity.LevelType)
@@ -271,14 +254,16 @@ namespace AscensionServer
                             //adventureLevelEntityDict.TryRemove((int)levelEntity.LevelId, out _);
                             break;
                         case LevelTypeEnum.SecretArea:
-                            secretAreaLevelEntityDict.TryRemove((int)levelEntity.LevelId, out _);
+                            {
+                                //SceneRefreshHandler -= levelEntity.OnRefresh;
+                                //LevelEntity.Release(levelEntity);
+                                //secretAreaLevelEntityDict.TryRemove((int)levelEntity.LevelId, out _);
+                            }
                             break;
                     }
-                    SceneRefreshHandler -= levelEntity.OnRefresh;
-                    LevelEntity.Release(levelEntity);
+
                 }
             }
-            connPool.Despawn(conn);
         }
         void OnPlayerInputS2C(int sessionId, OperationData packet)
         {
