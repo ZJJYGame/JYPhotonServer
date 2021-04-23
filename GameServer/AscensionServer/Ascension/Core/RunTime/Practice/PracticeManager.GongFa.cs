@@ -22,21 +22,10 @@ namespace AscensionServer
         {
             if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleGongfaPerfix, RoleID.ToString()).Result)
             {
-                var dict = await RedisHelper.Hash.HashGetAsync<RoleGongFaDTO>(RedisKeyDefine._RoleGongfaPerfix, RoleID.ToString());
-                List<CultivationMethodDTO> gongFaIdList = new List<CultivationMethodDTO>();
-                if (dict.GongFaIDArray.Count != 0)
+                var roleGongFa = await RedisHelper.Hash.HashGetAsync<RoleGongFaDTO>(RedisKeyDefine._RoleGongfaPerfix, RoleID.ToString());
+                if (roleGongFa!=null)
                 {
-                    foreach (var item in dict.GongFaIDArray)
-                    {
-                        if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._GongfaPerfix, item.Key.ToString()).Result)
-                        {
-                            gongFaIdList.Add(await RedisHelper.Hash.HashGetAsync<CultivationMethodDTO>(RedisKeyDefine._RoleGongfaPerfix, RoleID.ToString()));
-                        }
-                    }
-                    Dictionary<byte, object> dictData = new Dictionary<byte, object>();
-                    dictData.Add((byte)ParameterCode.GongFa, gongFaIdList);
-                    dictData.Add((byte)ParameterCode.RoleGongFa, dict);
-                    ResultSuccseS2C(RoleID,PracticeOpcode.GetRoleGongfa,dictData);
+                    ResultSuccseS2C(RoleID,PracticeOpcode.GetRoleGongfa, roleGongFa);
                 }
                 else
                     GetRoleGongFaMySql(RoleID);
@@ -52,21 +41,11 @@ namespace AscensionServer
         {
             if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleMiShuPerfix, RoleID.ToString()).Result)
             {
-                var dict = await RedisHelper.Hash.HashGetAsync<RoleMiShuDTO>(RedisKeyDefine._RoleMiShuPerfix, RoleID.ToString());
-                List<MiShuDTO> miShuIdList = new List<MiShuDTO>();
-                if (dict.MiShuIDArray.Count != 0)
+                Utility.Debug.LogError("获取秘术"+ RoleID);
+                var roleMiShu = await RedisHelper.Hash.HashGetAsync<RoleMiShuDTO>(RedisKeyDefine._RoleMiShuPerfix, RoleID.ToString());
+                if (roleMiShu != null)
                 {
-                    foreach (var item in dict.MiShuIDArray)
-                    {
-                        if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._MiShuPerfix, item.Key.ToString()).Result)
-                        {
-                            miShuIdList.Add(await RedisHelper.Hash.HashGetAsync<MiShuDTO>(RedisKeyDefine._RoleMiShuPerfix, RoleID.ToString()));
-                        }
-                    }
-                    Dictionary<byte, object> dataDict = new Dictionary<byte, object>();
-                    dataDict.Add((byte)ParameterCode.MiShu, miShuIdList);
-                    dataDict.Add((byte)ParameterCode.RoleMiShu, dict);
-                    ResultSuccseS2C(RoleID, PracticeOpcode.GetRoleMiShu, dataDict);
+                    ResultSuccseS2C(RoleID, PracticeOpcode.GetRoleMiShu, roleMiShu);
                 }
                 else
                     GetRoleMiShuMySql(RoleID);
@@ -110,9 +89,9 @@ namespace AscensionServer
                         return;
                     }
 
-                    if (rolegongfa.GongFaIDArray.Count != 0)
+                    if (rolegongfa.GongFaIDDict.Count != 0)
                     {
-                        if (rolegongfa.GongFaIDArray.ContainsKey(book.GongfaID) && !rolegongfa.GongFaIDArray.ContainsKey(book.NeedGongfaID))
+                        if (rolegongfa.GongFaIDDict.ContainsKey(book.GongfaID) && !rolegongfa.GongFaIDDict.ContainsKey(book.NeedGongfaID))
                         {
                             Utility.Debug.LogError("学习功法失败4");
                             ResultFailS2C(roleid, PracticeOpcode.AddGongFa);
@@ -130,9 +109,7 @@ namespace AscensionServer
                                     cultivationMethodDTO.CultivationMethodLevelSkillArray.Add(gongfaDict[book.GongfaID].Skill_One[i]);
                                 }
                             }
-                            var gongfaObj = NHibernateQuerier.Insert(ChangeGongFa(cultivationMethodDTO));
-                            rolegongfa.GongFaIDArray.Add(gongfaObj.ID, book.GongfaID);
-                            cultivationMethodDTO.ID = gongfaObj.ID;
+                            rolegongfa.GongFaIDDict.Add(cultivationMethodDTO.CultivationMethodID, cultivationMethodDTO);
 
                             Dictionary<byte, object> dict = new Dictionary<byte, object>();
                             dict.Add((byte)ParameterCode.RoleGongFa, rolegongfa);
@@ -142,8 +119,7 @@ namespace AscensionServer
                             ResultSuccseS2C(roleid, PracticeOpcode.AddGongFa, dict);
 
                             InventoryManager.Remove(roleid, id);
-                            await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._GongfaPerfix, gongfaObj.ID.ToString(), ChangeGongFa(gongfaObj));
-                            await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleGongfaPerfix, gongfaObj.ID.ToString(), rolegongfa);
+                            await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleGongfaPerfix, roleid.ToString(), rolegongfa);
                             await NHibernateQuerier.UpdateAsync(ChangeDataType(rolegongfa));
                         }
                     }
@@ -153,11 +129,10 @@ namespace AscensionServer
                         cultivationMethodDTO.CultivationMethodID = book.GongfaID;
                         cultivationMethodDTO.CultivationMethodLevel = 1;
                         cultivationMethodDTO.CultivationMethodLevelSkillArray.Add(gongfaDict[book.GongfaID].Skill_One[0]);
-                        var gongfaObj = NHibernateQuerier.Insert(ChangeGongFa(cultivationMethodDTO));
-                        rolegongfa.GongFaIDArray.Add(gongfaObj.ID, book.GongfaID);
 
-                        role.RoleLevel = cultivationMethodDTO.CultivationMethodLevel;
-                        cultivationMethodDTO.ID = gongfaObj.ID;
+                        rolegongfa.GongFaIDDict.Add(cultivationMethodDTO.CultivationMethodID, cultivationMethodDTO);
+
+                        role.RoleLevel = 1;
 
 
                         Dictionary<byte, object> dict = new Dictionary<byte, object>();
@@ -168,9 +143,8 @@ namespace AscensionServer
                         ResultSuccseS2C(roleid, PracticeOpcode.AddGongFa, dict);
 
                         InventoryManager.Remove(roleid, id);
-                        await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._GongfaPerfix, gongfaObj.ID.ToString(), ChangeGongFa(gongfaObj));
-                        await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleGongfaPerfix, gongfaObj.ID.ToString(), rolegongfa);
-                        await RedisHelper.Hash.HashSetAsync<Role>(RedisKeyDefine._RolePostfix, gongfaObj.ID.ToString(), role);
+                        await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleGongfaPerfix, roleid.ToString(), rolegongfa);
+                        await RedisHelper.Hash.HashSetAsync<Role>(RedisKeyDefine._RolePostfix, roleid.ToString(), role);
 
                         await NHibernateQuerier.UpdateAsync(ChangeDataType(rolegongfa));
                         await NHibernateQuerier.UpdateAsync(role);
@@ -198,6 +172,7 @@ namespace AscensionServer
 
             if (!bookDict.TryGetValue(id, out var book))
             {
+                Utility.Debug.LogError("学习秘术失败1");
                 ResultFailS2C(roleid, PracticeOpcode.AddMiShu);
                 return;
             }
@@ -209,6 +184,7 @@ namespace AscensionServer
             {
                 if (!InventoryManager.VerifyIsExist(id,1, ringServer.RingIdArray))
                 {
+                    Utility.Debug.LogError("学习秘术失败2");
                     ResultFailS2C(roleid, PracticeOpcode.AddMiShu);
                     return;
                 }
@@ -217,32 +193,37 @@ namespace AscensionServer
                 var role = RedisHelper.Hash.HashGetAsync<RoleDTO>(RedisKeyDefine._RolePostfix, roleid.ToString()).Result;
                 if (role!=null&& rolemishu!=null)
                 {
-                    if (rolemishu.MiShuIDArray.ContainsKey(bookDict[id].MishuID))
+                    if (rolemishu.MiShuIDDict.ContainsKey(bookDict[id].MishuID))
                     {
+                        Utility.Debug.LogError("学习秘术失败3");
                         ResultFailS2C(roleid, PracticeOpcode.AddMiShu);
                         return;
                     }
 
                     if (bookDict[id].NeedRoleLevel > role.RoleLevel)
                     {
+                        Utility.Debug.LogError("学习秘术失败4");
                         ResultFailS2C(roleid, PracticeOpcode.AddMiShu);
                         return;
                     }
 
                     var rootlist = Utility.Json.ToObject<List<int>>(role.RoleRoot);
-                    if (!rootlist.Contains(book.BookProperty))
+                    if (book.BookProperty!=0)
                     {
-                        ResultFailS2C(roleid, PracticeOpcode.AddMiShu);
-                        return;
+                        if (!rootlist.Contains(book.BookProperty))
+                        {
+                            Utility.Debug.LogError("学习秘术失败5");
+                            ResultFailS2C(roleid, PracticeOpcode.AddMiShu);
+                            return;
+                        }
+
                     }
+                    Utility.Debug.LogError("读取到的学习秘术的数据" + Utility.Json.ToJson(mishuDict[bookDict[id].MishuID].mishuSkillDatas));
+                    var mishuData = mishuDict[bookDict[id].MishuID].mishuSkillDatas.Find(x=>x.MishuFloor==1);
+                    Utility.Debug.LogError("读取到的学习秘术的数据"+Utility.Json.ToJson(mishuData));
+                    MiShuDTO miShuDTO = new MiShuDTO() {  MiShuSkillArry = mishuData.SkillArrayOne, MiShuAdventureSkill = mishuData.SkillArrayTwo, MiShuLevel = (short)mishuData.NeedLevelID, MiShuID = bookDict[id].MishuID };
 
-                    var mishuData = mishuDict[bookDict[id].MishuID].mishuSkillDatas.Find(x=>x.Mishu_Floor==1);
-                    MiShuDTO miShuDTO = new MiShuDTO() {  MiShuSkillArry = mishuData.Skill_Array_One, MiShuAdventureSkill = mishuData.Skill_Array_Two, MiShuLevel = (short)mishuData.Need_Level_ID, MiShuID = bookDict[id].MishuID };
-
-                   var mishuObj= await NHibernateQuerier.InsertAsync(ChangeMiShu(miShuDTO));
-                    miShuDTO.ID = mishuObj.ID;
-
-                    rolemishu.MiShuIDArray.Add(mishuObj.ID, bookDict[id].MishuID);
+                    rolemishu.MiShuIDDict.Add(bookDict[id].MishuID, miShuDTO);
 
                     Dictionary<byte, object> dict = new Dictionary<byte, object>();
                     dict.Add((byte)ParameterCode.RoleStatus,new RoleStatus());
@@ -251,7 +232,6 @@ namespace AscensionServer
 
                     ResultSuccseS2C(roleid,PracticeOpcode.AddMiShu, dict);
 
-                    await  RedisHelper.Hash.HashSetAsync(RedisKeyDefine._MiShuPerfix, miShuDTO.ID.ToString(), miShuDTO);
                     await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleMiShuPerfix, roleid.ToString(), rolemishu);
 
                     await NHibernateQuerier.UpdateAsync(ChangeDataType(rolemishu));
@@ -269,34 +249,11 @@ namespace AscensionServer
         /// <param name="RoleID"></param>
         async void GetRoleGongFaMySql(int RoleID)
         {
-            List<NHCriteria> nHCriterias = new List<NHCriteria>();
-            List<CultivationMethodDTO> gongFaIdList = new List<CultivationMethodDTO>();
-            Dictionary<byte, object> dataDict = new Dictionary<byte, object>();
             NHCriteria nHCriteriaRole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", RoleID);
             var role = NHibernateQuerier.CriteriaSelectAsync<RoleGongFa>(nHCriteriaRole).Result;
             if (role != null)
             {
-                if (!string.IsNullOrEmpty(role.GongFaIDArray))
-                {
-                    foreach (var item in Utility.Json.ToObject<Dictionary<int, int>>(role.GongFaIDArray))
-                    {
-                        NHCriteria nHCriteriaGongFa = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", item.Key);
-                        nHCriterias.Add(nHCriteriaGongFa);
-                        var gongfa = NHibernateQuerier.CriteriaSelectAsync<CultivationMethod>(nHCriteriaGongFa).Result;
-                        if (gongfa != null)
-                        {
-                            gongFaIdList.Add(ChangeGongFa(gongfa));
-                        }
-                    }
-                    dataDict = new Dictionary<byte, object>();
-                    dataDict.Add((byte)ParameterCode.GongFa, gongFaIdList);                    
-                    dataDict.Add((byte)ParameterCode.RoleGongFa, ChangeDataType(role));
-                    ResultSuccseS2C(RoleID, PracticeOpcode.GetRoleGongfa, dataDict);
-                }
-                else
-                {
-                    ResultFailS2C(RoleID,PracticeOpcode.GetRoleGongfa);
-                }
+                ResultSuccseS2C(RoleID, PracticeOpcode.GetRoleGongfa, ChangeDataType(role));
             }
             else
             {
@@ -310,35 +267,13 @@ namespace AscensionServer
         /// <param name="RoleID"></param>
         async void GetRoleMiShuMySql(int RoleID)
         {
-            List<NHCriteria> nHCriterias = new List<NHCriteria>();
-            List<MiShuDTO> mishuIdList = new List<MiShuDTO>();
-            OperationData opData = new OperationData();
-            Dictionary<byte, object> dataDict = new Dictionary<byte, object>();
+
             NHCriteria nHCriteriaRole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", RoleID);
             var role = NHibernateQuerier.CriteriaSelectAsync<RoleMiShu>(nHCriteriaRole).Result;
             if (role != null)
             {
-                if (!string.IsNullOrEmpty(role.MiShuIDArray))
-                {
-                    foreach (var item in Utility.Json.ToObject<Dictionary<int, int>>(role.MiShuIDArray))
-                    {
-                        NHCriteria nHCriteriaMiShu = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", item.Key);
-                        nHCriterias.Add(nHCriteriaMiShu);
-                        var mishu = NHibernateQuerier.CriteriaSelectAsync<MiShu>(nHCriteriaMiShu).Result;
-                        if (mishu != null)
-                        {
-                            mishuIdList.Add(ChangeMiShu(mishu));
-                        }
-                    }
-                    dataDict = new Dictionary<byte, object>();
-                    dataDict.Add((byte)ParameterCode.MiShu, mishuIdList);
-                    dataDict.Add((byte)ParameterCode.RoleMiShu, ChangeDataType(role));
-                    ResultSuccseS2C(RoleID, PracticeOpcode.GetRoleMiShu, dataDict);
-                }
-                else
-                {
-                    ResultFailS2C(RoleID, PracticeOpcode.GetRoleMiShu); 
-                }
+                Utility.Debug.LogError("获取秘术" + RoleID);
+                ResultSuccseS2C(RoleID, PracticeOpcode.GetRoleMiShu, ChangeDataType(role));
             }
             else
             {
@@ -354,7 +289,6 @@ namespace AscensionServer
             CultivationMethodDTO cultivationMethodDTO = new CultivationMethodDTO();
             cultivationMethodDTO.CultivationMethodExp = cultivation.CultivationMethodExp;
             cultivationMethodDTO.CultivationMethodID = cultivation.CultivationMethodID;
-            cultivationMethodDTO.ID = cultivation.ID;
             cultivationMethodDTO.CultivationMethodLevel = cultivation.CultivationMethodLevel;
             cultivationMethodDTO.CultivationMethodLevelSkillArray = Utility.Json.ToObject<List<int>>(cultivation.CultivationMethodLevelSkillArray);
             return cultivationMethodDTO;
@@ -363,7 +297,6 @@ namespace AscensionServer
         MiShuDTO ChangeMiShu(MiShu miShu)
         {
             MiShuDTO miShuDTO = new MiShuDTO();
-            miShuDTO.ID = miShu.ID;
             miShuDTO.MiShuAdventureSkill = Utility.Json.ToObject<List<int>>(miShu.MiShuAdventtureSkill);
             miShuDTO.MiShuExp = miShu.MiShuExp;
             miShuDTO.MiShuID = miShu.MiShuID;
@@ -376,7 +309,6 @@ namespace AscensionServer
         MiShu ChangeMiShu(MiShuDTO miShuDTO)
         {
             MiShu miShu = new MiShu();
-            miShu.ID = miShuDTO.ID;
             miShu.MiShuAdventtureSkill = Utility.Json.ToJson(miShuDTO.MiShuAdventureSkill);
             miShu.MiShuExp = miShuDTO.MiShuExp;
             miShu.MiShuID = miShuDTO.MiShuID;
@@ -390,14 +322,14 @@ namespace AscensionServer
         {
             RoleGongFaDTO roleGongFaObj = new RoleGongFaDTO();
             roleGongFaObj.RoleID = roleGongFa.RoleID;
-            roleGongFaObj.GongFaIDArray = Utility.Json.ToObject<Dictionary<int ,int>>(roleGongFa.GongFaIDArray);
+            roleGongFaObj.GongFaIDDict = Utility.Json.ToObject<Dictionary<int , CultivationMethodDTO>>(roleGongFa.GongFaIDDict);
             return roleGongFaObj;
         }
         RoleGongFa ChangeDataType(RoleGongFaDTO roleGongFa)
         {
             RoleGongFa roleGongFaObj = new RoleGongFa();
             roleGongFaObj.RoleID = roleGongFa.RoleID;
-            roleGongFaObj.GongFaIDArray = Utility.Json.ToJson(roleGongFa.GongFaIDArray);
+            roleGongFaObj.GongFaIDDict = Utility.Json.ToJson(roleGongFa.GongFaIDDict);
             return roleGongFaObj;
         }
 
@@ -405,7 +337,7 @@ namespace AscensionServer
         {
             RoleMiShuDTO roleMiShuObj = new RoleMiShuDTO();
             roleMiShuObj.RoleID = roleMiShu.RoleID;
-            roleMiShuObj.MiShuIDArray = Utility.Json.ToObject<Dictionary<int, int>>(roleMiShu.MiShuIDArray);
+            roleMiShuObj.MiShuIDDict = Utility.Json.ToObject<Dictionary<int, MiShuDTO>>(roleMiShu.MiShuIDDict);
             return roleMiShuObj;
         }
 
@@ -413,7 +345,7 @@ namespace AscensionServer
         {
             RoleMiShu roleMiShuObj = new RoleMiShu();
             roleMiShuObj.RoleID = roleMiShu.RoleID;
-            roleMiShuObj.MiShuIDArray = Utility.Json.ToJson(roleMiShu.MiShuIDArray);
+            roleMiShuObj.MiShuIDDict = Utility.Json.ToJson(roleMiShu.MiShuIDDict);
             return roleMiShuObj;
         }
 
@@ -422,7 +354,6 @@ namespace AscensionServer
             CultivationMethod cultivationMethod = new CultivationMethod();
             cultivationMethod.CultivationMethodExp = cultivation.CultivationMethodExp;
             cultivationMethod.CultivationMethodID = cultivation.CultivationMethodID;
-            cultivationMethod.ID = cultivation.ID;
             cultivationMethod.CultivationMethodLevel = cultivation.CultivationMethodLevel;
             cultivationMethod.CultivationMethodLevelSkillArray = Utility.Json.ToJson(cultivation.CultivationMethodLevelSkillArray);
             return cultivationMethod;

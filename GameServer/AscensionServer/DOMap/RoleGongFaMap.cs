@@ -12,7 +12,7 @@ namespace AscensionServer
         public RoleGongFaMap()
         {
             Id(x => x.RoleID).GeneratedBy.Assigned().Column("role_id");
-            Map(x => x.GongFaIDArray).Nullable().Column("gongfa_id_array");
+            Map(x => x.GongFaIDDict).Nullable().Column("gongfa_id_dict");
             Table("role_gongfa");
         }
     }

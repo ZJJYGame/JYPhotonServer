@@ -49,7 +49,8 @@ namespace AscensionServer
                 var allianceSigninDataDict = TransObject<List<AllianceSigninData>>(allianceSigninData);
 
                 GameEntry. DataManager.TryGetValue(typeof(MiShuData).Name, out var mishuData);
-                var mishuDataDict = TransObject<List<MiShuData>>(mishuData).ToDictionary(key => key.Mishu_ID, value => value.mishuSkillDatas);
+                var mishuDataDict = TransObject<List<MiShuData>>(mishuData).ToDictionary(key => key.MishuID, value => value);
+
 
                 GameEntry. DataManager.TryGetValue(typeof(RoleStatusDatas).Name, out var roleStatusDatas);
                 var roleStatusDatasDict = TransObject<List<RoleStatusDatas>>(roleStatusDatas).ToDictionary(key => key.LevelID, value => value);

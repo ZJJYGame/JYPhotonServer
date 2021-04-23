@@ -48,24 +48,24 @@ namespace AscensionServer
             {
                 for (int i = 0; i < mishuList.Count; i++)
                 {
-                    roleStatustemp.AttackPhysical += mishuList[i].Attact_Physical;
-                    roleStatustemp.AttackPower += mishuList[i].Attact_Power;
-                    roleStatustemp.AttackSpeed += mishuList[i].Attact_Speed;
-                    roleStatustemp.BestBlood += (short)mishuList[i].Best_Blood;
-                    roleStatustemp.DefendPhysical += mishuList[i].Defend_Physical;
-                    roleStatustemp.DefendPower += mishuList[i].Defend_Power;
+                    roleStatustemp.AttackPhysical += mishuList[i].AttactPhysical;
+                    roleStatustemp.AttackPower += mishuList[i].AttactPower;
+                    roleStatustemp.AttackSpeed += mishuList[i].AttactSpeed;
+                    roleStatustemp.BestBlood += (short)mishuList[i].BestBlood;
+                    roleStatustemp.DefendPhysical += mishuList[i].DefendPhysical;
+                    roleStatustemp.DefendPower += mishuList[i].DefendPower;
                     //roleStatus.MagicCritDamage += gongfaList[i].;
                     //roleStatus.MagicCritProb += gongfaList[i].Attact_Physical;
-                    roleStatustemp.MoveSpeed += mishuList[i].Move_Speed;
+                    //roleStatustemp.MoveSpeed += mishuList[i].Move_Speed;
                     //roleStatus.PhysicalCritDamage += gongfaList[i].;
                     //roleStatus.PhysicalCritProb += gongfaList[i].Attact_Physical;
                     //roleStatus.ReduceCritDamage += gongfaList[i].Attact_Physical;
                     //roleStatus.ReduceCritProb += gongfaList[i].Attact_Physical;
-                    roleStatustemp.RoleHP += mishuList[i].Role_HP;
-                    roleStatustemp.RoleMP += mishuList[i].Role_MP;
-                    roleStatustemp.RolePopularity += mishuList[i].Role_Popularity;
-                    roleStatustemp.RoleSoul += mishuList[i].Role_Soul;
-                    roleStatustemp.ValueHide += mishuList[i].Value_Hide;
+                    roleStatustemp.RoleHP += mishuList[i].RoleHP;
+                    roleStatustemp.RoleMP += mishuList[i].RoleMP;
+                    roleStatustemp.RolePopularity += mishuList[i].RolePopularity;
+                    roleStatustemp.RoleSoul += mishuList[i].RoleSoul;
+                    roleStatustemp.ValueHide += mishuList[i].ValueHide;
                     //roleStatus.MishuLearnSpeed += mishuList[i].Role_Soul;
                     //roleStatus.ValueHide += mishuList[i].Value_Hide;
                 }

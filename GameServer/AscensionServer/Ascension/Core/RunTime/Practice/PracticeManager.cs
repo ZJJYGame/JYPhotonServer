@@ -41,6 +41,8 @@ namespace AscensionServer
                         GetRoleMiShuS2C(role.RoleID);
                         break;
                     case PracticeOpcode.AddMiShu:
+                         secondary = Utility.Json.ToObject<SecondaryJobDTO>(item.Value.ToString());
+                        AddMiShuS2C(secondary.RoleID, secondary.UseItemID);
                         break;
                     case PracticeOpcode.SwitchPracticeType:
                         onOffLine = Utility.Json.ToObject<OnOffLineDTO>(item.Value.ToString());

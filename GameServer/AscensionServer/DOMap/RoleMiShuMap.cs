@@ -12,7 +12,7 @@ namespace AscensionServer
         public RoleMiShuMap()
         {
             Id(x => x.RoleID).GeneratedBy.Assigned().Column("role_id");
-            Map(x => x.MiShuIDArray).Column("mishu_id_array");
+            Map(x => x.MiShuIDDict).Column("mishu_id_array");
             Table("role_mishu");
         }
     }

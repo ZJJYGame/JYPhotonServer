@@ -23,13 +23,13 @@ namespace AscensionServer
             misuhTemp.MiShuAdventureSkill = new List<int>();
             misuhTemp.MiShuSkillArry = new List<int>();
             GameEntry. DataManager.TryGetValue<Dictionary<int, MiShuData>>(out var mishuDict);
-            for (int i = 0; i < mishuDict[misuhTemp.MiShuID].mishuSkillDatas[0].Skill_Array_One.Count; i++)
+            for (int i = 0; i < mishuDict[misuhTemp.MiShuID].mishuSkillDatas[0].SkillArrayOne.Count; i++)
             {
-                misuhTemp.MiShuSkillArry.Add(mishuDict[misuhTemp.MiShuID].mishuSkillDatas[0].Skill_Array_One[0]);
+                misuhTemp.MiShuSkillArry.Add(mishuDict[misuhTemp.MiShuID].mishuSkillDatas[0].SkillArrayOne[0]);
             }
-            for (int i = 0; i < mishuDict[misuhTemp.MiShuID].mishuSkillDatas[0].Skill_Array_Two.Count; i++)
+            for (int i = 0; i < mishuDict[misuhTemp.MiShuID].mishuSkillDatas[0].SkillArrayTwo.Count; i++)
             {
-                misuhTemp.MiShuAdventureSkill.Add(mishuDict[misuhTemp.MiShuID].mishuSkillDatas[0].Skill_Array_Two[0]);
+                misuhTemp.MiShuAdventureSkill.Add(mishuDict[misuhTemp.MiShuID].mishuSkillDatas[0].SkillArrayTwo[0]);
             }
 
             Utility.Debug.LogInfo("秘术检测yzqData4" + misuhTemp.MiShuSkillArry.Count);

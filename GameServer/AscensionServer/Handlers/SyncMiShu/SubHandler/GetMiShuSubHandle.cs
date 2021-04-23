@@ -22,14 +22,14 @@ namespace AscensionServer
             var roleMiShuObj = Utility.Json.ToObject<RoleMiShuDTO>(roleMSJson);
             NHCriteria nHCriteriamishu = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleMiShuObj.RoleID);
             RoleMiShu roleMiShu = NHibernateQuerier.CriteriaSelect<RoleMiShu>(nHCriteriamishu);
-            Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收到获取秘术的数组" + roleMiShu.MiShuIDArray);
+            Utility.Debug.LogInfo(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>收到获取秘术的数组" + roleMiShu.MiShuIDDict);
             List<MiShuDTO> miShuIdList = new List<MiShuDTO>();
             List<NHCriteria> nHCriteriaslist = new List<NHCriteria>();
             List<MiShuDTO>mishulist = new List<MiShuDTO>();
             if (RedisHelper.KeyExistsAsync(RedisKeyDefine._RoleMiShuPerfix+ roleMiShuObj.RoleID).Result)
             {
                 var rolemishuRedisObj = RedisHelper.Hash.HashGetAsync<RoleMiShuDTO>(RedisKeyDefine._RoleMiShuPerfix + roleMiShuObj.RoleID, roleMiShuObj.RoleID.ToString()).Result;
-                foreach (var item in rolemishuRedisObj.MiShuIDArray)
+                foreach (var item in rolemishuRedisObj.MiShuIDDict)
                 {
                     MiShuDTO miShuObj = RedisHelper.Hash.HashGetAsync<MiShuDTO>(RedisKeyDefine._MiShuPerfix + roleMiShuObj.RoleID, roleMiShuObj.RoleID.ToString()).Result;
                     miShuIdList.Add(miShuObj);
@@ -42,9 +42,9 @@ namespace AscensionServer
             else
             {
                 #region MySQL数据
-                if (!string.IsNullOrEmpty(roleMiShu.MiShuIDArray))
+                if (!string.IsNullOrEmpty(roleMiShu.MiShuIDDict))
                 {
-                    string rolemishuJson = roleMiShu.MiShuIDArray;
+                    string rolemishuJson = roleMiShu.MiShuIDDict;
                     if (!string.IsNullOrEmpty(rolemishuJson))
                     {
                       var roleIDict = Utility.Json.ToObject<Dictionary<int, int>>(rolemishuJson);
@@ -53,7 +53,6 @@ namespace AscensionServer
                             NHCriteria tmpcriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", roleid.Key);
                             MiShu miShu = NHibernateQuerier.CriteriaSelect<MiShu>(tmpcriteria);
                             var mishuMySQL = CosmosEntry.ReferencePoolManager.Spawn<MiShuDTO>();
-                            mishuMySQL.ID = miShu.ID;
                             mishuMySQL.MiShuID = miShu.MiShuID;
                             mishuMySQL.MiShuAdventureSkill =Utility.Json.ToObject<List<int>>(miShu.MiShuAdventtureSkill);
                             mishuMySQL.MiShuSkillArry = Utility.Json.ToObject<List<int>>(miShu.MiShuSkillArry);

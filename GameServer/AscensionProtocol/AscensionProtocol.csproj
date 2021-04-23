@@ -79,7 +79,6 @@
     <Compile Include="DTO\Base\DataTransferObject.cs" />
     <Compile Include="DTO\BattleDTO.cs" />
     <Compile Include="DTO\BottleneckDTO.cs" />
-    <Compile Include="DTO\CultivationMethodDTO.cs" />
     <Compile Include="DTO\DailyMessageDTO.cs" />
     <Compile Include="DTO\DemonicSoulDTO.cs" />
     <Compile Include="DTO\ExchangeDTO.cs" />
@@ -108,7 +107,6 @@
     <Compile Include="DTO\SecondaryJobDTO.cs" />
     <Compile Include="DTO\ShoppingMallDTO.cs" />
     <Compile Include="DTO\RingDTO.cs" />
-    <Compile Include="DTO\MiShuDTO.cs" />
     <Compile Include="DTO\OnOffLineDTO.cs" />
     <Compile Include="DTO\RoleAdventureSkillDTO.cs" />
     <Compile Include="DTO\RoleAssetsDTO.cs" />

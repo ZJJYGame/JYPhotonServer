@@ -15,12 +15,12 @@ namespace AscensionServer.Model
     public class RoleMiShu:DataObject
     {
         public virtual int RoleID { get; set; }
-        public virtual string MiShuIDArray { get; set; }
-        public RoleMiShu() { MiShuIDArray = "{}"; }
+        public virtual string MiShuIDDict { get; set; }
+        public RoleMiShu() { MiShuIDDict = "{}"; }
         public override void Clear()
         {
             RoleID = -1;
-            MiShuIDArray = null;
+            MiShuIDDict = null;
         }
     }
 }

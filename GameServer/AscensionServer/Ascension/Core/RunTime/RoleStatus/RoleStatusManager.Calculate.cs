@@ -36,7 +36,7 @@ namespace AscensionServer
                 var roleGongfa = RedisHelper.Hash.HashGetAsync<RoleGongFaDTO>(RedisKeyDefine._RoleGongfaPerfix, roleID.ToString()).Result;
                 if (roleGongfa != null)
                 {
-                    gongfaList = roleGongfa.GongFaIDArray.Values.ToList();
+                    gongfaList = roleGongfa.GongFaIDDict.Keys.ToList();
                 }
                 else
                 {
@@ -44,7 +44,7 @@ namespace AscensionServer
                     var rolegongfa = NHibernateQuerier.CriteriaSelect<RoleGongFa>(nHCriteriaRole);
                     if (rolegongfa != null)
                     {
-                        var dict = Utility.Json.ToObject<Dictionary<int, int>>(rolegongfa.GongFaIDArray);
+                        var dict = Utility.Json.ToObject<Dictionary<int, int>>(rolegongfa.GongFaIDDict);
                         gongfaList = dict.Values.ToList();
                     }
                 }
@@ -56,7 +56,7 @@ namespace AscensionServer
                 var rolegongfa = NHibernateQuerier.CriteriaSelect<RoleGongFa>(nHCriteriaRole);
                 if (rolegongfa!=null)
                 {
-                   var dict= Utility.Json.ToObject<Dictionary<int,int>>(rolegongfa.GongFaIDArray);
+                   var dict= Utility.Json.ToObject<Dictionary<int,int>>(rolegongfa.GongFaIDDict);
                     gongfaList = dict.Values.ToList();
                 }
             }
@@ -68,11 +68,11 @@ namespace AscensionServer
                 var roleMiShu = RedisHelper.Hash.HashGetAsync<RoleMiShuDTO>(RedisKeyDefine._RoleMiShuPerfix, roleID.ToString()).Result;
                 if (roleMiShu != null)
                 {
-                    foreach (var item in roleMiShu.MiShuIDArray)
+                    foreach (var item in roleMiShu.MiShuIDDict)
                     {
                         NHCriteria nHCriteriamishu = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", item.Key);
                         var mishuObj = NHibernateQuerier.CriteriaSelect<MiShu>(nHCriteriamishu);
-                        var temp = mishuDict[item.Value].Find(t => t.Mishu_Floor == mishuObj.MiShuLevel);
+                        var temp = mishuDict[item.Key].Find(t => t.MishuFloor == mishuObj.MiShuLevel);
                         if (temp != null)
                             mishuList.Add(temp);
                     }
@@ -83,12 +83,12 @@ namespace AscensionServer
                     var rolemishu = NHibernateQuerier.CriteriaSelect<RoleMiShu>(nHCriteriaRole);
                     if (rolemishu != null)
                     {
-                        var dict = Utility.Json.ToObject<Dictionary<int, int>>(rolemishu.MiShuIDArray);
+                        var dict = Utility.Json.ToObject<Dictionary<int, MiShuDTO>>(rolemishu.MiShuIDDict);
                         foreach (var item in dict)
                         {
                             NHCriteria nHCriteriamishu = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", item.Key);
                             var mishuObj = NHibernateQuerier.CriteriaSelect<MiShu>(nHCriteriamishu);
-                            var temp = mishuDict[item.Value].Find(t => t.Mishu_Floor == mishuObj.MiShuLevel);
+                            var temp = mishuDict[item.Key].Find(t => t.MishuFloor == mishuObj.MiShuLevel);
                             if (temp != null)
                                 mishuList.Add(temp);
                         }
@@ -102,12 +102,12 @@ namespace AscensionServer
                 var rolemishu = NHibernateQuerier.CriteriaSelect<RoleMiShu>(nHCriteriaRole);
                 if (rolemishu != null)
                 {
-                    var dict = Utility.Json.ToObject<Dictionary<int, int>>(rolemishu.MiShuIDArray);
+                    var dict = Utility.Json.ToObject<Dictionary<int, int>>(rolemishu.MiShuIDDict);
                     foreach (var item in dict)
                     {
                         NHCriteria nHCriteriamishu = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", item.Key);
                         var mishuObj = NHibernateQuerier.CriteriaSelect<MiShu>(nHCriteriamishu);
-                        var temp = mishuDict[item.Value].Find(t => t.Mishu_Floor == mishuObj.MiShuLevel);
+                        var temp = mishuDict[item.Value].Find(t => t.MishuFloor == mishuObj.MiShuLevel);
                         if (temp != null)
                             mishuList.Add(temp);
                     }

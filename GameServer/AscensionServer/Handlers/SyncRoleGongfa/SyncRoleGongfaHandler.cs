@@ -27,7 +27,7 @@ namespace AscensionServer
             List<NHCriteria> nHCriteriaList= new List<NHCriteria>();
             if (rolegongfaObj!=null)
             {
-                var gongfaDict = Utility.Json.ToObject<Dictionary<int, int>>(rolegongfaObj.GongFaIDArray);
+                var gongfaDict = Utility.Json.ToObject<Dictionary<int, int>>(rolegongfaObj.GongFaIDDict);
                 if (gongfaDict.Count>0)
                 {
                     foreach (var item in gongfaDict)
@@ -36,7 +36,6 @@ namespace AscensionServer
                         var gongFaIdArray = NHibernateQuerier.CriteriaSelect<CultivationMethod>(nHCriteriaGongFaId);
                         nHCriteriaList.Add(nHCriteriaGongFaId);
                         var gongfaTemp = CosmosEntry.ReferencePoolManager.Spawn<CultivationMethodDTO>();
-                        gongfaTemp.ID = gongFaIdArray.ID;
                         gongfaTemp.CultivationMethodExp = gongFaIdArray.CultivationMethodExp;
                         gongfaTemp.CultivationMethodLevel = gongFaIdArray.CultivationMethodLevel;
                         gongfaTemp.CultivationMethodLevelSkillArray = Utility.Json.ToObject<List<int>>(gongFaIdArray.CultivationMethodLevelSkillArray);

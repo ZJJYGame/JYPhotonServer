@@ -114,7 +114,7 @@ namespace AscensionServer
                 //CultivationMethod gongFa = new CultivationMethod();
                 //gongFa = ConcurrentSingleton<NHManager>.Instance.Insert(gongFa);
                 //RoleGFDict.Add(gongFa.ID, gongFa.CultivationMethodID);
-                NHibernateQuerier.Insert(new RoleGongFa() { RoleID = rolestatus.RoleID, GongFaIDArray = Utility.Json.ToJson(new Dictionary<string, string>()) });
+                NHibernateQuerier.Insert(new RoleGongFa() { RoleID = rolestatus.RoleID, GongFaIDDict = Utility.Json.ToJson(new Dictionary<string, string>()) });
 
                 RoleGongFaDTO roleGongFaDTO = new RoleGongFaDTO();
                 roleGongFaDTO.RoleID = rolestatus.RoleID;

@@ -422,7 +422,7 @@ namespace AscensionServer
             GameEntry.DataManager.TryGetValue<Dictionary<int, MiShuData>>(out var mishu);
 
 
-            gongfaList = rolegongfa.GongFaIDArray.Values.ToList();
+            gongfaList = rolegongfa.GongFaIDDict.Keys.ToList();
             if (gongfaList.Count > 0)
             {
                 for (int i = 0; i < gongfaList.Count; i++)
