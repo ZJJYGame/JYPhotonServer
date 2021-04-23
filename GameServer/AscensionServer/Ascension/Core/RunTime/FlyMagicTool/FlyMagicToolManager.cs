@@ -137,13 +137,27 @@ namespace AscensionServer
             {
                 var flyObj = RedisHelper.Hash.HashGetAsync<FlyMagicToolDTO>(RedisKeyDefine._RoleFlyMagicToolPerfix, flyMagic.RoleID.ToString()).Result;
                 var rolestatus = RedisHelper.Hash.HashGetAsync<RoleStatus>(RedisKeyDefine._RoleStatsuPerfix, flyMagic.RoleID.ToString()).Result;
+                var status = new RoleStatus();
                 if (flyObj != null&& rolestatus!=null)
                 {
                     flyObj.FlyToolLayoutDict = flyMagic.FlyToolLayoutDict;
+                    foreach (var item in flyMagic.FlyToolLayoutDict)
+                    {
+                        if (flyObj.FlyToolLayoutDict.ContainsKey(item.Key))
+                        {
+                            status = await GameEntry.practiceManager.RoleSwitchFlyMagicTool(flyObj, rolestatus);
+                        }
+                        else
+                        {
+                            status = await GameEntry.practiceManager.RoleFlyMagicTool(flyObj, rolestatus);
+                        }
+                    }
+
                     await RedisHelper.Hash.HashSetAsync<FlyMagicToolDTO>(RedisKeyDefine._RoleFlyMagicToolPerfix, flyMagic.RoleID.ToString(), flyObj);
                     await NHibernateQuerier.UpdateAsync(flyMagicToolChange(flyObj));
 
-                    var status = await GameEntry.practiceManager.RoleFlyMagicTool(flyObj, rolestatus);
+
+
                     Dictionary<byte, object> dict = new Dictionary<byte, object>();
                     dict.Add((byte)ParameterCode.RoleStatus, status);
                     dict.Add((byte)ParameterCode.RoleFlyMagicTool, flyObj);

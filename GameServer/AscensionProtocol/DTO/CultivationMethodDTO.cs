@@ -13,6 +13,10 @@ namespace AscensionProtocol.DTO
         public virtual int CultivationMethodExp { get; set; }
         public virtual short CultivationMethodLevel { get; set; }
         public virtual List<int> CultivationMethodLevelSkillArray { get; set; }
+        public CultivationMethodDTO()
+        {
+            CultivationMethodLevelSkillArray = new List<int>();
+        }
         public override void Clear()
         {
             ID =-1;

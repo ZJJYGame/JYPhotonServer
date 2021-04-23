@@ -33,8 +33,8 @@ namespace AscensionServer
                         GetRoleGongFaS2C(role.RoleID);
                         break;
                     case PracticeOpcode.AddGongFa:
-                        role = Utility.Json.ToObject<RoleDTO>(item.Value.ToString());
-                        AddGongFaS2C(role.RoleID, role.RoleID);
+                        var secondary = Utility.Json.ToObject<SecondaryJobDTO>(item.Value.ToString());
+                        AddGongFaS2C(secondary.RoleID, secondary.UseItemID);
                         break;
                     case PracticeOpcode.GetRoleMiShu:
                         role = Utility.Json.ToObject<RoleDTO>(item.Value.ToString());
@@ -111,10 +111,7 @@ namespace AscensionServer
             dataDict.Add((byte)opcode, Utility.Json.ToJson(dict));
             opData.DataMessage = Utility.Json.ToJson(dataDict);
             GameEntry.RoleManager.SendMessage(roleID, opData);
-            if ((byte)opcode==7)
-            {
-                Utility.Debug.LogInfo("YZQonoffLine发送成功" + (byte)opcode + ">>" + Utility.Json.ToJson(dict));
-            }
+            Utility.Debug.LogInfo("YZQonoffLine发送成功" + (byte)opcode + ">>" + Utility.Json.ToJson(dict));
         }
     }
 }

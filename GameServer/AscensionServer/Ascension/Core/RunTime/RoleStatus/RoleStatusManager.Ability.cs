@@ -172,7 +172,7 @@ namespace AscensionServer
                 var obj = RolePointCalculate(pointObj, pointDTO);
                 if (obj != null && roleStatusObj != null)
                 {
-                    var status = await GameEntry.practiceManager.RoleAblility(obj, roleStatusObj);
+                    var status = await GameEntry.practiceManager.RoleSwitchAblility(obj, roleStatusObj);
                     Dictionary<byte, object> dataDict = new Dictionary<byte, object>();
                     dataDict.Add((byte)ParameterCode.RoleStatus, status);
                     dataDict.Add((byte)ParameterCode.RoleStatusPoint, pointObj);

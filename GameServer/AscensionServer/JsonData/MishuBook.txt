@@ -1,82 +1,482 @@
 ﻿[
-{"Book_ID":13301,"Book_Quarity":1,"Book_Property":0,"Need_School_ID":900,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19001},
-{"Book_ID":13302,"Book_Quarity":2,"Book_Property":0,"Need_School_ID":900,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19002},
-{"Book_ID":13303,"Book_Quarity":3,"Book_Property":0,"Need_School_ID":900,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19003},
-{"Book_ID":13304,"Book_Quarity":4,"Book_Property":0,"Need_School_ID":900,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19004},
-{"Book_ID":13305,"Book_Quarity":5,"Book_Property":0,"Need_School_ID":900,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19005},
-{"Book_ID":13306,"Book_Quarity":1,"Book_Property":0,"Need_School_ID":900,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19006},
-{"Book_ID":13307,"Book_Quarity":2,"Book_Property":0,"Need_School_ID":900,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19007},
-{"Book_ID":13308,"Book_Quarity":3,"Book_Property":0,"Need_School_ID":900,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19008},
-{"Book_ID":13309,"Book_Quarity":4,"Book_Property":0,"Need_School_ID":900,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19009},
-{"Book_ID":13310,"Book_Quarity":5,"Book_Property":0,"Need_School_ID":900,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19010},
-{"Book_ID":13311,"Book_Quarity":1,"Book_Property":5,"Need_School_ID":901,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19501},
-{"Book_ID":13312,"Book_Quarity":2,"Book_Property":5,"Need_School_ID":901,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19502},
-{"Book_ID":13313,"Book_Quarity":3,"Book_Property":5,"Need_School_ID":901,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19503},
-{"Book_ID":13314,"Book_Quarity":4,"Book_Property":5,"Need_School_ID":901,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19504},
-{"Book_ID":13315,"Book_Quarity":5,"Book_Property":5,"Need_School_ID":901,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19505},
-{"Book_ID":13316,"Book_Quarity":1,"Book_Property":5,"Need_School_ID":901,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19506},
-{"Book_ID":13317,"Book_Quarity":2,"Book_Property":5,"Need_School_ID":901,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19507},
-{"Book_ID":13318,"Book_Quarity":3,"Book_Property":5,"Need_School_ID":901,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19508},
-{"Book_ID":13319,"Book_Quarity":4,"Book_Property":5,"Need_School_ID":901,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19509},
-{"Book_ID":13320,"Book_Quarity":5,"Book_Property":5,"Need_School_ID":901,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19510},
-{"Book_ID":13321,"Book_Quarity":1,"Book_Property":3,"Need_School_ID":902,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19301},
-{"Book_ID":13322,"Book_Quarity":2,"Book_Property":3,"Need_School_ID":902,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19302},
-{"Book_ID":13323,"Book_Quarity":3,"Book_Property":3,"Need_School_ID":902,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19303},
-{"Book_ID":13324,"Book_Quarity":4,"Book_Property":3,"Need_School_ID":902,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19304},
-{"Book_ID":13325,"Book_Quarity":5,"Book_Property":3,"Need_School_ID":902,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19305},
-{"Book_ID":13326,"Book_Quarity":1,"Book_Property":3,"Need_School_ID":902,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19306},
-{"Book_ID":13327,"Book_Quarity":2,"Book_Property":3,"Need_School_ID":902,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19307},
-{"Book_ID":13328,"Book_Quarity":3,"Book_Property":3,"Need_School_ID":902,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19308},
-{"Book_ID":13329,"Book_Quarity":4,"Book_Property":3,"Need_School_ID":902,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19309},
-{"Book_ID":13330,"Book_Quarity":5,"Book_Property":3,"Need_School_ID":902,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19310},
-{"Book_ID":13331,"Book_Quarity":1,"Book_Property":3,"Need_School_ID":903,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19201},
-{"Book_ID":13332,"Book_Quarity":2,"Book_Property":3,"Need_School_ID":903,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19202},
-{"Book_ID":13333,"Book_Quarity":3,"Book_Property":3,"Need_School_ID":903,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19203},
-{"Book_ID":13334,"Book_Quarity":4,"Book_Property":3,"Need_School_ID":903,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19204},
-{"Book_ID":13335,"Book_Quarity":5,"Book_Property":3,"Need_School_ID":903,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19205},
-{"Book_ID":13336,"Book_Quarity":1,"Book_Property":3,"Need_School_ID":903,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19206},
-{"Book_ID":13337,"Book_Quarity":2,"Book_Property":3,"Need_School_ID":903,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19207},
-{"Book_ID":13338,"Book_Quarity":3,"Book_Property":3,"Need_School_ID":903,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19208},
-{"Book_ID":13339,"Book_Quarity":4,"Book_Property":3,"Need_School_ID":903,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19209},
-{"Book_ID":13340,"Book_Quarity":5,"Book_Property":3,"Need_School_ID":903,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19210},
-{"Book_ID":13341,"Book_Quarity":1,"Book_Property":3,"Need_School_ID":904,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19101},
-{"Book_ID":13342,"Book_Quarity":2,"Book_Property":3,"Need_School_ID":904,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19102},
-{"Book_ID":13343,"Book_Quarity":3,"Book_Property":3,"Need_School_ID":904,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19103},
-{"Book_ID":13344,"Book_Quarity":4,"Book_Property":3,"Need_School_ID":904,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19104},
-{"Book_ID":13345,"Book_Quarity":5,"Book_Property":3,"Need_School_ID":904,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19105},
-{"Book_ID":13346,"Book_Quarity":1,"Book_Property":3,"Need_School_ID":904,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19106},
-{"Book_ID":13347,"Book_Quarity":2,"Book_Property":3,"Need_School_ID":904,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19107},
-{"Book_ID":13348,"Book_Quarity":3,"Book_Property":3,"Need_School_ID":904,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19108},
-{"Book_ID":13349,"Book_Quarity":4,"Book_Property":3,"Need_School_ID":904,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19109},
-{"Book_ID":13350,"Book_Quarity":5,"Book_Property":3,"Need_School_ID":904,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19110},
-{"Book_ID":13351,"Book_Quarity":1,"Book_Property":3,"Need_School_ID":905,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19401},
-{"Book_ID":13352,"Book_Quarity":2,"Book_Property":3,"Need_School_ID":905,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19402},
-{"Book_ID":13353,"Book_Quarity":3,"Book_Property":3,"Need_School_ID":905,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19403},
-{"Book_ID":13354,"Book_Quarity":4,"Book_Property":3,"Need_School_ID":905,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19404},
-{"Book_ID":13355,"Book_Quarity":5,"Book_Property":3,"Need_School_ID":905,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19405},
-{"Book_ID":13356,"Book_Quarity":1,"Book_Property":3,"Need_School_ID":905,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19406},
-{"Book_ID":13357,"Book_Quarity":2,"Book_Property":3,"Need_School_ID":905,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19407},
-{"Book_ID":13358,"Book_Quarity":3,"Book_Property":3,"Need_School_ID":905,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19408},
-{"Book_ID":13359,"Book_Quarity":4,"Book_Property":3,"Need_School_ID":905,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19409},
-{"Book_ID":13360,"Book_Quarity":5,"Book_Property":3,"Need_School_ID":905,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19410},
-{"Book_ID":13361,"Book_Quarity":1,"Book_Property":3,"Need_School_ID":906,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19211},
-{"Book_ID":13362,"Book_Quarity":2,"Book_Property":3,"Need_School_ID":906,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19212},
-{"Book_ID":13363,"Book_Quarity":3,"Book_Property":3,"Need_School_ID":906,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19213},
-{"Book_ID":13364,"Book_Quarity":4,"Book_Property":3,"Need_School_ID":906,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19214},
-{"Book_ID":13365,"Book_Quarity":5,"Book_Property":3,"Need_School_ID":906,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19215},
-{"Book_ID":13366,"Book_Quarity":1,"Book_Property":3,"Need_School_ID":906,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19216},
-{"Book_ID":13367,"Book_Quarity":2,"Book_Property":3,"Need_School_ID":906,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19217},
-{"Book_ID":13368,"Book_Quarity":3,"Book_Property":3,"Need_School_ID":906,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19218},
-{"Book_ID":13369,"Book_Quarity":4,"Book_Property":3,"Need_School_ID":906,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19219},
-{"Book_ID":13370,"Book_Quarity":5,"Book_Property":3,"Need_School_ID":906,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19220},
-{"Book_ID":13371,"Book_Quarity":1,"Book_Property":3,"Need_School_ID":907,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19511},
-{"Book_ID":13372,"Book_Quarity":2,"Book_Property":3,"Need_School_ID":907,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19512},
-{"Book_ID":13373,"Book_Quarity":3,"Book_Property":3,"Need_School_ID":907,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19513},
-{"Book_ID":13374,"Book_Quarity":4,"Book_Property":3,"Need_School_ID":907,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19514},
-{"Book_ID":13375,"Book_Quarity":5,"Book_Property":3,"Need_School_ID":907,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19515},
-{"Book_ID":13376,"Book_Quarity":1,"Book_Property":3,"Need_School_ID":907,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19516},
-{"Book_ID":13377,"Book_Quarity":2,"Book_Property":3,"Need_School_ID":907,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19517},
-{"Book_ID":13378,"Book_Quarity":3,"Book_Property":3,"Need_School_ID":907,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19518},
-{"Book_ID":13379,"Book_Quarity":4,"Book_Property":3,"Need_School_ID":907,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19519},
-{"Book_ID":13380,"Book_Quarity":5,"Book_Property":3,"Need_School_ID":907,"Need_Gongfa_ID":0,"Need_Level_ID":1,"Mishu_ID":19520}
+	{
+		"BookID":13301,
+		"BookProperty":0,
+		"MishuID":19001,
+		"NeedRoleLevel":1
+	},
+	{
+		"BookID":13302,
+		"BookProperty":0,
+		"MishuID":19002,
+		"NeedRoleLevel":11
+	},
+	{
+		"BookID":13303,
+		"BookProperty":0,
+		"MishuID":19003,
+		"NeedRoleLevel":21
+	},
+	{
+		"BookID":13304,
+		"BookProperty":0,
+		"MishuID":19004,
+		"NeedRoleLevel":31
+	},
+	{
+		"BookID":13305,
+		"BookProperty":0,
+		"MishuID":19005,
+		"NeedRoleLevel":41
+	},
+	{
+		"BookID":13306,
+		"BookProperty":0,
+		"MishuID":19006,
+		"NeedRoleLevel":1
+	},
+	{
+		"BookID":13307,
+		"BookProperty":0,
+		"MishuID":19007,
+		"NeedRoleLevel":11
+	},
+	{
+		"BookID":13308,
+		"BookProperty":0,
+		"MishuID":19008,
+		"NeedRoleLevel":21
+	},
+	{
+		"BookID":13309,
+		"BookProperty":0,
+		"MishuID":19009,
+		"NeedRoleLevel":31
+	},
+	{
+		"BookID":13310,
+		"BookProperty":0,
+		"MishuID":19010,
+		"NeedRoleLevel":41
+	},
+	{
+		"BookID":13311,
+		"BookProperty":5,
+		"MishuID":19501,
+		"NeedRoleLevel":1
+	},
+	{
+		"BookID":13312,
+		"BookProperty":5,
+		"MishuID":19502,
+		"NeedRoleLevel":11
+	},
+	{
+		"BookID":13313,
+		"BookProperty":5,
+		"MishuID":19503,
+		"NeedRoleLevel":21
+	},
+	{
+		"BookID":13314,
+		"BookProperty":5,
+		"MishuID":19504,
+		"NeedRoleLevel":31
+	},
+	{
+		"BookID":13315,
+		"BookProperty":5,
+		"MishuID":19505,
+		"NeedRoleLevel":41
+	},
+	{
+		"BookID":13316,
+		"BookProperty":5,
+		"MishuID":19506,
+		"NeedRoleLevel":1
+	},
+	{
+		"BookID":13317,
+		"BookProperty":5,
+		"MishuID":19507,
+		"NeedRoleLevel":11
+	},
+	{
+		"BookID":13318,
+		"BookProperty":5,
+		"MishuID":19508,
+		"NeedRoleLevel":21
+	},
+	{
+		"BookID":13319,
+		"BookProperty":5,
+		"MishuID":19509,
+		"NeedRoleLevel":31
+	},
+	{
+		"BookID":13320,
+		"BookProperty":5,
+		"MishuID":19510,
+		"NeedRoleLevel":41
+	},
+	{
+		"BookID":13321,
+		"BookProperty":3,
+		"MishuID":19301,
+		"NeedRoleLevel":1
+	},
+	{
+		"BookID":13322,
+		"BookProperty":3,
+		"MishuID":19302,
+		"NeedRoleLevel":11
+	},
+	{
+		"BookID":13323,
+		"BookProperty":3,
+		"MishuID":19303,
+		"NeedRoleLevel":21
+	},
+	{
+		"BookID":13324,
+		"BookProperty":3,
+		"MishuID":19304,
+		"NeedRoleLevel":31
+	},
+	{
+		"BookID":13325,
+		"BookProperty":3,
+		"MishuID":19305,
+		"NeedRoleLevel":41
+	},
+	{
+		"BookID":13326,
+		"BookProperty":3,
+		"MishuID":19306,
+		"NeedRoleLevel":1
+	},
+	{
+		"BookID":13327,
+		"BookProperty":3,
+		"MishuID":19307,
+		"NeedRoleLevel":11
+	},
+	{
+		"BookID":13328,
+		"BookProperty":3,
+		"MishuID":19308,
+		"NeedRoleLevel":21
+	},
+	{
+		"BookID":13329,
+		"BookProperty":3,
+		"MishuID":19309,
+		"NeedRoleLevel":31
+	},
+	{
+		"BookID":13330,
+		"BookProperty":3,
+		"MishuID":19310,
+		"NeedRoleLevel":41
+	},
+	{
+		"BookID":13331,
+		"BookProperty":3,
+		"MishuID":19201,
+		"NeedRoleLevel":1
+	},
+	{
+		"BookID":13332,
+		"BookProperty":3,
+		"MishuID":19202,
+		"NeedRoleLevel":11
+	},
+	{
+		"BookID":13333,
+		"BookProperty":3,
+		"MishuID":19203,
+		"NeedRoleLevel":21
+	},
+	{
+		"BookID":13334,
+		"BookProperty":3,
+		"MishuID":19204,
+		"NeedRoleLevel":31
+	},
+	{
+		"BookID":13335,
+		"BookProperty":3,
+		"MishuID":19205,
+		"NeedRoleLevel":41
+	},
+	{
+		"BookID":13336,
+		"BookProperty":3,
+		"MishuID":19206,
+		"NeedRoleLevel":1
+	},
+	{
+		"BookID":13337,
+		"BookProperty":3,
+		"MishuID":19207,
+		"NeedRoleLevel":11
+	},
+	{
+		"BookID":13338,
+		"BookProperty":3,
+		"MishuID":19208,
+		"NeedRoleLevel":21
+	},
+	{
+		"BookID":13339,
+		"BookProperty":3,
+		"MishuID":19209,
+		"NeedRoleLevel":31
+	},
+	{
+		"BookID":13340,
+		"BookProperty":3,
+		"MishuID":19210,
+		"NeedRoleLevel":41
+	},
+	{
+		"BookID":13341,
+		"BookProperty":3,
+		"MishuID":19101,
+		"NeedRoleLevel":1
+	},
+	{
+		"BookID":13342,
+		"BookProperty":3,
+		"MishuID":19102,
+		"NeedRoleLevel":11
+	},
+	{
+		"BookID":13343,
+		"BookProperty":3,
+		"MishuID":19103,
+		"NeedRoleLevel":21
+	},
+	{
+		"BookID":13344,
+		"BookProperty":3,
+		"MishuID":19104,
+		"NeedRoleLevel":31
+	},
+	{
+		"BookID":13345,
+		"BookProperty":3,
+		"MishuID":19105,
+		"NeedRoleLevel":41
+	},
+	{
+		"BookID":13346,
+		"BookProperty":3,
+		"MishuID":19106,
+		"NeedRoleLevel":1
+	},
+	{
+		"BookID":13347,
+		"BookProperty":3,
+		"MishuID":19107,
+		"NeedRoleLevel":11
+	},
+	{
+		"BookID":13348,
+		"BookProperty":3,
+		"MishuID":19108,
+		"NeedRoleLevel":21
+	},
+	{
+		"BookID":13349,
+		"BookProperty":3,
+		"MishuID":19109,
+		"NeedRoleLevel":31
+	},
+	{
+		"BookID":13350,
+		"BookProperty":3,
+		"MishuID":19110,
+		"NeedRoleLevel":41
+	},
+	{
+		"BookID":13351,
+		"BookProperty":3,
+		"MishuID":19401,
+		"NeedRoleLevel":1
+	},
+	{
+		"BookID":13352,
+		"BookProperty":3,
+		"MishuID":19402,
+		"NeedRoleLevel":11
+	},
+	{
+		"BookID":13353,
+		"BookProperty":3,
+		"MishuID":19403,
+		"NeedRoleLevel":21
+	},
+	{
+		"BookID":13354,
+		"BookProperty":3,
+		"MishuID":19404,
+		"NeedRoleLevel":31
+	},
+	{
+		"BookID":13355,
+		"BookProperty":3,
+		"MishuID":19405,
+		"NeedRoleLevel":41
+	},
+	{
+		"BookID":13356,
+		"BookProperty":3,
+		"MishuID":19406,
+		"NeedRoleLevel":1
+	},
+	{
+		"BookID":13357,
+		"BookProperty":3,
+		"MishuID":19407,
+		"NeedRoleLevel":11
+	},
+	{
+		"BookID":13358,
+		"BookProperty":3,
+		"MishuID":19408,
+		"NeedRoleLevel":21
+	},
+	{
+		"BookID":13359,
+		"BookProperty":3,
+		"MishuID":19409,
+		"NeedRoleLevel":31
+	},
+	{
+		"BookID":13360,
+		"BookProperty":3,
+		"MishuID":19410,
+		"NeedRoleLevel":41
+	},
+	{
+		"BookID":13361,
+		"BookProperty":3,
+		"MishuID":19211,
+		"NeedRoleLevel":1
+	},
+	{
+		"BookID":13362,
+		"BookProperty":3,
+		"MishuID":19212,
+		"NeedRoleLevel":11
+	},
+	{
+		"BookID":13363,
+		"BookProperty":3,
+		"MishuID":19213,
+		"NeedRoleLevel":21
+	},
+	{
+		"BookID":13364,
+		"BookProperty":3,
+		"MishuID":19214,
+		"NeedRoleLevel":31
+	},
+	{
+		"BookID":13365,
+		"BookProperty":3,
+		"MishuID":19215,
+		"NeedRoleLevel":41
+	},
+	{
+		"BookID":13366,
+		"BookProperty":3,
+		"MishuID":19216,
+		"NeedRoleLevel":1
+	},
+	{
+		"BookID":13367,
+		"BookProperty":3,
+		"MishuID":19217,
+		"NeedRoleLevel":11
+	},
+	{
+		"BookID":13368,
+		"BookProperty":3,
+		"MishuID":19218,
+		"NeedRoleLevel":21
+	},
+	{
+		"BookID":13369,
+		"BookProperty":3,
+		"MishuID":19219,
+		"NeedRoleLevel":31
+	},
+	{
+		"BookID":13370,
+		"BookProperty":3,
+		"MishuID":19220,
+		"NeedRoleLevel":41
+	},
+	{
+		"BookID":13371,
+		"BookProperty":3,
+		"MishuID":19511,
+		"NeedRoleLevel":1
+	},
+	{
+		"BookID":13372,
+		"BookProperty":3,
+		"MishuID":19512,
+		"NeedRoleLevel":11
+	},
+	{
+		"BookID":13373,
+		"BookProperty":3,
+		"MishuID":19513,
+		"NeedRoleLevel":21
+	},
+	{
+		"BookID":13374,
+		"BookProperty":3,
+		"MishuID":19514,
+		"NeedRoleLevel":31
+	},
+	{
+		"BookID":13375,
+		"BookProperty":3,
+		"MishuID":19515,
+		"NeedRoleLevel":41
+	},
+	{
+		"BookID":13376,
+		"BookProperty":3,
+		"MishuID":19516,
+		"NeedRoleLevel":1
+	},
+	{
+		"BookID":13377,
+		"BookProperty":3,
+		"MishuID":19517,
+		"NeedRoleLevel":11
+	},
+	{
+		"BookID":13378,
+		"BookProperty":3,
+		"MishuID":19518,
+		"NeedRoleLevel":21
+	},
+	{
+		"BookID":13379,
+		"BookProperty":3,
+		"MishuID":19519,
+		"NeedRoleLevel":31
+	},
+	{
+		"BookID":13380,
+		"BookProperty":3,
+		"MishuID":19520,
+		"NeedRoleLevel":41
+	}
 ]

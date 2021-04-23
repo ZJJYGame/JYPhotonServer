@@ -67,7 +67,7 @@ namespace AscensionServer
                 var petAptitudeDataDict = TransObject<List<PetAptitudeData>>(petAptitudeData).ToDictionary(key => key.PetID, value => value);
 
                 GameEntry. DataManager.TryGetValue(typeof(MishuBook).Name, out var mishuBook);
-                var mishuBookDict = TransObject<List<MishuBook>>(mishuBook).ToDictionary(key => key.Book_ID, value => value);
+                var mishuBookDict = TransObject<List<MishuBook>>(mishuBook).ToDictionary(key => key.BookID, value => value);
 
                 GameEntry. DataManager.TryGetValue(typeof(PetAbilityPointData).Name, out var petAbilityPointData);
                 var petAbilityPointDataDict = TransObject<List<PetAbilityPointData>>(petAbilityPointData).ToDictionary(key => key.CoefficientType, value => value);

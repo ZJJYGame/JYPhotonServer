@@ -10,6 +10,10 @@ namespace AscensionProtocol.DTO
     {
         public virtual int RoleID { get; set; }
         public virtual Dictionary<int,int> GongFaIDArray { get; set; }
+        public RoleGongFaDTO()
+            {
+            GongFaIDArray = new Dictionary<int, int>();
+        }
         public override void Clear()
         {
             RoleID = -1;

@@ -10,13 +10,10 @@ namespace AscensionServer
     [ConfigData]
     public class MishuBook
     {
-        public int Book_ID { get; set; }
-        public int Book_Quarity { get; set; }
-        public int Book_Property { get; set; }
-        public int Need_School_ID { get; set; }
-        public int Need_Gongfa_ID { get; set; }
-        public int Need_Level_ID { get; set; }
-        public int Mishu_ID { get; set; }
+        public int BookID { get; set; }
+        public int BookProperty { get; set; }
+        public int MishuID { get; set; }
+        public int NeedRoleLevel { get; set; }
     }
 }
 

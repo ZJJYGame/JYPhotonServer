@@ -15,11 +15,11 @@ namespace AscensionServer
             GameEntry. DataManager.TryGetValue<Dictionary<int, MishuBook>>(out var mishubookDict);
             misuhTemp = CosmosEntry.ReferencePoolManager.Spawn<MiShuDTO>();
             mishubookDict.TryGetValue(mishuBookID, out var mishuBook);
-            if (!Utility.Json.ToObject<List<int>>(roleDTO.RoleRoot).Contains(mishuBook.Book_Property) && roleDTO.RoleLevel < mishuBook.Need_Level_ID)
+            if (!Utility.Json.ToObject<List<int>>(roleDTO.RoleRoot).Contains(mishuBook.BookProperty) && roleDTO.RoleLevel < mishuBook.NeedRoleLevel)
             {
                 return false;
             }
-            misuhTemp.MiShuID = mishuBook.Mishu_ID;
+            misuhTemp.MiShuID = mishuBook.MishuID;
             misuhTemp.MiShuAdventureSkill = new List<int>();
             misuhTemp.MiShuSkillArry = new List<int>();
             GameEntry. DataManager.TryGetValue<Dictionary<int, MiShuData>>(out var mishuDict);

@@ -50,14 +50,14 @@ namespace AscensionServer
 #if SERVER
         public override void OnRefresh()
         {
-            if (IsPause)
-                return;
-            var now = Utility.Time.SecondNow();
-            if (now >= latestRefreshTime)
-            {
-                RunProvider();
-                latestRefreshTime = now + intervalSec;
-            }
+            //if (IsPause)
+            //    return;
+            //var now = Utility.Time.SecondNow();
+            //if (now >= latestRefreshTime)
+            //{
+            //    RunProvider();
+            //    latestRefreshTime = now + intervalSec;
+            //}
         }
 #endif
         public bool ContainsKey(Type key)
