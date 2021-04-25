@@ -54,6 +54,7 @@ namespace AscensionServer
         {
             GameEntry.LevelManager.SendMessageToLevelS2C(LevelType, LevelId, opData);
         }
+
         public void Dispose()
         {
             LevelId = 0;

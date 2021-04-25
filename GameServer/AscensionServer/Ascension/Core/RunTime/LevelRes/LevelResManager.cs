@@ -21,7 +21,7 @@ namespace AscensionServer
         {
             adventureLevelResEntity = LevelResEntity.Create(LevelTypeEnum.Adventure, 701);
             opDataPool = new Pool<OperationData>
-                (() => new OperationData(), d => { d.OperationCode = (byte)OperationCode.LevelRes; }, d => { d.Dispose(); });
+                (() => { return new OperationData(); }, d => { d.OperationCode = (byte)OperationCode.LevelRes; }, d => { d.Dispose(); });
             messageDataPool = new Pool<Dictionary<byte, object>>(() => new Dictionary<byte, object>(), md => { md.Clear(); });
             CommandEventCore.Instance.AddEventListener((byte)OperationCode.LevelRes, ProcessHandlerC2S);
             GameEntry.LevelManager.OnRoleEnterLevel += SYNResS2C;
@@ -90,9 +90,9 @@ namespace AscensionServer
         {
             Utility.Debug.LogWarning("FINResS2C");
         }
-        void CollectS2C(int sessionId, OperationData opData)
+        void CollectS2C(int sessionId, OperationData packet)
         {
-            var json = Convert.ToString(opData.DataMessage);
+            var json = Convert.ToString(packet.DataMessage);
             var messageDict = Utility.Json.ToObject<Dictionary<byte, object>>(json);
             var gid = Convert.ToInt32(Utility.GetValue(messageDict, (byte)LevelResParameterCode.GId));
             var eleid = Convert.ToInt32(Utility.GetValue(messageDict, (byte)LevelResParameterCode.EleId));
@@ -100,23 +100,17 @@ namespace AscensionServer
             opdata.SubOperationCode = (byte)LevelResOpCode.Collect;
             if (adventureLevelResEntity.Collect(gid, eleid))
             {
-                var messageData = messageDataPool.Spawn();
-                messageData.Add((byte)LevelResParameterCode.GId, gid);
-                messageData.Add((byte)LevelResParameterCode.EleId, eleid);
-                opData.DataMessage = Utility.Json.ToJson(messageData);
-                opData.ReturnCode = (byte)ReturnCode.Success;
-                messageDataPool.Despawn(messageData);
+                opdata.DataMessage = json;
+                opdata.ReturnCode = (byte)ReturnCode.Success;
                 adventureLevelResEntity.BroadCast2AllS2C(opdata);
+                Utility.Debug.LogInfo($"采集成功 gid : {gid} , eleid : {eleid}");
             }
             else
             {
-                var messageData = messageDataPool.Spawn();
-                messageData.Add((byte)LevelResParameterCode.GId, gid);
-                messageData.Add((byte)LevelResParameterCode.EleId, eleid);
-                opData.DataMessage = Utility.Json.ToJson(messageData);
-                opData.ReturnCode = (byte)ReturnCode.Fail;
+                opdata.DataMessage = json; 
+                opdata.ReturnCode = (byte)ReturnCode.Fail;
                 GameEntry.PeerManager.SendMessage(sessionId, opdata);
-                messageDataPool.Despawn(messageData);
+                Utility.Debug.LogInfo($"采集失败");
             }
             opDataPool.Despawn(opdata);
         }
