@@ -114,7 +114,7 @@ namespace AscensionServer
 
                             break;
                         case 2:
-                            if (redisMiShu == null)
+                            if (redisMiShu == null&& redisBottleneck!=null)
                             {
                                 GetOffLineExpMySql(roleID);
                                 return;
@@ -122,7 +122,11 @@ namespace AscensionServer
                             interval = (DateTime.Now).Subtract(Convert.ToDateTime(redisOnOffLine.OffTime));
                             exp = (int)interval.TotalSeconds / 5 * redisRoleStatus.MishuLearnSpeed;
                             var mishuObj = AddMiShu(redisMiShu.MiShuIDDict[redisOnOffLine.MsGfID], exp);
-                            ResultSuccseS2C(roleID, PracticeOpcode.GetOffLineExp, mishuObj);
+                            dict = new Dictionary<byte, object>();
+                            dict.Add((byte)PracticeOpcode.TriggerBottleneck, redisBottleneck);
+                            dict.Add((byte)PracticeOpcode.GetOffLineExp, redisOnOffLine);
+                            dict.Add((byte)PracticeOpcode.GetRoleMiShu, mishuObj);
+                            ResultSuccseS2C(roleID, PracticeOpcode.GetOffLineExp, dict);
                             redisMiShu.MiShuIDDict[redisOnOffLine.MsGfID] = mishuObj;
 
                             await RedisHelper.Hash.HashSetAsync<RoleMiShuDTO>(RedisKeyDefine._GongfaPerfix, redisOnOffLine.MsGfID.ToString(), redisMiShu);
@@ -196,6 +200,7 @@ namespace AscensionServer
                         var mishuTemp = AddMiShu(mishuObj.MiShuIDDict[onOff.MsGfID], rolestatusObj.MishuLearnSpeed);
                         dict = new Dictionary<byte, object>();
                         dict.Add((byte)PracticeOpcode.GetOffLineExp, mishuObj);
+                        dict.Add((byte)PracticeOpcode.TriggerBottleneck, bottleneck);
                         ResultSuccseS2C(onOff.RoleID, PracticeOpcode.GetRoleMiShu, dict);
                         mishuObj.MiShuIDDict[onOff.MsGfID] = mishuTemp;
 
@@ -319,6 +324,8 @@ namespace AscensionServer
                         var mishuObj = AddMiShu(mishuTemp.MiShuIDDict[onOffLineObj.MsGfID], exp);
                         dict = new Dictionary<byte, object>();
                         dict.Add((byte)PracticeOpcode.GetOffLineExp, mishuObj);
+                        dict.Add((byte)PracticeOpcode.TriggerBottleneck, bottleneck);
+                        dict.Add((byte)PracticeOpcode.GetOffLineExp, onOffLineObj);
                         ResultSuccseS2C(roleID, PracticeOpcode.UploadingExp, dict);
                         mishuTemp.MiShuIDDict[onOffLineObj.MsGfID] = mishuObj;
 
@@ -469,7 +476,7 @@ namespace AscensionServer
             }
             miShuDTO.MiShuID = miShu.MiShuID;
             miShuDTO.MiShuLevel = miShu.MiShuLevel;
-            miShuDTO.MiShuExp = miShu.MiShuExp;
+            miShuDTO.MiShuExp = miShu.MiShuExp+ exp;
             miShuDTO.MiShuSkillArry = miShu.MiShuSkillArry;  
             return miShuDTO;
         }

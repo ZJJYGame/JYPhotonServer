@@ -224,7 +224,7 @@ namespace AscensionServer
                     MiShuDTO miShuDTO = new MiShuDTO() {  MiShuSkillArry = mishuData.SkillArrayOne, MiShuAdventureSkill = mishuData.SkillArrayTwo, MiShuLevel = (short)mishuData.NeedLevelID, MiShuID = bookDict[id].MishuID };
 
                     rolemishu.MiShuIDDict.Add(bookDict[id].MishuID, miShuDTO);
-
+                    InventoryManager.Remove(roleid, id);
                     Dictionary<byte, object> dict = new Dictionary<byte, object>();
                     dict.Add((byte)ParameterCode.RoleStatus,new RoleStatus());
                     dict.Add((byte)ParameterCode.RoleMiShu, rolemishu);

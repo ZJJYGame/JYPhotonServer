@@ -59,6 +59,7 @@
     <Compile Include="AreaOpCode\LoginOffOpCode.cs" />
     <Compile Include="AreaOpCode\PuppetOpCode.cs" />
     <Compile Include="AreaOpCode\RoleAssetsOpCode.cs" />
+    <Compile Include="AreaOpCode\RolePetOpCode.cs" />
     <Compile Include="AreaOpCode\RoleStatusOpCode.cs" />
     <Compile Include="AreaOpCode\SecondaryJobOpCode.cs" />
     <Compile Include="AreaOpCode\SecretAreaOpCode.cs" />
