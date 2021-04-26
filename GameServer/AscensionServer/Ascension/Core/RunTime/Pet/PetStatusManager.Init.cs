@@ -17,38 +17,47 @@ namespace AscensionServer
         /// </summary>
         /// <param name="rolePetDTO"></param>
         /// <param name="rolePet"></param>
-        public async void RolePetSetBattle(RolePetDTO rolePetDTO, RolePet rolePet, NHCriteria nHCriteriaRolePet, Pet pet)
+        public async void RolePetSetBattle(RolePetDTO rolePetDTO)
         {
-
+            NHCriteria nHCriteriaRolePet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolePetDTO.RoleID);
+            NHCriteria nHCriteriaPet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", rolePetDTO.PetIsBattle);
+            var pet = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriaPet);
+            var rolePet = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriaRolePet);
             var role = NHibernateQuerier.CriteriaSelect<Role>(nHCriteriaRolePet);
-            if (role.RoleLevel >= pet.PetLevel)
+            if (pet!=null&& rolePet !=null&& role!=null)
             {
-                Utility.Debug.LogInfo("yzqData对角色宠物的操作" + rolePet.PetIsBattle + ".,.,.,.,.><<><><><><<<<>" + rolePetDTO.PetIsBattle);
-                if (rolePet.PetIsBattle == rolePetDTO.PetIsBattle)
+                if (role.RoleLevel >= pet.PetLevel)
                 {
-                    rolePet.PetIsBattle = 0;
-                    rolePetDTO.PetIsBattle = 0;
+                    Utility.Debug.LogInfo("yzqData对角色宠物的操作" + rolePet.PetIsBattle + ".,.,.,.,.><<><><><><<<<>" + rolePetDTO.PetIsBattle);
+                    if (rolePet.PetIsBattle == rolePetDTO.PetIsBattle)
+                    {
+                        rolePet.PetIsBattle = 0;
+                        rolePetDTO.PetIsBattle = 0;
+                    }
+                    else
+                        rolePet.PetIsBattle = rolePetDTO.PetIsBattle;
+                    await NHibernateQuerier.UpdateAsync<RolePet>(rolePet);
+                    rolePetDTO.PetIDDict = Utility.Json.ToObject<Dictionary<int, int>>(rolePet.PetIDDict);
+                    rolePetDTO.RoleID = rolePet.RoleID;
+                    await RedisHelper.Hash.HashSetAsync<RolePetDTO>(RedisKeyDefine._RolePetPerfix, rolePetDTO.RoleID.ToString(), rolePetDTO);
+                    S2CPetSetBattle(rolePet.RoleID, Utility.Json.ToJson(rolePetDTO), ReturnCode.Success);
                 }
                 else
-                    rolePet.PetIsBattle = rolePetDTO.PetIsBattle;
-                await NHibernateQuerier.UpdateAsync<RolePet>(rolePet);
-                rolePetDTO.PetIDDict = Utility.Json.ToObject<Dictionary<int, int>>(rolePet.PetIDDict);
-                rolePetDTO.RoleID = rolePet.RoleID;
-                await RedisHelper.Hash.HashSetAsync<RolePetDTO>(RedisKeyDefine._RolePetPerfix, rolePetDTO.RoleID.ToString(), rolePetDTO);
-                S2CPetSetBattle(rolePet.RoleID, Utility.Json.ToJson(rolePetDTO), ReturnCode.Success);
+                    S2CPetSetBattle(rolePet.RoleID, null, ReturnCode.Fail);
             }
             else
-            {
                 S2CPetSetBattle(rolePet.RoleID, null, ReturnCode.Fail);
-            }
 
         }
         /// <summary>
         /// 获得角色所有宠物
         /// </summary>
         /// <param name="rolePet"></param>
-        public async void GetRoleAllPet(RolePet rolePet, RolePetDTO rolePetDTO)
+        public async void GetRoleAllPetS2C( RolePetDTO rolePetDTO)
         {
+            NHCriteria nHCriteriaRolePet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolePetDTO.RoleID);
+
+            var rolePet = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriaRolePet);
             var petDict = Utility.Json.ToObject<Dictionary<int, int>>(rolePet.PetIDDict);
             List<NHCriteria> nHCriteriaList = new List<NHCriteria>();
             Dictionary<int, PetDTO> allPetDict = new Dictionary<int, PetDTO>();
@@ -88,18 +97,24 @@ namespace AscensionServer
                     allPetDict.Add(petDtoTemp.ID, petDtoTemp);
                 }
             }
-            Dictionary<string, string> rolepetsDict = new Dictionary<string, string>();
-            rolepetsDict.Add("RolePet", Utility.Json.ToJson(rolePetDTO));
-            rolepetsDict.Add("Pet", Utility.Json.ToJson(allPetDict));
-            S2CRolePetOperateSuccess(rolePet.RoleID, Utility.Json.ToJson(rolepetsDict));
+            Dictionary<byte, object> rolepetsDict = new Dictionary<byte, object>();
+            rolepetsDict.Add((byte)ParameterCode.RolePet, rolePetDTO);
+            rolepetsDict.Add((byte)ParameterCode.Pet, allPetDict);
+            ResultSuccseS2C(rolePet.RoleID, RolePetOpCode.GetRolePet, rolepetsDict);
         }
         /// <summary>
         /// 移除角色宠物
         /// </summary>
         /// <param name="rolePet"></param>
         /// <param name="rolePetDTO"></param>
-        public async void RemoveRolePet(RolePet rolePet, RolePetDTO rolePetDTO, Pet pet)
+        public async void RemoveRolePet(RolePetDTO rolePetDTO)
         {
+            NHCriteria nHCriteriaRolePet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", rolePetDTO.RoleID);
+            var rolePet = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriaRolePet);
+
+            NHCriteria nHCriteriaRomePet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", rolePetDTO.AddRemovePetID);
+            var pet = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriaRomePet);
+
             var rolePetDict = Utility.Json.ToObject<Dictionary<int, int>>(rolePet.PetIDDict);
             if (rolePetDict.ContainsKey(pet.ID))
             {
@@ -117,22 +132,42 @@ namespace AscensionServer
                 #endregion
                 await NHibernateQuerier.DeleteAsync(pet);
                 Utility.Debug.LogInfo("yzqData已经放生的寵物" + Utility.Json.ToJson(pet));
-                Utility.Debug.LogInfo("yzqData已经放生的寵物" + Utility.Json.ToJson(pet));
                 await NHibernateQuerier.UpdateAsync(rolePet);
-                S2CRemoveRolePet(rolePet.RoleID, Utility.Json.ToJson(rolePetDTO), ReturnCode.Success);
+                ResultSuccseS2C(rolePet.RoleID,RolePetOpCode.RemovePet, rolePetDTO);
+
             } else
-                S2CRemoveRolePet(rolePet.RoleID, Utility.Json.ToJson(rolePetDTO), ReturnCode.Fail);
+                ResultFailS2C(rolePet.RoleID, RolePetOpCode.RemovePet);
+
         }
         /// <summary>
         /// 获得宠物所有属性
         /// </summary>
-        public void GetPetAllCompeleteStatus(int petid, NHCriteria nHCriteria, int roleid, NHCriteria nHCriteriapet)
+        public void GetPetAllCompeleteStatus(int petid,  int roleid)
         {
-            PetCompleteDTO petCompleteDTO = CosmosEntry.ReferencePoolManager.Spawn<PetCompleteDTO>();
-            if (RedisHelper.KeyExistsAsync(RedisKeyDefine._PetPerfix + petid).Result)
+            NHCriteria nHCriteria = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petid);
+            NHCriteria nHCriteriapet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petid);
+
+
+            Dictionary<byte, object> dict = new Dictionary<byte, object>();
+            if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._PetPerfix ,petid.ToString()).Result)
             {
                 var petObj = RedisHelper.Hash.HashGet<PetDTO>(RedisKeyDefine._PetPerfix, petid.ToString());
-                petCompleteDTO.PetDTO = petObj;
+                if (petObj != null)
+                {
+                    dict.Add((byte)ParameterCode.Pet, petObj);
+                }
+                else
+                {
+                    Pet pet = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteria);
+                    petObj = CosmosEntry.ReferencePoolManager.Spawn<PetDTO>();
+                    petObj.ID = pet.ID;
+                    petObj.PetExp = pet.PetExp;
+                    petObj.DemonicSoul = Utility.Json.ToObject<Dictionary<int, List<int>>>(pet.DemonicSoul);
+                    petObj.PetLevel = pet.PetLevel;
+                    petObj.PetName = pet.PetName;
+                    petObj.PetSkillArray = Utility.Json.ToObject<List<int>>(pet.PetSkillArray);
+                    dict.Add((byte)ParameterCode.Pet, petObj);
+                }
             }
             else
             {
@@ -144,12 +179,30 @@ namespace AscensionServer
                 petObj.PetLevel = pet.PetLevel;
                 petObj.PetName = pet.PetName;
                 petObj.PetSkillArray = Utility.Json.ToObject<List<int>>(pet.PetSkillArray);
-                petCompleteDTO.PetDTO = petObj;
+                dict.Add((byte)ParameterCode.Pet, petObj);
             }
-            if (RedisHelper.KeyExistsAsync(RedisKeyDefine._PetAbilityPointPerfix + petid).Result)
+            if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._PetAbilityPointPerfix , petid.ToString()).Result)
             {
                 var petAbilityPointObj = RedisHelper.Hash.HashGet<PetAbilityPointDTO>(RedisKeyDefine._PetAbilityPointPerfix, petid.ToString());
-                petCompleteDTO.PetAbilityPointDTO = petAbilityPointObj;
+
+                if (petAbilityPointObj != null)
+                {
+                    dict.Add((byte)ParameterCode.PetAbility, petAbilityPointObj);
+                }
+                else
+                {
+                    PetAbilityPoint petAbilityPoint = NHibernateQuerier.CriteriaSelect<PetAbilityPoint>(nHCriteria);
+                    petAbilityPointObj = CosmosEntry.ReferencePoolManager.Spawn<PetAbilityPointDTO>();
+                    petAbilityPointObj.ID = petAbilityPoint.ID;
+                    petAbilityPointObj.IsUnlockSlnThree = petAbilityPoint.IsUnlockSlnThree;
+                    petAbilityPointObj.SlnNow = petAbilityPoint.SlnNow;
+                    if (!string.IsNullOrEmpty(petAbilityPoint.AbilityPointSln))
+                    {
+                        petAbilityPointObj.AbilityPointSln = new Dictionary<int, AbilityDTO>();
+                        petAbilityPointObj.AbilityPointSln = Utility.Json.ToObject<Dictionary<int, AbilityDTO>>(petAbilityPoint.AbilityPointSln);
+                    }
+                    dict.Add((byte)ParameterCode.PetAbility, petAbilityPointObj);
+                }
             }
             else
             {
@@ -163,13 +216,36 @@ namespace AscensionServer
                     petAbilityPointObj.AbilityPointSln = new Dictionary<int, AbilityDTO>();
                     petAbilityPointObj.AbilityPointSln = Utility.Json.ToObject<Dictionary<int, AbilityDTO>>(petAbilityPoint.AbilityPointSln);
                 }
-                petCompleteDTO.PetAbilityPointDTO = petAbilityPointObj;
+                dict.Add((byte)ParameterCode.PetAbility, petAbilityPointObj);
 
             }
-            if (RedisHelper.KeyExistsAsync(RedisKeyDefine._PetAptitudePerfix + petid).Result)
+            if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._PetAptitudePerfix , petid.ToString()).Result)
             {
                 var petAptitudeObj = RedisHelper.Hash.HashGet<PetAptitudeDTO>(RedisKeyDefine._PetAptitudePerfix, petid.ToString());
-                petCompleteDTO.PetAptitudeDTO = petAptitudeObj;
+                if (petAptitudeObj != null)
+                {
+                    dict.Add((byte)ParameterCode.PetAptitude, petAptitudeObj);
+                }
+                else
+                {
+                    PetAptitude petAptitude = NHibernateQuerier.CriteriaSelect<PetAptitude>(nHCriteriapet);
+                    petAptitudeObj = CosmosEntry.ReferencePoolManager.Spawn<PetAptitudeDTO>();
+                    petAptitudeObj.PetID = petAptitude.PetID;
+                    petAptitudeObj.AttackphysicalAptitude = petAptitude.AttackphysicalAptitude;
+                    petAptitudeObj.AttackpowerAptitude = petAptitude.AttackpowerAptitude;
+                    petAptitudeObj.AttackspeedAptitude = petAptitude.AttackspeedAptitude;
+                    petAptitudeObj.DefendphysicalAptitude = petAptitude.DefendphysicalAptitude;
+                    petAptitudeObj.DefendpowerAptitude = petAptitude.DefendpowerAptitude;
+                    petAptitudeObj.HPAptitude = petAptitude.HPAptitude;
+                    petAptitudeObj.Petaptitudecol = petAptitude.Petaptitudecol;
+                    if (!string.IsNullOrEmpty(petAptitude.PetAptitudeDrug))
+                    {
+                        petAptitudeObj.PetAptitudeDrug = new Dictionary<int, int>();
+                        petAptitudeObj.PetAptitudeDrug = Utility.Json.ToObject<Dictionary<int, int>>(petAptitude.PetAptitudeDrug);
+                    }
+                    petAptitudeObj.SoulAptitude = petAptitude.SoulAptitude;
+                    dict.Add((byte)ParameterCode.PetAptitude, petAptitudeObj);
+                }
             }
             else
             {
@@ -189,13 +265,23 @@ namespace AscensionServer
                     petAptitudeObj.PetAptitudeDrug = Utility.Json.ToObject<Dictionary<int, int>>(petAptitude.PetAptitudeDrug);
                 }
                 petAptitudeObj.SoulAptitude = petAptitude.SoulAptitude;
-                petCompleteDTO.PetAptitudeDTO = petAptitudeObj;
+                dict.Add((byte)ParameterCode.PetAptitude, petAptitudeObj);
             }
 
-            if (RedisHelper.KeyExistsAsync(RedisKeyDefine._PetStatusPerfix + petid).Result)
+            if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._PetStatusPerfix , petid.ToString()).Result)
             {
                 var petStatusObj = RedisHelper.Hash.HashGet<PetStatusDTO>(RedisKeyDefine._PetStatusPerfix, petid.ToString());
-                petCompleteDTO.PetStatusDTO = petStatusObj;
+                if (petStatusObj!=null)
+                {
+                    dict.Add((byte)ParameterCode.PetStatus, petStatusObj);
+                }else
+                {
+                    PetStatus petAptitude = NHibernateQuerier.CriteriaSelect<PetStatus>(nHCriteriapet);
+                     petStatusObj = CosmosEntry.ReferencePoolManager.Spawn<PetStatusDTO>();
+                    var petAptitudeJson = Utility.Json.ToJson(petAptitude);
+                    petStatusObj = Utility.Json.ToObject<PetStatusDTO>(petAptitudeJson);
+                    dict.Add((byte)ParameterCode.PetStatus, petStatusObj);
+                }
             }
             else
             {
@@ -203,7 +289,7 @@ namespace AscensionServer
                 var petStatusObj = CosmosEntry.ReferencePoolManager.Spawn<PetStatusDTO>();
                 var petAptitudeJson = Utility.Json.ToJson(petAptitude);
                 petStatusObj = Utility.Json.ToObject<PetStatusDTO>(petAptitudeJson);
-                petCompleteDTO.PetStatusDTO = petStatusObj;
+                dict.Add((byte)ParameterCode.PetStatus, petStatusObj);
             }
 
             //var petDrug = RedisHelper.String.StringGetAsync<PetDrugRefreshDTO>(RedisKeyDefine._PetDrugRefreshPostfix + petid);
@@ -211,8 +297,9 @@ namespace AscensionServer
             //{
             //    S2CPetAllStatus(roleid, Utility.Json.ToJson(petDrug));
             //}
-            petCompleteDTO.PetOrderType = PetCompleteDTO.PetOperationalOrder.PetGetStatus;
-            S2CPetAllStatus(roleid, Utility.Json.ToJson(petCompleteDTO));
+
+            ResultSuccseS2C(roleid,RolePetOpCode.GetPetStatus,dict);
+
         }
 
         #region 洗练宠物
@@ -351,6 +438,8 @@ namespace AscensionServer
 
                 petCompleteDTO.PetAbilityPointDTO.AbilityPointSln = pointSlnDict;
                 petAbilityPoint.AbilityPointSln = Utility.Json.ToJson(pointSlnDict);
+
+                var status = VerifyPetAllStatus(petAbilityPoint.ID, ChangeDataType(petAbilityPoint) ,null,null);
 
                 await NHibernateQuerier.UpdateAsync<PetAbilityPoint>(petAbilityPoint);
                 await RedisHelper.Hash.HashSetAsync<PetAbilityPointDTO>(RedisKeyDefine._PetAbilityPointPerfix, petCompleteDTO.RoleID.ToString(), petCompleteDTO.PetAbilityPointDTO);
@@ -510,7 +599,7 @@ namespace AscensionServer
                 petCompleteDTO.PetDTO = petObj;
                 petCompleteDTO.PetAbilityPointDTO = petAbility;
                 petCompleteDTO.PetAptitudeDTO = petAptitude;
-                petCompleteDTO.PetStatusDTO = VerifyPetAllStatus(petAbility, petAptitudeObj, petStatuObj, petCompleteDTO, pet);
+                petCompleteDTO.PetStatusDTO = VerifyPetAllStatus(pet.ID,petAbility, petAptitudeObj, petStatuObj, pet);
                 petCompleteDTO.PetStatusDTO.PetID = pet.ID;
                 await RedisHelper.Hash.HashSetAsync<PetStatusDTO>(RedisKeyDefine._PetStatusPerfix, pet.ID.ToString(), petCompleteDTO.PetStatusDTO);
 
@@ -611,7 +700,7 @@ namespace AscensionServer
                 petCompleteDTO.PetDTO = petObj;
                 petCompleteDTO.PetAbilityPointDTO = petAbility;
                 petCompleteDTO.PetAptitudeDTO = petAptitude;
-                petCompleteDTO.PetStatusDTO = VerifyPetAllStatus(petAbility, petAptitudeObj, petStatuObj, petCompleteDTO, pet);
+                petCompleteDTO.PetStatusDTO = VerifyPetAllStatus(pet.ID,petAbility, petAptitudeObj, petStatuObj, pet);
                 petCompleteDTO.PetStatusDTO.PetID = pet.ID;
                 await RedisHelper.Hash.HashSetAsync<PetStatusDTO>(RedisKeyDefine._PetStatusPerfix, pet.ID.ToString(), petCompleteDTO.PetStatusDTO);
 
@@ -659,8 +748,6 @@ namespace AscensionServer
             {
                 S2CPetStudySkill(petCompleteDTO.RoleID, Utility.Json.ToJson(petCompleteDTO.PetDTO), ReturnCode.Fail);
             }
-
-
         }
         #endregion
 
@@ -847,7 +934,7 @@ namespace AscensionServer
                         petCompleteDTO.PetDTO = petObj;
                         petCompleteDTO.PetAbilityPointDTO = petAbility;
                         petCompleteDTO.PetAptitudeDTO = petAptitude;
-                        petCompleteDTO.PetStatusDTO = VerifyPetAllStatus(petAbility, petAptitudeObj, petStatuObj, petCompleteDTO, pet);
+                        petCompleteDTO.PetStatusDTO = VerifyPetAllStatus(pet.ID,petAbility, petAptitudeObj, petStatuObj, pet);
                         petCompleteDTO.PetStatusDTO.PetID = pet.ID;
                         await RedisHelper.Hash.HashSetAsync<PetStatusDTO>(RedisKeyDefine._PetStatusPerfix, pet.ID.ToString(), petCompleteDTO.PetStatusDTO);
 
@@ -942,6 +1029,144 @@ namespace AscensionServer
             S2CPetCultivate(roleid,Utility.Json.ToJson(petCompleteDTO),ReturnCode.Success);
         }
         #endregion
+
+        /// <summary>
+        /// 宠物洗练属性重置
+        /// </summary>
+        /// <param name="petDTO"></param>
+        /// <param name="petAptitudeObj"></param>
+        /// <param name="petAbilityPointDTO"></param>
+        /// <param name="petStatusTemp"></param>
+        public void ResetPetStatus(Pet pet, PetAptitude petAptitudeObj, out PetStatus petStatusTemp)
+        {
+            GameEntry.DataManager.TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
+            GameEntry.DataManager.TryGetValue<Dictionary<string, PetAbilityPointData>>(out var petabilityPointDict);
+
+            var result = petLevelDataDict.TryGetValue(pet.PetLevel, out var petLevelData);
+
+            petStatusTemp = CosmosEntry.ReferencePoolManager.Spawn<PetStatus>();
+
+            if (result)
+            {
+                petStatusTemp.PetHP = (petLevelDataDict[pet.PetLevel].PetHP * petAptitudeObj.HPAptitude / 1000);
+                petStatusTemp.PetMaxHP = petStatusTemp.PetHP;
+                petStatusTemp.PetMP = petLevelDataDict[pet.PetLevel].PetMP;
+                petStatusTemp.PetMaxMP = petStatusTemp.PetMP;
+                petStatusTemp.PetShenhun = (int)(petLevelDataDict[pet.PetLevel].Petsoul * petAptitudeObj.SoulAptitude / 1000);
+                petStatusTemp.PetMaxShenhun = petStatusTemp.PetShenhun;
+                petStatusTemp.AttackPhysical = (petLevelDataDict[pet.PetLevel].AttackPhysical * petAptitudeObj.AttackphysicalAptitude / 1000);
+                petStatusTemp.AttackPower = (petLevelDataDict[pet.PetLevel].AttackPower * petAptitudeObj.AttackpowerAptitude / 1000);
+                petStatusTemp.AttackSpeed = (petLevelDataDict[pet.PetLevel].AttackSpeed * petAptitudeObj.AttackspeedAptitude / 1000);
+                petStatusTemp.DefendPhysical = (petLevelDataDict[pet.PetLevel].DefendPhysical * petAptitudeObj.DefendphysicalAptitude / 1000);
+                petStatusTemp.DefendPower = (petLevelDataDict[pet.PetLevel].DefendPower * petAptitudeObj.DefendpowerAptitude / 1000);
+                petStatusTemp.ExpLevelUp = petLevelDataDict[pet.PetLevel].ExpLevelUp;
+                petStatusTemp.MagicCritDamage = petLevelDataDict[pet.PetLevel].MagicCritDamage;
+                petStatusTemp.MagicCritProb = petLevelDataDict[pet.PetLevel].MagicCritProb;
+                petStatusTemp.PhysicalCritDamage = petLevelDataDict[pet.PetLevel].PhysicalCritDamage;
+                petStatusTemp.PhysicalCritProb = petLevelDataDict[pet.PetLevel].PhysicalCritProb;
+            }
+        }
+
+        /// <summary>
+        /// 重置宠物资质
+        /// </summary>
+        /// <param name="petID"></param>
+        /// <param name="petAptitudeObj"></param>
+        public void ResetPetAptitude(int petID, out PetAptitude petAptitudeObj)
+        {
+            GameEntry.DataManager.TryGetValue<Dictionary<int, PetAptitudeData>>(out var petAptitudeDataDict);
+            var result = petAptitudeDataDict.TryGetValue(petID, out var petAptitudeData);
+            petAptitudeObj = CosmosEntry.ReferencePoolManager.Spawn<PetAptitude>();
+            if (result)
+            {
+                petAptitudeObj.AttackphysicalAptitude = petAptitudeData.NaturalAttackPhysical[0];
+                petAptitudeObj.AttackpowerAptitude = petAptitudeData.NaturalAttackPower[0];
+                petAptitudeObj.AttackspeedAptitude = petAptitudeData.NaturalAttackSpeed[0];
+                petAptitudeObj.DefendphysicalAptitude = petAptitudeData.NaturalDefendPhysical[0];
+                petAptitudeObj.DefendpowerAptitude = petAptitudeData.NaturalAttackPower[0];
+                petAptitudeObj.HPAptitude = petAptitudeData.NaturalHP[0];
+                petAptitudeObj.Petaptitudecol = petAptitudeData.NaturalGrowUp[0];
+                petAptitudeObj.SoulAptitude = petAptitudeData.NaturalSoul[0];
+            }
+        }
+        /// <summary>
+        /// 新增新宠物
+        /// </summary>
+        /// <param name="petID"></param>
+        /// <param name="petName"></param>
+        /// <param name="rolePet"></param>
+        public void InitPet(int petID, string petName, RolePet rolePet)
+        {
+            GameEntry.DataManager.TryGetValue<Dictionary<int, PetAptitudeData>>(out var petLevelDataDict);
+            #region Pet
+            var pet = CosmosEntry.ReferencePoolManager.Spawn<Pet>();
+            pet.PetID = petID;
+            pet.PetName = petName;
+            pet.PetLevel = 1;
+            pet.PetSkillArray = Utility.Json.ToJson(RestPetSkill(petLevelDataDict[petID].SkillArray));
+            pet = NHibernateQuerier.Insert<Pet>(pet);
+            var petObj = CosmosEntry.ReferencePoolManager.Spawn<PetDTO>();
+            petObj.ID = pet.ID;
+            petObj.PetExp = pet.PetExp;
+            petObj.DemonicSoul = Utility.Json.ToObject<Dictionary<int, List<int>>>(pet.DemonicSoul);
+            petObj.PetID = petID;
+            petObj.PetLevel = pet.PetLevel;
+            petObj.PetName = pet.PetName;
+            petObj.PetSkillArray = Utility.Json.ToObject<List<int>>(pet.PetSkillArray);
+            RedisHelper.Hash.HashSetAsync<PetDTO>(RedisKeyDefine._PetPerfix, pet.ID.ToString(), petObj);
+            #endregion
+            #region PetAbilityPointDTO
+            var petAbilityPointObj = CosmosEntry.ReferencePoolManager.Spawn<PetAbilityPointDTO>();
+            var petAbilityPoint = CosmosEntry.ReferencePoolManager.Spawn<PetAbilityPoint>();
+            petAbilityPoint.ID = pet.ID;
+            petAbilityPoint.AbilityPointSln = Utility.Json.ToJson(petAbilityPointObj.AbilityPointSln);
+            Utility.Debug.LogInfo("yzqData宠物加点方案" + Utility.Json.ToJson(petAbilityPointObj.AbilityPointSln));
+            NHibernateQuerier.SaveOrUpdateAsync<PetAbilityPoint>(petAbilityPoint);
+            petAbilityPointObj.ID = petAbilityPoint.ID;
+            RedisHelper.Hash.HashSetAsync<PetAbilityPointDTO>(RedisKeyDefine._PetAbilityPointPerfix, pet.ID.ToString(), petAbilityPointObj);
+            #endregion
+            #region PetAptitudeDTO
+            var petAptitude = CosmosEntry.ReferencePoolManager.Spawn<PetAptitude>();
+            ResetPetAptitude(petID, out petAptitude);
+            petAptitude.PetID = pet.ID;
+            var petAptitudeObj = CosmosEntry.ReferencePoolManager.Spawn<PetAptitudeDTO>();
+            petAptitudeObj.PetID = petAptitude.PetID;
+            petAptitudeObj.AttackphysicalAptitude = petAptitude.AttackphysicalAptitude;
+            petAptitudeObj.AttackpowerAptitude = petAptitude.AttackpowerAptitude;
+            petAptitudeObj.AttackspeedAptitude = petAptitude.AttackspeedAptitude;
+            petAptitudeObj.DefendphysicalAptitude = petAptitude.DefendphysicalAptitude;
+            petAptitudeObj.DefendpowerAptitude = petAptitude.DefendpowerAptitude;
+            petAptitudeObj.HPAptitude = petAptitude.HPAptitude;
+            petAptitudeObj.Petaptitudecol = petAptitude.Petaptitudecol;
+            petAptitudeObj.PetAptitudeDrug = Utility.Json.ToObject<Dictionary<int, int>>(petAptitude.PetAptitudeDrug);
+            petAptitudeObj.SoulAptitude = petAptitude.SoulAptitude;
+
+            RedisHelper.Hash.HashSetAsync<PetAptitudeDTO>(RedisKeyDefine._PetAptitudePerfix, pet.ID.ToString(), petAptitudeObj);
+            NHibernateQuerier.SaveOrUpdateAsync<PetAptitude>(petAptitude);
+            #endregion
+            #region PetStatusDTO
+            var petStatus = CosmosEntry.ReferencePoolManager.Spawn<PetStatus>();
+            ResetPetStatus(pet, petAptitude, out petStatus);
+            petStatus.PetID = pet.ID;
+            RedisHelper.Hash.HashSetAsync<PetStatus>(RedisKeyDefine._PetStatusPerfix, pet.ID.ToString(), petStatus);
+
+            NHibernateQuerier.SaveOrUpdateAsync<PetStatus>(petStatus);
+            #endregion
+            #region RolePetDTO
+            var petDict = Utility.Json.ToObject<Dictionary<int, int>>(rolePet.PetIDDict);
+            petDict.Add(pet.ID, pet.PetID);
+            rolePet.PetIDDict = Utility.Json.ToJson(petDict);
+            NHibernateQuerier.SaveOrUpdateAsync<RolePet>(rolePet);
+            var RolepetObj = CosmosEntry.ReferencePoolManager.Spawn<RolePetDTO>();
+            RolepetObj.RoleID = rolePet.RoleID;
+            RolepetObj.PetIDDict = petDict;
+            RolepetObj.PetIsBattle = rolePet.PetIsBattle;
+            RedisHelper.Hash.HashSetAsync<RolePetDTO>(RedisKeyDefine._RolePetPerfix, rolePet.RoleID.ToString(), RolepetObj);
+            #endregion
+
+            S2CRoleAddPetSuccess(rolePet.RoleID);
+            CosmosEntry.ReferencePoolManager.Despawns(pet, petStatus, petAptitude, petAbilityPoint, RolepetObj, petAptitudeObj, petAbilityPointObj);
+        }
     }
 }
 

@@ -373,7 +373,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
+        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -418,7 +418,7 @@
             5.传说的
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.MapResSpanwInfoData" -->
+        <!-- 对于成员“T:AscensionServer.MapResSpanwInfoData”忽略有格式错误的 XML 注释 -->
         <member name="P:AscensionServer.MapResSpanwInfoData.MapResSpawnInfoDict">
             <summary>
             此数据为：地图资源的生成信息。将数据转换Fix类型后用于传输；
@@ -1756,7 +1756,7 @@
             准备指令战斗 
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.IServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -1944,7 +1944,7 @@
             </summary>
             
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -3982,27 +3982,27 @@
             正态分布随机数
             </summary>
         </member>
-        <member name="M:AscensionServer.IPetStatusManager.RolePetSetBattle(AscensionProtocol.DTO.RolePetDTO,AscensionServer.Model.RolePet,AscensionServer.NHCriteria,AscensionServer.Model.Pet)">
+        <member name="M:AscensionServer.IPetStatusManager.RolePetSetBattle(AscensionProtocol.DTO.RolePetDTO)">
             <summary>
             宠物设置出战
             </summary>
             <param name="rolePetDTO"></param>
             <param name="rolePet"></param>
         </member>
-        <member name="M:AscensionServer.IPetStatusManager.GetRoleAllPet(AscensionServer.Model.RolePet,AscensionProtocol.DTO.RolePetDTO)">
+        <member name="M:AscensionServer.IPetStatusManager.GetRoleAllPetS2C(AscensionProtocol.DTO.RolePetDTO)">
             <summary>
             获得角色所有宠物
             </summary>
             <param name="rolePet"></param>
         </member>
-        <member name="M:AscensionServer.IPetStatusManager.RemoveRolePet(AscensionServer.Model.RolePet,AscensionProtocol.DTO.RolePetDTO,AscensionServer.Model.Pet)">
+        <member name="M:AscensionServer.IPetStatusManager.RemoveRolePet(AscensionProtocol.DTO.RolePetDTO)">
             <summary>
             移除角色宠物
             </summary>
             <param name="rolePet"></param>
             <param name="rolePetDTO"></param>
         </member>
-        <member name="M:AscensionServer.IPetStatusManager.GetPetAllCompeleteStatus(System.Int32,AscensionServer.NHCriteria,System.Int32,AscensionServer.NHCriteria)">
+        <member name="M:AscensionServer.IPetStatusManager.GetPetAllCompeleteStatus(System.Int32,System.Int32)">
             <summary>
             获得宠物所有属性
             </summary>
@@ -4037,66 +4037,40 @@
             增加资质
             </summary>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.ResetPetStatus(AscensionServer.Model.Pet,AscensionServer.Model.PetAptitude,AscensionServer.Model.PetStatus@)">
+        <member name="M:AscensionServer.PetStatusManager.ResultSuccseS2C(System.Int32,AscensionProtocol.RolePetOpCode,System.Object)">
             <summary>
-            宠物洗练属性重置
+            结果成功返回
             </summary>
-            <param name="petDTO"></param>
-            <param name="petAptitudeObj"></param>
-            <param name="petAbilityPointDTO"></param>
-            <param name="petStatusTemp"></param>
+            <param name="roleID"></param>
+            <param name="opcode"></param>
+            <param name="data"></param>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.ResetPetAptitude(System.Int32,AscensionServer.Model.PetAptitude@)">
+        <member name="M:AscensionServer.PetStatusManager.ResultFailS2C(System.Int32,AscensionProtocol.RolePetOpCode)">
             <summary>
-            重置宠物资质
-            </summary>
-            <param name="petID"></param>
-            <param name="petAptitudeObj"></param>
-        </member>
-        <member name="M:AscensionServer.PetStatusManager.InitPet(System.Int32,System.String,AscensionServer.Model.RolePet)">
-            <summary>
-            新增新宠物
-            </summary>
-            <param name="petID"></param>
-            <param name="petName"></param>
-            <param name="rolePet"></param>
-        </member>
-        <member name="M:AscensionServer.PetStatusManager.RestPetSkill(System.Collections.Generic.List{System.Int32})">
-            <summary>
-            洗练宠物重置技能
+            失败返回
             </summary>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.RandomSkillRemoveAdd(System.Collections.Generic.List{System.Int32},System.Int32)">
-            <summary>
-            技能书使用顶替技能
-            </summary>
-        </member>
-        <member name="F:AscensionServer.PetStatusManager.aa">
-            <summary>
-            正态分布随机数
-            </summary>
-        </member>
-        <member name="M:AscensionServer.PetStatusManager.RolePetSetBattle(AscensionProtocol.DTO.RolePetDTO,AscensionServer.Model.RolePet,AscensionServer.NHCriteria,AscensionServer.Model.Pet)">
+        <member name="M:AscensionServer.PetStatusManager.RolePetSetBattle(AscensionProtocol.DTO.RolePetDTO)">
             <summary>
             宠物设置出战
             </summary>
             <param name="rolePetDTO"></param>
             <param name="rolePet"></param>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.GetRoleAllPet(AscensionServer.Model.RolePet,AscensionProtocol.DTO.RolePetDTO)">
+        <member name="M:AscensionServer.PetStatusManager.GetRoleAllPetS2C(AscensionProtocol.DTO.RolePetDTO)">
             <summary>
             获得角色所有宠物
             </summary>
             <param name="rolePet"></param>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.RemoveRolePet(AscensionServer.Model.RolePet,AscensionProtocol.DTO.RolePetDTO,AscensionServer.Model.Pet)">
+        <member name="M:AscensionServer.PetStatusManager.RemoveRolePet(AscensionProtocol.DTO.RolePetDTO)">
             <summary>
             移除角色宠物
             </summary>
             <param name="rolePet"></param>
             <param name="rolePetDTO"></param>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.GetPetAllCompeleteStatus(System.Int32,AscensionServer.NHCriteria,System.Int32,AscensionServer.NHCriteria)">
+        <member name="M:AscensionServer.PetStatusManager.GetPetAllCompeleteStatus(System.Int32,System.Int32)">
             <summary>
             获得宠物所有属性
             </summary>
@@ -4131,6 +4105,30 @@
             增加资质
             </summary>
         </member>
+        <member name="M:AscensionServer.PetStatusManager.ResetPetStatus(AscensionServer.Model.Pet,AscensionServer.Model.PetAptitude,AscensionServer.Model.PetStatus@)">
+            <summary>
+            宠物洗练属性重置
+            </summary>
+            <param name="petDTO"></param>
+            <param name="petAptitudeObj"></param>
+            <param name="petAbilityPointDTO"></param>
+            <param name="petStatusTemp"></param>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.ResetPetAptitude(System.Int32,AscensionServer.Model.PetAptitude@)">
+            <summary>
+            重置宠物资质
+            </summary>
+            <param name="petID"></param>
+            <param name="petAptitudeObj"></param>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.InitPet(System.Int32,System.String,AscensionServer.Model.RolePet)">
+            <summary>
+            新增新宠物
+            </summary>
+            <param name="petID"></param>
+            <param name="petName"></param>
+            <param name="rolePet"></param>
+        </member>
         <member name="M:AscensionServer.PetStatusManager.VerifyPetAbilitypoint(AscensionServer.Model.Pet,System.Int32@)">
             <summary>
             验证宠物当前加点数
@@ -4138,12 +4136,12 @@
             <param name="pet"></param>
             <param name="points"></param>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.VerifyPetAllStatus(AscensionProtocol.DTO.PetAbilityPointDTO,AscensionServer.Model.PetAptitude,AscensionServer.Model.PetStatus,AscensionProtocol.DTO.PetCompleteDTO,AscensionServer.Model.Pet)">
+        <member name="M:AscensionServer.PetStatusManager.VerifyPetAllStatus(System.Int32,AscensionProtocol.DTO.PetAbilityPointDTO,AscensionServer.Model.PetAptitude,AscensionServer.Model.PetStatus,AscensionServer.Model.Pet)">
             <summary>
             验证宠物完整属性
             </summary>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.VerifyPetAbilityAddition(AscensionProtocol.DTO.PetAbilityPointDTO,AscensionProtocol.DTO.PetStatusDTO,AscensionServer.PetLevelData)">
+        <member name="M:AscensionServer.PetStatusManager.VerifyPetAbilityAddition(AscensionProtocol.DTO.PetAbilityPointDTO,AscensionServer.Model.PetStatus,AscensionServer.Model.PetAptitude)">
             <summary>
             验证加点后的加成
             </summary>
@@ -4158,7 +4156,7 @@
             </summary>
             <param name="skillid"></param>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.StatusAddition(AscensionServer.Model.PetStatus,System.Collections.Generic.List{AscensionProtocol.DTO.PetStatusDTO},AscensionProtocol.DTO.PetStatusDTO@)">
+        <member name="M:AscensionServer.PetStatusManager.StatusAddition(AscensionServer.Model.PetStatus,System.Collections.Generic.List{AscensionProtocol.DTO.PetStatusDTO},AscensionServer.PetLevelData,AscensionProtocol.DTO.PetStatusDTO@)">
             <summary>
             加成计算资质后计算加点后的总加成
             </summary>
@@ -4173,6 +4171,21 @@
             <param name="petAptitude"></param>
             <param name="petAptitudeDTO"></param>
             <returns></returns>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.RestPetSkill(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            洗练宠物重置技能
+            </summary>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.RandomSkillRemoveAdd(System.Collections.Generic.List{System.Int32},System.Int32)">
+            <summary>
+            技能书使用顶替技能
+            </summary>
+        </member>
+        <member name="F:AscensionServer.PetStatusManager.aa">
+            <summary>
+            正态分布随机数
+            </summary>
         </member>
         <member name="M:AscensionServer.IPracticeManager.RoleAblility(AscensionProtocol.DTO.RoleStatusPointDTO,AscensionServer.Model.RoleStatus)">
             <summary>
@@ -5504,7 +5517,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
+        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；

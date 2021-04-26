@@ -40,8 +40,8 @@
         Pet=32,
         PetSet=33,
         PetStatus=34,
-        PetPtitude= 35,
-
+        PetAptitude= 35,
+        PetAbility=36,
 
         Task =39,
         RoleBottleneck=40,

@@ -8,7 +8,7 @@ using AscensionProtocol;
 using AscensionServer.Model;
 using NHibernate.Linq.Clauses;
 using AscensionProtocol.DTO;
-using Renci.SshNet.Security;
+using Renci.SshNet.Security; 
 using Cosmos;
 
 namespace AscensionServer
@@ -19,7 +19,7 @@ namespace AscensionServer
         public override OperationResponse EncodeMessage(OperationRequest operationRequest)
         {
             var dict = operationRequest.Parameters;
-            string petptitudeJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.PetPtitude));
+            string petptitudeJson = Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.PetAptitude));
 
             var petaptitudeObj = Utility.Json.ToObject<PetAptitudeDTO>(petptitudeJson);
             NHCriteria nHCriteriapetaptitude = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", petaptitudeObj.PetID);

@@ -37,13 +37,13 @@ namespace AscensionProtocol
         /// </summary>
         PetEvolution=7,
         /// <summary>
-        /// 妖灵精魄
+        /// 装备妖灵精魄
         /// </summary>
-        DemonicSoul=8,
+        EquipDemonicSoul=8,
         /// <summary>
         /// 学习技能
         /// </summary>
-        PetStudtSkill=9,
+        PetStudySkill=9,
         /// <summary>
         /// 宠物培养
         /// </summary>
@@ -55,6 +55,19 @@ namespace AscensionProtocol
         /// <summary>
         /// 切换加点方案
         /// </summary>
-        SwitchPetAbilitySln=12
+        SwitchPetAbilitySln=12,
+        /// <summary>
+        /// 设置加点
+        /// </summary>
+        SetAdditionPoint=13,
+        /// <summary>
+        /// 宠物改名
+        /// </summary>
+        RenamePet=14,
+        /// <summary>
+        /// 卸下妖灵精魄
+        /// </summary>
+        RemoveDemonicSoul=15,
+
     }
 }
