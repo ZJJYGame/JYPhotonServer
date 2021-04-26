@@ -47,7 +47,19 @@ namespace AscensionProtocol
         /// <summary>
         /// 获得傀儡组件
         /// </summary>
-        GetPuppetUnit = 11
+        GetPuppetUnit = 11,
+        /// <summary>
+        /// 添加妖灵精魄
+        /// </summary>
+        AddDemonicSoul=12,
+        /// <summary>
+        /// 合成妖灵精魄
+        /// </summary>
+        CompoundDemonicSoul = 13,
+        /// <summary>
+        /// 获得妖灵精魄
+        /// </summary>
+        GetDemonicSoul = 14,
 
     }
 }

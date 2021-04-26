@@ -3,6 +3,8 @@ using AscensionProtocol;
 using AscensionProtocol.DTO;
 using AscensionServer.Model;
 using System.Collections.Generic;
+using RedisDotNet;
+using System;
 
 namespace AscensionServer
 {
@@ -60,15 +62,71 @@ namespace AscensionServer
         /// <summary>
         /// 验证宠物完整属性
         /// </summary>
-        public PetStatusDTO VerifyPetAllStatus(PetAbilityPointDTO petAbilityPoint, PetAptitude petAptitude,PetStatus petStatus,PetCompleteDTO petCompleteDTO,Pet pet)
+        public PetStatusDTO VerifyPetAllStatus(int petid,PetAbilityPointDTO petAbilityPoint=null, PetAptitude petAptitude=null,PetStatus petStatus=null,Pet pet=null)
         {
-            GameEntry. DataManager.TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
+            if (petAbilityPoint==null)
+            {
+                var petAbilityPointexist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._PetAbilityPointPerfix, petid.ToString()).Result;
+                if (petAbilityPointexist)
+                {
+                    petAbilityPoint = RedisHelper.Hash.HashGetAsync<PetAbilityPointDTO>(RedisKeyDefine._PetAbilityPointPerfix, petid.ToString()).Result;
+                    if (petAbilityPoint==null)
+                    {
+                        petAbilityPoint = new PetAbilityPointDTO();
+                    }
+                }
+            }
 
-         //  var petStatus=  VerifyPetAbilityAddition(petAbilityPoint, petStatusDTO, petLevelDataDict[pet.PetLevel]);
+            if (petAptitude == null)
+            {
+                var petAptitudeexist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._PetAptitudePerfix, petid.ToString()).Result;
+                if (petAptitudeexist)
+                {
+                   var petAptitudeTemp = RedisHelper.Hash.HashGetAsync<PetAptitudeDTO>(RedisKeyDefine._PetAptitudePerfix, petid.ToString()).Result;
+                    if (petAptitude == null)
+                    {
+                        petAptitude = new PetAptitude();
+                    }
+                    else
+                    {
+                        petAptitude = AssignSameFieldValue(new PetAptitude(), petAptitudeTemp); 
+                    }
+                }
+            }
+
+            if (petStatus == null)
+            {
+                var petStatusexist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._PetStatusPerfix, petid.ToString()).Result;
+                if (petStatusexist)
+                {
+                     petStatus = RedisHelper.Hash.HashGetAsync<PetStatus>(RedisKeyDefine._PetStatusPerfix, petid.ToString()).Result;
+                    if (petStatus == null)
+                    {
+                        petStatus = new PetStatus();
+                    }
+                }
+            }
+
+            if (pet == null)
+            {
+                var petexist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._PetPerfix, petid.ToString()).Result;
+                if (petexist)
+                {
+                  var  petObj = RedisHelper.Hash.HashGetAsync<PetDTO>(RedisKeyDefine._PetPerfix, petid.ToString()).Result;
+                    if (pet == null)
+                    {
+                        pet = new Pet();
+                    }
+                }
+            }
+
+
+            GameEntry. DataManager.TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
+            var petStatusObj=  VerifyPetAbilityAddition(petAbilityPoint, petStatus, petAptitude);
             var skillList = Utility.Json.ToObject<List<int>>(pet.PetSkillArray);
-            VerifyPetPassivitySkill(skillList,out var petStatusDTOs);
+            VerifyPetPassivitySkill(skillList, out var petStatusDTOs);
             ResetPetStatus(pet, petAptitude,out var petStatusAtitude);
-            StatusAddition(petStatusAtitude, petStatusDTOs, out var petStatusTemp);
+            StatusAddition(petStatusAtitude, petStatusDTOs, petLevelDataDict[pet.PetLevel], out var petStatusTemp);
             return petStatusTemp;
         }
         /// <summary>
@@ -78,16 +136,16 @@ namespace AscensionServer
         /// <param name="petStatusDTO"></param>
         /// <param name="petLevelData"></param>
         /// <returns></returns>
-        public PetStatusDTO VerifyPetAbilityAddition(PetAbilityPointDTO petAbilityPoint,PetStatusDTO petStatusDTO,PetLevelData petLevelData)
+        public PetStatus VerifyPetAbilityAddition(PetAbilityPointDTO petAbilityPoint,PetStatus petStatusDTO, PetAptitude petAptitude)
         {
-            petStatusDTO.PetHP = (petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Stamina * 2 + petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Corporeity * 4) * petLevelData.PetHP;
-            petStatusDTO.PetMP = petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Power * 5 * petLevelData.PetMP;
-            petStatusDTO.PetShenhun = (int)(petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Soul * 1 * petLevelData.Petsoul);
-            petStatusDTO.AttackSpeed =(int) (petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Agility *0.5f * petLevelData.AttackSpeed);
-            petStatusDTO.AttackPhysical = petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Strength * 1*petLevelData.AttackPhysical;
-            petStatusDTO.DefendPhysical = (int)((petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Strength * 0.1+ petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Stamina * 0.6+ petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Corporeity * 0.2)*petLevelData.DefendPhysical);
-            petStatusDTO.AttackPower = petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Power * 1* petLevelData.AttackPower;
-            petStatusDTO.DefendPower = (int)((petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Corporeity * 0.2 + petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Stamina * 0.6)* petLevelData.DefendPower);
+            petStatusDTO.PetHP = (petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Stamina * 2 + petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Corporeity * 4) * (int)petAptitude.Petaptitudecol;
+            petStatusDTO.PetMP = petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Power * 5 * (int)petAptitude.Petaptitudecol;
+            petStatusDTO.PetShenhun = (int)(petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Soul * 1 * (int)petAptitude.Petaptitudecol);
+            petStatusDTO.AttackSpeed =(int) (petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Agility *0.5f * (int)petAptitude.Petaptitudecol);
+            petStatusDTO.AttackPhysical = petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Strength * 1* (int)petAptitude.Petaptitudecol;
+            petStatusDTO.DefendPhysical = (int)((petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Strength * 0.1+ petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Stamina * 0.6+ petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Corporeity * 0.2)* (int)petAptitude.Petaptitudecol);
+            petStatusDTO.AttackPower = petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Power * 1* (int)petAptitude.Petaptitudecol;
+            petStatusDTO.DefendPower = (int)((petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Corporeity * 0.2 + petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Stamina * 0.6)* (int)petAptitude.Petaptitudecol);
             return petStatusDTO;
         }
         /// <summary>
@@ -186,27 +244,27 @@ namespace AscensionServer
         /// <param name="petStatus"></param>
         /// <param name="petAbilityStatus"></param>
         /// <param name="petStatusTemp"></param>
-        public void StatusAddition(PetStatus petStatus, List<PetStatusDTO> petAbilityStatus,out PetStatusDTO petStatusTemp)
+        public void StatusAddition(PetStatus petStatus, List<PetStatusDTO> petAbilityStatus, PetLevelData petLevelData, out PetStatusDTO petStatusTemp)
         {
             petStatusTemp= CosmosEntry.ReferencePoolManager.Spawn<PetStatusDTO>();
-            petStatusTemp.AttackPhysical =(petStatus.AttackPhysical ) + petAbilityStatus[0].AttackPhysical / 100 + petAbilityStatus[1].AttackPhysical;
-            petStatusTemp.AttackPower = (petStatus.AttackPower) + petAbilityStatus[0].AttackPower / 100 + petAbilityStatus[1].AttackPower;
-            petStatusTemp.AttackSpeed =  (petStatus.AttackSpeed ) + petAbilityStatus[0].AttackSpeed / 100 + petAbilityStatus[1].AttackSpeed;
-            petStatusTemp.DefendPhysical = (petStatus.DefendPhysical ) + petAbilityStatus[0].DefendPhysical / 100 + petAbilityStatus[1].DefendPhysical;
-            petStatusTemp.DefendPower = (petStatus.DefendPower ) + petAbilityStatus[0].DefendPower / 100 + petAbilityStatus[1].DefendPower;
-            petStatusTemp.ExpLevelUp =  (petStatus.ExpLevelUp ) + petAbilityStatus[0].ExpLevelUp / 100 + petAbilityStatus[1].ExpLevelUp;
-            petStatusTemp.MagicCritDamage =  (petStatus.MagicCritDamage ) + petAbilityStatus[0].MagicCritDamage / 100 + petAbilityStatus[1].MagicCritDamage;
-            petStatusTemp.MagicCritProb = (petStatus.MagicCritProb ) + petAbilityStatus[0].MagicCritProb / 100 + petAbilityStatus[1].MagicCritProb;
-            petStatusTemp.PetHP = (petStatus.PetHP ) + petAbilityStatus[0].PetHP / 100 + petAbilityStatus[1].PetHP;
-            petStatusTemp.PetMaxHP = petStatusTemp.PetHP;
-            petStatusTemp.PetMP =  (petStatus.PetMP) + petAbilityStatus[0].PetMP / 100 + petAbilityStatus[1].PetMP;
-            petStatusTemp.PetMaxMP = petStatusTemp.PetMP;
-            petStatusTemp.PetShenhun = (petStatus.PetShenhun )+ petAbilityStatus[0].PetShenhun / 100 + petAbilityStatus[1].PetShenhun;
-            petStatusTemp.PetMaxShenhun = petStatusTemp.PetShenhun;
-            petStatusTemp.PhysicalCritDamage =  (petStatus.PhysicalCritDamage ) + petAbilityStatus[0].PhysicalCritDamage / 100 + petAbilityStatus[1].PhysicalCritDamage;
-            petStatusTemp.PhysicalCritProb = (petStatus.PhysicalCritProb) + petAbilityStatus[0].PhysicalCritProb / 100 + petAbilityStatus[1].PhysicalCritProb;
-            petStatusTemp.ReduceCritDamage = (petStatus.ReduceCritDamage ) + petAbilityStatus[0].ReduceCritDamage / 100 + petAbilityStatus[1].ReduceCritDamage;
-            petStatusTemp.ReduceCritProb =  (petStatus.ReduceCritProb ) + petAbilityStatus[0].ReduceCritProb / 100 + petAbilityStatus[1].ReduceCritProb;
+            petStatusTemp.AttackPhysical =(petStatus.AttackPhysical ) + (petLevelData.AttackPhysical * petAbilityStatus[0].AttackPhysical / 100) + petAbilityStatus[1].AttackPhysical;
+            petStatusTemp.AttackPower = (petStatus.AttackPower) + (petLevelData.AttackPower * petAbilityStatus[0].AttackPower / 100) + petAbilityStatus[1].AttackPower;
+            petStatusTemp.AttackSpeed =  (petStatus.AttackSpeed ) + (petLevelData.AttackSpeed * petAbilityStatus[0].AttackSpeed / 100) + petAbilityStatus[1].AttackSpeed;
+            petStatusTemp.DefendPhysical = (petStatus.DefendPhysical ) + (petLevelData.DefendPhysical * petAbilityStatus[0].DefendPhysical / 100) + petAbilityStatus[1].DefendPhysical;
+            petStatusTemp.DefendPower = (petStatus.DefendPower ) + (petLevelData.DefendPower * petAbilityStatus[0].DefendPower / 100) + petAbilityStatus[1].DefendPower;
+            petStatusTemp.ExpLevelUp =  (petStatus.ExpLevelUp ) + (petLevelData.ExpLevelUp * petAbilityStatus[0].ExpLevelUp / 100) + petAbilityStatus[1].ExpLevelUp;
+            petStatusTemp.MagicCritDamage =  (petStatus.MagicCritDamage ) + (petLevelData.MagicCritDamage * petAbilityStatus[0].MagicCritDamage / 100) + petAbilityStatus[1].MagicCritDamage;
+            petStatusTemp.MagicCritProb = (petStatus.MagicCritProb ) + (petLevelData.MagicCritProb * petAbilityStatus[0].MagicCritProb / 100) + petAbilityStatus[1].MagicCritProb;
+            petStatusTemp.PetMaxHP = (petStatus.PetHP ) + (petLevelData.PetHP * petAbilityStatus[0].PetHP / 100) + petAbilityStatus[1].PetHP;
+            petStatusTemp.PetHP = petStatusTemp.PetMaxHP;
+            petStatusTemp.PetMaxMP =  (petStatus.PetMP) + (petLevelData.PetMP * petAbilityStatus[0].PetMP / 100) + petAbilityStatus[1].PetMP;
+            petStatusTemp.PetMP = petStatusTemp.PetMaxMP;
+            petStatusTemp.PetMaxShenhun = (petStatus.PetShenhun )+ (int)(petLevelData. Petsoul* petAbilityStatus[0].PetShenhun / 100) + petAbilityStatus[1].PetShenhun;
+            petStatusTemp.PetShenhun = petStatusTemp.PetMaxShenhun;
+            petStatusTemp.PhysicalCritDamage =  (petStatus.PhysicalCritDamage ) + (petLevelData.PhysicalCritDamage * petAbilityStatus[0].PhysicalCritDamage / 100) + petAbilityStatus[1].PhysicalCritDamage;
+            petStatusTemp.PhysicalCritProb = (petStatus.PhysicalCritProb) + (petLevelData.PhysicalCritProb * petAbilityStatus[0].PhysicalCritProb / 100) + petAbilityStatus[1].PhysicalCritProb;
+            petStatusTemp.ReduceCritDamage = (petStatus.ReduceCritDamage ) + (petLevelData.ReduceCritDamage * petAbilityStatus[0].ReduceCritDamage / 100) + petAbilityStatus[1].ReduceCritDamage;
+            petStatusTemp.ReduceCritProb =  (petStatus.ReduceCritProb ) + (petLevelData.ReduceCritProb * petAbilityStatus[0].ReduceCritProb / 100) + petAbilityStatus[1].ReduceCritProb;
         }
 
         /// <summary>
@@ -243,6 +301,148 @@ namespace AscensionServer
             petAptitudeDTO.PetAptitudeDrug = Utility.Json.ToObject<Dictionary<int,int>>(petAptitude.PetAptitudeDrug);
             return petAptitudeDTO;
         }
+
+        PetAbilityPointDTO ChangeDataType(PetAbilityPoint petAbility)
+        {
+            PetAbilityPointDTO pointDTO = new PetAbilityPointDTO();
+            pointDTO.AbilityPointSln = Utility.Json.ToObject<Dictionary<int,AbilityDTO>>(petAbility.AbilityPointSln);
+            pointDTO.ID = petAbility.ID;
+            pointDTO.IsUnlockSlnThree = petAbility.IsUnlockSlnThree;
+            pointDTO.SlnNow = petAbility.SlnNow;
+            return pointDTO;
+        }
+
+
+        #region 技能处理
+        /// <summary>
+        /// 洗练宠物重置技能
+        /// </summary>
+        public List<int> RestPetSkill(List<int> skillList)
+        {
+            return RandomArrayElement(skillList);
+        }
+        /// <summary>
+        /// 技能书使用顶替技能
+        /// </summary>
+        public List<int> RandomSkillRemoveAdd(List<int> skillList, int skillid)
+        {
+            int num = (int)AverageRandom(0, skillList.Count);
+            skillList.Remove(num);
+            skillList.Add(skillid);
+            return skillList;
+        }
+        #endregion
+
+        #region 正态分部随机数
+        /// <summary>
+        /// 正态分布随机数
+        /// </summary>
+
+        static Random aa = new Random((int)(DateTime.Now.Ticks / 10000));
+        public double AverageRandom(double min, double max)//产生(min,max)之间均匀分布的随机数
+        {
+            int MINnteger = (int)(min * 10000);
+            int MAXnteger = (int)(max * 10000);
+            int resultInteger = aa.Next(MINnteger, MAXnteger);
+            return resultInteger / 10000.0;
+        }
+        public double Normal(double x, double miu, double sigma) //正态分布概率密度函数
+        {
+            return 1.0 / (x * Math.Sqrt(2 * Math.PI) * sigma) * Math.Exp(-1 * (Math.Log(x) - miu) * (Math.Log(x) - miu) / (2 * sigma * sigma));
+        }
+        public double Random_Normal(double miu, double sigma, double min, double max)//产生正态分布随机数
+        {
+            double x;
+            double dScope;
+            double y;
+            do
+            {
+                x = AverageRandom(min, max);
+                y = Normal(x, miu, sigma);
+                dScope = AverageRandom(0, Normal(miu, miu, sigma));
+            } while (dScope > y);
+            return x;
+        }
+
+        #endregion
+
+        #region 技能数组随机
+        public List<int> RandomArrayElement(List<int> skillList)
+        {
+            double randomNum = AverageRandom(0, skillList.Count);
+            List<int> numList = new List<int>();
+            List<int> tempSkillList = new List<int>();
+            for (int i = 0; i < randomNum; i++)
+            {
+                var temp = (int)AverageRandom(1, skillList.Count);
+                if (!numList.Contains(temp))
+                {
+                    numList.Add(temp);
+                    tempSkillList.Add(skillList[temp]);
+                }
+            }
+            return tempSkillList;
+        }
+
+        #endregion
+
+        #region 真正的正态分布策划版
+        int[,] Map = new int[25, 10]
+        {
+            {5000,5040,5080,5120,5160,5199,5239,5279,5319,5359},
+            {5398,5438,5478,5517,5557,5596,5636,5675,5714,5753},
+            {5793,5832,5871,5910,5948,5987,6026,6064,6103,6141},
+            {6179,6217,6255,6293,6331,6368,6406,6443,6480,6517},
+            {6554,6591,6628,6664,6700,6736,6772,6808,6844,6879},
+            {6915,6950,6985,7019,7054,7088,7123,7157,7190,7224},
+            {7257,7291,7324,7357,7389,7422,7454,7486,7517,7549},
+            {7580,7611,7642,7673,7703,7734,7764,7794,7823,7852},
+            {7881,7910,7939,7967,7995,8023,8051,8078,8106,8133},
+            {8159,8186,8212,8238,8264,8289,8315,8340,8365,8389},
+            {8413,8438,8461,8485,8508,8531,8554,8577,8599,8621},
+            {8643,8665,8686,8708,8729,8749,8770,8790,8810,8830},
+            {8849,8869,8888,8907,8925,8944,8962,8980,8997,9015},
+            {9032,9049,9066,9082,9099,9115,9131,9147,9162,9177},
+            {9192,9207,9222,9236,9251,9265,9278,9292,9306,9319},
+            {9332,9345,9357,9370,9382,9394,9406,9418,9430,9441},
+            {9452,9463,9474,9484,9495,9505,9515,9525,9535,9545},
+            {9554,9564,9573,9582,9591,9599,9608,9616,9625,9633},
+            {9641,9648,9656,9664,9671,9678,9686,9693,9700,9706},
+            {9713,9719,9726,9732,9738,9744,9750,9756,9762,9767},
+            {9772,9778,9783,9788,9793,9798,9803,9808,9812,9817},
+            {9821,9826,9830,9834,9838,9842,9846,9850,9854,9857},
+            {9861,9864,9868,9871,9874,9878,9881,9884,9887,9890},
+            {9893,9896,9898,9901,9904,9906,9909,9911,9913,9916},
+            {9918,9920,9922,9925,9927,9929,9931,9932,9934,9936}
+        };
+        Random random = new Random();
+        public int NormalRandom2(int min, int max)
+        {
+            int result = 0;
+            bool flag = true;
+            while (flag)
+            {
+
+                int x = random.Next(0, 250);
+                int y = 10000 - Map[x / 10, x % 10];
+                if (y >= (int)random.Next(0, 10000))
+                {
+                    result = x;
+                    flag = false;
+                }
+            }
+            if ((int)random.Next(0, 2) == 1)
+            {
+                result = (min + max) / 2 - (result + (int)random.Next(0, 2)) * (max - min) / 2 / 250;
+            }
+            else
+            {
+                result = (min + max) / 2 + (result + (int)random.Next(0, 2)) * (max - min) / 2 / 250;
+            }
+            return result;
+        }
+        #endregion
+
     }
 }
 

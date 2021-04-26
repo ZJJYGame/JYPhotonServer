@@ -53,7 +53,7 @@ namespace AscensionServer
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetGetStatus:
                     Utility.Debug.LogInfo("yzqData获得宠物数据" );
-                    GameEntry.PetStatusManager.GetPetAllCompeleteStatus(petCompleteObj.PetDTO.ID, nHCriteriapetStatus, petCompleteObj.RoleID, nHCriteriapet);
+                    GameEntry.PetStatusManager.GetPetAllCompeleteStatus(petCompleteObj.PetDTO.ID, petCompleteObj.RoleID);
                     break;
                 default:
                     break;
