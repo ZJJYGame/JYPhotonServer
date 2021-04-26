@@ -64,6 +64,26 @@ namespace AscensionServer
             battleRoomDict.Add(roomID, battleRoomEntity);
         }
         /// <summary>
+        /// 创建战斗房间
+        /// </summary>
+        /// <param name="roleId">玩家id</param>
+        /// <param name="enemyGlobalIds">敌人公共id集合</param>
+        public  void CreateRoom(int roleId,List<int> enemyGlobalIds)
+        {
+            BattleInitDTO battleInitDTO = new BattleInitDTO();
+            battleInitDTO.playerUnits = new List<RoleBattleDataDTO>();
+            battleInitDTO.playerUnits.Add(new RoleBattleDataDTO()
+            {
+                RoleStatusDTO=new RoleStatusDTO() { RoleID=roleId}
+            });
+            battleInitDTO.enemyUnits = new List<EnemyBattleDataDTO>();
+            for (int i = 0; i < enemyGlobalIds.Count; i++)
+            {
+                battleInitDTO.enemyUnits.Add(new EnemyBattleDataDTO() { GlobalId = enemyGlobalIds[i] });
+            }
+            CreateRoom(battleInitDTO);
+        }
+        /// <summary>
         /// 销毁房间
         /// </summary>
         public void DestoryRoom()
