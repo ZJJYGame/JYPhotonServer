@@ -12,6 +12,8 @@ namespace AscensionServer
         Index = 1,
         GId = 2,
         EleId = 3,
-        Collectable = 4
+        Collectable = 4,
+        Combatable = 5,
+        RoleId = 6
     }
 }

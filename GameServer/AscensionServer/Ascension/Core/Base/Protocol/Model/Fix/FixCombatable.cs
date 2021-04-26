@@ -7,20 +7,20 @@ using System.Threading.Tasks;
 namespace AscensionServer
 {
     [Serializable]
-    public class FixCollectable : IDisposable
+    public class FixCombatable
     {
         public int Id { get; set; }
-        public Dictionary<int, FixResObject> CollectableDict { get; set; }
+        public Dictionary<int, FixResObject> CombatableDict { get; set; }
         public void RenewalAll()
         {
-            foreach (var col in CollectableDict.Values)
+            foreach (var col in CombatableDict.Values)
             {
                 col.Occupied = false;
             }
         }
         public void Renewal(int eleId)
         {
-            if (CollectableDict.TryGetValue(eleId, out var cr))
+            if (CombatableDict.TryGetValue(eleId, out var cr))
             {
                 cr.Occupied = false;
             }
@@ -28,7 +28,7 @@ namespace AscensionServer
         public void Dispose()
         {
             Id = -1;
-            CollectableDict.Clear();
+            CombatableDict.Clear();
         }
     }
 }

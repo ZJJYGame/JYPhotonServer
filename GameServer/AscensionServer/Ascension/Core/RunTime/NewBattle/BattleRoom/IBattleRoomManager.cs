@@ -14,5 +14,11 @@ namespace AscensionServer
         float PerformWaitTime { get; }
         event Action TimeAction;
         BattleRoomEntity GetBattleRoomEntity(int roomID);
+        /// <summary>
+        /// 创建战斗房间
+        /// </summary>
+        /// <param name="roleId">玩家id</param>
+        /// <param name="enemyGlobalIds">敌人公共id集合</param>
+        void CreateRoom(int roleId, List<int> enemyGlobalIds);
     }
 }

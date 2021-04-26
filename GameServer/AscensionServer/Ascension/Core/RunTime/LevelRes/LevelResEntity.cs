@@ -19,6 +19,7 @@ namespace AscensionServer
         /// index---collectable
         /// </summary>
         public Dictionary<int, FixCollectable> CollectableDict { get { return collectableDict; } }
+        public Dictionary<int, FixCombatable> CombatableDict { get { return combatableDict; } }
         /// <summary>
         /// index---collectable
         /// </summary>
@@ -27,12 +28,29 @@ namespace AscensionServer
         /// index---collectable
         /// </summary>
         Dictionary<int, FixCollectable> uncollectableDict;
+
+
+        /// <summary>
+        /// index---combatable
+        /// </summary>
+        Dictionary<int, FixCombatable> combatableDict;
+        /// <summary>
+        /// index---combatable
+        /// </summary>
+        Dictionary<int, FixCombatable> uncombatableDict;
+
         public LevelResEntity()
         {
             collectableDict = new Dictionary<int, FixCollectable>();
             uncollectableDict = new Dictionary<int, FixCollectable>();
+            combatableDict = new Dictionary<int, FixCombatable>();
+            uncombatableDict = new Dictionary<int, FixCombatable>();
         }
-        public bool Collect(int index, int gId, int eleId)
+        public bool Combat(int index, int gId, int eleId)
+        {
+            return false;
+        }
+        public bool Gather(int index, int gId, int eleId)
         {
             if (collectableDict.TryGetValue(index, out var col))
             {
@@ -45,9 +63,8 @@ namespace AscensionServer
                 {
                     fixCollectable = new FixCollectable();
                     fixCollectable.Id = gId;
-                    fixCollectable.CollectDict = new Dictionary<int, FixCollectable.CollectableRes>();
+                    fixCollectable.CollectableDict = new Dictionary<int, FixResObject>();
                     uncollectableDict.Add(index, fixCollectable);
-          
                 }
                 else
                 {
@@ -56,11 +73,11 @@ namespace AscensionServer
                         return false;
                     fixCollectable = fc;
                 }
-                if (col.CollectDict.Remove(eleId, out var removeEle))
+                if (col.CollectableDict.Remove(eleId, out var removeEle))
                 {
-                    if (fixCollectable.CollectDict.TryAdd(eleId, removeEle))
+                    if (fixCollectable.CollectableDict.TryAdd(eleId, removeEle))
                     {
-                        removeEle.CanCollected = false;
+                        removeEle.Occupied= true;
                         return true;
                     }
                 }
