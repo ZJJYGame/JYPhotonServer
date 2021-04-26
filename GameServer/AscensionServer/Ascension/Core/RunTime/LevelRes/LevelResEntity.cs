@@ -15,28 +15,45 @@ namespace AscensionServer
         }
         public int LevelId { get; private set; }
         public LevelTypeEnum LevelType { get; private set; }
+        /// <summary>
+        /// index---collectable
+        /// </summary>
         public Dictionary<int, FixCollectable> CollectableDict { get { return collectableDict; } }
+        /// <summary>
+        /// index---collectable
+        /// </summary>
         Dictionary<int, FixCollectable> collectableDict;
+        /// <summary>
+        /// index---collectable
+        /// </summary>
         Dictionary<int, FixCollectable> uncollectableDict;
         public LevelResEntity()
         {
             collectableDict = new Dictionary<int, FixCollectable>();
             uncollectableDict = new Dictionary<int, FixCollectable>();
         }
-        public bool Collect(int gId, int eleId)
+        public bool Collect(int index, int gId, int eleId)
         {
-            if (collectableDict.TryGetValue(gId, out var col))
+            if (collectableDict.TryGetValue(index, out var col))
             {
-                FixCollectable fixCollectable = null;
-                if (!uncollectableDict.ContainsKey(gId))
+                if (col.Id != gId)
+                {
+                    return false;
+                }
+                FixCollectable fixCollectable = null; ;
+                if (!uncollectableDict.ContainsKey(index))
                 {
                     fixCollectable = new FixCollectable();
+                    fixCollectable.Id = gId;
                     fixCollectable.CollectDict = new Dictionary<int, FixCollectable.CollectableRes>();
-                    uncollectableDict.Add(gId, fixCollectable);
+                    uncollectableDict.Add(index, fixCollectable);
+          
                 }
                 else
                 {
-                    uncollectableDict.TryGetValue(gId, out var fc);
+                    uncollectableDict.TryGetValue(index, out var fc);
+                    if (fc.Id != gId)
+                        return false;
                     fixCollectable = fc;
                 }
                 if (col.CollectDict.Remove(eleId, out var removeEle))

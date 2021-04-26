@@ -99,6 +99,16 @@
         "Z": -33700
       },
       "ResSpawnRange": 20
+    },
+    "10": {
+      "ResId": 11001,
+      "ResAmount": 10,
+      "ResSpawnPositon": {
+        "X": 36900,
+        "Y": 0,
+        "Z": 57700
+      },
+      "ResSpawnRange": 26
     }
   }
 }

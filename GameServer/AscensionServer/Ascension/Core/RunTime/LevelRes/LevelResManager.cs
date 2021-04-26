@@ -33,32 +33,31 @@ namespace AscensionServer
             Random random = new Random();
             GameEntry.DataManager.TryGetValue<MapResSpanwInfoData>(out var resSpawnInfoData);
             var dict = resSpawnInfoData.MapResSpawnInfoDict;
-            foreach (var res in dict.Values)
+            foreach (var res in dict)
             {
                 var fc = new FixCollectable();
-                fc.Id = res.ResId;
+                fc.Id = res.Value.ResId;
                 fc.CollectDict = new Dictionary<int, FixCollectable.CollectableRes>();
-                var length = res.ResAmount;
+                var length = res.Value.ResAmount;
                 for (int i = 0; i < length; i++)
                 {
                     var cr = new FixCollectable.CollectableRes();
                     cr.Id = i;
                     cr.CanCollected = true;
-
-                    var vec = res.ResSpawnPositon.GetVector();
+                    var vec = res.Value.ResSpawnPositon.GetVector();
                     var xSign = Utility.Algorithm.Sign();
-                    var xOffset = random.Next(0, res.ResSpawnRange);
+                    var xOffset = random.Next(0, res.Value.ResSpawnRange);
                     vec.x += xSign == true ? xOffset : -xOffset;
 
                     var zSign = Utility.Algorithm.Sign();
-                    var zOffset = random.Next(0, res.ResSpawnRange);
+                    var zOffset = random.Next(0, res.Value.ResSpawnRange);
                     vec.z += zSign == true ? zOffset : -zOffset;
 
                     cr.FixTransform = new FixTransform(vec, Vector3.zero, Vector3.one);
 
                     fc.CollectDict.Add(i, cr);
                 }
-                adventureLevelResEntity.CollectableDict.Add(fc.Id, fc);
+                adventureLevelResEntity.CollectableDict.Add(res.Key, fc);
             }
         }
         void ProcessHandlerC2S(int sessionId, OperationData opData)
@@ -96,9 +95,10 @@ namespace AscensionServer
             var messageDict = Utility.Json.ToObject<Dictionary<byte, object>>(json);
             var gid = Convert.ToInt32(Utility.GetValue(messageDict, (byte)LevelResParameterCode.GId));
             var eleid = Convert.ToInt32(Utility.GetValue(messageDict, (byte)LevelResParameterCode.EleId));
+            var index = Convert.ToInt32(Utility.GetValue(messageDict, (byte)LevelResParameterCode.Index));
             var opdata = opDataPool.Spawn();
             opdata.SubOperationCode = (byte)LevelResOpCode.Collect;
-            if (adventureLevelResEntity.Collect(gid, eleid))
+            if (adventureLevelResEntity.Collect(index,gid, eleid))
             {
                 opdata.DataMessage = json;
                 opdata.ReturnCode = (byte)ReturnCode.Success;

@@ -3173,6 +3173,21 @@
              </summary>
              <param name="packet">进入的请求数据</param>
         </member>
+        <member name="P:AscensionServer.LevelResEntity.CollectableDict">
+            <summary>
+            index---collectable
+            </summary>
+        </member>
+        <member name="F:AscensionServer.LevelResEntity.collectableDict">
+            <summary>
+            index---collectable
+            </summary>
+        </member>
+        <member name="F:AscensionServer.LevelResEntity.uncollectableDict">
+            <summary>
+            index---collectable
+            </summary>
+        </member>
         <member name="P:AscensionServer.OperationData.OperationCode">
             <summary>
             主操作码；
