@@ -91,7 +91,7 @@ namespace AscensionServer
         public async Task<RoleStatus> RoleAblility(RoleStatusPointDTO pointDTO, RoleStatus roleStatus)
         {
             RoleStatusDTO roleStatusDTO = new RoleStatusDTO();
-            roleStatusDTO.RoleID = pointDTO.RoleID;
+            roleStatusDTO.RoleID = roleStatus.RoleID;
             if (pointDTO.AbilityPointSln.TryGetValue(pointDTO.SlnNow, out var abilityDTO))
             {
                 roleStatusDTO.RoleMaxHP += abilityDTO.Corporeity * 10;

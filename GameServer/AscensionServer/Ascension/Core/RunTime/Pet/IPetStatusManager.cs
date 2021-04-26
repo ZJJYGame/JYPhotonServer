@@ -46,26 +46,26 @@ namespace AscensionServer
         /// </summary>
         /// <param name="rolePetDTO"></param>
         /// <param name="rolePet"></param>
-        void RolePetSetBattle(RolePetDTO rolePetDTO, RolePet rolePet, NHCriteria nHCriteriaRolePet, Pet pet);
+        void RolePetSetBattle(RolePetDTO rolePetDTO);
  
 
         /// <summary>
         /// 获得角色所有宠物
         /// </summary>
         /// <param name="rolePet"></param>
-        void GetRoleAllPet(RolePet rolePet, RolePetDTO rolePetDTO);
- 
+        void GetRoleAllPetS2C( RolePetDTO rolePetDTO);
+
         /// <summary>
         /// 移除角色宠物
         /// </summary>
         /// <param name="rolePet"></param>
         /// <param name="rolePetDTO"></param>
-        void RemoveRolePet(RolePet rolePet, RolePetDTO rolePetDTO, Pet pet);
+        void RemoveRolePet(RolePetDTO rolePetDTO);
  
         /// <summary>
         /// 获得宠物所有属性
         /// </summary>
-        void GetPetAllCompeleteStatus(int petid, NHCriteria nHCriteria, int roleid, NHCriteria nHCriteriapet);
+        void GetPetAllCompeleteStatus(int petid, int roleid);
  
 
         #region 洗练宠物

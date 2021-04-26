@@ -28,7 +28,7 @@ namespace AscensionServer
 
             NHCriteria nHCriteriaRomePet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", rolepetObj.AddRemovePetID);
 
-            var pet = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriaPet);
+         
 
             var rolepets = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriaRolePet);
             List<Pet> petlist = new List<Pet>();
@@ -36,15 +36,15 @@ namespace AscensionServer
             switch (rolepetObj.RolePetOrderType)
             {
                 case RolePetDTO.RolePetOperationalOrder.Battle:
-                   GameEntry. PetStatusManager.RolePetSetBattle(rolepetObj, rolepets,nHCriteriaRolePet, pet);
+                   GameEntry. PetStatusManager.RolePetSetBattle(rolepetObj);
                     break;
                 case RolePetDTO.RolePetOperationalOrder.GetAllPet:
-                     GameEntry. PetStatusManager.GetRoleAllPet(rolepets, rolepetObj);
+                    // GameEntry. PetStatusManager.GetRoleAllPet(rolepets, rolepetObj);
                     break;
                 case RolePetDTO.RolePetOperationalOrder.RemovePet:
                     Utility.Debug.LogInfo("yzqData放生寵物"+ rolepetObj.AddRemovePetID);
                     var petRemove = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriaRomePet);
-                     GameEntry. PetStatusManager.RemoveRolePet(rolepets, rolepetObj, petRemove);
+                     GameEntry. PetStatusManager.RemoveRolePet( rolepetObj);
                     break;
                 case RolePetDTO.RolePetOperationalOrder.AddPet:
                      GameEntry. PetStatusManager.InitPet(rolepetObj.AddRemovePetID, rolepetObj.AddPetName,rolepets);
