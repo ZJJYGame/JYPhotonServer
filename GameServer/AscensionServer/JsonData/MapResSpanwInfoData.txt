@@ -8,7 +8,8 @@
         "Y": 0,
         "Z": -15800
       },
-      "ResSpawnRange": 5
+      "ResSpawnRange": 5,
+      "ResType": 2
     },
     "1": {
       "ResId": 11002,
@@ -18,7 +19,8 @@
         "Y": 0,
         "Z": 13740
       },
-      "ResSpawnRange": 10
+      "ResSpawnRange": 10,
+      "ResType": 2
     },
     "2": {
       "ResId": 11006,
@@ -28,7 +30,8 @@
         "Y": 0,
         "Z": 15200
       },
-      "ResSpawnRange": 10
+      "ResSpawnRange": 10,
+      "ResType": 2
     },
     "3": {
       "ResId": 11016,
@@ -38,7 +41,8 @@
         "Y": 0,
         "Z": -13080
       },
-      "ResSpawnRange": 16
+      "ResSpawnRange": 16,
+      "ResType": 2
     },
     "4": {
       "ResId": 11403,
@@ -48,7 +52,8 @@
         "Y": 0,
         "Z": -12030
       },
-      "ResSpawnRange": 20
+      "ResSpawnRange": 20,
+      "ResType": 2
     },
     "5": {
       "ResId": 22001,
@@ -58,7 +63,8 @@
         "Y": 0,
         "Z": 12700
       },
-      "ResSpawnRange": 10
+      "ResSpawnRange": 10,
+      "ResType": 1
     },
     "6": {
       "ResId": 22002,
@@ -68,7 +74,8 @@
         "Y": 0,
         "Z": -9660
       },
-      "ResSpawnRange": 10
+      "ResSpawnRange": 10,
+      "ResType": 1
     },
     "7": {
       "ResId": 22011,
@@ -78,7 +85,8 @@
         "Y": 0,
         "Z": -25400
       },
-      "ResSpawnRange": 16
+      "ResSpawnRange": 16,
+      "ResType": 1
     },
     "8": {
       "ResId": 22012,
@@ -88,7 +96,8 @@
         "Y": 0,
         "Z": -39000
       },
-      "ResSpawnRange": 10
+      "ResSpawnRange": 10,
+      "ResType": 1
     },
     "9": {
       "ResId": 22015,
@@ -98,7 +107,19 @@
         "Y": 0,
         "Z": -33700
       },
-      "ResSpawnRange": 20
+      "ResSpawnRange": 20,
+      "ResType": 1
+    },
+    "10": {
+      "ResId": 11001,
+      "ResAmount": 10,
+      "ResSpawnPositon": {
+        "X": 36900,
+        "Y": 0,
+        "Z": 57700
+      },
+      "ResSpawnRange": 26,
+      "ResType": 2
     }
   }
 }

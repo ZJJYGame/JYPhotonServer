@@ -28,50 +28,76 @@ namespace AscensionServer
             GameEntry.LevelManager.OnRoleExitLevel += FINResS2C;
             SpawnRes();
         }
+
         void SpawnRes()
         {
             Random random = new Random();
             GameEntry.DataManager.TryGetValue<MapResSpanwInfoData>(out var resSpawnInfoData);
             var dict = resSpawnInfoData.MapResSpawnInfoDict;
-            foreach (var res in dict.Values)
+            foreach (var res in dict)
             {
-                var fc = new FixCollectable();
-                fc.Id = res.ResId;
-                fc.CollectDict = new Dictionary<int, FixCollectable.CollectableRes>();
-                var length = res.ResAmount;
-                for (int i = 0; i < length; i++)
+                switch (res.Value.ResType)
                 {
-                    var cr = new FixCollectable.CollectableRes();
-                    cr.Id = i;
-                    cr.CanCollected = true;
-
-                    var vec = res.ResSpawnPositon.GetVector();
-                    var xSign = Utility.Algorithm.Sign();
-                    var xOffset = random.Next(0, res.ResSpawnRange);
-                    vec.x += xSign == true ? xOffset : -xOffset;
-
-                    var zSign = Utility.Algorithm.Sign();
-                    var zOffset = random.Next(0, res.ResSpawnRange);
-                    vec.z += zSign == true ? zOffset : -zOffset;
-
-                    cr.FixTransform = new FixTransform(vec, Vector3.zero, Vector3.one);
-
-                    fc.CollectDict.Add(i, cr);
+                    case LevelResType.Collectable:
+                        {
+                            var fc = new FixCollectable();
+                            fc.Id = res.Value.ResId;
+                            fc.CollectableDict = new Dictionary<int, FixResObject>();
+                            var length = res.Value.ResAmount;
+                            for (int i = 0; i < length; i++)
+                            {
+                                var resObject = SpawnResObject(random, res.Value,i);
+                                fc.CollectableDict.Add(i, resObject);
+                            }
+                            adventureLevelResEntity.CollectableDict.Add(res.Key, fc);
+                        }
+                        break;
+                    case LevelResType.Combatable:
+                        {
+                            var fc = new FixCombatable();
+                            fc.Id = res.Value.ResId;
+                            fc.CombatableDict = new Dictionary<int, FixResObject>();
+                            var length = res.Value.ResAmount;
+                            for (int i = 0; i < length; i++)
+                            {
+                                var resObject = SpawnResObject(random, res.Value,i);
+                                fc.CombatableDict.Add(i, resObject);
+                            }
+                            adventureLevelResEntity.CombatableDict.Add(res.Key, fc);
+                        }
+                        break;
                 }
-                adventureLevelResEntity.CollectableDict.Add(fc.Id, fc);
             }
+        }
+        FixResObject SpawnResObject(Random random, MapResSpawnInfo spawnInfo,int index)
+        {
+            var resObject = new FixResObject();
+            resObject.Id = index;
+            resObject.Occupied = false;
+            var vec = spawnInfo.ResSpawnPositon.GetVector();
+            var xSign = Utility.Algorithm.Sign();
+            var xOffset = random.Next(0, spawnInfo.ResSpawnRange);
+            vec.x += xSign == true ? xOffset : -xOffset;
+
+            var zSign = Utility.Algorithm.Sign();
+            var zOffset = random.Next(0, spawnInfo.ResSpawnRange);
+            vec.z += zSign == true ? zOffset : -zOffset;
+
+            resObject.FixTransform = new FixTransform(vec, Vector3.zero, Vector3.one);
+            return resObject;
         }
         void ProcessHandlerC2S(int sessionId, OperationData opData)
         {
             var subCode = (LevelResOpCode)opData.SubOperationCode;
             switch (subCode)
             {
-                case LevelResOpCode.Collect:
+                case LevelResOpCode.Gather:
                     CollectS2C(sessionId, opData);
                     break;
-                case LevelResOpCode.Battle:
-                    BattleS2C(sessionId, opData);
+                case LevelResOpCode.Combat:
+                    CombatS2C(sessionId, opData);
                     break;
+
             }
         }
         void SYNResS2C(LevelTypeEnum levelType, int levelId, int roleId)
@@ -81,7 +107,9 @@ namespace AscensionServer
             opdata.SubOperationCode = (byte)LevelResOpCode.SYN;
             var messageData = messageDataPool.Spawn();
             var collectableJson = Utility.Json.ToJson(adventureLevelResEntity.CollectableDict);
+            var combatableJson = Utility.Json.ToJson(adventureLevelResEntity.CombatableDict);
             messageData.Add((byte)LevelResParameterCode.Collectable, collectableJson);
+            messageData.Add((byte)LevelResParameterCode.Combatable, combatableJson);
             opdata.DataMessage = Utility.Json.ToJson(messageData);
             GameEntry.RoleManager.SendMessage(roleId, opdata);
             opDataPool.Despawn(opdata);
@@ -96,9 +124,10 @@ namespace AscensionServer
             var messageDict = Utility.Json.ToObject<Dictionary<byte, object>>(json);
             var gid = Convert.ToInt32(Utility.GetValue(messageDict, (byte)LevelResParameterCode.GId));
             var eleid = Convert.ToInt32(Utility.GetValue(messageDict, (byte)LevelResParameterCode.EleId));
+            var index = Convert.ToInt32(Utility.GetValue(messageDict, (byte)LevelResParameterCode.Index));
             var opdata = opDataPool.Spawn();
-            opdata.SubOperationCode = (byte)LevelResOpCode.Collect;
-            if (adventureLevelResEntity.Collect(gid, eleid))
+            opdata.SubOperationCode = (byte)LevelResOpCode.Gather;
+            if (adventureLevelResEntity.Gather(index, gid, eleid))
             {
                 opdata.DataMessage = json;
                 opdata.ReturnCode = (byte)ReturnCode.Success;
@@ -107,16 +136,39 @@ namespace AscensionServer
             }
             else
             {
-                opdata.DataMessage = json; 
+                opdata.DataMessage = json;
                 opdata.ReturnCode = (byte)ReturnCode.Fail;
                 GameEntry.PeerManager.SendMessage(sessionId, opdata);
                 Utility.Debug.LogInfo($"采集失败");
             }
             opDataPool.Despawn(opdata);
         }
-        void BattleS2C(int sessionId, OperationData opData)
+        void CombatS2C(int sessionId, OperationData packet)
         {
-
+            var json = Convert.ToString(packet.DataMessage);
+            var messageDict = Utility.Json.ToObject<Dictionary<byte, object>>(json);
+            var gid = Convert.ToInt32(Utility.GetValue(messageDict, (byte)LevelResParameterCode.GId));
+            var eleid = Convert.ToInt32(Utility.GetValue(messageDict, (byte)LevelResParameterCode.EleId));
+            var index = Convert.ToInt32(Utility.GetValue(messageDict, (byte)LevelResParameterCode.Index));
+            var roleId = Convert.ToInt32(Utility.GetValue(messageDict, (byte)LevelResParameterCode.RoleId));
+            var opdata = opDataPool.Spawn();
+            opdata.SubOperationCode = (byte)LevelResOpCode.Combat;
+            if (adventureLevelResEntity.Combat(index, gid, eleid))
+            {
+                opdata.DataMessage = json;
+                opdata.ReturnCode = (byte)ReturnCode.Success;
+                adventureLevelResEntity.BroadCast2AllS2C(opdata);
+                Utility.Debug.LogInfo($"进入战斗 成功");
+                GameEntry.BattleRoomManager.CreateRoom(roleId, new List<int>() { gid });
+            }
+            else
+            {
+                opdata.DataMessage = json;
+                opdata.ReturnCode = (byte)ReturnCode.Fail;
+                GameEntry.PeerManager.SendMessage(sessionId, opdata);
+                Utility.Debug.LogWarning($"进入战斗 失败");
+            }
+            opDataPool.Despawn(opdata);
         }
     }
 }

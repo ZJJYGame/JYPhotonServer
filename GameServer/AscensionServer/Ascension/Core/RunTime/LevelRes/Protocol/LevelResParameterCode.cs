@@ -8,9 +8,12 @@ namespace AscensionServer
 {
     public enum LevelResParameterCode:byte
     {
-        None=0,
-        GId=1,
-        EleId=2,
-        Collectable=3
+        None = 0,
+        Index = 1,
+        GId = 2,
+        EleId = 3,
+        Collectable = 4,
+        Combatable = 5,
+        RoleId = 6
     }
 }

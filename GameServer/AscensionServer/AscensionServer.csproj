@@ -21,7 +21,9 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+
     <OutputPath>..\..\..\..\..\..\..\localproject\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -227,6 +229,8 @@
     <Compile Include="Ascension\Core\Base\HelperImplement\DataImpl\GateDataProvider.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\MessagePackHelper\ImplMessagePackHelper.cs" />
     <Compile Include="Ascension\Core\Base\HelperImplement\RecordHelper\RecordHelper.cs" />
+    <Compile Include="Ascension\Core\Base\Protocol\Model\Fix\FixCombatable.cs" />
+    <Compile Include="Ascension\Core\Base\Protocol\Model\Fix\FixResObject.cs" />
     <Compile Include="Ascension\Core\Base\RedisData\RedisData.ReidsDataProcessing.cs" />
     <Compile Include="Ascension\Core\Base\RedisKey\RedisKeyDefine.cs" />
     <Compile Include="Ascension\Core\Base\StatusCalculate\StatusCalculateHelper.cs" />
@@ -281,6 +285,7 @@
     <Compile Include="Ascension\Core\RunTime\GangsSchool\IGangsMananger.cs" />
     <Compile Include="Ascension\Core\RunTime\Inventory\IInventoryManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Inventory\InventoryManager.TempInv.cs" />
+    <Compile Include="Ascension\Core\RunTime\LevelRes\LevelResType.cs" />
     <Compile Include="Ascension\Core\RunTime\Level\ILevelManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Level\LevelOpCode.cs" />
     <Compile Include="Ascension\Core\RunTime\Level\LevelParameterCode.cs" />

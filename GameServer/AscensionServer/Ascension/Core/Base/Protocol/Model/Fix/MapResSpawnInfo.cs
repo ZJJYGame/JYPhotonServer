@@ -17,6 +17,7 @@ namespace AscensionServer
         public int ResAmount { get; set; }
         public FixVector3 ResSpawnPositon { get; set; }
         public int ResSpawnRange { get; set; }
+        public LevelResType ResType { get; set; }
     }
 }
 

@@ -10,8 +10,8 @@ namespace AscensionServer
     {
         None=0,
         SYN=1,
-        Collect=2,
-        Battle=3,
+        Gather=2,
+        Combat= 3,
         FIN=4
     }
 }
