@@ -16,7 +16,7 @@ namespace AscensionServer
         public HashSet<int> HasGetCmdRoleID { get; private set; } = new HashSet<int>();
         //战斗角色字典，key=>角色ID，value=>战斗角色实体对象
         public Dictionary<int, BattleCharacterEntity> battleCharacterEntityDict { get; private set; } = new Dictionary<int, BattleCharacterEntity>();
-
+        public int RoomId { get; private set; }
         public BattleController BattleController { get; private set; }
         //发送指令事件
         Action<OperationData> playerSendMsgEvent;
@@ -25,7 +25,18 @@ namespace AscensionServer
             add { playerSendMsgEvent += value; }
             remove { playerSendMsgEvent -= value; }
         }
-       // Action<int, GenericValuePair<int, bool>[]> 
+
+        /// <summary>
+        /// 胜利的阵营---玩家id
+        /// byte 1 表示阵营一
+        /// byte 2 表示阵营二
+        /// </summary>
+        public event Action<byte, int[]> OnBattleEnd
+        {
+            add { onBattleEnd += value; }
+            remove{ onBattleEnd -= value; }
+        }
+        Action<byte, int[]> onBattleEnd;
 
         public List<BattleTransferDTO> BattleTransferDTOList { get; set; } = new List<BattleTransferDTO>();
         public List<BattleBuffEventDTO> RoundStartBuffEvent { get; set; } = new List<BattleBuffEventDTO>();
@@ -35,6 +46,7 @@ namespace AscensionServer
         /// </summary>
         public void InitRoom(int roomId, BattleInitDTO battleInitDTO)
         {
+            RoomId = roomId;
             BattleController = CosmosEntry.ReferencePoolManager.Spawn<BattleController>();
             BattleController.InitController(this);
             //添加玩家
@@ -113,7 +125,10 @@ namespace AscensionServer
                 GameEntry.BattleRoomManager.TimeAction -= PerformWait;
                 //发送下一回合开始或战斗结束的消息
                 if (BattleController.BattleIsEnd())
+                {
+                    //onBattleEnd?.Invoke()
                     SendBattleEndMsgS2C();
+                }
                 else
                     SendNewRoundStartMsgS2C();
 
@@ -192,7 +207,7 @@ namespace AscensionServer
 
         public void Clear()
         {
-
+            RoomId = -1;
         }
     }
 }

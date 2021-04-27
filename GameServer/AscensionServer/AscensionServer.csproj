@@ -21,9 +21,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-
-    <OutputPath>..\..\..\..\..\..\..\localproject\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-
+    <OutputPath>F:\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -350,6 +348,7 @@
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleEnum.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleRoom\BattleRoomEntity.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleRoom\BattleRoomEntity.Message.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleRoom\BattleRoomEntityInfo.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleRoom\BattleRoomManager.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleRoom\IBattleRoomManager.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleSkill\BattleSkillBase.cs" />

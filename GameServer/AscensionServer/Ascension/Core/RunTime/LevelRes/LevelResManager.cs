@@ -46,7 +46,7 @@ namespace AscensionServer
                             var length = res.Value.ResAmount;
                             for (int i = 0; i < length; i++)
                             {
-                                var resObject = SpawnResObject(random, res.Value,i);
+                                var resObject = SpawnResObject(random, res.Value, i);
                                 fc.CollectableDict.Add(i, resObject);
                             }
                             adventureLevelResEntity.CollectableDict.Add(res.Key, fc);
@@ -60,7 +60,7 @@ namespace AscensionServer
                             var length = res.Value.ResAmount;
                             for (int i = 0; i < length; i++)
                             {
-                                var resObject = SpawnResObject(random, res.Value,i);
+                                var resObject = SpawnResObject(random, res.Value, i);
                                 fc.CombatableDict.Add(i, resObject);
                             }
                             adventureLevelResEntity.CombatableDict.Add(res.Key, fc);
@@ -69,7 +69,7 @@ namespace AscensionServer
                 }
             }
         }
-        FixResObject SpawnResObject(Random random, MapResSpawnInfo spawnInfo,int index)
+        FixResObject SpawnResObject(Random random, MapResSpawnInfo spawnInfo, int index)
         {
             var resObject = new FixResObject();
             resObject.Id = index;
@@ -92,7 +92,7 @@ namespace AscensionServer
             switch (subCode)
             {
                 case LevelResOpCode.Gather:
-                    CollectS2C(sessionId, opData);
+                    GatherS2C(sessionId, opData);
                     break;
                 case LevelResOpCode.Combat:
                     CombatS2C(sessionId, opData);
@@ -118,7 +118,7 @@ namespace AscensionServer
         {
             Utility.Debug.LogWarning("FINResS2C");
         }
-        void CollectS2C(int sessionId, OperationData packet)
+        void GatherS2C(int sessionId, OperationData packet)
         {
             var json = Convert.ToString(packet.DataMessage);
             var messageDict = Utility.Json.ToObject<Dictionary<byte, object>>(json);
@@ -153,13 +153,19 @@ namespace AscensionServer
             var roleId = Convert.ToInt32(Utility.GetValue(messageDict, (byte)LevelResParameterCode.RoleId));
             var opdata = opDataPool.Spawn();
             opdata.SubOperationCode = (byte)LevelResOpCode.Combat;
+
+            //opdata.DataMessage = "无法进入战斗，服务器战斗没写好！";
+            //GameEntry.PeerManager.SendMessage(sessionId, opdata);
+
             if (adventureLevelResEntity.Combat(index, gid, eleid))
             {
+                //进入pending状态；
                 opdata.DataMessage = json;
                 opdata.ReturnCode = (byte)ReturnCode.Success;
                 adventureLevelResEntity.BroadCast2AllS2C(opdata);
                 Utility.Debug.LogInfo($"进入战斗 成功");
-                GameEntry.BattleRoomManager.CreateRoom(roleId, new List<int>() { gid });
+                var info = GameEntry.BattleRoomManager.CreateRoom(roleId, new List<int>() { gid });
+
             }
             else
             {

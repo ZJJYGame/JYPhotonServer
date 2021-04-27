@@ -3198,6 +3198,21 @@
             index---combatable
             </summary>
         </member>
+        <member name="F:AscensionServer.LevelResEntity.pendingCombatableDict">
+            <summary>
+            index---combatable
+            </summary>
+        </member>
+        <member name="M:AscensionServer.LevelResEntity.Combat(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            表示进入战斗是否成功；
+            如果进入战斗成功，则这只怪会进入pending状态，其他玩家就无法再与之战斗；
+            </summary>
+            <param name="index">资源生成时的id</param>
+            <param name="gId">全局id</param>
+            <param name="eleId">元素id</param>
+            <returns>是否进入战斗成功</returns>
+        </member>
         <member name="P:AscensionServer.OperationData.OperationCode">
             <summary>
             主操作码；
@@ -3584,6 +3599,13 @@
             额外伤害的目标属性（血量，真元，神魂）
             </summary>
         </member>
+        <member name="E:AscensionServer.BattleRoomEntity.OnBattleEnd">
+            <summary>
+            胜利的阵营---玩家id
+            byte 1 表示阵营一
+            byte 2 表示阵营二
+            </summary>
+        </member>
         <member name="M:AscensionServer.BattleRoomEntity.InitRoom(System.Int32,AscensionProtocol.DTO.BattleInitDTO)">
             <summary>
             初始化房间
@@ -3639,6 +3661,16 @@
         <member name="M:AscensionServer.BattleRoomEntity.SendMessageToAllPlayerS2C(AscensionServer.OperationData)">
             <summary>
             发送数据给战斗房间中所有玩家
+            </summary>
+        </member>
+        <member name="P:AscensionServer.BattleRoomEntityInfo.RoomId">
+            <summary>
+            房间Id
+            </summary>
+        </member>
+        <member name="P:AscensionServer.BattleRoomEntityInfo.PlayerCount">
+            <summary>
+            玩家数量；
             </summary>
         </member>
         <member name="M:AscensionServer.BattleRoomManager.CreateRoom(AscensionProtocol.DTO.BattleInitDTO)">

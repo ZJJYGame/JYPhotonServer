@@ -19,6 +19,6 @@ namespace AscensionServer
         /// </summary>
         /// <param name="roleId">玩家id</param>
         /// <param name="enemyGlobalIds">敌人公共id集合</param>
-        void CreateRoom(int roleId, List<int> enemyGlobalIds);
+        BattleRoomEntityInfo CreateRoom(int roleId, List<int> enemyGlobalIds);
     }
 }

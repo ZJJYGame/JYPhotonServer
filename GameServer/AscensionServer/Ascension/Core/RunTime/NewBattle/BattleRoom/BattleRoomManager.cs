@@ -10,7 +10,7 @@ using AscensionProtocol.DTO;
 namespace AscensionServer
 {
     [Module]
-    public class BattleRoomManager:Module,IBattleRoomManager
+    public class BattleRoomManager : Module, IBattleRoomManager
     {
         #region 等待时间参数 
         public float PrepareWaitTime { get; } = 5;
@@ -57,32 +57,33 @@ namespace AscensionServer
         /// <summary>
         /// 创建房间
         /// </summary>
-        public void CreateRoom(BattleInitDTO battleInitDTO)
+        public BattleRoomEntityInfo CreateRoom(BattleInitDTO battleInitDTO)
         {
             BattleRoomEntity battleRoomEntity = CosmosEntry.ReferencePoolManager.Spawn<BattleRoomEntity>();
             int roomID = GetRoomId();
             battleRoomEntity.InitRoom(roomID, battleInitDTO);
             battleRoomDict.Add(roomID, battleRoomEntity);
+            return new BattleRoomEntityInfo(roomID,battleInitDTO.playerUnits.Count);
         }
         /// <summary>
         /// 创建战斗房间
         /// </summary>
         /// <param name="roleId">玩家id</param>
         /// <param name="enemyGlobalIds">敌人公共id集合</param>
-        public  void CreateRoom(int roleId,List<int> enemyGlobalIds)
+        public BattleRoomEntityInfo CreateRoom(int roleId, List<int> enemyGlobalIds)
         {
             BattleInitDTO battleInitDTO = new BattleInitDTO();
             battleInitDTO.playerUnits = new List<RoleBattleDataDTO>();
             battleInitDTO.playerUnits.Add(new RoleBattleDataDTO()
             {
-                RoleStatusDTO=new RoleStatusDTO() { RoleID=roleId}
+                RoleStatusDTO = new RoleStatusDTO() { RoleID = roleId }
             });
             battleInitDTO.enemyUnits = new List<EnemyBattleDataDTO>();
             for (int i = 0; i < enemyGlobalIds.Count; i++)
             {
                 battleInitDTO.enemyUnits.Add(new EnemyBattleDataDTO() { GlobalId = enemyGlobalIds[i] });
             }
-            CreateRoom(battleInitDTO);
+            return CreateRoom(battleInitDTO);
         }
         /// <summary>
         /// 销毁房间
@@ -101,7 +102,7 @@ namespace AscensionServer
         //告知对应房间角色准备完成
         void RoomRolePrepareOver(int roleID)
         {
-            int roomID= GameEntry.BattleCharacterManager.GetCharacterEntity(roleID).RoomID;
+            int roomID = GameEntry.BattleCharacterManager.GetCharacterEntity(roleID).RoomID;
             battleRoomDict[roomID].CharacterPrepare(roleID);
         }
         //告知对应房间角色表演完成
@@ -111,10 +112,10 @@ namespace AscensionServer
             battleRoomDict[roomID].CharacterPerformOver(roleID);
         }
         //获取人物的战斗指令
-        void GetRoleBattleCmd(int roleID,BattleCmd battleCmd,BattleTransferDTO battleTransferDTO)
+        void GetRoleBattleCmd(int roleID, BattleCmd battleCmd, BattleTransferDTO battleTransferDTO)
         {
             int roomID = GameEntry.BattleCharacterManager.GetCharacterEntity(roleID).RoomID;
-            battleRoomDict[roomID].GetCharacterCmd(roleID, battleCmd,battleTransferDTO);
+            battleRoomDict[roomID].GetCharacterCmd(roleID, battleCmd, battleTransferDTO);
         }
         /// <summary>
         /// 获取可使用的roomId
@@ -139,13 +140,13 @@ namespace AscensionServer
         /// <summary>
         /// 进入战斗的请求
         /// </summary>
-        void EnterBattleC2S(int sessionId,OperationData packet)
+        void EnterBattleC2S(int sessionId, OperationData packet)
         {
             //收到服务器的进入战斗请求
             var areaSubCode = (BattleCmd)packet.SubOperationCode;
             var dict = Utility.Json.ToObject<Dictionary<byte, object>>(Convert.ToString(packet.DataMessage));
             RoleDTO roleDTO = Utility.Json.ToObject<RoleDTO>(Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.Role)));
-            BattleTransferDTO battleTransferDTO= Utility.Json.ToObject<BattleTransferDTO>(Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleBattle)));
+            BattleTransferDTO battleTransferDTO = Utility.Json.ToObject<BattleTransferDTO>(Convert.ToString(Utility.GetValue(dict, (byte)ParameterCode.RoleBattle)));
             switch (areaSubCode)
             {
                 case BattleCmd.Init:

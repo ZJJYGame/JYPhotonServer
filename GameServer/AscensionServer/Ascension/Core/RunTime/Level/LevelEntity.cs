@@ -93,6 +93,7 @@ namespace AscensionServer
                 SendEntered2ExistsS2C(roleId, conn);
                 connDict.Add(roleId, conn);
                 RoleSendMsgHandler += conn.RoleEntity.SendMessage;
+                Available = true;
                 return true;
             }
             return false;
@@ -150,7 +151,7 @@ namespace AscensionServer
             }
             if (transportDataCache.Count > 0)
             {
-                inputSendOpData.DataMessage = Utility.Json .ToJson(transportDataCache);
+                inputSendOpData.DataMessage = Utility.Json.ToJson(transportDataCache);
                 roleSendMsgHandler?.Invoke(inputSendOpData);
             }
             currentTick++;
