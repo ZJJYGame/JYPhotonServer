@@ -25,9 +25,11 @@ namespace AscensionServer
             add { playerSendMsgEvent += value; }
             remove { playerSendMsgEvent -= value; }
         }
+       // Action<int, GenericValuePair<int, bool>[]> 
 
         public List<BattleTransferDTO> BattleTransferDTOList { get; set; } = new List<BattleTransferDTO>();
-
+        public List<BattleBuffEventDTO> RoundStartBuffEvent { get; set; } = new List<BattleBuffEventDTO>();
+        public List<BattleBuffEventDTO> RoundEndBuffEvent { get; set; } = new List<BattleBuffEventDTO>();
         /// <summary>
         /// 初始化房间
         /// </summary>

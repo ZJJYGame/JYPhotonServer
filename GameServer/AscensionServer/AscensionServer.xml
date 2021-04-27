@@ -3378,6 +3378,16 @@
             改变角色属性事件
             </summary>
         </member>
+        <member name="T:AscensionServer.BattleBuffEvent_DispelBuff">
+            <summary>
+            驱散buff事件
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleBuffEvent_ShareDamage">
+            <summary>
+            分担伤害buff事件
+            </summary>
+        </member>
         <member name="T:AscensionServer.BattleBuffEvent_Shield">
             <summary>
             护盾类型buff事件
@@ -3428,9 +3438,14 @@
             属性数据
             </summary>
         </member>
-        <member name="P:AscensionServer.BattleCharacterEntity.BattleDamageData">
+        <member name="P:AscensionServer.BattleCharacterEntity.TakeBattleDamageData">
             <summary>
-            造成或受到的伤害数据
+            造成的伤害数据
+            </summary>
+        </member>
+        <member name="P:AscensionServer.BattleCharacterEntity.ReceiveBattleDamageData">
+            <summary>
+            受到的伤害数据
             </summary>
         </member>
         <member name="M:AscensionServer.BattleCharacterEntity.SetFriendAndEnemy(System.Collections.Generic.List{AscensionServer.BattleCharacterEntity},System.Collections.Generic.List{AscensionServer.BattleCharacterEntity})">
@@ -3605,6 +3620,13 @@
             <summary>
             创建房间
             </summary>
+        </member>
+        <member name="M:AscensionServer.BattleRoomManager.CreateRoom(System.Int32,System.Collections.Generic.List{System.Int32})">
+            <summary>
+            创建战斗房间
+            </summary>
+            <param name="roleId">玩家id</param>
+            <param name="enemyGlobalIds">敌人公共id集合</param>
         </member>
         <member name="M:AscensionServer.BattleRoomManager.DestoryRoom">
             <summary>

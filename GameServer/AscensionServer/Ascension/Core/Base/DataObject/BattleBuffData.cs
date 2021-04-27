@@ -241,7 +241,7 @@ namespace AscensionServer
         public bool flag_2;
         public bool flag_3;
         public int id;
-
+        public BattleSkillAddBuffData battleSkillAddBuffData;
 
     }
 
@@ -264,7 +264,7 @@ namespace AscensionServer
         // [Tooltip("该次伤害减免")]
         DamageReduce,
         // [Tooltip("替他人承担伤害")]
-        TakeHurtForOther,
+        ShareDamage,
         // [Tooltip("施加buff")]
         AddBuff,
         // [Tooltip("驱散buff")]

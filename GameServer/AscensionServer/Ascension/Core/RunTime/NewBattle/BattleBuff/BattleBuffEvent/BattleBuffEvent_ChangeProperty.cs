@@ -123,7 +123,6 @@ namespace AscensionServer
         }
         protected override void RecoverEventMethod()
         {
-            Utility.Debug.LogError("changeValue" + changeValue);
             owner.BattleBuffController.BuffCharacterData.ChangeProperty(-changeValue, battleBuffEventType_RolePropertyChange);
             changeValue = 0;
         }

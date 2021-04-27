@@ -72,6 +72,7 @@ namespace AscensionServer
             //按角色出手顺序开始出手
             int allCount = AllCharacterEntities.Count;
             BattleCharacterEntity actCharacter;
+
             roundStartEvent?.Invoke(null,null,null);
 
             for (int i = 0; i < allCount; i++)
@@ -83,6 +84,8 @@ namespace AscensionServer
                 //开始计算角色行动
                 actCharacter.Action();
             }
+
+            roundEndEvent?.Invoke(null,null,null);
 
             roundFinishEvent?.Invoke();
 
@@ -115,7 +118,6 @@ namespace AscensionServer
                     battleCharacterEntities.Add(targetCharacterList[i]);
             }
             targetCharacterList = battleCharacterEntities;
-
             //开始随机目标
             List<int> AllIndexList = new List<int>();
             for (int i = 0; i < targetCharacterList.Count; i++)

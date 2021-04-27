@@ -18,6 +18,7 @@ namespace AscensionServer
         public float PerformWaitTime { get; } = 5;
         #endregion
 
+
         //倒计时相关事件，每帧刷新
         Action timeAction;
         public event Action TimeAction

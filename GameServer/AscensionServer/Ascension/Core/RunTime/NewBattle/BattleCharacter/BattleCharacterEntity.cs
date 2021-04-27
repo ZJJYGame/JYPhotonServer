@@ -45,9 +45,13 @@ namespace AscensionServer
         public BattleBuffController BattleBuffController { get; protected set; }
 
         /// <summary>
-        /// 造成或受到的伤害数据
+        /// 造成的伤害数据
         /// </summary>
-        public BattleDamageData BattleDamageData { get; set; }
+        public BattleDamageData TakeBattleDamageData { get; set; }
+        /// <summary>
+        /// 受到的伤害数据
+        /// </summary>
+        public BattleDamageData ReceiveBattleDamageData { get; set; }
 
         /// <summary>
         /// 设置该角色的敌方和友方

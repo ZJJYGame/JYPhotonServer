@@ -97,17 +97,22 @@ namespace AscensionServer
                         battleBuffEventBase = new BattleBuffEvent_UseDesignateSkill(battleBuffData.battleBuffEventDataList[i], this);
                         break;
                     case BattleBuffEventType.DamageOrHeal:
+                        battleBuffEventBase = new BattleBuffEvent_DamageOrHeal(battleBuffData.battleBuffEventDataList[i], this);
                         break;
                     case BattleBuffEventType.Shield:
                         battleBuffEventBase = new BattleBuffEvent_Shield(battleBuffData.battleBuffEventDataList[i], this);
                         break;
                     case BattleBuffEventType.DamageReduce:
+                        battleBuffEventBase = new BattleBuffEvent_DamageReduce(battleBuffData.battleBuffEventDataList[i], this);
                         break;
-                    case BattleBuffEventType.TakeHurtForOther:
+                    case BattleBuffEventType.ShareDamage:
+                        battleBuffEventBase = new BattleBuffEvent_ShareDamage(battleBuffData.battleBuffEventDataList[i], this);
                         break;
                     case BattleBuffEventType.AddBuff:
+                        battleBuffEventBase = new BattleBuffEvent_AddBuff(battleBuffData.battleBuffEventDataList[i], this);
                         break;
                     case BattleBuffEventType.DispelBuff:
+                        battleBuffEventBase = new BattleBuffEvent_DispelBuff(battleBuffData.battleBuffEventDataList[i], this);
                         break;
                     case BattleBuffEventType.NotResurgence:
                         break;
@@ -165,7 +170,6 @@ namespace AscensionServer
         //添加叠加层数
         public void AddOverlayLayer()
         {
-            Utility.Debug.LogError("叠加buff层数");
             OverlayLayer++;
             if (MaxOverlayLayer != -1)
                 OverlayLayer = OverlayLayer > MaxOverlayLayer ? MaxOverlayLayer : OverlayLayer;

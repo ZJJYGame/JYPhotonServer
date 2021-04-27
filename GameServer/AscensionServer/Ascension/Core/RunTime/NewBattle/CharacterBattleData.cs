@@ -162,6 +162,25 @@ namespace AscensionServer
             }
             return 0;
         }
+        public int GetProperty(BuffEvent_DamageOrHeal_SourceDataType buffEvent_DamageOrHeal_SourceDataType)
+        {
+            switch (buffEvent_DamageOrHeal_SourceDataType)
+            {
+                case BuffEvent_DamageOrHeal_SourceDataType.MaxHealth:
+                    return MaxHp;
+                case BuffEvent_DamageOrHeal_SourceDataType.MaxZhenYuan:
+                    return MaxMp;
+                case BuffEvent_DamageOrHeal_SourceDataType.MaxShenHun:
+                    return MaxSoul;
+                case BuffEvent_DamageOrHeal_SourceDataType.TakeDamageNum:
+                    //todo 根据伤害值获取暂定
+                    return 0;
+                case BuffEvent_DamageOrHeal_SourceDataType.ReceiveDamageNum:
+                    //todo 根据造成伤害值获取暂定
+                    return 0;
+            }
+            return 0;
+        }
 
         /// <summary>
         /// 获取基础对应属性
@@ -234,13 +253,33 @@ namespace AscensionServer
                     soul = soul < 0 ? 0 : soul;
                     soul = soul > MaxSoul ? MaxSoul : soul;
                     break;
+            }  
+        }
+        public void ChangeProperty(BuffEvent_DamageOrHeal_EffectTargetType buffEvent_DamageOrHeal_EffectTargetType,int damageNum)
+        {
+            switch (buffEvent_DamageOrHeal_EffectTargetType)
+            {
+                case BuffEvent_DamageOrHeal_EffectTargetType.Health:
+                    hp += damageNum;
+                    hp = hp < 0 ? 0 : hp;
+                    hp = hp > MaxHp ? MaxHp : hp;
+                    break;
+                case BuffEvent_DamageOrHeal_EffectTargetType.ShenHun:
+                    mp += damageNum;
+                    mp = mp < 0 ? 0 : mp;
+                    mp = mp > MaxMp ? MaxMp : mp;
+                    break;
+                case BuffEvent_DamageOrHeal_EffectTargetType.ZhenYuan:
+                    soul += damageNum;
+                    soul = soul < 0 ? 0 : soul;
+                    soul = soul > MaxSoul ? MaxSoul : soul;
+                    break;
             }
-           
         }
         public void ChangeProperty(BattleDamageData battleDamageData)
         {
             //触发伤害前buff事件（目前仅针对护盾）
-            owner.BattleBuffController.TriggerBuffEventBeforePropertyChange(battleDamageData:battleDamageData);
+            owner.BattleBuffController.TriggerBuffEventBeforePropertyChange(null,battleDamageData:battleDamageData);
 
             ChangeProperty(battleDamageData.baseDamageTargetProperty, battleDamageData.damageNum);
             ChangeProperty(battleDamageData.extraDamageTargetProperty, battleDamageData.extraDamageNum);

@@ -80,7 +80,7 @@
             "battleSkillAddBuffList": [ {
                     "buffId": 20311,
                     "round": 5,
-                    "TargetType": true,
+                    "TargetType": false,
                     "battleSkillAddBuffValueList":[{
 					"percentValue":0,
 					"fixedValue":0
