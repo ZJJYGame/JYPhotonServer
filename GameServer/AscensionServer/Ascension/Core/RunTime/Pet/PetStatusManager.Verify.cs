@@ -131,9 +131,9 @@ namespace AscensionServer
 
             VerifyPetPassivitySkill(skillList, out var petStatusDTOs);
 
-            ResetPetStatus(pet, petAptitude,out var petStatusAtitude);
+            //ResetPetStatus(pet, petAptitude,out var petStatusAtitude);
 
-            StatusAddition(petStatusAtitude, petStatusDTOs, petLevelDataDict[pet.PetLevel], out var petStatusTemp);
+            StatusAddition(petStatusObj, petStatusDTOs, petLevelDataDict[pet.PetLevel], out var petStatusTemp);
             return petStatusTemp;
         }
         /// <summary>
