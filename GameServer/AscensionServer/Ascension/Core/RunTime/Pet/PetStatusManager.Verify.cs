@@ -106,16 +106,19 @@ namespace AscensionServer
                     }
                 }
             }
-
             if (pet == null)
             {
                 var petexist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._PetPerfix, petid.ToString()).Result;
                 if (petexist)
                 {
                   var  petObj = RedisHelper.Hash.HashGetAsync<PetDTO>(RedisKeyDefine._PetPerfix, petid.ToString()).Result;
-                    if (pet == null)
+                    if (petObj == null)
                     {
                         pet = new Pet();
+                    }
+                    else
+                    {
+                        pet= ChangeDataType(petObj);
                     }
                 }
             }
@@ -123,9 +126,13 @@ namespace AscensionServer
 
             GameEntry. DataManager.TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
             var petStatusObj=  VerifyPetAbilityAddition(petAbilityPoint, petStatus, petAptitude);
+
             var skillList = Utility.Json.ToObject<List<int>>(pet.PetSkillArray);
+
             VerifyPetPassivitySkill(skillList, out var petStatusDTOs);
+
             ResetPetStatus(pet, petAptitude,out var petStatusAtitude);
+
             StatusAddition(petStatusAtitude, petStatusDTOs, petLevelDataDict[pet.PetLevel], out var petStatusTemp);
             return petStatusTemp;
         }
@@ -247,24 +254,24 @@ namespace AscensionServer
         public void StatusAddition(PetStatus petStatus, List<PetStatusDTO> petAbilityStatus, PetLevelData petLevelData, out PetStatusDTO petStatusTemp)
         {
             petStatusTemp= CosmosEntry.ReferencePoolManager.Spawn<PetStatusDTO>();
-            petStatusTemp.AttackPhysical =(petStatus.AttackPhysical ) + (petLevelData.AttackPhysical * petAbilityStatus[0].AttackPhysical / 100) + petAbilityStatus[1].AttackPhysical;
-            petStatusTemp.AttackPower = (petStatus.AttackPower) + (petLevelData.AttackPower * petAbilityStatus[0].AttackPower / 100) + petAbilityStatus[1].AttackPower;
-            petStatusTemp.AttackSpeed =  (petStatus.AttackSpeed ) + (petLevelData.AttackSpeed * petAbilityStatus[0].AttackSpeed / 100) + petAbilityStatus[1].AttackSpeed;
-            petStatusTemp.DefendPhysical = (petStatus.DefendPhysical ) + (petLevelData.DefendPhysical * petAbilityStatus[0].DefendPhysical / 100) + petAbilityStatus[1].DefendPhysical;
-            petStatusTemp.DefendPower = (petStatus.DefendPower ) + (petLevelData.DefendPower * petAbilityStatus[0].DefendPower / 100) + petAbilityStatus[1].DefendPower;
-            petStatusTemp.ExpLevelUp =  (petStatus.ExpLevelUp ) + (petLevelData.ExpLevelUp * petAbilityStatus[0].ExpLevelUp / 100) + petAbilityStatus[1].ExpLevelUp;
-            petStatusTemp.MagicCritDamage =  (petStatus.MagicCritDamage ) + (petLevelData.MagicCritDamage * petAbilityStatus[0].MagicCritDamage / 100) + petAbilityStatus[1].MagicCritDamage;
-            petStatusTemp.MagicCritProb = (petStatus.MagicCritProb ) + (petLevelData.MagicCritProb * petAbilityStatus[0].MagicCritProb / 100) + petAbilityStatus[1].MagicCritProb;
-            petStatusTemp.PetMaxHP = (petStatus.PetHP ) + (petLevelData.PetHP * petAbilityStatus[0].PetHP / 100) + petAbilityStatus[1].PetHP;
+            petStatusTemp.AttackPhysical =(petStatus.AttackPhysical ) + (petLevelData.AttackPhysical * (petAbilityStatus[0].AttackPhysical + 100) / 100) + petAbilityStatus[1].AttackPhysical;
+            petStatusTemp.AttackPower = (petStatus.AttackPower) + (petLevelData.AttackPower * (petAbilityStatus[0].AttackPower + 100) / 100) + petAbilityStatus[1].AttackPower;
+            petStatusTemp.AttackSpeed =  (petStatus.AttackSpeed ) + (petLevelData.AttackSpeed * (petAbilityStatus[0].AttackSpeed + 100) / 100) + petAbilityStatus[1].AttackSpeed;
+            petStatusTemp.DefendPhysical = (petStatus.DefendPhysical ) + (petLevelData.DefendPhysical * (petAbilityStatus[0].DefendPhysical + 100) / 100) + petAbilityStatus[1].DefendPhysical;
+            petStatusTemp.DefendPower = (petStatus.DefendPower ) + (petLevelData.DefendPower * (petAbilityStatus[0].DefendPower + 100) / 100) + petAbilityStatus[1].DefendPower;
+            petStatusTemp.ExpLevelUp =  (petStatus.ExpLevelUp ) + (petLevelData.ExpLevelUp * (petAbilityStatus[0].ExpLevelUp + 100) / 100) + petAbilityStatus[1].ExpLevelUp;
+            petStatusTemp.MagicCritDamage =  (petStatus.MagicCritDamage ) + (petLevelData.MagicCritDamage * (petAbilityStatus[0].MagicCritDamage + 100) / 100) + petAbilityStatus[1].MagicCritDamage;
+            petStatusTemp.MagicCritProb = (petStatus.MagicCritProb ) + (petLevelData.MagicCritProb * (petAbilityStatus[0].MagicCritProb + 100) / 100) + petAbilityStatus[1].MagicCritProb;
+            petStatusTemp.PetMaxHP = (petStatus.PetHP ) + (petLevelData.PetHP * (petAbilityStatus[0].PetHP + 100) / 100) + petAbilityStatus[1].PetHP;
             petStatusTemp.PetHP = petStatusTemp.PetMaxHP;
-            petStatusTemp.PetMaxMP =  (petStatus.PetMP) + (petLevelData.PetMP * petAbilityStatus[0].PetMP / 100) + petAbilityStatus[1].PetMP;
+            petStatusTemp.PetMaxMP =  (petStatus.PetMP) + (petLevelData.PetMP * (petAbilityStatus[0].PetMP + 100) / 100) + petAbilityStatus[1].PetMP;
             petStatusTemp.PetMP = petStatusTemp.PetMaxMP;
-            petStatusTemp.PetMaxShenhun = (petStatus.PetShenhun )+ (int)(petLevelData. Petsoul* petAbilityStatus[0].PetShenhun / 100) + petAbilityStatus[1].PetShenhun;
+            petStatusTemp.PetMaxShenhun = (petStatus.PetShenhun )+ (int)(petLevelData. Petsoul* (petAbilityStatus[0].PetShenhun + 100) / 100) + petAbilityStatus[1].PetShenhun;
             petStatusTemp.PetShenhun = petStatusTemp.PetMaxShenhun;
-            petStatusTemp.PhysicalCritDamage =  (petStatus.PhysicalCritDamage ) + (petLevelData.PhysicalCritDamage * petAbilityStatus[0].PhysicalCritDamage / 100) + petAbilityStatus[1].PhysicalCritDamage;
-            petStatusTemp.PhysicalCritProb = (petStatus.PhysicalCritProb) + (petLevelData.PhysicalCritProb * petAbilityStatus[0].PhysicalCritProb / 100) + petAbilityStatus[1].PhysicalCritProb;
-            petStatusTemp.ReduceCritDamage = (petStatus.ReduceCritDamage ) + (petLevelData.ReduceCritDamage * petAbilityStatus[0].ReduceCritDamage / 100) + petAbilityStatus[1].ReduceCritDamage;
-            petStatusTemp.ReduceCritProb =  (petStatus.ReduceCritProb ) + (petLevelData.ReduceCritProb * petAbilityStatus[0].ReduceCritProb / 100) + petAbilityStatus[1].ReduceCritProb;
+            petStatusTemp.PhysicalCritDamage =  (petStatus.PhysicalCritDamage ) + (petLevelData.PhysicalCritDamage * (petAbilityStatus[0].PhysicalCritDamage + 100) / 100) + petAbilityStatus[1].PhysicalCritDamage;
+            petStatusTemp.PhysicalCritProb = (petStatus.PhysicalCritProb) + (petLevelData.PhysicalCritProb * (petAbilityStatus[0].PhysicalCritProb + 100) / 100) + petAbilityStatus[1].PhysicalCritProb;
+            petStatusTemp.ReduceCritDamage = (petStatus.ReduceCritDamage ) + (petLevelData.ReduceCritDamage * (petAbilityStatus[0].ReduceCritDamage + 100) / 100) + petAbilityStatus[1].ReduceCritDamage;
+            petStatusTemp.ReduceCritProb =  (petStatus.ReduceCritProb ) + (petLevelData.ReduceCritProb * (petAbilityStatus[0].ReduceCritProb + 100) / 100) + petAbilityStatus[1].ReduceCritProb;
         }
 
         /// <summary>
@@ -312,6 +319,31 @@ namespace AscensionServer
             return pointDTO;
         }
 
+        Pet ChangeDataType(PetDTO petDTO)
+        {
+            Pet pet = new Pet();
+            pet.ID = petDTO.ID;
+            pet.PetExp = petDTO.PetExp;
+            pet.PetID = petDTO.PetID;
+            pet.PetLevel = petDTO.PetLevel;
+            pet.PetName = petDTO.PetName;
+            pet.PetSkillArray = Utility.Json.ToJson(petDTO.PetSkillArray);
+            pet.DemonicSoul = Utility.Json.ToJson(petDTO.DemonicSoul);
+            return pet;
+        }
+
+        PetDTO ChangeDataType(Pet pet)
+        {
+            PetDTO petDTO = new PetDTO();
+            petDTO.ID = pet.ID;
+            petDTO.PetExp = pet.PetExp;
+            petDTO.PetID = pet.PetID;
+            petDTO.PetLevel = pet.PetLevel;
+            petDTO.PetName = pet.PetName;
+            petDTO.PetSkillArray = Utility.Json.ToObject<List<int>>(pet.PetSkillArray);
+            petDTO.DemonicSoul = Utility.Json.ToObject<Dictionary<int, List<int>>>(pet.DemonicSoul);
+            return petDTO;
+        }
 
         #region 技能处理
         /// <summary>

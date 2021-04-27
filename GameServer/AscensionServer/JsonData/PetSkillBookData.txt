@@ -1,68 +1,586 @@
 ﻿[
-{"PetSkillBookID":13601,"PetSkillID":24001},
-{"PetSkillBookID":13602,"PetSkillID":24002},
-{"PetSkillBookID":13603,"PetSkillID":24003},
-{"PetSkillBookID":13604,"PetSkillID":24004},
-{"PetSkillBookID":13605,"PetSkillID":24005},
-{"PetSkillBookID":13606,"PetSkillID":24006},
-{"PetSkillBookID":13607,"PetSkillID":24007},
-{"PetSkillBookID":13608,"PetSkillID":24008},
-{"PetSkillBookID":13609,"PetSkillID":24009},
-{"PetSkillBookID":13610,"PetSkillID":24010},
-{"PetSkillBookID":13611,"PetSkillID":24011},
-{"PetSkillBookID":13612,"PetSkillID":24012},
-{"PetSkillBookID":13613,"PetSkillID":24013},
-{"PetSkillBookID":13614,"PetSkillID":24014},
-{"PetSkillBookID":13615,"PetSkillID":24015},
-{"PetSkillBookID":13616,"PetSkillID":24016},
-{"PetSkillBookID":13617,"PetSkillID":24017},
-{"PetSkillBookID":13618,"PetSkillID":24018},
-{"PetSkillBookID":13619,"PetSkillID":24019},
-{"PetSkillBookID":13620,"PetSkillID":24020},
-{"PetSkillBookID":13621,"PetSkillID":24101},
-{"PetSkillBookID":13622,"PetSkillID":24102},
-{"PetSkillBookID":13623,"PetSkillID":24103},
-{"PetSkillBookID":13624,"PetSkillID":24104},
-{"PetSkillBookID":13625,"PetSkillID":24105},
-{"PetSkillBookID":13626,"PetSkillID":24106},
-{"PetSkillBookID":13627,"PetSkillID":24107},
-{"PetSkillBookID":13628,"PetSkillID":24108},
-{"PetSkillBookID":13629,"PetSkillID":24109},
-{"PetSkillBookID":13630,"PetSkillID":24110},
-{"PetSkillBookID":13631,"PetSkillID":24111},
-{"PetSkillBookID":13632,"PetSkillID":24112},
-{"PetSkillBookID":13633,"PetSkillID":24113},
-{"PetSkillBookID":13634,"PetSkillID":24114},
-{"PetSkillBookID":13635,"PetSkillID":24115},
-{"PetSkillBookID":13636,"PetSkillID":24116},
-{"PetSkillBookID":13637,"PetSkillID":24117},
-{"PetSkillBookID":13638,"PetSkillID":24118},
-{"PetSkillBookID":13639,"PetSkillID":24119},
-{"PetSkillBookID":13640,"PetSkillID":24120},
-{"PetSkillBookID":13641,"PetSkillID":24121},
-{"PetSkillBookID":13642,"PetSkillID":24122},
-{"PetSkillBookID":13643,"PetSkillID":24127},
-{"PetSkillBookID":13644,"PetSkillID":24128},
-{"PetSkillBookID":13645,"PetSkillID":24129},
-{"PetSkillBookID":13646,"PetSkillID":24130},
-{"PetSkillBookID":13647,"PetSkillID":24131},
-{"PetSkillBookID":13648,"PetSkillID":24132},
-{"PetSkillBookID":13649,"PetSkillID":24133},
-{"PetSkillBookID":13650,"PetSkillID":24134},
-{"PetSkillBookID":13651,"PetSkillID":24135},
-{"PetSkillBookID":13652,"PetSkillID":24136},
-{"PetSkillBookID":13653,"PetSkillID":24137},
-{"PetSkillBookID":13654,"PetSkillID":24138},
-{"PetSkillBookID":13655,"PetSkillID":24139},
-{"PetSkillBookID":13656,"PetSkillID":24140},
-{"PetSkillBookID":13657,"PetSkillID":24141},
-{"PetSkillBookID":13658,"PetSkillID":24142},
-{"PetSkillBookID":13659,"PetSkillID":24143},
-{"PetSkillBookID":13660,"PetSkillID":24144},
-{"PetSkillBookID":13661,"PetSkillID":24145},
-{"PetSkillBookID":13662,"PetSkillID":24146},
-{"PetSkillBookID":13663,"PetSkillID":24147},
-{"PetSkillBookID":13664,"PetSkillID":24148},
-{"PetSkillBookID":13665,"PetSkillID":24149},
-{"PetSkillBookID":13666,"PetSkillID":24150}
+	{
+		"PetSkillBookID":13701,
+		"PetSkillID":24002
+	},
+	{
+		"PetSkillBookID":13702,
+		"PetSkillID":24003
+	},
+	{
+		"PetSkillBookID":13703,
+		"PetSkillID":24004
+	},
+	{
+		"PetSkillBookID":13704,
+		"PetSkillID":24005
+	},
+	{
+		"PetSkillBookID":13705,
+		"PetSkillID":24006
+	},
+	{
+		"PetSkillBookID":13706,
+		"PetSkillID":24007
+	},
+	{
+		"PetSkillBookID":13707,
+		"PetSkillID":24008
+	},
+	{
+		"PetSkillBookID":13708,
+		"PetSkillID":24009
+	},
+	{
+		"PetSkillBookID":13709,
+		"PetSkillID":24010
+	},
+	{
+		"PetSkillBookID":13710,
+		"PetSkillID":24011
+	},
+	{
+		"PetSkillBookID":13711,
+		"PetSkillID":24012
+	},
+	{
+		"PetSkillBookID":13712,
+		"PetSkillID":24013
+	},
+	{
+		"PetSkillBookID":13713,
+		"PetSkillID":24014
+	},
+	{
+		"PetSkillBookID":13714,
+		"PetSkillID":24015
+	},
+	{
+		"PetSkillBookID":13715,
+		"PetSkillID":24016
+	},
+	{
+		"PetSkillBookID":13716,
+		"PetSkillID":24017
+	},
+	{
+		"PetSkillBookID":13717,
+		"PetSkillID":24018
+	},
+	{
+		"PetSkillBookID":13718,
+		"PetSkillID":24019
+	},
+	{
+		"PetSkillBookID":13719,
+		"PetSkillID":24020
+	},
+	{
+		"PetSkillBookID":13720,
+		"PetSkillID":24101
+	},
+	{
+		"PetSkillBookID":13721,
+		"PetSkillID":24102
+	},
+	{
+		"PetSkillBookID":13722,
+		"PetSkillID":24103
+	},
+	{
+		"PetSkillBookID":13723,
+		"PetSkillID":24104
+	},
+	{
+		"PetSkillBookID":13724,
+		"PetSkillID":24105
+	},
+	{
+		"PetSkillBookID":13725,
+		"PetSkillID":24106
+	},
+	{
+		"PetSkillBookID":13726,
+		"PetSkillID":24107
+	},
+	{
+		"PetSkillBookID":13727,
+		"PetSkillID":24108
+	},
+	{
+		"PetSkillBookID":13728,
+		"PetSkillID":24109
+	},
+	{
+		"PetSkillBookID":13729,
+		"PetSkillID":24110
+	},
+	{
+		"PetSkillBookID":13730,
+		"PetSkillID":24111
+	},
+	{
+		"PetSkillBookID":13731,
+		"PetSkillID":24112
+	},
+	{
+		"PetSkillBookID":13732,
+		"PetSkillID":24113
+	},
+	{
+		"PetSkillBookID":13733,
+		"PetSkillID":24114
+	},
+	{
+		"PetSkillBookID":13734,
+		"PetSkillID":24115
+	},
+	{
+		"PetSkillBookID":13735,
+		"PetSkillID":24116
+	},
+	{
+		"PetSkillBookID":13736,
+		"PetSkillID":24117
+	},
+	{
+		"PetSkillBookID":13737,
+		"PetSkillID":24118
+	},
+	{
+		"PetSkillBookID":13738,
+		"PetSkillID":24119
+	},
+	{
+		"PetSkillBookID":13739,
+		"PetSkillID":24120
+	},
+	{
+		"PetSkillBookID":13740,
+		"PetSkillID":24121
+	},
+	{
+		"PetSkillBookID":13741,
+		"PetSkillID":24122
+	},
+	{
+		"PetSkillBookID":13742,
+		"PetSkillID":24123
+	},
+	{
+		"PetSkillBookID":13743,
+		"PetSkillID":24124
+	},
+	{
+		"PetSkillBookID":13744,
+		"PetSkillID":24125
+	},
+	{
+		"PetSkillBookID":13745,
+		"PetSkillID":24126
+	},
+	{
+		"PetSkillBookID":13746,
+		"PetSkillID":24127
+	},
+	{
+		"PetSkillBookID":13747,
+		"PetSkillID":24128
+	},
+	{
+		"PetSkillBookID":13748,
+		"PetSkillID":24129
+	},
+	{
+		"PetSkillBookID":13749,
+		"PetSkillID":24130
+	},
+	{
+		"PetSkillBookID":13750,
+		"PetSkillID":24131
+	},
+	{
+		"PetSkillBookID":13751,
+		"PetSkillID":24132
+	},
+	{
+		"PetSkillBookID":13752,
+		"PetSkillID":24133
+	},
+	{
+		"PetSkillBookID":13753,
+		"PetSkillID":24134
+	},
+	{
+		"PetSkillBookID":13754,
+		"PetSkillID":24135
+	},
+	{
+		"PetSkillBookID":13755,
+		"PetSkillID":24136
+	},
+	{
+		"PetSkillBookID":13756,
+		"PetSkillID":24137
+	},
+	{
+		"PetSkillBookID":13757,
+		"PetSkillID":24138
+	},
+	{
+		"PetSkillBookID":13758,
+		"PetSkillID":24139
+	},
+	{
+		"PetSkillBookID":13759,
+		"PetSkillID":24140
+	},
+	{
+		"PetSkillBookID":13760,
+		"PetSkillID":24141
+	},
+	{
+		"PetSkillBookID":13761,
+		"PetSkillID":24142
+	},
+	{
+		"PetSkillBookID":13762,
+		"PetSkillID":24143
+	},
+	{
+		"PetSkillBookID":13763,
+		"PetSkillID":24144
+	},
+	{
+		"PetSkillBookID":13764,
+		"PetSkillID":24145
+	},
+	{
+		"PetSkillBookID":13765,
+		"PetSkillID":24146
+	},
+	{
+		"PetSkillBookID":13766,
+		"PetSkillID":24147
+	},
+	{
+		"PetSkillBookID":13767,
+		"PetSkillID":24148
+	},
+	{
+		"PetSkillBookID":13768,
+		"PetSkillID":24149
+	},
+	{
+		"PetSkillBookID":13769,
+		"PetSkillID":24150
+	},
+	{
+		"PetSkillBookID":13770,
+		"PetSkillID":24151
+	},
+	{
+		"PetSkillBookID":13771,
+		"PetSkillID":24152
+	},
+	{
+		"PetSkillBookID":13772,
+		"PetSkillID":24153
+	},
+	{
+		"PetSkillBookID":13773,
+		"PetSkillID":24154
+	},
+	{
+		"PetSkillBookID":13774,
+		"PetSkillID":24155
+	},
+	{
+		"PetSkillBookID":13775,
+		"PetSkillID":24156
+	},
+	{
+		"PetSkillBookID":13776,
+		"PetSkillID":24157
+	},
+	{
+		"PetSkillBookID":13777,
+		"PetSkillID":24158
+	},
+	{
+		"PetSkillBookID":13778,
+		"PetSkillID":24159
+	},
+	{
+		"PetSkillBookID":13779,
+		"PetSkillID":24160
+	},
+	{
+		"PetSkillBookID":13780,
+		"PetSkillID":24161
+	},
+	{
+		"PetSkillBookID":13781,
+		"PetSkillID":24162
+	},
+	{
+		"PetSkillBookID":13782,
+		"PetSkillID":24163
+	},
+	{
+		"PetSkillBookID":13783,
+		"PetSkillID":24164
+	},
+	{
+		"PetSkillBookID":13784,
+		"PetSkillID":24165
+	},
+	{
+		"PetSkillBookID":13785,
+		"PetSkillID":24166
+	},
+	{
+		"PetSkillBookID":13786,
+		"PetSkillID":24167
+	},
+	{
+		"PetSkillBookID":13787,
+		"PetSkillID":24168
+	},
+	{
+		"PetSkillBookID":13788,
+		"PetSkillID":24169
+	},
+	{
+		"PetSkillBookID":13789,
+		"PetSkillID":24170
+	},
+	{
+		"PetSkillBookID":13790,
+		"PetSkillID":24171
+	},
+	{
+		"PetSkillBookID":13791,
+		"PetSkillID":24172
+	},
+	{
+		"PetSkillBookID":13792,
+		"PetSkillID":24173
+	},
+	{
+		"PetSkillBookID":13793,
+		"PetSkillID":24174
+	},
+	{
+		"PetSkillBookID":13794,
+		"PetSkillID":24175
+	},
+	{
+		"PetSkillBookID":13795,
+		"PetSkillID":24176
+	},
+	{
+		"PetSkillBookID":13796,
+		"PetSkillID":24177
+	},
+	{
+		"PetSkillBookID":13797,
+		"PetSkillID":24178
+	},
+	{
+		"PetSkillBookID":13798,
+		"PetSkillID":24179
+	},
+	{
+		"PetSkillBookID":13799,
+		"PetSkillID":24180
+	},
+	{
+		"PetSkillBookID":13800,
+		"PetSkillID":24181
+	},
+	{
+		"PetSkillBookID":13801,
+		"PetSkillID":24182
+	},
+	{
+		"PetSkillBookID":13802,
+		"PetSkillID":24183
+	},
+	{
+		"PetSkillBookID":13803,
+		"PetSkillID":24184
+	},
+	{
+		"PetSkillBookID":13804,
+		"PetSkillID":24185
+	},
+	{
+		"PetSkillBookID":13805,
+		"PetSkillID":24186
+	},
+	{
+		"PetSkillBookID":13806,
+		"PetSkillID":24187
+	},
+	{
+		"PetSkillBookID":13807,
+		"PetSkillID":24188
+	},
+	{
+		"PetSkillBookID":13808,
+		"PetSkillID":24189
+	},
+	{
+		"PetSkillBookID":13809,
+		"PetSkillID":24190
+	},
+	{
+		"PetSkillBookID":13810,
+		"PetSkillID":24191
+	},
+	{
+		"PetSkillBookID":13811,
+		"PetSkillID":24192
+	},
+	{
+		"PetSkillBookID":13812,
+		"PetSkillID":24193
+	},
+	{
+		"PetSkillBookID":13813,
+		"PetSkillID":24194
+	},
+	{
+		"PetSkillBookID":13814,
+		"PetSkillID":24195
+	},
+	{
+		"PetSkillBookID":13815,
+		"PetSkillID":24196
+	},
+	{
+		"PetSkillBookID":13816,
+		"PetSkillID":24197
+	},
+	{
+		"PetSkillBookID":13817,
+		"PetSkillID":24198
+	},
+	{
+		"PetSkillBookID":13818,
+		"PetSkillID":24199
+	},
+	{
+		"PetSkillBookID":13819,
+		"PetSkillID":24200
+	},
+	{
+		"PetSkillBookID":13820,
+		"PetSkillID":24201
+	},
+	{
+		"PetSkillBookID":13821,
+		"PetSkillID":24202
+	},
+	{
+		"PetSkillBookID":13822,
+		"PetSkillID":24203
+	},
+	{
+		"PetSkillBookID":13823,
+		"PetSkillID":24204
+	},
+	{
+		"PetSkillBookID":13824,
+		"PetSkillID":24205
+	},
+	{
+		"PetSkillBookID":13825,
+		"PetSkillID":24206
+	},
+	{
+		"PetSkillBookID":13826,
+		"PetSkillID":24207
+	},
+	{
+		"PetSkillBookID":13827,
+		"PetSkillID":24208
+	},
+	{
+		"PetSkillBookID":13828,
+		"PetSkillID":24209
+	},
+	{
+		"PetSkillBookID":13829,
+		"PetSkillID":24210
+	},
+	{
+		"PetSkillBookID":13830,
+		"PetSkillID":24211
+	},
+	{
+		"PetSkillBookID":13831,
+		"PetSkillID":24212
+	},
+	{
+		"PetSkillBookID":13832,
+		"PetSkillID":24213
+	},
+	{
+		"PetSkillBookID":13833,
+		"PetSkillID":24214
+	},
+	{
+		"PetSkillBookID":13834,
+		"PetSkillID":24215
+	},
+	{
+		"PetSkillBookID":13835,
+		"PetSkillID":24216
+	},
+	{
+		"PetSkillBookID":13836,
+		"PetSkillID":24217
+	},
+	{
+		"PetSkillBookID":13837,
+		"PetSkillID":24218
+	},
+	{
+		"PetSkillBookID":13838,
+		"PetSkillID":24219
+	},
+	{
+		"PetSkillBookID":13839,
+		"PetSkillID":24220
+	},
+	{
+		"PetSkillBookID":13840,
+		"PetSkillID":24221
+	},
+	{
+		"PetSkillBookID":13841,
+		"PetSkillID":24222
+	},
+	{
+		"PetSkillBookID":13842,
+		"PetSkillID":24223
+	},
+	{
+		"PetSkillBookID":13843,
+		"PetSkillID":24224
+	},
+	{
+		"PetSkillBookID":13844,
+		"PetSkillID":24225
+	},
+	{
+		"PetSkillBookID":13845,
+		"PetSkillID":24226
+	},
+	{
+		"PetSkillBookID":13846,
+		"PetSkillID":24227
+	}
 ]

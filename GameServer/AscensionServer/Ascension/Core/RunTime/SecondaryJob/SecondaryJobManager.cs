@@ -133,6 +133,18 @@ namespace AscensionServer
                      role = Utility.Json.ToObject<RoleDTO>(packet.DataMessage.ToString());
                     GetPuppetUnitS2C(role.RoleID);
                     break;
+                case SecondaryJobOpCode.AddDemonicSoul:
+                    var demonicDoul = Utility.Json.ToObject<DemonicSoulDTO>(packet.DataMessage.ToString()); 
+                    AddDemonical(demonicDoul.RoleID, demonicDoul.CompoundList[0]);
+                    break;
+                case SecondaryJobOpCode.CompoundDemonicSoul:
+                    demonicDoul = Utility.Json.ToObject<DemonicSoulDTO>(packet.DataMessage.ToString());
+                    CompoundDemonical(demonicDoul.CompoundList, demonicDoul.RoleID);
+                    break;
+                case SecondaryJobOpCode.GetDemonicSoul:
+                    demonicDoul = Utility.Json.ToObject<DemonicSoulDTO>(packet.DataMessage.ToString());
+                    GetDemonicSoul(demonicDoul.RoleID);
+                    break;
                 default:
                     break;
             }

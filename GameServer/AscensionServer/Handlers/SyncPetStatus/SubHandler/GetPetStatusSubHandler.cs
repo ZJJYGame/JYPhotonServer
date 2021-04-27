@@ -31,25 +31,25 @@ namespace AscensionServer
                 case PetCompleteDTO.PetOperationalOrder.PetResetAbilitySln:
                     var pointObj= NHibernateQuerier.CriteriaSelect<PetAbilityPoint>(nHCriteriapetStatus);
                     Utility.Debug.LogInfo("yzqData变更宠物加点" + petCompleteJson);
-                    GameEntry.PetStatusManager.UpdataPetAbilityPoint( pointObj, petCompleteObj, nHCriteriarole);
+                  //  GameEntry.PetStatusManager.UpdataPetAbilityPoint( pointObj, petCompleteObj, nHCriteriarole);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetResetStatus:
-                    GameEntry.PetStatusManager.PetStatusRestoreDefault(petCompleteObj.UseItemID, petCompleteObj.RoleID, petCompleteObj,petObj, nHCriteriarole);
+                    //GameEntry.PetStatusManager.PetStatusRestoreDefault(petCompleteObj.UseItemID, petCompleteObj.RoleID, petCompleteObj,petObj, nHCriteriarole);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetEvolution:
-                    GameEntry.PetStatusManager.PetEvolution(petCompleteObj, petObj, petCompleteObj.UseItemID, nHCriteriarole);
+                    //GameEntry.PetStatusManager.PetEvolution(petCompleteObj, petObj, petCompleteObj.UseItemID, nHCriteriarole);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.DemonicSoul:
                     Utility.Debug.LogInfo("yzqData宠物改名字" + petCompleteJson);
-                    GameEntry.PetStatusManager.DemonicSoulHandler(petCompleteObj,petObj, nHCriteriarole);
+                    //GameEntry.PetStatusManager.DemonicSoulHandler(petCompleteObj,petObj, nHCriteriarole);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetStudtSkill:
                     Utility.Debug.LogInfo("yzqData学习技能" + petCompleteJson);
-                    GameEntry.PetStatusManager.PetStudySkill(petCompleteObj.UseItemID,nHCriteriarole, petObj, petCompleteObj);
+                    //GameEntry.PetStatusManager.PetStudySkill(petCompleteObj.UseItemID,nHCriteriarole, petObj, petCompleteObj);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetCultivate:
                     Utility.Debug.LogInfo("yzqData使用加经验丹药");
-                    GameEntry.PetStatusManager.PetCultivate(petCompleteObj.UseItemID, nHCriteriarole, petObj, petCompleteObj);
+                    //GameEntry.PetStatusManager.PetCultivate(petCompleteObj.UseItemID, nHCriteriarole, petObj, petCompleteObj);
                     break;
                 case PetCompleteDTO.PetOperationalOrder.PetGetStatus:
                     Utility.Debug.LogInfo("yzqData获得宠物数据" );

@@ -24,7 +24,7 @@ namespace AscensionServer
         /// <param name="petID"></param>
         /// <param name="petName"></param>
         /// <param name="rolePet"></param>
-        void InitPet(int petID, string petName, RolePet rolePet);
+        void InitPet(int petID, string petName, int  roleid);
         /// <summary>
         /// 洗练宠物重置技能
         /// </summary>
@@ -76,16 +76,16 @@ namespace AscensionServer
         /// <summary>
         /// 更新宠物加点方案
         /// </summary>
-        void UpdataPetAbilityPoint(PetAbilityPoint petAbilityPoint, PetCompleteDTO petCompleteDTO, NHCriteria nHCriteria);
+       // void UpdataPetAbilityPoint(PetAbilityPoint petAbilityPoint, PetCompleteDTO petCompleteDTO, NHCriteria nHCriteria);
  
 
-        void RenamePointSln(PetAbilityPoint petAbilityPoint, PetCompleteDTO petCompleteDTO);
-    
-        void UpdatePointSln(PetAbilityPoint petAbilityPoint, PetCompleteDTO petCompleteDTO);
+        void RenamePointSln(int roleid, PetAbilityPointDTO abilityPointDTO);
+
+        void UpdatePointSln(int roleid, PetAbilityPointDTO abilityPointDTO);
   
-        void UlockPointSln(PetAbilityPoint petAbilityPoint, NHCriteria nHCriteria, PetCompleteDTO petCompleteDTO);
- 
-        void ResetAbilityPoint(PetAbilityPoint petAbilityPoint);
+        void UlockPointSln(int roleid, PetAbilityPointDTO abilityPointDTO);
+
+        void ResetAbilityPoint(int roleid, PetAbilityPointDTO petAbilityPoint);
  
         #endregion
 
@@ -96,53 +96,51 @@ namespace AscensionServer
         /// <param name="drugID"></param>
         /// <param name="nHCriteria"></param>
         /// <param name="pet"></param>
-        void PetCultivate(int drugID, NHCriteria nHCriteria, Pet pet, PetCompleteDTO petCompleteDTO);
+        void PetCultivate(int drugID,  int  petid, int roleid);
         /// <summary>
         /// 验证丹药作用
         /// </summary>
-        bool VerifyDrugEffect(int drugid, Pet pet, PetCompleteDTO petCompleteDTO);
+        bool VerifyDrugEffect(int drugid, Pet pet, int roleid);
  
         /// <summary>
         /// 增加经验
         /// </summary>
         /// <param name="drugData"></param>
         /// <param name="pet"></param>
-        void PetExpDrug(DrugData drugData, int itemid, Pet pet, PetCompleteDTO petCompleteDTO);
+        void PetExpDrug(DrugData drugData, int itemid, Pet pet, int roleid);
    
         /// <summary>
         /// 增加资质
         /// </summary>
-        void PetAtitudeDrug(DrugData drugData, int itemid, Pet pet, PetCompleteDTO petCompleteDTO);
- 
+        void PetAtitudeDrug(DrugData drugData, int itemid, Pet pet, int roleid);
+
         #endregion
 
         #region 宠物学习技能
-        void PetStudySkill(int bookid, NHCriteria nHCriteria, Pet pet, PetCompleteDTO petCompleteDTO);
- 
+        void PetStudySkill(int bookid, int petid, int roleid);
+
         #endregion
 
         #region 妖灵精魄
-        void DemonicSoulHandler(PetCompleteDTO petCompleteDTO, Pet pet, NHCriteria nHCriteriarole);
         
-        void UnEquipDemonicSoul(int soulid, Pet pet, int roleid, PetCompleteDTO petCompleteDTO);
-
+        void UnEquipDemonicSoul(int soulid, int petid, int roleid);
 
         void AddDemonicSoul(int soulid, out List<int> getSkillList);
      
-        void PetRename(Pet pet, PetCompleteDTO petCompleteDTO);
+        void PetRename(int roleid, PetDTO petDTO);
 
 
-        void EquipDemonicSoul(int roleid, NHCriteria nHCriteriarole, PetCompleteDTO petCompleteDTO, Pet pet);
+        void EquipDemonicSoul(int roleid, int useitemid, int petid);
        
         #endregion
 
         #region 宠物进阶
 
-        void PetEvolution(PetCompleteDTO petCompleteDTO, Pet pet, int itemid, NHCriteria nHCriteriarole);
+        void PetEvolution(int roleid, int petid, int itemid);
         #endregion
 
         #region 宠物洗练
-        void PetStatusRestoreDefault(int itemid, int roleid, PetCompleteDTO petCompleteDTO, Pet pet, NHCriteria nHCriteria);
+        void PetStatusRestoreDefault(int itemid, int roleid, int petid);
         #endregion
         #endregion
 

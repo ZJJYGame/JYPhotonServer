@@ -373,7 +373,7 @@
             9.增加宠物资质
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.Faction_LevelType" -->
+        <!-- 对于成员“T:AscensionServer.Faction_LevelType”忽略有格式错误的 XML 注释 -->
         <member name="T:AscensionServer.FactionItemType">
             <summary>
             藏宝阁主库
@@ -418,7 +418,7 @@
             5.传说的
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:AscensionServer.MapResSpanwInfoData" -->
+        <!-- 对于成员“T:AscensionServer.MapResSpanwInfoData”忽略有格式错误的 XML 注释 -->
         <member name="P:AscensionServer.MapResSpanwInfoData.MapResSpawnInfoDict">
             <summary>
             此数据为：地图资源的生成信息。将数据转换Fix类型后用于传输；
@@ -1756,7 +1756,7 @@
             准备指令战斗 
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.IServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.IServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -1944,7 +1944,7 @@
             </summary>
             
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)" -->
+        <!-- 对于成员“M:AscensionServer.ServerBattleManager.BattleEnd(System.Int32)”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.ServerBattleManager.BattleRunAway(System.Int32,System.Int32,AscensionProtocol.DTO.BattleTransferDTO)">
             <summary>
             战斗逃跑
@@ -4045,7 +4045,7 @@
             <param name="petID"></param>
             <param name="petAptitudeObj"></param>
         </member>
-        <member name="M:AscensionServer.IPetStatusManager.InitPet(System.Int32,System.String,AscensionServer.Model.RolePet)">
+        <member name="M:AscensionServer.IPetStatusManager.InitPet(System.Int32,System.String,System.Int32)">
             <summary>
             新增新宠物
             </summary>
@@ -4093,12 +4093,12 @@
             获得宠物所有属性
             </summary>
         </member>
-        <member name="M:AscensionServer.IPetStatusManager.UpdataPetAbilityPoint(AscensionServer.Model.PetAbilityPoint,AscensionProtocol.DTO.PetCompleteDTO,AscensionServer.NHCriteria)">
+        <member name="M:AscensionServer.IPetStatusManager.RenamePointSln(System.Int32,AscensionProtocol.DTO.PetAbilityPointDTO)">
             <summary>
             更新宠物加点方案
             </summary>
         </member>
-        <member name="M:AscensionServer.IPetStatusManager.PetCultivate(System.Int32,AscensionServer.NHCriteria,AscensionServer.Model.Pet,AscensionProtocol.DTO.PetCompleteDTO)">
+        <member name="M:AscensionServer.IPetStatusManager.PetCultivate(System.Int32,System.Int32,System.Int32)">
             <summary>
             宠物培养丹药区分
             </summary>
@@ -4106,19 +4106,19 @@
             <param name="nHCriteria"></param>
             <param name="pet"></param>
         </member>
-        <member name="M:AscensionServer.IPetStatusManager.VerifyDrugEffect(System.Int32,AscensionServer.Model.Pet,AscensionProtocol.DTO.PetCompleteDTO)">
+        <member name="M:AscensionServer.IPetStatusManager.VerifyDrugEffect(System.Int32,AscensionServer.Model.Pet,System.Int32)">
             <summary>
             验证丹药作用
             </summary>
         </member>
-        <member name="M:AscensionServer.IPetStatusManager.PetExpDrug(AscensionServer.DrugData,System.Int32,AscensionServer.Model.Pet,AscensionProtocol.DTO.PetCompleteDTO)">
+        <member name="M:AscensionServer.IPetStatusManager.PetExpDrug(AscensionServer.DrugData,System.Int32,AscensionServer.Model.Pet,System.Int32)">
             <summary>
             增加经验
             </summary>
             <param name="drugData"></param>
             <param name="pet"></param>
         </member>
-        <member name="M:AscensionServer.IPetStatusManager.PetAtitudeDrug(AscensionServer.DrugData,System.Int32,AscensionServer.Model.Pet,AscensionProtocol.DTO.PetCompleteDTO)">
+        <member name="M:AscensionServer.IPetStatusManager.PetAtitudeDrug(AscensionServer.DrugData,System.Int32,AscensionServer.Model.Pet,System.Int32)">
             <summary>
             增加资质
             </summary>
@@ -4161,12 +4161,23 @@
             获得宠物所有属性
             </summary>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.UpdataPetAbilityPoint(AscensionServer.Model.PetAbilityPoint,AscensionProtocol.DTO.PetCompleteDTO,AscensionServer.NHCriteria)">
+        <member name="M:AscensionServer.PetStatusManager.UpdatePointSln(System.Int32,AscensionProtocol.DTO.PetAbilityPointDTO)">
             <summary>
-            更新宠物加点方案
+            更新宠物加点
             </summary>
+            <param name="roleid"></param>
+            <param name="petAbilityPoint"></param>
+            <param name="abilityPointDTO"></param>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.PetCultivate(System.Int32,AscensionServer.NHCriteria,AscensionServer.Model.Pet,AscensionProtocol.DTO.PetCompleteDTO)">
+        <member name="M:AscensionServer.PetStatusManager.UlockPointSln(System.Int32,AscensionProtocol.DTO.PetAbilityPointDTO)">
+            <summary>
+            解锁加点方案
+            </summary>
+            <param name="petAbilityPoint"></param>
+            <param name="nHCriteria"></param>
+            <param name="petCompleteDTO"></param>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.PetCultivate(System.Int32,System.Int32,System.Int32)">
             <summary>
             宠物培养丹药区分
             </summary>
@@ -4174,19 +4185,19 @@
             <param name="nHCriteria"></param>
             <param name="pet"></param>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.VerifyDrugEffect(System.Int32,AscensionServer.Model.Pet,AscensionProtocol.DTO.PetCompleteDTO)">
+        <member name="M:AscensionServer.PetStatusManager.VerifyDrugEffect(System.Int32,AscensionServer.Model.Pet,System.Int32)">
             <summary>
             验证丹药作用
             </summary>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.PetExpDrug(AscensionServer.DrugData,System.Int32,AscensionServer.Model.Pet,AscensionProtocol.DTO.PetCompleteDTO)">
+        <member name="M:AscensionServer.PetStatusManager.PetExpDrug(AscensionServer.DrugData,System.Int32,AscensionServer.Model.Pet,System.Int32)">
             <summary>
             增加经验
             </summary>
             <param name="drugData"></param>
             <param name="pet"></param>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.PetAtitudeDrug(AscensionServer.DrugData,System.Int32,AscensionServer.Model.Pet,AscensionProtocol.DTO.PetCompleteDTO)">
+        <member name="M:AscensionServer.PetStatusManager.PetAtitudeDrug(AscensionServer.DrugData,System.Int32,AscensionServer.Model.Pet,System.Int32)">
             <summary>
             增加资质
             </summary>
@@ -4207,7 +4218,7 @@
             <param name="petID"></param>
             <param name="petAptitudeObj"></param>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.InitPet(System.Int32,System.String,AscensionServer.Model.RolePet)">
+        <member name="M:AscensionServer.PetStatusManager.InitPet(System.Int32,System.String,System.Int32)">
             <summary>
             新增新宠物
             </summary>
@@ -5603,7 +5614,7 @@
             发送消息到remotePeer
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})" -->
+        <!-- 对于成员“M:AscensionServer.AscensionPeer.SendEventMsg(System.Byte,System.Collections.Generic.Dictionary{System.Byte,System.Object})”忽略有格式错误的 XML 注释 -->
         <member name="M:AscensionServer.AscensionPeer.OnMessage(System.Object,Photon.SocketServer.SendParameters)">
             <summary>
             接收到客户端消息；

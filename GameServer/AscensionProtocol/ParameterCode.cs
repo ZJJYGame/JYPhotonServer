@@ -180,5 +180,9 @@
         /// 角色装备信息
         /// </summary>
         RoleEquipment=114,
+        /// <summary>
+        /// 宠物丹药刷新
+        /// </summary>
+        PetDrugFresh=115,
     }
 }

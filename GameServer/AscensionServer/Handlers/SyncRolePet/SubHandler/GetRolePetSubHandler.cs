@@ -47,7 +47,7 @@ namespace AscensionServer
                      GameEntry. PetStatusManager.RemoveRolePet( rolepetObj);
                     break;
                 case RolePetDTO.RolePetOperationalOrder.AddPet:
-                     GameEntry. PetStatusManager.InitPet(rolepetObj.AddRemovePetID, rolepetObj.AddPetName,rolepets);
+                     GameEntry. PetStatusManager.InitPet(rolepetObj.AddRemovePetID, rolepetObj.AddPetName, rolepetObj.RoleID);
                     break;
                 default:
                     break;

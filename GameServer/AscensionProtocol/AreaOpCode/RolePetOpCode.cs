@@ -68,6 +68,17 @@ namespace AscensionProtocol
         /// 卸下妖灵精魄
         /// </summary>
         RemoveDemonicSoul=15,
-
+        /// <summary>
+        /// 解锁加点方案
+        /// </summary>
+        UnlockPetAbilitySln=16,
+        /// <summary>
+        /// 修改加点方案名称
+        /// </summary>
+        RenamePetAbilitySln=17,
+        /// <summary>
+        /// 刷新宠物丹药
+        /// </summary>
+        PetDrugFresh = 18,
     }
 }

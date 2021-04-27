@@ -1,20 +1,24 @@
-﻿using System;
+﻿using AscensionProtocol;
+using AscensionProtocol.DTO;
+using AscensionServer.Model;
+using Cosmos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AscensionProtocol.DTO;
-using AscensionProtocol;
-using AscensionServer.Model;
-using Cosmos;
+
 namespace AscensionServer
 {
-    [Module]
-    public partial class DemonicSoulManager : Cosmos. Module,IDemonicSoulManager
+   public partial class SecondaryJobManager
     {
-        public void AddDemonical(int roleid,DemonicSoul demonicSoul,int soulid, NHCriteria nHCriteria)
+        public void AddDemonical(int roleid, int soulid)
         {
-            var indexDict = Utility.Json.ToObject<Dictionary<int,int>>(demonicSoul.DemonicSoulIndex);
+            NHCriteria nHCriteriaRole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleid);
+            var demonicSoul = NHibernateQuerier.CriteriaSelectAsync<DemonicSoul>(nHCriteriaRole).Result;
+
+
+            var indexDict = Utility.Json.ToObject<Dictionary<int, int>>(demonicSoul.DemonicSoulIndex);
             var demonicalDict = Utility.Json.ToObject<Dictionary<int, DemonicSoulEntity>>(demonicSoul.DemonicSouls);
             DemonicSoulEntity demonicSoulEntity = new DemonicSoulEntity();
             if (indexDict.ContainsKey(soulid))
@@ -24,11 +28,11 @@ namespace AscensionServer
             }
             else
             {
-                demonicSoulEntity.UniqueID =int.Parse( soulid.ToString()+0);
+                demonicSoulEntity.UniqueID = int.Parse(soulid.ToString() + 0);
                 indexDict.Add(soulid, 0);
             }
             demonicSoulEntity.GlobalID = soulid;
-            GameEntry.PetStatusManager.AddDemonicSoul (soulid,out var skillList);
+            GameEntry.PetStatusManager.AddDemonicSoul(soulid, out var skillList);
             demonicSoulEntity.Skills = new List<int>();
             demonicSoulEntity.Skills = skillList;
             demonicalDict.Add(demonicSoulEntity.UniqueID, demonicSoulEntity);
@@ -44,25 +48,28 @@ namespace AscensionServer
             demonicSoulDTO.OperateType = DemonicSoulOperateType.Add;
             demonicSoulDTO.DemonicSouls = demonicalDict;
             Utility.Debug.LogInfo("yzqData添加妖灵精魄" + Utility.Json.ToJson(demonicSoulDTO));
-            S2CDemonicalMessage(roleid, Utility.Json.ToJson(demonicSoulDTO), ReturnCode.Success);
-
+            RoleStatusSuccessS2C(roleid,SecondaryJobOpCode.AddDemonicSoul, demonicSoulDTO);
             Utility.Debug.LogInfo("yzqData添加妖灵精魄" + Utility.Json.ToJson(demonicSoul));
-            InventoryManager.AddNewItem(roleid, demonicSoulEntity.UniqueID,1);
+            InventoryManager.AddNewItem(roleid, demonicSoulEntity.UniqueID, 1);
         }
 
-        public async void CompoundDemonical(List<int>soulList,DemonicSoul demonicSoul,int roleid,NHCriteria nHCriteria)
+        public async void CompoundDemonical(List<int> soulList, int roleid)
         {
-            GameEntry. DataManager.TryGetValue<Dictionary<int, DemonicSoulData>> (out var demonicSoulData);
+            NHCriteria nHCriteriaRole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleid);
+            var demonicSoul = NHibernateQuerier.CriteriaSelectAsync<DemonicSoul>(nHCriteriaRole).Result;
+
+
+            GameEntry.DataManager.TryGetValue<Dictionary<int, DemonicSoulData>>(out var demonicSoulData);
 
             var demonicalDict = Utility.Json.ToObject<Dictionary<int, DemonicSoulEntity>>(demonicSoul.DemonicSouls);
 
             var ringObj = CosmosEntry.ReferencePoolManager.Spawn<RingDTO>();
 
-            var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteria);
+            var ringServer = NHibernateQuerier.CriteriaSelect<RoleRing>(nHCriteriaRole);
             var nHCriteriaRingID = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", ringServer.RingIdArray);
-            if (soulList.Count==0)
+            if (soulList.Count == 0)
             {
-                S2CDemonicalMessage(roleid, null, ReturnCode.Fail);
+                RoleStatusFailS2C(roleid,SecondaryJobOpCode.CompoundDemonicSoul);
                 return;
             }
 
@@ -70,30 +77,30 @@ namespace AscensionServer
             {
                 if (demonicalDict[soulList[i]].GlobalID != demonicalDict[soulList[0]].GlobalID)
                 {
-                    S2CDemonicalMessage(roleid, null, ReturnCode.Fail);
+                    RoleStatusFailS2C(roleid, SecondaryJobOpCode.CompoundDemonicSoul);
                     return;
                 }
-                if (!InventoryManager.VerifyIsExist(soulList[i],nHCriteriaRingID))
+                if (!InventoryManager.VerifyIsExist(soulList[i], nHCriteriaRingID))
                 {
-                    S2CDemonicalMessage(roleid, null, ReturnCode.Fail);
+                    RoleStatusFailS2C(roleid, SecondaryJobOpCode.CompoundDemonicSoul);
                     return;
                 }
             }
 
             if (!demonicSoulData[demonicalDict[soulList[0]].GlobalID].MergeNumber.Contains(soulList.Count))
             {
-                S2CDemonicalMessage(roleid, null, ReturnCode.Fail);
+                RoleStatusFailS2C(roleid, SecondaryJobOpCode.CompoundDemonicSoul);
                 return;
             }
 
             Random random = new Random();
-            if ((demonicSoulData[demonicalDict[soulList[0]].GlobalID].MergeSuccessRate * soulList.Count)<random.Next(0,101))
+            if ((demonicSoulData[demonicalDict[soulList[0]].GlobalID].MergeSuccessRate * soulList.Count) < random.Next(0, 101))
             {
-                S2CDemonicalMessage(roleid,null,ReturnCode.Fail);
+                RoleStatusFailS2C(roleid, SecondaryJobOpCode.CompoundDemonicSoul);
             }
             else
             {
-                AddDemonical(roleid, demonicSoul, demonicSoulData[demonicalDict[soulList[0]].GlobalID].MergeDemonicSoulID, nHCriteria);
+                AddDemonical(roleid, demonicSoulData[demonicalDict[soulList[0]].GlobalID].MergeDemonicSoulID);
             }
 
             for (int i = 0; i < soulList.Count; i++)
@@ -102,11 +109,14 @@ namespace AscensionServer
                 demonicalDict.Remove(soulList[i]);
             }
             demonicSoul.DemonicSouls = Utility.Json.ToJson(demonicalDict);
-          await  NHibernateQuerier.UpdateAsync(demonicSoul);
+            await NHibernateQuerier.UpdateAsync(demonicSoul);
         }
 
-        public void GetDemonicSoul(int roleid, DemonicSoul demonicSoul)
+        public void GetDemonicSoul(int roleid)
         {
+            NHCriteria nHCriteriaRole = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleid);
+            var demonicSoul = NHibernateQuerier.CriteriaSelectAsync<DemonicSoul>(nHCriteriaRole).Result;
+
             var demonicalDict = Utility.Json.ToObject<Dictionary<int, DemonicSoulEntity>>(demonicSoul.DemonicSouls);
             DemonicSoulDTO demonicSoulDTO = new DemonicSoulDTO();
             demonicSoulDTO.RoleID = demonicSoul.RoleID;
@@ -114,19 +124,8 @@ namespace AscensionServer
             demonicSoulDTO.OperateType = DemonicSoulOperateType.Get;
             demonicSoulDTO.DemonicSouls = demonicalDict;
             Utility.Debug.LogInfo("yzqData添加妖灵精魄" + Utility.Json.ToJson(demonicSoulDTO));
-            S2CDemonicalMessage(roleid, Utility.Json.ToJson(demonicSoulDTO), ReturnCode.Success);
-        }
-
-        public void S2CDemonicalMessage(int roleid,string message,ReturnCode returnCode)
-        {
-            OperationData opData = new OperationData();
-            opData.DataMessage = message;
-            opData.OperationCode = (byte)OperationCode.SyncDemonical;
-            opData.ReturnCode = (byte)returnCode;
-            GameEntry. RoleManager.SendMessage(roleid, opData);
+            RoleStatusSuccessS2C(roleid,SecondaryJobOpCode.GetDemonicSoul, demonicSoulDTO);
         }
 
     }
 }
-
-

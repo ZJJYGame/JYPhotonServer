@@ -847,7 +847,7 @@ namespace AscensionServer
             if (tempSelect == 1)
             {
                 var petnHCriteriaRoleID = MsqInfo<RolePet>(currentId);
-                GameEntry.PetStatusManager.InitPet(monsterDatas.Pet_ID, monsterDatas.Monster_Name, petnHCriteriaRoleID);
+                GameEntry.PetStatusManager.InitPet(monsterDatas.Pet_ID, monsterDatas.Monster_Name, roleId);
             }
             var TargetInfosSet = ServerToClientResult(new TargetInfoDTO() { TargetID = battleTransferDTOs.TargetInfos[0].TargetID, TargetHPDamage = tempSelect });
             TeamSet.Add(new BattleTransferDTO() { isFinish = true, BattleCmd = battleTransferDTOs.BattleCmd, RoleId = currentId, ClientCmdId = battleTransferDTOs.ClientCmdId, TargetInfos = TargetInfosSet });
