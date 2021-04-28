@@ -324,6 +324,7 @@
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEventCondition\BattleBuffEventConditionBase.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEventBase.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEvent_AddBuff.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEvent_CallOtherShareDamage.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEvent_ChangeBuffProperty.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEvent_ChangeCmd.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEvent_ChangeProperty.cs" />
@@ -332,7 +333,7 @@
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEvent_DamageReduce.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEvent_DispelBuff.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEvent_ImmuneBuff.cs" />
-    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEvent_ShareDamage.cs" />
+    <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEvent_ShareDamageForOther.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEvent_Shield.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffEvent\BattleBuffEvent_UseDesignateSkill.cs" />
     <Compile Include="Ascension\Core\RunTime\NewBattle\BattleBuff\BattleBuffObj.cs" />

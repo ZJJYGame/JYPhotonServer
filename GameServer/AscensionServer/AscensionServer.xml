@@ -3408,6 +3408,11 @@
             buff覆盖时重新设置buff参数
             </summary>
         </member>
+        <member name="T:AscensionServer.BattleBuffEvent_CallOtherShareDamage">
+            <summary>
+            喊别人为我承担伤害
+            </summary>
+        </member>
         <member name="T:AscensionServer.BattleBuffEvent_ChangeBuffProperty">
             <summary>
             改变buff属性
@@ -3423,7 +3428,7 @@
             驱散buff事件
             </summary>
         </member>
-        <member name="T:AscensionServer.BattleBuffEvent_ShareDamage">
+        <member name="T:AscensionServer.BattleBuffEvent_ShareDamageForOther">
             <summary>
             分担伤害buff事件
             </summary>
