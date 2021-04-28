@@ -22,5 +22,10 @@ namespace AscensionServer
         /// 玩家数量；
         /// </summary>
         public int PlayerCount { get; private set; }
+
+        public void OnComplete(Action<BattleResultInfo[]> battleInfo)
+        {
+            GameEntry.BattleRoomManager.GetBattleRoomEntity(RoomId).OnBattleEnd += battleInfo;
+        }
     }
 }
