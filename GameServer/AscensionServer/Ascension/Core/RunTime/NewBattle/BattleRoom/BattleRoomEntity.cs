@@ -31,12 +31,12 @@ namespace AscensionServer
         /// byte 1 表示阵营一
         /// byte 2 表示阵营二
         /// </summary>
-        public event Action<byte, int[]> OnBattleEnd
+        public event Action<BattleResultInfo[]> OnBattleEnd
         {
             add { onBattleEnd += value; }
             remove{ onBattleEnd -= value; }
         }
-        Action<byte, int[]> onBattleEnd;
+        Action<BattleResultInfo[]> onBattleEnd;
 
         public List<BattleTransferDTO> BattleTransferDTOList { get; set; } = new List<BattleTransferDTO>();
         public List<BattleBuffEventDTO> RoundStartBuffEvent { get; set; } = new List<BattleBuffEventDTO>();
