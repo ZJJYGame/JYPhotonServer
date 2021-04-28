@@ -4238,7 +4238,7 @@
             验证宠物完整属性
             </summary>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.VerifyPetAbilityAddition(AscensionProtocol.DTO.PetAbilityPointDTO,AscensionServer.Model.PetStatus,AscensionServer.Model.PetAptitude)">
+        <member name="M:AscensionServer.PetStatusManager.VerifyPetAbilityAddition(AscensionProtocol.DTO.PetAbilityPointDTO,AscensionServer.Model.PetAptitude)">
             <summary>
             验证加点后的加成
             </summary>

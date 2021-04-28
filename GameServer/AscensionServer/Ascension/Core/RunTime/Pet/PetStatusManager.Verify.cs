@@ -83,7 +83,8 @@ namespace AscensionServer
                 if (petAptitudeexist)
                 {
                    var petAptitudeTemp = RedisHelper.Hash.HashGetAsync<PetAptitudeDTO>(RedisKeyDefine._PetAptitudePerfix, petid.ToString()).Result;
-                    if (petAptitude == null)
+                    Utility.Debug.LogError("加成的点数" + Utility.Json.ToJson(petAptitudeTemp));
+                    if (petAptitudeTemp == null)
                     {
                         petAptitude = new PetAptitude();
                     }
@@ -123,9 +124,9 @@ namespace AscensionServer
                 }
             }
 
-
             GameEntry. DataManager.TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
-            var petStatusObj=  VerifyPetAbilityAddition(petAbilityPoint, petStatus, petAptitude);
+            var petStatusObj=  VerifyPetAbilityAddition(petAbilityPoint, petAptitude);
+
 
             var skillList = Utility.Json.ToObject<List<int>>(pet.PetSkillArray);
 
@@ -143,16 +144,18 @@ namespace AscensionServer
         /// <param name="petStatusDTO"></param>
         /// <param name="petLevelData"></param>
         /// <returns></returns>
-        public PetStatus VerifyPetAbilityAddition(PetAbilityPointDTO petAbilityPoint,PetStatus petStatusDTO, PetAptitude petAptitude)
+        public PetStatus VerifyPetAbilityAddition(PetAbilityPointDTO petAbilityPoint, PetAptitude petAptitude)
         {
-            petStatusDTO.PetHP = (petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Stamina * 2 + petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Corporeity * 4) * (int)petAptitude.Petaptitudecol;
-            petStatusDTO.PetMP = petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Power * 5 * (int)petAptitude.Petaptitudecol;
-            petStatusDTO.PetShenhun = (int)(petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Soul * 1 * (int)petAptitude.Petaptitudecol);
-            petStatusDTO.AttackSpeed =(int) (petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Agility *0.5f * (int)petAptitude.Petaptitudecol);
-            petStatusDTO.AttackPhysical = petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Strength * 1* (int)petAptitude.Petaptitudecol;
-            petStatusDTO.DefendPhysical = (int)((petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Strength * 0.1+ petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Stamina * 0.6+ petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Corporeity * 0.2)* (int)petAptitude.Petaptitudecol);
-            petStatusDTO.AttackPower = petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Power * 1* (int)petAptitude.Petaptitudecol;
-            petStatusDTO.DefendPower = (int)((petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Corporeity * 0.2 + petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Stamina * 0.6)* (int)petAptitude.Petaptitudecol);
+            PetStatus petStatusDTO = new PetStatus();
+
+            petStatusDTO.PetMaxHP = (petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Corporeity * 10) * (int)petAptitude.Petaptitudecol/1000;
+            petStatusDTO.PetMaxMP = (petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Power * 6 + petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Corporeity) * (int)petAptitude.Petaptitudecol / 1000;
+            petStatusDTO.PetMaxShenhun = (int)(petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Soul * 4 * (int)petAptitude.Petaptitudecol / 1000);
+            petStatusDTO.AttackSpeed =(int) ((petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Agility * 0.5f+ petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Strength*0.1f+ petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Corporeity * 0.1f+ petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Stamina * 0.1f+ petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Soul * 0.2f) * (int)petAptitude.Petaptitudecol / 1000);
+            petStatusDTO.AttackPhysical = petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Strength *2* (int)petAptitude.Petaptitudecol / 1000;
+            petStatusDTO.DefendPhysical = (int)(( petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Stamina * 2)* (int)petAptitude.Petaptitudecol / 1000);
+            petStatusDTO.AttackPower = petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Power *2* (int)petAptitude.Petaptitudecol / 1000;
+            petStatusDTO.DefendPower = (int)((petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Corporeity * 0.4f+ petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Stamina * 0.8+ petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Strength *1.2f+ petAbilityPoint.AbilityPointSln[petAbilityPoint.SlnNow].Power * 1)* (int)petAptitude.Petaptitudecol / 1000);
             return petStatusDTO;
         }
         /// <summary>
@@ -253,7 +256,7 @@ namespace AscensionServer
         /// <param name="petStatusTemp"></param>
         public void StatusAddition(PetStatus petStatus, List<PetStatusDTO> petAbilityStatus, PetLevelData petLevelData, out PetStatusDTO petStatusTemp)
         {
-            petStatusTemp= CosmosEntry.ReferencePoolManager.Spawn<PetStatusDTO>();
+            petStatusTemp= new PetStatusDTO();
             petStatusTemp.AttackPhysical =(petStatus.AttackPhysical ) + (petLevelData.AttackPhysical * (petAbilityStatus[0].AttackPhysical + 100) / 100) + petAbilityStatus[1].AttackPhysical;
             petStatusTemp.AttackPower = (petStatus.AttackPower) + (petLevelData.AttackPower * (petAbilityStatus[0].AttackPower + 100) / 100) + petAbilityStatus[1].AttackPower;
             petStatusTemp.AttackSpeed =  (petStatus.AttackSpeed ) + (petLevelData.AttackSpeed * (petAbilityStatus[0].AttackSpeed + 100) / 100) + petAbilityStatus[1].AttackSpeed;
