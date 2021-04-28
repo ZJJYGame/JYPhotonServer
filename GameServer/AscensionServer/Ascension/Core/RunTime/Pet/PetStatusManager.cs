@@ -29,90 +29,124 @@ namespace AscensionServer
             switch ((RolePetOpCode)packet.SubOperationCode)
             {
                 case RolePetOpCode.GetRolePet:
+                    #region
                     rolepet = Utility.Json.ToObject<RolePetDTO>(packet.DataMessage.ToString());
                     GetRoleAllPetS2C(rolepet);
+                    #endregion
                     break;
                 case RolePetOpCode.RemovePet:
+                    #region
                     rolepet = Utility.Json.ToObject<RolePetDTO>(packet.DataMessage.ToString());
                     RemoveRolePet(rolepet);
+                    #endregion
                     break;
                 case RolePetOpCode.AddPet:
+                    #region
                     rolepet = Utility.Json.ToObject<RolePetDTO>(packet.DataMessage.ToString());
                     InitPet(rolepet.AddRemovePetID, rolepet.AddPetName, rolepet.RoleID);
+                    #endregion
                     break;
                 case RolePetOpCode.SetBattle:
+                    #region
                     rolepet = Utility.Json.ToObject<RolePetDTO>(packet.DataMessage.ToString());
                     RolePetSetBattle(rolepet);
+                    #endregion
                     break;
                 case RolePetOpCode.ResetPetAbilitySln:
+                    #region
                     Utility.Debug.LogError("重置加点加点收到的数据" + packet.DataMessage.ToString());
                     dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
                     role = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
                     pointDTO = Utility.Json.ToObject<PetAbilityPointDTO>(dict[(byte)ParameterCode.PetAbility].ToString());
                     ResetAbilityPoint(role.RoleID, pointDTO);
+                    #endregion
                     break;
                 case RolePetOpCode.ResetPetStatus:
+                    #region
                     useitem = Utility.Json.ToObject<RoleUseItemDTO>(packet.DataMessage.ToString());
-                    PetStatusRestoreDefault(useitem.UseItemID,useitem.RoleID, useitem.PetID);
+                    PetStatusRestoreDefault(useitem.UseItemID, useitem.RoleID, useitem.PetID);
+                    #endregion
                     break;
                 case RolePetOpCode.PetEvolution:
+                    #region
                     useitem = Utility.Json.ToObject<RoleUseItemDTO>(packet.DataMessage.ToString());
                     Utility.Debug.LogError("收到宠物进阶" + Utility.Json.ToJson(useitem));
                     PetEvolution(useitem.RoleID, useitem.PetID, useitem.UseItemID);
+                    #endregion
                     break;
                 case RolePetOpCode.EquipDemonicSoul:
+                    #region
                     useitem = Utility.Json.ToObject<RoleUseItemDTO>(packet.DataMessage.ToString());
                     EquipDemonicSoul(useitem.RoleID, useitem.UseItemID, useitem.PetID);
+                    #endregion
                     break;
                 case RolePetOpCode.PetStudySkill:
+                    #region
                     useitem = Utility.Json.ToObject<RoleUseItemDTO>(packet.DataMessage.ToString());
-                    PetStudySkill(useitem.UseItemID, useitem.PetID,useitem.RoleID);
+                    PetStudySkill(useitem.UseItemID, useitem.PetID, useitem.RoleID);
+                    #endregion
                     break;
                 case RolePetOpCode.PetCultivate:
+                    #region
                     useitem = Utility.Json.ToObject<RoleUseItemDTO>(packet.DataMessage.ToString());
-                    Utility.Debug.LogError("收到宠物使用丹药"+Utility.Json.ToJson(useitem));
+                    Utility.Debug.LogError("收到宠物使用丹药" + Utility.Json.ToJson(useitem));
                     PetCultivate(useitem.UseItemID, useitem.PetID, useitem.RoleID);
+                    #endregion
                     break;
                 case RolePetOpCode.GetPetStatus:
-                     dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
+                    #region
+                    dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
                     role = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
                     pet = Utility.Json.ToObject<PetDTO>(dict[(byte)ParameterCode.Pet].ToString());
                     GetPetAllCompeleteStatus(pet.ID, role.RoleID);
+                    #endregion
                     break;
                 case RolePetOpCode.SwitchPetAbilitySln:
+                    #region
                     dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
                     role = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
                     pointDTO = Utility.Json.ToObject<PetAbilityPointDTO>(dict[(byte)ParameterCode.PetAbility].ToString());
                     SwitchPetAbilitySlnS2C(role.RoleID, pointDTO);
+                    #endregion
                     break;
                 case RolePetOpCode.SetAdditionPoint:
-                     dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
-                    role = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
-                    pointDTO = Utility.Json.ToObject<PetAbilityPointDTO>(dict[(byte)ParameterCode.PetAbility].ToString());
-                    Utility.Debug.LogError("加点收到的数据"+Utility.Json.ToJson(pointDTO));
-                    UpdatePointSln(role.RoleID, pointDTO);
-                    break;
-                case RolePetOpCode.RenamePet:
+                    #region
                     dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
                     role = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
-                    pet= Utility.Json.ToObject<PetDTO>(dict[(byte)ParameterCode.Pet].ToString());
+                    pointDTO = Utility.Json.ToObject<PetAbilityPointDTO>(dict[(byte)ParameterCode.PetAbility].ToString());
+                    Utility.Debug.LogError("加点收到的数据" + Utility.Json.ToJson(pointDTO));
+                    UpdatePointSln(role.RoleID, pointDTO);
+                    #endregion
+                    break;
+                case RolePetOpCode.RenamePet:
+                    #region
+                    dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
+                    role = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
+                    pet = Utility.Json.ToObject<PetDTO>(dict[(byte)ParameterCode.Pet].ToString());
                     PetRename(role.RoleID, pet);
+                    #endregion
                     break;
                 case RolePetOpCode.RemoveDemonicSoul:
+                    #region
                     useitem = Utility.Json.ToObject<RoleUseItemDTO>(packet.DataMessage.ToString());
                     UnEquipDemonicSoul(useitem.UseItemID, useitem.PetID, useitem.RoleID);
+                    #endregion
                     break;
                 case RolePetOpCode.UnlockPetAbilitySln:
+                    #region
                     dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
                     role = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
                     pointDTO = Utility.Json.ToObject<PetAbilityPointDTO>(dict[(byte)ParameterCode.PetAbility].ToString());
                     UlockPointSln(role.RoleID, pointDTO);
+                    #endregion
                     break;
                 case RolePetOpCode.RenamePetAbilitySln:
+                    #region
                     dict = Utility.Json.ToObject<Dictionary<byte, object>>(packet.DataMessage.ToString());
                     role = Utility.Json.ToObject<RoleDTO>(dict[(byte)ParameterCode.Role].ToString());
                     pointDTO = Utility.Json.ToObject<PetAbilityPointDTO>(dict[(byte)ParameterCode.PetAbility].ToString());
                     RenamePointSln(role.RoleID, pointDTO);
+                    #endregion
                     break;
                 default:
                     break;

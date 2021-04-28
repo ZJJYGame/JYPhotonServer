@@ -88,7 +88,6 @@
     <Compile Include="DTO\HerbsFieldDTO.cs" />
     <Compile Include="DTO\AbilityDTO.cs" />
     <Compile Include="DTO\PetAbilityPointDTO.cs" />
-    <Compile Include="DTO\PetCompleteDTO.cs" />
     <Compile Include="DTO\PetDrugRefreshDTO.cs" />
     <Compile Include="DTO\PuppetIndividualDTO.cs" />
     <Compile Include="DTO\PuppetUnitDTO.cs" />
