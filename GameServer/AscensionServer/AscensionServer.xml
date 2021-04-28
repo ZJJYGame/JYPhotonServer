@@ -4123,6 +4123,38 @@
             增加资质
             </summary>
         </member>
+        <member name="M:AscensionServer.PetStatusManager.UpdatePointSln(System.Int32,AscensionProtocol.DTO.PetAbilityPointDTO)">
+            <summary>
+            更新宠物加点
+            </summary>
+            <param name="roleid"></param>
+            <param name="petAbilityPoint"></param>
+            <param name="abilityPointDTO"></param>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.UlockPointSln(System.Int32,AscensionProtocol.DTO.PetAbilityPointDTO)">
+            <summary>
+            解锁加点方案
+            </summary>
+            <param name="petAbilityPoint"></param>
+            <param name="nHCriteria"></param>
+            <param name="petCompleteDTO"></param>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.ResetPetStatus(AscensionServer.Model.Pet,AscensionServer.Model.PetAptitude,AscensionServer.Model.PetStatus@)">
+            <summary>
+            宠物洗练属性重置
+            </summary>
+            <param name="petDTO"></param>
+            <param name="petAptitudeObj"></param>
+            <param name="petAbilityPointDTO"></param>
+            <param name="petStatusTemp"></param>
+        </member>
+        <member name="M:AscensionServer.PetStatusManager.ResetPetAptitude(System.Int32,AscensionServer.Model.PetAptitude@)">
+            <summary>
+            重置宠物资质
+            </summary>
+            <param name="petID"></param>
+            <param name="petAptitudeObj"></param>
+        </member>
         <member name="M:AscensionServer.PetStatusManager.ResultSuccseS2C(System.Int32,AscensionProtocol.RolePetOpCode,System.Object)">
             <summary>
             结果成功返回
@@ -4161,22 +4193,6 @@
             获得宠物所有属性
             </summary>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.UpdatePointSln(System.Int32,AscensionProtocol.DTO.PetAbilityPointDTO)">
-            <summary>
-            更新宠物加点
-            </summary>
-            <param name="roleid"></param>
-            <param name="petAbilityPoint"></param>
-            <param name="abilityPointDTO"></param>
-        </member>
-        <member name="M:AscensionServer.PetStatusManager.UlockPointSln(System.Int32,AscensionProtocol.DTO.PetAbilityPointDTO)">
-            <summary>
-            解锁加点方案
-            </summary>
-            <param name="petAbilityPoint"></param>
-            <param name="nHCriteria"></param>
-            <param name="petCompleteDTO"></param>
-        </member>
         <member name="M:AscensionServer.PetStatusManager.PetCultivate(System.Int32,System.Int32,System.Int32)">
             <summary>
             宠物培养丹药区分
@@ -4201,22 +4217,6 @@
             <summary>
             增加资质
             </summary>
-        </member>
-        <member name="M:AscensionServer.PetStatusManager.ResetPetStatus(AscensionServer.Model.Pet,AscensionServer.Model.PetAptitude,AscensionServer.Model.PetStatus@)">
-            <summary>
-            宠物洗练属性重置
-            </summary>
-            <param name="petDTO"></param>
-            <param name="petAptitudeObj"></param>
-            <param name="petAbilityPointDTO"></param>
-            <param name="petStatusTemp"></param>
-        </member>
-        <member name="M:AscensionServer.PetStatusManager.ResetPetAptitude(System.Int32,AscensionServer.Model.PetAptitude@)">
-            <summary>
-            重置宠物资质
-            </summary>
-            <param name="petID"></param>
-            <param name="petAptitudeObj"></param>
         </member>
         <member name="M:AscensionServer.PetStatusManager.InitPet(System.Int32,System.String,System.Int32)">
             <summary>

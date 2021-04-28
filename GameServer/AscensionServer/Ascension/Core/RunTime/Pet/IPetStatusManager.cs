@@ -144,36 +144,7 @@ namespace AscensionServer
         #endregion
         #endregion
 
-        #region Message
-        void S2CRolePetOperateSuccess(int roleid, string s2cMessage);
- 
-
-        void S2CRoleAddPetSuccess(int roleid);
-
-        void S2CPetSetBattle(int roleid, string s2cMessage, ReturnCode returnCode);
-     
-        void S2CRemoveRolePet(int roleid, string s2cMessage, ReturnCode returnCode);
-   
-
-        #region 宠物数据发送待更换
-        void S2CPetAllStatus(int roleid, string s2cMessage);
-      
-        void S2CPetAbilityPoint(int roleid, string s2cMessage, ReturnCode returnCode);
-    
-        void S2CPetStudySkill(int roleid, string s2cMessage, ReturnCode returnCode);
-  
-
-        void S2CPetRename(int roleid, string s2cMessage, ReturnCode returnCode);
-    
-
-        void S2CPetEquipDemonic(int roleid, string s2cMessage, ReturnCode returnCode);
-       
-        void S2CPetCultivate(int roleid, string s2cMessage, ReturnCode returnCode);
-   
-        #endregion
-
-        void S2CPetDrugRefresh(int roleid, string s2cMessage);
-        #endregion
+        
     }
 }
 
