@@ -105,8 +105,8 @@ namespace AscensionServer
                     case BattleBuffEventType.DamageReduce:
                         battleBuffEventBase = new BattleBuffEvent_DamageReduce(battleBuffData.battleBuffEventDataList[i], this);
                         break;
-                    case BattleBuffEventType.ShareDamage:
-                        battleBuffEventBase = new BattleBuffEvent_ShareDamage(battleBuffData.battleBuffEventDataList[i], this);
+                    case BattleBuffEventType.ShareDamageForOther:
+                        battleBuffEventBase = new BattleBuffEvent_ShareDamageForOther(battleBuffData.battleBuffEventDataList[i], this);
                         break;
                     case BattleBuffEventType.AddBuff:
                         battleBuffEventBase = new BattleBuffEvent_AddBuff(battleBuffData.battleBuffEventDataList[i], this);
@@ -124,6 +124,9 @@ namespace AscensionServer
                         break;
                     case BattleBuffEventType.ChangeTagrget:
                         battleBuffEventBase = new BattleBuffEvent_ChangeTarget(battleBuffData.battleBuffEventDataList[i], this);
+                        break;
+                    case BattleBuffEventType.CallOtherShareDamage:
+                        battleBuffEventBase = new BattleBuffEvent_CallOtherShareDamage(battleBuffData.battleBuffEventDataList[i], this);
                         break;
                 }
                 battleBuffEventList.Add(battleBuffEventBase);

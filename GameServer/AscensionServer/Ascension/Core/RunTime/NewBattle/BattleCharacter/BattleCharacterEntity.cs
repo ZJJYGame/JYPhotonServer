@@ -23,6 +23,7 @@ namespace AscensionServer
         /// 公共ID
         /// </summary>
         public int GlobalID { get; protected set; }
+        public int MasterID { get; protected set; }
         public string Name { get; protected set; }
         /// <summary>
         /// 角色是否死亡

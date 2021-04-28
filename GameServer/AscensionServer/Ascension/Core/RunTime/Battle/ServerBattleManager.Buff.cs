@@ -158,7 +158,7 @@ namespace AscensionServer
                     case BattleBuffEventType.DamageReduce:
                         BuffEventDamageReduceMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i, isSelf);
                         break;
-                    case BattleBuffEventType.ShareDamage:
+                    case BattleBuffEventType.ShareDamageForOther:
                         BuffEventTakeHurtForOtherMothed(buffId, roleId, currentId, playerSetObject, enemySetObject, buffDict, buffEventSet, i, isSelf);
                         break;
                     case BattleBuffEventType.AddBuff:

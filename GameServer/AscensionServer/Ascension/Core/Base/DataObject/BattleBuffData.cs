@@ -233,6 +233,7 @@ namespace AscensionServer
         public BattleSkillDamageType BattleSkillDamageType;
         public BuffEvent_Shield_SourceDataType buffEvent_Shield_SourceDataType;
         public BuffEvent_TakeDamageForOther_TargetType buffEvent_TakeDamageForOther_TargetType;
+        public BuffEvent_CallOterShareDamage_TargetType buffEvent_CallOterShareDamage_TargetType;
         public BuffEvent_ChangeTarget_TargetType buffEvent_ChangeTarget_TargetType;
         public int fixedValue;
         public int percentValue;
@@ -264,7 +265,7 @@ namespace AscensionServer
         // [Tooltip("该次伤害减免")]
         DamageReduce,
         // [Tooltip("替他人承担伤害")]
-        ShareDamage,
+        ShareDamageForOther,
         // [Tooltip("施加buff")]
         AddBuff,
         // [Tooltip("驱散buff")]
@@ -277,6 +278,7 @@ namespace AscensionServer
         ChangeCmd,
         //[Tooltip("改变行为目标")]
         ChangeTagrget,
+        CallOtherShareDamage
     }
     public enum BattleBuffEventType_RolePropertyChange : byte
     {
@@ -384,6 +386,11 @@ namespace AscensionServer
     {
         Master,
         AnyTeammate,
+    }
+    public enum BuffEvent_CallOterShareDamage_TargetType : byte
+    {
+        MaxHpCharacter,
+        BuffOrgin
     }
     public enum BuffEvent_ChangeTarget_TargetType : byte
     {

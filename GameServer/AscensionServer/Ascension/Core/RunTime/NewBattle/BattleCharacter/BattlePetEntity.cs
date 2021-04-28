@@ -11,7 +11,7 @@ namespace AscensionServer
 {
     public class BattlePetEntity:BattleCharacterEntity
     {
-        public int MasterID { get; private set; }
+
 
         public void InitPet(int roomID, int roleID,BattleFactionType battleFactionType)
         {

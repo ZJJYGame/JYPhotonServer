@@ -17,6 +17,8 @@ namespace AscensionServer
         protected BattleBuffTriggerTime battleBuffTriggerTime;
         protected int triggerCount;
         protected int maxTriggerCount;
+        protected BattleBuffEventData battleBuffEventData;
+        
 
         protected int OverlayLayer { get { return battleBuffObj.OverlayLayer; } }
 
@@ -35,7 +37,8 @@ namespace AscensionServer
         /// <param name="skillAdditionData">用于记录临时的加成数据，比如技能加成</param>
         public void Trigger(BattleCharacterEntity target,BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
         {
-
+            if (owner.BattleBuffController.ForbiddenBuff.Contains(battleBuffObj.BuffId))//该buff被禁用
+                return;
             //todo 暂时设置为必定触发
             //if (!CanTrigger())
             //    return;
@@ -50,7 +53,7 @@ namespace AscensionServer
             triggerCount++;
             if (maxTriggerCount != -1 && triggerCount >= maxTriggerCount)
                 triggerCount = maxTriggerCount;
-            TriggerEventMethod(target,battleDamageData,skillAdditionData);
+            TriggerEventMethod(target, battleDamageData, skillAdditionData);
 
         }
         //恢复到未触发
@@ -81,6 +84,7 @@ namespace AscensionServer
         }
         public BattleBuffEventBase(BattleBuffEventData battleBuffEventData, BattleBuffObj battleBuffObj)
         {
+            this.battleBuffEventData = battleBuffEventData;
             battleBuffTriggerTime = battleBuffEventData.battleBuffTriggerTime;
             prob = battleBuffEventData.probability;
             this.battleBuffObj = battleBuffObj;
