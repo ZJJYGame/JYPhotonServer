@@ -126,7 +126,7 @@ namespace AscensionServer
             }
         }
 
-        public void ResetAbilityPoint(int roleid, PetAbilityPointDTO petAbilityPoint)
+        public async void ResetAbilityPoint(int roleid, PetAbilityPointDTO petAbilityPoint)
         {
             NHCriteria nHCriteriapetStatus = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", petAbilityPoint.ID);
             var petAbilityPointObj = NHibernateQuerier.CriteriaSelect<PetAbilityPoint>(nHCriteriapetStatus);
@@ -165,11 +165,16 @@ namespace AscensionServer
                     petAbilityPointObj.AbilityPointSln = Utility.Json.ToJson(slnDict);
 
                     var status = VerifyPetAllStatus(petAbilityPoint.ID, ChangeDataType(petAbilityPointObj), null, null);
-
+                    status.PetID = petAbilityPoint.ID;
                     Dictionary<byte, object> dict = new Dictionary<byte, object>();
                     dict.Add((byte)ParameterCode.PetStatus, status);
                     dict.Add((byte)ParameterCode.PetAbility, ChangeDataType(petAbilityPointObj));
                     ResultSuccseS2C(roleid, RolePetOpCode.ResetPetAbilitySln, dict);
+
+                    await NHibernateQuerier.UpdateAsync(petAbilityPointObj);
+                    await NHibernateQuerier.UpdateAsync(status);
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._PetAbilityPointPerfix, petAbilityPoint.ID.ToString(), ChangeDataType(petAbilityPointObj));
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._PetStatusPerfix, petAbilityPoint.ID.ToString(), status);
                 }
                 else
                     ResultFailS2C(roleid, RolePetOpCode.ResetPetAbilitySln);
@@ -191,11 +196,16 @@ namespace AscensionServer
                     {
                         point.SlnNow = pointDTO.SlnNow;
                         var status = VerifyPetAllStatus(pointDTO.ID, pointDTO, null, null);
-
+                        status.PetID = point.ID;
                         Dictionary<byte, object> dict = new Dictionary<byte, object>();
                         dict.Add((byte)ParameterCode.PetAbility, point);
                         dict.Add((byte)ParameterCode.PetStatus, status);
                         ResultSuccseS2C(roleid, RolePetOpCode.SwitchPetAbilitySln, dict);
+
+                        await NHibernateQuerier.UpdateAsync(ChangeDataType(point));
+                        await NHibernateQuerier.UpdateAsync(status);
+                        await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._PetAbilityPointPerfix, point.ID.ToString(), point);
+                        await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._PetStatusPerfix, point.ID.ToString(), status);
                     }
                     else
                         ResultFailS2C(roleid, RolePetOpCode.SwitchPetAbilitySln);
@@ -217,11 +227,16 @@ namespace AscensionServer
                 {
                     point.SlnNow = pointDTO.SlnNow;
                     var status = VerifyPetAllStatus(pointDTO.ID, pointDTO, null, null);
-
+                    status.PetID = point.ID;
                     Dictionary<byte, object> dict = new Dictionary<byte, object>();
                     dict.Add((byte)ParameterCode.PetAbility, ChangeDataType(point));
                     dict.Add((byte)ParameterCode.PetStatus, status);
                     ResultSuccseS2C(roleid, RolePetOpCode.SwitchPetAbilitySln, dict);
+
+                   await NHibernateQuerier.UpdateAsync(point);
+                    await NHibernateQuerier.UpdateAsync(status);
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._PetAbilityPointPerfix, point.ID.ToString(), ChangeDataType(point));
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._PetStatusPerfix, point.ID.ToString(), status);
                 }
                 else
                     ResultFailS2C(roleid, RolePetOpCode.SwitchPetAbilitySln);

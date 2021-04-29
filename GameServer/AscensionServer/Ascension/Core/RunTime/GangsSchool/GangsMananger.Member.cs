@@ -113,7 +113,9 @@ namespace AscensionServer
                         }
                     }
                     allianceObj.ApplyforMember.Except(consents);
-                    allianceObj.Member.AddRange(consents);
+                    Utility.Debug.LogError("当前成员角色id：" + Utility.Json.ToJson(allianceObj.Member));
+                    Utility.Debug.LogError("当前需要加入的成员角色id：" + Utility.Json.ToJson(consents));
+                    //allianceObj.Member.AddRange(consents);
                     alliancestatusObj.AllianceNumberPeople += consents.Count;
 
                     //TODO發送數據至客戶端
@@ -580,7 +582,7 @@ namespace AscensionServer
                 }
                var  applyeMember = applyeList.Except(consents);
                 allianceObj.ApplyforMember = Utility.Json.ToJson(applyeMember);
-                memberList.AddRange(consents);
+                //memberList.AddRange(consents);
                 allianceObj.JobNumDict = Utility.Json.ToJson(jobDict);
                 allianceObj.Member = Utility.Json.ToJson(memberList);
                 alliance.AllianceNumberPeople += consents.Count;

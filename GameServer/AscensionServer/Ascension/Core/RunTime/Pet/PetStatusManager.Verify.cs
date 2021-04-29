@@ -76,14 +76,12 @@ namespace AscensionServer
                     }
                 }
             }
-
             if (petAptitude == null)
             {
                 var petAptitudeexist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._PetAptitudePerfix, petid.ToString()).Result;
                 if (petAptitudeexist)
                 {
                    var petAptitudeTemp = RedisHelper.Hash.HashGetAsync<PetAptitudeDTO>(RedisKeyDefine._PetAptitudePerfix, petid.ToString()).Result;
-                    Utility.Debug.LogError("加成的点数" + Utility.Json.ToJson(petAptitudeTemp));
                     if (petAptitudeTemp == null)
                     {
                         petAptitude = new PetAptitude();
@@ -126,7 +124,7 @@ namespace AscensionServer
 
             GameEntry. DataManager.TryGetValue<Dictionary<int, PetLevelData>>(out var petLevelDataDict);
             var petStatusObj=  VerifyPetAbilityAddition(petAbilityPoint, petAptitude);
-
+            Utility.Debug.LogError("需要加成的点数" + Utility.Json.ToJson(petStatusObj));
 
             var skillList = Utility.Json.ToObject<List<int>>(pet.PetSkillArray);
 
@@ -265,11 +263,11 @@ namespace AscensionServer
             petStatusTemp.ExpLevelUp =  (petStatus.ExpLevelUp ) + (petLevelData.ExpLevelUp * (petAbilityStatus[0].ExpLevelUp + 100) / 100) + petAbilityStatus[1].ExpLevelUp;
             petStatusTemp.MagicCritDamage =  (petStatus.MagicCritDamage ) + (petLevelData.MagicCritDamage * (petAbilityStatus[0].MagicCritDamage + 100) / 100) + petAbilityStatus[1].MagicCritDamage;
             petStatusTemp.MagicCritProb = (petStatus.MagicCritProb ) + (petLevelData.MagicCritProb * (petAbilityStatus[0].MagicCritProb + 100) / 100) + petAbilityStatus[1].MagicCritProb;
-            petStatusTemp.PetMaxHP = (petStatus.PetHP ) + (petLevelData.PetHP * (petAbilityStatus[0].PetHP + 100) / 100) + petAbilityStatus[1].PetHP;
+            petStatusTemp.PetMaxHP = (petStatus.PetMaxHP) + (petLevelData.PetHP * (petAbilityStatus[0].PetHP + 100) / 100) + petAbilityStatus[1].PetHP;
             petStatusTemp.PetHP = petStatusTemp.PetMaxHP;
-            petStatusTemp.PetMaxMP =  (petStatus.PetMP) + (petLevelData.PetMP * (petAbilityStatus[0].PetMP + 100) / 100) + petAbilityStatus[1].PetMP;
+            petStatusTemp.PetMaxMP =  (petStatus.PetMaxMP) + (petLevelData.PetMP * (petAbilityStatus[0].PetMP + 100) / 100) + petAbilityStatus[1].PetMP;
             petStatusTemp.PetMP = petStatusTemp.PetMaxMP;
-            petStatusTemp.PetMaxShenhun = (petStatus.PetShenhun )+ (int)(petLevelData. Petsoul* (petAbilityStatus[0].PetShenhun + 100) / 100) + petAbilityStatus[1].PetShenhun;
+            petStatusTemp.PetMaxShenhun = (petStatus.PetMaxShenhun) + (int)(petLevelData. Petsoul* (petAbilityStatus[0].PetShenhun + 100) / 100) + petAbilityStatus[1].PetShenhun;
             petStatusTemp.PetShenhun = petStatusTemp.PetMaxShenhun;
             petStatusTemp.PhysicalCritDamage =  (petStatus.PhysicalCritDamage ) + (petLevelData.PhysicalCritDamage * (petAbilityStatus[0].PhysicalCritDamage + 100) / 100) + petAbilityStatus[1].PhysicalCritDamage;
             petStatusTemp.PhysicalCritProb = (petStatus.PhysicalCritProb) + (petLevelData.PhysicalCritProb * (petAbilityStatus[0].PhysicalCritProb + 100) / 100) + petAbilityStatus[1].PhysicalCritProb;
@@ -320,6 +318,15 @@ namespace AscensionServer
             pointDTO.IsUnlockSlnThree = petAbility.IsUnlockSlnThree;
             pointDTO.SlnNow = petAbility.SlnNow;
             return pointDTO;
+        }
+        PetAbilityPoint ChangeDataType(PetAbilityPointDTO pointDTO)
+        {
+            PetAbilityPoint petAbility = new PetAbilityPoint();
+            petAbility.AbilityPointSln = Utility.Json.ToJson(pointDTO.AbilityPointSln);
+            petAbility.ID = pointDTO.ID;
+            petAbility.IsUnlockSlnThree = pointDTO.IsUnlockSlnThree;
+            petAbility.SlnNow = pointDTO.SlnNow;
+            return petAbility;
         }
 
         Pet ChangeDataType(PetDTO petDTO)

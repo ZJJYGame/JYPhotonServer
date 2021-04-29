@@ -113,8 +113,11 @@ namespace AscensionServer
             var rolePet = NHibernateQuerier.CriteriaSelect<RolePet>(nHCriteriaRolePet);
 
             NHCriteria nHCriteriaRomePet = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", rolePetDTO.AddRemovePetID);
+            NHCriteria nHCriteriaRome = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("PetID", rolePetDTO.AddRemovePetID);
             var pet = NHibernateQuerier.CriteriaSelect<Pet>(nHCriteriaRomePet);
-
+            var petabitily = NHibernateQuerier.CriteriaSelect<PetAbilityPoint>(nHCriteriaRomePet);
+            var petaptutide = NHibernateQuerier.CriteriaSelect<PetAptitude>(nHCriteriaRome);
+            var petstatus = NHibernateQuerier.CriteriaSelect<PetStatus>(nHCriteriaRome);
             var rolePetDict = Utility.Json.ToObject<Dictionary<int, int>>(rolePet.PetIDDict);
             if (rolePetDict.ContainsKey(pet.ID))
             {
@@ -127,10 +130,16 @@ namespace AscensionServer
                 if (result)
                 {
                     await RedisHelper.Hash.HashDeleteAsync(RedisKeyDefine._PetPerfix, pet.ID.ToString());
+                    await RedisHelper.Hash.HashDeleteAsync(RedisKeyDefine._PetAbilityPointPerfix, pet.ID.ToString());
+                    await RedisHelper.Hash.HashDeleteAsync(RedisKeyDefine._PetAptitudePerfix, pet.ID.ToString());
+                    await RedisHelper.Hash.HashDeleteAsync(RedisKeyDefine._PetStatusPerfix, pet.ID.ToString());
                     await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RolePetPerfix, rolePetDTO.RoleID.ToString(), rolePetDTO);
                 }
                 #endregion
-                NHibernateQuerier.Delete(pet);
+                await NHibernateQuerier.DeleteAsync(pet);
+                await NHibernateQuerier.DeleteAsync(petabitily);
+                await NHibernateQuerier.DeleteAsync(petaptutide);
+                await NHibernateQuerier.DeleteAsync(petstatus);
                 Utility.Debug.LogInfo("yzqData已经放生的寵物" + Utility.Json.ToJson(pet));
                 await NHibernateQuerier.UpdateAsync(rolePet);
                 ResultSuccseS2C(rolePet.RoleID,RolePetOpCode.RemovePet, rolePetDTO);
@@ -589,6 +598,9 @@ namespace AscensionServer
                     dict.Add((byte)ParameterCode.Pet, petTemp);
                     ResultSuccseS2C(roleid, RolePetOpCode.PetStudySkill, dict);
                     await RedisHelper.Hash.HashSetAsync<PetDTO>(RedisKeyDefine._PetPerfix, roleid.ToString(), petTemp);
+                    await NHibernateQuerier.UpdateAsync(status);
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._PetStatusPerfix, petTemp.ID.ToString(), status);
+
                     InventoryManager.RemoveCmdS2C(bookid, ringObj, nHCriteriaRingID);
                 }
                 else
@@ -622,6 +634,7 @@ namespace AscensionServer
                 soulDict.Remove(soulid);
                 pet.DemonicSoul = Utility.Json.ToJson(soulDict);
                 var status = VerifyPetAllStatus(pet.ID, null, null, null, pet);
+                status.PetID = petid;
                 Dictionary<byte, object> dict = new Dictionary<byte, object>();
                 dict.Add((byte)ParameterCode.Pet, ChangeDataType(pet));
                 dict.Add((byte)ParameterCode.PetStatus, status);
@@ -629,6 +642,8 @@ namespace AscensionServer
 
                 await NHibernateQuerier.UpdateAsync(pet);
                 await RedisHelper.Hash.HashSetAsync<PetDTO>(RedisKeyDefine._PetPerfix, pet.ID.ToString(), ChangeDataType(pet));
+                await NHibernateQuerier.UpdateAsync(status);
+                await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._PetStatusPerfix, pet.ID.ToString(), status);
 
             }
             else
@@ -705,11 +720,14 @@ namespace AscensionServer
                     InventoryManager.Remove(roleid, useitemid);
 
                     var status= VerifyPetAllStatus(pet.ID, null,null, null, pet);
-
+                    status.PetID = pet.ID;
                     Dictionary<byte, object> dict = new Dictionary<byte, object>();
                     dict.Add((byte)ParameterCode.Pet,ChangeDataType(pet));
                     dict.Add((byte)ParameterCode.PetStatus, status);
                     ResultSuccseS2C(roleid, RolePetOpCode.EquipDemonicSoul, dict);
+
+                    await NHibernateQuerier.UpdateAsync(status);
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._PetStatusPerfix, pet.ID.ToString(), status);
                 }
                 else
                     ResultFailS2C(roleid, RolePetOpCode.EquipDemonicSoul);
@@ -803,6 +821,8 @@ namespace AscensionServer
                         await RedisHelper.Hash.HashSetAsync<PetStatus>(RedisKeyDefine._PetStatusPerfix, pet.ID.ToString(), status);
 
                         await NHibernateQuerier.UpdateAsync(status);
+
+
 
                     }
                     else
