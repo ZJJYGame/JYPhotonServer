@@ -278,6 +278,15 @@ namespace AscensionServer
         }
         public void ChangeProperty(BattleDamageData battleDamageData)
         {
+            //死亡前事件触发
+            if (battleDamageData.battleSkillActionType == BattleSkillActionType.Damage)
+            {
+                if(Hp+ battleDamageData.damageNum+ battleDamageData.extraDamageNum <= 0)
+                {
+                    owner.BattleBuffController.TriggerBuffEventBeforeRoleDie(owner.BattleBuffController.NowBattleTransferDTO, battleDamageData: battleDamageData);
+                }
+            }
+
             //触发伤害前buff事件（目前仅针对护盾）
             owner.BattleBuffController.TriggerBuffEventBeforePropertyChange(null,battleDamageData:battleDamageData);
 

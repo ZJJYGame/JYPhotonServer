@@ -26,6 +26,7 @@ namespace AscensionServer
             CharacterBattleData.Init(roleStatus, this);
             UniqueID = roleID;
             GlobalID = 0;
+            MasterID = -1;
             BattleFactionType = battleFactionType;
             Name = role.RoleName;
             RoomID = roomID;

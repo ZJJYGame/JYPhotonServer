@@ -19,6 +19,7 @@ namespace AscensionServer
                 CharacterBattleData.Init(monsterDict[aIID],this);
             UniqueID = uniqueID;
             GlobalID = aIID;
+            MasterID = -1;
             BattleFactionType= battleFactionType;
             Name = monsterDict[aIID].Monster_Name;
             RoomID = roomID;

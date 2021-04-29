@@ -19,6 +19,7 @@ namespace AscensionServer
         public BuffCharacterData BuffCharacterData { get; private set; }
 
         public HashSet<int> ImmuneBuffId { get; set; }
+        public HashSet<int> ForbiddenBuff { get; set; }
 
         public BattleTransferDTO NowBattleTransferDTO { get;  set; }
 
@@ -90,6 +91,13 @@ namespace AscensionServer
             remove { roleAfterDieEvent -= value; }
         }
         #endregion
+        public bool HasBuff(int buffId)
+        {
+            if (battleBuffObjDict8Id.ContainsKey(buffId))
+                return true;
+            else
+                return false;
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -209,7 +217,7 @@ namespace AscensionServer
             behindOnHitEvent?.Invoke( target, battleDamageData, skillAdditionData);
             return skillAdditionData;
         }
-        public ISkillAdditionData TriggerBuffEventBehindRoleDie(BattleTransferDTO battleTransferDTO, BattleCharacterEntity target = null, BattleDamageData battleDamageData = null)
+        public ISkillAdditionData TriggerBuffEventBeforeRoleDie(BattleTransferDTO battleTransferDTO, BattleCharacterEntity target = null, BattleDamageData battleDamageData = null)
         {
             NowBattleTransferDTO = battleTransferDTO;
             ISkillAdditionData skillAdditionData = new SkillAdditionData();
@@ -285,6 +293,7 @@ namespace AscensionServer
             battleBuffObjDict8Id = new Dictionary<int, List<BattleBuffObj>>();
             BuffCharacterData = new BuffCharacterData(owner.CharacterBattleData);
             ImmuneBuffId = new HashSet<int>();
+            ForbiddenBuff = new HashSet<int>();
         }
     }
 }
