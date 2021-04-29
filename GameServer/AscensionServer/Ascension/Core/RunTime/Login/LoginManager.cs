@@ -7,6 +7,7 @@ using Cosmos;
 using AscensionProtocol.DTO;
 using AscensionProtocol;
 using AscensionServer.Model;
+using RedisDotNet;
 
 namespace AscensionServer
 {
@@ -152,6 +153,18 @@ namespace AscensionServer
                         }
                         roleAllianceobj.Offline = "在线";
                         NHibernateQuerier.Update(roleAllianceobj);
+                        RoleAllianceDTO allianceDTO = new RoleAllianceDTO();
+                        allianceDTO.AllianceID = roleAllianceobj.AllianceID;
+                        allianceDTO.AllianceJob = roleAllianceobj.AllianceJob;
+                        allianceDTO.ApplyForAlliance = Utility.Json.ToObject<List<int>>(roleAllianceobj.ApplyForAlliance);
+                        allianceDTO.JoinTime = roleAllianceobj.JoinTime;
+                        allianceDTO.Offline = roleAllianceobj.Offline;
+                        allianceDTO.Reputation = roleAllianceobj.Reputation;
+                        allianceDTO.ReputationHistroy = roleAllianceobj.ReputationHistroy;
+                        allianceDTO.ReputationMonth = roleAllianceobj.ReputationMonth;
+                        allianceDTO.RoleID = roleAllianceobj.RoleID;
+                        allianceDTO.RoleName = roleAllianceobj.RoleName;
+                        RedisHelper.Hash.HashSet(RedisKeyDefine._RoleAlliancePerfix, roleAllianceobj.RoleID.ToString(), allianceDTO);
                     }
                     #endregion
                     peerAgent.TryAdd(remoteRoleType, role);
@@ -176,6 +189,18 @@ namespace AscensionServer
                             }
                             roleAllianceobj.Offline = "在线";
                             NHibernateQuerier.Update(roleAllianceobj);
+                            RoleAllianceDTO allianceDTO = new RoleAllianceDTO();
+                            allianceDTO.AllianceID = roleAllianceobj.AllianceID;
+                            allianceDTO.AllianceJob = roleAllianceobj.AllianceJob;
+                            allianceDTO.ApplyForAlliance = Utility.Json.ToObject<List<int>>(roleAllianceobj.ApplyForAlliance);
+                            allianceDTO.JoinTime = roleAllianceobj.JoinTime;
+                            allianceDTO.Offline = roleAllianceobj.Offline;
+                            allianceDTO.Reputation = roleAllianceobj.Reputation;
+                            allianceDTO.ReputationHistroy = roleAllianceobj.ReputationHistroy;
+                            allianceDTO.ReputationMonth = roleAllianceobj.ReputationMonth;
+                            allianceDTO.RoleID = roleAllianceobj.RoleID;
+                            allianceDTO.RoleName = roleAllianceobj.RoleName;
+                            RedisHelper.Hash.HashSet(RedisKeyDefine._RoleAlliancePerfix, roleAllianceobj.RoleID.ToString(), allianceDTO);
                         }
                         #endregion
                         GameEntry.RoleManager.TryRemove(roleObj.RoleID);

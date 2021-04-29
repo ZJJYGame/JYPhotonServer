@@ -61,6 +61,7 @@ namespace AscensionServer
         /// </summary>
         async void ConsentApplyS2C(int roleID, int id, List<int> roleIDs)
         {
+            Utility.Debug.LogError("收到的同意的角色id："+Utility.Json.ToJson(roleIDs));
             var allianceExists = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AllianceMemberPerfix, id.ToString()).Result;
             var alliancestatusExists = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, id.ToString()).Result;
             var onofflineExists = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RolePostfix, roleID.ToString()).Result;

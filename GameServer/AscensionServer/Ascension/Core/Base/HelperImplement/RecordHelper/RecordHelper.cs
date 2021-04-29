@@ -44,6 +44,18 @@ namespace AscensionServer
                 CosmosEntry.ReferencePoolManager.Despawn(nHCriteriaAllianceStatus);
                 roleAllianceobj.Offline = DateTime.Now.ToString();
                 await NHibernateQuerier.UpdateAsync(roleAllianceobj);
+                RoleAllianceDTO allianceDTO = new RoleAllianceDTO();
+                allianceDTO.AllianceID = roleAllianceobj.AllianceID;
+                allianceDTO.AllianceJob = roleAllianceobj.AllianceJob;
+                allianceDTO.ApplyForAlliance = Utility.Json.ToObject<List<int>>(roleAllianceobj.ApplyForAlliance);
+                allianceDTO.JoinTime = roleAllianceobj.JoinTime;
+                allianceDTO.Offline = roleAllianceobj.Offline;
+                allianceDTO.Reputation = roleAllianceobj.Reputation;
+                allianceDTO.ReputationHistroy = roleAllianceobj.ReputationHistroy;
+                allianceDTO.ReputationMonth = roleAllianceobj.ReputationMonth;
+                allianceDTO.RoleID = roleAllianceobj.RoleID;
+                allianceDTO.RoleName = roleAllianceobj.RoleName;
+                await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAlliancePerfix, roleAllianceobj.RoleID.ToString(), allianceDTO);
             }
             if (obj != null)
             {
