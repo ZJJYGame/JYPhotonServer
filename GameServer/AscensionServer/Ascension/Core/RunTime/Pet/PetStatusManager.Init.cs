@@ -435,11 +435,11 @@ namespace AscensionServer
                 status.PetID = pet.ID;
                 dict.Add((byte)ParameterCode.PetStatus, status);
                 ResultSuccseS2C(roleid, RolePetOpCode.PetCultivate, dict);
-                await RedisHelper.Hash.HashSetAsync<PetStatusDTO>(RedisKeyDefine._PetStatusPerfix, pet.ID.ToString(), status);
+                await RedisHelper.Hash.HashSetAsync<PetStatus>(RedisKeyDefine._PetStatusPerfix, pet.ID.ToString(), status);
 
-                petStatuObj = Utility.Assembly.AssignSameFieldValue<PetStatusDTO, PetStatus>(petStatus, petStatuObj);
+              
 
-                await NHibernateQuerier.UpdateAsync(petStatuObj);
+                await NHibernateQuerier.UpdateAsync(status);
              
                 if (petDrugRefreshDTO.PetUsedDrug.ContainsKey(drugData.Drug_ID))
                 {
@@ -544,9 +544,9 @@ namespace AscensionServer
                         status.PetID = pet.ID;
                         dict.Add((byte)ParameterCode.PetStatus, status);
 
-                        await RedisHelper.Hash.HashSetAsync<PetStatusDTO>(RedisKeyDefine._PetStatusPerfix, pet.ID.ToString(), status);
+                        await RedisHelper.Hash.HashSetAsync<PetStatus>(RedisKeyDefine._PetStatusPerfix, pet.ID.ToString(), status);
 
-                        await NHibernateQuerier.UpdateAsync(petStatuObj);
+                        await NHibernateQuerier.UpdateAsync(status);
                         await NHibernateQuerier.UpdateAsync(petAptitudeObj);
                         ResultSuccseS2C(roleid, RolePetOpCode.PetCultivate, dict);
 
@@ -800,10 +800,9 @@ namespace AscensionServer
                         dict.Add((byte)ParameterCode.DemonicSoul, demonicSoulDTO);
                         ResultSuccseS2C(roleid,RolePetOpCode.PetEvolution,dict);
 
-                        await RedisHelper.Hash.HashSetAsync<PetStatusDTO>(RedisKeyDefine._PetStatusPerfix, pet.ID.ToString(), status);
-                        petStatuObj = Utility.Assembly.AssignSameFieldValue<PetStatusDTO, PetStatus>(status, petStatuObj);
+                        await RedisHelper.Hash.HashSetAsync<PetStatus>(RedisKeyDefine._PetStatusPerfix, pet.ID.ToString(), status);
 
-                        await NHibernateQuerier.UpdateAsync(petStatuObj);
+                        await NHibernateQuerier.UpdateAsync(status);
 
                     }
                     else

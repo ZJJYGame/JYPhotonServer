@@ -158,7 +158,7 @@ namespace AscensionServer
 
                     roleAlliance.AllianceID = statusDTO.ID;
                     roleAlliance.AllianceJob = 937;//需要职位的表
-                    roleAlliance.JoinOffline = DateTime.Now.ToString();
+                    roleAlliance.JoinTime = DateTime.Now.ToString();
                     roleAlliance.Reputation = 0;
                     roleAlliance.ReputationHistroy = 0;
                     roleAlliance.ReputationMonth = 0;
@@ -382,7 +382,7 @@ namespace AscensionServer
             roleAllianceDTO.AllianceID = roleAlliance.AllianceID;
             roleAllianceDTO.AllianceJob = roleAlliance.AllianceJob;
             roleAllianceDTO.ApplyForAlliance = Utility.Json.ToObject<List<int>>(roleAlliance.ApplyForAlliance);
-            roleAllianceDTO.JoinOffline = roleAlliance.JoinOffline;
+            roleAllianceDTO.Offline = roleAlliance.Offline;
             roleAllianceDTO.JoinTime = roleAlliance.JoinTime;
             roleAllianceDTO.Reputation = roleAlliance.Reputation;
             roleAllianceDTO.ReputationHistroy = roleAlliance.ReputationHistroy;
@@ -398,7 +398,7 @@ namespace AscensionServer
             roleAlliance.AllianceID = AllianceDTO.AllianceID;
             roleAlliance.AllianceJob = AllianceDTO.AllianceJob;
             roleAlliance.ApplyForAlliance = Utility.Json.ToJson(AllianceDTO.ApplyForAlliance);
-            roleAlliance.JoinOffline = AllianceDTO.JoinOffline;
+            roleAlliance.Offline = AllianceDTO.Offline;
             roleAlliance.JoinTime = AllianceDTO.JoinTime;
             roleAlliance.Reputation = AllianceDTO.Reputation;
             roleAlliance.ReputationHistroy = AllianceDTO.ReputationHistroy;

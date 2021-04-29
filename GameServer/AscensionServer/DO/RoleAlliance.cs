@@ -16,7 +16,7 @@ namespace AscensionServer.Model
         public virtual int ReputationMonth { get; set; }
         public virtual int ReputationHistroy { get; set; }
         public virtual string JoinTime { get; set; }
-        public virtual string JoinOffline { get; set; }
+        public virtual string Offline { get; set; }
         public virtual string RoleName { get; set; }
         public virtual string ApplyForAlliance { get; set; }
         public virtual int RoleSchool { get; set; }
@@ -30,7 +30,7 @@ namespace AscensionServer.Model
             ReputationMonth = 0;
             ReputationHistroy = 0;
             JoinTime = null;
-            JoinOffline = null;
+            Offline = null;
             ApplyForAlliance = null;
 
             RoleSchool = 0;
@@ -44,7 +44,7 @@ namespace AscensionServer.Model
             ReputationMonth = 0;
             ReputationHistroy = 0;
             JoinTime = null;
-            JoinOffline = "在线";
+            Offline = "在线";
  
             ApplyForAlliance = null;
             RoleSchool = 0;

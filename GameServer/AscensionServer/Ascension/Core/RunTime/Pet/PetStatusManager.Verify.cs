@@ -62,7 +62,7 @@ namespace AscensionServer
         /// <summary>
         /// 验证宠物完整属性
         /// </summary>
-        public PetStatusDTO VerifyPetAllStatus(int petid,PetAbilityPointDTO petAbilityPoint=null, PetAptitude petAptitude=null,PetStatus petStatus=null,Pet pet=null)
+        public PetStatus VerifyPetAllStatus(int petid,PetAbilityPointDTO petAbilityPoint=null, PetAptitude petAptitude=null,PetStatus petStatus=null,Pet pet=null)
         {
             if (petAbilityPoint==null)
             {
@@ -254,9 +254,9 @@ namespace AscensionServer
         /// <param name="petStatus"></param>
         /// <param name="petAbilityStatus"></param>
         /// <param name="petStatusTemp"></param>
-        public void StatusAddition(PetStatus petStatus, List<PetStatusDTO> petAbilityStatus, PetLevelData petLevelData, out PetStatusDTO petStatusTemp)
+        public void StatusAddition(PetStatus petStatus, List<PetStatusDTO> petAbilityStatus, PetLevelData petLevelData, out PetStatus petStatusTemp)
         {
-            petStatusTemp= new PetStatusDTO();
+            petStatusTemp= new PetStatus();
             petStatusTemp.AttackPhysical =(petStatus.AttackPhysical ) + (petLevelData.AttackPhysical * (petAbilityStatus[0].AttackPhysical + 100) / 100) + petAbilityStatus[1].AttackPhysical;
             petStatusTemp.AttackPower = (petStatus.AttackPower) + (petLevelData.AttackPower * (petAbilityStatus[0].AttackPower + 100) / 100) + petAbilityStatus[1].AttackPower;
             petStatusTemp.AttackSpeed =  (petStatus.AttackSpeed ) + (petLevelData.AttackSpeed * (petAbilityStatus[0].AttackSpeed + 100) / 100) + petAbilityStatus[1].AttackSpeed;

@@ -42,7 +42,7 @@ namespace AscensionServer
                     await NHibernateQuerier.UpdateAsync(allianceStatusobj);
                 }
                 CosmosEntry.ReferencePoolManager.Despawn(nHCriteriaAllianceStatus);
-                roleAllianceobj.JoinOffline = DateTime.Now.ToString();
+                roleAllianceobj.Offline = DateTime.Now.ToString();
                 await NHibernateQuerier.UpdateAsync(roleAllianceobj);
             }
             if (obj != null)

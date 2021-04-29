@@ -47,5 +47,7 @@ namespace AscensionServer
         /// <param name="roleStatus"></param>
         /// <returns></returns>
         Task<RoleStatus> RoleSwitchFlyMagicTool(FlyMagicToolDTO flyMagic, RoleStatus roleStatus);
+
+        RoleStatusDTO RoleStatusAlgorithm(int roleid, RoleStatusDTO statusFly = null, RoleStatusAdditionDTO statusGF = null, RoleStatusAdditionDTO statusMS = null, RoleStatusDTO statusPoint = null, RoleStatusAdditionDTO statusEquip = null, RoleAllianceSkill roleAllianceSkill = null);
     }
 }

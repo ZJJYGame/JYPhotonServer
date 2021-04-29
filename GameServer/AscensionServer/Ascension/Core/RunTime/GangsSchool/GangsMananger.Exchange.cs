@@ -108,7 +108,7 @@ namespace AscensionServer
                     {
                         InventoryManager.AddNewItem(roleid, drugDTO.GoodsID, drugDTO.GoodsNum);
                         rolealliance.Reputation -= (data.AllianceContribution * drugDTO.GoodsNum);
-                        roleassets.SpiritStonesLow -= data.SpiritStones;
+                        roleassets.SpiritStonesLow -= data.SpiritStones * drugDTO.GoodsNum;
                         construction.AllianceAlchemyStorage -= data.DrugHouseLevel;
 
                         Dictionary<byte, object> dict = new Dictionary<byte, object>();

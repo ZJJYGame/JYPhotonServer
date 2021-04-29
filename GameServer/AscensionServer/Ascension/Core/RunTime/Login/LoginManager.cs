@@ -150,7 +150,7 @@ namespace AscensionServer
                             allianceStatusobj.OnLineNum += 1;
                             NHibernateQuerier.Update(allianceStatusobj);
                         }
-                        roleAllianceobj.JoinOffline = "在线";
+                        roleAllianceobj.Offline = "在线";
                         NHibernateQuerier.Update(roleAllianceobj);
                     }
                     #endregion
@@ -174,7 +174,7 @@ namespace AscensionServer
                             {
                                 NHibernateQuerier.Update(allianceStatusobj);
                             }
-                            roleAllianceobj.JoinOffline = "在线";
+                            roleAllianceobj.Offline = "在线";
                             NHibernateQuerier.Update(roleAllianceobj);
                         }
                         #endregion

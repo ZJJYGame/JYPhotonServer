@@ -20,7 +20,7 @@ namespace AscensionServer.DOMap
             Map(x => x.ReputationMonth).Column("reputation_month");
             Map(x => x.ReputationHistroy).Column("reputation_history");
             Map(x => x.JoinTime).Column("jointime");
-            Map(x => x.JoinOffline).Column("joinoffline");
+            Map(x => x.Offline).Column("offline");
             Map(x => x.RoleName).Column("role_name");
             Map(x => x.ApplyForAlliance).Column("apply_for_alliance_list");
             Map(x => x.RoleSchool).Column("role_school");

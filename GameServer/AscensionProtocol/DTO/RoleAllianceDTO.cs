@@ -40,7 +40,7 @@ namespace AscensionProtocol.DTO
         /// <summary>
         /// 角色离线时间
         /// </summary>
-        public virtual string JoinOffline { get; set; }
+        public virtual string Offline { get; set; }
         /// <summary>
         /// 玩家名称
         /// </summary>
@@ -62,7 +62,7 @@ namespace AscensionProtocol.DTO
             ReputationMonth = 0;
             ReputationHistroy = 0;
             JoinTime = null;
-            JoinOffline = null;
+            Offline = null;
             RoleName = null;
             ApplyForAlliance =null;
             RoleLevel = 0;

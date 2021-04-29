@@ -47,31 +47,38 @@ namespace AscensionServer
             var pointSlnDict = Utility.Json.ToObject<Dictionary<int, AbilityDTO>>(petAbilityPoint.AbilityPointSln);
             if (pointSlnDict.TryGetValue(abilityPointDTO.SlnNow, out var AbilityDTO))
             {
-                //Utility.Debug.LogInfo("yzqData更新宠物加点" + Utility.Json.ToJson(pointSlnDict));
+                var point = abilityPointDTO.AbilityPointSln[abilityPointDTO.SlnNow].Agility + abilityPointDTO.AbilityPointSln[abilityPointDTO.SlnNow].Power + abilityPointDTO.AbilityPointSln[abilityPointDTO.SlnNow].Strength + abilityPointDTO.AbilityPointSln[abilityPointDTO.SlnNow].Soul + abilityPointDTO.AbilityPointSln[abilityPointDTO.SlnNow].Corporeity + abilityPointDTO.AbilityPointSln[abilityPointDTO.SlnNow].Stamina;
+                if (point<= AbilityDTO.SurplusAptitudePoint)
+                {
 
-                AbilityDTO.Agility = abilityPointDTO.AbilityPointSln[abilityPointDTO.SlnNow].Agility;
-                AbilityDTO.Power = abilityPointDTO.AbilityPointSln[abilityPointDTO.SlnNow].Power;
-                AbilityDTO.Strength = abilityPointDTO.AbilityPointSln[abilityPointDTO.SlnNow].Strength;
-                AbilityDTO.Soul = abilityPointDTO.AbilityPointSln[abilityPointDTO.SlnNow].Soul;
-                AbilityDTO.Corporeity = abilityPointDTO.AbilityPointSln[abilityPointDTO.SlnNow].Corporeity;
-                AbilityDTO.Stamina = abilityPointDTO.AbilityPointSln[abilityPointDTO.SlnNow].Stamina;
-                AbilityDTO.SurplusAptitudePoint = abilityPointDTO.AbilityPointSln[abilityPointDTO.SlnNow].SurplusAptitudePoint;
-                AbilityDTO.IsSet = true;
+                    AbilityDTO.Agility += abilityPointDTO.AbilityPointSln[abilityPointDTO.SlnNow].Agility;
+                    AbilityDTO.Power += abilityPointDTO.AbilityPointSln[abilityPointDTO.SlnNow].Power;
+                    AbilityDTO.Strength += abilityPointDTO.AbilityPointSln[abilityPointDTO.SlnNow].Strength;
+                    AbilityDTO.Soul += abilityPointDTO.AbilityPointSln[abilityPointDTO.SlnNow].Soul;
+                    AbilityDTO.Corporeity += abilityPointDTO.AbilityPointSln[abilityPointDTO.SlnNow].Corporeity;
+                    AbilityDTO.Stamina += abilityPointDTO.AbilityPointSln[abilityPointDTO.SlnNow].Stamina;
+                    AbilityDTO.SurplusAptitudePoint -= point;
+                    AbilityDTO.IsSet = true;
 
-                pointSlnDict[abilityPointDTO.SlnNow] = AbilityDTO;
+                    pointSlnDict[abilityPointDTO.SlnNow] = AbilityDTO;
 
-                abilityPointDTO.AbilityPointSln = pointSlnDict;
-                petAbilityPoint.AbilityPointSln = Utility.Json.ToJson(pointSlnDict);
+                    abilityPointDTO.AbilityPointSln = pointSlnDict;
+                    petAbilityPoint.AbilityPointSln = Utility.Json.ToJson(pointSlnDict);
 
-                var status = VerifyPetAllStatus(petAbilityPoint.ID, ChangeDataType(petAbilityPoint), null, null);
+                    var status = VerifyPetAllStatus(petAbilityPoint.ID, ChangeDataType(petAbilityPoint), null, null);
+                    status.PetID = abilityPointDTO.ID;
+                    Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                    dict.Add((byte)ParameterCode.PetStatus, status);
+                    dict.Add((byte)ParameterCode.PetAbility, abilityPointDTO);
+                    ResultSuccseS2C(roleid, RolePetOpCode.SetAdditionPoint, dict);
 
-                Dictionary<byte, object> dict = new Dictionary<byte, object>();
-                dict.Add((byte)ParameterCode.PetStatus, status);
-                dict.Add((byte)ParameterCode.PetAbility, abilityPointDTO);
-                ResultSuccseS2C(roleid, RolePetOpCode.SetAdditionPoint, dict);
+                    await NHibernateQuerier.UpdateAsync<PetAbilityPoint>(petAbilityPoint);
+                    await RedisHelper.Hash.HashSetAsync<PetAbilityPointDTO>(RedisKeyDefine._PetAbilityPointPerfix, abilityPointDTO.ID.ToString(), abilityPointDTO);
 
-                await NHibernateQuerier.UpdateAsync<PetAbilityPoint>(petAbilityPoint);
-                await RedisHelper.Hash.HashSetAsync<PetAbilityPointDTO>(RedisKeyDefine._PetAbilityPointPerfix, abilityPointDTO.ID.ToString(), abilityPointDTO);
+                    await NHibernateQuerier.UpdateAsync(status);
+                    await RedisHelper.Hash.HashSetAsync<PetStatus>(RedisKeyDefine._PetStatusPerfix, abilityPointDTO.ID.ToString(), status);
+                }else
+                    ResultFailS2C(roleid, RolePetOpCode.SetAdditionPoint);
             }
             else
                 ResultFailS2C(roleid, RolePetOpCode.SetAdditionPoint);

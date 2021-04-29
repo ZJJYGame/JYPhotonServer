@@ -4253,7 +4253,7 @@
             </summary>
             <param name="skillid"></param>
         </member>
-        <member name="M:AscensionServer.PetStatusManager.StatusAddition(AscensionServer.Model.PetStatus,System.Collections.Generic.List{AscensionProtocol.DTO.PetStatusDTO},AscensionServer.PetLevelData,AscensionProtocol.DTO.PetStatusDTO@)">
+        <member name="M:AscensionServer.PetStatusManager.StatusAddition(AscensionServer.Model.PetStatus,System.Collections.Generic.List{AscensionProtocol.DTO.PetStatusDTO},AscensionServer.PetLevelData,AscensionServer.Model.PetStatus@)">
             <summary>
             加成计算资质后计算加点后的总加成
             </summary>
@@ -4371,7 +4371,7 @@
             计算技能加成
             </summary>
         </member>
-        <member name="M:AscensionServer.PracticeManager.RoleStatusAlgorithm(System.Int32,AscensionProtocol.DTO.RoleStatusDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO,AscensionProtocol.DTO.RoleStatusDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO)">
+        <member name="M:AscensionServer.PracticeManager.RoleStatusAlgorithm(System.Int32,AscensionProtocol.DTO.RoleStatusDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO,AscensionProtocol.DTO.RoleStatusDTO,AscensionProtocol.DTO.RoleStatusAdditionDTO,AscensionServer.Model.RoleAllianceSkill)">
             <summary>
             获取Redis各部分加成
             </summary>

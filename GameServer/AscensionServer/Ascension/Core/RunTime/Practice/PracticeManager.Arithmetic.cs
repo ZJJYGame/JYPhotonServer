@@ -41,9 +41,6 @@ namespace AscensionServer
 
             RoleStatusDTO roleStatus = new RoleStatusDTO();
 
-
-
-
             var roleExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RolePostfix, roleid.ToString()).Result;
             var rolestatusExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatsuPerfix, roleid.ToString()).Result;
             var roleAptitudeExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatsuPerfix, roleid.ToString()).Result;
@@ -546,9 +543,15 @@ namespace AscensionServer
         /// <param name="statusMS">秘术加成</param>
         /// <param name="statusPoint">加点加成</param>
         /// <param name="statusEquip">装备加成</param>
-        public  RoleStatusDTO RoleStatusAlgorithm(int roleid, RoleStatusDTO statusFly = null, RoleStatusAdditionDTO statusGF = null, RoleStatusAdditionDTO statusMS = null, RoleStatusDTO statusPoint = null, RoleStatusAdditionDTO statusEquip = null)
+        public  RoleStatusDTO RoleStatusAlgorithm(int roleid, RoleStatusDTO statusFly = null, RoleStatusAdditionDTO statusGF = null, RoleStatusAdditionDTO statusMS = null, RoleStatusDTO statusPoint = null, RoleStatusAdditionDTO statusEquip = null,RoleAllianceSkill roleAllianceSkill=null)
         {
+            SkillsData hp=new SkillsData();
+            SkillsData soul = new SkillsData();
+            SkillsData mp = new SkillsData();
+            SkillsData attackspeed = new SkillsData();
+
             GameEntry.DataManager.TryGetValue<Dictionary<int, RoleLevelData>>(out var roleData);
+            GameEntry.DataManager.TryGetValue<Dictionary<string, AllianceSkillsData>>(out var allianceSkiil);
             var roleexist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RolePostfix,roleid.ToString()).Result;
             if (roleexist)
             {
@@ -623,6 +626,39 @@ namespace AscensionServer
                         }
                         else statusPoint = new RoleStatusDTO();
                     }
+                    if (roleAllianceSkill == null)
+                    {
+                        var roleAllianceSkillExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatusAddPointPerfix, roleid.ToString()).Result;
+                        if (roleAllianceSkillExist)
+                        {
+                            roleAllianceSkill = RedisHelper.Hash.HashGetAsync<RoleAllianceSkill>(RedisKeyDefine._RoleStatusAddPointPerfix, roleid.ToString()).Result;
+                            if (roleAllianceSkill == null)
+                            {
+                                roleAllianceSkill = new RoleAllianceSkill();
+                            }
+                        }
+                        else roleAllianceSkill = new RoleAllianceSkill();
+                    }
+
+                    if (allianceSkiil.TryGetValue("StrongBody", out var StrongBody))
+                    {
+                        hp = StrongBody.AllianceSkillData.Find((x)=>x.SkillLevel== roleAllianceSkill.SkillStrong);
+                    }
+
+                    if (allianceSkiil.TryGetValue("Insight", out var Insight))
+                    {
+                         soul = Insight.AllianceSkillData.Find((x) => x.SkillLevel == roleAllianceSkill.SkillStrong);
+                    }
+
+                    if (allianceSkiil.TryGetValue("Rapid", out var Rapid))
+                    {
+                         attackspeed = Rapid.AllianceSkillData.Find((x) => x.SkillLevel == roleAllianceSkill.SkillStrong);
+                    }
+
+                    if (allianceSkiil.TryGetValue("Meditation", out var Meditation))
+                    {
+                         mp = Meditation.AllianceSkillData.Find((x) => x.SkillLevel == roleAllianceSkill.SkillStrong);
+                    }
 
                     RoleStatusType statusType = new RoleStatusType();
                     RoleStatusDTO roleStatus = new RoleStatusDTO();
@@ -631,7 +667,7 @@ namespace AscensionServer
                         #region 
                         roleStatus.AttackPhysical += statusFly.AttackPhysical + statusGF.AttackPhysical + statusEquip.AttackPhysical + statusMS.AttackPhysical + statusPoint.AttackPhysical+ roleObj.AttackPhysical;
                         roleStatus.AttackPower += statusFly.AttackPower + roleObj.AttackPower + statusGF.AttackPower + statusEquip.AttackPower + statusMS.AttackPower + statusPoint.AttackPower;
-                        roleStatus.AttackSpeed += statusFly.AttackSpeed + roleObj.AttackSpeed + statusGF.AttackSpeed + statusEquip.AttackSpeed + statusMS.AttackSpeed + statusPoint.AttackSpeed;
+                        roleStatus.AttackSpeed += statusFly.AttackSpeed + roleObj.AttackSpeed + statusGF.AttackSpeed + statusEquip.AttackSpeed + statusMS.AttackSpeed + statusPoint.AttackSpeed+ attackspeed.AddCoefficient* roleAllianceSkill.SkillRapid;
                         roleStatus.BestBloodMax += (short)(statusFly.BestBlood + roleObj.BestBlood + statusGF.BestBlood + statusEquip.BestBlood + statusMS.BestBlood + statusPoint.BestBlood);
                         roleStatus.DefendPhysical += statusFly.DefendPhysical + roleObj.DefendPhysical + statusGF.DefendPhysical + statusEquip.DefendPhysical + statusMS.DefendPhysical + statusPoint.DefendPhysical;
                         roleStatus.DefendPower += statusFly.DefendPower + roleObj.DefendPower + statusGF.DefendPower + statusEquip.DefendPower + statusMS.DefendPower + statusPoint.DefendPower;
@@ -644,12 +680,12 @@ namespace AscensionServer
                         roleStatus.PhysicalCritProb += statusFly.PhysicalCritProb + roleObj.PhysicalCritProb + statusGF.PhysicalCritProb + statusEquip.PhysicalCritProb + statusMS.PhysicalCritProb + statusPoint.PhysicalCritProb;
                         roleStatus.ReduceCritDamage += statusFly.ReduceCritDamage + roleObj.ReduceCritDamage + statusGF.ReduceCritDamage + statusEquip.ReduceCritDamage + statusMS.ReduceCritDamage + statusPoint.ReduceCritDamage;
                         roleStatus.ReduceCritProb += statusFly.ReduceCritProb + statusGF.ReduceCritProb + roleObj.ReduceCritProb + statusEquip.ReduceCritProb + statusMS.ReduceCritProb + statusPoint.ReduceCritProb;
-                        roleStatus.RoleMaxHP += statusFly.RoleMaxHP+ roleObj.RoleHP + statusGF.RoleMaxHP + statusEquip.RoleMaxHP + statusMS.RoleMaxHP + statusPoint.RoleMaxHP;
+                        roleStatus.RoleMaxHP += statusFly.RoleMaxHP+ roleObj.RoleHP + statusGF.RoleMaxHP + statusEquip.RoleMaxHP + statusMS.RoleMaxHP + statusPoint.RoleMaxHP+ hp.AddCoefficient* roleAllianceSkill.SkillStrong;
                         roleStatus.RolePopularity += statusFly.RoleMaxPopularity+ roleObj.RolePopularity + statusGF.RoleMaxPopularity + statusEquip.RoleMaxPopularity + statusMS.RoleMaxPopularity + statusPoint.RoleMaxPopularity;
-                        roleStatus.RoleMaxSoul += statusFly.RoleMaxSoul + statusGF.RoleMaxSoul + roleObj .RoleSoul+ statusEquip.RoleMaxSoul + statusMS.RoleMaxSoul + statusPoint.RoleMaxSoul;
+                        roleStatus.RoleMaxSoul += statusFly.RoleMaxSoul + statusGF.RoleMaxSoul + roleObj .RoleSoul+ statusEquip.RoleMaxSoul + statusMS.RoleMaxSoul + statusPoint.RoleMaxSoul+ soul.AddCoefficient * roleAllianceSkill.SkillInsight;
                         roleStatus.ValueHide += statusFly.ValueHide + roleObj .ValueHide+ statusGF.ValueHide + statusEquip.ValueHide + statusMS.ValueHide + statusPoint.ValueHide;
                         roleStatus.MaxVitality += statusFly.MaxVitality + statusGF.MaxVitality + statusEquip.MaxVitality + statusMS.MaxVitality + statusPoint.MaxVitality + roleObj.Vitality;
-                        roleStatus.RoleMaxMP += statusFly.RoleMaxMP + statusGF.RoleMaxMP + statusEquip.RoleMaxMP + statusMS.RoleMaxMP + statusPoint.RoleMaxMP + roleObj.RoleMP;
+                        roleStatus.RoleMaxMP += statusFly.RoleMaxMP + statusGF.RoleMaxMP + statusEquip.RoleMaxMP + statusMS.RoleMaxMP + statusPoint.RoleMaxMP + roleObj.RoleMP+ mp.AddCoefficient* roleAllianceSkill.SkillMeditation;
                         #endregion
                         var Percentage = 0;
 

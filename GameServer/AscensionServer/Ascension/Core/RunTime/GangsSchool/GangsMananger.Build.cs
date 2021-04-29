@@ -190,9 +190,13 @@ namespace AscensionServer
                     await NHibernateQuerier.UpdateAsync(skillObj);
                     await NHibernateQuerier.UpdateAsync(assetsObj);
 
+                    var status =GameEntry.practiceManager. RoleStatusAlgorithm(roleID, null, null, null, null, null, skillObj);
+                    status.RoleID = assetsObj.RoleID;
                     Dictionary<byte, object> dict = new Dictionary<byte, object>();
+
                     dict.Add((byte)ParameterCode.RoleAssets, assetsObj);
                     dict.Add((byte)ParameterCode.RoleAllianceSkill, skillObj);
+                    dict.Add((byte)ParameterCode.RoleStatus, status);
                     RoleStatusSuccessS2C(roleID, AllianceOpCode.UpdateAllianceSkill, dict);
                 }
                 else
@@ -296,7 +300,7 @@ namespace AscensionServer
 
                 if (signinObj != null && roleObj != null && assetsObj != null && statusObj != null && roleAllianceObj != null && allianceObj != null)
                 {
-                    if (signinObj.IsSignin)
+                    if (!signinObj.IsSignin)
                     {
                         for (int i = 0; i < signinList.Count; i++)
                         {
@@ -307,7 +311,7 @@ namespace AscensionServer
                                 roleAllianceObj.Reputation += signinList[i].Role_Contribution;
                                 allianceObj.AllianceAssets += signinList[i].Alliance_Spirit_Stone;
 
-                                signinObj.IsSignin = false;
+                                signinObj.IsSignin = true;
                                 Dictionary<byte, object> dict = new Dictionary<byte, object>();
 
                                 dict.Add((byte)ParameterCode.RoleAlliance, roleAllianceObj);
@@ -328,7 +332,11 @@ namespace AscensionServer
                             }
                         }
                     }
+                    else
+                        RoleStatusFailS2C(roleID, AllianceOpCode.UpdateAllianceSignin);
                 }
+                else
+                    RoleStatusFailS2C(roleID, AllianceOpCode.UpdateAllianceSignin);
             }
             else
                 RoleStatusFailS2C(roleID, AllianceOpCode.UpdateAllianceSignin);

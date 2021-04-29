@@ -34,7 +34,7 @@ namespace AscensionServer
                 {
                    NHibernateQuerier.Update(roleallianceTemp);
                     var Role = AlliancelogicManager.Instance.GetNHCriteria<Role>("RoleID", roleallianceObj.RoleID);
-                    RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() {RoleID= roleallianceTemp.RoleID,AllianceID= roleallianceTemp.AllianceID,JoinOffline= roleallianceTemp.JoinOffline,AllianceJob= roleallianceTemp.AllianceJob,ApplyForAlliance= Utility.Json.ToObject<List<int>>(roleallianceTemp.ApplyForAlliance),JoinTime= roleallianceTemp.JoinTime,Reputation= roleallianceTemp.Reputation,ReputationHistroy= roleallianceTemp.ReputationHistroy,ReputationMonth= roleallianceTemp.ReputationMonth,RoleName= roleallianceTemp.RoleName,RoleLevel= Role.RoleLevel };
+                    RoleAllianceDTO roleAllianceDTO = new RoleAllianceDTO() {RoleID= roleallianceTemp.RoleID,AllianceID= roleallianceTemp.AllianceID, Offline = roleallianceTemp.Offline, AllianceJob= roleallianceTemp.AllianceJob,ApplyForAlliance= Utility.Json.ToObject<List<int>>(roleallianceTemp.ApplyForAlliance),JoinTime= roleallianceTemp.JoinTime,Reputation= roleallianceTemp.Reputation,ReputationHistroy= roleallianceTemp.ReputationHistroy,ReputationMonth= roleallianceTemp.ReputationMonth,RoleName= roleallianceTemp.RoleName,RoleLevel= Role.RoleLevel };
 
                     SetResponseParamters(() =>
                     {
