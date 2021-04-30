@@ -49,13 +49,15 @@ namespace AscensionServer
             var OnOffLineresult= RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleOnOffLinePostfix, roleID.ToString()).Result;
             var BottleneckResult = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleBottleneckPostfix, roleID.ToString()).Result;
             var RoleStatusResult = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatsuPerfix, roleID.ToString()).Result;
-            if (!OnOffLineresult||!BottleneckResult||!RoleStatusResult)
+            var roleExist =  RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RolePostfix, roleID.ToString()).Result;
+            if (!OnOffLineresult||!BottleneckResult||!RoleStatusResult|| roleExist)
             {
                 GetOffLineExpMySql(roleID);
                 return;
             }
 
             var exp = 0;
+            var role= RedisHelper.Hash.HashGetAsync<RoleDTO>(RedisKeyDefine._RolePostfix, roleID.ToString()).Result;
             var redisOnOffLine = await RedisHelper.Hash.HashGetAsync<OnOffLineDTO>(RedisKeyDefine._RoleOnOffLinePostfix, roleID.ToString());
             var redisBottleneck = await RedisHelper.Hash.HashGetAsync<BottleneckDTO>(RedisKeyDefine._RoleBottleneckPostfix, roleID.ToString());
             var redisRoleStatus = await RedisHelper.Hash.HashGetAsync<RoleStatus>(RedisKeyDefine._RoleStatsuPerfix, roleID.ToString());
@@ -65,7 +67,7 @@ namespace AscensionServer
             if (redisGongfaexist&& redisMiShuexist)
             {
                 TimeSpan interval;
-                if (redisOnOffLine != null && redisRoleStatus != null)
+                if (redisOnOffLine != null && redisRoleStatus != null && role!=null)
                 {
                     Utility.Debug.LogInfo("YZQ获取离线经验进来了1");
                     var redisGongfa = await RedisHelper.Hash.HashGetAsync<RoleGongFaDTO>(RedisKeyDefine._RoleGongfaPerfix, roleID.ToString());
@@ -74,15 +76,16 @@ namespace AscensionServer
                     switch (redisOnOffLine.ExpType)
                     {
                         case 1:
-                            if (redisBottleneck != null&& redisGongfa == null)
+                            if (redisBottleneck != null&& redisGongfa != null)
                             {
                                 Utility.Debug.LogInfo("YZQ获取离线经验进来了2");
                                 if (redisBottleneck.IsBottleneck || redisBottleneck.IsDemon || redisBottleneck.IsThunder)
                                 {
                                     dict = new Dictionary<byte, object>();
-                                    dict.Add((byte)PracticeOpcode.TriggerBottleneck, redisBottleneck);
-                                    dict.Add((byte)PracticeOpcode.GetOffLineExp, redisOnOffLine);
-                                    dict.Add((byte)PracticeOpcode.GetRoleGongfa, redisGongfa.GongFaIDDict[redisOnOffLine.MsGfID]);
+                                    dict.Add((byte)ParameterCode.RoleBottleneck, redisBottleneck);
+                                    dict.Add((byte)ParameterCode.OnOffLine, redisOnOffLine);
+                                    dict.Add((byte)ParameterCode.RoleGongFa, redisGongfa.GongFaIDDict[redisOnOffLine.MsGfID]);
+                                    dict.Add((byte)ParameterCode.Role, role);
                                     ResultSuccseS2C(roleID, PracticeOpcode.GetOffLineExp, dict);
                                     return;
                                 }
@@ -91,10 +94,12 @@ namespace AscensionServer
                                     exp = (int)interval.TotalSeconds / 5 * redisRoleStatus.GongfaLearnSpeed;
                                     var bottleneckObj = AddGongFaExp(roleID, redisGongfa.GongFaIDDict[redisOnOffLine.MsGfID], exp, out CultivationMethodDTO method);
                                     redisGongfa.GongFaIDDict[method.CultivationMethodID] = method;
+                                    role.RoleLevel = method.CultivationMethodLevel;
                                     dict = new Dictionary<byte, object>();
-                                    dict.Add((byte)PracticeOpcode.TriggerBottleneck, bottleneckObj);
-                                    dict.Add((byte)PracticeOpcode.GetOffLineExp, redisOnOffLine);
-                                    dict.Add((byte)PracticeOpcode.GetRoleGongfa, method);
+                                    dict.Add((byte)ParameterCode.RoleBottleneck, bottleneckObj);
+                                    dict.Add((byte)ParameterCode.OnOffLine, redisOnOffLine);
+                                    dict.Add((byte)ParameterCode.RoleGongFa, method);
+                                    dict.Add((byte)ParameterCode.Role, role);
                                     ResultSuccseS2C(roleID, PracticeOpcode.GetOffLineExp, dict);
 
                                     #region 更新数据至数据库 redis
@@ -121,11 +126,12 @@ namespace AscensionServer
                             }
                             interval = (DateTime.Now).Subtract(Convert.ToDateTime(redisOnOffLine.OffTime));
                             exp = (int)interval.TotalSeconds / 5 * redisRoleStatus.MishuLearnSpeed;
-                            var mishuObj = AddMiShu(redisMiShu.MiShuIDDict[redisOnOffLine.MsGfID], exp);
+                            var mishuObj = AddMiShu(redisMiShu.MiShuIDDict[redisOnOffLine.MsGfID], exp, role.RoleLevel);
                             dict = new Dictionary<byte, object>();
-                            dict.Add((byte)PracticeOpcode.TriggerBottleneck, redisBottleneck);
-                            dict.Add((byte)PracticeOpcode.GetOffLineExp, redisOnOffLine);
-                            dict.Add((byte)PracticeOpcode.GetRoleMiShu, mishuObj);
+                            dict.Add((byte)ParameterCode.RoleBottleneck, redisBottleneck);
+                            dict.Add((byte)ParameterCode.OnOffLine, redisOnOffLine);
+                            dict.Add((byte)ParameterCode.RoleMiShu, mishuObj);
+                            dict.Add((byte)ParameterCode.Role, role);
                             ResultSuccseS2C(roleID, PracticeOpcode.GetOffLineExp, dict);
                             redisMiShu.MiShuIDDict[redisOnOffLine.MsGfID] = mishuObj;
 
@@ -148,64 +154,85 @@ namespace AscensionServer
         /// </summary>
        async void UploadingExpS2C(OnOffLineDTO onOff)
         {
-            Utility.Debug.LogInfo("YZQ自动加经验进来了");
             Dictionary<byte, object> dict;
             //升级自动更新属性返回
             var rolestatus = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatsuPerfix, onOff.RoleID.ToString()).Result;
             var role = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RolePostfix, onOff.RoleID.ToString()).Result;
-            var gongfa = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleGongfaPerfix, onOff.MsGfID.ToString()).Result;
-            var mishu = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatusMSPerfix, onOff.MsGfID.ToString()).Result;
             var bottleneck = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleBottleneckPostfix, onOff.RoleID.ToString()).Result;
-            if (rolestatus && role&& gongfa&&bottleneck)
+
+            if (rolestatus && role&&bottleneck)
             {
                 var rolestatusObj = RedisHelper.Hash.HashGetAsync<RoleStatusDTO>(RedisKeyDefine._RoleStatsuPerfix, onOff.RoleID.ToString()).Result;
-                var gongfaObj = RedisHelper.Hash.HashGetAsync<RoleGongFaDTO>(RedisKeyDefine._RoleGongfaPerfix, onOff.RoleID.ToString()).Result;
-                var mishuObj = RedisHelper.Hash.HashGetAsync<RoleMiShuDTO>(RedisKeyDefine._RoleMiShuPerfix, onOff.RoleID.ToString()).Result;
                 var bottleneckObj = RedisHelper.Hash.HashGetAsync<BottleneckDTO>(RedisKeyDefine._RoleBottleneckPostfix, onOff.RoleID.ToString()).Result;
-                switch (onOff.MsGfID)
+                var roleObj = RedisHelper.Hash.HashGetAsync<RoleDTO>(RedisKeyDefine._RolePostfix, onOff.RoleID.ToString()).Result;
+                Utility.Debug.LogInfo("YZQ自动加经验进来了Redis1"+">>>>"+ onOff.MsGfID);
+                switch (onOff.ExpType)
                 {
                     case 1://1是功法
-
+                        Utility.Debug.LogInfo("YZQ自动加经验进来了Redis2");
                         if (bottleneckObj != null && rolestatusObj != null)
                         {
-                            if (!bottleneckObj.IsBottleneck || !bottleneckObj.IsDemon || !bottleneckObj.IsThunder)
+                            var gongfa = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleGongfaPerfix, onOff.MsGfID.ToString()).Result;
+                            if (gongfa)
                             {
-                                var bottleneckData=   AddGongFaExp(onOff.RoleID, gongfaObj.GongFaIDDict[onOff.MsGfID], rolestatusObj.GongfaLearnSpeed, out CultivationMethodDTO methodDTO);
+                                var gongfaObj = RedisHelper.Hash.HashGetAsync<RoleGongFaDTO>(RedisKeyDefine._RoleGongfaPerfix, onOff.RoleID.ToString()).Result;
+                                if (gongfaObj!=null)
+                                {
+                                    Utility.Debug.LogInfo("YZQ自动加经验进来了Redis3");
+                                    if (!bottleneckObj.IsBottleneck || !bottleneckObj.IsDemon || !bottleneckObj.IsThunder)
+                                    {
+                                        var bottleneckData = AddGongFaExp(onOff.RoleID, gongfaObj.GongFaIDDict[onOff.MsGfID], rolestatusObj.GongfaLearnSpeed, out CultivationMethodDTO methodDTO);
 
-                                gongfaObj.GongFaIDDict[methodDTO.CultivationMethodID] = methodDTO;
+                                        gongfaObj.GongFaIDDict[methodDTO.CultivationMethodID] = methodDTO;
+                                        roleObj.RoleLevel = methodDTO.CultivationMethodLevel;
+                                        dict = new Dictionary<byte, object>();
+                                        dict.Add((byte)ParameterCode.RoleBottleneck, bottleneckData);
+                                        dict.Add((byte)ParameterCode.RoleGongFa, methodDTO);
+                                        dict.Add((byte)ParameterCode.Role, roleObj);
+                                        ResultSuccseS2C(onOff.RoleID, PracticeOpcode.UploadingExp, dict);
 
-                                dict = new Dictionary<byte, object>();
-                                dict.Add((byte)PracticeOpcode.TriggerBottleneck, bottleneckData);
-                                dict.Add((byte)PracticeOpcode.GetRoleGongfa, methodDTO);
-                                ResultSuccseS2C(onOff.RoleID, PracticeOpcode.UploadingExp, dict);
+                                        var status = RoleStatusAlgorithm(onOff.RoleID, null, null, null, null, null, null);
+                                        Utility.Debug.LogError("自动加经验后计算的人物属性" + Utility.Json.ToJson(status));
 
-                               await  NHibernateQuerier.UpdateAsync(ChangeDataType(gongfaObj));
-                                await NHibernateQuerier.UpdateAsync(bottleneckData);
+                                        await NHibernateQuerier.UpdateAsync(ChangeDataType(gongfaObj));
+                                        await NHibernateQuerier.UpdateAsync(bottleneckData);
 
-                                await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleBottleneckPostfix, onOff.RoleID.ToString(), bottleneckData);
-                                await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleGongfaPerfix, onOff.RoleID.ToString(), gongfaObj);
+                                        await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleBottleneckPostfix, onOff.RoleID.ToString(), bottleneckData);
+                                        await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleGongfaPerfix, onOff.RoleID.ToString(), gongfaObj);
+                                    }
+                                    else
+                                        ResultFailS2C(onOff.RoleID, PracticeOpcode.UploadingExp);
+                                }
+                                else
+                                    UpLoadingExpMySql(onOff);//Redis數據獲取失敗
                             }
                             else
-                                ResultFailS2C(onOff.RoleID, PracticeOpcode.UploadingExp);
+                                UpLoadingExpMySql(onOff);//Redis數據獲取失敗
                         }
                         else
                             UpLoadingExpMySql(onOff);//Redis數據獲取失敗
                         break;
                     case 2://2是秘術
-                        if (mishuObj == null)
+                        var mishu = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatusMSPerfix, onOff.MsGfID.ToString()).Result;
+                        if (mishu)
                         {
-                            ResultFailS2C(onOff.MsGfID, PracticeOpcode.GetOffLineExp);
-                            return;
-                        }
-                        var mishuTemp = AddMiShu(mishuObj.MiShuIDDict[onOff.MsGfID], rolestatusObj.MishuLearnSpeed);
-                        dict = new Dictionary<byte, object>();
-                        dict.Add((byte)PracticeOpcode.GetOffLineExp, mishuObj);
-                        dict.Add((byte)PracticeOpcode.TriggerBottleneck, bottleneck);
-                        ResultSuccseS2C(onOff.RoleID, PracticeOpcode.GetRoleMiShu, dict);
-                        mishuObj.MiShuIDDict[onOff.MsGfID] = mishuTemp;
+                            var mishuObj = RedisHelper.Hash.HashGetAsync<RoleMiShuDTO>(RedisKeyDefine._RoleMiShuPerfix, onOff.RoleID.ToString()).Result;
+                            if (mishuObj!=null)
+                            {
+                                var mishuTemp = AddMiShu(mishuObj.MiShuIDDict[onOff.MsGfID], rolestatusObj.MishuLearnSpeed, roleObj.RoleLevel);
+                                dict = new Dictionary<byte, object>();
+                                dict.Add((byte)ParameterCode.OnOffLine, mishuObj);
+                                dict.Add((byte)ParameterCode.RoleBottleneck, bottleneck);
+                                ResultSuccseS2C(onOff.RoleID, PracticeOpcode.GetRoleMiShu, dict);
+                                mishuObj.MiShuIDDict[onOff.MsGfID] = mishuTemp;
 
-                        await NHibernateQuerier.UpdateAsync(ChangeDataType(mishuObj));
-                        await RedisHelper.Hash.HashSetAsync<RoleMiShuDTO>(RedisKeyDefine._MiShuPerfix, onOff.MsGfID.ToString(), mishuObj);
+                                await NHibernateQuerier.UpdateAsync(ChangeDataType(mishuObj));
+                                await RedisHelper.Hash.HashSetAsync<RoleMiShuDTO>(RedisKeyDefine._MiShuPerfix, onOff.MsGfID.ToString(), mishuObj);
+                            }else
+                                UpLoadingExpMySql(onOff);//Redis數據獲取失敗
+                        }
+                        else
+                            UpLoadingExpMySql(onOff);//Redis數據獲取失敗
                         break;
                     default:
                         break;
@@ -213,7 +240,6 @@ namespace AscensionServer
             }
             else
             {
-                //TODO切换MySql查找
                 UpLoadingExpMySql(onOff);//Redis數據獲取失敗
             }
 
@@ -258,10 +284,11 @@ namespace AscensionServer
             var onOffLineObj = NHibernateQuerier.CriteriaSelectAsync<OnOffLine>(nHCriteriaRole).Result;
 
             var bottleneck= NHibernateQuerier.CriteriaSelectAsync<Bottleneck>(nHCriteriaRole).Result;
+            var role = NHibernateQuerier.CriteriaSelectAsync<Role>(nHCriteriaRole).Result;
 
             var redisRoleStatus = NHibernateQuerier.CriteriaSelectAsync<RoleStatus>(nHCriteriaRole).Result;
             TimeSpan interval;
-            if (onOffLineObj!=null&& redisRoleStatus!=null)
+            if (onOffLineObj!=null&& redisRoleStatus!=null&& role!=null)
             {
                 Utility.Debug.LogInfo("YZQ得到的功法ID为" + onOffLineObj.MsGfID);
                 NHCriteria nHCriteriaid = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", roleID);
@@ -271,35 +298,34 @@ namespace AscensionServer
                 switch (onOffLineObj.ExpType)
                 {
                     case 1:
-                        if (bottleneck != null&& gongfa == null)
+                        if (bottleneck != null&& gongfa != null)
                         {
                             var rolegongfaObj = ChangeDataType(gongfa);
 
-                            Utility.Debug.LogInfo("YZQ派发功法经验");
                             if (bottleneck.IsBottleneck || bottleneck.IsDemon || bottleneck.IsThunder)
                             {
-                                Utility.Debug.LogInfo("YZQ派发功法经验2");
                                 dict = new Dictionary<byte, object>();
-                                dict.Add((byte)PracticeOpcode.TriggerBottleneck, bottleneck);
-                                dict.Add((byte)PracticeOpcode.GetOffLineExp, onOffLineObj);
-                                dict.Add((byte)PracticeOpcode.GetRoleGongfa, rolegongfaObj.GongFaIDDict[onOffLineObj.MsGfID]);
+                                dict.Add((byte)ParameterCode.RoleBottleneck, bottleneck);
+                                dict.Add((byte)ParameterCode.OnOffLine, onOffLineObj);
+                                dict.Add((byte)ParameterCode.RoleGongFa, rolegongfaObj.GongFaIDDict[onOffLineObj.MsGfID]);
+                                dict.Add((byte)ParameterCode.Role, role);
                                 ResultSuccseS2C(roleID, PracticeOpcode.GetOffLineExp, dict);
                                 return;
                             }else
                             {
                                 exp = (int)interval.TotalSeconds / 5 * redisRoleStatus.GongfaLearnSpeed;
-                                Utility.Debug.LogInfo("YZQonoffLine計算的功法经验為" + exp);
+
                                 var bottleneckObj = AddGongFaExp(roleID, rolegongfaObj.GongFaIDDict[onOffLineObj.MsGfID], exp, out CultivationMethodDTO method);
                                 rolegongfaObj.GongFaIDDict[method.CultivationMethodID] = method;
-
+                                role.RoleLevel = method.CultivationMethodLevel;
                                 dict = new Dictionary<byte, object>();
-                                dict.Add((byte)PracticeOpcode.TriggerBottleneck, bottleneckObj);
-                                dict.Add((byte)PracticeOpcode.GetOffLineExp, onOffLineObj);
-                                dict.Add((byte)PracticeOpcode.GetRoleGongfa, method);
+                                dict.Add((byte)ParameterCode.RoleBottleneck, bottleneckObj);
+                                dict.Add((byte)ParameterCode.OnOffLine, onOffLineObj);
+                                dict.Add((byte)ParameterCode.RoleGongFa, method);
+                                dict.Add((byte)ParameterCode.Role, role);
                                 //TODO添加onoffline到字典中
                                 ResultSuccseS2C(roleID, PracticeOpcode.GetOffLineExp, dict);
 
-                                Utility.Debug.LogInfo("YZQ派发功法经验" + Utility.Json.ToJson(method));
                                 #region 更新数据至数据库 redis
                                 await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleBottleneckPostfix, roleID.ToString(), bottleneckObj);
                                 await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._GongfaPerfix, roleID.ToString(), rolegongfaObj);
@@ -321,11 +347,12 @@ namespace AscensionServer
                         var mishuTemp = ChangeDataType(mishu);
 
                         exp = (int)interval.TotalSeconds / 5 * redisRoleStatus.GongfaLearnSpeed;
-                        var mishuObj = AddMiShu(mishuTemp.MiShuIDDict[onOffLineObj.MsGfID], exp);
+                        var mishuObj = AddMiShu(mishuTemp.MiShuIDDict[onOffLineObj.MsGfID], exp, role.RoleLevel);
                         dict = new Dictionary<byte, object>();
-                        dict.Add((byte)PracticeOpcode.GetOffLineExp, mishuObj);
-                        dict.Add((byte)PracticeOpcode.TriggerBottleneck, bottleneck);
-                        dict.Add((byte)PracticeOpcode.GetOffLineExp, onOffLineObj);
+                        dict.Add((byte)ParameterCode.RoleMiShu, mishuObj);
+                        dict.Add((byte)ParameterCode.RoleBottleneck, bottleneck);
+                        dict.Add((byte)ParameterCode.OnOffLine, onOffLineObj);
+                        dict.Add((byte)ParameterCode.Role, role);
                         ResultSuccseS2C(roleID, PracticeOpcode.UploadingExp, dict);
                         mishuTemp.MiShuIDDict[onOffLineObj.MsGfID] = mishuObj;
 
@@ -336,6 +363,8 @@ namespace AscensionServer
                         break;
                 }
             }
+            else
+                ResultFailS2C(roleID, PracticeOpcode.GetOffLineExp);
         }
         /// <summary>
         /// 挂機經驗的結算
@@ -350,9 +379,10 @@ namespace AscensionServer
             NHCriteria nHCriteriagf = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("ID", onOffLine.MsGfID);
             var roleStatusObj = NHibernateQuerier.CriteriaSelectAsync<RoleStatus>(nHCriteriaRole).Result;
             var rolegongfaObj = NHibernateQuerier.CriteriaSelectAsync<RoleGongFa>(nHCriteriaRole).Result;
+            var roleObj = NHibernateQuerier.CriteriaSelectAsync<Role>(nHCriteriaRole).Result;
             var bottleneckObj = NHibernateQuerier.CriteriaSelectAsync<Bottleneck>(nHCriteriaRole).Result;
             var mishu = NHibernateQuerier.CriteriaSelectAsync<RoleMiShu>(nHCriteriaRole).Result;
-            if (roleStatusObj != null && rolegongfaObj != null && bottleneckObj != null&& mishu!=null)
+            if (roleStatusObj != null && rolegongfaObj != null && bottleneckObj != null&& mishu!=null&& roleObj != null)
             {
                 Utility.Debug.LogInfo("YZQ自动加经验MYSQL进来了1" + (bottleneckObj.IsBottleneck) + ">>" + (bottleneckObj.IsDemon) + ">>" + (bottleneckObj.IsThunder));
                 var rolegongfa = ChangeDataType(rolegongfaObj);
@@ -364,9 +394,11 @@ namespace AscensionServer
                             Utility.Debug.LogInfo("YZQonoffLineMYSQL自动加经验的數值為" + roleStatusObj.GongfaLearnSpeed);
                             var bottleneckData = AddGongFaExp(onOffLine.RoleID, rolegongfa.GongFaIDDict[onOffLine.MsGfID], roleStatusObj.GongfaLearnSpeed, out var methodDTO);
                             rolegongfa.GongFaIDDict[onOffLine.MsGfID] = methodDTO;
+                            roleObj.RoleLevel = methodDTO.CultivationMethodLevel;
                             dict = new Dictionary<byte, object>();
-                            dict.Add((byte)PracticeOpcode.TriggerBottleneck, bottleneckData);
-                            dict.Add((byte)PracticeOpcode.GetRoleGongfa, methodDTO);
+                            dict.Add((byte)ParameterCode.RoleBottleneck, bottleneckData);
+                            dict.Add((byte)ParameterCode.GongFa, methodDTO);
+                            dict.Add((byte)ParameterCode.Role, roleObj);
                             ResultSuccseS2C(onOffLine.RoleID, PracticeOpcode.UploadingExp, dict);
 
                             await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleGongfaPerfix, onOffLine.RoleID.ToString(), rolegongfa);
@@ -374,14 +406,13 @@ namespace AscensionServer
 
                             await NHibernateQuerier.UpdateAsync(ChangeDataType(rolegongfa));
                             await NHibernateQuerier.UpdateAsync(bottleneckData);
-
                         }
                         else
                         {
-                          //var bottleneck=  AddGongFaExp(onOffLine.RoleID, cultivationObj, roleStatusObj.GongfaLearnSpeed,out var methodDTO);
                             dict = new Dictionary<byte, object>();
-                            dict.Add((byte)PracticeOpcode.TriggerBottleneck, bottleneckObj);
-                            dict.Add((byte)PracticeOpcode.GetRoleGongfa, rolegongfa.GongFaIDDict[onOffLine.MsGfID]);
+                            dict.Add((byte)ParameterCode.RoleBottleneck, bottleneckObj);
+                            dict.Add((byte)ParameterCode.GongFa, rolegongfa.GongFaIDDict[onOffLine.MsGfID]);
+                            dict.Add((byte)ParameterCode.Role, roleObj);
                             //TODO添加onoffline到字典中
                             ResultSuccseS2C(onOffLine.RoleID, PracticeOpcode.UploadingExp, dict);
                         }
@@ -394,9 +425,9 @@ namespace AscensionServer
                         }
 
                         var mishuTemp = ChangeDataType(mishu);
-                        var mishuObj = AddMiShu(mishuTemp.MiShuIDDict[onOffLine.MsGfID], roleStatusObj.MishuLearnSpeed);
+                        var mishuObj = AddMiShu(mishuTemp.MiShuIDDict[onOffLine.MsGfID], roleStatusObj.MishuLearnSpeed, roleObj.RoleLevel);
                         dict = new Dictionary<byte, object>();
-                        dict.Add((byte)PracticeOpcode.GetRoleMiShu, mishuObj);
+                        dict.Add((byte)ParameterCode.MiShu, mishuObj);
                         ResultSuccseS2C(onOffLine.RoleID, PracticeOpcode.UploadingExp, dict);
                         mishuTemp.MiShuIDDict[onOffLine.MsGfID] = mishuObj;
 
@@ -422,18 +453,22 @@ namespace AscensionServer
             GameEntry. DataManager.TryGetValue<Dictionary<int, RoleLevelData>>(out var roleDict);
             CultivationMethodDTO cultivationDTO = new CultivationMethodDTO();
             var result = roleDict.TryGetValue(cultivation.CultivationMethodLevel,out var roleData);
+            Utility.Debug.LogInfo("YZQonoffLine計算的功法经验為" + exp+ result);
             if (result)
             {
                 if (roleData.ExpLevelUp <= cultivation.CultivationMethodExp + exp)
                 {
-                    cultivation.CultivationMethodExp = cultivation.CultivationMethodExp + exp - roleData.ExpLevelUp;
-                    cultivation.CultivationMethodLevel++;
-                     bottleneck = TriggerBottleneckS2C(roleID, cultivation.CultivationMethodLevel, out  isbottleneck);
+                    //Utility.Debug.LogInfo("YZQonoffLineEXP:" + (cultivation.CultivationMethodExp + exp)+"升级需要的"+ roleData.ExpLevelUp);
+                    //Utility.Debug.LogInfo("YZQonoffLineEXP2:" + (cultivation.CultivationMethodExp ) );
+
+                    //Utility.Debug.LogInfo("YZQonoffLine計算的功法经验升级进来了等级为" + cultivation.CultivationMethodLevel);
+                    bottleneck = TriggerBottleneckS2C(roleID, cultivation.CultivationMethodLevel, out  isbottleneck);
                     if (bottleneck != null)
                     {
-                        if (!isbottleneck)
+                        if (isbottleneck)
                         {
-                            cultivationDTO.CultivationMethodExp = cultivation.CultivationMethodExp;
+                            Utility.Debug.LogInfo("YZQonoffLine触发瓶颈:");
+                            cultivationDTO.CultivationMethodExp = roleData.ExpLevelUp;
                             cultivationDTO.CultivationMethodID = cultivation.CultivationMethodID;
                             cultivationDTO.CultivationMethodLevel = cultivation.CultivationMethodLevel;
                             cultivationDTO.CultivationMethodLevelSkillArray = cultivation.CultivationMethodLevelSkillArray;
@@ -441,7 +476,9 @@ namespace AscensionServer
                             return bottleneck;
                         }
                     }
-                    AddGongFaExp(roleID,cultivation, 0,out obj);
+                    cultivation.CultivationMethodExp = cultivation.CultivationMethodExp + exp - roleData.ExpLevelUp;
+                    cultivation.CultivationMethodLevel = (short)roleData.NextLevelID;
+                    AddGongFaExp(roleID,cultivation, cultivation.CultivationMethodExp, out obj);
                 }
             }
              bottleneck = TriggerBottleneckS2C(roleID, cultivation.CultivationMethodLevel, out  isbottleneck);
@@ -458,20 +495,23 @@ namespace AscensionServer
         /// <param name="miShu"></param>
         /// <param name="exp"></param>
         /// <returns></returns>
-        MiShuDTO AddMiShu(MiShuDTO miShu,int exp )
+        MiShuDTO AddMiShu(MiShuDTO miShu,int exp,int rolelevel )
         {
             MiShuDTO miShuDTO = new MiShuDTO();
             GameEntry.DataManager.TryGetValue<Dictionary<int, RoleLevelData>>(out var roleDict);
+            GameEntry.DataManager.TryGetValue<Dictionary<int, MiShuData>>(out var mishuData);
+            var mishu = mishuData[miShu.MiShuLevel].mishuSkillDatas.Find((x)=>x.MishuFloor== miShu.MiShuLevel);
             var result = roleDict.TryGetValue(miShu.MiShuLevel, out var roleData);
             if (result)
             {
                 if (roleData.ExpLevelUp <= miShu.MiShuLevel + exp)
                 {
-                    miShu.MiShuExp = miShu.MiShuLevel + exp - roleData.ExpLevelUp;
-                    miShu.MiShuLevel++;
-                    //TODO添加升级的逻辑,先判断瓶颈在升级
-                    
-                    AddMiShu(miShu, 0);
+                    if (mishu.NeedLevelID<= rolelevel)
+                    {
+                        miShu.MiShuExp = miShu.MiShuLevel + exp - roleData.ExpLevelUp;
+                        miShu.MiShuLevel++;
+                        AddMiShu(miShu, miShu.MiShuExp, miShu.MiShuLevel);
+                    }   
                 }
             }
             miShuDTO.MiShuID = miShu.MiShuID;

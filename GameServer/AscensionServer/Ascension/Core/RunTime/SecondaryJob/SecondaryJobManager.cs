@@ -114,36 +114,52 @@ namespace AscensionServer
                     #endregion
                     break;
                 case SecondaryJobOpCode.CompoundPuppet:
+                    #region
                     secondaryJob = Utility.Json.ToObject<SecondaryJobDTO>(packet.DataMessage.ToString());
                     CompoundPuppetS2C(secondaryJob.RoleID, secondaryJob.UseItemID);
+                    #endregion
                     break;
                 case SecondaryJobOpCode.CompoundForge:
+                    #region
                     secondaryJob = Utility.Json.ToObject<SecondaryJobDTO>(packet.DataMessage.ToString());
                     CompoundForge(secondaryJob.RoleID, secondaryJob.UseItemID);
+                    #endregion
                     break;
                 case SecondaryJobOpCode.AssemblePuppet:
+                    #region
                     secondaryJob = Utility.Json.ToObject<SecondaryJobDTO>(packet.DataMessage.ToString());
                     AssemblePuppetS2C(secondaryJob.RoleID, secondaryJob.UseItemID, secondaryJob.Units);
+                    #endregion
                     break;
                 case SecondaryJobOpCode.RepairPuppet:
+                    #region
                     secondaryJob = Utility.Json.ToObject<SecondaryJobDTO>(packet.DataMessage.ToString());
                     RepairPuppetS2C(secondaryJob.RoleID, secondaryJob.UseItemID);
+                    #endregion
                     break;
                 case SecondaryJobOpCode.GetPuppetUnit:
-                     role = Utility.Json.ToObject<RoleDTO>(packet.DataMessage.ToString());
+                    #region
+                    role = Utility.Json.ToObject<RoleDTO>(packet.DataMessage.ToString());
                     GetPuppetUnitS2C(role.RoleID);
+                    #endregion
                     break;
                 case SecondaryJobOpCode.AddDemonicSoul:
-                    var demonicDoul = Utility.Json.ToObject<DemonicSoulDTO>(packet.DataMessage.ToString()); 
+                    #region
+                    var demonicDoul = Utility.Json.ToObject<DemonicSoulDTO>(packet.DataMessage.ToString());
                     AddDemonical(demonicDoul.RoleID, demonicDoul.CompoundList[0]);
+                    #endregion
                     break;
                 case SecondaryJobOpCode.CompoundDemonicSoul:
+                    #region
                     demonicDoul = Utility.Json.ToObject<DemonicSoulDTO>(packet.DataMessage.ToString());
                     CompoundDemonical(demonicDoul.CompoundList, demonicDoul.RoleID);
+                    #endregion
                     break;
                 case SecondaryJobOpCode.GetDemonicSoul:
+                    #region
                     demonicDoul = Utility.Json.ToObject<DemonicSoulDTO>(packet.DataMessage.ToString());
                     GetDemonicSoul(demonicDoul.RoleID);
+                    #endregion
                     break;
                 default:
                     break;

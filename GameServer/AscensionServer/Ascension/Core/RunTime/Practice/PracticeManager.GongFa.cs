@@ -349,16 +349,6 @@ namespace AscensionServer
             return roleMiShuObj;
         }
 
-        CultivationMethod ChangeGongFa(CultivationMethodDTO cultivation)
-        {
-            CultivationMethod cultivationMethod = new CultivationMethod();
-            cultivationMethod.CultivationMethodExp = cultivation.CultivationMethodExp;
-            cultivationMethod.CultivationMethodID = cultivation.CultivationMethodID;
-            cultivationMethod.CultivationMethodLevel = cultivation.CultivationMethodLevel;
-            cultivationMethod.CultivationMethodLevelSkillArray = Utility.Json.ToJson(cultivation.CultivationMethodLevelSkillArray);
-            return cultivationMethod;
-        }
-
 }
         #endregion
 

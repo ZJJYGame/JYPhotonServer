@@ -36,47 +36,47 @@ namespace AscensionServer
         /// <summary>
         /// 计算人物属性待删
         /// </summary>
-        public async void RoleStatusAlgorithm(int roleid)
-        {
+        //public async void RoleStatusAlgorithm(int roleid)
+        //{
 
-            RoleStatusDTO roleStatus = new RoleStatusDTO();
+        //    RoleStatusDTO roleStatus = new RoleStatusDTO();
 
-            var roleExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RolePostfix, roleid.ToString()).Result;
-            var rolestatusExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatsuPerfix, roleid.ToString()).Result;
-            var roleAptitudeExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatsuPerfix, roleid.ToString()).Result;
-            var roleMishuExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleMiShuPerfix, roleid.ToString()).Result;
-            var rolegongfaExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleGongfaPerfix, roleid.ToString()).Result;
-            var roleEquipExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleEquipmentPerfix, roleid.ToString()).Result;
-            var roleWeaponExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleWeaponPostfix, roleid.ToString()).Result;
-            var roleAbilityExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAbilityPointPostfix, roleid.ToString()).Result;
-            var roleAllianceSkillExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAllianceSkillPerfix, roleid.ToString()).Result;
-            var roleFlyExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleFlyMagicToolPerfix, roleid.ToString()).Result;
-            if (roleFlyExist && rolestatusExist && roleMishuExist && rolegongfaExist && roleEquipExist && roleWeaponExist && roleAbilityExist && roleAllianceSkillExist && roleExist)
-            {
-                var rolestatus = RedisHelper.Hash.HashGetAsync<RoleStatusDTO>(RedisKeyDefine._RoleStatsuPerfix, roleid.ToString()).Result;
-                var roleMishu = RedisHelper.Hash.HashGetAsync<RoleMiShuDTO>(RedisKeyDefine._RoleMiShuPerfix, roleid.ToString()).Result;
-                var rolegongfa = RedisHelper.Hash.HashGetAsync<RoleGongFaDTO>(RedisKeyDefine._RoleGongfaPerfix, roleid.ToString()).Result;
-                var roleEquip = RedisHelper.Hash.HashGetAsync<RoleEquipmentDTO>(RedisKeyDefine._RoleEquipmentPerfix, roleid.ToString()).Result;
-                var roleWeapon = RedisHelper.Hash.HashGetAsync<RoleWeaponDTO>(RedisKeyDefine._RoleWeaponPostfix, roleid.ToString()).Result;
-                var roleAbility = RedisHelper.Hash.HashGetAsync<RoleStatusPointDTO>(RedisKeyDefine._RoleAbilityPointPostfix, roleid.ToString()).Result;
-                var roleAllianceSkill = RedisHelper.Hash.HashGetAsync<RoleAllianceSkillDTO>(RedisKeyDefine._RoleAllianceSkillPerfix, roleid.ToString()).Result;
-                var roleFly = RedisHelper.Hash.HashGetAsync<FlyMagicToolDTO>(RedisKeyDefine._RoleFlyMagicToolPerfix, roleid.ToString()).Result;
-                var role = RedisHelper.Hash.HashGetAsync<RoleDTO>(RedisKeyDefine._RolePostfix, roleid.ToString()).Result;
-                #region
-                if (rolestatus != null && roleMishu != null && rolegongfa != null && roleEquip != null && roleWeapon != null && roleAbility != null && roleAllianceSkill != null && roleFly != null && role != null)
-                {
+        //    var roleExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RolePostfix, roleid.ToString()).Result;
+        //    var rolestatusExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatsuPerfix, roleid.ToString()).Result;
+        //    var roleAptitudeExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleStatsuPerfix, roleid.ToString()).Result;
+        //    var roleMishuExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleMiShuPerfix, roleid.ToString()).Result;
+        //    var rolegongfaExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleGongfaPerfix, roleid.ToString()).Result;
+        //    var roleEquipExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleEquipmentPerfix, roleid.ToString()).Result;
+        //    var roleWeaponExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleWeaponPostfix, roleid.ToString()).Result;
+        //    var roleAbilityExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAbilityPointPostfix, roleid.ToString()).Result;
+        //    var roleAllianceSkillExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAllianceSkillPerfix, roleid.ToString()).Result;
+        //    var roleFlyExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleFlyMagicToolPerfix, roleid.ToString()).Result;
+        //    if (roleFlyExist && rolestatusExist && roleMishuExist && rolegongfaExist && roleEquipExist && roleWeaponExist && roleAbilityExist && roleAllianceSkillExist && roleExist)
+        //    {
+        //        var rolestatus = RedisHelper.Hash.HashGetAsync<RoleStatusDTO>(RedisKeyDefine._RoleStatsuPerfix, roleid.ToString()).Result;
+        //        var roleMishu = RedisHelper.Hash.HashGetAsync<RoleMiShuDTO>(RedisKeyDefine._RoleMiShuPerfix, roleid.ToString()).Result;
+        //        var rolegongfa = RedisHelper.Hash.HashGetAsync<RoleGongFaDTO>(RedisKeyDefine._RoleGongfaPerfix, roleid.ToString()).Result;
+        //        var roleEquip = RedisHelper.Hash.HashGetAsync<RoleEquipmentDTO>(RedisKeyDefine._RoleEquipmentPerfix, roleid.ToString()).Result;
+        //        var roleWeapon = RedisHelper.Hash.HashGetAsync<RoleWeaponDTO>(RedisKeyDefine._RoleWeaponPostfix, roleid.ToString()).Result;
+        //        var roleAbility = RedisHelper.Hash.HashGetAsync<RoleStatusPointDTO>(RedisKeyDefine._RoleAbilityPointPostfix, roleid.ToString()).Result;
+        //        var roleAllianceSkill = RedisHelper.Hash.HashGetAsync<RoleAllianceSkillDTO>(RedisKeyDefine._RoleAllianceSkillPerfix, roleid.ToString()).Result;
+        //        var roleFly = RedisHelper.Hash.HashGetAsync<FlyMagicToolDTO>(RedisKeyDefine._RoleFlyMagicToolPerfix, roleid.ToString()).Result;
+        //        var role = RedisHelper.Hash.HashGetAsync<RoleDTO>(RedisKeyDefine._RolePostfix, roleid.ToString()).Result;
+        //        #region
+        //        if (rolestatus != null && roleMishu != null && rolegongfa != null && roleEquip != null && roleWeapon != null && roleAbility != null && roleAllianceSkill != null && roleFly != null && role != null)
+        //        {
 
-                    foreach (var item in roleEquip.Weapon)
-                    {
-                        if (roleWeapon.WeaponStatusDict.TryGetValue(item.Value, out var weaponDTO))
-                        {
-                            //weaponDTO.WeaponAttribute[0]
-                        }
-                    }
-                }
-                #endregion
-            }
-        }
+        //            foreach (var item in roleEquip.Weapon)
+        //            {
+        //                if (roleWeapon.WeaponStatusDict.TryGetValue(item.Value, out var weaponDTO))
+        //                {
+        //                    //weaponDTO.WeaponAttribute[0]
+        //                }
+        //            }
+        //        }
+        //        #endregion
+        //    }
+        //}
 
         #region 加点方案属性修改
         /// <summary>

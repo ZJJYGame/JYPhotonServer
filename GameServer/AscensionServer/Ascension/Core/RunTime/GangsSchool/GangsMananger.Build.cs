@@ -302,6 +302,7 @@ namespace AscensionServer
                 {
                     if (!signinObj.IsSignin)
                     {
+                        Utility.Debug.LogInfo("YZQ更新宗门签到3" + !signinObj.IsSignin);
                         for (int i = 0; i < signinList.Count; i++)
                         {
                             if (roleObj.RoleLevel <= signinList[i].Role_Level[1] && roleObj.RoleLevel >= signinList[i].Role_Level[0])
@@ -309,6 +310,8 @@ namespace AscensionServer
                                 assetsObj.SpiritStonesLow += signinList[i].Role_Reward;
                                 statusObj.Popularity += signinList[i].Alliance_Popularity;
                                 roleAllianceObj.Reputation += signinList[i].Role_Contribution;
+                                roleAllianceObj.ReputationHistroy += roleAllianceObj.Reputation;
+                                roleAllianceObj.ReputationMonth += roleAllianceObj.Reputation;
                                 allianceObj.AllianceAssets += signinList[i].Alliance_Spirit_Stone;
 
                                 signinObj.IsSignin = true;
@@ -319,7 +322,7 @@ namespace AscensionServer
                                 dict.Add((byte)ParameterCode.AllianceSignin, signinObj);
                                 RoleStatusSuccessS2C(roleID, AllianceOpCode.UpdateAllianceSignin, dict);
 
-                                await RedisHelper.Hash.HashSetAsync<RoleAllianceDTO>(RedisKeyDefine._RolePostfix, roleID.ToString(), roleAllianceObj);
+                                await RedisHelper.Hash.HashSetAsync<RoleAllianceDTO>(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString(), roleAllianceObj);
                                 await RedisHelper.Hash.HashSetAsync<AllianceConstruction>(RedisKeyDefine._AllianceConstructionPerfix, id.ToString(), allianceObj);
                                 await RedisHelper.Hash.HashSetAsync<AllianceStatus>(RedisKeyDefine._AlliancePerfix, id.ToString(), statusObj);
                                 await RedisHelper.Hash.HashSetAsync<RoleAssets>(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString(), assetsObj);

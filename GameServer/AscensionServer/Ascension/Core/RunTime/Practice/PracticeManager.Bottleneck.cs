@@ -42,7 +42,7 @@ namespace AscensionServer
             GameEntry.DataManager.TryGetValue<Dictionary<int, BottleneckData>>(out var bottleneckData);
             GameEntry.DataManager.TryGetValue<Dictionary<int, DemonData>>(out var demonData);
             GetRootPercent(bottleneckData[level], count, out rootPercentNum);
-            if (GetPercent(rootPercentNum[0] / (float)100))
+            if (false/*GetPercent(rootPercentNum[0] / (float)100)*/)
             {
                 bottleneck.IsBottleneck = true;
                 bottleneck.BreakThroughVauleMax = rootPercentNum[1];

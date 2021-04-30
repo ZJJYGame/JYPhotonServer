@@ -4340,11 +4340,6 @@
             <param name="roleStatus"></param>
             <returns></returns>
         </member>
-        <member name="M:AscensionServer.PracticeManager.RoleStatusAlgorithm(System.Int32)">
-            <summary>
-            计算人物属性待删
-            </summary>
-        </member>
         <member name="M:AscensionServer.PracticeManager.RoleAblility(AscensionProtocol.DTO.RoleStatusPointDTO,AscensionServer.Model.RoleStatus)">
             <summary>
             人物加点的加成
@@ -4522,7 +4517,7 @@
             添加功法经验方法
             </summary>
         </member>
-        <member name="M:AscensionServer.PracticeManager.AddMiShu(AscensionProtocol.DTO.MiShuDTO,System.Int32)">
+        <member name="M:AscensionServer.PracticeManager.AddMiShu(AscensionProtocol.DTO.MiShuDTO,System.Int32,System.Int32)">
             <summary>
             添加秘术
             </summary>

@@ -110,7 +110,7 @@ namespace AscensionServer
             {
                 Utility.Debug.LogError("创建宗门进来了" + (roleAssets.SpiritStonesLow >= CreatAlliance[1].ScripturesPlatform) + (role.RoleLevel >= CreatAlliance[1].RoleLevel) );
                 //TODO判断灵石够不够
-                if (roleAssets.SpiritStonesLow >= CreatAlliance[1].ScripturesPlatform && role.RoleLevel >= CreatAlliance[1].RoleLevel)
+                if (roleAssets.SpiritStonesLow >= CreatAlliance[1].SpiritStones && role.RoleLevel >= CreatAlliance[1].RoleLevel)
                 {
                     statusDTO.AllianceLevel = 1;
                     statusDTO.AllianceNumberPeople = 1;
@@ -166,9 +166,15 @@ namespace AscensionServer
                     await NHibernateQuerier.UpdateAsync(roleAlliance);
 
                     //宗门建设信息，个人宗门信息
+                    roleAssets.SpiritStonesLow -= CreatAlliance[1].SpiritStones;
+                    await RedisHelper.Hash.HashSetAsync<RoleAssets>(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString(), roleAssets);
+                    await NHibernateQuerier.UpdateAsync(roleAssets);
+
+
                     Dictionary<byte, object> dict = new Dictionary<byte, object>();
                     dict.Add((byte)ParameterCode.RoleAlliance, ChangeDataType (roleAlliance));
                     dict.Add((byte)ParameterCode.AllianceStatus, statusDTO);
+                    dict.Add((byte)ParameterCode.RoleAssets, roleAssets);
                     dict.Add((byte)ParameterCode.AllianceConstruction, allianceConstruction);
                     RoleStatusSuccessS2C(roleID, AllianceOpCode.CreatAlliance, dict);
                 }
