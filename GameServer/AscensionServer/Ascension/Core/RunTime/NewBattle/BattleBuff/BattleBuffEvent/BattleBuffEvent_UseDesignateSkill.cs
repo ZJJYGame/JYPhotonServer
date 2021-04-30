@@ -69,7 +69,10 @@ namespace AscensionServer
                 tempTargetList = owner.GetTargetIdList(skillID, false, new List<int>() { target.UniqueID });
             else
                 tempTargetList = owner.GetTargetIdList(skillID, false);
+            //用于恢复记录当前使用的技能
+            int oldUseSkillId = owner.BattleSkillController.nowUseSkillId;
             owner.BattleSkillController.UseSkill(skillID, tempTargetList);
+            owner.BattleSkillController.nowUseSkillId = oldUseSkillId;
         }
         public BattleBuffEvent_UseDesignateSkill(BattleBuffEventData battleBuffEventData, BattleBuffObj battleBuffObj) : base(battleBuffEventData, battleBuffObj)
         {

@@ -28,7 +28,7 @@ namespace AscensionServer
             CharacterBattleData = CosmosEntry.ReferencePoolManager.Spawn<CharacterBattleData>();
             CharacterBattleData.Init(petStatus,this);
             UniqueID = petStatus.PetID;
-            GlobalID = rolePet.PetIDDict[UniqueID];
+            GlobalID = Utility.Json.ToObject<Dictionary<int,int>>(rolePet.PetIDDict) [UniqueID];
             MasterID = roleID;
             BattleFactionType = battleFactionType;
             Name = pet.PetName;

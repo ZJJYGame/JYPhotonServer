@@ -77,6 +77,48 @@ namespace AscensionServer
             BattleController = GameEntry.BattleRoomManager.GetBattleRoomEntity(Owner.RoomID).BattleController;
             BattleController.RoundFinishEvent -= RoundEnd;
 
+            for (int i = 0; i < battleBuffData.battleBuffTriggerConditionList.Count; i++)
+            {
+                BattleBuffEventConditionBase battleBuffEventConditionBase = null;
+                switch (battleBuffData.battleBuffTriggerConditionList[i].battleBuffConditionType)
+                {
+                    case BattleBuffConditionType.None:
+                        battleBuffEventConditionBase= new BattleBuffEventConditionBase(battleBuffData.battleBuffTriggerConditionList[i], this);
+                        break;
+                    case BattleBuffConditionType.UseDesignatedSkill:
+                        battleBuffEventConditionBase = new BattleBuffEventCondition_UseDesignatedSkill(battleBuffData.battleBuffTriggerConditionList[i], this);
+                        break;
+                    case BattleBuffConditionType.HaveDesignatedSkill:
+                        battleBuffEventConditionBase = new BattleBuffEventCondition_HaveDesignatedSkill(battleBuffData.battleBuffTriggerConditionList[i], this);
+                        break; 
+                    case BattleBuffConditionType.NotHaveDesignatedSkill:
+                        battleBuffEventConditionBase = new BattleBuffEventCondition_NotHaveDesignatedSkill(battleBuffData.battleBuffTriggerConditionList[i], this);
+                        break; 
+                    case BattleBuffConditionType.LimitSkillTargetNum:
+                        battleBuffEventConditionBase = new BattleBuffEventCondition_LimitSkillTargetNum(battleBuffData.battleBuffTriggerConditionList[i], this);
+                        break; 
+                    case BattleBuffConditionType.DesignatedDamageType:
+                        battleBuffEventConditionBase = new BattleBuffEventCondition_DesignatedDamageType(battleBuffData.battleBuffTriggerConditionList[i], this);
+                        break; 
+                    case BattleBuffConditionType.DamageCrit:
+                        battleBuffEventConditionBase = new BattleBuffEventCondition_DamageCrit(battleBuffData.battleBuffTriggerConditionList[i], this);
+                        break; 
+                    case BattleBuffConditionType.DesignatedPropertyLimit:
+                        battleBuffEventConditionBase = new BattleBuffEventCondition_DesignatedPropertyLimit(battleBuffData.battleBuffTriggerConditionList[i], this);
+                        break; 
+                    case BattleBuffConditionType.BothDesignatedPropertyCompare:
+                        battleBuffEventConditionBase = new BattleBuffEventCondition_BothDesignatedPropertyCompare(battleBuffData.battleBuffTriggerConditionList[i], this);
+                        break; 
+                    case BattleBuffConditionType.TargetHaveDesignatedBuff:
+                        battleBuffEventConditionBase = new BattleBuffEventCondition_TargetHaveDesignatedBuff(battleBuffData.battleBuffTriggerConditionList[i], this);
+                        break;
+                    case BattleBuffConditionType.CharacterTypeLimit:
+                        break;
+                    case BattleBuffConditionType.CloseOrRangeAttack:
+                        break;
+                }
+                battleBuffEventConditionList.Add(battleBuffEventConditionBase);
+            }
 
             for (int i = 0; i < battleBuffData.battleBuffEventDataList.Count; i++)
             {
@@ -135,12 +177,12 @@ namespace AscensionServer
             BattleController.RoundFinishEvent += RoundEnd;
         }
 
-        public bool CanTrigger()
+        public bool CanTrigger(BattleCharacterEntity target, BattleDamageData battleDamageData)
         {
             bool flag = true;
             for (int i = 0; i < battleBuffEventConditionList.Count; i++)
             {
-                flag = flag && battleBuffEventConditionList[i].CanTrigger();
+                flag = flag && battleBuffEventConditionList[i].CanTrigger(target,battleDamageData);
             }
             return flag;
         }

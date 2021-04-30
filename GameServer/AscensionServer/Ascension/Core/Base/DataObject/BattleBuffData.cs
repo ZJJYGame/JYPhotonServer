@@ -78,6 +78,7 @@ namespace AscensionServer
         public List<uint> idList;
         public int targetCount;
         public BattleBuffCondition_DamageType battleBuffCondition_DamageType;
+        public BattleSkillDamageType battleSkillDamageType;
         public BattleBuffCondition_SourcePropertyType battleBuffCondition_SourcePropertyType;
         public int criticalValue;
         public bool isUp;

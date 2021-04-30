@@ -3397,6 +3397,16 @@
             <param name="battleSkillBase"></param>
             <param name="orginRole">buff的来源角色</param>
         </member>
+        <member name="T:AscensionServer.BattleBuffEventCondition_NotHaveDesignatedSkill">
+            <summary>
+            不拥有指定技能
+            </summary>
+        </member>
+        <member name="T:AscensionServer.BattleBuffEventCondition_DesignatedPropertyLimit">
+            <summary>
+            目标属性限定
+            </summary>
+        </member>
         <member name="M:AscensionServer.BattleBuffEventBase.Trigger(AscensionServer.BattleCharacterEntity,AscensionServer.BattleDamageData,AscensionServer.ISkillAdditionData)">
             <summary>
             具体buff触发事件实现

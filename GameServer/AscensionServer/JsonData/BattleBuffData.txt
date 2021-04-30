@@ -1633,7 +1633,21 @@
             "coldTime": 0,
 			"buffCoverType":0,
 			"maxSuperpositionCount":1,
-            "battleBuffTriggerConditionList": [],
+            "battleBuffTriggerConditionList": [
+			{
+                        "battleBuffConditionType": 8,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [21002,21001],
+                        "targetCount": 2,
+                        "battleBuffCondition_DamageType": 0,
+						"battleSkillDamageType":0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 150,
+                        "isUp": true,
+                        "flag": false,
+                        "battleBuffCondition_CharacterType": 0
+                    }
+			],
             "battleBuffEventDataList": [
                 {
                     "eventTriggerCondition": {
@@ -1648,9 +1662,9 @@
                         "flag": false,
                         "battleBuffCondition_CharacterType": 0
                     },
-                    "battleBuffEventType": 7,
+                    "battleBuffEventType": 4,
 					"maxTriggerCount":1,
-					"battleBuffTriggerTime":7,
+					"battleBuffTriggerTime":5,
                     "battleBuffEventType_RolePropertyChange": 4,
                     "buffRolePropertyChange_SourceDataType": 3,
                     "buffPropertyChangeType": 0,
@@ -1664,7 +1678,7 @@
 					"buffEvent_ChangeTarget_TargetType":0,
                     "fixedValue": 0,
                     "percentValue": 50,
-                    "idList": [20311],
+                    "idList": [],
                     "flag": true,
                     "flag_2": false,
                     "flag_3": false,

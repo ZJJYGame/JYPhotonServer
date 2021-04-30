@@ -39,16 +39,16 @@ namespace AscensionServer
                     battleSkillEventConditionBase = new BattleSkillEventCondition_Crit();
                     break;
                 case BattleSkillEventTriggerCondition.TargetPropertyUnder:
-                    battleSkillEventConditionBase = new battleSkillEventCondition_PropertyLimit(this, battleSkillEventData, false, false);
+                    battleSkillEventConditionBase = new BattleSkillEventCondition_PropertyLimit(this, battleSkillEventData, false, false);
                     break;
                 case BattleSkillEventTriggerCondition.TargetPropertyOver:
-                    battleSkillEventConditionBase = new battleSkillEventCondition_PropertyLimit(this, battleSkillEventData, false, true);
+                    battleSkillEventConditionBase = new BattleSkillEventCondition_PropertyLimit(this, battleSkillEventData, false, true);
                     break;
                 case BattleSkillEventTriggerCondition.SelfPropertyUnder:
-                    battleSkillEventConditionBase = new battleSkillEventCondition_PropertyLimit(this, battleSkillEventData, true, false);
+                    battleSkillEventConditionBase = new BattleSkillEventCondition_PropertyLimit(this, battleSkillEventData, true, false);
                     break;
                 case BattleSkillEventTriggerCondition.SelfPropertyOver:
-                    battleSkillEventConditionBase = new battleSkillEventCondition_PropertyLimit(this, battleSkillEventData, true, true);
+                    battleSkillEventConditionBase = new BattleSkillEventCondition_PropertyLimit(this, battleSkillEventData, true, true);
                     break;
             }
 

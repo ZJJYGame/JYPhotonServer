@@ -181,6 +181,22 @@ namespace AscensionServer
             }
             return 0;
         }
+        public int GetProperty(BattleBuffCondition_SourcePropertyType battleBuffCondition_SourcePropertyType)
+        {
+            switch (battleBuffCondition_SourcePropertyType)
+            {
+                case BattleBuffCondition_SourcePropertyType.Health:
+                    return Hp;
+                case BattleBuffCondition_SourcePropertyType.ZhenYuan:
+                    return Mp;
+                case BattleBuffCondition_SourcePropertyType.ShenHun:
+                    return Soul;
+                case BattleBuffCondition_SourcePropertyType.JingXue:
+                    return BestBlood;
+                default:
+                    return 0;
+            }
+        }
 
         /// <summary>
         /// 获取基础对应属性
@@ -222,7 +238,7 @@ namespace AscensionServer
                     Utility.Debug.LogError("获取血量百分比"+Hp+"/"+MaxHp+"/"+ Hp * 100 / MaxHp);
                     return Hp*100 / MaxHp;
                 case BattleSkillEventTriggerNumSourceType.ShenHun:
-                    return Mp*100 / MaxMp;
+                    return Soul*100 / MaxSoul;
                 case BattleSkillEventTriggerNumSourceType.PhysicDefense:
                 case BattleSkillEventTriggerNumSourceType.MagicDefense:
                 case BattleSkillEventTriggerNumSourceType.Shield:
@@ -231,6 +247,23 @@ namespace AscensionServer
                     return 0;
             }
         }
+        public int GetPropertyPercent(BattleBuffCondition_SourcePropertyType battleBuffCondition_SourcePropertyType)
+        {
+            switch (battleBuffCondition_SourcePropertyType)
+            {
+                case BattleBuffCondition_SourcePropertyType.Health:
+                    return Hp * 100 / MaxHp;
+                case BattleBuffCondition_SourcePropertyType.ZhenYuan:
+                    return Mp * 100 / MaxMp;
+                case BattleBuffCondition_SourcePropertyType.ShenHun:
+                    return Soul * 100 / MaxSoul;
+                case BattleBuffCondition_SourcePropertyType.JingXue:
+                    return BestBlood * 100 / BestBloodMax;
+                default:
+                    return 0;
+            }
+        }
+
 
         public void ChangeProperty(BattleSkillDamageTargetProperty baseDamageTargetProperty,int damageNum)
         {

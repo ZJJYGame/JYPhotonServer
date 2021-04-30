@@ -22,14 +22,12 @@ namespace AscensionServer
 
         protected int OverlayLayer { get { return battleBuffObj.OverlayLayer; } }
 
-        bool CanTrigger()
+        bool CanTrigger(BattleCharacterEntity target, BattleDamageData battleDamageData)
         {
-            if (!battleBuffObj.CanTrigger())
+            if (!battleBuffObj.CanTrigger(target,battleDamageData))
                 return false;
-            int randomValue = Utility.Algorithm.CreateRandomInt(0, 100);
-            if (randomValue >= prob)
-                return false;
-            return battleBuffEventConditionBase.CanTrigger();
+            return true;
+            //return battleBuffEventConditionBase.CanTrigger();
         }
         /// <summary>
         /// 具体buff触发事件实现
@@ -37,18 +35,10 @@ namespace AscensionServer
         /// <param name="skillAdditionData">用于记录临时的加成数据，比如技能加成</param>
         public void Trigger(BattleCharacterEntity target,BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
         {
-            if (owner.BattleBuffController.ForbiddenBuff.Contains(battleBuffObj.BuffId))//该buff被禁用
+            if (owner.BattleBuffController.ForbiddenBuff.Contains(battleBuffObj.BuffId))//该buff被禁用，返回
                 return;
-            //todo 暂时设置为必定触发
-            //if (!CanTrigger())
-            //    return;
-            //暂时设置为血量低于50%触发
-            //int healthPercent = owner.CharacterBattleData.GetPropertyPercent(BattleSkillEventTriggerNumSourceType.Health);
-            //if (healthPercent > 90)
-            //{
-            //    Recover();
-            //    return;
-            //}
+            if (!CanTrigger(target, battleDamageData))
+                return;
             //最大触发次数超过限制
             triggerCount++;
             if (maxTriggerCount != -1 && triggerCount >= maxTriggerCount)

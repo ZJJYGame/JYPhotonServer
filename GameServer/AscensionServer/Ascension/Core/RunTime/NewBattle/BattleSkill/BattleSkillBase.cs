@@ -80,7 +80,8 @@ namespace AscensionServer
         /// <param name="targetIndex">第几个目标</param>
         public BattleDamageData GetDamageData(int index, int targetIndex, BattleCharacterEntity target, BattleDamageData battleDamageData)
         {
-
+            if (target.HasDie)//todo需判断是否是复活技能
+                return null;
             BattleSkillDamageNumData battleSkillDamageNumData = battleSkillData.battleSkillDamageNumDataList[index];
             battleDamageData.battleSkillActionType = battleSkillData.battleSkillActionType;
             battleDamageData.damageType = battleSkillDamageNumData.battleSkillDamageType;

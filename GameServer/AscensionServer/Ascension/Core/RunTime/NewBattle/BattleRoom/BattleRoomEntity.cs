@@ -36,7 +36,7 @@ namespace AscensionServer
             add { onBattleEnd += value; }
             remove{ onBattleEnd -= value; }
         }
-        Action<BattleResultInfo[]> onBattleEnd;
+        public Action<BattleResultInfo[]> onBattleEnd;
 
         public List<BattleTransferDTO> BattleTransferDTOList { get; set; } = new List<BattleTransferDTO>();
         public List<BattleBuffEventDTO> RoundStartBuffEvent { get; set; } = new List<BattleBuffEventDTO>();

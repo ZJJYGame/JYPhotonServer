@@ -167,7 +167,40 @@ namespace AscensionServer
             {
                 resultFlagTwo = resultFlagTwo && FactionTwoCharacterEntites[i].HasDie;
             }
+            //如果战斗结束，回调战斗胜利失败信息
+            if(resultFlagOne || resultFlagTwo)
+            {
+                BattleResultInfo battleResultInfoOne = new BattleResultInfo();
+                BattleResultInfo battleResultInfoTwo = new BattleResultInfo();
+                BattleResultInfo[] battleResultInfos = new BattleResultInfo[2] { battleResultInfoOne , battleResultInfoTwo };
+                battleResultInfoOne.isWin = !resultFlagOne;
+                battleResultInfoOne.CharacterId = GetCharactID2Adventure(FactionOneCharacterEntites);
+                battleResultInfoTwo.isWin = !resultFlagTwo;
+                battleResultInfoTwo.CharacterId = GetCharactID2Adventure(FactionTwoCharacterEntites);
+                battleRoomEntity.onBattleEnd?.Invoke(battleResultInfos);
+            }
             return resultFlagOne || resultFlagTwo;
+        }
+
+        int[] GetCharactID2Adventure(List<BattleCharacterEntity> battleCharacterEntities)
+        {
+            int[] arr = new int[battleCharacterEntities.Count];
+            for (int i = 0; i < battleCharacterEntities.Count; i++)
+            {
+                switch (battleCharacterEntities[i].GetType().Name)
+                {
+                    case "BattlePlayerEntity":
+                        arr[i] = battleCharacterEntities[i].UniqueID;
+                        break;
+                    case "BattlePetEntity":
+                        arr[i] = battleCharacterEntities[i].UniqueID;
+                        break;
+                    case "BattleAIEntity":
+                        arr[i] = battleCharacterEntities[i].GlobalID;
+                        break;
+                }
+            }
+            return arr;
         }
 
         public void Clear()

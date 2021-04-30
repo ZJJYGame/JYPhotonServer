@@ -32,7 +32,7 @@ namespace AscensionServer
                 return false;
         }
     }
-    public class  battleSkillEventCondition_PropertyLimit: BattleSkillEventConditionBase
+    public class  BattleSkillEventCondition_PropertyLimit: BattleSkillEventConditionBase
     {
         CharacterBattleData selfData;
         //true=>根据自身判断,false=>根据技能目标判断
@@ -68,11 +68,12 @@ namespace AscensionServer
             else
                 return value <= limitValue ? true : false;
         }
-        public battleSkillEventCondition_PropertyLimit(BattleSkillEventBase battleSkillEventBase,BattleSkillEventData battleSkillEventData,bool isSelf,bool isUp) : base(battleSkillEventBase, battleSkillEventData)
+        public BattleSkillEventCondition_PropertyLimit(BattleSkillEventBase battleSkillEventBase,BattleSkillEventData battleSkillEventData,bool isSelf,bool isUp) : base(battleSkillEventBase, battleSkillEventData)
         {
             this.isSelf = isSelf;
             this.isUp = isUp;
             selfData = battleSkillEventBase.OwnerEntity.CharacterBattleData;
         }
     }
+
 }

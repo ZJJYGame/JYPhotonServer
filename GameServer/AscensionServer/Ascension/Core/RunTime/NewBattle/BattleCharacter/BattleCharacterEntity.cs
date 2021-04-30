@@ -157,6 +157,8 @@ namespace AscensionServer
         /// </summary>
         public void OnActionEffect(BattleDamageData battleDamageData)
         {
+            if (battleDamageData == null)
+                return;
             switch (battleDamageData.battleSkillActionType)
             {
                 case BattleSkillActionType.Damage:
