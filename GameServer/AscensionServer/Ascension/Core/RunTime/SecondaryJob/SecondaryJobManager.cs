@@ -180,14 +180,14 @@ namespace AscensionServer
             switch ((FormulaDrugType )drugData.ItemTypeDetail)
             {
                 case FormulaDrugType.Alchemy:
-                    Utility.Debug.LogInfo("YZQ收到的副职业添加配方请求>>>");
                     UpdateAlchemyS2C(secondaryJob.RoleID, secondaryJob.UseItemID);
                     break;
                 case FormulaDrugType.Forge:
+                    Utility.Debug.LogInfo("YZQ收到的副职业添加配方请求>>>");
                     UpdateForgeS2C(secondaryJob.RoleID, secondaryJob.UseItemID);
                     break;
                 case FormulaDrugType.Puppet:
-                  
+                    UpdatePuppetS2C(secondaryJob.RoleID, secondaryJob.UseItemID);
                     break;
                 default:
                     break;

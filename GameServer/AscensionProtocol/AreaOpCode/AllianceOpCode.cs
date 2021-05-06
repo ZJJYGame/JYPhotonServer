@@ -124,5 +124,13 @@ namespace AscensionProtocol
         /// 踢出宗门
         /// </summary>
         KickOutAlliance= 32,
+        /// <summary>
+        /// 解散宗门
+        /// </summary>
+        DissolveAlliance=33,
+        /// <summary>
+        /// 被迫解散
+        /// </summary>
+        ForcedToDissolve=34,
     }
 }

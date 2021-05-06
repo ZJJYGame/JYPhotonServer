@@ -114,15 +114,10 @@ namespace AscensionServer
                             RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundForge);
                             return;
                         }
-                        //for (int i = 0; i < 100; i++)
-                        //{
-                        //    var randNum = GameEntry.PetStatusManager.NormalRandom2(0, 101);
-                        //    Utility.Debug.LogInfo("YZQ鍛造失敗随机数：" + randNum);
-                        //}
-                        var maxNum = 50+(formulaData.SuccessRate / 2);
+                        var maxNum = 50 + (formulaData.SuccessRate / 2);
                         var minNum = 50 - (formulaData.SuccessRate / 2);
                         var randNum = NormalRandom2(maxNum, minNum);
-                        if (randNum >= maxNum && randNum<= minNum)
+                        if (randNum >= maxNum || randNum <= minNum)
                         {
                             RoleStatusCompoundFailS2C(roleID, SecondaryJobOpCode.CompoundForge, default);
                             Utility.Debug.LogInfo("YZQ鍛造失敗随机数：" + randNum + "成功率：" + formulaData.SuccessRate);
@@ -168,9 +163,9 @@ namespace AscensionServer
                                 }
                             }
 
+                            roleweapon.RoleID = roleID;
                             await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleWeaponPostfix, roleID.ToString(), roleweapon);
                             await NHibernateQuerier.UpdateAsync(ChangeDataType(roleweapon));
-
                             InventoryManager.AddNewItem(roleID, forgeid, 1);
                             Dictionary<byte, object> dict = new Dictionary<byte, object>();
                             dict.Add((byte)ParameterCode.JobForge, forge);

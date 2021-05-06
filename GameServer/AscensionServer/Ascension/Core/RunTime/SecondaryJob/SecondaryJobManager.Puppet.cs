@@ -54,70 +54,74 @@ namespace AscensionServer
                             //    RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundPuppet);
                             //    return;
                             //}
-                            if (Utility.Algorithm.CreateRandomInt(0, 100) > 100/*formulaData.SuccessRate*/)
+                            var maxNum = 50 + (formulaData.SuccessRate / 2);
+                            var minNum = 50 - (formulaData.SuccessRate / 2);
+                            var randNum = NormalRandom2(maxNum, minNum);
+                            if (randNum >= maxNum || randNum <= minNum)
                             {
                                 Utility.Debug.LogInfo("YZQ收到的副职业请求3");
                                 RoleStatusCompoundFailS2C(roleID, SecondaryJobOpCode.CompoundPuppet, default);
                                 //鍛造失敗
                                 return;
                             }
-                            puppet.JobLevelExp += formulaData.MasteryValue;
-                            role.Vitality -= formulaData.NeedVitality;
-                            assest.SpiritStonesLow -= formulaData.NeedMoney;
+                        
+                        }
+                        puppet.JobLevelExp += formulaData.MasteryValue;
+                        // role.Vitality -= formulaData.NeedVitality;
+                        assest.SpiritStonesLow -= formulaData.NeedMoney;
 
-                            var puppetObj = PuppetStatusAlgorithm(formulaData.ItemID);
-                            if (puppetObj != null)
+                        var puppetObj = PuppetStatusAlgorithm(formulaData.ItemID);
+                        if (puppetObj != null)
+                        {
+                            puppetObj.UnitLevel = formulaData.FormulaLevel;
+                            puppetObj.UnitPart = formulaData.SyntheticType;
+                            var indexExist = puppetUnit.UnitIndesDict.TryGetValue(formulaData.ItemID, out int id);
+                            if (indexExist)
                             {
-                                puppetObj.UnitLevel = formulaData.FormulaLevel;
-                                puppetObj.UnitPart = formulaData.SyntheticType;
-                                var indexExist = puppetUnit.UnitIndesDict.TryGetValue(formulaData.ItemID, out int id);
-                                if (indexExist)
-                                {                               
-                                    Utility.Debug.LogInfo("YZQ收到的副职业请求的唯一ID为" + unitid);
-                                    puppetUnit.UnitIndesDict[formulaData.ItemID] = id + 1;
-                                    unitid = Convert.ToInt32(formulaData.ItemID + "" + (id + 1));
-                                    puppetUnit.PuppetUnitInfoDict.Add(unitid, puppetObj);
-   
-                                }
-                                else
-                                {
-                                    puppetUnit.UnitIndesDict.Add(formulaData.ItemID, 1);
-                                    unitid = Convert.ToInt32(formulaData.ItemID + "" + 1);
-                                    puppetUnit.PuppetUnitInfoDict.Add(unitid, puppetObj);
+                                Utility.Debug.LogInfo("YZQ收到的副职业请求的唯一ID为" + unitid);
+                                puppetUnit.UnitIndesDict[formulaData.ItemID] = id + 1;
+                                unitid = Convert.ToInt32(formulaData.ItemID + "" + (id + 1));
+                                puppetUnit.PuppetUnitInfoDict.Add(unitid, puppetObj);
 
-                                }
-                                //TODO发送客户端
-                                Dictionary<byte, object> dict = new Dictionary<byte, object>();
-                                dict.Add((byte)ParameterCode.GetPuppetUnit, puppetUnit);
-                                dict.Add((byte)ParameterCode.RoleAssets, assest);
-                                dict.Add((byte)ParameterCode.RoleStatus, role);
-                                dict.Add((byte)ParameterCode.JobPuppet, puppet);
-                                RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.CompoundPuppet, dict);
-                                InventoryManager.AddNewItem(roleID, unitid, 1);
-
-                                #region 更新到数据库
-                                await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._PuppetUnitPerfix, roleID.ToString(), puppetUnit);
-                                await NHibernateQuerier.UpdateAsync(ChangeDataType(puppetUnit));
-
-                                await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString(), assest);
-                                await NHibernateQuerier.UpdateAsync(assest);
-
-                                await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleStatsuPerfix, roleID.ToString(), role);
-                                await NHibernateQuerier.UpdateAsync(role);
-
-                                await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._PuppetPerfix, roleID.ToString(), puppet);
-                                await NHibernateQuerier.UpdateAsync(ChangeDataType(puppet));
-                                #endregion
                             }
                             else
                             {
-                                Utility.Debug.LogInfo("YZQ收到的副职业请求4");
-                                RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundPuppet);
-                                return;
+                                puppetUnit.UnitIndesDict.Add(formulaData.ItemID, 1);
+                                unitid = Convert.ToInt32(formulaData.ItemID + "" + 1);
+                                puppetUnit.PuppetUnitInfoDict.Add(unitid, puppetObj);
+
                             }
+                            //TODO发送客户端
+                            Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                            dict.Add((byte)ParameterCode.GetPuppetUnit, puppetUnit);
+                            dict.Add((byte)ParameterCode.RoleAssets, assest);
+                            dict.Add((byte)ParameterCode.RoleStatus, role);
+                            dict.Add((byte)ParameterCode.JobPuppet, puppet);
+                            RoleStatusSuccessS2C(roleID, SecondaryJobOpCode.CompoundPuppet, dict);
+                            InventoryManager.AddNewItem(roleID, unitid, 1);
+
+                            #region 更新到数据库
+                            await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._PuppetUnitPerfix, roleID.ToString(), puppetUnit);
+                            await NHibernateQuerier.UpdateAsync(ChangeDataType(puppetUnit));
+
+                            await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleAssetsPerfix, roleID.ToString(), assest);
+                            await NHibernateQuerier.UpdateAsync(assest);
+
+                            await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._RoleStatsuPerfix, roleID.ToString(), role);
+                            await NHibernateQuerier.UpdateAsync(role);
+
+                            await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._PuppetPerfix, roleID.ToString(), puppet);
+                            await NHibernateQuerier.UpdateAsync(ChangeDataType(puppet));
+                            #endregion
+                        }
+                        else
+                        {
+                            Utility.Debug.LogInfo("YZQ收到的副职业请求4");
+                            RoleStatusFailS2C(roleID, SecondaryJobOpCode.CompoundPuppet);
+                            return;
                         }
                     }
-
+                   
                 }
             }
         }
@@ -309,7 +313,7 @@ namespace AscensionServer
                     {
                         if (formulaDataDict.TryGetValue(tempid, out var formula))
                         {
-                            if (formula.FormulaLevel > puppet.JobLevel)
+                            if (formula.NeedJobLevel > puppet.JobLevel)
                             {
                                 RoleStatusFailS2C(roleid, SecondaryJobOpCode.StudySecondaryJobStatus);
                                 return;
@@ -323,8 +327,12 @@ namespace AscensionServer
 
                                 RoleStatusSuccessS2C(roleid, SecondaryJobOpCode.StudySecondaryJobStatus, dict);
                                 InventoryManager.Remove(roleid, id);
+                                puppet.RoleID = roleid;
+                                Utility.Debug.LogError("学习完傀儡配方1" + Utility.Json.ToJson(puppet));
                                 await NHibernateQuerier.UpdateAsync(ChangeDataType(puppet));
+                                Utility.Debug.LogError("学习完傀儡配方2" + Utility.Json.ToJson(puppet));
                                 await RedisHelper.Hash.HashSetAsync<PuppetDTO>(RedisKeyDefine._PuppetPerfix, roleid.ToString(), puppet);
+
                             }
                             else
                                 RoleStatusFailS2C(roleid, SecondaryJobOpCode.StudySecondaryJobStatus);
@@ -462,10 +470,10 @@ namespace AscensionServer
         Puppet ChangeDataType(PuppetDTO puppetDTO)
         {
             Puppet puppet = new Puppet();
-            puppet.RoleID = puppet.RoleID;
-            puppet.Recipe_Array = Utility.Json.ToJson(puppet.Recipe_Array);
-            puppet.JobLevel = puppet.JobLevel;
-            puppet.JobLevelExp = puppet.JobLevelExp;
+            puppet.RoleID = puppetDTO.RoleID;
+            puppet.Recipe_Array = Utility.Json.ToJson(puppetDTO.Recipe_Array);
+            puppet.JobLevel = puppetDTO.JobLevel;
+            puppet.JobLevelExp = puppetDTO.JobLevelExp;
             return puppet;
         }
 
