@@ -184,5 +184,9 @@
         /// 宠物丹药刷新
         /// </summary>
         PetDrugFresh=115,
+        /// <summary>
+        /// 解散宗门
+        /// </summary>
+        DissolveAlliance=116,
     }
 }

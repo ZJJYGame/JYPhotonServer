@@ -672,13 +672,6 @@ namespace AscensionServer
                         roleStatus.RoleMaxSoul += statusFly.RoleMaxSoul + statusGF.RoleMaxSoul + roleObj .RoleSoul+ statusEquip.RoleMaxSoul + statusMS.RoleMaxSoul + statusPoint.RoleMaxSoul+ soul.AddCoefficient * roleAllianceSkill.SkillInsight;
                         roleStatus.ValueHide += statusFly.ValueHide + roleObj .ValueHide+ statusGF.ValueHide + statusEquip.ValueHide + statusMS.ValueHide + statusPoint.ValueHide;
                         roleStatus.MaxVitality += statusFly.MaxVitality + statusGF.MaxVitality + statusEquip.MaxVitality + statusMS.MaxVitality + statusPoint.MaxVitality + roleObj.Vitality;
-                        Utility.Debug.LogError("1更新的活力数据:" + statusFly.MaxVitality);
-                        Utility.Debug.LogError("2更新的活力数据:" + statusGF.MaxVitality);
-                        Utility.Debug.LogError("3更新的活力数据:" + statusEquip.MaxVitality);
-                        Utility.Debug.LogError("4更新的活力数据:" + statusMS.MaxVitality);
-                        Utility.Debug.LogError("5更新的活力数据:" + statusPoint.MaxVitality);
-                        Utility.Debug.LogError("6更新的活力数据:" + roleObj.Vitality);
-                        Utility.Debug.LogError("7更新的活力数据:" + roleStatus.MaxVitality);
 
                         roleStatus.RoleMaxMP += statusFly.RoleMaxMP + statusGF.RoleMaxMP + statusEquip.RoleMaxMP + statusMS.RoleMaxMP + statusPoint.RoleMaxMP + roleObj.RoleMP+ mp.AddCoefficient* roleAllianceSkill.SkillMeditation;
                         #endregion

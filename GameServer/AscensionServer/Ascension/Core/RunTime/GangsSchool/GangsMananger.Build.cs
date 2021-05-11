@@ -32,6 +32,15 @@ namespace AscensionServer
                     Dictionary<byte, object> dict = new Dictionary<byte, object>();
                     dict.Add((byte)ParameterCode.AllianceStatus, Alliance);
                     dict.Add((byte)ParameterCode.AllianceConstruction, Construction);
+                    var dissolveExist = RedisHelper.KeyExistsAsync(RedisKeyDefine._DissolveAlliancePerfix + roleID.ToString()).Result;
+                    if (dissolveExist)
+                    {
+                        var dissolve = RedisHelper.String.StringGetAsync(RedisKeyDefine._DissolveAlliancePerfix + roleID.ToString()).Result;
+                        if (string .IsNullOrEmpty(dissolve))
+                        {
+                            dict.Add((byte)ParameterCode.DissolveAlliance, dissolve);
+                        }
+                    }
                     RoleStatusSuccessS2C(roleID, AllianceOpCode.GetAllianceStatus, dict);
                 }
                 else
@@ -362,6 +371,15 @@ namespace AscensionServer
             if (Alliance != null && Alliance != null)
             {
                 Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                var dissolveExist = RedisHelper.KeyExistsAsync(RedisKeyDefine._DissolveAlliancePerfix + roleID.ToString()).Result;
+                if (dissolveExist)
+                {
+                    var dissolve = RedisHelper.String.StringGetAsync(RedisKeyDefine._DissolveAlliancePerfix + roleID.ToString()).Result;
+                    if (string.IsNullOrEmpty(dissolve))
+                    {
+                        dict.Add((byte)ParameterCode.DissolveAlliance, dissolve);
+                    }
+                }
                 dict.Add((byte)ParameterCode.AllianceStatus, Alliance);
                 dict.Add((byte)ParameterCode.AllianceConstruction, Construction);
                 RoleStatusSuccessS2C(roleID, AllianceOpCode.GetAllianceStatus, dict);

@@ -227,6 +227,10 @@ namespace AscensionServer
                     KickOutAllianceS2C(roleObj.RoleID, roleAllianceObj.RoleID, roleAllianceObj.AllianceID);
                     #endregion
                     break;
+                case AllianceOpCode.DissolveAlliance:
+                    roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(packet.DataMessage.ToString());
+                    DissolveAllianceS2C(roleAllianceObj.RoleID, roleAllianceObj.AllianceID, roleAllianceObj.RoleName);
+                    break;
                 default:
                     break;
             }

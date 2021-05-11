@@ -200,6 +200,10 @@ namespace AscensionServer
         /// 角色装备的装备的Key前缀
         /// </summary>
         public static readonly string _RoleEquipmentPerfix = "RoleEquipment";
+        /// <summary>
+        /// 宗门解散的Key前缀
+        /// </summary>
+        public static readonly string _DissolveAlliancePerfix = "DissolveAlliance";
 
         #region 角色属性高速存储用
         /// <summary>

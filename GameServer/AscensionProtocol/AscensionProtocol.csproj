@@ -82,6 +82,7 @@
     <Compile Include="DTO\BottleneckDTO.cs" />
     <Compile Include="DTO\DailyMessageDTO.cs" />
     <Compile Include="DTO\DemonicSoulDTO.cs" />
+    <Compile Include="DTO\DissolveAllianceDTO.cs" />
     <Compile Include="DTO\ExchangeDTO.cs" />
     <Compile Include="DTO\FlyMagicToolDTO.cs" />
     <Compile Include="DTO\ForgeDTO.cs" />

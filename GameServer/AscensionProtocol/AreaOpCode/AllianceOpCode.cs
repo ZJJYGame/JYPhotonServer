@@ -129,8 +129,8 @@ namespace AscensionProtocol
         /// </summary>
         DissolveAlliance=33,
         /// <summary>
-        /// 被迫解散
+        /// 取消解散
         /// </summary>
-        ForcedToDissolve=34,
+        CancelDissolve = 34,
     }
 }

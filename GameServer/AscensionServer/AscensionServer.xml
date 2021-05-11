@@ -916,6 +916,11 @@
             角色装备的装备的Key前缀
             </summary>
         </member>
+        <member name="F:AscensionServer.RedisKeyDefine._DissolveAlliancePerfix">
+            <summary>
+            宗门解散的Key前缀
+            </summary>
+        </member>
         <member name="F:AscensionServer.RedisKeyDefine._RoleStatusGFPerfix">
             <summary>
             角色功法部分属性记录
@@ -2879,6 +2884,11 @@
             </summary>
             <param name="roleID"></param>
             <param name="id"></param>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.DissolveAllianceS2C(System.Int32,System.Int32,System.String)">
+            <summary>
+            退出宗门
+            </summary>
         </member>
         <member name="M:AscensionServer.GangsMananger.ApplyJoinAllianceMySql(System.Int32,System.Int32)">
             <summary>
