@@ -80,7 +80,7 @@ namespace AscensionServer
             Dictionary<byte, object> subResponseParametersDict = new Dictionary<byte, object>();
             subResponseParametersDict.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(battleTransferDTOs));
             subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTimeStamp, Utility.Json.ToJson(Utility.Time.MillisecondTimeStamp()));
-            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTime, Utility.Json.ToJson(GameEntry.ServerBattleManager.RoleBattleTime));
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTime, Utility.Json.ToJson(15));
             subResponseParametersDict.Add((byte)ParameterCode.RoleBattleBefore, Utility.Json.ToJson(new List<BattleBuffDTO>()));
             subResponseParametersDict.Add((byte)ParameterCode.RoleBattleAfter, Utility.Json.ToJson(new List<BattleBuffDTO>()));
             OperationData opData = new OperationData();

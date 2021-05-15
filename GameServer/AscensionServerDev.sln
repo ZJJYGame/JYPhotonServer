@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29215.179
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1401
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AscensionServer", "AscensionServer\AscensionServer.csproj", "{59C2ADFF-55D0-4139-9A85-0AC66ADFFCF8}"
 EndProject
@@ -10,8 +10,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFramework", "Framework\CFramework.csproj", "{81A14E63-385F-4B83-B403-A6B7D6FC94D8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisService", "RedisService\RedisService.csproj", "{C1E88D49-8582-4CA4-BC91-0F6147C8F876}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Runner_TestOnly", "Runner\Runner_TestOnly.csproj", "{A9542CCE-8E9D-445B-AD6F-934CF6D8EBDE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpServer", "HttpServer\HttpServer.csproj", "{C5616C09-20C3-4135-8F08-26C54A69456A}"
 EndProject
@@ -37,10 +35,6 @@ Global
 		{C1E88D49-8582-4CA4-BC91-0F6147C8F876}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1E88D49-8582-4CA4-BC91-0F6147C8F876}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1E88D49-8582-4CA4-BC91-0F6147C8F876}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A9542CCE-8E9D-445B-AD6F-934CF6D8EBDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A9542CCE-8E9D-445B-AD6F-934CF6D8EBDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A9542CCE-8E9D-445B-AD6F-934CF6D8EBDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A9542CCE-8E9D-445B-AD6F-934CF6D8EBDE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C5616C09-20C3-4135-8F08-26C54A69456A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C5616C09-20C3-4135-8F08-26C54A69456A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5616C09-20C3-4135-8F08-26C54A69456A}.Release|Any CPU.ActiveCfg = Release|Any CPU

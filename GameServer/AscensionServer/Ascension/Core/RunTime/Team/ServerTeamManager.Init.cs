@@ -94,7 +94,8 @@ namespace AscensionServer
         /// <param name="roleDTO"></param>
         public void JoinTeam(RoleDTO roleDTO, int teamId)
         {
-            var playerStutes = GameEntry.ServerBattleManager.MsqInfo<Role>(roleDTO.RoleID);
+            //todo获取人物数据
+            Role playerStutes=default;  //= GameEntry.ServerBattleManager.MsqInfo<Role>(roleDTO.RoleID);
             if (IsLeader(roleDTO.RoleID)) return;
             ///记得补上 是不是下线
             //if ()

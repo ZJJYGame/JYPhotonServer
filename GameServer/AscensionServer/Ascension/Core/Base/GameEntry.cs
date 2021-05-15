@@ -16,7 +16,6 @@ namespace AscensionServer
         public static IRoleManager  RoleManager{ get { return GameManager.GetModule<IRoleManager>();} }
         public static IRoomManager  RoomManager{ get { return GameManager.GetModule<IRoomManager>();} }
         public static IAuctionManager AuctionManager { get { return GameManager.GetModule<IAuctionManager>();} }
-        public static IServerBattleManager ServerBattleManager { get { return GameManager.GetModule<IServerBattleManager>();} }
         public static IServerTeamManager ServerTeamManager { get { return GameManager.GetModule<IServerTeamManager>();} }
         public static IRecordManager RecordManager { get { return GameManager.GetModule<IRecordManager>();} }
         public static ILevelManager LevelManager { get { return GameManager.GetModule<ILevelManager>();} }
