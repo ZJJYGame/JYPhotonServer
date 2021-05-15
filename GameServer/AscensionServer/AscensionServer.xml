@@ -172,6 +172,11 @@
             近身或远程攻击
             </summary>
         </member>
+        <member name="F:AscensionServer.BattleBuffConditionType.TargetNotHaveDesignatedBuff">
+            <summary>
+            目标不存在指定buff
+            </summary>
+        </member>
         <member name="T:AscensionServer.BattleBuffCondition_TargetCharacterType">
             <summary>
             buff触发条件目标类型限定
@@ -3417,7 +3422,12 @@
             目标属性限定
             </summary>
         </member>
-        <member name="M:AscensionServer.BattleBuffEventBase.Trigger(AscensionServer.BattleCharacterEntity,AscensionServer.BattleDamageData,AscensionServer.ISkillAdditionData)">
+        <member name="T:AscensionServer.BattleBuffEventCondition_CloseOrRangeAttack">
+            <summary>
+            近战or远程攻击限定
+            </summary>
+        </member>
+        <member name="M:AscensionServer.BattleBuffEventBase.Trigger(AscensionProtocol.DTO.BattleTransferDTO,AscensionServer.BattleCharacterEntity,AscensionServer.BattleDamageData,AscensionServer.ISkillAdditionData)">
             <summary>
             具体buff触发事件实现
             </summary>

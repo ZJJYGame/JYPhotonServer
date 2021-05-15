@@ -24,6 +24,9 @@ namespace AscensionServer
 
         bool CanTrigger(BattleCharacterEntity target, BattleDamageData battleDamageData)
         {
+            int randomValue = Utility.Algorithm.CreateRandomInt(0, 99);
+            if (randomValue >= prob)
+                return false;
             if (!battleBuffObj.CanTrigger(target,battleDamageData))
                 return false;
             return true;
@@ -33,8 +36,9 @@ namespace AscensionServer
         /// 具体buff触发事件实现
         /// </summary>
         /// <param name="skillAdditionData">用于记录临时的加成数据，比如技能加成</param>
-        public void Trigger(BattleCharacterEntity target,BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
+        public void Trigger(BattleTransferDTO battleTransferDTO, BattleCharacterEntity target,BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
         {
+
             if (owner.BattleBuffController.ForbiddenBuff.Contains(battleBuffObj.BuffId))//该buff被禁用，返回
                 return;
             if (!CanTrigger(target, battleDamageData))
@@ -43,7 +47,7 @@ namespace AscensionServer
             triggerCount++;
             if (maxTriggerCount != -1 && triggerCount >= maxTriggerCount)
                 triggerCount = maxTriggerCount;
-            TriggerEventMethod(target, battleDamageData, skillAdditionData);
+            TriggerEventMethod(battleTransferDTO,target, battleDamageData, skillAdditionData);
 
         }
         //恢复到未触发
@@ -52,10 +56,10 @@ namespace AscensionServer
             if (triggerCount==0)
                 return;
             triggerCount = 0;
-            TriggerEventMethod(null,null,null);
+            TriggerEventMethod(null,null,null,null);
 
         }
-        protected virtual void TriggerEventMethod( BattleCharacterEntity target, BattleDamageData battleDamageData,ISkillAdditionData skillAdditionData) { }
+        protected virtual void TriggerEventMethod(BattleTransferDTO battleTransferDTO, BattleCharacterEntity target, BattleDamageData battleDamageData,ISkillAdditionData skillAdditionData) { }
         protected virtual void RecoverEventMethod() { }
         protected virtual void AddTriggerEvent()
         {

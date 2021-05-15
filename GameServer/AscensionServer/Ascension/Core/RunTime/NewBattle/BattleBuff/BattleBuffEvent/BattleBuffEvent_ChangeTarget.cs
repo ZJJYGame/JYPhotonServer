@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cosmos;
+using AscensionProtocol.DTO;
 
 namespace AscensionServer
 {
@@ -18,7 +19,7 @@ namespace AscensionServer
         {
             owner.BattleBuffController.BeforeAllocationActionEvent -= Trigger;
         }
-        protected override void TriggerEventMethod(BattleCharacterEntity target, BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
+        protected override void TriggerEventMethod(BattleTransferDTO battleTransferDTO, BattleCharacterEntity target, BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
         {
             Utility.Debug.LogError("改变目标事件触发");
             switch (buffEvent_ChangeTarget_TargetType)

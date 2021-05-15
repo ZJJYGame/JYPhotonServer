@@ -114,7 +114,7 @@ namespace AscensionServer
             battleBuffObj.BuffCoverEvent -= RecoverEventMethod;
         }
 
-        protected override void TriggerEventMethod(BattleCharacterEntity target,BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
+        protected override void TriggerEventMethod(BattleTransferDTO battleTransferDTO, BattleCharacterEntity target,BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
         {
             float  nowChangeValue = owner.CharacterBattleData.GetBaseProperty(buffRolePropertyChange_SourceDataType, battleBuffObj.OwnerSkill) * percentValue / 100 + fixedValue;
             nowChangeValue = nowChangeValue * OverlayLayer*triggerCount;

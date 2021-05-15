@@ -147,7 +147,11 @@ namespace AscensionServer
         /// 近身或远程攻击
         /// </summary>
         //// [Tooltip("近身或远程攻击")]
-        CloseOrRangeAttack
+        CloseOrRangeAttack,
+        /// <summary>
+        /// 目标不存在指定buff
+        /// </summary>
+        TargetNotHaveDesignatedBuff
     }
 
     /// <summary>
@@ -185,7 +189,7 @@ namespace AscensionServer
     public enum BattleBuffCondition_CharacterType : byte
     {
         Player = 0,
-        Target = 1,
+        Pet = 1,
         Summon = 2,
     }
     #endregion

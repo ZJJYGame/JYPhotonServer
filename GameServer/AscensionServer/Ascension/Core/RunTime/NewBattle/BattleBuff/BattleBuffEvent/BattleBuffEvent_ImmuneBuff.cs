@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cosmos;
+using AscensionProtocol.DTO;
 
 namespace AscensionServer
 {
@@ -20,7 +21,7 @@ namespace AscensionServer
             battleBuffObj.BuffAddEvent -= Trigger;
             battleBuffObj.BuffRemoveEvent -= RecoverEventMethod;
         }
-        protected override void TriggerEventMethod(BattleCharacterEntity target, BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
+        protected override void TriggerEventMethod(BattleTransferDTO battleTransferDTO, BattleCharacterEntity target, BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
         {
             HashSet<int> immuneBuffIdHash = owner.BattleBuffController.ImmuneBuffId;
             for (int i = 0; i < immuneBuffIdList.Count; i++)

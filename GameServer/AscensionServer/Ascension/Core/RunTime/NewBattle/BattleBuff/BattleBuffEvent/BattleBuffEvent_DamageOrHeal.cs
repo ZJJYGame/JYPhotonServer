@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AscensionProtocol.DTO;
+using Cosmos;
 
 namespace AscensionServer
 {
@@ -87,7 +88,7 @@ namespace AscensionServer
                     break;
             }
         }
-        protected override void TriggerEventMethod(BattleCharacterEntity target, BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
+        protected override void TriggerEventMethod(BattleTransferDTO battleTransferDTO, BattleCharacterEntity target, BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
         {
             int value = 0;
             if (dataSource)
@@ -99,7 +100,6 @@ namespace AscensionServer
             value = isDamge ? -value : value;
             BattleCharacterEntity targetEntity = targetIsSelf ? owner : target;
             targetEntity.CharacterBattleData.ChangeProperty(buffEvent_DamageOrHeal_EffectTargetType, value);
-            BattleTransferDTO battleTransferDTO = owner.BattleBuffController.NowBattleTransferDTO;
             if (battleTransferDTO.TargetInfos == null)
                 battleTransferDTO.TargetInfos = new List<TargetInfoDTO>();
             battleTransferDTO.TargetInfos.Add(new TargetInfoDTO()

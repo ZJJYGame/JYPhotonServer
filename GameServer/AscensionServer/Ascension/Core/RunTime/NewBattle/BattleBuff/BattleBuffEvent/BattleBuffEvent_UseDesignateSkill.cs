@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AscensionProtocol.DTO;
 
 namespace AscensionServer
 {
@@ -62,7 +63,7 @@ namespace AscensionServer
                     break;
             }
         }
-        protected override void TriggerEventMethod(BattleCharacterEntity target, BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
+        protected override void TriggerEventMethod(BattleTransferDTO battleTransferDTO, BattleCharacterEntity target, BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
         {
             List<int> tempTargetList;
             if (target != null)

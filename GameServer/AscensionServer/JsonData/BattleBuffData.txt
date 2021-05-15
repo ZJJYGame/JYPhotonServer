@@ -1635,7 +1635,7 @@
 			"maxSuperpositionCount":1,
             "battleBuffTriggerConditionList": [
 			{
-                        "battleBuffConditionType": 8,
+                        "battleBuffConditionType": 5,
                         "battleBuffCondition_TargetCharacterType": 0,
                         "idList": [21002,21001],
                         "targetCount": 2,
@@ -1644,7 +1644,20 @@
                         "battleBuffCondition_SourcePropertyType": 0,
                         "criticalValue": 150,
                         "isUp": true,
-                        "flag": false,
+                        "flag": true,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+								{
+                        "battleBuffConditionType": 12,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [20312],
+                        "targetCount": 2,
+                        "battleBuffCondition_DamageType": 0,
+						"battleSkillDamageType":0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 150,
+                        "isUp": true,
+                        "flag": true,
                         "battleBuffCondition_CharacterType": 0
                     }
 			],
@@ -1663,8 +1676,9 @@
                         "battleBuffCondition_CharacterType": 0
                     },
                     "battleBuffEventType": 4,
+					"probability":100,
 					"maxTriggerCount":1,
-					"battleBuffTriggerTime":5,
+					"battleBuffTriggerTime":8,
                     "battleBuffEventType_RolePropertyChange": 4,
                     "buffRolePropertyChange_SourceDataType": 3,
                     "buffPropertyChangeType": 0,
@@ -1682,7 +1696,7 @@
                     "flag": true,
                     "flag_2": false,
                     "flag_3": false,
-                    "id": 21002
+                    "id": 21001
                 }
             ],
             "isShow": false
@@ -1692,17 +1706,42 @@
             "id": 20311,
             "describe": "物理攻击力减少10点",
             "battleBuffTriggerTime": 0,
-            "probability": 100,
+            "probability": 50,
             "coldTime": 0,
 			"buffCoverType":0,
-			"maxSuperpositionCount":10,
-            "battleBuffTriggerConditionList": [],
+			"maxSuperpositionCount":1,
+            "battleBuffTriggerConditionList": [{
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [21001],
+                        "targetCount": 2,
+                        "battleBuffCondition_DamageType": 0,
+						"battleSkillDamageType":0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 150,
+                        "isUp": true,
+                        "flag": true,
+                        "battleBuffCondition_CharacterType": 0
+                    },
+					{
+                        "battleBuffConditionType": 12,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [20312],
+                        "targetCount": 2,
+                        "battleBuffCondition_DamageType": 0,
+						"battleSkillDamageType":0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 150,
+                        "isUp": true,
+                        "flag": true,
+                        "battleBuffCondition_CharacterType": 0
+                    }],
             "battleBuffEventDataList": [
                 {
                     "eventTriggerCondition": {
-                        "battleBuffConditionType": 0,
+                        "battleBuffConditionType": 1,
                         "battleBuffCondition_TargetCharacterType": 0,
-                        "idList": [],
+                        "idList": [21001],
                         "targetCount": 0,
                         "battleBuffCondition_DamageType": 0,
                         "battleBuffCondition_SourcePropertyType": 0,
@@ -1711,9 +1750,10 @@
                         "flag": false,
                         "battleBuffCondition_CharacterType": 0
                     },
-                    "battleBuffEventType": 15,
-					"maxTriggerCount":1,
-					"battleBuffTriggerTime":9,
+                    "battleBuffEventType": 5,
+					"maxTriggerCount":1,					
+					"probability":100,
+					"battleBuffTriggerTime":8,
                     "battleBuffEventType_RolePropertyChange": 4,
                     "buffRolePropertyChange_SourceDataType": 3,
                     "buffPropertyChangeType": 0,
@@ -1725,10 +1765,10 @@
                     "buffEvent_Shield_SourceDataType": 0,
                     "buffEvent_TakeDamageForOther_TargetType": 0,
 					"buffEvent_ChangeTarget_TargetType":0,
-                    "fixedValue": -10,
-                    "percentValue": 100,
+                    "fixedValue": 50,
+                    "percentValue": 0,
                     "idList": [],
-                    "flag": false,
+                    "flag": true,
                     "flag_2": false,
                     "flag_3": false,
                     "id": 21002
@@ -1739,17 +1779,31 @@
         {
             "name": "20312",
             "id": 20312,
-            "describe": "受到伤害降低20%+10点",
-            "battleBuffTriggerTime": 3,
-            "probability": 100,
+			"describe": "偷袭",
+            "battleBuffTriggerTime": 0,
+            "probability": 50,
             "coldTime": 0,
-            "battleBuffTriggerConditionList": [],
+			"buffCoverType":0,
+			"maxSuperpositionCount":1,
+            "battleBuffTriggerConditionList": [{
+                        "battleBuffConditionType": 0,
+                        "battleBuffCondition_TargetCharacterType": 0,
+                        "idList": [21001],
+                        "targetCount": 2,
+                        "battleBuffCondition_DamageType": 0,
+						"battleSkillDamageType":0,
+                        "battleBuffCondition_SourcePropertyType": 0,
+                        "criticalValue": 150,
+                        "isUp": true,
+                        "flag": true,
+                        "battleBuffCondition_CharacterType": 0
+                    }],
             "battleBuffEventDataList": [
                 {
                     "eventTriggerCondition": {
-                        "battleBuffConditionType": 0,
+                        "battleBuffConditionType": 1,
                         "battleBuffCondition_TargetCharacterType": 0,
-                        "idList": [],
+                        "idList": [21001],
                         "targetCount": 0,
                         "battleBuffCondition_DamageType": 0,
                         "battleBuffCondition_SourcePropertyType": 0,
@@ -1758,10 +1812,13 @@
                         "flag": false,
                         "battleBuffCondition_CharacterType": 0
                     },
-                    "battleBuffEventType": 1,
-                    "battleBuffEventType_RolePropertyChange": 0,
-                    "buffRolePropertyChange_SourceDataType": 0,
-                    "buffPropertyChangeType": 1,
+                    "battleBuffEventType": 0,
+					"maxTriggerCount":1,					
+					"probability":100,
+					"battleBuffTriggerTime":0,
+                    "battleBuffEventType_RolePropertyChange": 4,
+                    "buffRolePropertyChange_SourceDataType": 3,
+                    "buffPropertyChangeType": 0,
                     "buffRoleStateChangeType": 0,
                     "buffEvent_DamageOrHeal_ChangeDataType": 0,
                     "buffEvent_DamageOrHeal_SourceDataType": 0,
@@ -1769,13 +1826,14 @@
                     "BattleSkillDamageType": 0,
                     "buffEvent_Shield_SourceDataType": 0,
                     "buffEvent_TakeDamageForOther_TargetType": 0,
-                    "fixedValue": 10,
-                    "percentValue": 20,
+					"buffEvent_ChangeTarget_TargetType":0,
+                    "fixedValue": 50,
+                    "percentValue": 0,
                     "idList": [],
-                    "flag": false,
+                    "flag": true,
                     "flag_2": false,
                     "flag_3": false,
-                    "id": 0
+                    "id": 21002
                 }
             ],
             "isShow": false

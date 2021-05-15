@@ -232,11 +232,71 @@ namespace AscensionServer
         BattleBuffCondition_CharacterType battleBuffCondition_CharacterType;
         public override bool CanTrigger(BattleCharacterEntity target, BattleDamageData battleDamageData)
         {
-            return base.CanTrigger(target, battleDamageData);
+            switch (battleBuffCondition_CharacterType)
+            {
+                case BattleBuffCondition_CharacterType.Player:
+                    if (target.GetType() == typeof(BattlePlayerEntity))
+                        return true;
+                    break;
+                case BattleBuffCondition_CharacterType.Pet:
+                    if (target.GetType() == typeof(BattlePetEntity))
+                        return true;
+                    break;
+                case BattleBuffCondition_CharacterType.Summon:
+                    if (target.GetType() == typeof(BattleAIEntity))
+                        return true;
+                    break;
+            }
+            return false;
         }
         public BattleBuffEventCondition_CharacterTypeLimit(BattleBuffTriggerCondition battleBuffTriggerCondition, BattleBuffObj battleBuffObj) : base(battleBuffTriggerCondition, battleBuffObj)
         {
             battleBuffCondition_CharacterType = battleBuffTriggerCondition.battleBuffCondition_CharacterType;
+        }
+    }
+
+   /// <summary>
+   /// 近战or远程攻击限定
+   /// </summary>
+    public class BattleBuffEventCondition_CloseOrRangeAttack : BattleBuffEventConditionBase
+    {
+        bool isSelf;
+        bool isCloseAttack;
+        public override bool CanTrigger(BattleCharacterEntity target, BattleDamageData battleDamageData)
+        {
+            BattleCharacterEntity targetEntity;
+            if (isSelf)
+                targetEntity = Owner;
+            else
+                targetEntity = target;
+            GameEntry.DataManager.TryGetValue<Dictionary<int, BattleSkillData>>(out var skillDict);
+            BattleSkillData battleSkillData = skillDict[targetEntity.BattleSkillController.nowUseSkillId];
+            if (isCloseAttack == battleSkillData.IsCloseAttack)
+                return true;
+            else
+                return false;
+        }
+        public BattleBuffEventCondition_CloseOrRangeAttack(BattleBuffTriggerCondition battleBuffTriggerCondition, BattleBuffObj battleBuffObj) : base(battleBuffTriggerCondition, battleBuffObj)
+        {
+            isCloseAttack = battleBuffTriggerCondition.isUp;
+            isSelf = battleBuffTriggerCondition.flag;
+        }
+    }
+    public class BattleBuffEventCondition_TargetNotHaveDesignatedBuff : BattleBuffEventConditionBase
+    {
+        List<uint> buffIdList;
+        public override bool CanTrigger(BattleCharacterEntity target, BattleDamageData battleDamageData)
+        {
+            for (int i = 0; i < buffIdList.Count; i++)
+            {
+                if (target.BattleBuffController.HasBuff((int)buffIdList[i]))
+                    return false;
+            }
+            return true;
+        }
+        public BattleBuffEventCondition_TargetNotHaveDesignatedBuff(BattleBuffTriggerCondition battleBuffTriggerCondition, BattleBuffObj battleBuffObj) : base(battleBuffTriggerCondition, battleBuffObj)
+        {
+            buffIdList = battleBuffTriggerCondition.idList;
         }
     }
 }

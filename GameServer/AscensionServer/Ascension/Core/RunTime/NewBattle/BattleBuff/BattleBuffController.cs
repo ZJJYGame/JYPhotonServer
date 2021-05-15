@@ -21,71 +21,70 @@ namespace AscensionServer
         public HashSet<int> ImmuneBuffId { get; set; }
         public HashSet<int> ForbiddenBuff { get; set; }
 
-        public BattleTransferDTO NowBattleTransferDTO { get;  set; }
 
         #region buff事件
-        Action<BattleCharacterEntity, BattleDamageData, ISkillAdditionData> berforePropertyChangeEvent;
-        public event Action<BattleCharacterEntity, BattleDamageData, ISkillAdditionData> BeforePropertyChangeEvent
+        Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> berforePropertyChangeEvent;
+        public event Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> BeforePropertyChangeEvent
         {
             add { berforePropertyChangeEvent += value; }
             remove { berforePropertyChangeEvent -= value; }
         }
-        Action< BattleCharacterEntity,BattleDamageData, ISkillAdditionData> afterPropertyChangeEvent;
-        public event Action< BattleCharacterEntity, BattleDamageData, ISkillAdditionData> AfterPropertyChangeEvent
+        Action<BattleTransferDTO, BattleCharacterEntity,BattleDamageData, ISkillAdditionData> afterPropertyChangeEvent;
+        public event Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> AfterPropertyChangeEvent
         {
             add { afterPropertyChangeEvent += value; }
             remove { afterPropertyChangeEvent -= value; }
         }
-        Action< BattleCharacterEntity, BattleDamageData, ISkillAdditionData> beforeAllocationActionEvent;
-        public event Action< BattleCharacterEntity, BattleDamageData, ISkillAdditionData> BeforeAllocationActionEvent
+        Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> beforeAllocationActionEvent;
+        public event Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> BeforeAllocationActionEvent
         {
             add { beforeAllocationActionEvent += value; }
             remove { beforeAllocationActionEvent -= value; }
         }
-         Action<BattleCharacterEntity, BattleDamageData, ISkillAdditionData> beforeUseSkill;
-        public event Action< BattleCharacterEntity, BattleDamageData, ISkillAdditionData> BeforeUseSkill
+         Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> beforeUseSkill;
+        public event Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> BeforeUseSkill
         {
             add { beforeUseSkill += value; }
             remove { beforeUseSkill -= value; }
         }
-        Action<BattleCharacterEntity, BattleDamageData, ISkillAdditionData> beforeAttackEvent;
-        public event Action<BattleCharacterEntity, BattleDamageData, ISkillAdditionData> BeforeAttackEvent
+        Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> beforeAttackEvent;
+        public event Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> BeforeAttackEvent
         {
             add { beforeAttackEvent += value; }
             remove { beforeAttackEvent -= value; }
         }
-        Action<BattleCharacterEntity, BattleDamageData, ISkillAdditionData> behindAttackEvent;
-        public event Action< BattleCharacterEntity, BattleDamageData, ISkillAdditionData> BehindAttackEvent
+        Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> behindAttackEvent;
+        public event Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> BehindAttackEvent
         {
             add { behindAttackEvent += value; }
             remove { behindAttackEvent -= value; }
         }
-        Action<BattleCharacterEntity, BattleDamageData, ISkillAdditionData> behindUseSkill;
-        public event Action<BattleCharacterEntity, BattleDamageData, ISkillAdditionData> BehindUseSkill
+        Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> behindUseSkill;
+        public event Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> BehindUseSkill
         {
             add { behindUseSkill += value; }
             remove { behindUseSkill -= value; }
         }
-        Action<BattleCharacterEntity, BattleDamageData, ISkillAdditionData> beforeOnHitEvent;
-        public event Action<BattleCharacterEntity, BattleDamageData, ISkillAdditionData> BeforeOnHitEvent
+        Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> beforeOnHitEvent;
+        public event Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> BeforeOnHitEvent
         {
             add { beforeOnHitEvent += value; }
             remove { beforeOnHitEvent -= value; }
         }
-        Action< BattleCharacterEntity, BattleDamageData, ISkillAdditionData> behindOnHitEvent;
-        public event Action<BattleCharacterEntity, BattleDamageData, ISkillAdditionData> BehindOnHitEvent
+        Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> behindOnHitEvent;
+        public event Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> BehindOnHitEvent
         {
             add { behindOnHitEvent += value; }
             remove { behindOnHitEvent -= value; }
         }
-        Action<BattleCharacterEntity, BattleDamageData, ISkillAdditionData> roleBeforeDieEvent;
-        public event Action< BattleCharacterEntity, BattleDamageData, ISkillAdditionData> RoleBeforeDieEvent
+        Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> roleBeforeDieEvent;
+        public event Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> RoleBeforeDieEvent
         {
             add { roleBeforeDieEvent += value; }
             remove { roleBeforeDieEvent -= value; }
         }
-        Action<BattleCharacterEntity, BattleDamageData, ISkillAdditionData> roleAfterDieEvent;
-        public event Action< BattleCharacterEntity, BattleDamageData, ISkillAdditionData> RoleAfterDieEvent
+        Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> roleAfterDieEvent;
+        public event Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> RoleAfterDieEvent
         {
             add { roleAfterDieEvent += value; }
             remove { roleAfterDieEvent -= value; }
@@ -94,7 +93,12 @@ namespace AscensionServer
         public bool HasBuff(int buffId)
         {
             if (battleBuffObjDict8Id.ContainsKey(buffId))
-                return true;
+            {
+                if (battleBuffObjDict8Id[buffId].Count > 0)
+                    return true;
+                else
+                    return false;
+            }
             else
                 return false;
         }
@@ -158,77 +162,68 @@ namespace AscensionServer
         #region 事件触发
         public ISkillAdditionData TriggerBuffEventBeforePropertyChange(BattleTransferDTO battleTransferDTO, BattleCharacterEntity target = null, BattleDamageData battleDamageData = null)
         {
-            NowBattleTransferDTO = battleTransferDTO;
             ISkillAdditionData skillAdditionData = new SkillAdditionData();
-            berforePropertyChangeEvent?.Invoke(target, battleDamageData, skillAdditionData);
+            berforePropertyChangeEvent?.Invoke(battleTransferDTO,target, battleDamageData, skillAdditionData);
             return skillAdditionData;
         }
         public ISkillAdditionData TriggerBuffEventAfterPropertyChange( BattleCharacterEntity target =null,BattleDamageData battleDamageData=null)
         {
             ISkillAdditionData skillAdditionData = new SkillAdditionData();
-            afterPropertyChangeEvent?.Invoke(target, battleDamageData,skillAdditionData);
+            afterPropertyChangeEvent?.Invoke(null,target, battleDamageData,skillAdditionData);
             return skillAdditionData;
         }
         public ISkillAdditionData TriggerBuffEventBerforeUseSkill(BattleTransferDTO battleTransferDTO, BattleCharacterEntity target = null, BattleDamageData battleDamageData = null)
         {
-            NowBattleTransferDTO = battleTransferDTO;
             ISkillAdditionData skillAdditionData = new SkillAdditionData();
-            beforeUseSkill?.Invoke( target, battleDamageData, skillAdditionData);
+            beforeUseSkill?.Invoke(battleTransferDTO, target, battleDamageData, skillAdditionData);
             return skillAdditionData;
         }
         public ISkillAdditionData TriggerBuffEventBeforeAllocationAction( BattleCharacterEntity target = null, BattleDamageData battleDamageData = null)
         {
             ISkillAdditionData skillAdditionData = new SkillAdditionData();
-            beforeAllocationActionEvent?.Invoke( target, battleDamageData, skillAdditionData);
+            beforeAllocationActionEvent?.Invoke(null, target, battleDamageData, skillAdditionData);
             return skillAdditionData;
         }
         public ISkillAdditionData TriggerBuffEventBeforeAttack(BattleTransferDTO battleTransferDTO, BattleCharacterEntity target = null, BattleDamageData battleDamageData = null)
         {
-            NowBattleTransferDTO = battleTransferDTO;
             ISkillAdditionData skillAdditionData = new SkillAdditionData();
-            beforeAttackEvent?.Invoke( target, battleDamageData, skillAdditionData);
+            beforeAttackEvent?.Invoke(battleTransferDTO, target, battleDamageData, skillAdditionData);
             return skillAdditionData;
         }
         public ISkillAdditionData TriggerBuffEventBehindAttack(BattleTransferDTO battleTransferDTO, BattleCharacterEntity target = null, BattleDamageData battleDamageData = null)
         {
-            NowBattleTransferDTO = battleTransferDTO;
             ISkillAdditionData skillAdditionData = new SkillAdditionData();
-            behindAttackEvent?.Invoke( target, battleDamageData, skillAdditionData);
+            behindAttackEvent?.Invoke(battleTransferDTO, target, battleDamageData, skillAdditionData);
             return skillAdditionData;
         }
         public ISkillAdditionData TriggerBuffEventBehindUseSkill(BattleTransferDTO battleTransferDTO, BattleCharacterEntity target = null, BattleDamageData battleDamageData = null)
         {
-            NowBattleTransferDTO = battleTransferDTO;
             ISkillAdditionData skillAdditionData = new SkillAdditionData();
-            behindUseSkill?.Invoke( target, battleDamageData, skillAdditionData);
+            behindUseSkill?.Invoke(battleTransferDTO, target, battleDamageData, skillAdditionData);
             return skillAdditionData;
         }
         public ISkillAdditionData TriggerBuffEventBeforeOnHit(BattleTransferDTO battleTransferDTO, BattleCharacterEntity target = null, BattleDamageData battleDamageData = null)
         {
-            NowBattleTransferDTO = battleTransferDTO;
             ISkillAdditionData skillAdditionData = new SkillAdditionData();
-            beforeOnHitEvent?.Invoke(target, battleDamageData, skillAdditionData);
+            beforeOnHitEvent?.Invoke(battleTransferDTO, target, battleDamageData, skillAdditionData);
             return skillAdditionData;
         }
         public ISkillAdditionData TriggerBuffEventBehindOnHit(BattleTransferDTO battleTransferDTO, BattleCharacterEntity target = null, BattleDamageData battleDamageData = null)
         {
-            NowBattleTransferDTO = battleTransferDTO;
             ISkillAdditionData skillAdditionData = new SkillAdditionData();
-            behindOnHitEvent?.Invoke( target, battleDamageData, skillAdditionData);
+            behindOnHitEvent?.Invoke(battleTransferDTO, target, battleDamageData, skillAdditionData);
             return skillAdditionData;
         }
         public ISkillAdditionData TriggerBuffEventBeforeRoleDie(BattleTransferDTO battleTransferDTO, BattleCharacterEntity target = null, BattleDamageData battleDamageData = null)
         {
-            NowBattleTransferDTO = battleTransferDTO;
             ISkillAdditionData skillAdditionData = new SkillAdditionData();
-            roleBeforeDieEvent?.Invoke( target, battleDamageData, skillAdditionData);
+            roleBeforeDieEvent?.Invoke(battleTransferDTO, target, battleDamageData, skillAdditionData);
             return skillAdditionData;
         }
         public ISkillAdditionData TriggerBuffEventAfterRoleDie(BattleTransferDTO battleTransferDTO, BattleCharacterEntity target = null, BattleDamageData battleDamageData = null)
         {
-            NowBattleTransferDTO = battleTransferDTO;
             ISkillAdditionData skillAdditionData = new SkillAdditionData();
-            roleAfterDieEvent?.Invoke( target, battleDamageData, skillAdditionData);
+            roleAfterDieEvent?.Invoke(battleTransferDTO, target, battleDamageData, skillAdditionData);
             return skillAdditionData;
         }
         #endregion

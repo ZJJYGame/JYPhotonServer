@@ -316,7 +316,7 @@ namespace AscensionServer
             {
                 if(Hp+ battleDamageData.damageNum+ battleDamageData.extraDamageNum <= 0)
                 {
-                    owner.BattleBuffController.TriggerBuffEventBeforeRoleDie(owner.BattleBuffController.NowBattleTransferDTO, battleDamageData: battleDamageData);
+                    owner.BattleBuffController.TriggerBuffEventBeforeRoleDie(null, battleDamageData: battleDamageData);
                 }
             }
 

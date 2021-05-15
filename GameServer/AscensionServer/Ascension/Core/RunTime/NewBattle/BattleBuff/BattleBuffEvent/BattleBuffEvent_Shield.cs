@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cosmos;
+using AscensionProtocol.DTO;
 
 namespace AscensionServer
 {
@@ -22,7 +23,7 @@ namespace AscensionServer
         {
             owner.BattleBuffController.BeforePropertyChangeEvent -= Trigger;
         }
-        protected override void TriggerEventMethod(BattleCharacterEntity target, BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
+        protected override void TriggerEventMethod(BattleTransferDTO battleTransferDTO, BattleCharacterEntity target, BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
         {
             Utility.Debug.LogError("护盾事件开始触发"+ battleDamageData.battleSkillActionType+ battleDamageData.damageType);
             if (battleDamageData.battleSkillActionType != BattleSkillActionType.Damage)

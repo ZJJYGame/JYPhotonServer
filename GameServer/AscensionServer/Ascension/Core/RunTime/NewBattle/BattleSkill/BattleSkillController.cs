@@ -40,6 +40,7 @@ namespace AscensionServer
 
             //获取技能释放目标的实体
             List<BattleCharacterEntity> targetCharacterList = new List<BattleCharacterEntity>();
+            Utility.Debug.LogError("targetIdList=》" + targetIdList.Count);
             for (int i = 0; i < targetIdList.Count; i++)
             {
                 targetCharacterList.Add(GameEntry.BattleCharacterManager.GetCharacterEntity(targetIdList[i]));
@@ -91,7 +92,6 @@ namespace AscensionServer
                     //受击前buff事件处理
                     for (int j = 0; j < targetCharacterList.Count; j++)
                     {
-                        owner.BattleBuffController.NowBattleTransferDTO = battleTransferDTO;
                         ISkillAdditionData buffBeforOnHitAddition= targetCharacterList[j].BattleBuffController.TriggerBuffEventBeforeOnHit(battleTransferDTO,owner, battleDamageDataList[j]);
                         if (targetCharacterList[j].ReceiveBattleDamageData != null)
                         {
@@ -138,7 +138,7 @@ namespace AscensionServer
                 battleSkill.AddAllBuff(targetCharacterList);
 
                 //使用技能后buff事件处理     
-                owner.BattleBuffController.TriggerBuffEventBehindUseSkill(lastTransferDTO, null);
+                owner.BattleBuffController.TriggerBuffEventBehindUseSkill(lastTransferDTO, targetCharacterList[0]);
                 return;
             }
             else//所有目标的伤害分阶段打完

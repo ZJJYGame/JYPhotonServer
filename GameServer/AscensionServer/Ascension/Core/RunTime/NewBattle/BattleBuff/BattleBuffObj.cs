@@ -40,8 +40,8 @@ namespace AscensionServer
         List<BattleBuffEventBase> battleBuffEventList;
         List<BattleBuffEventConditionBase> battleBuffEventConditionList;
 
-        Action<BattleCharacterEntity,BattleDamageData,ISkillAdditionData> buffAddEvent;
-        public event Action<BattleCharacterEntity, BattleDamageData, ISkillAdditionData> BuffAddEvent
+        Action<BattleTransferDTO, BattleCharacterEntity,BattleDamageData,ISkillAdditionData> buffAddEvent;
+        public event Action<BattleTransferDTO, BattleCharacterEntity, BattleDamageData, ISkillAdditionData> BuffAddEvent
         {
             add { buffAddEvent += value; }
             remove { buffAddEvent -= value; }
@@ -111,10 +111,15 @@ namespace AscensionServer
                         break; 
                     case BattleBuffConditionType.TargetHaveDesignatedBuff:
                         battleBuffEventConditionBase = new BattleBuffEventCondition_TargetHaveDesignatedBuff(battleBuffData.battleBuffTriggerConditionList[i], this);
-                        break;
+                        break; 
                     case BattleBuffConditionType.CharacterTypeLimit:
-                        break;
+                        battleBuffEventConditionBase = new BattleBuffEventCondition_CharacterTypeLimit(battleBuffData.battleBuffTriggerConditionList[i], this);
+                        break; 
                     case BattleBuffConditionType.CloseOrRangeAttack:
+                        battleBuffEventConditionBase = new BattleBuffEventCondition_CloseOrRangeAttack(battleBuffData.battleBuffTriggerConditionList[i], this);
+                        break;
+                    case BattleBuffConditionType.TargetNotHaveDesignatedBuff:
+                        battleBuffEventConditionBase = new BattleBuffEventCondition_TargetNotHaveDesignatedBuff(battleBuffData.battleBuffTriggerConditionList[i], this);
                         break;
                 }
                 battleBuffEventConditionList.Add(battleBuffEventConditionBase);
@@ -191,7 +196,7 @@ namespace AscensionServer
         /// </summary>
         public void OnAdd()
         {
-            buffAddEvent?.Invoke(null,null,null);
+            buffAddEvent?.Invoke(null,null,null,null);
         }
         /// <summary>
         /// buff移除事件

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cosmos;
+using AscensionProtocol.DTO;
 
 
 namespace AscensionServer
@@ -96,7 +97,7 @@ namespace AscensionServer
                     break;
             }
         }
-        protected override void TriggerEventMethod(BattleCharacterEntity target, BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
+        protected override void TriggerEventMethod(BattleTransferDTO battleTransferDTO, BattleCharacterEntity target, BattleDamageData battleDamageData, ISkillAdditionData skillAdditionData)
         {
             Utility.Debug.LogError("buff驱散事件触发");
             for (int i = 0; i < dispelBuffList.Count; i++)
