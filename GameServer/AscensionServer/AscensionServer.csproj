@@ -21,7 +21,7 @@
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\Cache\</OutputPath>
     <OutputPath>..\..\..\Server\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <OutputPath>..\..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
-    <OutputPath>..\..\..\..\..\..\..\localproject\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
+    <OutputPath>..\..\..\..\Localphotonserver\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\Ascension\</OutputPath>
     <DefineConstants>TRACE;DEBUG;SERVER;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -364,8 +364,6 @@
     <Compile Include="Ascension\Core\RunTime\Pet\PetStatusManager.Verify.cs" />
     <Compile Include="Ascension\Core\RunTime\Pet\PuppetManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Pet\PuppetManager.Status.cs" />
-    <Compile Include="Ascension\Core\RunTime\Practice\GongFaManager.cs" />
-    <Compile Include="Ascension\Core\RunTime\Practice\IGongFaManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Practice\IPracticeManager.cs" />
     <Compile Include="Ascension\Core\RunTime\Practice\PracticeManager.Arithmetic.cs" />
     <Compile Include="Ascension\Core\RunTime\Practice\PracticeManager.Bottleneck.cs" />

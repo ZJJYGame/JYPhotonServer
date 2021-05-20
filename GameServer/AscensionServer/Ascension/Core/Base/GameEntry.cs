@@ -10,7 +10,6 @@ namespace AscensionServer
     {
         public static IDataManager DataManager { get { return GameManager.GetModule<IDataManager>(); } }
         public static INetworkManager NetworkManager { get { return GameManager.GetModule<INetworkManager>();} }
-        public static IGongFaManager  GongFaManager{ get { return GameManager.GetModule<IGongFaManager>();} }
         public static IPetStatusManager  PetStatusManager{ get { return GameManager.GetModule<IPetStatusManager>();} }
         public static IPeerManager PeerManager { get { return GameManager.GetModule<IPeerManager>();} }
         public static IRoleManager  RoleManager{ get { return GameManager.GetModule<IRoleManager>();} }
