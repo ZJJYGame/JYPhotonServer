@@ -1596,7 +1596,7 @@
             </summary>
             <param name="statusDTO"></param>
         </member>
-        <member name="M:AscensionServer.GangsMananger.GetAllianceCallboardS2C(System.Int32,System.Int32)">
+        <member name="M:AscensionServer.GangsMananger.GetAllianceCallboardS2C(System.Int32,System.Int32,AscensionProtocol.DTO.DailyMessageDTO)">
             <summary>
             获得宗门通告
             </summary>
@@ -1631,6 +1631,19 @@
         <member name="M:AscensionServer.GangsMananger.ChangeAlliancePurposeMySql(System.Int32,AscensionServer.Model.AllianceStatus)">
             <summary>
             修改宗門宗旨
+            </summary>
+        </member>
+        <member name="M:AscensionServer.GangsMananger.AddDailyMsg(System.Int32,System.Byte,AscensionProtocol.DTO.DailyMessageDTO)">
+             <summary>
+            增加每日宗门通告
+             </summary>
+             <param name="describe"></param>
+             <param name="name"></param>
+             <param name="content"></param>
+        </member>
+        <member name="T:AscensionServer.GangsMananger.DailyMsg_Type">
+            <summary>
+            宗门通告类型
             </summary>
         </member>
         <member name="T:AscensionServer.InventoryManager">

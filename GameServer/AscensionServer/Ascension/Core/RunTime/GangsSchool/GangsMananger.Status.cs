@@ -189,19 +189,77 @@ namespace AscensionServer
         /// </summary>
         /// <param name="roleID"></param>
         /// <param name="ID"></param>
-        async void GetAllianceCallboardS2C(int roleID,int ID)
+        async void GetAllianceCallboardS2C(int roleID,int ID, DailyMessageDTO daily)
         {
             var result = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._DailyMessagePerfix, ID.ToString()).Result;
             if (result)
             {
-                var dailyObj= RedisHelper.Hash.HashGetAsync<List<DailyMessageDTO>>(RedisKeyDefine._DailyMessagePerfix, ID.ToString()).Result;
-                Utility.Debug.LogInfo("YZQ>>>>>>>>>>>>"+Utility.Json.ToJson(dailyObj));
-                if (dailyObj != null)
+                //按照日期记录每天的通告，每次获取先取最新日期，判断是否更新，如若更新发送更新的反之发送前一天的，DateTime.Now.AddDays(-30).ToString("MM-dd")，储存是按照年月为key,欠缺如何删除上一月的数据
+                #region 待删
+                //var dailyObj = RedisHelper.Hash.HashGetAsync<List<DailyMessageDTO>>(RedisKeyDefine._DailyMessagePerfix, ID.ToString()).Result;
+                //Utility.Debug.LogInfo("YZQ>>>>>>>>>>>>" + Utility.Json.ToJson(dailyObj));
+                //if (dailyObj != null)
+                //{
+                //    RoleStatusSuccessS2C(roleID, AllianceOpCode.GetAlliancecallboard, dailyObj);
+                //}
+                //else
+                //    RoleStatusFailS2C(roleID, AllianceOpCode.GetAlliancecallboard);
+                #endregion
+
+                DailyMessageDTO dTO = new DailyMessageDTO();
+                List<DailyMessageData> dailies = new List<DailyMessageData>();
+
+                var dailyObj = RedisHelper.Hash.HashGetAsync<DailyMessageDTO>(RedisKeyDefine._DailyMessagePerfix, ID.ToString()).Result;
+                if (dailyObj!=null)
                 {
-                    RoleStatusSuccessS2C(roleID, AllianceOpCode.GetAlliancecallboard, dailyObj);
+                    if (dailyObj.DailyMessageDict.TryGetValue(DateTime.Now.ToString("MM-dd"), out var dTOs))
+                    {
+                        if (dTOs.Count > daily.CurrentIndex)
+                        {
+                            for (int i = daily.CurrentIndex; i < dTOs.Count; i++)
+                            {
+                                dailies.Add(dTOs[i]);
+                            }
+                            dTO.DailyMessageDict.Add(DateTime.Now.ToString("MM-dd"), dailies);
+
+                            if (dailyObj.IsFirstGet)
+                            {
+                                string data = DateTime.Now.AddDays(-30).ToString("MM-dd");
+                                if (dailyObj.DailyMessageDict.TryGetValue(data, out var yesterDTOs))
+                                {
+                                    dTO.DailyMessageDict.Add(data, yesterDTOs);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            DateTime time = Convert.ToDateTime(dailyObj.DataTimeNow);
+                            string data = time.AddDays(-30).ToString("MM-dd");
+                            if (dailyObj.DailyMessageDict.TryGetValue(data, out var yesterDTOs))
+                            {
+                                dTO.DailyMessageDict.Add(data, yesterDTOs);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        DateTime time = Convert.ToDateTime(dailyObj.DataTimeNow);
+                        string data = time.AddDays(-30).ToString("MM-dd");
+                        if (dailyObj.DailyMessageDict.TryGetValue(data, out var yesterDTOs))
+                        {
+                            dTO.DailyMessageDict.Add(data, yesterDTOs);
+                        }
+                        else
+                        {
+                            RoleStatusFailS2C(roleID, AllianceOpCode.GetAlliancecallboard);
+                        }
+                    }
+
+                    Dictionary<byte, object> dict = new Dictionary<byte, object>();
+                    dict.Add((byte)ParameterCode.DailyMessage, dTO);
+                    RoleStatusSuccessS2C(roleID, AllianceOpCode.GetAlliancecallboard, dict);
+                    //消息发送客户端
                 }
-                else
-                    RoleStatusFailS2C(roleID, AllianceOpCode.GetAlliancecallboard);
             }
         }
 
@@ -262,12 +320,12 @@ namespace AscensionServer
         async void ChangeAlliancePurposeS2C(int roleID,AllianceStatus statusDTO)
         {
             var allianceExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString()).Result;
-            var roleExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString()).Result;
+            var roleExist = RedisHelper.Hash.HashExistAsync(RedisKeyDefine._RoleAlliancePerfix, statusDTO.ID.ToString()).Result;
 
             if (allianceExist&&roleExist)
             {
                 var alliance = RedisHelper.Hash.HashGetAsync<AllianceStatusDTO>(RedisKeyDefine._AlliancePerfix, statusDTO.ID.ToString()).Result;
-                var role = RedisHelper.Hash.HashGetAsync<RoleAlliance>(RedisKeyDefine._AlliancePerfix, roleID.ToString()).Result;
+                var role = RedisHelper.Hash.HashGetAsync<RoleAlliance>(RedisKeyDefine._RoleAlliancePerfix, roleID.ToString()).Result;
 
                 if (alliance != null&& role!=null)
                 {
@@ -381,6 +439,59 @@ namespace AscensionServer
         }
         #endregion
 
+        /// <summary>
+        ///增加每日宗门通告
+        /// </summary>
+        /// <param name="describe"></param>
+        /// <param name="name"></param>
+        /// <param name="content"></param>
+        public DailyMessageData DailyMsg(string name, byte describe,string content)
+        {
+            GameEntry.DataManager.TryGetValue<Dictionary<int, DailyMsg>>(out var dM);
+            DailyMessageData messageData = new DailyMessageData();
+            messageData.Name = name;
+            messageData.Describe = dM[describe].MsgContent;
+            messageData.EventContent = content;
+            return messageData;
+        }
+        public async void AddDailyMsg(int roleid, DailyMessageData data)
+        {
+            if (RedisHelper.Hash.HashExistAsync(RedisKeyDefine._DailyMessagePerfix, roleid.ToString()).Result)
+            {
+                var daily = RedisHelper.Hash.HashGetAsync<DailyMessageDTO>(RedisKeyDefine._DailyMessagePerfix, roleid.ToString()).Result;
+               if (daily!=null)
+                {
+                    if (daily.DailyMessageDict.TryGetValue(DateTime.Now.ToString("MM-dd"), out var datas))
+                    {
+                        datas.Add(data);
+                        daily.DailyMessageDict[DateTime.Now.ToString("MM-dd")] = datas;
+                    }
+                    else
+                    {
+                        List<DailyMessageData> dailies = new List<DailyMessageData>();
+                        dailies.Add(data);
+                        daily.DailyMessageDict.Add(DateTime.Now.ToString("MM-dd"), dailies);
+                    }
+                    await RedisHelper.Hash.HashSetAsync(RedisKeyDefine._DailyMessagePerfix, roleid.ToString(), daily);
+                }
+            }
+          
+        }
+
+        /// <summary>
+        /// 宗门通告类型
+        /// </summary>
+        public enum DailyMsg_Type : byte
+        {
+            JoinAlliance = 0,
+            JobChange = 1,
+            LevelUp = 2,
+            GetTitle = 3,
+            Adveture = 4,
+            BuildingUp = 5,
+            LeaveAlliance = 6,
+            Contribute = 7
+        }
 
         RoleAllianceDTO ChangeDataType(RoleAlliance roleAlliance)
         {

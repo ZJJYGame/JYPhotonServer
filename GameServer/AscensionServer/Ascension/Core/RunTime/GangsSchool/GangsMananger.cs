@@ -200,7 +200,7 @@ namespace AscensionServer
                 case AllianceOpCode.GetAlliancecallboard:
                     #region
                     roleAllianceObj = Utility.Json.ToObject<RoleAllianceDTO>(packet.DataMessage.ToString());
-                    GetAllianceCallboardS2C(roleAllianceObj.RoleID, roleAllianceObj.AllianceID);
+                    //GetAllianceCallboardS2C(roleAllianceObj.RoleID, roleAllianceObj.AllianceID);
 
                     #endregion
                     break;

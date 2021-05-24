@@ -485,11 +485,11 @@ namespace AscensionServer
             DissolveAllianceDTO dissolve = new DissolveAllianceDTO();
             await RedisHelper.String.StringSetAsync(RedisKeyDefine._DissolveAlliancePerfix+roleid,Utility.Json.ToJson(dissolve));
 
-            DailyMessageDTO dailyMessageDTO = new DailyMessageDTO();
-            dailyMessageDTO.Name = name;
-            dailyMessageDTO.Describe = "宗门";
-            dailyMessageDTO.Name = name;
-            dailyMessageDTO.Name = name;
+            //DailyMessageDTO dailyMessageDTO = new DailyMessageDTO();
+            //dailyMessageDTO.Name = name;
+            //dailyMessageDTO.Describe = "宗门";
+            //dailyMessageDTO.Name = name;
+            //dailyMessageDTO.Name = name;
         }
         #endregion
 

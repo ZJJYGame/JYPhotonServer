@@ -181,6 +181,7 @@
     <Compile Include="Ascension\Core\Base\DataObject\BattleSkillData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\BottleneckData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\CreatAllianceData.cs" />
+    <Compile Include="Ascension\Core\Base\DataObject\DailyMsg.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\DemonData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\DemonicSoulData.cs" />
     <Compile Include="Ascension\Core\Base\DataObject\DemonicSoulSkillPool.cs" />
@@ -930,6 +931,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="JsonData\PassiveSkillsWeapon.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JsonData\DailyMsg.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="Plugin\ExitGames.Logging.Log4Net.dll">

@@ -1,0 +1,10 @@
+﻿[
+{"MsgIndex":0,"TypeMsgType":"JoinAlliance","MsgContent":"加入了仙盟，修仙路上有你为伴不再孤独"},
+{"MsgIndex":1,"TypeMsgType":"JobChange","MsgContent":"的职位被调整为"},
+{"MsgIndex":2,"TypeMsgType":"LevelUp","MsgContent":"境界提升到"},
+{"MsgIndex":3,"TypeMsgType":"GetTitle","MsgContent":"获得了称谓"},
+{"MsgIndex":4,"TypeMsgType":"Adveture","MsgContent":"在历练中获得了"},
+{"MsgIndex":5,"TypeMsgType":"BuildingUp","MsgContent":"成功升级到"},
+{"MsgIndex":6,"TypeMsgType":"LeaveAlliance","MsgContent":"离开了仙盟"},
+{"MsgIndex":7,"TypeMsgType":"Contribute","MsgContent":"贡献了大量的灵石，获得仙盟贡献"}
+]

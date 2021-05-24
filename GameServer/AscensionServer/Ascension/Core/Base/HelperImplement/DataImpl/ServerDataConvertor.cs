@@ -146,6 +146,9 @@ namespace AscensionServer
                 GameEntry.DataManager.TryGetValue(typeof(PassiveSkillsRole).Name, out var passiveSkillsRole);
                 var passiveSkillsRoleDict = TransObject<List<PassiveSkillsRole>>(passiveSkillsRole).ToDictionary(key => key.SkillID, value => value);
 
+                GameEntry.DataManager.TryGetValue(typeof(DailyMsg).Name, out var DailyMsgData);
+                var DailyMsgDataDict = TransObject<List<DailyMsg>>(DailyMsgData).ToDictionary(key => key.MsgIndex, value => value);
+
                 //GameEntry.DataManager.TryGetValue(typeof(PassiveSkillsPet).Name, out var passiveSkillsPet);
                 //Utility.Debug.LogError(typeof(PassiveSkillsPet).Name);
                 //var passiveSkillsPetDict = TransObject<List<PassiveSkillsPet>>(passiveSkillsPet).ToDictionary(key => key.SkillID, value => value);
@@ -197,6 +200,8 @@ namespace AscensionServer
                 var battleBuffDict = TransObject<List<BattleBuffData>>(battleSBuffSet).ToDictionary(key => key.id, value => value);
                 #endregion
                 //GameEntry.DataManager.TryAdd(passiveSkillsPetDict);
+
+                GameEntry.DataManager.TryAdd(DailyMsgDataDict);
                 GameEntry.DataManager.TryAdd(passiveSkillsRoleDict);
                 GameEntry.DataManager.TryAdd(passiveSkillsWeaponDict);
                 GameEntry.DataManager.TryAdd(repairPuppetDataDict);
