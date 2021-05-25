@@ -70,7 +70,7 @@ namespace AscensionServer
                         if (Construction.AllianceAssets>= assets.NeedAllianceSpiritStones)
                         {
                             Construction.AllianceAssets -= assets.NeedAllianceSpiritStones;
-                            Construction.AllianceAlchemyStorage++;
+                            Construction.AllianceAlchemyStorage++;                       
                         }
                     }
                     else if (constructionDTO.AllianceArmsDrillSite == 1)

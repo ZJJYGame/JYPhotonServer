@@ -1633,7 +1633,7 @@
             修改宗門宗旨
             </summary>
         </member>
-        <member name="M:AscensionServer.GangsMananger.AddDailyMsg(System.Int32,System.Byte,AscensionProtocol.DTO.DailyMessageDTO)">
+        <member name="M:AscensionServer.GangsMananger.DailyMsg(System.String,System.Byte,System.String)">
              <summary>
             增加每日宗门通告
              </summary>
@@ -1641,7 +1641,7 @@
              <param name="name"></param>
              <param name="content"></param>
         </member>
-        <member name="T:AscensionServer.GangsMananger.DailyMsg_Type">
+        <member name="T:AscensionServer.GangsMananger.DailyMsgType">
             <summary>
             宗门通告类型
             </summary>

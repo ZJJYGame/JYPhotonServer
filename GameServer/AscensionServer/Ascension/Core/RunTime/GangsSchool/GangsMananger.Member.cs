@@ -139,6 +139,10 @@ namespace AscensionServer
                             if (roleAlliance != null)
                             {
                                 member.Add(roleAlliance);
+                                #region 修改通告
+                                var daily = DailyMsg(roleAlliance.RoleName, (byte)DailyMsgType.JobChange);
+                                AddDailyMsg(roleAlliance.RoleID, daily);
+                                #endregion
                             }
                         }
                     }
@@ -399,6 +403,10 @@ namespace AscensionServer
                                 Alliance.JobNumDict[jobID]++;
                                 player.AllianceJob = jobID;
                                 roleallianceList.Add(player);
+                                #region 修改通告
+                                var daily = DailyMsg(player.RoleName, (byte)DailyMsgType.JobChange);
+                                AddDailyMsg(player.RoleID, daily);
+                                #endregion
 
                                 dict.Add((byte)ParameterCode.RoleAlliance, roleallianceList);
                                 dict.Add((byte)ParameterCode.MemberJobNum, Alliance);
@@ -437,6 +445,11 @@ namespace AscensionServer
             var result = QuitAllianceRedis(roleID, id).Result;
             if (result != null)
             {
+                #region 修改通告
+                var daily = DailyMsg(result.RoleName, (byte)DailyMsgType.LeaveAlliance);
+                AddDailyMsg(result.RoleID, daily);
+                #endregion
+
                 RoleStatusSuccessS2C(roleID, AllianceOpCode.GetRoleAlliance, result);
 
             }
@@ -461,6 +474,11 @@ namespace AscensionServer
                         var result = QuitAlliance(playerid, id).Result;
                         if (result != null)
                         {
+                            #region 修改通告
+                            var daily = DailyMsg(result.RoleName, (byte)DailyMsgType.LeaveAlliance);
+                            AddDailyMsg(result.RoleID, daily);
+                            #endregion
+
                             RoleStatusSuccessS2C(roleID, AllianceOpCode.KickOutAlliance, ChangeDataType(result));
                             RoleStatusSuccessS2C(playerid, AllianceOpCode.GetRoleAlliance, ChangeDataType(result));
                         }
@@ -615,6 +633,11 @@ namespace AscensionServer
                     NHCriteria nHCriteriaalliance = CosmosEntry.ReferencePoolManager.Spawn<NHCriteria>().SetValue("RoleID", memberList[i]);
                     var allianceTemp = NHibernateQuerier.CriteriaSelect<RoleAlliance>(nHCriteriaalliance);
                     memberlist.Add(ChangeDataType(allianceTemp));
+
+                    #region 修改通告
+                    var daily = DailyMsg(allianceTemp.RoleName, (byte)DailyMsgType.JobChange);
+                    AddDailyMsg(allianceTemp.RoleID, daily);
+                    #endregion
                 }
 
                 Dictionary<byte, object> dict = new Dictionary<byte, object>();
@@ -727,11 +750,14 @@ namespace AscensionServer
             var result = QuitAlliance(roleID,id).Result;
             if (result != null)
             {
+                #region 修改通告
+                var daily = DailyMsg(result.RoleName, (byte)DailyMsgType.LeaveAlliance);
+                AddDailyMsg(result.RoleID, daily);
+                #endregion
                 RoleStatusSuccessS2C(roleID, AllianceOpCode.GetRoleAlliance, ChangeDataType(result));
             }
             else
                 RoleStatusFailS2C(roleID, AllianceOpCode.QuitAlliance);
-
         }
         /// <summary>
         /// 踢出宗門
@@ -751,6 +777,10 @@ namespace AscensionServer
                     var result = QuitAlliance(playerid, id).Result;
                     if (result != null)
                     {
+                        #region 修改通告
+                        var daily = DailyMsg(result.RoleName, (byte)DailyMsgType.LeaveAlliance);
+                        AddDailyMsg(result.RoleID, daily);
+                        #endregion
                         RoleStatusSuccessS2C(roleID, AllianceOpCode.KickOutAlliance, ChangeDataType(result));
                         RoleStatusSuccessS2C(playerid, AllianceOpCode.GetRoleAlliance, ChangeDataType(result));
                     }

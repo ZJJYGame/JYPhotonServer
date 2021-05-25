@@ -445,7 +445,7 @@ namespace AscensionServer
         /// <param name="describe"></param>
         /// <param name="name"></param>
         /// <param name="content"></param>
-        public DailyMessageData DailyMsg(string name, byte describe,string content)
+        public DailyMessageData DailyMsg(string name, byte describe,string content=null)
         {
             GameEntry.DataManager.TryGetValue<Dictionary<int, DailyMsg>>(out var dM);
             DailyMessageData messageData = new DailyMessageData();
@@ -481,7 +481,7 @@ namespace AscensionServer
         /// <summary>
         /// 宗门通告类型
         /// </summary>
-        public enum DailyMsg_Type : byte
+        public enum DailyMsgType : byte
         {
             JoinAlliance = 0,
             JobChange = 1,
