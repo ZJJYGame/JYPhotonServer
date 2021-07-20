@@ -35,26 +35,28 @@ namespace AscensionServer
             RoomID = roomID;
         }
 
-        public override T ToBattleDataBase<T>()
+
+        public override CharacterBattleDataDTO ToBattleDataBase()
         {
-            T t = new PetBattleDataDTO()
+            GameEntry.DataManager.TryGetValue<Dictionary<int, MonsterDatas>>(out var monsterDict);
+            CharacterBattleDataDTO characterBattleDataDTO = new CharacterBattleDataDTO()
             {
-                RoleId = MasterID,
-                ObjectId = UniqueID,
-                ObjectName = Name,
-                PetStatusDTO = new PetStatusDTO
-                {
-                    PetID = UniqueID,
-                    PetMaxHP = CharacterBattleData.MaxHp,
-                    PetHP = CharacterBattleData.Hp,
-                    PetMaxMP = CharacterBattleData.MaxMp,
-                    PetMP = CharacterBattleData.Mp,
-                    PetMaxShenhun = CharacterBattleData.MaxSoul,
-                    PetShenhun = CharacterBattleData.Soul,
-                }
-            } as T;
-            return t;
-        }
+                UniqueId = UniqueID,
+                GlobalId = 0,
+                MasterId = MasterID,
+                ModelPath = Utility.IO.CombineRelativeFilePath(monsterDict[22012].Moster_Model, "Prefabs/Model/Character/Monster"),
+                CharacterName = Name,
+                MaxHealth = CharacterBattleData.MaxHp,
+                Health = CharacterBattleData.Hp,
+                MaxZhenYuan = CharacterBattleData.MaxMp,
+                ZhenYuan = CharacterBattleData.Mp,
+                MaxShenHun = CharacterBattleData.MaxSoul,
+                ShenHun = CharacterBattleData.Soul,
+                MaxJingXue = 0,
+                JingXue = 0
+            };
+            return characterBattleDataDTO;
+        }       
 
         public override void AllocationBattleAction()
         {

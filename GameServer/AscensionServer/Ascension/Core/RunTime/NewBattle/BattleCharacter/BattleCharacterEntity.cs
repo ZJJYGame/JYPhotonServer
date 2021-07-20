@@ -76,10 +76,9 @@ namespace AscensionServer
         /// 转换成发送用的人物初始化数据
         /// </summary>
         /// <returns></returns>
-        public virtual T ToBattleDataBase<T>()
-            where T : BattleDataBase
+        public virtual CharacterBattleDataDTO ToBattleDataBase()
         {
-            return default(T);
+            return default;
         }
         /// <summary>
         /// 设置角色该回合战斗行为

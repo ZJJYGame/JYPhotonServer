@@ -17,37 +17,38 @@ namespace AscensionServer
         public void SendInitDataS2C()
         {
             BattleInitDTO battleInitDTO = new BattleInitDTO();
-            battleInitDTO.playerUnits = new List<RoleBattleDataDTO>();
-            battleInitDTO.enemyUnits = new List<EnemyBattleDataDTO>();
-            battleInitDTO.petUnits = new List<PetBattleDataDTO>();
+            battleInitDTO.playerUnits = new List<CharacterBattleDataDTO>();
+            battleInitDTO.enemyUnits = new List<CharacterBattleDataDTO>();
+            battleInitDTO.petUnits = new List<CharacterBattleDataDTO>();
+            battleInitDTO.enemyPetUnits = new List<CharacterBattleDataDTO>();
             for (int i = 0; i < BattleController.FactionOneCharacterEntites.Count; i++)
             {
                 if (BattleController.FactionOneCharacterEntites[i].GetType().Name == typeof(BattlePlayerEntity).Name)
                 {
-                    battleInitDTO.playerUnits.Add(BattleController.FactionOneCharacterEntites[i].ToBattleDataBase<RoleBattleDataDTO>());
+                    battleInitDTO.playerUnits.Add(BattleController.FactionOneCharacterEntites[i].ToBattleDataBase());
                 }
                 else if (BattleController.FactionOneCharacterEntites[i].GetType().Name == typeof(BattleAIEntity).Name)
                 {
-                    battleInitDTO.enemyUnits.Add(BattleController.FactionOneCharacterEntites[i].ToBattleDataBase<EnemyBattleDataDTO>());
+                    battleInitDTO.enemyUnits.Add(BattleController.FactionOneCharacterEntites[i].ToBattleDataBase());
                 }
                 else if (BattleController.FactionOneCharacterEntites[i].GetType().Name == typeof(BattlePetEntity).Name)
                 {
-                    battleInitDTO.petUnits.Add(BattleController.FactionOneCharacterEntites[i].ToBattleDataBase<PetBattleDataDTO>());
+                    battleInitDTO.petUnits.Add(BattleController.FactionOneCharacterEntites[i].ToBattleDataBase());
                 }
             }
             for (int i = 0; i < BattleController.FactionTwoCharacterEntites.Count; i++)
             {
                 if (BattleController.FactionTwoCharacterEntites[i].GetType().Name == typeof(BattlePlayerEntity).Name)
                 {
-                    battleInitDTO.playerUnits.Add(BattleController.FactionTwoCharacterEntites[i].ToBattleDataBase<RoleBattleDataDTO>());
+                    battleInitDTO.playerUnits.Add(BattleController.FactionTwoCharacterEntites[i].ToBattleDataBase());
                 }
                 else if (BattleController.FactionTwoCharacterEntites[i].GetType().Name == typeof(BattleAIEntity).Name)
                 {
-                    battleInitDTO.enemyUnits.Add(BattleController.FactionTwoCharacterEntites[i].ToBattleDataBase<EnemyBattleDataDTO>());
+                    battleInitDTO.enemyUnits.Add(BattleController.FactionTwoCharacterEntites[i].ToBattleDataBase());
                 }
                 else if (BattleController.FactionTwoCharacterEntites[i].GetType().Name == typeof(BattlePetEntity).Name)
                 {
-                    battleInitDTO.petUnits.Add(BattleController.FactionTwoCharacterEntites[i].ToBattleDataBase<PetBattleDataDTO>());
+                    battleInitDTO.petUnits.Add(BattleController.FactionTwoCharacterEntites[i].ToBattleDataBase());
                 }
             }
             battleInitDTO.countDownSec = 15;
@@ -80,9 +81,9 @@ namespace AscensionServer
             Dictionary<byte, object> subResponseParametersDict = new Dictionary<byte, object>();
             subResponseParametersDict.Add((byte)ParameterCode.RoleBattle, Utility.Json.ToJson(battleTransferDTOs));
             subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTimeStamp, Utility.Json.ToJson(Utility.Time.MillisecondTimeStamp()));
-            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTime, Utility.Json.ToJson(15));
-            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleBefore, Utility.Json.ToJson(new List<BattleBuffDTO>()));
-            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleAfter, Utility.Json.ToJson(new List<BattleBuffDTO>()));
+            subResponseParametersDict.Add((byte)ParameterCode.RoleBattleTime, Utility.Json.ToJson(15000));
+            //subResponseParametersDict.Add((byte)ParameterCode.RoleBattleBefore, Utility.Json.ToJson(new List<BattleBuffDTO>()));
+            //subResponseParametersDict.Add((byte)ParameterCode.RoleBattleAfter, Utility.Json.ToJson(new List<BattleBuffDTO>()));
             OperationData opData = new OperationData();
             opData.DataMessage = subResponseParametersDict;
             opData.OperationCode = (byte)OperationCode.SyncBattleTransfer;

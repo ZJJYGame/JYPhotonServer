@@ -73,15 +73,15 @@ namespace AscensionServer
         public BattleRoomEntityInfo CreateRoom(int roleId, List<int> enemyGlobalIds)
         {
             BattleInitDTO battleInitDTO = new BattleInitDTO();
-            battleInitDTO.playerUnits = new List<RoleBattleDataDTO>();
-            battleInitDTO.playerUnits.Add(new RoleBattleDataDTO()
+            battleInitDTO.playerUnits = new List<CharacterBattleDataDTO>();
+            battleInitDTO.playerUnits.Add(new CharacterBattleDataDTO()
             {
-                RoleStatusDTO = new RoleStatusDTO() { RoleID = roleId }
+                UniqueId=roleId,
             });
-            battleInitDTO.enemyUnits = new List<EnemyBattleDataDTO>();
+            battleInitDTO.enemyUnits = new List<CharacterBattleDataDTO>();
             for (int i = 0; i < enemyGlobalIds.Count; i++)
             {
-                battleInitDTO.enemyUnits.Add(new EnemyBattleDataDTO() { GlobalId = enemyGlobalIds[i] });
+                battleInitDTO.enemyUnits.Add(new CharacterBattleDataDTO() { GlobalId = enemyGlobalIds[i] });
             }
             return CreateRoom(battleInitDTO);
         }
@@ -154,7 +154,7 @@ namespace AscensionServer
                     CreateRoom(roleDTO.BattleInitDTO);
                     break;
                 case BattleCmd.Prepare:
-                    int roleID = roleDTO.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID;
+                    int roleID = roleDTO.BattleInitDTO.playerUnits[0].UniqueId;
                     RoomRolePrepareOver(roleID);
                     break;
                 case BattleCmd.PerformBattleComplete:
@@ -170,7 +170,7 @@ namespace AscensionServer
                 case BattleCmd.CatchPet:
                 case BattleCmd.SummonPet:
                 case BattleCmd.Defend:
-                    roleID = roleDTO.BattleInitDTO.playerUnits[0].RoleStatusDTO.RoleID;
+                    roleID = roleDTO.BattleInitDTO.playerUnits[0].UniqueId;
                     GetRoleBattleCmd(roleID, areaSubCode, battleTransferDTO);
                     break;
             }

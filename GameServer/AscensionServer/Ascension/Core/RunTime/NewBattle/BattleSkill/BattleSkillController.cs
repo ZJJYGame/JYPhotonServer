@@ -40,7 +40,6 @@ namespace AscensionServer
 
             //获取技能释放目标的实体
             List<BattleCharacterEntity> targetCharacterList = new List<BattleCharacterEntity>();
-            Utility.Debug.LogError("targetIdList=》" + targetIdList.Count);
             for (int i = 0; i < targetIdList.Count; i++)
             {
                 targetCharacterList.Add(GameEntry.BattleCharacterManager.GetCharacterEntity(targetIdList[i]));
@@ -135,7 +134,7 @@ namespace AscensionServer
                 }
 
                 //添加buff
-                battleSkill.AddAllBuff(targetCharacterList);
+                battleSkill.AddAllBuff(lastTransferDTO,targetCharacterList);
 
                 //使用技能后buff事件处理     
                 owner.BattleBuffController.TriggerBuffEventBehindUseSkill(lastTransferDTO, targetCharacterList[0]);
@@ -193,13 +192,15 @@ namespace AscensionServer
                         owner.BattleBuffController.TriggerBuffEventBehindAttack(battleTransferDTO,targetCharacterList[j], battleDamageData);
 
                         battleSkill.TriggerSkillEventBehindAttack(battleDamageData);
+
+                        lastTransferDTO = battleTransferDTO;
                     }
 
 
                 }
 
                 //添加buff
-                battleSkill.AddAllBuff(targetCharacterList);
+                battleSkill.AddAllBuff(lastTransferDTO,targetCharacterList);
 
                 //使用技能后buff事件处理
                 owner.BattleBuffController.TriggerBuffEventBehindUseSkill(lastTransferDTO);

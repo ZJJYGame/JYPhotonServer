@@ -32,24 +32,25 @@ namespace AscensionServer
             RoomID = roomID;
         }
 
-        public override T ToBattleDataBase<T>()
+        public override CharacterBattleDataDTO ToBattleDataBase()
         {
-            T t = new RoleBattleDataDTO() {
-                ObjectName = Name,
-                RoleStatusDTO = new RoleStatusDTO
-                {
-                    RoleID = UniqueID,
-                    RoleMaxHP = CharacterBattleData.MaxHp,
-                    RoleHP = CharacterBattleData.Hp,
-                    RoleMaxMP = CharacterBattleData.MaxMp,
-                    RoleMP = CharacterBattleData.Mp,
-                    RoleMaxSoul = CharacterBattleData.MaxSoul,
-                    RoleSoul = CharacterBattleData.Soul,
-                    BestBloodMax = (short)CharacterBattleData.BestBloodMax,
-                    BestBlood = (short)CharacterBattleData.BestBlood,
-                }
-            } as T;
-            return t ;
+            CharacterBattleDataDTO characterBattleDataDTO = new CharacterBattleDataDTO()
+            {
+                UniqueId = UniqueID,
+                GlobalId=0,
+                MasterId=0,
+                ModelPath= Utility.IO.CombineRelativeFilePath("MC_fashion_Female_01_Prefab", "Prefabs/Model/Character/Monster"),
+                CharacterName =Name,
+                MaxHealth = CharacterBattleData.MaxHp,
+                Health = CharacterBattleData.Hp,
+                MaxZhenYuan = CharacterBattleData.MaxMp,
+                ZhenYuan = CharacterBattleData.Mp,
+                MaxShenHun = CharacterBattleData.MaxSoul,
+                ShenHun = CharacterBattleData.Soul,
+                MaxJingXue = (short)CharacterBattleData.BestBloodMax,
+                JingXue = (short)CharacterBattleData.BestBlood,
+            };
+            return characterBattleDataDTO;
         }
 
         public override void SetBattleAction(BattleCmd battleCmd, BattleTransferDTO battleTransferDTO)

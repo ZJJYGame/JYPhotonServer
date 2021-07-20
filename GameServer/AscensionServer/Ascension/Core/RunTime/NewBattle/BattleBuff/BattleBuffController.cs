@@ -108,13 +108,13 @@ namespace AscensionServer
         /// <param name="battleSkillAddBuffData"></param>
         /// <param name="battleSkillBase"></param>
         /// <param name="orginRole">buff的来源角色</param>
-        public void AddBuff(BattleSkillAddBuffData battleSkillAddBuffData,BattleSkillBase battleSkillBase)
+        public BattleBuffObj AddBuff(BattleSkillAddBuffData battleSkillAddBuffData,BattleSkillBase battleSkillBase)
         {
             if (ImmuneBuffId.Contains(battleSkillAddBuffData.buffId))
-                return;
+                return null;
             GameEntry.DataManager.TryGetValue<Dictionary<int, BattleBuffData>>(out var battleBuffDataDict);
             BattleBuffData battleBuffData = battleBuffDataDict[battleSkillAddBuffData.buffId];
-            if (CanCoverBuff(battleBuffData, battleSkillAddBuffData, battleSkillBase))
+            if (CanCoverBuff(battleBuffData, battleSkillAddBuffData, battleSkillBase,out var newBattleBuffObj))
             {
                 Utility.Debug.LogError("添加新buff");
                 BattleBuffObj battleBuffObj = CosmosEntry.ReferencePoolManager.Spawn<BattleBuffObj>();
@@ -124,6 +124,11 @@ namespace AscensionServer
                     battleBuffObjDict8Id[battleBuffObj.BuffId] = new List<BattleBuffObj>();
                 battleBuffObjDict8Id[battleBuffObj.BuffId].Add(battleBuffObj);
                 battleBuffObj.OnAdd();
+                return battleBuffObj;
+            }
+            else
+            {
+                return newBattleBuffObj;
             }
         }
         public void RemoveBuff(BattleBuffObj battleBuffObj)
@@ -144,7 +149,7 @@ namespace AscensionServer
             }
         }
         //覆盖buff
-        public void CoverBuff(BattleBuffObj battleBuffObj,BattleSkillAddBuffData battleSkillAddBuffData, BattleBuffData battleBuffData,BattleSkillBase battleSkillBase)
+        public BattleBuffObj CoverBuff(BattleBuffObj battleBuffObj,BattleSkillAddBuffData battleSkillAddBuffData, BattleBuffData battleBuffData,BattleSkillBase battleSkillBase)
         {
             Utility.Debug.LogError(owner.UniqueID+"覆盖buff");
             BattleBuffObj newBbattleBuffObj = CosmosEntry.ReferencePoolManager.Spawn<BattleBuffObj>();
@@ -155,8 +160,10 @@ namespace AscensionServer
 
             battleBuffObj.OnCover(battleBuffData, battleSkillAddBuffData);
             battleBuffObjDict8Type[battleBuffObj.BattleBuffData.buffCoverType].Remove(battleBuffObj);
-            battleBuffObjDict8Id[newBbattleBuffObj.BuffId].Remove(newBbattleBuffObj);
+            battleBuffObjDict8Id[newBbattleBuffObj.BuffId].Remove(battleBuffObj);
             CosmosEntry.ReferencePoolManager.Despawn(battleBuffObj);
+
+            return newBbattleBuffObj;
         }
 
         #region 事件触发
@@ -232,8 +239,9 @@ namespace AscensionServer
         // buff覆盖的处理
         // </summary>
         // <returns>是否可以创建新buff</returns>
-        bool CanCoverBuff(BattleBuffData battleBuffData,BattleSkillAddBuffData battleSkillAddBuffData,BattleSkillBase battleSkillBase)
+        bool CanCoverBuff(BattleBuffData battleBuffData,BattleSkillAddBuffData battleSkillAddBuffData,BattleSkillBase battleSkillBase,out BattleBuffObj newBattleBuffObj)
         {
+            newBattleBuffObj = null;
             bool flag = battleBuffObjDict8Type.TryGetValue(battleBuffData.buffCoverType, out var targetList);
             if (!flag)
             {
@@ -249,10 +257,11 @@ namespace AscensionServer
                         if (battleBuffObj.MaxOverlayLayer>1|| battleBuffObj.MaxOverlayLayer==-1)//可以叠加
                         {
                             battleBuffObj.AddOverlayLayer();
+                            newBattleBuffObj = battleBuffObj;
                         }
                         else//不可叠加
                         {
-                            CoverBuff(battleBuffObj, battleSkillAddBuffData, battleBuffData, battleSkillBase);
+                            newBattleBuffObj=CoverBuff(battleBuffObj, battleSkillAddBuffData, battleBuffData, battleSkillBase);
                         }
                         
                         return false;
@@ -272,7 +281,7 @@ namespace AscensionServer
                     }
                     else if (battleBuffData.buffLayer == battleBuffObj.BattleBuffData.buffLayer)
                     {
-                        CoverBuff(battleBuffObj, battleSkillAddBuffData, battleBuffData, battleSkillBase);
+                        newBattleBuffObj= CoverBuff(battleBuffObj, battleSkillAddBuffData, battleBuffData, battleSkillBase);
                         return false;
                     }
                     else

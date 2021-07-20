@@ -25,25 +25,26 @@ namespace AscensionServer
             RoomID = roomID;
         }
 
-        public override T ToBattleDataBase<T>()
+        public override CharacterBattleDataDTO ToBattleDataBase()
         {
-            T t = new EnemyBattleDataDTO()
+            GameEntry.DataManager.TryGetValue<Dictionary<int, MonsterDatas>>(out var monsterDict);
+            CharacterBattleDataDTO characterBattleDataDTO = new CharacterBattleDataDTO()
             {
+                UniqueId = UniqueID,
                 GlobalId = GlobalID,
-                ObjectName = Name,
-                EnemyStatusDTO = new EnemyStatusDTO
-                {
-                    EnemyId = UniqueID,
-                    EnemyMaxHP = CharacterBattleData.MaxHp,
-                    EnemyHP = CharacterBattleData.Hp,
-                    EnemyMaxMP = CharacterBattleData.MaxMp,
-                    EnemyMP = CharacterBattleData.Mp,
-                    EnemyMaxSoul = CharacterBattleData.MaxSoul,
-                    EnemySoul = CharacterBattleData.Soul,
-                    EnemyBest_Blood = (short)CharacterBattleData.BestBloodMax,
-                }
-            } as T;
-            return t;
+                MasterId = 0,
+                ModelPath = Utility.IO.CombineRelativeFilePath(monsterDict[GlobalID].Moster_Model, "Prefabs/Model/Character/Monster"),
+                CharacterName = Name,
+                MaxHealth = CharacterBattleData.MaxHp,
+                Health = CharacterBattleData.Hp,
+                MaxZhenYuan = CharacterBattleData.MaxMp,
+                ZhenYuan = CharacterBattleData.Mp,
+                MaxShenHun = CharacterBattleData.MaxSoul,
+                ShenHun = CharacterBattleData.Soul,
+                MaxJingXue = (short)CharacterBattleData.BestBloodMax,
+                JingXue = (short)CharacterBattleData.BestBloodMax,
+            };
+            return characterBattleDataDTO;
         }
 
         public override void AllocationBattleAction()

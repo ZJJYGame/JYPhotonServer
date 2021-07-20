@@ -51,25 +51,21 @@ namespace AscensionProtocol.DTO
         /// </summary>
         public virtual int maxRoundCount { get; set; }
         /// <summary>
-        /// 所有参战对象的列表
-        /// </summary>
-        public virtual List<BattleDataBase> battleUnits { get; set; }
-        /// <summary>
         /// 所有参战玩家的列表
         /// </summary>
-        public virtual List<RoleBattleDataDTO> playerUnits { get; set; }
+        public virtual List<CharacterBattleDataDTO> playerUnits { get; set; }
         /// <summary>
         /// 所有参战宠物的列表
         /// </summary>
-        public virtual List<PetBattleDataDTO> petUnits { get; set; }
+        public virtual List<CharacterBattleDataDTO> petUnits { get; set; }
         /// <summary>
         /// 所有参战敌人的列表
         /// </summary>
-        public virtual List<EnemyBattleDataDTO> enemyUnits { get; set; }
+        public virtual List<CharacterBattleDataDTO> enemyUnits { get; set; }
         /// <summary>
         /// 所有参战宠物的列表
         /// </summary>
-        public virtual List<PetBattleDataDTO> enemyPetUnits { get; set; }
+        public virtual List<CharacterBattleDataDTO> enemyPetUnits { get; set; }
         ///// <summary>
         ///// buffer的列表
         ///// </summary>
@@ -82,173 +78,25 @@ namespace AscensionProtocol.DTO
     }
 
 
-    ///// <summary>
-    ///// 战斗传输 初始化
-    ///// </summary>
-    /// 所有参战的列表
-    /// </summary>
 
-    /// <summary>
-    /// 基类
-    /// </summary>
-    ///  [Serializable].
-    [Serializable]
-    public class BattleDataBase
-    {
-        /// <summary>
-        /// 代表是全局id 
-        /// </summary>
-        public virtual int ObjectID { get; set; }
-        /// <summary>
-        /// AI 针对 的唯一id
-        /// </summary>
-        public virtual int ObjectId { get; set; }
-        public virtual string ObjectName { get; set; }
-        public virtual int ObjectHP { get; set; }
-        public virtual int ObjectMP { get; set; }
-        public virtual int ObjectSpeed { get; set; }
-    }
-    /// <summary>
-    /// 战斗的基类接口
-    /// </summary>
-        /*
-         * 1.HitRate(命中率)
-         * 2.PhysicalDamage(物理暴击伤害)
-         * 3.SpellCrit(法术暴击伤害)
-         * 4.AmplifyDamage(伤害加深)
-         * 5.DamageReduction(伤害减免)
-         * 6.IgnoreDefense 忽视防御
-         * 7.DamageFluctuations 伤害波动
-         * 8.BasalEvasionRate 基础闪避率
-         * 9.PhysicalEvasionRate 物理闪避率
-         * 10.SpellEvasionRate 法术闪避率
-         * 11.PhysicalRate 物理暴击率
-         * 12.SpellRate 法术暴击率
-         * 13.CriteRate 爆免率
-         * 14.ReducedDamage 降爆伤害
-         **/
-    public interface IBattleDataBass
-    {
-          int HitRate { get; set; }
-        int PhysicalDamage { get; set; }
-        int SpellCrit { get; set; }
-        int AmplifyDamage { get; set; }
-        int DamageReduction { get; set; }
-        int IgnoreDefense { get; set; }
-        int DamageFluctuations { get; set; }
-        int BasalEvasionRate { get; set; }
-        int PhysicalEvasionRate { get; set; }
-        int SpellEvasionRate { get; set; }
-        int PhysicalRate { get; set; }
-        int SpellRate { get; set; }
-        int CriteRate { get; set; }
-        int ReducedDamage { get; set; }
-    }
-
-
-    [Serializable]
-    public class RoleBattleDataDTO : BattleDataBase, IBattleDataBass
-    {
-        public virtual RoleStatusDTO RoleStatusDTO { get; set; }
-        public int HitRate { get; set; }
-        public int PhysicalDamage { get; set; }
-        public int SpellCrit { get; set; }
-        public int AmplifyDamage { get; set; }
-        public int DamageReduction { get; set; }
-        public int IgnoreDefense { get; set; }
-        public int DamageFluctuations { get; set; }
-        public int BasalEvasionRate { get; set; }
-        public int PhysicalEvasionRate { get; set; }
-        public int SpellEvasionRate { get; set; }
-        public int PhysicalRate { get; set; }
-        public int SpellRate { get; set; }
-        public int CriteRate { get; set; }
-        public int ReducedDamage { get; set; }
-        /// <summary>
-        /// buffer的列表
-        /// </summary>
-        public virtual List<BufferBattleDataDTO> bufferUnits { get; set; }
-    }
-    [Serializable]
-    public class PetBattleDataDTO : BattleDataBase
-    {
-        public int RoleId { get; set; }
-        public virtual PetStatusDTO PetStatusDTO { get; set; }
-        /// <summary>
-        /// buffer的列表
-        /// </summary>
-        public virtual List<BufferBattleDataDTO> bufferUnits { get; set; }
-    }
-    [Serializable]
-    public class EnemyBattleDataDTO : BattleDataBase
-    {
-        public virtual int GlobalId { get; set; }
-        public virtual EnemyStatusDTO EnemyStatusDTO { get; set; }
-        /// <summary>
-        /// buffer的列表
-        /// </summary>
-        public virtual List<BufferBattleDataDTO> bufferUnits { get; set; }
-    }
-
-
-    //TODO  敌人的属性  可以直接用 玩家的数据模型   建议不使用
-    [Serializable]
-    public class EnemyStatusDTO
-    {
-        public virtual int EnemyId { get; set; }
-        public virtual string EnemyName { get; set; }
-        public virtual int EnemyHP { get; set; }
-        public virtual int EnemyMaxHP { get; set; }
-        public virtual int EnemyMP { get; set; }
-        public virtual int EnemyMaxMP { get; set; }
-        public virtual int EnemySoul { get; set; }
-        public virtual int EnemyMaxSoul { get; set; }
-        public virtual string EnemyDescribe { get; set; }
-        public virtual string EnemyLevel { get; set; }
-        public virtual int EnemyGig_Level { get; set; }
-        public virtual float EnemyAttact_Speed { get; set; }
-        public virtual int EnemyAttact_Physical { get; set; }
-        public virtual int EnemyDefence_Physical { get; set; }
-        public virtual int EnemyAttact_Power { get; set; }
-        public virtual int EnemyDefend_Power { get; set; }
-        public virtual int EnemyValue_Flow { get; set; }
-        public virtual int EnemyPhysicalCritProb { get; set; }
-        public virtual int EnemyMagicCritProb { get; set; }
-        public virtual int EnemyReduceCritProb { get; set; }
-        public virtual int EnemyPhysicalCritDamage { set; get; }
-        public virtual int EnemyMagicCritDamage { get; set; }
-        public virtual int EnemyReduceCritDamage { get; set; }
-        public virtual int EnemyAlert_Area { get; set; }
-        public virtual int EnemyMove_Speed { get; set; }
-        public virtual int EnemyValue_Hide { get; set; }
-        public virtual int EnemyBest_Blood { get; set; }
-        public virtual List<int> EnemySkill_Array { get; set; }
-        public virtual List<int> EnemyDrop_Array { get; set; }
-        public virtual List<int> EnemyDrop_Rate { get; set; }
-        public virtual string EnemyMonster_Icon { get; set; }
-        public virtual string EnemyMoster_Model { get; set; }
-        public virtual int EnemyPet_ID { get; set; }
-        public virtual int EnemyPet_Level_ID { get; set; }
-    }
-
-    /// <summary>
-    /// buffer 实体对象 DTO
-    /// </summary>
-    [Serializable]
-    public class BufferBattleDataDTO
-    {
-        public virtual int RoleId { get; set; }
-        public virtual BufferData BufferData { get; set; }
-    }
   
+
     [Serializable]
-    public class BufferData
+    public class CharacterBattleDataDTO
     {
-        public virtual int bufferId { get; set; }
-        public virtual int targetId { get; set; }
-        public virtual int RoundNumber{ get; set; }
-        public virtual float percentValue { set; get; }
-        public virtual float fixedValue { set; get; }
+        public virtual int UniqueId { get; set; }
+        public virtual int GlobalId { get; set; }
+        public virtual int MasterId { get; set; }
+        public string ModelPath { get; set; }
+        public string CharacterName { get; set; }
+        public int MaxHealth { get; set; }//最大血量
+        public int Health { get; set; }//血量
+        public int MaxZhenYuan { get; set; }//最大真元
+        public int ZhenYuan { get; set; }//真元
+        public int MaxShenHun { get; set; }//最大神魂
+        public int ShenHun { get; set; }//神魂
+        public int MaxJingXue { get; set; }//最大精血
+        public int JingXue { get; set; }//精血
     }
 
 
@@ -288,14 +136,10 @@ namespace AscensionProtocol.DTO
         /// 目标行为信息 列表：
         /// </summary>
         public virtual List<TargetInfoDTO> TargetInfos { get; set; }
-        ///// <summary>
-        ///// 自身行为信息 列表
-        ///// </summary>
-        //public virtual List<TargetInfoDTO> OwnInfos { get; set; }
         /// <summary>
-        /// 触发技能指令
+        /// 添加的buff列表,用于记录技能添加的buff
         /// </summary>
-        public virtual SkillReactionCmd SendSkillReactionCmd { set; get; }
+        public virtual List<AddBuffDTO> AddBuffDTOList { get; set; }
         /// <summary>
         /// 触发技能数值
         /// </summary>
@@ -361,7 +205,7 @@ namespace AscensionProtocol.DTO
         /// <summary>
         /// 全局id
         /// </summary>
-        public virtual int GlobalId { get; set; }
+        //public virtual int GlobalId { get; set; }
         /// <summary>
         /// 目标id
         /// </summary>
@@ -384,68 +228,52 @@ namespace AscensionProtocol.DTO
         /// </summary>
         public virtual int TargetShieldVaule { get; set; }
         /// <summary>
-        ///添加 目标Buff
+        ///添加 目标Buff,主要应用于buff事件添加的buff；
         /// </summary>
-        public virtual List<BufferBattleDataDTO> AddTargetBuff { get; set; }
+        public virtual List<AddBuffDTO> AddBuffDTOList { get; set; }
         /// <summary>
         ///移除 目标Buff
         /// </summary>
         public virtual List<int> RemoveTargetBuff { get; set; }
 
-        public virtual List<BattleBuffDTO> battleBuffDTOs { get; set; }
+        public virtual List<BattleBuffEventTriggerDTO> battleBuffDTOs { get; set; }
         /// <summary>
         /// 传输类型对象
         /// </summary>
         public virtual string TypeDTO { get; set; }
     }
-
-
+    
     /// <summary>
-    /// 战斗回合 前后给你的
+    /// 行动添加buff的信息
     /// </summary>
-    public class BattleBuffDTO
+    [Serializable]
+    public class AddBuffDTO
     {
-        public virtual int bufferId { get; set; }
-        public  List<BattleBuffEventDTO> battleBuffDTOs { get; set; }
-
+        public virtual int TargetId { get; set; }
+        public virtual int BuffId { get; set; }
+        public virtual int Round { get; set; }
     }
+
+    /*事件对应的参数：
+        1.添加buff=>Num_1:添加的buff的Id；Num_2:持续回合数
+     */
     /// <summary>
-    /// 战斗回合事件
+    /// buff触发的事件
     /// </summary>
-    public class BattleBuffEventDTO
+    [Serializable]
+    public class BattleBuffEventTriggerDTO
     {
-        public int index { get; set; }
-        public int BuffValue { get; set; }
+        //事件触发者的Id
         public int TriggerId { get; set; }
         public int TargetId { get; set; }
-        public List<BufferData> bufferData { get; set; }
+        public int BuffId { get; set; }
+        //事件触发十级的枚举
+        public byte TriggerTime { get; set; }
+        //触发事件类型的枚举
+        public byte TriggerEventType { get; set; }
+        //具体客户端需要知道的参数，根据事件类型不同，参数代表的值不一样
+        public int Num_1 { get; set; }
+        public int Num_2 { get; set; }
     }
-
 }
 
-/// <summary>
-/// 触发技能反应列表
-/// </summary>
-public enum SkillReactionCmd
-{
-    /// <summary>
-    /// 反击
-    /// </summary>
-    BeatBack,
-    /// <summary>
-    /// 守护
-    /// </summary>
-    Guard,
-    /// <summary>
-    /// 闪避
-    /// </summary>
-    Dodge,
-    /// <summary>
-    /// 反震
-    /// </summary>
-    Shock,
-    /// <summary>
-    /// 格挡
-    /// </summary>
-    Parry
-}

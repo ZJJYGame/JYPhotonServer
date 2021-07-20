@@ -39,8 +39,6 @@ namespace AscensionServer
         public Action<BattleResultInfo[]> onBattleEnd;
 
         public List<BattleTransferDTO> BattleTransferDTOList { get; set; } = new List<BattleTransferDTO>();
-        public List<BattleBuffEventDTO> RoundStartBuffEvent { get; set; } = new List<BattleBuffEventDTO>();
-        public List<BattleBuffEventDTO> RoundEndBuffEvent { get; set; } = new List<BattleBuffEventDTO>();
         /// <summary>
         /// 初始化房间
         /// </summary>
@@ -50,7 +48,7 @@ namespace AscensionServer
             BattleController = CosmosEntry.ReferencePoolManager.Spawn<BattleController>();
             BattleController.InitController(this);
             //添加玩家
-            BattlePlayerEntity battlePlayerEntity = GameEntry.BattleCharacterManager.AddPlayerCharacter(roomId,battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, BattleFactionType.FactionOne);
+            BattlePlayerEntity battlePlayerEntity = GameEntry.BattleCharacterManager.AddPlayerCharacter(roomId,battleInitDTO.playerUnits[0].UniqueId, BattleFactionType.FactionOne);
             if (battlePlayerEntity != null)
             {
                 BattleController.AddCharacterEntity(battlePlayerEntity);
@@ -59,7 +57,7 @@ namespace AscensionServer
                 battleCharacterEntityDict[battlePlayerEntity.UniqueID] = battlePlayerEntity;
             }
             //添加宠物
-            BattlePetEntity battlePetEntity = GameEntry.BattleCharacterManager.AddPetCharacter(roomId,battleInitDTO.playerUnits[0].RoleStatusDTO.RoleID, BattleFactionType.FactionOne);
+            BattlePetEntity battlePetEntity = GameEntry.BattleCharacterManager.AddPetCharacter(roomId,battleInitDTO.playerUnits[0].UniqueId, BattleFactionType.FactionOne);
             if (battlePetEntity != null)
             {
                 BattleController.AddCharacterEntity(battlePetEntity);

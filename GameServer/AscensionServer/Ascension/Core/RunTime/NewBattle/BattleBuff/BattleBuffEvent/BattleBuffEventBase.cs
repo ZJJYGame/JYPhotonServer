@@ -76,6 +76,13 @@ namespace AscensionServer
         {
 
         }
+        /// <summary>
+        /// 转为发送数据
+        /// </summary>
+        protected virtual void ToTransferData()
+        {
+
+        }
         public BattleBuffEventBase(BattleBuffEventData battleBuffEventData, BattleBuffObj battleBuffObj)
         {
             this.battleBuffEventData = battleBuffEventData;

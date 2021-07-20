@@ -96,6 +96,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class1.cs" />
     <Compile Include="ConsoleDebugHelper.cs" />
     <Compile Include="ImplMessagePackHelper.cs" />
     <Compile Include="InheritedAttribute.cs" />
